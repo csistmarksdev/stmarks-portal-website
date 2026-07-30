@@ -1,0 +1,8150 @@
+[
+  {
+    "_id": {
+      "$oid": "6a622ec0286b18968c68b627"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819392071"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a623107286b18968c68b66b"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819975621"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6231f1286b18968c68b670"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784820209643"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a623215286b18968c68b685"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784820245713"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a62321f286b18968c68b68a"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784820255042"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624b52e3588b623bca2ad0"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784826706146"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624d0ae3588b623bca2ae8"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827146286"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624d77e3588b623bca2afb"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Created blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827255385"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dbfec31d8cba39078b1"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827327901"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc0ec31d8cba39078b9"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827328354"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc2ec31d8cba39078dd"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a624dc2ec31d8cba39078db",
+    "summary": "Created event \"Postman Test Event\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827330467"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc2ec31d8cba39078e4"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a624dc2ec31d8cba39078db",
+    "summary": "Updated event \"Postman Test Event\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827330629"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc2ec31d8cba39078e8"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a624dc2ec31d8cba39078db",
+    "summary": "publish event \"Postman Test Event\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827330705"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc2ec31d8cba39078ec"
+    },
+    "action": "delete",
+    "resource": "events",
+    "resourceId": "6a624dc2ec31d8cba39078db",
+    "summary": "Deleted event \"Postman Test Event\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827330799"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc2ec31d8cba39078f6"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a624dc2ec31d8cba39078f4",
+    "summary": "Created blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827330987"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba39078fd"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624dc2ec31d8cba39078f4",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331185"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba3907901"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a624dc2ec31d8cba39078f4",
+    "summary": "publish blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331265"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba3907905"
+    },
+    "action": "delete",
+    "resource": "blog",
+    "resourceId": "6a624dc2ec31d8cba39078f4",
+    "summary": "Deleted blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331330"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba390790e"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Created album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331496"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba3907915"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Updated album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331625"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba3907919"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "publish album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331719"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba390791d"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Added 1 photo(s) to album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331819"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc3ec31d8cba3907922"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Reordered photos in album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827331921"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba3907926"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Removed a photo from album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332018"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba390792a"
+    },
+    "action": "delete",
+    "resource": "gallery",
+    "resourceId": "6a624dc3ec31d8cba390790c",
+    "summary": "Deleted album \"Postman Test Album\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332113"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba3907933"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a624dc4ec31d8cba3907931",
+    "summary": "Created announcement \"Postman Test Notice\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332306"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba390793a"
+    },
+    "action": "update",
+    "resource": "announcements",
+    "resourceId": "6a624dc4ec31d8cba3907931",
+    "summary": "Updated announcement \"Postman Test Notice\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332440"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba390793e"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a624dc4ec31d8cba3907931",
+    "summary": "publish announcement \"Postman Test Notice\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332531"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba3907943"
+    },
+    "action": "pin",
+    "resource": "announcements",
+    "resourceId": "6a624dc4ec31d8cba3907931",
+    "summary": "Pinned announcement \"Postman Test Notice\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332627"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba3907947"
+    },
+    "action": "delete",
+    "resource": "announcements",
+    "resourceId": "6a624dc4ec31d8cba3907931",
+    "summary": "Deleted announcement \"Postman Test Notice\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332697"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc4ec31d8cba3907950"
+    },
+    "action": "create",
+    "resource": "downloads",
+    "resourceId": "6a624dc4ec31d8cba390794e",
+    "summary": "Created download \"Postman Test Bulletin\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827332858"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc5ec31d8cba3907957"
+    },
+    "action": "update",
+    "resource": "downloads",
+    "resourceId": "6a624dc4ec31d8cba390794e",
+    "summary": "Updated download \"Postman Test Bulletin\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827333018"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc5ec31d8cba390795b"
+    },
+    "action": "publish",
+    "resource": "downloads",
+    "resourceId": "6a624dc4ec31d8cba390794e",
+    "summary": "publish download \"Postman Test Bulletin\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827333115"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc5ec31d8cba390795f"
+    },
+    "action": "delete",
+    "resource": "downloads",
+    "resourceId": "6a624dc4ec31d8cba390794e",
+    "summary": "Deleted download \"Postman Test Bulletin\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827333229"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc5ec31d8cba3907970"
+    },
+    "action": "create",
+    "resource": "leadership",
+    "resourceId": "6a624dc5ec31d8cba390796e",
+    "summary": "Created leader \"Rev. Postman Tester\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827333907"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba3907976"
+    },
+    "action": "update",
+    "resource": "leadership",
+    "resourceId": "6a624dc5ec31d8cba390796e",
+    "summary": "Updated leader \"Rev. Postman Tester\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334082"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba390797a"
+    },
+    "action": "publish",
+    "resource": "leadership",
+    "resourceId": "6a624dc5ec31d8cba390796e",
+    "summary": "publish leader \"Rev. Postman Tester\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334179"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba390797e"
+    },
+    "action": "delete",
+    "resource": "leadership",
+    "resourceId": "6a624dc5ec31d8cba390796e",
+    "summary": "Deleted leader \"Rev. Postman Tester\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334276"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba3907984"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "profile",
+    "summary": "Updated church \"profile\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334473"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba390798a"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334632"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba3907990"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "history",
+    "summary": "Updated church \"history\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334817"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc6ec31d8cba3907996"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "vision-mission",
+    "summary": "Updated church \"vision-mission\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827334974"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc7ec31d8cba390799c"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "diocese",
+    "summary": "Updated church \"diocese\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827335142"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc7ec31d8cba39079a2"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827335262"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc7ec31d8cba39079a8"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827335411"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc7ec31d8cba39079ae"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "hero-slides",
+    "summary": "Updated church \"hero-slides\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827335581"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc8ec31d8cba39079be"
+    },
+    "action": "create",
+    "resource": "users",
+    "resourceId": "6a624dc8ec31d8cba39079bc",
+    "summary": "Created user \"postman-editor@example.org\" (editor)",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827336423"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc8ec31d8cba39079c4"
+    },
+    "action": "update",
+    "resource": "users",
+    "resourceId": "6a624dc8ec31d8cba39079bc",
+    "summary": "Updated user \"postman-editor@example.org\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827336575"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc8ec31d8cba39079c8"
+    },
+    "action": "update",
+    "resource": "users",
+    "resourceId": "6a624dc8ec31d8cba39079bc",
+    "summary": "Reset user password",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827336970"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc9ec31d8cba39079cc"
+    },
+    "action": "delete",
+    "resource": "users",
+    "resourceId": "6a624dc8ec31d8cba39079bc",
+    "summary": "Deleted user \"postman-editor@example.org\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827337044"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a624dc9ec31d8cba39079d8"
+    },
+    "action": "delete",
+    "resource": "contact",
+    "resourceId": "6a624dc2ec31d8cba39078d4",
+    "summary": "Deleted a contact message",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784827337341"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6252bbec31d8cba39079f2"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784828603223"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64a3b6fc6340d24120d27c"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784980406755"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64a468fc6340d24120d2e5"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784980584377"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64a46efc6340d24120d2ea"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Portal Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784980590268"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64a5bdfc6340d24120d355"
+    },
+    "action": "update",
+    "resource": "users",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Updated user \"admin@csistmarksmadipakkam.org\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Portal Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784980925098"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b2ce3bd53484138434d5"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a64b2ce3bd53484138434d3",
+    "summary": "Uploaded image \"Church_of_South_India.png\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784984270627"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b2d53bd53484138434dc"
+    },
+    "action": "delete",
+    "resource": "media",
+    "resourceId": "6a64b2ce3bd53484138434d3",
+    "summary": "Deleted media \"Church_of_South_India.png\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784984277643"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b386b0eab0e1ef67afeb"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784984454613"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b838c567074111fb8836"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784985656758"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b87bc567074111fb8857"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784985723850"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b94fc567074111fb8867"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a64b94fc567074111fb8865",
+    "summary": "Uploaded image \"Scene2.png\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784985935829"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b95ec567074111fb8870"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a64b95ec567074111fb886e",
+    "summary": "Created album \"Christmas 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784985950669"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b99dc567074111fb8888"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a64b99dc567074111fb8886",
+    "summary": "Uploaded image \"Scene2.png\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784986013335"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64b99dc567074111fb888f"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a64b95ec567074111fb886e",
+    "summary": "Added 1 photo(s) to album \"Christmas 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784986013574"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64bbc3c567074111fb88bc"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784986563032"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64bc75c567074111fb897d"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784986741025"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64c2bcc567074111fb8982"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784988348584"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64c5767f83bcb4df482562"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784989046065"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64cc55e7c54a0916418e5b"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784990805747"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d3f461ac8a15ae349397"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784992756040"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d46061ac8a15ae349401"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784992864381"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d47861ac8a15ae349406"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784992888337"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d4d661ac8a15ae349457"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784992982782"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d4ed61ac8a15ae34945c"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784993005885"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64d70861ac8a15ae3494de"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784993544141"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64e2a073473a0d7777e45b"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "::1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784996512088"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64e6d3d1f36f5974a01b4f"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "192.168.0.104",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784997587577"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64ea1fd1f36f5974a01be2"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784998431177"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64ee6ad1f36f5974a01c1c"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784999530954"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64f926ab5f41594d35c54e"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002278458"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64fa7eab5f41594d35c553"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002622335"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64facdab5f41594d35c582"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a64facdab5f41594d35c580",
+    "summary": "Uploaded image \"Scene3.png\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002701701"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64fad3ab5f41594d35c589"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a64b95ec567074111fb886e",
+    "summary": "Added 1 photo(s) to album \"Christmas 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002707280"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64fad7ab5f41594d35c590"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a64b95ec567074111fb886e",
+    "summary": "Updated album \"Christmas 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002711331"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a64fb31ab5f41594d35c5c9"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785002801265"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65be508dadb28ffae64e7f"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785052752166"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65c0e68dadb28ffae64ea7"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785053414862"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65c0ee8dadb28ffae64eae"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785053422227"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65c0f18dadb28ffae64eb5"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785053425398"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65d24db1fa26dd74dc8fc0"
+    },
+    "action": "pin",
+    "resource": "announcements",
+    "resourceId": "6a622da1ad952d26e9d58ec7",
+    "summary": "Pinned announcement \"Welcome to the new church portal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785057869641"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65d24fb1fa26dd74dc8fc7"
+    },
+    "action": "pin",
+    "resource": "announcements",
+    "resourceId": "6a622da1ad952d26e9d58ec7",
+    "summary": "Unpinned announcement \"Welcome to the new church portal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785057871677"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a65fb0caeba2da00f7fd492"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785068300506"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6607b82664c937f2c3a65f"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785071544033"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66090a99d8cc5931504970"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e8d",
+    "summary": "Updated fellowship \"Youth Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785071882757"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66135e99d8cc5931504979"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074526760"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66139f99d8cc593150499a"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074591060"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049b7"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604360"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049bb"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604451"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049bf"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604487"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049c3"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604513"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049e3"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a6613ac99d8cc59315049e1",
+    "summary": "Created announcement \"Harvest Festival offerings now open\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604964"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ac99d8cc59315049e7"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a6613ac99d8cc59315049e1",
+    "summary": "publish announcement \"Harvest Festival offerings now open\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074604984"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc59315049ed"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049eb",
+    "summary": "Created announcement \"Youth Retreat registration closes 25 August\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605005"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc59315049f1"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049eb",
+    "summary": "publish announcement \"Youth Retreat registration closes 25 August\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605034"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc59315049f7"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049f5",
+    "summary": "Created announcement \"Choir welcoming new members\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605051"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc59315049fb"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049f5",
+    "summary": "publish announcement \"Choir welcoming new members\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605075"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc5931504a01"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049ff",
+    "summary": "Created announcement \"Church office hours updated\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605105"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc5931504a05"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc59315049ff",
+    "summary": "publish announcement \"Church office hours updated\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605134"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc5931504a0b"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc5931504a09",
+    "summary": "Created announcement \"Sunday School reopens after the break\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6613ad99d8cc5931504a0f"
+    },
+    "action": "publish",
+    "resource": "announcements",
+    "resourceId": "6a6613ad99d8cc5931504a09",
+    "summary": "publish announcement \"Sunday School reopens after the break\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074605170"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66145199d8cc5931504a1d"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074769204"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66145199d8cc5931504a21"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074769405"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66145199d8cc5931504a25"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074769579"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66145199d8cc5931504a29"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074769679"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a47"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797635"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a4b"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797723"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a4f"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797754"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a53"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797786"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a5a"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146d99d8cc5931504a58",
+    "summary": "Uploaded image \"ezgif-frame-030.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797883"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a60"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Created event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797915"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a66"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797943"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146d99d8cc5931504a6a"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "publish event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074797968"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a6f"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504a6d",
+    "summary": "Uploaded image \"ezgif-frame-075.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798005"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a75"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Created event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798039"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a7b"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798076"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a7f"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "publish event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798102"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a84"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504a82",
+    "summary": "Uploaded image \"ezgif-frame-200.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798139"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a8a"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Created event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798171"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a90"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798207"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a94"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "publish event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798235"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a99"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504a97",
+    "summary": "Uploaded image \"ezgif-frame-255.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798274"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504a9f"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Created event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798305"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504aa5"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798343"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504aa9"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "publish event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798368"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504aae"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504aac",
+    "summary": "Uploaded image \"ezgif-frame-005.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798408"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ab4"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Created event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798438"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504aba"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798457"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504abe"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "publish event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798485"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ac3"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504ac1",
+    "summary": "Uploaded image \"ezgif-frame-105.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798527"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ac9"
+    },
+    "action": "create",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Created event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798554"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504acf"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798572"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ad3"
+    },
+    "action": "publish",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "publish event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798600"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ae1"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504adf",
+    "summary": "Uploaded image \"ezgif-frame-039.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798693"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ae5"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504ae3",
+    "summary": "Uploaded image \"ezgif-frame-033.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798697"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504ae9"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504ae7",
+    "summary": "Uploaded image \"ezgif-frame-036.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798702"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504aef"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504aeb",
+    "summary": "Uploaded image \"ezgif-frame-045.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798717"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504af3"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504aed",
+    "summary": "Uploaded image \"ezgif-frame-048.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798720"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504af5"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504af1",
+    "summary": "Uploaded image \"ezgif-frame-033.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798723"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504af9"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504af7",
+    "summary": "Uploaded image \"ezgif-frame-051.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798727"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504afd"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504afb",
+    "summary": "Uploaded image \"ezgif-frame-054.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798736"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b01"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504aff",
+    "summary": "Uploaded image \"ezgif-frame-042.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798747"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b07"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b05",
+    "summary": "Created album \"Harvest Festival 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798777"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b0b"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b05",
+    "summary": "publish album \"Harvest Festival 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798798"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b18"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b14",
+    "summary": "Uploaded image \"ezgif-frame-078.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798862"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b1c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b16",
+    "summary": "Uploaded image \"ezgif-frame-081.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798865"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b1e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b1a",
+    "summary": "Uploaded image \"ezgif-frame-096.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798867"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b22"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b20",
+    "summary": "Uploaded image \"ezgif-frame-084.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798871"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b28"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b24",
+    "summary": "Uploaded image \"ezgif-frame-087.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798890"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b2a"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b26",
+    "summary": "Uploaded image \"ezgif-frame-093.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798891"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b2e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b2c",
+    "summary": "Uploaded image \"ezgif-frame-090.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798897"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b34"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Created album \"Youth Retreat 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798919"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b38"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "publish album \"Youth Retreat 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798934"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b44"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b40",
+    "summary": "Uploaded image \"ezgif-frame-111.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798996"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146e99d8cc5931504b46"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146e99d8cc5931504b42",
+    "summary": "Uploaded image \"ezgif-frame-120.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074798998"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b4c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b48",
+    "summary": "Uploaded image \"ezgif-frame-117.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799006"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b4e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b4a",
+    "summary": "Uploaded image \"ezgif-frame-108.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799007"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b54"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b50",
+    "summary": "Uploaded image \"ezgif-frame-114.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799022"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b56"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b52",
+    "summary": "Uploaded image \"ezgif-frame-123.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799023"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b5c"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b5a",
+    "summary": "Created album \"Sunday School Annual Day 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799052"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b60"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b5a",
+    "summary": "publish album \"Sunday School Annual Day 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799067"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b6a"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b68",
+    "summary": "Uploaded image \"ezgif-frame-008.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799127"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b70"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b6c",
+    "summary": "Uploaded image \"ezgif-frame-011.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799134"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b74"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b6e",
+    "summary": "Uploaded image \"ezgif-frame-017.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799136"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b76"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b72",
+    "summary": "Uploaded image \"ezgif-frame-023.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799138"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b7c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b78",
+    "summary": "Uploaded image \"ezgif-frame-020.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799155"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b7e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b7a",
+    "summary": "Uploaded image \"ezgif-frame-014.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799156"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b84"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Created album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799171"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b88"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "publish album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799185"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b96"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b90",
+    "summary": "Uploaded image \"ezgif-frame-218.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799252"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b98"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b92",
+    "summary": "Uploaded image \"ezgif-frame-203.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799252"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b9c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b94",
+    "summary": "Uploaded image \"ezgif-frame-206.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799255"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504b9e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504b9a",
+    "summary": "Uploaded image \"ezgif-frame-212.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799257"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504ba2"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504ba0",
+    "summary": "Uploaded image \"ezgif-frame-209.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799270"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504ba6"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504ba4",
+    "summary": "Uploaded image \"ezgif-frame-215.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799279"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bac"
+    },
+    "action": "create",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504baa",
+    "summary": "Created album \"Women's Fellowship Day 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799302"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bb2"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504baa",
+    "summary": "Updated album \"Women's Fellowship Day 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799320"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bb6"
+    },
+    "action": "publish",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504baa",
+    "summary": "publish album \"Women's Fellowship Day 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799333"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bbd"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bbb",
+    "summary": "Created blog post \"Before the light: notes from the Easter sunrise service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799365"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bc3"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bbb",
+    "summary": "Updated blog post \"Before the light: notes from the Easter sunrise service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799389"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bc7"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bbb",
+    "summary": "publish blog post \"Before the light: notes from the Easter sunrise service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799417"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bcd"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bcb",
+    "summary": "Created blog post \"Ninety children, one stage, and a great deal of glitter\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799437"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bd3"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bcb",
+    "summary": "Updated blog post \"Ninety children, one stage, and a great deal of glitter\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799473"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bd7"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bcb",
+    "summary": "publish blog post \"Ninety children, one stage, and a great deal of glitter\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799501"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bdc"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504bda",
+    "summary": "Uploaded image \"ezgif-frame-180.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799535"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504be2"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504be0",
+    "summary": "Created blog post \"Why we sing in two languages\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799550"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504be6"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504be0",
+    "summary": "publish blog post \"Why we sing in two languages\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799565"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bec"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bea",
+    "summary": "Created blog post \"A weekend away: notes from the youth retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799586"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bf2"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bea",
+    "summary": "Updated blog post \"A weekend away: notes from the youth retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799605"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bf6"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bea",
+    "summary": "publish blog post \"A weekend away: notes from the youth retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799633"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504bfc"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bfa",
+    "summary": "Created blog post \"Building a home, not just a household\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799653"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c02"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bfa",
+    "summary": "Updated blog post \"Building a home, not just a household\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799691"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c06"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504bfa",
+    "summary": "publish blog post \"Building a home, not just a household\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799716"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c0c"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c0a",
+    "summary": "Created blog post \"The hands behind every meal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799735"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c12"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c0a",
+    "summary": "Updated blog post \"The hands behind every meal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799754"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c16"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c0a",
+    "summary": "publish blog post \"The hands behind every meal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799770"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c1b"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504c19",
+    "summary": "Uploaded image \"ezgif-frame-165.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799807"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c21"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c1f",
+    "summary": "Created blog post \"What the men talk about at six in the morning\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799835"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c27"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c1f",
+    "summary": "Updated blog post \"What the men talk about at six in the morning\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799854"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c2b"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c1f",
+    "summary": "publish blog post \"What the men talk about at six in the morning\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799883"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c30"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66146f99d8cc5931504c2e",
+    "summary": "Uploaded image \"ezgif-frame-210.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799932"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c36"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c34",
+    "summary": "Created blog post \"The prayer list nobody sees\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799952"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66146f99d8cc5931504c3c"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c34",
+    "summary": "Updated blog post \"The prayer list nobody sees\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074799988"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66147099d8cc5931504c40"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66146f99d8cc5931504c34",
+    "summary": "publish blog post \"The prayer list nobody sees\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074800016"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66147099d8cc5931504c46"
+    },
+    "action": "create",
+    "resource": "blog",
+    "resourceId": "6a66147099d8cc5931504c44",
+    "summary": "Created blog post \"The small groups that meet in living rooms\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074800035"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66147099d8cc5931504c4c"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a66147099d8cc5931504c44",
+    "summary": "Updated blog post \"The small groups that meet in living rooms\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074800053"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66147099d8cc5931504c50"
+    },
+    "action": "publish",
+    "resource": "blog",
+    "resourceId": "6a66147099d8cc5931504c44",
+    "summary": "publish blog post \"The small groups that meet in living rooms\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785074800083"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6615b799d8cc5931504cd7"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075127408"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504cf1"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227448"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504cf5"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227542"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504cf9"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227574"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504cfd"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227604"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d14"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d10",
+    "summary": "Uploaded image \"ezgif-frame-039.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227771"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d16"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d12",
+    "summary": "Uploaded image \"ezgif-frame-033.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227772"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d1a"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d18",
+    "summary": "Uploaded image \"ezgif-frame-036.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227776"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d1e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d1c",
+    "summary": "Uploaded image \"ezgif-frame-033.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227780"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d22"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d20",
+    "summary": "Uploaded image \"ezgif-frame-042.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227805"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d28"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d24",
+    "summary": "Uploaded image \"ezgif-frame-051.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227809"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d2c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d26",
+    "summary": "Uploaded image \"ezgif-frame-054.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227812"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d2e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d2a",
+    "summary": "Uploaded image \"ezgif-frame-030.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227814"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d34"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d30",
+    "summary": "Uploaded image \"ezgif-frame-048.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227823"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d36"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d32",
+    "summary": "Uploaded image \"ezgif-frame-045.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227824"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d3a"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b05",
+    "summary": "Added 10 photo(s) to album \"Harvest Festival 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227858"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161b99d8cc5931504d4b"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161b99d8cc5931504d49",
+    "summary": "Uploaded image \"ezgif-frame-075.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075227989"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d53"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d4d",
+    "summary": "Uploaded image \"ezgif-frame-084.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228016"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d55"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d4f",
+    "summary": "Uploaded image \"ezgif-frame-087.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228017"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d57"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d51",
+    "summary": "Uploaded image \"ezgif-frame-093.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228018"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d5f"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d59",
+    "summary": "Uploaded image \"ezgif-frame-078.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228023"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d63"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d5b",
+    "summary": "Uploaded image \"ezgif-frame-090.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228025"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d65"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d5d",
+    "summary": "Uploaded image \"ezgif-frame-081.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228026"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d67"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d61",
+    "summary": "Uploaded image \"ezgif-frame-096.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228027"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d6b"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Added 8 photo(s) to album \"Youth Retreat 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228043"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d7a"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d78",
+    "summary": "Uploaded image \"ezgif-frame-105.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d7e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d7c",
+    "summary": "Uploaded image \"ezgif-frame-114.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228161"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d82"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d80",
+    "summary": "Uploaded image \"ezgif-frame-108.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228169"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d86"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d84",
+    "summary": "Uploaded image \"ezgif-frame-111.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228172"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d8c"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d88",
+    "summary": "Uploaded image \"ezgif-frame-123.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228183"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d8e"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d8a",
+    "summary": "Uploaded image \"ezgif-frame-117.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228184"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d92"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504d90",
+    "summary": "Uploaded image \"ezgif-frame-120.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228188"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504d96"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b5a",
+    "summary": "Added 7 photo(s) to album \"Sunday School Annual Day 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228208"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504da7"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504da3",
+    "summary": "Uploaded image \"ezgif-frame-011.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228295"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504da9"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504da5",
+    "summary": "Uploaded image \"ezgif-frame-017.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228298"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dad"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dab",
+    "summary": "Uploaded image \"ezgif-frame-014.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228305"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504db1"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504daf",
+    "summary": "Uploaded image \"ezgif-frame-008.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228310"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504db7"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504db3",
+    "summary": "Uploaded image \"ezgif-frame-023.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228323"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dbb"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504db5",
+    "summary": "Uploaded image \"ezgif-frame-020.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228324"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dbd"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504db9",
+    "summary": "Uploaded image \"ezgif-frame-005.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228325"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dc1"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 7 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228355"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dd2"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dce",
+    "summary": "Uploaded image \"ezgif-frame-206.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228449"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dd4"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dd0",
+    "summary": "Uploaded image \"ezgif-frame-203.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228452"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dda"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dd6",
+    "summary": "Uploaded image \"ezgif-frame-212.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228456"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504ddc"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dd8",
+    "summary": "Uploaded image \"ezgif-frame-215.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228459"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504de0"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504dde",
+    "summary": "Uploaded image \"ezgif-frame-200.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228470"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504de4"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504de2",
+    "summary": "Uploaded image \"ezgif-frame-218.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228473"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504de8"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66161c99d8cc5931504de6",
+    "summary": "Uploaded image \"ezgif-frame-209.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228477"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66161c99d8cc5931504dec"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504baa",
+    "summary": "Added 7 photo(s) to album \"Women's Fellowship Day 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075228492"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66178657d984d9a43817ac"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075590588"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817e1"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636201"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817e5"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636295"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817e9"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636316"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817ed"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636332"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817f5"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e8d",
+    "summary": "Updated fellowship \"Youth Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636420"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a43817fc"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e92",
+    "summary": "Updated fellowship \"Young Couple Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636478"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a4381803"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e96",
+    "summary": "Updated fellowship \"Sunday School\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636532"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a438180a"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e9a",
+    "summary": "Updated fellowship \"Choir\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636581"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a4381811"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e9e",
+    "summary": "Updated fellowship \"Women's Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636636"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a4381818"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58ea2",
+    "summary": "Updated fellowship \"Men's Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636699"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6617b457d984d9a438181f"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58ea6",
+    "summary": "Updated fellowship \"Prayer Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075636749"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381831"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723387"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381835"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723478"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381839"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723501"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a438183d"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723519"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381845"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180b57d984d9a4381843",
+    "summary": "Uploaded image \"ezgif-frame-150.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723616"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a438184b"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e92",
+    "summary": "Updated fellowship \"Young Couple Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723651"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381851"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180b57d984d9a438184f",
+    "summary": "Uploaded image \"ezgif-frame-090.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723697"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381857"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e96",
+    "summary": "Updated fellowship \"Sunday School\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723735"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a438185d"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180b57d984d9a438185b",
+    "summary": "Uploaded image \"ezgif-frame-180.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723791"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381863"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e9a",
+    "summary": "Updated fellowship \"Choir\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723835"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381869"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180b57d984d9a4381867",
+    "summary": "Uploaded image \"ezgif-frame-210.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723888"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a438186f"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e9e",
+    "summary": "Updated fellowship \"Women's Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723934"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180b57d984d9a4381875"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180b57d984d9a4381873",
+    "summary": "Uploaded image \"ezgif-frame-240.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075723986"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180c57d984d9a438187b"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58ea2",
+    "summary": "Updated fellowship \"Men's Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075724035"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180c57d984d9a4381881"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180c57d984d9a438187f",
+    "summary": "Uploaded image \"ezgif-frame-270.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075724104"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180c57d984d9a4381887"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58ea6",
+    "summary": "Updated fellowship \"Prayer Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075724151"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180c57d984d9a438188d"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a66180c57d984d9a438188b",
+    "summary": "Uploaded image \"ezgif-frame-015.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075724205"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66180c57d984d9a4381893"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da1ad952d26e9d58ea9",
+    "summary": "Updated fellowship \"Other Fellowships\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075724247"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66185057d984d9a43818b3"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075792186"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66185057d984d9a43818b7"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "service-timings",
+    "summary": "Updated church \"service-timings\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075792277"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66185057d984d9a43818bb"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "pastor-message",
+    "summary": "Updated church \"pastor-message\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075792301"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66185057d984d9a43818bf"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785075792332"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661b6e57d984d9a43819f3"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076590450"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661b9d57d984d9a43819fb"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 2 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076637928"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661c3257d984d9a4381a88"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a661c3257d984d9a4381a86",
+    "summary": "Uploaded video \"transport-test.mp4\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076786127"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661c8957d984d9a4381a8d"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076873131"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661cde57d984d9a4381a94"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076958016"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661cde57d984d9a4381a98"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076958036"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661cde57d984d9a4381a9c"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076958058"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661cde57d984d9a4381aa1"
+    },
+    "action": "delete",
+    "resource": "media",
+    "resourceId": "6a661c3257d984d9a4381a86",
+    "summary": "Deleted media \"transport-test.mp4\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785076958181"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661d7a57d984d9a4381b2f"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077114988"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4757d984d9a4381b59"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077319609"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4757d984d9a4381b61"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a661e4757d984d9a4381b5f",
+    "summary": "Uploaded image \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077319949"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4757d984d9a4381b65"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077319966"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4a57d984d9a4381b6d"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a661e4a57d984d9a4381b6b",
+    "summary": "Uploaded image \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077322356"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4a57d984d9a4381b71"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a64b95ec567074111fb886e",
+    "summary": "Added 1 photo(s) to album \"Christmas 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077322387"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4a57d984d9a4381b79"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a661e4a57d984d9a4381b77",
+    "summary": "Uploaded image \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077322532"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a661e4a57d984d9a4381b7d"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b5a",
+    "summary": "Added 1 photo(s) to album \"Sunday School Annual Day 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785077322550"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662746babdbcf9c391ea38"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785079622900"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66276cf9be56ca49ddd570"
+    },
+    "action": "delete",
+    "resource": "fellowships",
+    "resourceId": "6a622da1ad952d26e9d58ea9",
+    "summary": "Deleted fellowship \"Other Fellowships\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785079660541"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662c79bb989c2a9f97987e"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785080953018"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662c7abb989c2a9f979883"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a662c7abb989c2a9f979881",
+    "summary": "Uploaded image \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785080954988"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662c7bbb989c2a9f979887"
+    },
+    "action": "delete",
+    "resource": "media",
+    "resourceId": "6a662c7abb989c2a9f979881",
+    "summary": "Deleted media \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785080955217"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662ccabb989c2a9f97988d"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785081034420"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662d17bb989c2a9f9798ac"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Reordered photos in album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785081111270"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662d1fbb989c2a9f9798b3"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Updated album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785081119764"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662d85bb989c2a9f9798be"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785081221364"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a662ddebb989c2a9f9798cc"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785081310856"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6630afbb989c2a9f9798d6"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785082031809"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6631bfbb989c2a9f979915"
+    },
+    "action": "delete",
+    "resource": "contact",
+    "resourceId": "6a663121bb989c2a9f979901",
+    "summary": "Deleted a contact message",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785082303415"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663cf0befcadcf043964b1"
+    },
+    "action": "upload",
+    "resource": "media",
+    "resourceId": "6a663cf0befcadcf043964af",
+    "summary": "Uploaded image \"youtube-poster.jpg\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085168227"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663d00befcadcf043964b5"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Added 1 photo(s) to album \"Youth Retreat 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085184642"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663d25befcadcf043964c5"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2025\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085221796"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663d3abefcadcf043964cc"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085242551"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663d80befcadcf043964d6"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085312282"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663e3abfc61d42007bee25"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085498249"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663f0fbfc61d42007beec1"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085711399"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663f10bfc61d42007beec9"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085712026"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663f36bfc61d42007beed1"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085750868"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663f37bfc61d42007beed9"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat RENAMED-PROBE\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085751063"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a663f37bfc61d42007beee0"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785085751412"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664210bfc61d42007bef7f"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086480780"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007bef88"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539011"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befa3"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539095"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befa5"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539096"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befa7"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539097"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befa9"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539097"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befab"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539098"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befaf"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539100"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befad"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539099"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befb4"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539146"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befce"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539845"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befd0"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539846"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befd2"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539848"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befd4"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539849"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befd6"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539849"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befd8"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539850"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424bbfc61d42007befda"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086539851"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424cbfc61d42007befe2"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086540043"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424cbfc61d42007befe6"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086540071"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424cbfc61d42007befee"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086540534"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66424cbfc61d42007beff2"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086540553"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007beffb"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611782"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf016"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611851"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf018"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611853"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf01a"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611853"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf01c"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611854"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf01e"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611855"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf020"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611856"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf022"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611856"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664293bfc61d42007bf027"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086611880"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf040"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612153"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf042"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf044"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612155"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf046"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612155"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf048"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612156"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf04a"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612157"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf04c"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612157"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf054"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612259"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf058"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612274"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf060"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612474"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664294bfc61d42007bf064"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086612508"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf06a"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656054"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf07f"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656123"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf087"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656129"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf089"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656129"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf08b"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656130"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf08d"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656131"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf08f"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656132"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf091"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656134"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf096"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0af"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a9d",
+    "summary": "Updated event \"Christmas Carol Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656419"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0b1"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a88",
+    "summary": "Updated event \"Women's Fellowship Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656420"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0b3"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504a73",
+    "summary": "Updated event \"Youth Retreat\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656421"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0b5"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656422"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0b7"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656423"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0b9"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ab2",
+    "summary": "Updated event \"Easter Sunrise Service\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656423"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0bb"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a66146e99d8cc5931504ac7",
+    "summary": "Updated event \"Sunday School Annual Day\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656424"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0c3"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656541"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0c7"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656558"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0cf"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Removed a photo from album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656787"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6642c0bfc61d42007bf0d3"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146f99d8cc5931504b82",
+    "summary": "Added 1 photo(s) to album \"Easter 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086656808"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a664306bfc61d42007bf0dd"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086726248"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66431abfc61d42007bf0fc"
+    },
+    "action": "update",
+    "resource": "gallery",
+    "resourceId": "6a66146e99d8cc5931504b32",
+    "summary": "Updated album \"Youth Retreat 2026\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785086746092"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66fa7ff23e413984ab877b"
+    },
+    "action": "create",
+    "resource": "announcements",
+    "resourceId": "6a66fa7ff23e413984ab8779",
+    "summary": "Created announcement \"Sample\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785133695086"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66fe9e48182a57ba588637"
+    },
+    "action": "delete",
+    "resource": "events",
+    "resourceId": "6a66146d99d8cc5931504a5e",
+    "summary": "Deleted event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785134750772"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a66feaa48182a57ba588641"
+    },
+    "action": "delete",
+    "resource": "announcements",
+    "resourceId": "6a622da1ad952d26e9d58ec7",
+    "summary": "Deleted announcement \"Welcome to the new church portal\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785134762088"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a67051b0bef72b666e2ceff"
+    },
+    "action": "update",
+    "resource": "events",
+    "resourceId": "6a622da1ad952d26e9d58ec4",
+    "summary": "Updated event \"Harvest Festival\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785136411212"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6708710bef72b666e2cf3a"
+    },
+    "action": "pin",
+    "resource": "announcements",
+    "resourceId": "6a66fa7ff23e413984ab8779",
+    "summary": "Pinned announcement \"Sample\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785137265567"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6708860bef72b666e2cf44"
+    },
+    "action": "pin",
+    "resource": "announcements",
+    "resourceId": "6a6613ac99d8cc59315049e1",
+    "summary": "Pinned announcement \"Harvest Festival offerings now open\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785137286677"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a67198aedb4c82dd4602772"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785141642884"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6788399fcd57ef095faa62"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e92",
+    "summary": "Updated fellowship \"Young Couple Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785169977555"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678a4d9fcd57ef095fab1c"
+    },
+    "action": "update",
+    "resource": "fellowships",
+    "resourceId": "6a622da0ad952d26e9d58e8d",
+    "summary": "Updated fellowship \"Youth Fellowship\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785170509051"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678c559fcd57ef095fab6d"
+    },
+    "action": "update",
+    "resource": "church",
+    "resourceId": "weekly-verse",
+    "summary": "Updated church \"weekly-verse\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171029822"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678dbb9fcd57ef095fab7f"
+    },
+    "action": "create",
+    "resource": "users",
+    "resourceId": "6a678dbb9fcd57ef095fab7d",
+    "summary": "Created user \"suser1@example.com\" (admin)",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171387776"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678de39fcd57ef095fab87"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a678dbb9fcd57ef095fab7d",
+    "summary": "Sample User 1 signed in",
+    "userId": "6a678dbb9fcd57ef095fab7d",
+    "userName": "Sample User 1",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171427465"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678e419fcd57ef095faba8"
+    },
+    "action": "create",
+    "resource": "users",
+    "resourceId": "6a678e419fcd57ef095faba6",
+    "summary": "Created user \"suser2@example.com\" (editor)",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171521026"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678e729fcd57ef095fabaf"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a678dbb9fcd57ef095fab7d",
+    "summary": "Sample User 1 signed out",
+    "userId": "6a678dbb9fcd57ef095fab7d",
+    "userName": "Sample User 1",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171570241"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678e799fcd57ef095fabb4"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a678e419fcd57ef095faba6",
+    "summary": "Sample User 2 signed in",
+    "userId": "6a678e419fcd57ef095faba6",
+    "userName": "Sample User 2",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171577567"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678ef89fcd57ef095fabea"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a678e419fcd57ef095faba6",
+    "summary": "Sample User 2 signed out",
+    "userId": "6a678e419fcd57ef095faba6",
+    "userName": "Sample User 2",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171704394"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f1c9fcd57ef095fabf2"
+    },
+    "action": "create",
+    "resource": "users",
+    "resourceId": "6a678f1c9fcd57ef095fabf0",
+    "summary": "Created user \"suser3@example.com\" (viewer)",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171740209"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f3d9fcd57ef095fabfa"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a678f1c9fcd57ef095fabf0",
+    "summary": "Sample user 3 signed in",
+    "userId": "6a678f1c9fcd57ef095fabf0",
+    "userName": "Sample user 3",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171773536"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f789fcd57ef095fac31"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a678f1c9fcd57ef095fabf0",
+    "summary": "Sample user 3 signed out",
+    "userId": "6a678f1c9fcd57ef095fabf0",
+    "userName": "Sample user 3",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171832991"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f829fcd57ef095fac35"
+    },
+    "action": "delete",
+    "resource": "users",
+    "resourceId": "6a678f1c9fcd57ef095fabf0",
+    "summary": "Deleted user \"suser3@example.com\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171842985"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f869fcd57ef095fac3c"
+    },
+    "action": "delete",
+    "resource": "users",
+    "resourceId": "6a678e419fcd57ef095faba6",
+    "summary": "Deleted user \"suser2@example.com\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171846781"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a678f8a9fcd57ef095fac43"
+    },
+    "action": "delete",
+    "resource": "users",
+    "resourceId": "6a678dbb9fcd57ef095fab7d",
+    "summary": "Deleted user \"suser1@example.com\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785171850640"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6793bbf8f58fe4f363e57c"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785172923718"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

@@ -1,0 +1,2522 @@
+{
+  "info": {
+    "name": "CSISTMC Portal API",
+    "description": "CSI St. Mark's Church — Portal API.\n\n1. Import `CSISTMC-Portal-Local.postman_environment.json` and select it.\n2. Run **Auth → Login** — tokens are stored automatically.\n3. Everything under the Admin folders sends `Authorization: Bearer {{accessToken}}`; the Public folder sends nothing.\n\nCreate requests store the new record's id (e.g. {{eventId}}) so the Get/Update/Delete requests in the same folder work in order. Swagger lives at {{baseUrl2}}/docs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.environment.set(\"accessToken\", body.accessToken);",
+                  "pm.environment.set(\"refreshToken\", body.refreshToken);",
+                  "pm.test(\"logged in\", () => pm.expect(body.user.email).to.exist);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Signs in and stores accessToken/refreshToken in the environment. Run this first — every /admin request uses {{accessToken}}."
+          }
+        },
+        {
+          "name": "Refresh tokens",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.environment.set(\"accessToken\", body.accessToken);",
+                  "pm.environment.set(\"refreshToken\", body.refreshToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            },
+            "description": "Rotates the pair. The previous refresh token stops working."
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Revokes the stored refresh token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public (Website contract)",
+      "description": "The exact endpoints the public Website consumes. No authentication.",
+      "item": [
+        {
+          "name": "Events",
+          "item": [
+            {
+              "name": "List events",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/events?status=upcoming&fellowship=youth-fellowship&featured=true&limit=6&page=1&pageSize=12",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "upcoming",
+                      "disabled": true
+                    },
+                    {
+                      "key": "fellowship",
+                      "value": "youth-fellowship",
+                      "disabled": true
+                    },
+                    {
+                      "key": "featured",
+                      "value": "true",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "6",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "12",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Plain array by default; sending page/pageSize switches to the Paginated<T> envelope."
+              }
+            },
+            {
+              "name": "Event slugs",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/events/slugs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "slugs"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Event by slug",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/events/{{eventSlug}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "{{eventSlug}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog",
+          "item": [
+            {
+              "name": "List posts",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/blog?event={{eventSlug}}&fellowship=choir&limit=6",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "blog"
+                  ],
+                  "query": [
+                    {
+                      "key": "event",
+                      "value": "{{eventSlug}}",
+                      "disabled": true
+                    },
+                    {
+                      "key": "fellowship",
+                      "value": "choir",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "6",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Post slugs",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/blog/slugs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "blog",
+                    "slugs"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Post by slug",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/blog/{{blogSlug}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "blog",
+                    "{{blogSlug}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gallery",
+          "item": [
+            {
+              "name": "List albums",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/gallery?fellowship=sunday-school&limit=6",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gallery"
+                  ],
+                  "query": [
+                    {
+                      "key": "fellowship",
+                      "value": "sunday-school",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "6",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Album slugs",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/gallery/slugs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gallery",
+                    "slugs"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Album by slug",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/gallery/{{albumSlug}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gallery",
+                    "{{albumSlug}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Announcements",
+          "item": [
+            {
+              "name": "List announcements",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/announcements?fellowship=womens-fellowship&limit=5",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "announcements"
+                  ],
+                  "query": [
+                    {
+                      "key": "fellowship",
+                      "value": "womens-fellowship",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Pinned first, then newest."
+              }
+            },
+            {
+              "name": "Pinned announcement",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/announcements/pinned",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "announcements",
+                    "pinned"
+                  ]
+                },
+                "description": "Returns the pinned announcement or JSON null."
+              }
+            }
+          ]
+        },
+        {
+          "name": "Downloads",
+          "item": [
+            {
+              "name": "List downloads",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/downloads?category=bulletin&fellowship=mens-fellowship",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "downloads"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "bulletin",
+                      "disabled": true
+                    },
+                    {
+                      "key": "fellowship",
+                      "value": "mens-fellowship",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Grouped by category",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/downloads/grouped",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "downloads",
+                    "grouped"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Fellowships",
+          "item": [
+            {
+              "name": "List fellowships",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/fellowships",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "fellowships"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Fellowship slugs",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/fellowships/slugs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "fellowships",
+                    "slugs"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Fellowship by slug",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/fellowships/youth-fellowship",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "fellowships",
+                    "youth-fellowship"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Church singletons",
+          "description": "Only the church content that changes. The profile, history, vision & mission, diocese and hero slides are hardcoded in the Website and have no endpoint here.",
+          "item": [
+            {
+              "name": "Service timings",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/church/service-timings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "church",
+                    "service-timings"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Pastor message",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/church/pastor-message",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "church",
+                    "pastor-message"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Weekly verse",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/church/weekly-verse",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "church",
+                    "weekly-verse"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Contact",
+          "item": [
+            {
+              "name": "Submit contact form",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman Tester\",\n  \"email\": \"tester@example.org\",\n  \"phone\": \"+91 90000 00000\",\n  \"subject\": \"Trying the contact form\",\n  \"message\": \"Hello from the Postman collection — please ignore.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "contact"
+                  ]
+                },
+                "description": "Rate limited to 3/min per IP. Returns { success, messageKey }."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Authenticated CMS endpoints — run Auth → Login first.",
+      "item": [
+        {
+          "name": "Events",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events?page=1&pageSize=20&search=&status=draft",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "draft",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"eventId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": {\n    \"en\": \"Postman Test Event\",\n    \"ta\": \"போஸ்ட்மேன் சோதனை நிகழ்வு\"\n  },\n  \"summary\": {\n    \"en\": \"Created from the Postman collection.\",\n    \"ta\": \"போஸ்ட்மேன் தொகுப்பிலிருந்து உருவாக்கப்பட்டது.\"\n  },\n  \"description\": [\n    {\n      \"en\": \"First paragraph.\",\n      \"ta\": \"முதல் பத்தி.\"\n    }\n  ],\n  \"startDate\": \"2026-12-24T18:00:00.000Z\",\n  \"endDate\": \"2026-12-24T21:00:00.000Z\",\n  \"location\": {\n    \"en\": \"Main Sanctuary\",\n    \"ta\": \"பிரதான ஆலயம்\"\n  },\n  \"fellowshipSlug\": \"choir\",\n  \"featured\": false,\n  \"status\": \"draft\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events"
+                  ]
+                },
+                "description": "Saves the new id into {{eventId}}."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events/{{eventId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events",
+                    "{{eventId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"summary\": {\n    \"en\": \"Updated from Postman.\",\n    \"ta\": \"போஸ்ட்மேனில் புதுப்பிக்கப்பட்டது.\"\n  },\n  \"featured\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events/{{eventId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events",
+                    "{{eventId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status (publish/draft/archive)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events/{{eventId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events",
+                    "{{eventId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/events/{{eventId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "events",
+                    "{{eventId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog?page=1&pageSize=20&search=&status=draft",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "draft",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"blogId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": {\n    \"en\": \"Postman Test Post\",\n    \"ta\": \"போஸ்ட்மேன் சோதனை பதிவு\"\n  },\n  \"excerpt\": {\n    \"en\": \"A short excerpt.\",\n    \"ta\": \"சுருக்கமான பகுதி.\"\n  },\n  \"body\": [\n    {\n      \"en\": \"Body paragraph one.\",\n      \"ta\": \"உடல் பத்தி ஒன்று.\"\n    }\n  ],\n  \"publishedAt\": \"2026-07-20\",\n  \"author\": {\n    \"en\": \"Church Office\",\n    \"ta\": \"ஆலய அலுவலகம்\"\n  },\n  \"status\": \"draft\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog"
+                  ]
+                },
+                "description": "Saves the new id into {{blogId}}."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/{{blogId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog",
+                    "{{blogId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"excerpt\": {\n    \"en\": \"Updated excerpt.\",\n    \"ta\": \"புதுப்பிக்கப்பட்ட பகுதி.\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/{{blogId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog",
+                    "{{blogId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status (publish/draft/archive)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/{{blogId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog",
+                    "{{blogId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/blog/{{blogId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "blog",
+                    "{{blogId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gallery",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery?page=1&pageSize=20&search=&status=draft",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "draft",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"albumId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": {\n    \"en\": \"Postman Test Album\",\n    \"ta\": \"போஸ்ட்மேன் சோதனை ஆல்பம்\"\n  },\n  \"description\": {\n    \"en\": \"Album created from Postman.\",\n    \"ta\": \"போஸ்ட்மேனில் உருவாக்கப்பட்ட ஆல்பம்.\"\n  },\n  \"date\": \"2026-06-14\",\n  \"cover\": {\n    \"url\": \"{{baseUrl2}}/uploads/images/placeholder.jpg\",\n    \"alt\": {\n      \"en\": \"Sample image\",\n      \"ta\": \"மாதிரி படம்\"\n    },\n    \"width\": 1600,\n    \"height\": 900\n  },\n  \"shared\": false,\n  \"status\": \"draft\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery"
+                  ]
+                },
+                "description": "Saves the new id into {{albumId}}."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": {\n    \"en\": \"Updated description.\",\n    \"ta\": \"புதுப்பிக்கப்பட்ட விளக்கம்.\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status (publish/draft/archive)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Add photos",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "const last = body.photos[body.photos.length - 1];",
+                      "if (last) pm.environment.set(\"photoId\", last.id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"photos\": [\n    {\n      \"image\": {\n        \"url\": \"{{baseUrl2}}/uploads/images/placeholder.jpg\",\n        \"alt\": {\n          \"en\": \"Sample image\",\n          \"ta\": \"மாதிரி படம்\"\n        },\n        \"width\": 1600,\n        \"height\": 900\n      },\n      \"caption\": {\n        \"en\": \"A caption\"\n      }\n    },\n    {\n      \"image\": {\n        \"url\": \"{{baseUrl2}}/uploads/images/placeholder.jpg\",\n        \"alt\": {\n          \"en\": \"Sample image\",\n          \"ta\": \"மாதிரி படம்\"\n        },\n        \"width\": 1600,\n        \"height\": 900\n      },\n      \"video\": {\n        \"url\": \"https://youtu.be/dQw4w9WgXcQ\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}/photos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}",
+                    "photos"
+                  ]
+                },
+                "description": "Appends a batch of items in one request — the admin picker sends every ticked photo at once. Set 'video' to make an item a video: 'image' becomes its poster frame and 'provider' is inferred from the URL (youtube / vimeo / file). Hosted links must contain an extractable video id or the whole batch is rejected with 400, since an unparseable link renders a dead player on the site. Saves the last id into {{photoId}}."
+              }
+            },
+            {
+              "name": "Reorder photos",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"photoIds\": [\n    \"{{photoId}}\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}/photos/reorder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}",
+                    "photos",
+                    "reorder"
+                  ]
+                },
+                "description": "photoIds must be a permutation of the album's current photo ids."
+              }
+            },
+            {
+              "name": "Remove photo",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}/photos/{{photoId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}",
+                    "photos",
+                    "{{photoId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/gallery/{{albumId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "gallery",
+                    "{{albumId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Announcements",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements?page=1&pageSize=20&search=&status=draft",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "draft",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"announcementId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": {\n    \"en\": \"Postman Test Notice\",\n    \"ta\": \"போஸ்ட்மேன் சோதனை அறிவிப்பு\"\n  },\n  \"body\": {\n    \"en\": \"Notice body.\",\n    \"ta\": \"அறிவிப்பு உள்ளடக்கம்.\"\n  },\n  \"publishedAt\": \"2026-07-20\",\n  \"pinned\": false,\n  \"status\": \"draft\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements"
+                  ]
+                },
+                "description": "Saves the new id into {{announcementId}}."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements/{{announcementId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements",
+                    "{{announcementId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"body\": {\n    \"en\": \"Updated notice body.\",\n    \"ta\": \"புதுப்பிக்கப்பட்ட அறிவிப்பு.\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements/{{announcementId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements",
+                    "{{announcementId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status (publish/draft/archive)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements/{{announcementId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements",
+                    "{{announcementId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Pin / unpin",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pinned\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements/{{announcementId}}/pin",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements",
+                    "{{announcementId}}",
+                    "pin"
+                  ]
+                },
+                "description": "Pinning one announcement unpins every other."
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/announcements/{{announcementId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "announcements",
+                    "{{announcementId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Downloads",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads?page=1&pageSize=20&search=&status=draft",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "draft",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"downloadId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": {\n    \"en\": \"Postman Test Bulletin\",\n    \"ta\": \"போஸ்ட்மேன் சோதனை செய்திமடல்\"\n  },\n  \"category\": \"bulletin\",\n  \"fileUrl\": \"{{baseUrl2}}/uploads/files/sample.pdf\",\n  \"format\": \"PDF\",\n  \"size\": \"120 KB\",\n  \"publishedAt\": \"2026-07-20\",\n  \"status\": \"draft\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads"
+                  ]
+                },
+                "description": "Saves the new id into {{downloadId}}."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads/{{downloadId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads",
+                    "{{downloadId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category\": \"document\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads/{{downloadId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads",
+                    "{{downloadId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status (publish/draft/archive)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads/{{downloadId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads",
+                    "{{downloadId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/downloads/{{downloadId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "downloads",
+                    "{{downloadId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Fellowships",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"fellowshipId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"other-fellowships\",\n  \"name\": {\n    \"en\": \"Other Fellowships\",\n    \"ta\": \"பிற ஐக்கியங்கள்\"\n  },\n  \"tagline\": {\n    \"en\": \"Every member has a place\",\n    \"ta\": \"ஒவ்வொருவருக்கும் இடம் உண்டு\"\n  },\n  \"about\": [\n    {\n      \"en\": \"About paragraph.\",\n      \"ta\": \"பற்றி பத்தி.\"\n    }\n  ],\n  \"vision\": {\n    \"en\": \"Vision text.\",\n    \"ta\": \"நோக்கு உரை.\"\n  },\n  \"schedule\": {\n    \"en\": \"Every Sunday, 4:00 PM\",\n    \"ta\": \"ஒவ்வொரு ஞாயிறு, மாலை 4:00\"\n  },\n  \"banner\": {\n    \"url\": \"{{baseUrl2}}/uploads/images/placeholder.jpg\",\n    \"alt\": {\n      \"en\": \"Sample image\",\n      \"ta\": \"மாதிரி படம்\"\n    },\n    \"width\": 1600,\n    \"height\": 900\n  },\n  \"committee\": [],\n  \"coordinator\": {\n    \"name\": {\n      \"en\": \"Church Office\",\n      \"ta\": \"ஆலய அலுவலகம்\"\n    }\n  },\n  \"order\": 8\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships"
+                  ]
+                },
+                "description": "Slug must be one of the fixed eight; fails with 409 if it already exists (the seed creates all eight)."
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships/{{fellowshipId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships",
+                    "{{fellowshipId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"memberCount\": 42\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships/{{fellowshipId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships",
+                    "{{fellowshipId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"published\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships/{{fellowshipId}}/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships",
+                    "{{fellowshipId}}",
+                    "status"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/fellowships/{{fellowshipId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "fellowships",
+                    "{{fellowshipId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Church singletons",
+          "description": "GET returns the stored payload; PUT replaces it (upsert). The profile, history, vision & mission, diocese and hero slides are hardcoded in the Website and have no editor here.",
+          "item": [
+            {
+              "name": "Service timings",
+              "item": [
+                {
+                  "name": "Get",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/service-timings",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "service-timings"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "Update",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"items\": [\n    {\n      \"day\": {\n        \"en\": \"Sunday\",\n        \"ta\": \"ஞாயிறு\"\n      },\n      \"time\": {\n        \"en\": \"6:30 AM\",\n        \"ta\": \"காலை 6:30\"\n      },\n      \"service\": {\n        \"en\": \"Holy Communion\",\n        \"ta\": \"திருவிருந்து ஆராதனை\"\n      },\n      \"venue\": {\n        \"en\": \"Main Sanctuary\",\n        \"ta\": \"பிரதான ஆலயம்\"\n      }\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/service-timings",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "service-timings"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Pastor message",
+              "item": [
+                {
+                  "name": "Get",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/pastor-message",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "pastor-message"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "Update",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"authorName\": {\n    \"en\": \"Rev. Presbyter\",\n    \"ta\": \"போதகர்\"\n  },\n  \"authorRole\": {\n    \"en\": \"Presbyter-in-charge\",\n    \"ta\": \"பொறுப்பு போதகர்\"\n  },\n  \"excerpt\": {\n    \"en\": \"Grace and peace.\",\n    \"ta\": \"கிருபையும் சமாதானமும்.\"\n  },\n  \"body\": [\n    {\n      \"en\": \"Message body.\",\n      \"ta\": \"செய்தி.\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/pastor-message",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "pastor-message"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Weekly verse",
+              "item": [
+                {
+                  "name": "Get",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/weekly-verse",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "weekly-verse"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "Update",
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reference\": {\n    \"en\": \"John 3:16\",\n    \"ta\": \"யோவான் 3:16\"\n  },\n  \"text\": {\n    \"en\": \"For God so loved the world…\",\n    \"ta\": \"தேவன் உலகத்தை அன்பு கூர்ந்தார்…\"\n  },\n  \"weekOf\": \"2026-07-20\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/admin/church/weekly-verse",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "admin",
+                        "church",
+                        "weekly-verse"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Media library",
+          "item": [
+            {
+              "name": "Upload file",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"mediaId\", body.id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": ""
+                    },
+                    {
+                      "key": "altEn",
+                      "value": "English alt text",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "altTa",
+                      "value": "தமிழ் மாற்று உரை",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media"
+                  ]
+                },
+                "description": "Pick a file in the Body tab. Images come back with width/height, a thumbnail and blurDataURL; the id is saved to {{mediaId}}."
+              }
+            },
+            {
+              "name": "Video poster from a link",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"mediaId\", body.id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"https://youtu.be/jNQXAC9IVRw\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media/video-poster",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media",
+                    "video-poster"
+                  ]
+                },
+                "description": "Downloads a YouTube/Vimeo thumbnail into the media library and returns it as an ImageAsset-ready item, so adding a video only needs its link. 422 when no thumbnail can be had (bad link, video file, or no outbound network) — the CMS then asks for a poster upload."
+              }
+            },
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media?kind=image&search=&page=1&pageSize=24",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media"
+                  ],
+                  "query": [
+                    {
+                      "key": "kind",
+                      "value": "image",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "24",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media/{{mediaId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media",
+                    "{{mediaId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update alt text",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"alt\": {\n    \"en\": \"New alt\",\n    \"ta\": \"புதிய மாற்று உரை\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media/{{mediaId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media",
+                    "{{mediaId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/media/{{mediaId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "media",
+                    "{{mediaId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Users",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users?page=1&pageSize=20&search=",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "pm.environment.set(\"userId\", body.id);",
+                      "pm.test(\"created\", () => pm.response.code === 201 || pm.response.code === 200);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman Editor\",\n  \"email\": \"postman-editor@example.org\",\n  \"password\": \"Password@123\",\n  \"role\": \"editor\",\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get by id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role\": \"viewer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Reset password",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"NewPassword@123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "password"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Audit, inbox & dashboard",
+          "item": [
+            {
+              "name": "Audit logs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/audit-logs?page=1&pageSize=25&action=publish&resource=events&userId=",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "audit-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "25",
+                      "disabled": true
+                    },
+                    {
+                      "key": "action",
+                      "value": "publish",
+                      "disabled": true
+                    },
+                    {
+                      "key": "resource",
+                      "value": "events",
+                      "disabled": true
+                    },
+                    {
+                      "key": "userId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Contact messages",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const body = pm.response.json();",
+                      "if (body.items && body.items[0]) pm.environment.set(\"contactMessageId\", body.items[0].id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/contact-messages?page=1&pageSize=20&unread=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "contact-messages"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20",
+                      "disabled": true
+                    },
+                    {
+                      "key": "unread",
+                      "value": "true",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Mark message read",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"read\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/contact-messages/{{contactMessageId}}/read",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "contact-messages",
+                    "{{contactMessageId}}",
+                    "read"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete message",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/contact-messages/{{contactMessageId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "contact-messages",
+                    "{{contactMessageId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Dashboard stats",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/dashboard/stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "dashboard",
+                    "stats"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

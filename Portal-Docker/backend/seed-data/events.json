@@ -1,0 +1,247 @@
+[
+  {
+    "slug": "sample-harvest-festival",
+    "status": "published",
+    "title": {
+      "en": "Harvest Festival",
+      "ta": "அறுவடை திருவிழா"
+    },
+    "summary": {
+      "en": "Annual harvest festival and thanksgiving.",
+      "ta": "வருடாந்திர அறுவடை திருவிழா மற்றும் நன்றி செலுத்துதல்."
+    },
+    "description": [
+      {
+        "en": "Join us for the annual harvest festival.",
+        "ta": "வருடாந்திர அறுவடை திருவிழாவில் கலந்து கொள்ளுங்கள்."
+      }
+    ],
+    "startDate": "2026-08-06T15:05:00.000Z",
+    "location": {
+      "en": "Church premises",
+      "ta": "ஆலய வளாகம்"
+    },
+    "featured": true,
+    "createdAt": "2026-07-23T15:05:05.069Z",
+    "updatedAt": "2026-07-27T07:13:31.185Z",
+    "image": {
+      "url": "{{MEDIA}}/images/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.jpg",
+      "alt": {
+        "en": "Young couples gathering",
+        "ta": "இளம் தம்பதியர் கூட்டம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIF/8QAIxAAAgECBQUBAAAAAAAAAAAAAQMCAAQGEiE0chEiMUFxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEB/9oADAMBAAIRAxEAPwBxxPai1LFiRZHUrkMpHwnzUtxIpdjFw6zYzuyE6RBPsisBu2PEflHOznyFS7B//9k="
+    }
+  },
+  {
+    "slug": "youth-retreat-2026",
+    "status": "published",
+    "title": {
+      "en": "Youth Retreat",
+      "ta": "இளைஞர் தியான முகாம்"
+    },
+    "summary": {
+      "en": "Two days away for worship, teaching and rest, open to all youth members.",
+      "ta": "ஆராதனை, போதனை, ஓய்வுக்காக இரண்டு நாட்கள் — அனைத்து இளைஞர் உறுப்பினர்களுக்கும் திறந்தது."
+    },
+    "description": [
+      {
+        "en": "A weekend retreat outside the city with sessions on faith and vocation, small group discussion, games and an evening of worship around the fire.",
+        "ta": "நகருக்கு வெளியே ஒரு வார இறுதி முகாம் — விசுவாசம் மற்றும் அழைப்பு குறித்த அமர்வுகள், சிறு குழு கலந்துரையாடல், விளையாட்டுகள், நெருப்பைச் சுற்றி மாலை ஆராதனை."
+      }
+    ],
+    "startDate": "2026-09-05T01:30:00.000Z",
+    "endDate": "2026-09-06T12:30:00.000Z",
+    "location": {
+      "en": "Mahabalipuram Retreat Centre",
+      "ta": "மாமல்லபுரம் தியான மையம்"
+    },
+    "image": {
+      "url": "{{MEDIA}}/images/b34adae6-63f8-4b6e-b1f6-9875b2703c70.jpg",
+      "alt": {
+        "en": "Youth retreat",
+        "ta": "இளைஞர் தியான முகாம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EACUQAAECBAQHAAAAAAAAAAAAAAECAwAEBRESFHGxISIzNUFygf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AbZrQWngUJBFyFOAYdYB6q5Jkv4S6l0gcqr28fYycv0Jr1TvFVHYJfRW8Eof/2Q=="
+    },
+    "fellowshipSlug": "youth-fellowship",
+    "organiser": {
+      "en": "Youth Fellowship",
+      "ta": "இளைஞர் ஐக்கியம்"
+    },
+    "featured": true,
+    "createdAt": "2026-07-26T14:06:38.035Z",
+    "updatedAt": "2026-07-26T17:24:16.413Z"
+  },
+  {
+    "slug": "womens-fellowship-day-2026",
+    "status": "published",
+    "title": {
+      "en": "Women's Fellowship Day",
+      "ta": "மகளிர் ஐக்கிய தினம்"
+    },
+    "summary": {
+      "en": "A day of worship, testimony and fellowship led by the women of the church.",
+      "ta": "திருச்சபை மகளிரால் வழிநடத்தப்படும் ஆராதனை, சாட்சி, ஐக்கிய நாள்."
+    },
+    "description": [
+      {
+        "en": "The women's fellowship leads the morning service, followed by a special programme of testimony, song and a shared meal.",
+        "ta": "மகளிர் ஐக்கியம் காலை ஆராதனையை வழிநடத்துகிறது, தொடர்ந்து சாட்சி, பாடல், பகிர்ந்த உணவுடன் கூடிய சிறப்பு நிகழ்ச்சி."
+      }
+    ],
+    "startDate": "2026-10-11T02:30:00.000Z",
+    "endDate": "2026-10-11T07:30:00.000Z",
+    "location": {
+      "en": "Main Sanctuary",
+      "ta": "பிரதான ஆலயம்"
+    },
+    "image": {
+      "url": "{{MEDIA}}/images/5809e97b-3e49-4cc6-a903-e16d6d310e23.jpg",
+      "alt": {
+        "en": "Women's fellowship day",
+        "ta": "மகளிர் ஐக்கிய தினம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBf/EAB0QAAICAwADAAAAAAAAAAAAAAECAwQAETRxgYL/xAAUAQEAAAAAAAAAAAAAAAAAAAAC/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8AyxYDSqFjlcMw0yrrB7ASUho5UCsdll3r3l6XJX+cV/mseTgwrl//2Q=="
+    },
+    "fellowshipSlug": "womens-fellowship",
+    "organiser": {
+      "en": "Women's Fellowship",
+      "ta": "மகளிர் ஐக்கியம்"
+    },
+    "featured": false,
+    "createdAt": "2026-07-26T14:06:38.167Z",
+    "updatedAt": "2026-07-26T17:24:16.413Z"
+  },
+  {
+    "slug": "christmas-carol-service-2026",
+    "status": "published",
+    "title": {
+      "en": "Christmas Carol Service",
+      "ta": "கிறிஸ்துமஸ் கீர்த்தனை ஆராதனை"
+    },
+    "summary": {
+      "en": "An evening of lessons and carols to welcome the Christmas season.",
+      "ta": "கிறிஸ்துமஸ் பருவத்தை வரவேற்கும் வேத வாசிப்பு மற்றும் கீர்த்தனை மாலை."
+    },
+    "description": [
+      {
+        "en": "Nine lessons and carols sung by the choir and congregation, with candles, readings and the children's nativity.",
+        "ta": "கீர்த்தனைக் குழுவும் சபையும் பாடும் ஒன்பது வேத வாசிப்புகளும் கீர்த்தனைகளும், மெழுகுவர்த்திகள், வாசிப்புகள், குழந்தைகளின் கிறிஸ்து பிறப்பு நாடகத்துடன்."
+      }
+    ],
+    "startDate": "2026-12-20T12:30:00.000Z",
+    "endDate": "2026-12-20T14:30:00.000Z",
+    "location": {
+      "en": "Main Sanctuary",
+      "ta": "பிரதான ஆலயம்"
+    },
+    "image": {
+      "url": "{{MEDIA}}/images/62796bd7-f390-433e-9cc5-310375a81cc2.jpg",
+      "alt": {
+        "en": "Carol service by candlelight",
+        "ta": "மெழுகுவர்த்தி வெளிச்சத்தில் கீர்த்தனை ஆராதனை"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQAB/8QAIRAAAQMCBwEAAAAAAAAAAAAAAgABAwURBBIhMTVygVH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAAMBAAAAAAAAAAAAAAAAAAABERL/2gAMAwEAAhEDEQA/ADIalCWIjAcxE72Zg+6W39Wz1OFsQYm5gTPZ87X18RlK5KLsqr8nP2dMKwu3Kf/Z"
+    },
+    "fellowshipSlug": "choir",
+    "organiser": {
+      "en": "Choir",
+      "ta": "கீர்த்தனைக் குழு"
+    },
+    "featured": true,
+    "createdAt": "2026-07-26T14:06:38.302Z",
+    "updatedAt": "2026-07-26T17:24:16.412Z"
+  },
+  {
+    "slug": "easter-sunrise-service-2026",
+    "status": "published",
+    "title": {
+      "en": "Easter Sunrise Service",
+      "ta": "உயிர்த்தெழுதல் விடியற்கால ஆராதனை"
+    },
+    "summary": {
+      "en": "We gathered before dawn to celebrate the resurrection.",
+      "ta": "உயிர்த்தெழுதலைக் கொண்டாட விடியலுக்கு முன் கூடினோம்."
+    },
+    "description": [
+      {
+        "en": "The congregation gathered in the churchyard at first light for a service of resurrection, followed by breakfast together.",
+        "ta": "சபையினர் விடியற்காலையில் ஆலய முற்றத்தில் உயிர்த்தெழுதல் ஆராதனைக்காகக் கூடினர், தொடர்ந்து ஒன்றாக காலை உணவு."
+      }
+    ],
+    "startDate": "2026-04-05T00:00:00.000Z",
+    "endDate": "2026-04-05T02:30:00.000Z",
+    "location": {
+      "en": "Church Grounds",
+      "ta": "ஆலய வளாகம்"
+    },
+    "image": {
+      "url": "{{MEDIA}}/images/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.jpg",
+      "alt": {
+        "en": "Sunrise over the church",
+        "ta": "ஆலயத்தின் மேல் சூரிய உதயம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAwQFBv/EACgQAAECBAENAAAAAAAAAAAAAAECAwAEBhESBRMhIjE1NkFRc4Oxsv/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/AHJeoEuJ1WiRbYFi508usEcqNEo7mHGXCpBwFeIWJjFyO9JTuj3FrKfEPkHzEiy//9k="
+    },
+    "organiser": {
+      "en": "Church Committee",
+      "ta": "திருச்சபைக் குழு"
+    },
+    "featured": false,
+    "createdAt": "2026-07-26T14:06:38.434Z",
+    "updatedAt": "2026-07-26T17:24:16.417Z"
+  },
+  {
+    "slug": "sunday-school-annual-day-2026",
+    "status": "published",
+    "title": {
+      "en": "Sunday School Annual Day",
+      "ta": "ஞாயிறு பள்ளி ஆண்டு விழா"
+    },
+    "summary": {
+      "en": "Our children presented songs, skits and prizes were awarded.",
+      "ta": "எங்கள் குழந்தைகள் பாடல்கள், நாடகங்கள் வழங்கினர், பரிசுகள் அளிக்கப்பட்டன."
+    },
+    "description": [
+      {
+        "en": "A joyful afternoon of performances by the Sunday school children, with prizes for attendance, memory verses and craft.",
+        "ta": "ஞாயிறு பள்ளிக் குழந்தைகளின் நிகழ்ச்சிகளுடன் ஒரு மகிழ்ச்சியான மதியம், வருகை, மனனப் பாடல்கள், கைவினைக்கான பரிசுகளுடன்."
+      }
+    ],
+    "startDate": "2026-03-15T10:30:00.000Z",
+    "endDate": "2026-03-15T13:30:00.000Z",
+    "location": {
+      "en": "Parish Hall",
+      "ta": "சபை மண்டபம்"
+    },
+    "image": {
+      "url": "{{MEDIA}}/images/b91359fe-9533-4fc9-a609-6daef1e4d90e.jpg",
+      "alt": {
+        "en": "Sunday school annual day",
+        "ta": "ஞாயிறு பள்ளி ஆண்டு விழா"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EAB8QAAEEAgMBAQAAAAAAAAAAAAECAwQRABIFMnExUf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwClF5uMljd11tDutqaSsGiPzCHNNGEuU6VIZUNhabNfKrM1O6uejGJXRXgxpI//2Q=="
+    },
+    "fellowshipSlug": "sunday-school",
+    "organiser": {
+      "en": "Sunday School",
+      "ta": "ஞாயிறு பள்ளி"
+    },
+    "featured": false,
+    "createdAt": "2026-07-26T14:06:38.551Z",
+    "updatedAt": "2026-07-26T17:24:16.418Z"
+  }
+]

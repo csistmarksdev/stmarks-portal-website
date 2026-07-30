@@ -1,0 +1,38 @@
+{
+  "name": "csistmc-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CSI St. Mark's Church — Portal (Admin CMS + NestJS API). Single source of truth for the public Website.",
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
+    "build:shared": "npm run build -w @portal/shared",
+    "build:backend": "npm run build -w @portal/backend",
+    "build:frontend": "npm run build -w @portal/frontend",
+    "dev": "npm run build:shared && concurrently -n api,cms -c blue,magenta \"npm run start:dev -w @portal/backend\" \"npm run dev -w @portal/frontend\"",
+    "dev:backend": "npm run build:shared && npm run start:dev -w @portal/backend",
+    "dev:frontend": "npm run dev -w @portal/frontend",
+    "seed": "npm run seed -w @portal/backend",
+    "lint": "npm run lint -w @portal/frontend",
+    "start:prod": "npm run start:prod -w @portal/backend",
+    "check:contract": "node scripts/check-contract-parity.mjs",
+    "postman": "node scripts/generate-postman.mjs",
+    "check:contrast": "node scripts/check-theme-contrast.mjs",
+    "typecheck": "npm run typecheck -w @portal/backend",
+    "test": "npm run test -w @portal/backend",
+    "verify": "npm run build && npm run typecheck && npm run test",
+    "export:demo-data": "node backend/scripts/export-demo-data.mjs",
+    "build:bundle": "node scripts/build-production-bundle.mjs",
+    "check:website": "node scripts/check-website-api.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

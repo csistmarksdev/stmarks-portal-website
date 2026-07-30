@@ -1,0 +1,104 @@
+# CSI St. Mark's Portal — production, with a separate database container.
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Same image as docker-compose.yml, pointed at a MongoDB of its own instead of
+# the one bundled inside it. Setting `MONGODB_URI` is the whole switch: the
+# container sees an external database and never starts its own.
+#
+# Prefer this once the portal is more than a demonstration. The bundled database
+# is there to make the image runnable anywhere in one command, not to be the
+# best place to keep a parish's records — a separate container can be backed up,
+# restored and upgraded without touching the application.
+#
+# On first boot the snapshot is restored into the empty database, exactly as it
+# would be into the bundled one. Nothing is lost by moving.
+#
+# Every value that decides whether the deployment is safe is required —
+# `${VAR:?message}` makes compose refuse to start and name what is missing,
+# rather than falling back to a default that ships to the internet.
+# Generate the secrets with: openssl rand -base64 48
+
+services:
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    # Deliberately not published: `portal` reaches it over the compose network
+    # by service name. Publishing 27017 puts the whole content store on the
+    # host's interfaces.
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: csistmarkscmsportal:latest
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+    environment:
+      PORT: 8080
+
+      # The switch. Any host other than 127.0.0.1/localhost means "use this
+      # database", and the bundled `mongod` is left unstarted.
+      MONGODB_URI: mongodb://mongo:27017/csistmc-portal
+
+      # The canonical origin. Media URLs are still corrected per request, so a
+      # wrong value here degrades rather than breaks — but this is the value the
+      # public website will be given, so it should be right.
+      PUBLIC_URL: ${PUBLIC_URL:?public origin, e.g. https://portal.example.org}
+
+      # Origins allowed to call the API: the CMS is same-origin and needs no
+      # entry, so this is the public website's domain. "*" is the portable
+      # default and worth narrowing here.
+      CORS_ORIGINS: ${CORS_ORIGINS:?comma-separated origins, or *}
+
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?openssl rand -base64 48}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?openssl rand -base64 48}
+
+      # Used only if the database has no administrator — the snapshot carries
+      # the church's existing accounts, so normally this is never reached.
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+      SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-Portal Administrator}
+
+      # Without these, publishing in the CMS never refreshes the website.
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+
+    ports:
+      - "${PORT:-8080}:8080"
+
+    volumes:
+      # Uploaded media must outlive the container. The bundled media is copied
+      # in here on first boot and is then ordinary files the church can replace
+      # through the CMS.
+      - uploads:/app/backend/uploads
+      # Generated secrets, so sessions survive a restart. No database lives here
+      # in this stack — `mongo` has its own volume.
+      - state:/data
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 90s
+      retries: 5
+
+volumes:
+  mongo-data:
+  uploads:
+  state:

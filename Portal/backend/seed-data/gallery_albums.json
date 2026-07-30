@@ -1,0 +1,786 @@
+[
+  {
+    "slug": "christmas-2025",
+    "status": "published",
+    "title": {
+      "en": "Christmas 2025",
+      "ta": "கிறிஸ்துமஸ் 2025"
+    },
+    "date": "2025-12-25T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/06f8ee55-cea6-4abb-89bd-96184326ee96.png",
+      "alt": {
+        "en": "Scene2.png",
+        "ta": "Scene2.png"
+      },
+      "width": 1672,
+      "height": 941,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIG/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDBAAFcRESITIxNbH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAAREv/aAAwDAQACEQMRAD8AVt96jvxkPuFEdZB1bKwd2Kpd/ZZhrmuFYZV0G3knxpWVuXZGE/aQuHr3MVdEf//Z"
+    },
+    "photos": [
+      {
+        "id": "233951dc-46b1-4486-af7b-aa624107e5d2",
+        "image": {
+          "url": "{{MEDIA}}/images/dd4ad445-a0c1-409e-a7cb-650cce690123.png",
+          "alt": {
+            "en": "Scene2.png",
+            "ta": "Scene2.png"
+          },
+          "width": 1672,
+          "height": 941,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIG/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDBAAFcRESITIxNbH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAAREv/aAAwDAQACEQMRAD8AVt96jvxkPuFEdZB1bKwd2Kpd/ZZhrmuFYZV0G3knxpWVuXZGE/aQuHr3MVdEf//Z"
+        }
+      },
+      {
+        "id": "1da3a12d-157f-46fb-885a-103bd7bb8190",
+        "image": {
+          "url": "{{MEDIA}}/images/2cf83209-0378-4fd3-9ca9-0951da97ed83.png",
+          "alt": {
+            "en": "Scene3.png",
+            "ta": "Scene3.png"
+          },
+          "width": 1672,
+          "height": 941,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIG/8QAIRAAAgEDAwUAAAAAAAAAAAAAAQMCAAQRBjFxFCE0QXP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAEAEf/aAAwDAQACEQMRAD8AfHU9r0hYBMMiMlZGCOCd6m51MlVotsBJzG9wsHGAfRNZ8+OeKLPZP0qK5L//2Q=="
+        }
+      },
+      {
+        "id": "b6a5a90a-5ef2-404d-bf37-010fe0a5a932",
+        "image": {
+          "url": "{{MEDIA}}/images/1e141ab5-4fe0-4fac-b55c-fee7bac09232.jpg",
+          "alt": {
+            "en": "DEMO — replace with the carol service recording",
+            "ta": "DEMO — கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
+          },
+          "width": 480,
+          "height": 360,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAMABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EAB8QAAICAgIDAQAAAAAAAAAAAAECAxEAEgQhBUFRYf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFhEBAQEAAAAAAAAAAAAAAAAAEQAB/9oADAMBAAIRAxEAPwDLr4+KSNWjk717BIBJ/BeM5PjoOK4WV3UFNgdSe/nqsnCeRRQcgXeDTSNezk39wNanAL//2Q=="
+        },
+        "caption": {
+          "en": "DEMO — replace with the carol service recording",
+          "ta": "DEMO — கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
+        },
+        "video": {
+          "url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+          "provider": "youtube"
+        }
+      }
+    ],
+    "shared": true,
+    "createdAt": "2026-07-25T13:25:50.658Z",
+    "updatedAt": "2026-07-26T14:48:42.382Z"
+  },
+  {
+    "slug": "harvest-festival-2025",
+    "status": "published",
+    "title": {
+      "en": "Harvest Festival 2025",
+      "ta": "அறுவடைத் திருவிழா 2025"
+    },
+    "description": {
+      "en": "Thanksgiving, offerings and a full sanctuary.",
+      "ta": "நன்றி, காணிக்கை, நிறைந்த ஆலயம்."
+    },
+    "date": "2025-08-17T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.jpg",
+      "alt": {
+        "en": "Harvest festival 2025",
+        "ta": "அறுவடைத் திருவிழா 2025"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBv/EACQQAAECBAUFAAAAAAAAAAAAAAECAwAEBREGEjEysTVBcXJz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARL/2gAMAwEAAhEDEQA/AKTW1Ni5ZcI1Nl3FvOkE9WTLzIZU0vOQFbuxjPUrbMeg5hmJ+os/McmJ1R//2Q=="
+    },
+    "photos": [
+      {
+        "id": "0e6fb414-331b-4738-b7c9-cff99c8a2bda",
+        "image": {
+          "url": "{{MEDIA}}/images/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.jpg",
+          "alt": {
+            "en": "Harvest festival highlights",
+            "ta": "அறுவடைத் திருவிழா சிறப்பம்சங்கள்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAEG/8QAKRAAAQMABQ0AAAAAAAAAAAAAAgABAwQFBhEhEhQVIjI0QlFxcoKhwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAES/9oADAMBAAIRAxEAPwBOmyZrxjM2v4DZ29K0muc2lGOSE8ohY21ueOHRZmq988C+J9ptqjdrqdUf/9k="
+        },
+        "video": {
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+          "provider": "file"
+        }
+      },
+      {
+        "id": "320befc1-d396-4997-955c-8b9160bf5587",
+        "image": {
+          "url": "{{MEDIA}}/images/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBv/EACQQAAECBAUFAAAAAAAAAAAAAAECAwAEBREGEjEysTVBcXJz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARL/2gAMAwEAAhEDEQA/AKTW1Ni5ZcI1Nl3FvOkE9WTLzIZU0vOQFbuxjPUrbMeg5hmJ+os/McmJ1R//2Q=="
+        }
+      },
+      {
+        "id": "4c37aee1-1f60-4a84-a8ab-df3122afdb97",
+        "image": {
+          "url": "{{MEDIA}}/images/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAEG/8QAKRAAAQMABQ0AAAAAAAAAAAAAAgABAwQFBhEhEhQVIjI0QlFxcoKhwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAES/9oADAMBAAIRAxEAPwBOmyZrxjM2v4DZ29K0muc2lGOSE8ohY21ueOHRZmq988C+J9ptqjdrqdUf/9k="
+        }
+      },
+      {
+        "id": "6bc8e813-017c-43e7-a0f6-3350601e7df8",
+        "image": {
+          "url": "{{MEDIA}}/images/95525b76-9622-47df-9543-58292e81f1e4.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACgQAAIAAwMNAAAAAAAAAAAAAAECAAMRBCExBQYUFSM0NUFxc5Gxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwBrXjX0VmYYqrgnxSC1ZY0Qqs2U+0UPe2FeUZWXxNe99MWs4NzHVfZido//2Q=="
+        }
+      },
+      {
+        "id": "c10b8ba9-2822-44f9-b25d-2872a7164e87",
+        "image": {
+          "url": "{{MEDIA}}/images/c390a87c-4028-472f-a208-13bed9eed8a4.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACUQAAEDAgMJAAAAAAAAAAAAAAEAAhEDBQQ0URITFBUhc4Kxwf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAABACH/2gAMAwEAAhEDEQA/AG+ekmCIcOuyHiUYm8cIGmrSqTUbvInXVZS4Z1/j8V67ZN3bd7QqQbf/2Q=="
+        }
+      },
+      {
+        "id": "8853563e-a2fc-4447-94cd-c2952f4f7262",
+        "image": {
+          "url": "{{MEDIA}}/images/465981de-3aff-4307-8a34-c00b594ad1ac.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQQFBv/EACQQAAIABAQHAAAAAAAAAAAAAAECAAMEEgURMYETITRyc7HB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8AZbHzmA6BC2gvHPeDUYqKcIZktzxxeDdtl6jL1+sntMWW6al8Y+QbRH//2Q=="
+        }
+      },
+      {
+        "id": "91d8e935-6b2e-4481-81b8-044cb7370bd1",
+        "image": {
+          "url": "{{MEDIA}}/images/4747a7cc-a103-4d19-9e5a-55f403aa03b8.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMFBv/EACMQAAIBAwIHAQAAAAAAAAAAAAECAwASIQQFBhEzNHJzofD/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwB54hW1WKKinCm4Z+Yop91GmWN5FJE4u53jH4Vnty6SeQqlN22l9Zo2h//Z"
+        }
+      },
+      {
+        "id": "503d9baa-ff9e-477f-a687-21ebc615e0a8",
+        "image": {
+          "url": "{{MEDIA}}/images/a1c80bc0-6fbf-43f0-be0a-a69367476f89.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQID/8QAIxAAAgECBAcAAAAAAAAAAAAAAQIDAAQFERMhBjE0NVFzgv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/ANhxAqRE6QRVO5J5Vc+L6ESTFWdZRmcm2Hihbrtr+s0jfdFB81BYl//Z"
+        }
+      },
+      {
+        "id": "7f89480a-fdf2-4696-985e-83dec160d685",
+        "image": {
+          "url": "{{MEDIA}}/images/edba4697-824f-4483-8bb9-a8d9d0e97549.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBf/EACEQAAICAQIHAAAAAAAAAAAAAAECAxEABRIhMzVyc7LB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwBy68saNUFBeJJaxhzasY4Um2OyyizRoAZkHknt+HLJ+lReJfXJNLLnl//Z"
+        }
+      },
+      {
+        "id": "0c12d522-03ab-40a7-97f1-7340fa33ae36",
+        "image": {
+          "url": "{{MEDIA}}/images/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.jpg",
+          "alt": {
+            "en": "Harvest festival moment",
+            "ta": "அறுவடைத் திருவிழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAwX/xAAjEAACAQMBCQAAAAAAAAAAAAABAgMAERIFBCExNEJxcrHB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABcRAQEBAQAAAAAAAAAAAAAAAAEAAhH/2gAMAwEAAhEDEQA/AGi10XusJbLqy3Uj6qwgWdYpGDi+KVFbgviPlU5uS2fuPRomlk54F//Z"
+        }
+      }
+    ],
+    "shared": false,
+    "createdAt": "2026-07-26T14:06:38.769Z",
+    "updatedAt": "2026-07-26T14:13:47.849Z"
+  },
+  {
+    "slug": "youth-retreat-2025",
+    "status": "published",
+    "title": {
+      "en": "Youth Retreat 2026",
+      "ta": "இளைஞர் தியான முகாம் 2026"
+    },
+    "description": {
+      "en": "Two days of worship, teaching and games by the sea.",
+      "ta": "கடலருகே ஆராதனை, போதனை, விளையாட்டுகளுடன் இரண்டு நாட்கள்."
+    },
+    "date": "2025-09-06T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/b34adae6-63f8-4b6e-b1f6-9875b2703c70.jpg",
+      "alt": {
+        "en": "Youth retreat 2025",
+        "ta": "இளைஞர் தியான முகாம் 2025"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EACUQAAECBAQHAAAAAAAAAAAAAAECAwAEBRESFHGxISIzNUFygf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AbZrQWngUJBFyFOAYdYB6q5Jkv4S6l0gcqr28fYycv0Jr1TvFVHYJfRW8Eof/2Q=="
+    },
+    "photos": [
+      {
+        "id": "1f86b6a1-f9b6-4494-8612-37c4f63a8953",
+        "image": {
+          "url": "{{MEDIA}}/images/3423a599-9dc3-4b19-8083-3c0d0bae38ca.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EACUQAAECBAQHAAAAAAAAAAAAAAECAwAEBRESFHGxISIzNUFygf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AbZrQWngUJBFyFOAYdYB6q5Jkv4S6l0gcqr28fYycv0Jr1TvFVHYJfRW8Eof/2Q=="
+        }
+      },
+      {
+        "id": "d8b7046e-8be7-424d-a159-8cdc1a81c90c",
+        "image": {
+          "url": "{{MEDIA}}/images/69249520-3639-40b9-b383-211f4a7c27d2.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACYQAAEDAgILAAAAAAAAAAAAAAECAwQAESFyBQYUIjE0QUVxscH/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhEDEQA/AHs6wtKQSSEbtykm5T5sKHNLiJH2htCng+RiDw6XxrOxuXl5T7FU+yxMh+0Sh//Z"
+        }
+      },
+      {
+        "id": "fc3ffe52-d47d-47ea-8b82-ad607ac98bb3",
+        "image": {
+          "url": "{{MEDIA}}/images/fbdf775d-2646-46e5-b17b-adaea6a2c037.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQMFBv/EACMQAAIBAgQHAAAAAAAAAAAAAAECAwAEBRExwQYSFDQ1cXL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAMAwEAAhEDEQA/AGw8RxsjHlKlQSy6kUXxg2tqLiOJpeoIbXIgaZ1nz2A97VXh8dZ/G1RPBD//2Q=="
+        }
+      },
+      {
+        "id": "240c6cf3-d00b-4236-a42f-0e65518b1177",
+        "image": {
+          "url": "{{MEDIA}}/images/3273dcc8-7131-4073-8d83-779493614b6e.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQIDBf/EACQQAAIABAQHAAAAAAAAAAAAAAECAAMEBQYREjQTQVFyc5Gx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oADAMBAAIRAxEAPwCkvEi6GIlspAOY5e4Zru9LSLUJIL8chjm2WkdYyblsU7oN02J8a/Yg8iZf/9k="
+        }
+      },
+      {
+        "id": "f9adc479-a645-4947-a796-7c5ffa006db9",
+        "image": {
+          "url": "{{MEDIA}}/images/abb669a8-b681-4585-b57f-22ad0e6dc159.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBf/EACIQAAEDAwMFAAAAAAAAAAAAAAEAAgMEBRETIXEGMjOBsf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwB8XULdIuMbmEA7E7H2ikvRpKQVGkS2UhxycEZWRdPFHyp7p2P5H0qaWP/Z"
+        }
+      },
+      {
+        "id": "a1187bf1-e575-4e79-bffb-08a37c424f1c",
+        "image": {
+          "url": "{{MEDIA}}/images/316ed3c1-0f5c-4607-992e-7c78965507c9.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQIEBf/EACEQAAECBQUBAAAAAAAAAAAAAAEAAgMEBSFxERITFDIz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAwDAQACEQMRAD8AsgV5nDvezidp5LhfCMSuNlpXsOB2POtzcLEqHqHkJJv4xMKUj//Z"
+        }
+      },
+      {
+        "id": "7021ab8f-0787-4d1b-8dab-96a83bbd86f9",
+        "image": {
+          "url": "{{MEDIA}}/images/e0b77bbd-6821-4375-8846-7e056102b225.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQID/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQMCAAQRBSESMjNBcXKR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAERL/2gAMAwEAAhEDEQA/AELXXFlAY0RTMjdfEDnxVS1xarWVzPIXLcZG47YoC95vlaXfQZ61NEf/2Q=="
+        }
+      },
+      {
+        "id": "b34df577-8669-43f3-8a4c-167c800ff3b8",
+        "image": {
+          "url": "{{MEDIA}}/images/eb1553a3-1cda-4088-8092-579f4cdcf6e3.jpg",
+          "alt": {
+            "en": "Youth retreat moment",
+            "ta": "இளைஞர் முகாம் தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EACIQAAICAQIHAQAAAAAAAAAAAAEDAgQABRESITI0UXFygf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwCpT1qua8WumtLDHcqEwT+YY1tQpMuMM4pI4o7x5+Nsy+o9UvYxu52zfnGkj//Z"
+        }
+      },
+      {
+        "id": "de259492-ebed-4a86-953e-57a68c71da2a",
+        "image": {
+          "url": "{{MEDIA}}/images/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.jpg",
+          "alt": {
+            "en": "Video thumbnail",
+            "ta": "வீடியோ சிறுபடம்"
+          },
+          "width": 1280,
+          "height": 720,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAwX/xAAjEAABAgUDBQAAAAAAAAAAAAABAgMABAURsRIUMSI0NXFy/8QAFAEBAAAAAAAAAAAAAAAAAAAAA//EABgRAQADAQAAAAAAAAAAAAAAAAEAAhEx/9oADAMBAAIRAxEAPwCZLpYfl2QGU6iUoCrAG/GYWamCTtHmgoIHToSbpHETqV3LH2MiHqHkHvScwNe5HtgDP//Z"
+        },
+        "video": {
+          "url": "https://youtu.be/9WyVO9XAmoI?si=9C2jlnBHkBEn1ds0",
+          "provider": "youtube"
+        }
+      }
+    ],
+    "fellowshipSlug": "youth-fellowship",
+    "shared": false,
+    "createdAt": "2026-07-26T14:06:38.916Z",
+    "updatedAt": "2026-07-26T17:25:45.849Z"
+  },
+  {
+    "slug": "sunday-school-annual-day-2026",
+    "status": "published",
+    "title": {
+      "en": "Sunday School Annual Day 2026",
+      "ta": "ஞாயிறு பள்ளி ஆண்டு விழா 2026"
+    },
+    "description": {
+      "en": "Songs, skits and prize giving.",
+      "ta": "பாடல்கள், நாடகங்கள், பரிசளிப்பு."
+    },
+    "date": "2026-03-15T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/b91359fe-9533-4fc9-a609-6daef1e4d90e.jpg",
+      "alt": {
+        "en": "Sunday school annual day",
+        "ta": "ஞாயிறு பள்ளி ஆண்டு விழா"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EAB8QAAEEAgMBAQAAAAAAAAAAAAECAwQRABIFMnExUf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwClF5uMljd11tDutqaSsGiPzCHNNGEuU6VIZUNhabNfKrM1O6uejGJXRXgxpI//2Q=="
+    },
+    "photos": [
+      {
+        "id": "f194606d-5c0d-4b69-ae9b-9b6392a61c58",
+        "image": {
+          "url": "{{MEDIA}}/images/612363e4-1a02-4669-bf01-9cd46dfc25fd.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgQFBv/EAB8QAAEEAgMBAQAAAAAAAAAAAAECAwQRABIFMnExUf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwClF5uMljd11tDutqaSsGiPzCHNNGEuU6VIZUNhabNfKrM1O6uejGJXRXgxpI//2Q=="
+        }
+      },
+      {
+        "id": "7b5415a4-2281-4b48-98fd-5731e5b78eb1",
+        "image": {
+          "url": "{{MEDIA}}/images/bbe0ae9e-eb33-4a17-a315-305d1a38f275.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQMFBv/EAB8QAAEEAQUBAAAAAAAAAAAAAAECAwQRAAUSMlFxgf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwClG1uKiPudebS7tJU0lYNEdYRrTRhKlOlaGVUpNps9VWZybwc9GOk8PgxpI//Z"
+        }
+      },
+      {
+        "id": "47ff036a-99da-40f1-a83d-f369304edfc7",
+        "image": {
+          "url": "{{MEDIA}}/images/59bace0a-05a6-428b-97d8-4b33f2ee2b73.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACMQAAICAQIGAwAAAAAAAAAAAAECAwQAETIFEhUhQXFRgaH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwClX45VStzSTRiUKWaNXB0PkDDrURpG1MXSJyGUFdT8advX7meu7JPYxtjZ9DGiP//Z"
+        }
+      },
+      {
+        "id": "36f13383-8b0e-4215-8542-d05e9e0037bf",
+        "image": {
+          "url": "{{MEDIA}}/images/0da936b0-9b50-4ed7-8039-0911921182ad.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACYQAAEDAQUJAAAAAAAAAAAAAAECAwQABRESIXETFBUyM0FRgbH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAABES/9oADAMBAAIRAxEAPwCkxbsVuLiW8jaBOJTaVg59wKONMmHvLxWhpZBSCm8+LstKz0zkc1psjp+h8poj/9k="
+        }
+      },
+      {
+        "id": "6e436494-06f7-46fd-8c8a-1651e0bca900",
+        "image": {
+          "url": "{{MEDIA}}/images/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACIQAAIBAwIHAAAAAAAAAAAAAAECAwAEETNxBRIVcoKhsf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAXEQEAAwAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwClDx20jtQzTIZAnMUV874o61CbRbmYukchyoK5Pras/d6cndTJ9LxHympKf//Z"
+        }
+      },
+      {
+        "id": "fb0b4e41-1147-4ddf-ac0a-6013d3f1b0ee",
+        "image": {
+          "url": "{{MEDIA}}/images/8b64441e-5859-44b1-9ef1-613c928b0585.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACIQAAEDAwMFAAAAAAAAAAAAAAIBAwQAERIFMTNxcoKx4f/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAXEQEAAwAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwCk1r0RuLkTwE4gZKAlfra9Ca0ysUZDymIOLcExuu3ys/K4j7qY9w+Keqakp//Z"
+        }
+      },
+      {
+        "id": "b63f20be-a87c-46f2-9137-f038560a4e3f",
+        "image": {
+          "url": "{{MEDIA}}/images/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.jpg",
+          "alt": {
+            "en": "Sunday school annual day moment",
+            "ta": "ஞாயிறு பள்ளி விழா தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQAC/8QAIRAAAQQBAwUAAAAAAAAAAAAAAgEDBBEABRIzcoKRseH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAQADAAAAAAAAAAAAAAAAAAABERL/2gAMAwEAAhEDEQA/AEm9fiNxdyvCTgghEAlfi8k1plYwSHlMQdsgTba1XzAJHAfVm3eHtT1k1JT/2Q=="
+        }
+      },
+      {
+        "id": "6fdfe894-b279-4db9-890a-931e1496d34c",
+        "image": {
+          "url": "{{MEDIA}}/images/6dc48f58-0213-4cae-b2cc-075783a3198d.jpg",
+          "alt": {
+            "en": "DEMO — replace with the annual day recording",
+            "ta": "DEMO — ஆண்டு விழா பதிவால் மாற்றவும்"
+          },
+          "width": 1280,
+          "height": 720,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIFBv/EAB0QAAICAgMBAAAAAAAAAAAAAAECAAQFQQMRFCH/xAAUAQEAAAAAAAAAAAAAAAAAAAAD/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAFREhP/2gAMAwEAAhEDEQA/AJ1i9jGYefHcAOwyCIbNBwvdGspGlA+zNQibUC5un//Z"
+        },
+        "caption": {
+          "en": "DEMO — replace with the annual day recording",
+          "ta": "DEMO — ஆண்டு விழா பதிவால் மாற்றவும்"
+        },
+        "video": {
+          "url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+          "provider": "youtube"
+        }
+      }
+    ],
+    "fellowshipSlug": "sunday-school",
+    "shared": false,
+    "createdAt": "2026-07-26T14:06:39.049Z",
+    "updatedAt": "2026-07-26T14:48:42.545Z"
+  },
+  {
+    "slug": "easter-2026",
+    "status": "published",
+    "title": {
+      "en": "Easter 2026",
+      "ta": "உயிர்த்தெழுதல் பண்டிகை 2026"
+    },
+    "description": {
+      "en": "The sunrise service and breakfast that followed.",
+      "ta": "விடியற்கால ஆராதனையும் தொடர்ந்த காலை உணவும்."
+    },
+    "date": "2026-04-05T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.jpg",
+      "alt": {
+        "en": "Easter sunrise 2026",
+        "ta": "உயிர்த்தெழுதல் விடியல் 2026"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAwQFBv/EACgQAAECBAENAAAAAAAAAAAAAAECAwAEBhESBRMhIjE1NkFRc4Oxsv/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/AHJeoEuJ1WiRbYFi508usEcqNEo7mHGXCpBwFeIWJjFyO9JTuj3FrKfEPkHzEiy//9k="
+    },
+    "photos": [
+      {
+        "id": "1450d50b-8e9b-445c-84f2-7ba370e2f616",
+        "image": {
+          "url": "{{MEDIA}}/images/81ce8a9f-b112-4283-9ee3-477bb832a47d.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBv/EACYQAAIBAgILAQAAAAAAAAAAAAIDAQARBAUGEhMiMTI1UXJ0stH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8AevSINqIgopvOrEwXH9qhmejhGGpqyli7DO9eS7WrPly4L2Aos6683yH5qdo//9k="
+        }
+      },
+      {
+        "id": "528fefa0-8948-4427-ae93-40f875a1c97a",
+        "image": {
+          "url": "{{MEDIA}}/images/611d65d9-95b9-4157-9ac8-50a63eabe95c.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIG/8QAKBAAAQIEAQ0AAAAAAAAAAAAAAgERAAMEBTEGEhMiNDVBYXFzsbPh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AEJlCImIpJJ3RGzsFXhCZt6SlnaKcGuCO6nj95Rn6XYQ7o+yJv8Avmp6D4ido//Z"
+        }
+      },
+      {
+        "id": "0ff155d8-efe6-40fd-828b-a4d88a06cde3",
+        "image": {
+          "url": "{{MEDIA}}/images/ea4a7653-c6df-41b4-be6a-bc48d8638a56.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAX/xAAkEAABAwIEBwAAAAAAAAAAAAABAgMRADEFEjVhBAYjUXFzsf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oADAMBAAIRAxEAPwBI5hSAIYXJsM1x3pD+MDhum+2YCgknPYkSJ23qaNRe8JoOO64/60/KmsS//9k="
+        }
+      },
+      {
+        "id": "d4c175bb-d4e7-494a-aa06-0556389991b7",
+        "image": {
+          "url": "{{MEDIA}}/images/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.jpg",
+          "alt": {
+            "en": "DEMO — replace with the Easter service recording",
+            "ta": "DEMO — ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
+          },
+          "width": 1278,
+          "height": 720,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAF/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQIDAAQRQbEFEjE0RHFy/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/xAAYEQEAAwEAAAAAAAAAAAAAAAACAAEDEf/aAAwDAQACEQMRAD8A1gs0rKht7ZNeYNkquOtHNMltM6xThFK5ydTV4snpdxQ8T7ofLbVHNqz2GwZ//9k="
+        },
+        "caption": {
+          "en": "DEMO — replace with the Easter service recording",
+          "ta": "DEMO — ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
+        },
+        "video": {
+          "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+          "provider": "youtube"
+        }
+      },
+      {
+        "id": "e34a9cf8-4f70-4759-b260-68c80eb0ba2b",
+        "image": {
+          "url": "{{MEDIA}}/images/b625389c-9159-434d-8fa6-d93b4d7e2952.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAX/xAAnEAABAgMFCQAAAAAAAAAAAAABAgMABREEEyIxcwYhIzI0NkFxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oADAMBAAIRAxEAPwBKdoQAOC5U5Yub1CHZwbNeIcaKroAqxitDvrTPzAXetY0voidO+4zpJidYmX//2Q=="
+        }
+      },
+      {
+        "id": "a0bef91d-9622-4f8f-86b3-2cd2dd069ca4",
+        "image": {
+          "url": "{{MEDIA}}/images/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAwQFBv/EACgQAAECBAENAAAAAAAAAAAAAAECAwAEBhESBRMhIjE1NkFRc4Oxsv/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFREBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhEDEQA/AHJeoEuJ1WiRbYFi508usEcqNEo7mHGXCpBwFeIWJjFyO9JTuj3FrKfEPkHzEiy//9k="
+        }
+      },
+      {
+        "id": "77147abf-2de4-4ee8-a7e0-07a99c82a03e",
+        "image": {
+          "url": "{{MEDIA}}/images/7397086d-d7ec-4837-ab35-a7ca565988f9.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAMG/8QAJBAAAQMCBAcAAAAAAAAAAAAAAgEDEQAEBiFxwQUSMTVFc7H/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8ATa4gEz5BahZ6EaJntVXcQhZqrLjRkTWREhTGs1lPO2/tD7TuO9zutQ2qdo//2Q=="
+        }
+      },
+      {
+        "id": "03766010-85e3-44eb-976a-daaa8316ec86",
+        "image": {
+          "url": "{{MEDIA}}/images/bbd878fe-36fe-4262-bafb-f4db9e288852.jpg",
+          "alt": {
+            "en": "Easter service moment",
+            "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwQG/8QAIhAAAgECBgMBAAAAAAAAAAAAAQIDAAQFBhE1csEhMUGx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHtswq8oRYiC2nttOqeTMCWrNC0UjyISpAOp8fazMm5YfyT9qrG93uuPQqdo/9k="
+        }
+      }
+    ],
+    "shared": false,
+    "createdAt": "2026-07-26T14:06:39.169Z",
+    "updatedAt": "2026-07-26T17:24:16.802Z"
+  },
+  {
+    "slug": "womens-fellowship-day-2025",
+    "status": "published",
+    "title": {
+      "en": "Women's Fellowship Day 2025",
+      "ta": "மகளிர் ஐக்கிய தினம் 2025"
+    },
+    "description": {
+      "en": "A day led by the women of the congregation.",
+      "ta": "சபை மகளிரால் வழிநடத்தப்பட்ட ஒரு நாள்."
+    },
+    "date": "2025-10-12T00:00:00.000Z",
+    "cover": {
+      "url": "{{MEDIA}}/images/5809e97b-3e49-4cc6-a903-e16d6d310e23.jpg",
+      "alt": {
+        "en": "Women's fellowship day 2025",
+        "ta": "மகளிர் ஐக்கிய தினம் 2025"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBf/EAB0QAAICAwADAAAAAAAAAAAAAAECAwQAETRxgYL/xAAUAQEAAAAAAAAAAAAAAAAAAAAC/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8AyxYDSqFjlcMw0yrrB7ASUho5UCsdll3r3l6XJX+cV/mseTgwrl//2Q=="
+    },
+    "photos": [
+      {
+        "id": "bcbbe14b-4598-401a-ad79-0c05e89c5490",
+        "image": {
+          "url": "{{MEDIA}}/images/970ac602-717e-464c-912d-77a57550af33.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBf/EAB0QAAICAwADAAAAAAAAAAAAAAECAwQAETRxgYL/xAAUAQEAAAAAAAAAAAAAAAAAAAAC/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8AyxYDSqFjlcMw0yrrB7ASUho5UCsdll3r3l6XJX+cV/mseTgwrl//2Q=="
+        }
+      },
+      {
+        "id": "fd8a0fbd-3b4c-4d09-a965-878072a1aed5",
+        "image": {
+          "url": "{{MEDIA}}/images/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEBf/EABsQAAMAAwEBAAAAAAAAAAAAAAECAwARMXKx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABcRAQADAAAAAAAAAAAAAAAAAAABESH/2gAMAwEAAhEDEQA/AMoXU2CCVX23QuvuDXVblTKqaYg7TeXL1PS4tO09HBhXL//Z"
+        }
+      },
+      {
+        "id": "8f288ebe-ce2c-4c0a-b01d-5e1da04d6816",
+        "image": {
+          "url": "{{MEDIA}}/images/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEEBf/EABwQAAIDAAMBAAAAAAAAAAAAAAECAAMRBDJyM//EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAESIf/aAAwDAQACEQMRAD8AyU5KG1UFdj62aFyFnIRbihqtTGIOrsuXsnsRW/Sz2ZOG0v/Z"
+        }
+      },
+      {
+        "id": "4024cfea-3520-4410-b4db-067524643303",
+        "image": {
+          "url": "{{MEDIA}}/images/f52a6736-8851-4685-ba9f-e3a04347ca96.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAQF/8QAHBAAAwACAwEAAAAAAAAAAAAAAQIDABEEMnIz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQADAQAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwDITlI1UQJSm2A2F1ivKmtmQpSZDEHa7y1O6exi30p7OTEOmf/Z"
+        }
+      },
+      {
+        "id": "9d235b12-b197-4459-a767-b30f4b25d095",
+        "image": {
+          "url": "{{MEDIA}}/images/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBf/EABwQAAMAAgMBAAAAAAAAAAAAAAECAwARBDNyEv/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAXEQADAQAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwDInzJtVECvQkgbUawtzJLZkK0kwYg/Q3rLQ7J+xj5XfX2cIh0z/9k="
+        }
+      },
+      {
+        "id": "73ac97d4-f6d4-47ff-b9b4-4c3175a19098",
+        "image": {
+          "url": "{{MEDIA}}/images/dffb2f7e-740f-45dc-b58c-2619de5d60a7.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAEF/8QAHRAAAgICAwEAAAAAAAAAAAAAAQIAAwQREjNyNP/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAXEQADAQAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwDITNqe5ECvYWYDajUXZlK3MhV62DEHkN6jE76/Qlzvpt9mEVHTh//Z"
+        }
+      },
+      {
+        "id": "26265933-e2a6-4b4b-ae08-c908d5a127d0",
+        "image": {
+          "url": "{{MEDIA}}/images/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.jpg",
+          "alt": {
+            "en": "Women's fellowship day moment",
+            "ta": "மகளிர் ஐக்கிய தின தருணம்"
+          },
+          "width": 1920,
+          "height": 1080,
+          "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBf/EAB0QAAICAgMBAAAAAAAAAAAAAAIDAREABAU0chL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAEREv/aAAwDAQACEQMRAD8AyA3km4QgSYRFEXEVg7cSLiCRNZCVT9RdZHR7S/WPke6z1jKo04f/2Q=="
+        }
+      }
+    ],
+    "fellowshipSlug": "womens-fellowship",
+    "shared": false,
+    "createdAt": "2026-07-26T14:06:39.299Z",
+    "updatedAt": "2026-07-26T14:13:48.486Z"
+  }
+]

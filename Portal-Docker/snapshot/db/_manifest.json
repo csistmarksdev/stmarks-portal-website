@@ -1,0 +1,23 @@
+{
+  "capturedAt": "2026-07-27T17:46:27.946Z",
+  "source": "mongodb://***@10.147.18.1:27017/csistmc-portal?authSource=admin",
+  "collections": {
+    "announcements": 6,
+    "audit_logs": 425,
+    "blog_posts": 10,
+    "church_singletons": 8,
+    "contact_messages": 1,
+    "downloads": 0,
+    "events": 6,
+    "fellowships": 7,
+    "gallery_albums": 6,
+    "leaders": 1,
+    "media": 96,
+    "users": 1
+  },
+  "documents": 567,
+  "uploads": {
+    "files": 261,
+    "bytes": 14267049
+  }
+}

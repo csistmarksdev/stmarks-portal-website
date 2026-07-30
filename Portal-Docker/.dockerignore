@@ -1,0 +1,46 @@
+# What the build context must NOT carry.
+#
+# Two reasons, and the second is the one that bites. The obvious one is size:
+# `node_modules` and `.next` are hundreds of megabytes that get re-uploaded to
+# the daemon on every build.
+#
+# The other is correctness. Host-built artifacts must never reach the image.
+# `sharp` and Next's SWC binary are native and platform-specific — a
+# `node_modules` built on Windows or macOS and copied into a Linux container
+# fails at runtime with an error about a missing binding, long after the build
+# has "succeeded". Everything here is rebuilt inside the image from source.
+
+node_modules
+**/node_modules
+**/dist
+**/.next
+**/*.tsbuildinfo
+dist-portal
+dist-portal.zip
+
+# Runtime and local configuration. Secrets in a `.env` would otherwise be baked
+# into a layer and shipped to whatever registry the image is pushed to.
+.env
+**/.env
+**/.env.*
+!**/.env.example
+
+# The live installation's own upload directory. `snapshot/uploads` is the copy
+# that ships; including both would double the image for no gain, and the two
+# would drift.
+backend/uploads
+backend/seed-assets
+backend/seed-data
+
+# Repository furniture with no meaning inside a container. Documentation is for
+# whoever deploys the image, not for the image.
+.git
+.gitignore
+.github
+.idea
+.vscode
+docs
+**/*.md
+
+# Local compose overrides — the image must not depend on anyone's machine.
+docker-compose.override.yml

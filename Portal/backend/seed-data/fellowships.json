@@ -1,0 +1,437 @@
+[
+  {
+    "slug": "youth-fellowship",
+    "status": "published",
+    "name": {
+      "en": "Youth Fellowship",
+      "ta": "இளைஞர் ஐக்கியம்"
+    },
+    "tagline": {
+      "en": "Growing together in faith",
+      "ta": "விசுவாசத்தில் ஒன்றாக வளர்தல்"
+    },
+    "about": [
+      {
+        "en": "The Youth Fellowship of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் இளைஞர் ஐக்கியம்."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/2cf83209-0378-4fd3-9ca9-0951da97ed83.png",
+      "alt": {
+        "en": "Scene3.png",
+        "ta": "Scene3.png"
+      },
+      "width": 1672,
+      "height": 941,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIG/8QAIRAAAgEDAwUAAAAAAAAAAAAAAQMCAAQRBjFxFCE0QXP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAEAEf/aAAwDAQACEQMRAD8AfHU9r0hYBMMiMlZGCOCd6m51MlVotsBJzG9wsHGAfRNZ8+OeKLPZP0qK5L//2Q=="
+    },
+    "committee": [
+      {
+        "id": "fc-1",
+        "name": {
+          "en": "Mr. Aaron Jude",
+          "ta": "திரு. ஆரோன் ஜூட்"
+        },
+        "designation": {
+          "en": "President",
+          "ta": "தலைவர்"
+        }
+      },
+      {
+        "id": "fc-2",
+        "name": {
+          "en": "Ms. Sharon Lydia",
+          "ta": "செல்வி. ஷரோன் லிடியா"
+        },
+        "designation": {
+          "en": "Secretary",
+          "ta": "செயலாளர்"
+        }
+      },
+      {
+        "id": "fc-3",
+        "name": {
+          "en": "Mr. Nathan Praveen",
+          "ta": "திரு. நேதன் பிரவீன்"
+        },
+        "designation": {
+          "en": "Treasurer",
+          "ta": "பொருளாளர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 1,
+    "createdAt": "2026-07-23T15:05:04.935Z",
+    "updatedAt": "2026-07-26T14:20:36.412Z",
+    "memberCount": 64
+  },
+  {
+    "slug": "young-couple-fellowship",
+    "status": "published",
+    "name": {
+      "en": "Young Couple Fellowship",
+      "ta": "இளம் தம்பதியர் ஐக்கியம்"
+    },
+    "tagline": {
+      "en": "Building Christ-centred homes",
+      "ta": "கிறிஸ்துவை மையமாகக் கொண்ட இல்லங்கள்"
+    },
+    "about": [
+      {
+        "en": "The Young Couple Fellowship of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் இளம் தம்பதியர் ஐக்கியம்."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.jpg",
+      "alt": {
+        "en": "Young couples gathering",
+        "ta": "இளம் தம்பதியர் கூட்டம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIF/8QAIxAAAgECBQUBAAAAAAAAAAAAAQMCAAQGEiE0chEiMUFxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEB/9oADAMBAAIRAxEAPwBxxPai1LFiRZHUrkMpHwnzUtxIpdjFw6zYzuyE6RBPsisBu2PEflHOznyFS7B//9k="
+    },
+    "committee": [
+      {
+        "id": "fc-4",
+        "name": {
+          "en": "Mr. & Mrs. Vinoth",
+          "ta": "திரு. & திருமதி. வினோத்"
+        },
+        "designation": {
+          "en": "Coordinators",
+          "ta": "ஒருங்கிணைப்பாளர்கள்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 2,
+    "createdAt": "2026-07-23T15:05:04.946Z",
+    "updatedAt": "2026-07-26T14:22:03.646Z",
+    "memberCount": 38
+  },
+  {
+    "slug": "sunday-school",
+    "status": "published",
+    "name": {
+      "en": "Sunday School",
+      "ta": "ஞாயிறு பள்ளி"
+    },
+    "tagline": {
+      "en": "Little hearts, strong roots",
+      "ta": "சிறு இதயங்கள், உறுதியான வேர்கள்"
+    },
+    "about": [
+      {
+        "en": "The Sunday School of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் ஞாயிறு பள்ளி."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/4a72a6eb-0dfb-47e9-bcee-df4410660240.jpg",
+      "alt": {
+        "en": "Sunday school class",
+        "ta": "ஞாயிறு பள்ளி வகுப்பு"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQIEBf/EACEQAAECBQUBAAAAAAAAAAAAAAEAAgMEBSFxERITFDIz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAwDAQACEQMRAD8AsgV5nDvezidp5LhfCMSuNlpXsOB2POtzcLEqHqHkJJv4xMKUj//Z"
+    },
+    "committee": [
+      {
+        "id": "fc-5",
+        "name": {
+          "en": "Mrs. Grace Mary",
+          "ta": "திருமதி. கிரேஸ் மேரி"
+        },
+        "designation": {
+          "en": "Superintendent",
+          "ta": "கண்காணிப்பாளர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 3,
+    "createdAt": "2026-07-23T15:05:04.956Z",
+    "updatedAt": "2026-07-26T14:22:03.730Z",
+    "memberCount": 92
+  },
+  {
+    "slug": "choir",
+    "status": "published",
+    "name": {
+      "en": "Choir",
+      "ta": "பாடகர் குழு"
+    },
+    "tagline": {
+      "en": "Worship through song",
+      "ta": "பாடல் மூலம் ஆராதனை"
+    },
+    "about": [
+      {
+        "en": "The Choir of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் பாடகர் குழு."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/8571cdef-0827-49b9-b6e3-00eca930bf54.jpg",
+      "alt": {
+        "en": "Church choir singing",
+        "ta": "கீர்த்தனைக் குழு பாடுதல்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQMEBf/EACUQAAIABAMJAAAAAAAAAAAAAAECAAMEEQUSIRMUMTM0cXKxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8Aza9NnUTXFsrsxQKR8ijAHXfWz6MykAHja2sIqeofufZgSefK8og//9k="
+    },
+    "committee": [
+      {
+        "id": "fc-6",
+        "name": {
+          "en": "Mr. Samuel Raja",
+          "ta": "திரு. சாமுவேல் ராஜா"
+        },
+        "designation": {
+          "en": "Choir Master",
+          "ta": "கீர்த்தனை ஆசிரியர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 4,
+    "createdAt": "2026-07-23T15:05:04.966Z",
+    "updatedAt": "2026-07-26T14:22:03.829Z",
+    "memberCount": 27
+  },
+  {
+    "slug": "womens-fellowship",
+    "status": "published",
+    "name": {
+      "en": "Women's Fellowship",
+      "ta": "மகளிர் ஐக்கியம்"
+    },
+    "tagline": {
+      "en": "Serving with grace",
+      "ta": "கிருபையுடன் சேவை"
+    },
+    "about": [
+      {
+        "en": "The Women's Fellowship of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் மகளிர் ஐக்கியம்."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/30b12532-b8c1-4c1a-a034-412208c33862.jpg",
+      "alt": {
+        "en": "Women's fellowship meeting",
+        "ta": "மகளிர் ஐக்கியக் கூட்டம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAQF/8QAHRAAAwACAgMAAAAAAAAAAAAAAQIDAAQRchIyM//EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAEREv/aAAwDAQACEQMRAD8AyJ7c2qiBHoSwHKjjFdua1ZClJkMQfJecrl7p3GNj617nJiHTP//Z"
+    },
+    "committee": [
+      {
+        "id": "fc-7",
+        "name": {
+          "en": "Mrs. Ruth Jeyanthi",
+          "ta": "திருமதி. ரூத் ஜெயந்தி"
+        },
+        "designation": {
+          "en": "President",
+          "ta": "தலைவர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 5,
+    "createdAt": "2026-07-23T15:05:04.975Z",
+    "updatedAt": "2026-07-26T14:22:03.929Z",
+    "memberCount": 85
+  },
+  {
+    "slug": "mens-fellowship",
+    "status": "published",
+    "name": {
+      "en": "Men's Fellowship",
+      "ta": "ஆடவர் ஐக்கியம்"
+    },
+    "tagline": {
+      "en": "Standing firm in the Lord",
+      "ta": "கர்த்தரில் உறுதியாக நிற்றல்"
+    },
+    "about": [
+      {
+        "en": "The Men's Fellowship of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் ஆடவர் ஐக்கியம்."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/626abc92-0c1a-450c-81fc-16439e446f8a.jpg",
+      "alt": {
+        "en": "Men's fellowship gathering",
+        "ta": "ஆடவர் ஐக்கியக் கூட்டம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQEC/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQIDAAQFEXIhIjE0NUHR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAXEQADAQAAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwAqPIwPcIgUuzMByj7VmyNus0iOhRlbTQr0PviKKx3fw7hW8p5GfeaYVhduU//Z"
+    },
+    "committee": [
+      {
+        "id": "fc-8",
+        "name": {
+          "en": "Mr. Stephen Kumar",
+          "ta": "திரு. ஸ்டீபன் குமார்"
+        },
+        "designation": {
+          "en": "President",
+          "ta": "தலைவர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 6,
+    "createdAt": "2026-07-23T15:05:04.984Z",
+    "updatedAt": "2026-07-26T14:22:04.030Z",
+    "memberCount": 56
+  },
+  {
+    "slug": "prayer-fellowship",
+    "status": "published",
+    "name": {
+      "en": "Prayer Fellowship",
+      "ta": "ஜெப ஐக்கியம்"
+    },
+    "tagline": {
+      "en": "Devoted to prayer",
+      "ta": "ஜெபத்தில் உறுதி"
+    },
+    "about": [
+      {
+        "en": "The Prayer Fellowship of CSI St. Mark's Church, Madipakkam.",
+        "ta": "மடிப்பாக்கம் சி.எஸ்.ஐ புனித மாற்கு ஆலயத்தின் ஜெப ஐக்கியம்."
+      }
+    ],
+    "vision": {
+      "en": "To glorify God in all we do.",
+      "ta": "நாம் செய்யும் அனைத்திலும் தேவனை மகிமைப்படுத்துதல்."
+    },
+    "schedule": {
+      "en": "Every Sunday, 4:00 PM",
+      "ta": "ஒவ்வொரு ஞாயிறு, மாலை 4:00"
+    },
+    "banner": {
+      "url": "{{MEDIA}}/images/e6aabd9a-5e9a-4f0e-820f-8ac230653a7c.jpg",
+      "alt": {
+        "en": "Prayer meeting",
+        "ta": "ஜெபக் கூட்டம்"
+      },
+      "width": 1920,
+      "height": 1080,
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEEBf/EACAQAAEDBAIDAAAAAAAAAAAAAAEDBBEAAgUSNXIUIUH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAAMBAAAAAAAAAAAAAAAAAAABERL/2gAMAwEAAhEDEQA/AM5F428opCVQSBZqYk0nD5varpBTuBOwPsT8qDFckj2oy3IL9jVwrBtyn//Z"
+    },
+    "committee": [
+      {
+        "id": "fc-9",
+        "name": {
+          "en": "Mrs. Esther Vimala",
+          "ta": "திருமதி. எஸ்தர் விமலா"
+        },
+        "designation": {
+          "en": "Coordinator",
+          "ta": "ஒருங்கிணைப்பாளர்"
+        }
+      }
+    ],
+    "coordinator": {
+      "name": {
+        "en": "Church Office",
+        "ta": "ஆலய அலுவலகம்"
+      }
+    },
+    "order": 7,
+    "createdAt": "2026-07-23T15:05:04.993Z",
+    "updatedAt": "2026-07-26T14:22:04.147Z",
+    "memberCount": 44
+  }
+]

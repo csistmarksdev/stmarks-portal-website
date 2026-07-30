@@ -1,0 +1,89 @@
+# CSI St. Mark's Portal — for ZimaOS / CasaOS.
+#
+# Import this one rather than `docker-compose.deploy.yml`, which is written for
+# the `docker compose` CLI and imports badly here.
+#
+# What is different, and why
+# --------------------------
+# 1. No compose variable substitution — no dollar-brace defaults anywhere. The
+#    ZimaOS importer does not expand that syntax; it stores the text verbatim.
+#    JWT_ACCESS_SECRET would arrive as a 22-character literal, and the API
+#    refuses to start on a secret shorter than 32 characters. The container
+#    would boot-loop with no obvious cause.
+#
+# 2. No environment section at all. Every setting is optional: the container
+#    generates real secrets into its volume on first boot and allows any origin
+#    by default. Adding a variable here can only make things worse until you
+#    have a real value for it.
+#
+# 3. No `verify` service. ZimaOS does not support compose profiles, so a
+#    test-only service is imported as a second application and would start a
+#    second portal — with its own MongoDB — alongside the real one.
+#
+# 4. Bind mounts under /DATA/AppData rather than named volumes, because that is
+#    where ZimaOS keeps application data and what its file browser shows you.
+#
+# Before importing: `docker login -u stmarksdev` on the ZimaOS box, or add the
+# registry credentials in its settings. The image is private.
+
+name: csistmarks-portal
+
+services:
+  portal:
+    image: stmarksdev/csistmarkscmsportal:1.0
+    container_name: portal
+    restart: unless-stopped
+
+    ports:
+      # Host:container. Both halves stated explicitly — the ZimaOS form leaves
+      # the container side blank if it is not written out, which silently
+      # publishes nothing.
+      - "8080:8080"
+
+    volumes:
+      # The database and the secrets generated on first boot. Lose this and the
+      # portal resets to the shipped snapshot on every restart.
+      - /DATA/AppData/portal/data:/data
+      # Media uploaded through the CMS. The bundled media is installed here on
+      # first boot; after that these are ordinary files the church owns.
+      - /DATA/AppData/portal/uploads:/app/backend/uploads
+
+    # A parish CMS plus MongoDB. MongoDB's cache is already capped at 256 MB
+    # inside the container, so this is headroom rather than a target.
+    mem_limit: 1g
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      # The first boot restores 567 documents and 261 media files before
+      # anything listens. Too short a grace period here and ZimaOS restarts a
+      # container that is doing exactly what it was told to.
+      start_period: 120s
+      retries: 5
+
+# Shown in the ZimaOS app list. Harmless to any other Docker host, which
+# ignores unknown `x-` keys.
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: portal
+  webui_port: 8080
+  scheme: http
+  index: /
+  title:
+    en_us: CSI St. Mark's Portal
+  tagline:
+    en_us: Admin CMS and content API for the church website
+  description:
+    en_us: >-
+      The parish content system: an admin CMS, a public content API, and the
+      church's existing content, media and accounts. Self-contained — it brings
+      its own database and needs nothing configured.
+  category: Media
+  port_map: "8080"

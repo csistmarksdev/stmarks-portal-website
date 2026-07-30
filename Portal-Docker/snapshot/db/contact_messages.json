@@ -1,0 +1,26 @@
+[
+  {
+    "_id": {
+      "$oid": "6a6785089fcd57ef095faa19"
+    },
+    "name": "JEROPHIN D R",
+    "email": "jerophinstanley47@gmail.com",
+    "phone": "9940306399",
+    "subject": "Sample",
+    "message": "Sample Message",
+    "read": true,
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785169160890"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1785169179094"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

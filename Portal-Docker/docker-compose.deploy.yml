@@ -1,0 +1,122 @@
+# CSI St. Mark's Portal — deploy the published image.
+#
+#   docker login -u stmarksdev          # the image is private
+#   docker compose -f docker-compose.deploy.yml up -d
+#   open http://localhost:8080
+#
+# This file pulls a finished image rather than building one, so it is the only
+# thing a target machine needs — no source, no Node, no MongoDB. Copy it to a
+# server, paste it into Portainer, or point ZimaOS at it.
+#
+# Everything below has a working default. The image carries its own database and
+# a snapshot of the church's content, media and accounts, so an empty machine
+# comes up as a working portal with nothing configured.
+#
+# Related files:
+#   docker-compose.yml        build from source instead of pulling
+#   docker-compose.prod.yml   with a separate MongoDB container
+#   PUSH.md                   building and publishing the image
+#   docker/DEPLOY.md          configuration, platforms, troubleshooting
+
+services:
+  portal:
+    # Pinned, deliberately. `latest` moves whenever something is pushed, so a
+    # host that restarts at the wrong moment silently changes version. Bump this
+    # when you intend to upgrade — that is what makes rolling back one edit.
+    image: stmarksdev/csistmarkscmsportal:1.0
+    container_name: portal
+    restart: unless-stopped
+
+    ports:
+      - "${PORT:-8080}:8080"
+
+    volumes:
+      # The database and the secrets generated on first boot.
+      - portal-data:/data
+      # Media uploaded through the CMS. The bundled media is installed here on
+      # first boot and is then ordinary files the church can replace.
+      - portal-uploads:/app/backend/uploads
+
+    environment:
+      # ---- everything here is optional --------------------------------------
+      #
+      # The canonical public origin. Leave unset and the container detects it
+      # from the hosting platform, falling back to localhost. Media URLs are
+      # rewritten to the requesting origin on every response regardless, so this
+      # only matters as the value handed to the public Website.
+      PUBLIC_URL: ${PUBLIC_URL:-}
+
+      # "*" by default — any site may read the API, which is what the public
+      # Website needs. Narrow it to real origins once the domain is settled.
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+
+      # Generated into the volume on first boot when unset. Set them to keep
+      # sessions alive across a volume reset, or to share them with the Website.
+      #   openssl rand -base64 48
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-}
+
+      # Without these, publishing in the CMS does not refresh the public site.
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+
+      # Point at a managed database and the bundled MongoDB never starts.
+      # MONGODB_URI: mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      # Generous: the first boot restores 567 documents and 261 media files
+      # before anything listens. Marking it unhealthy while it does exactly what
+      # it was told to causes orchestrators to kill and retry it forever.
+      start_period: 120s
+      retries: 5
+
+    # A small parish CMS on a shared box. Raise or delete these if the host has
+    # room; MongoDB is already capped to a 256 MB cache inside the container.
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+  # ---------------------------------------------------------------- verify ---
+  # Runs the Website contract suite against the container above — 53 checks
+  # covering every endpoint the public site consumes, validating response shape
+  # rather than just status codes.
+  #
+  #   docker compose -f docker-compose.deploy.yml --profile verify run --rm verify
+  #
+  # Reuses the portal image because it already contains Node and the test, so
+  # this pulls nothing extra. `depends_on: service_healthy` means it waits for
+  # the first-boot restore rather than racing it.
+  #
+  # It talks to `portal:8080` over the compose network, so it also proves the
+  # container is reachable by service name — which is how the Website will reach
+  # it if they are deployed side by side.
+  #
+  # The test is baked into images built after 2026-07-28. On the original `1.0`
+  # it is absent and this service exits with "Cannot find module" — either
+  # uncomment the bind mount below (needs this repository checked out beside the
+  # compose file), or copy it in once:
+  #
+  #   docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs
+  #   docker exec portal node /app/check-website-api.mjs http://127.0.0.1:8080
+  verify:
+    image: stmarksdev/csistmarkscmsportal:1.0
+    profiles: ["verify"]
+    depends_on:
+      portal:
+        condition: service_healthy
+    entrypoint: ["node", "/app/check-website-api.mjs", "http://portal:8080"]
+    # volumes:
+    #   - ./scripts/check-website-api.mjs:/app/check-website-api.mjs:ro
+    restart: "no"
+
+volumes:
+  portal-data:
+  portal-uploads:

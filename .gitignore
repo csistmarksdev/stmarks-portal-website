@@ -1,0 +1,90 @@
+# ---------------------------------------------------------------------------
+# Repository-wide ignores.
+#
+# Each project also carries its own .gitignore. This file is the backstop for
+# the things that are easy to leak from the repository root, and for the two
+# categories the per-project files were found to miss: timestamped .env backups
+# and packaged build artifacts.
+# ---------------------------------------------------------------------------
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# ---------------------------------------------------------------------------
+# Secrets.
+#
+# The allow-listed *.example files are the documentation of what has to be set;
+# everything else that looks like an environment file stays out.
+#
+# `.env.bak-*` is called out because it is what actually bit: the per-project
+# ignores list `.env`, `.env.local` and `.env.*.local`, none of which match a
+# file named `.env.bak-2026-07-27T07-50-55-182Z`. Two of those existed, each
+# holding a live MongoDB URI with credentials, both JWT signing secrets, the
+# seed admin password and the website revalidation secret.
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.env.bak-*
+.env.bak-*
+bundle.env
+!bundle.env.example
+
+# Keys and certificates, in case one is ever dropped in a working tree
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+
+# Build output
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Packaged release artifacts.
+#
+# `Portal/dist-portal/` is 124 MB across 12,354 files and `dist-portal.zip` is
+# 51 MB — over GitHub's 50 MB per-file warning and reproducible from source with
+# `npm run build:bundle`. Neither belongs in history, where it cannot be removed
+# without a rewrite.
+dist-portal/
+dist-portal.zip
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Test and coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*~
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Local tooling
+.eslintcache
+.turbo/
+.vercel

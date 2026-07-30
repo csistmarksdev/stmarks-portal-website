@@ -1,0 +1,74 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    # Deliberately not published. `api` reaches it over the compose network by
+    # service name; publishing 27017 puts an unauthenticated database on the
+    # host's interfaces, which on a server is the whole content store exposed.
+    # Uncomment only to attach a GUI locally, and never on a public host.
+    # ports:
+    #   - "127.0.0.1:27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      API_PREFIX: v1
+      # These four decide whether the deployment is safe, so none of them get a
+      # default: `${VAR:?message}` makes compose refuse to start and say which
+      # one is missing. The previous `:-change-me-access` fallbacks meant a
+      # forgotten variable produced a running server signing admin tokens with a
+      # value published in this repository.
+      PUBLIC_URL: ${PUBLIC_URL:?set the public origin, e.g. https://api.example.org}
+      CORS_ORIGINS: ${CORS_ORIGINS:?comma-separated origins allowed to call the API}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?generate with openssl rand -base64 48}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?generate with openssl rand -base64 48}
+      MONGODB_URI: mongodb://mongo:27017/csistmc-portal
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:?choose a real password, not the example one}
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+      NODE_ENV: production
+    volumes:
+      - uploads:/app/backend/uploads
+    ports:
+      - "4000:4000"
+    healthcheck:
+      # The app's own probe, which reports the Mongo connection rather than just
+      # "the process is up" — a dropped connection answers HTTP fine.
+      test:
+        ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  cms:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:4000/v1
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "3001:3001"
+
+volumes:
+  mongo-data:
+  uploads:

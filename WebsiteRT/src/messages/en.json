@@ -1,0 +1,470 @@
+{
+  "site": {
+    "name": "CSI St. Mark's Church, Madipakkam",
+    "shortName": "St. Mark's",
+    "wordmark": {
+      "line1": "CSI St. Mark's Church",
+      "line2": "Madipakkam Unit"
+    },
+    "tagline": "A community of faith, hope and love",
+    "description": "A Church of South India congregation in Madipakkam, Chennai — worshipping together, growing in faith, and serving our neighbourhood."
+  },
+  "common": {
+    "readMore": "Read more",
+    "viewAll": "View all",
+    "viewDetails": "View details",
+    "learnMore": "Learn more",
+    "back": "Back",
+    "backTo": "Back to {page}",
+    "download": "Download",
+    "loading": "Loading",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "sending": "Sending",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "noResults": "Nothing to show here yet.",
+    "photos": "{count, plural, =0 {No photos} one {# photo} other {# photos}}",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "skipToContent": "Skip to main content",
+    "backToTop": "Back to top",
+    "changeLanguage": "Change language",
+    "pinned": "Pinned",
+    "heroSlides": "Hero images",
+    "goToSlide": "Show image {index} of {total}"
+  },
+  "nav": {
+    "primary": "Primary",
+    "home": "Home",
+    "eventsItems": {
+      "upcoming": "Upcoming Events",
+      "past": "Past Events",
+      "blog": "Blogs"
+    },
+    "about": "About Church",
+    "leadership": "Leadership",
+    "fellowships": "Fellowships",
+    "events": "Events",
+    "gallery": "Gallery",
+    "announcements": "Announcements",
+    "downloads": "Downloads",
+    "contact": "Contact Us",
+    "aboutItems": {
+      "history": "History",
+      "visionMission": "Vision & Mission",
+      "diocese": "CSI Diocese",
+      "serviceTimings": "Service Timings",
+      "contact": "Contact"
+    },
+    "leadershipItems": {
+      "currentPastors": "Current Pastors",
+      "assistantPastors": "Assistant Pastors",
+      "committee": "Church Committee",
+      "formerPastors": "Former Pastors"
+    },
+    "fellowshipItems": {
+      "youth": "Youth Fellowship",
+      "youngCouple": "Young Couple Fellowship",
+      "sundaySchool": "Sunday School",
+      "choir": "Choir",
+      "women": "Women's Fellowship",
+      "men": "Men's Fellowship",
+      "prayer": "Prayer Fellowship",
+      "other": "Other Fellowships"
+    }
+  },
+  "header": {
+    "worshipWithUs": "Worship with us"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "serviceTimings": "Service Timings",
+    "address": "Church Address",
+    "followUs": "Follow Us",
+    "getDirections": "Get directions",
+    "copyright": "© {year} {name}. All rights reserved.",
+    "builtWith": "To the glory of God.",
+    "socialLabel": "{platform} (opens in a new tab)"
+  },
+  "home": {
+    "hero": {
+      "progressLabel": "Introduction progress",
+      "scenes": {
+        "opening": {
+          "eyebrow": "Church of South India",
+          "cta": "Plan your visit"
+        },
+        "belonging": {
+          "eyebrow": "A place to belong",
+          "title": "Come as you are",
+          "body": "One congregation, open to all. Whoever you are, there is a seat here with your name on it."
+        },
+        "gathering": {
+          "eyebrow": "Every Sunday",
+          "title": "Worship with us",
+          "body": "Holy Communion, morning worship and Sunday school — all welcome.",
+          "cta": "Service timings",
+          "secondaryCta": "Find us"
+        }
+      }
+    },
+    "welcome": {
+      "eyebrow": "Welcome",
+      "title": "You are welcome at this table",
+      "body": "Whether you have walked with Christ for decades or are stepping into a church for the first time, there is a place for you here. We gather each week to worship together, to pray for one another, and to serve the neighbourhood we call home.",
+      "cta": "About our church",
+      "secondaryCta": "Plan your visit"
+    },
+    "serviceTimings": {
+      "eyebrow": "Join us",
+      "title": "Service Timings",
+      "subtitle": "Come as you are. Every service is open to all.",
+      "cta": "See all services"
+    },
+    "leadership": {
+      "eyebrow": "Our shepherds",
+      "title": "Leadership",
+      "subtitle": "The pastors and committee members who serve this congregation.",
+      "cta": "Meet the full leadership"
+    },
+    "events": {
+      "eyebrow": "What's on",
+      "title": "Upcoming Events",
+      "subtitle": "Gatherings, celebrations and services in the days ahead.",
+      "cta": "View all events",
+      "empty": "No upcoming events have been scheduled yet. Please check back soon."
+    },
+    "announcements": {
+      "eyebrow": "Notice board",
+      "title": "Announcements",
+      "subtitle": "News and notices from the church office.",
+      "cta": "All announcements",
+      "empty": "There are no announcements at this time."
+    },
+    "fellowships": {
+      "eyebrow": "Belong",
+      "title": "Our Fellowships",
+      "subtitle": "Find your people. Every age and season has a place to grow.",
+      "cta": "Explore fellowships"
+    },
+    "gallery": {
+      "eyebrow": "Life together",
+      "title": "Recent Gallery",
+      "subtitle": "Moments from our worship, festivals and outreach.",
+      "cta": "Open the gallery",
+      "empty": "Photo albums will appear here soon."
+    },
+    "pastorMessage": {
+      "eyebrow": "From the Presbyter",
+      "title": "A Message for You",
+      "cta": "Read the full message"
+    },
+    "verse": {
+      "eyebrow": "Verse of the week",
+      "title": "Dwell on this"
+    },
+    "contact": {
+      "eyebrow": "Visit us",
+      "title": "We would love to meet you",
+      "subtitle": "Reach out with a question, a prayer request, or simply to say hello.",
+      "cta": "Contact the church",
+      "directions": "Get directions"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About Our Church",
+      "description": "The history, vision and mission of our congregation, our place within the CSI Diocese, and how to reach us."
+    },
+    "hero": {
+      "eyebrow": "About Church",
+      "title": "Rooted in Christ, serving our city",
+      "subtitle": "A congregation shaped by generations of faithful worship, witness and service."
+    },
+    "history": {
+      "eyebrow": "Our story",
+      "title": "History",
+      "milestonesTitle": "Milestones"
+    },
+    "visionMission": {
+      "eyebrow": "Our calling",
+      "title": "Vision & Mission",
+      "visionTitle": "Vision",
+      "missionTitle": "Mission",
+      "valuesTitle": "Our Values"
+    },
+    "diocese": {
+      "eyebrow": "Our communion",
+      "title": "CSI Diocese",
+      "bishop": "Bishop",
+      "visitSite": "Visit the diocese website"
+    },
+    "serviceTimings": {
+      "eyebrow": "Weekly rhythm",
+      "title": "Service Timings"
+    },
+    "contact": {
+      "eyebrow": "Say hello",
+      "title": "Contact",
+      "cta": "Go to the contact page"
+    }
+  },
+  "leadership": {
+    "meta": {
+      "title": "Leadership",
+      "description": "Meet the presbyters, church committee and staff who serve our congregation."
+    },
+    "hero": {
+      "eyebrow": "Leadership",
+      "title": "Those who serve among us",
+      "subtitle": "Called to shepherd, teach and care for this congregation."
+    },
+    "currentPastors": {
+      "title": "Current Pastors",
+      "subtitle": "Serving the congregation today."
+    },
+    "assistantPastors": {
+      "title": "Associate Presbyters",
+      "subtitle": "Supporting the ministry of word and sacrament."
+    },
+    "committee": {
+      "title": "Church Committee",
+      "subtitle": "Elected members entrusted with the stewardship of the church."
+    },
+    "staff": {
+      "title": "Church Staff",
+      "subtitle": "Those who keep the church and its grounds in good order."
+    },
+    "formerPastors": {
+      "title": "Former Pastors",
+      "subtitle": "With gratitude for those who served before us.",
+      "tenure": "{from} – {to}",
+      "present": "Present"
+    },
+    "card": {
+      "since": "Serving since {year}",
+      "emailLabel": "Email {name}",
+      "phoneLabel": "Call {name}"
+    }
+  },
+  "fellowships": {
+    "meta": {
+      "title": "Fellowships",
+      "description": "Youth, women's, men's, prayer, choir, Sunday school and more — find a fellowship to belong to."
+    },
+    "hero": {
+      "eyebrow": "Fellowships",
+      "title": "Find your people",
+      "subtitle": "Every age and season of life has a place to grow, serve and belong."
+    },
+    "membersLabel": "{count, plural, one {# member} other {# members}}",
+    "meets": "Meets {schedule}",
+    "labels": {
+      "schedule": "Meeting schedule",
+      "members": "Members"
+    },
+    "sections": {
+      "about": "About",
+      "vision": "Vision",
+      "committee": "Committee",
+      "events": "Events",
+      "reports": "Reports & Reflections",
+      "gallery": "Gallery",
+      "announcements": "Announcements",
+      "documents": "Documents",
+      "contact": "Contact"
+    },
+    "atAGlance": "At a glance",
+    "stats": {
+      "members": "Members",
+      "photos": "Photos",
+      "committee": "Committee",
+      "events": "Events",
+      "reports": "Reports"
+    },
+    "empty": {
+      "events": "No events scheduled for this fellowship yet.",
+      "reports": "No reports from this fellowship yet.",
+      "gallery": "Photos from this fellowship will appear here.",
+      "announcements": "No announcements from this fellowship.",
+      "documents": "No documents have been shared yet.",
+      "committee": "Committee details will be published soon."
+    },
+    "contactBlurb": "Want to join or learn more? Reach out to the fellowship coordinator.",
+    "notFound": "We could not find that fellowship."
+  },
+  "events": {
+    "meta": {
+      "title": "Events",
+      "description": "Upcoming and past events, services, festivals and gatherings at our church."
+    },
+    "hero": {
+      "eyebrow": "Events",
+      "title": "Gather with us",
+      "subtitle": "Services, festivals, retreats and celebrations through the year."
+    },
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "featured": "Next gathering",
+    "emptyUpcoming": "No upcoming events have been scheduled yet.",
+    "emptyPast": "Past events will be archived here.",
+    "details": {
+      "when": "When",
+      "where": "Where",
+      "organiser": "Organised by",
+      "addToCalendar": "Add to calendar",
+      "aboutEvent": "About this event"
+    },
+    "status": {
+      "upcoming": "Upcoming",
+      "ongoing": "Happening now",
+      "past": "Past"
+    },
+    "notFound": "We could not find that event."
+  },
+  "blog": {
+    "meta": {
+      "title": "Blogs",
+      "description": "Reports, reflections and testimonies from the life of our church."
+    },
+    "hero": {
+      "eyebrow": "Blogs",
+      "title": "Written from the life of the church",
+      "subtitle": "Reports on our gatherings, reflections from our pastors, and testimonies from the congregation."
+    },
+    "latest": "Latest Posts",
+    "empty": "No posts have been published yet.",
+    "readingTime": "{minutes} min read",
+    "by": "By {author}",
+    "relatedEvent": "About this event",
+    "backToBlog": "All blogs",
+    "notFound": "We could not find that post."
+  },
+  "gallery": {
+    "meta": {
+      "title": "Gallery",
+      "description": "Photo albums from worship services, festivals, fellowship gatherings and outreach."
+    },
+    "hero": {
+      "eyebrow": "Gallery",
+      "title": "Life together, in pictures",
+      "subtitle": "Moments from our worship, festivals, fellowships and outreach."
+    },
+    "albums": "Albums",
+    "empty": "Photo albums will appear here soon.",
+    "lightbox": {
+      "label": "Media viewer",
+      "counter": "{current} of {total}",
+      "previous": "Previous",
+      "next": "Next",
+      "close": "Close viewer",
+      "playVideo": "Play video",
+      "video": "Video"
+    },
+    "notFound": "We could not find that album."
+  },
+  "announcements": {
+    "meta": {
+      "title": "Announcements",
+      "description": "Notices, news and updates from the church office."
+    },
+    "hero": {
+      "eyebrow": "Announcements",
+      "title": "From the church office",
+      "subtitle": "Notices, news and updates for the congregation."
+    },
+    "pinned": "Pinned",
+    "latest": "Latest Announcements",
+    "empty": "There are no announcements at this time.",
+    "postedOn": "Posted {date}"
+  },
+  "downloads": {
+    "meta": {
+      "title": "Downloads",
+      "description": "Weekly bulletins, forms and documents available to download."
+    },
+    "hero": {
+      "eyebrow": "Downloads",
+      "title": "Bulletins, forms & documents",
+      "subtitle": "Everything you need, ready to download."
+    },
+    "categories": {
+      "bulletin": "Bulletins",
+      "form": "Forms",
+      "document": "Documents"
+    },
+    "fileMeta": "{format} · {size}",
+    "empty": "No files are available in this category yet."
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact Us",
+      "description": "Church address, phone, email, service timings and a map to help you find us."
+    },
+    "hero": {
+      "eyebrow": "Contact Us",
+      "title": "We would love to hear from you",
+      "subtitle": "Questions, prayer requests, or a note to say hello — all are welcome."
+    },
+    "details": {
+      "title": "Church Details",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "office": "Office Hours"
+    },
+    "map": {
+      "title": "Find us",
+      "label": "Map showing the location of {name}",
+      "openInMaps": "Open in Google Maps"
+    },
+    "form": {
+      "title": "Send a message",
+      "subtitle": "We usually respond within two working days.",
+      "name": "Your name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "Optional",
+      "subject": "Subject",
+      "subjectPlaceholder": "What is this about?",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here",
+      "submit": "Send message",
+      "submitting": "Sending…",
+      "required": "Required",
+      "optional": "Optional",
+      "success": "Thank you. Your message has been received and we will be in touch soon.",
+      "error": "Something went wrong. Please try again, or call the church office.",
+      "notConnected": "The contact form is not connected to a mail service yet.",
+      "errors": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid email address.",
+        "subject": "Please enter a subject.",
+        "message": "Please enter a message of at least 10 characters."
+      }
+    }
+  },
+  "serviceTimings": {
+    "day": "Day",
+    "time": "Time",
+    "service": "Service",
+    "language": "Language",
+    "venue": "Venue"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "The page you are looking for may have moved, or never existed.",
+    "cta": "Return home"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "subtitle": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  }
+}

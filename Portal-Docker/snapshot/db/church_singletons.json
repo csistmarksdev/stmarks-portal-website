@@ -1,0 +1,430 @@
+[
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eac"
+    },
+    "key": "profile",
+    "data": {
+      "name": {
+        "en": "CSI St. Mark's Church, Madipakkam",
+        "ta": "சி.எஸ்.ஐ புனித மாற்கு ஆலயம், மடிப்பாக்கம்"
+      },
+      "address": {
+        "lines": {
+          "en": "St. Mark's Street, Madipakkam",
+          "ta": "புனித மாற்கு தெரு, மடிப்பாக்கம்"
+        },
+        "city": {
+          "en": "Chennai",
+          "ta": "சென்னை"
+        },
+        "state": {
+          "en": "Tamil Nadu",
+          "ta": "தமிழ்நாடு"
+        },
+        "postalCode": "600091",
+        "country": {
+          "en": "India",
+          "ta": "இந்தியா"
+        },
+        "mapsUrl": "https://maps.google.com/?q=Madipakkam+Chennai",
+        "embedUrl": "https://www.google.com/maps/embed?pb=",
+        "latitude": {
+          "$numberDouble": "12.9622"
+        },
+        "longitude": {
+          "$numberDouble": "80.1987"
+        }
+      },
+      "phone": [
+        "+91 44 0000 0000"
+      ],
+      "email": [
+        "office@csistmarksmadipakkam.org"
+      ],
+      "officeHours": {
+        "en": "Mon–Sat, 9:00 AM – 5:00 PM",
+        "ta": "திங்கள்–சனி, காலை 9:00 – மாலை 5:00"
+      },
+      "socials": [
+        {
+          "platform": "youtube",
+          "url": "https://youtube.com/@example"
+        }
+      ]
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105011"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784827334465"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eaf"
+    },
+    "key": "service-timings",
+    "data": [
+      {
+        "id": "c694c974-029b-400c-8efc-9a6be33ef0ad",
+        "day": {
+          "en": "Sunday",
+          "ta": "ஞாயிறு"
+        },
+        "time": {
+          "en": "6:00 AM",
+          "ta": "காலை 6:00"
+        },
+        "service": {
+          "en": "Holy Communion",
+          "ta": "திருவிருந்து ஆராதனை"
+        },
+        "venue": {
+          "en": "Main Sanctuary",
+          "ta": "பிரதான ஆலயம்"
+        }
+      },
+      {
+        "id": "10842fd6-6103-4c14-b0ee-9b21be8f27e8",
+        "day": {
+          "en": "Sunday",
+          "ta": "ஞாயிறு"
+        },
+        "time": {
+          "en": "8:00 AM",
+          "ta": "காலை 8:00"
+        },
+        "service": {
+          "en": "Morning Worship",
+          "ta": "காலை ஆராதனை"
+        },
+        "venue": {
+          "en": "Main Sanctuary",
+          "ta": "பிரதான ஆலயம்"
+        }
+      },
+      {
+        "id": "4090fc61-649a-4f44-b837-ac5cb3b69caa",
+        "day": {
+          "en": "Sunday",
+          "ta": "ஞாயிறு"
+        },
+        "time": {
+          "en": "9:00 AM",
+          "ta": "காலை 9:00"
+        },
+        "service": {
+          "en": "Sunday School",
+          "ta": "ஞாயிறு பள்ளி"
+        },
+        "venue": {
+          "en": "Parish Hall",
+          "ta": "சபை மண்டபம்"
+        }
+      },
+      {
+        "id": "e66bcfb6-950a-4d01-a75c-0d74197cb74a",
+        "day": {
+          "en": "Wednesday",
+          "ta": "புதன்"
+        },
+        "time": {
+          "en": "6:30 PM",
+          "ta": "மாலை 6:30"
+        },
+        "service": {
+          "en": "Prayer Meeting",
+          "ta": "ஜெபக் கூட்டம்"
+        },
+        "venue": {
+          "en": "Prayer Hall",
+          "ta": "ஜெப மண்டபம்"
+        }
+      },
+      {
+        "id": "16e68f9f-c3bf-4205-920d-83af26b486c6",
+        "day": {
+          "en": "Friday",
+          "ta": "வெள்ளி"
+        },
+        "time": {
+          "en": "6:30 PM",
+          "ta": "மாலை 6:30"
+        },
+        "service": {
+          "en": "Bible Study",
+          "ta": "வேதாகம வகுப்பு"
+        },
+        "venue": {
+          "en": "Parish Hall",
+          "ta": "சபை மண்டபம்"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105019"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1785075792272"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eb2"
+    },
+    "key": "history",
+    "data": {
+      "intro": {
+        "en": "Intro paragraph.",
+        "ta": "அறிமுக பத்தி."
+      },
+      "body": [
+        {
+          "en": "History body.",
+          "ta": "வரலாறு."
+        }
+      ],
+      "milestones": [
+        {
+          "id": "d6597158-eff9-4b97-bc1b-d055735f169d",
+          "year": "1978",
+          "title": {
+            "en": "Founded",
+            "ta": "நிறுவப்பட்டது"
+          },
+          "description": {
+            "en": "The congregation began.",
+            "ta": "சபை தொடங்கியது."
+          }
+        }
+      ],
+      "image": null
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105025"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784827334811"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eb5"
+    },
+    "key": "vision-mission",
+    "data": {
+      "vision": {
+        "en": "Vision text.",
+        "ta": "நோக்கு."
+      },
+      "mission": {
+        "en": "Mission text.",
+        "ta": "பணி."
+      },
+      "values": [
+        {
+          "id": "cb9d6701-22ab-4aeb-98cc-87e34b9b639a",
+          "title": {
+            "en": "Faith",
+            "ta": "விசுவாசம்"
+          },
+          "description": {
+            "en": "Rooted in the Word.",
+            "ta": "வார்த்தையில் வேரூன்றியது."
+          }
+        }
+      ]
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105033"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784827334969"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eb8"
+    },
+    "key": "diocese",
+    "data": {
+      "name": {
+        "en": "CSI Diocese of Madras",
+        "ta": "சி.எஸ்.ஐ சென்னை திருமண்டலம்"
+      },
+      "description": [
+        {
+          "en": "About the diocese.",
+          "ta": "திருமண்டலம் பற்றி."
+        }
+      ],
+      "bishop": {
+        "en": "The Rt. Rev. Bishop",
+        "ta": "பேராயர்"
+      },
+      "websiteUrl": "https://www.csimadrasdiocese.org",
+      "image": null
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105038"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784827335138"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58ebb"
+    },
+    "key": "pastor-message",
+    "data": {
+      "authorName": {
+        "en": "Rev. V. Pavun Sangeetha",
+        "ta": "பணி. வி. பவுன் சங்கீதா"
+      },
+      "authorRole": {
+        "en": "Presbyter-in-charge",
+        "ta": "பொறுப்பு போதகர்"
+      },
+      "authorImage": null,
+      "excerpt": {
+        "en": "Whoever you are, and whatever you carry with you today, there is room for you at this table.",
+        "ta": "நீங்கள் யாராக இருந்தாலும், இன்று எதைச் சுமந்து வந்தாலும், இந்தப் பந்தியில் உங்களுக்கு இடம் உண்டு."
+      },
+      "body": [
+        {
+          "en": "Dear friends, a church is not a building of stone and mortar but a people gathered by grace. Every week I watch this congregation live that out — in the hands raised in worship, in meals shared after service, in quiet prayers whispered for one another.",
+          "ta": "அன்பு நண்பர்களே, திருச்சபை என்பது கல்லும் சுண்ணாம்பும் கொண்ட கட்டிடம் அல்ல, கிருபையால் ஒன்றுசேர்க்கப்பட்ட மக்கள். ஒவ்வொரு வாரமும் இந்தச் சபை அதை வாழ்ந்து காட்டுவதை நான் காண்கிறேன் — ஆராதனையில் உயர்த்தப்படும் கரங்களில், ஆராதனைக்குப் பின் பகிரப்படும் உணவில், ஒருவருக்காக ஒருவர் மெல்லிய குரலில் செய்யும் ஜெபங்களில்."
+        },
+        {
+          "en": "If you are searching, grieving, celebrating or simply curious, I invite you to come and sit with us. You will not be asked to be anyone other than yourself.",
+          "ta": "நீங்கள் தேடுபவராக, துக்கப்படுபவராக, கொண்டாடுபவராக, அல்லது வெறுமனே ஆர்வமுள்ளவராக இருந்தால், வந்து எங்களுடன் அமருமாறு அழைக்கிறேன். நீங்கள் நீங்களாக இல்லாமல் வேறு யாராகவும் இருக்கும்படி கேட்கப்பட மாட்டீர்கள்."
+        }
+      ]
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105046"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1785075792296"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58ebe"
+    },
+    "key": "weekly-verse",
+    "data": {
+      "reference": {
+        "en": "John 3:16",
+        "ta": "யோவான் 3:16"
+      },
+      "text": {
+        "en": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+        "ta": "தேவன், தம்மின் விசுவாசமாய் இருக்கிற எவனும் கெட்டுப்போகாமல் நித்திய ஜீவனைப் அடையும்படிக்கு, தம்முடைய ஒரேபேறான குமாரனைத் தந்தருளி, இவ்வளவாய் உலகத்தில் அன்பு கூர்ந்தார்."
+      },
+      "weekOf": "2026-07-26"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105053"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1785171029817"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58ec1"
+    },
+    "key": "hero-slides",
+    "data": {
+      "about": [
+        {
+          "url": "{{MEDIA}}/images/placeholder.jpg",
+          "alt": {
+            "en": "Sample image",
+            "ta": "மாதிரி படம்"
+          },
+          "width": {
+            "$numberInt": "1600"
+          },
+          "height": {
+            "$numberInt": "900"
+          },
+          "blurDataURL": null
+        }
+      ],
+      "leadership": [],
+      "fellowships": [],
+      "events": [],
+      "blog": [],
+      "gallery": [],
+      "announcements": [],
+      "downloads": [],
+      "contact": []
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105059"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784827335576"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

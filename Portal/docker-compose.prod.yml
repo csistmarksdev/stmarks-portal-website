@@ -1,0 +1,74 @@
+# CSI St. Mark's Portal — production stack.
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Two containers: the database, and one image running both the API and the CMS.
+# Every value below that decides whether the deployment is safe is required —
+# `${VAR:?message}` makes compose refuse to start and name what is missing,
+# rather than falling back to a default that ships to the internet.
+#
+# Put the values in a `.env` file beside this one. Generate the secrets with:
+#   openssl rand -base64 48
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    # Deliberately not published: `portal` reaches it over the compose network
+    # by service name. Publishing 27017 puts the whole content store on the
+    # host's interfaces.
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      CMS_PORT: 3001
+      API_PREFIX: v1
+      MONGODB_URI: mongodb://mongo:27017/csistmc-portal
+
+      # The origin browsers use to reach the API. Baked into stored media URLs,
+      # so it outlives the process that wrote it — a wrong value here persists.
+      PUBLIC_URL: ${PUBLIC_URL:?public API origin, e.g. https://api.example.org}
+
+      # Origins allowed to call the API: the CMS, and the public website.
+      CORS_ORIGINS: ${CORS_ORIGINS:?comma-separated origins}
+      CORS_ALLOW_PRIVATE_NETWORK: "false"
+
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?openssl rand -base64 48}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?openssl rand -base64 48}
+
+      # Used once, on first boot, to create the administrator.
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:?choose a real password}
+      SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-Portal Administrator}
+
+      # Without these, publishing in the CMS never refreshes the website.
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+    volumes:
+      # Uploaded media must outlive the container. The initial demo images are
+      # copied in here on first boot and are then ordinary files the church can
+      # replace through the CMS.
+      - uploads:/app/backend/uploads
+    ports:
+      - "4000:4000" # API
+      - "3001:3001" # CMS
+
+volumes:
+  mongo-data:
+  uploads:

@@ -1,0 +1,34 @@
+[
+  {
+    "_id": {
+      "$oid": "6a622da1ad952d26e9d58eca"
+    },
+    "slug": "rev-presbyter",
+    "status": "published",
+    "name": {
+      "en": "Rev. Presbyter",
+      "ta": "போதகர்"
+    },
+    "role": "pastor",
+    "designation": {
+      "en": "Presbyter-in-charge",
+      "ta": "பொறுப்பு போதகர்"
+    },
+    "order": {
+      "$numberInt": "1"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784819105086"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784819105086"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

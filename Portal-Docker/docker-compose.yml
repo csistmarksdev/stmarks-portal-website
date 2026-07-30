@@ -1,0 +1,71 @@
+# CSI St. Mark's Portal — the whole thing, one container.
+#
+#   docker compose up -d --build
+#   open http://localhost:8080
+#
+# There is no database service here and that is the point: the image carries its
+# own MongoDB and a snapshot of the church's content, media and accounts, so
+# this comes up as a working portal on a machine that has never seen it before.
+#
+# Nothing is required. Every value below has a working default; the ones worth
+# setting are marked. Put overrides in a `.env` file beside this one.
+#
+# For a deployment backed by a database of its own instead, see
+# docker-compose.prod.yml.
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: csistmarkscmsportal:latest
+    restart: unless-stopped
+
+    environment:
+      # The one public port. Change it here and in `ports` together.
+      PORT: 8080
+
+      # The origin browsers use. Leave unset and the container detects it from
+      # the hosting platform, falling back to localhost — media URLs are
+      # rewritten to the requesting origin on every response either way, so this
+      # is a nicety rather than a requirement. Set it once you have a domain.
+      PUBLIC_URL: ${PUBLIC_URL:-}
+
+      # Defaults to "*" so the portal answers from any hostname it is reached
+      # on. Narrow it to real origins once the domain is settled.
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+
+      # Generated on first boot and kept in the volume when unset. Set them to
+      # keep sessions alive across a volume reset, or to share them with the
+      # website. `openssl rand -base64 48`
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-}
+
+      # Without these, publishing in the CMS never refreshes the public website.
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+
+    ports:
+      - "${PORT:-8080}:8080"
+
+    volumes:
+      # The database, uploaded media and generated secrets. Without this the
+      # container still runs, and resets to the baked-in snapshot every time it
+      # is recreated — fine for a demo, not for the church's actual portal.
+      - portal-data:/data
+      - portal-uploads:/app/backend/uploads
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 5
+
+volumes:
+  portal-data:
+  portal-uploads:
