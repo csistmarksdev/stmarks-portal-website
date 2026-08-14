@@ -1,18 +1,18 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_GUARD } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 import configuration from "./config/configuration";
 import { JwtAuthGuard } from "./common/guards/jwt-auth.guard";
 import { PermissionsGuard } from "./common/guards/permissions.guard";
-import { MediaOriginInterceptor } from "./common/interceptors/media-origin.interceptor";
 import { AnnouncementsModule } from "./modules/announcements/announcements.module";
 import { AuditModule } from "./modules/audit/audit.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { BackupModule } from "./modules/backup/backup.module";
 import { BlogModule } from "./modules/blog/blog.module";
 import { ChurchModule } from "./modules/church/church.module";
 import { ContactModule } from "./modules/contact/contact.module";
@@ -42,7 +42,7 @@ import { UsersModule } from "./modules/users/users.module";
       inject: [ConfigService],
       useFactory: (config: ConfigService) => [
         {
-          rootPath: join(process.cwd(), config.get<string>("uploadDir", "uploads")),
+          rootPath: resolve(process.cwd(), config.get<string>("uploadDir", "uploads")),
           serveRoot: "/uploads",
           serveStaticOptions: { index: false, fallthrough: false },
         },
@@ -63,19 +63,12 @@ import { UsersModule } from "./modules/users/users.module";
     ChurchModule,
     ContactModule,
     DashboardModule,
+    BackupModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: PermissionsGuard },
-    /*
-     * Stored media URLs carry whichever origin was current when the file was
-     * uploaded. This repoints them at the origin each request actually used,
-     * so one image serves localhost, a LAN address and a public domain without
-     * reconfiguration. See the interceptor for why that is worth a pass over
-     * every response body.
-     */
-    { provide: APP_INTERCEPTOR, useClass: MediaOriginInterceptor },
   ],
 })
 export class AppModule {}

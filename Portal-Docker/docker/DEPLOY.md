@@ -29,19 +29,34 @@ administrator account. Nothing to provision, nothing to configure.
 
 ## Building the image
 
-The build machine needs Docker and about 2 GB of free RAM. It does **not** need
-Node, MongoDB, or any of the project's dependencies — everything is compiled
-inside the build stage.
+The build machine needs Docker, Node 20+, and about 2 GB of free RAM. MongoDB is
+not needed — the image brings its own.
+
+Node is on that list because the application is compiled **outside** the
+container: `./scripts/build-image.sh` produces `dist-portal/` on this machine
+and the Dockerfile copies it in, compiling nothing. That is what keeps the image
+build cheap enough for a small host. Dependencies install themselves on the
+first run.
 
 ```bash
 cd Portal-Docker
 ./scripts/build-image.sh
 ```
 
+Two ways to build without Node on this machine:
+
+```bash
+# the bundle was compiled elsewhere and copied here — Docker only, ~1 minute
+./scripts/build-image.sh --use-dist-portal
+
+# compile inside the image instead — Docker only, and the slow path
+./scripts/build-image.sh --from-source
+```
+
 For a registry, and both architectures:
 
 ```bash
-./scripts/build-image.sh --multi-arch --push YOUR_DOCKERHUB_USER/csistmarkscmsportal:1.0
+./scripts/build-image.sh --multi-arch --push YOUR_DOCKERHUB_USER/csistmarkscmsportal:1.5
 ```
 
 `--multi-arch` builds `linux/amd64` and `linux/arm64`. The non-native one runs
@@ -87,6 +102,19 @@ It reads `MONGODB_URI` from `backend/.env`, and captures:
 - **`_id` preserved**, because documents reference each other by id
 - **every file** under `backend/uploads`, not only the referenced ones
 - **canonical Extended JSON**, so `Date` and `ObjectId` survive the round trip
+
+Then check it before building anything from it:
+
+```bash
+node scripts/verify-snapshot.mjs        # or: npm run verify:snapshot
+```
+
+The documents come from the database and the media comes from `backend/uploads`,
+which are two different places that are only assumed to agree. This cross-checks
+them — every `media` record's file and every `{{MEDIA}}` reference must exist —
+and refuses a snapshot pinned to the capture host's own address. A missing file
+found here is one re-capture away from fixed; found later, the original may be
+gone.
 
 Then rebuild the image.
 
@@ -304,20 +332,59 @@ as root.
 
 ## Platform guides
 
-Every one of these is the same image with no changes.
+Every one of these is the same image with no changes. If it is not in the
+matrix below, it still works — the container is a standard Linux image that
+takes one port, two optional volumes and some environment variables.
 
-### ZimaOS / CasaOS / any Docker host
+| Where | Deploy as | Persists | Notes |
+|---|---|---|---|
+| Ubuntu / ZimaOS / CasaOS / any Docker host | `docker run` or the compose files | `/data` + `/app/backend/uploads` | the full experience, bundled MongoDB |
+| Render | Web Service → Existing image | disk at `/data` | `RENDER_EXTERNAL_URL` detected |
+| Railway | image, or the repo `Dockerfile` | volume at `/data` | `PORT` + `RAILWAY_PUBLIC_DOMAIN` detected |
+| Heroku | `heroku container:push web` | none — use `MONGODB_URI` | dyno filesystem is ephemeral |
+| Fly.io / Azure / AWS / GCP | image + platform volume at `/data` | `/data` | origins auto-detected |
+| Netlify | — | — | not applicable, see below |
+
+Render, Railway, Fly and Heroku each read a configuration file from the
+repository root, and one is written for each of them in
+[`../deploy/`](../deploy/README.md) — `render.yaml`, `railway.toml`, `fly.toml`,
+`heroku.yml` + `app.json`. Copy the one you need to the root and the platform
+picks it up; the sections below are what those files do, in prose.
+
+### ZimaOS / CasaOS / Ubuntu / any Docker host
+
+```bash
+docker compose -f docker-compose.universal.yml up -d
+```
+
+That file is written to survive every compose parser: no `${VAR}` substitution,
+no profiles, no `version:` key, no host paths, both halves of the port written
+out. It pastes into Portainer, Dockge, Synology Container Manager, Coolify and
+the ZimaOS custom-app import unchanged, and `podman compose` reads it too.
+
+On a ZimaOS or CasaOS box, `docker-compose.zimaos.yml` is the better import: it
+is the same container with its storage under `/DATA/AppData/portal/`, so the
+database and the parish's photographs appear in the file manager and can be
+copied to a USB disk like anything else on the machine.
+
+Without compose at all:
 
 ```bash
 docker run -d --name portal --restart unless-stopped \
   -p 8080:8080 \
   -v portal-data:/data \
   -v portal-uploads:/app/backend/uploads \
+  --stop-timeout 30 \
   csistmarkscmsportal
 ```
 
-In the ZimaOS UI: add a custom app, image `csistmarkscmsportal`, port `8080`, and two
-volumes at `/data` and `/app/backend/uploads`.
+`--stop-timeout 30` matters more than it looks: on stop, the entrypoint shuts
+the API and CMS down first and lets `mongod` finish a few seconds later so its
+files close cleanly. Docker's 10-second default kills the container in the
+middle of that, and the next boot runs WiredTiger recovery instead.
+
+On Ubuntu (or any Linux with Docker), the same one-liner works — Docker, Podman
+or any OCI runtime, no Node, npm or MongoDB install needed on the host.
 
 ### Render
 
@@ -329,8 +396,11 @@ deploy.
 
 ### Railway
 
-Deploy from image. Railway injects `PORT` and `RAILWAY_PUBLIC_DOMAIN`; both are
-picked up. Add a volume at `/data` to persist.
+Deploy from the published image, or from the repo's `Dockerfile` directly.
+Railway injects `PORT` and `RAILWAY_PUBLIC_DOMAIN`; both are picked up. Add a
+volume mounted at `/data` (Settings → Volumes) so MongoDB and the generated
+secrets survive restarts, and set `UPLOAD_DIR=/data/uploads` so uploaded media
+lives inside that same volume. Set the healthcheck path to `/v1/health`.
 
 ### Fly.io
 
@@ -359,6 +429,33 @@ deployment or move to ECS with EFS mounted at `/data`.
 Cloud Run's filesystem is in-memory and its instances are recycled aggressively,
 which suits the bundled database badly. Use an external database
 (`MONGODB_URI`) there.
+
+### Heroku
+
+Heroku's dyno filesystem is ephemeral and cannot hold a volume, so the bundled
+MongoDB has nowhere to persist. Use an external database there (`MONGODB_URI`,
+see below); every restart then re-restores the snapshot only where empty.
+
+```bash
+heroku container:login
+heroku container:push web --app <app>
+heroku container:release web --app <app>
+heroku config:set MONGODB_URI="mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal" --app <app>
+```
+
+Heroku injects `PORT` and terminates TLS at its router, forwarding
+`X-Forwarded-Proto` / `X-Forwarded-Host`, so the public origin is detected and
+no `PUBLIC_URL` is needed. The healthcheck path is `/v1/health`. Give the dyno
+a few seconds past the first-boot restore before curling it.
+
+### Netlify
+
+Not supported, and not needed. Netlify serves static sites; the Portal is a
+long-running server — an API, an admin CMS and a MongoDB process — so there is
+no static export that behaves like it. The CMS already serves the site's own
+frontend at the same address as the API, so a static host adds nothing here.
+Point the public website at the Portal's `/v1` endpoints instead (see
+`DEPLOY-AND-TEST.md`).
 
 ---
 
@@ -392,6 +489,38 @@ place to keep a parish's records.
 Check `docker logs portal` for the restore lines. If media was installed but
 images 404, the uploads volume was mounted over a directory that had already
 been populated by an earlier boot — remove the volume and restart.
+
+**Images work on the machine running Docker, and are broken from every other
+machine.**
+The give-away is that the API returns 200, the files are on disk, and the CMS
+shows blank tiles with alt text only when opened from a laptop or phone. Ask the
+API what origin it is handing out:
+
+```bash
+curl -s http://<host>:8080/v1/gallery | grep -o 'http[^"]*uploads[^"]*' | head -3
+```
+
+If those come back as `http://localhost:8080/uploads/…`, the browser is being
+told to fetch the church's photographs from *its own* computer. Media URLs are
+absolute and are built from `PUBLIC_URL`, which defaults to `localhost` when
+nothing is configured; `MediaOriginInterceptor` is what rewrites them to the
+origin each request actually arrived on, and it must be registered for that to
+happen (`configureApp`, in `backend/src/configure-app.ts`). Images from **1.5**
+onwards do this; earlier ones need `PUBLIC_URL` set explicitly to the address
+people will use:
+
+```yaml
+environment:
+  PUBLIC_URL: http://10.0.0.5:8080     # or https://portal.example.org
+```
+
+Verify a fix without a browser — ask for a hostname the portal has never been
+reached on and check the answer follows it:
+
+```bash
+curl -s -H 'X-Forwarded-Host: anything.test' http://<host>:8080/v1/gallery \
+  | grep -o 'http[^"]*uploads[^"]*' | head -3
+```
 
 **"Refusing to start: N unsafe production setting(s)."**
 The API's own guard. It should not trigger on this image, which generates its

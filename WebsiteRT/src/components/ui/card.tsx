@@ -4,35 +4,35 @@ import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Card surface — the sanctuary "leaf".
+ * Card surface — a mounted sheet.
  *
- * Where the old card was a crisp editorial plate, a leaf is a warm, softly
- * rounded sheet resting in sanctuary light: a generous radius, a hairline frame
- * that warms to gilding as the surface lifts, and the layered `--shadow-
- * sanctuary` so it sits on the parchment rather than floating flatly above it.
+ * The generous corner is the site's own and is kept. What changed is what the
+ * corner contains: the frame carries the card now, not the shadow. The hover
+ * used to raise the sheet a centimetre off the page and light a gold bloom
+ * beneath it — the picture-of-an-app move. Now it rises a few pixels, the
+ * frame draws in, and the shade deepens honestly.
  *
  * `group/card` is declared here so children can react to a hover anywhere on
  * the card (media zoom, arrow nudge, keyline) without each card re-declaring a
  * group and colliding with the nested groups some of them already use.
  */
 const cardVariants = cva(
-  "group/card relative rounded-[var(--radius-sanctuary)] transition-all duration-500 ease-[var(--ease-out-expo)]",
+  "group/card relative rounded-card transition-all duration-500 ease-[var(--ease-out-expo)]",
   {
     variants: {
       variant: {
-        /* A warm sheet lit by the layered sanctuary shadow — the default leaf
-           the whole site is set on. */
-        solid: "bg-[var(--surface)] ring-1 ring-sand-200/70 shadow-sanctuary",
-        muted: "bg-[var(--surface-muted)] ring-1 ring-sand-200/60",
+        /* A white sheet inside a hairline frame — the default the site is set on. */
+        solid: "bg-[var(--surface)] ring-1 ring-[var(--border)] shadow-card",
+        muted: "bg-[var(--surface-muted)] ring-1 ring-[var(--border)]",
         outline: "bg-transparent ring-1 ring-sand-300",
         glass: "glass ring-1 ring-white/25",
-        /* Inverted leaf for the occasional emphasis card. */
-        dark: "bg-sand-950 text-white ring-1 ring-white/10 shadow-sanctuary",
+        /* Inverted sheet for the occasional emphasis card. */
+        dark: "bg-sand-950 text-white ring-1 ring-white/10",
       },
       interactive: {
-        /* Lifts, deepens its shade with a faint gilded bloom, and warms its
-           frame to gold — so the whole surface reads as the control. */
-        true: "hover:-translate-y-1.5 hover:shadow-sanctuary-hover hover:ring-accent-300/70",
+        /* A small rise, a drawn-in frame, a deeper shade: the whole surface
+           reads as the control without the card taking off. */
+        true: "hover:-translate-y-1 hover:shadow-card-hover hover:ring-sand-300",
         false: "",
       },
       padded: {
@@ -99,11 +99,19 @@ export function CardMedia({
     <div
       className={cn(
         "relative shrink-0 overflow-hidden bg-sand-200",
-        arch
-          ? "window-arch"
-          : "rounded-t-[var(--radius-sanctuary)]",
+        arch ? "window-arch" : "rounded-t-card",
         "[&_img]:object-cover [&_img]:transition-transform [&_img]:duration-[900ms] [&_img]:ease-[var(--ease-out-expo)]",
         "group-hover/card:[&_img]:scale-[1.05]",
+        /*
+         * The mount line.
+         *
+         * A hairline of the ink at four per cent, drawn just inside the edge of
+         * the well. It is the line a framer leaves where the mount meets the
+         * print, and it does one real job: a photograph whose corner happens to
+         * be pale no longer bleeds into the white of the card, so every image
+         * on the page sits in a frame of the same weight whatever is in it.
+         */
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-inset after:ring-sand-950/[0.06] after:content-['']",
         ratios[ratio],
         className,
       )}
@@ -162,7 +170,7 @@ export function CardFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "mt-auto flex items-center gap-3 border-t border-sand-200/80 pt-5",
+        "mt-auto flex items-center gap-3 border-t border-[var(--border)] pt-5",
         className,
       )}
       {...props}
@@ -200,7 +208,7 @@ export function CardAction({
     <span
       aria-hidden
       className={cn(
-        "label inline-flex items-center gap-2 text-accent-700 transition-colors duration-300 group-hover/card:text-accent-600",
+        "label inline-flex items-center gap-2 text-[var(--muted-foreground)] transition-colors duration-300 group-hover/card:text-accent-600",
         "[&_svg]:size-4 [&_svg]:transition-transform [&_svg]:duration-300 [&_svg]:ease-[var(--ease-out-expo)]",
         "group-hover/card:[&_svg]:translate-x-1",
         className,

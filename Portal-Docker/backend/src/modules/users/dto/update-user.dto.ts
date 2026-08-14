@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
-import { IsString, MinLength } from "class-validator";
+import { IsString, MaxLength, MinLength } from "class-validator";
 
 import { CreateUserDto } from "./create-user.dto";
 
@@ -9,8 +9,10 @@ export class UpdateUserDto extends PartialType(
 ) {}
 
 export class ChangePasswordDto {
-  @ApiProperty({ minLength: 8 })
+  /** Same floor as everywhere else — see `CreateUserDto`. */
+  @ApiProperty({ minLength: 12, maxLength: 200 })
   @IsString()
-  @MinLength(8)
+  @MinLength(12)
+  @MaxLength(200)
   password: string;
 }

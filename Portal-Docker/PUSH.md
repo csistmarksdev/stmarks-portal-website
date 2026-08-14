@@ -14,10 +14,26 @@ Image name: **`csistmarkscmsportal`**
 
 ```bash
 docker --version          # 20.10+
+node --version            # 20+ — this VM compiles the application, not the image
 docker buildx version     # only needed for --multi-arch
 free -m                   # want ~2 GB free for the Next.js compile
 df -h /var/lib/docker      # want ~5 GB free
 ```
+
+Node is on that list because the build happens **outside** the container: the
+application is compiled here into `dist-portal/`, and the image copies it in.
+That is what keeps the image build cheap enough for a small machine. If this VM
+has no Node:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+`node_modules/` does **not** need to be copied across — nobody should, it is
+hundreds of megabytes of the wrong platform's binaries. The first build installs
+dependencies itself, which needs a few minutes and outbound access to the npm
+registry. Every build after that skips the step.
 
 If `docker` needs `sudo` every time:
 
@@ -43,7 +59,7 @@ silently skip it:
 cd ~/Portal-Docker
 ls snapshot/db | wc -l          # expect 13  (12 collections + _manifest.json)
 du -sh snapshot/uploads         # expect ~15M
-cat snapshot/db/_manifest.json  # 567 documents, 261 uploads
+cat snapshot/db/_manifest.json  # 577 documents, 376 uploads
 ```
 
 ---
@@ -55,19 +71,47 @@ cd ~/Portal-Docker
 ./scripts/build-image.sh
 ```
 
-First build: 4–8 minutes. Later builds: under a minute, because the dependency
-layer is cached until `package-lock.json` changes.
+First build on a fresh machine: 6–12 minutes, most of it the one-off `npm ci`
+and the Next.js compile. Later builds: a couple of minutes, and under a minute
+with `--use-dist-portal` when only the packaging changed.
 
-Plain equivalent, if you prefer:
+### If this VM has no Node — or you would rather not compile on it
+
+Compile on a machine that has Node, copy the resulting folder across, and this
+VM turns it into an image with Docker alone:
 
 ```bash
+# where the source and Node are
+node scripts/build-production-bundle.mjs
+rsync -a dist-portal/ jero@vm:~/Portal-Docker/dist-portal/     # ~155 MB
+
+# on the VM: Docker only, no Node, no npm, no node_modules
+cd ~/Portal-Docker
+./scripts/build-image.sh --use-dist-portal
+```
+
+About a minute, and it is the same image byte for byte. The bundle carries its
+own copy of the snapshot, so the VM does not need `snapshot/` either.
+
+One rule: the bundle must target the architecture of the image being built —
+`TARGET_CPU=arm64` for an ARM host. The preflight and the image's own
+verification both refuse a mismatch rather than producing something that builds,
+starts, and dies on the first uploaded photograph.
+
+Plain equivalent, if you prefer — the first line is not optional, because
+`Dockerfile` copies `dist-portal/` and compiles nothing:
+
+```bash
+node scripts/build-production-bundle.mjs
 docker build -t csistmarkscmsportal:latest .
 ```
 
-The script adds two things: it refuses to build without `snapshot/` (which would
-produce an image that runs and shows an empty portal — a bug that looks like a
-code problem and is actually a missing file), and it prints what the snapshot
-contains.
+The script adds three things: it refuses to build without `snapshot/` (which
+would produce an image that runs and shows an empty portal — a bug that looks
+like a code problem and is actually a missing file), it prints what the snapshot
+contains, and it runs `scripts/preflight-image.mjs` so a bundle built for the
+wrong architecture is caught before the daemon is touched rather than two
+minutes into the build.
 
 Check the result:
 
@@ -93,8 +137,8 @@ Expected on a **first** boot, in about 20–30 seconds:
 [portal] starting bundled MongoDB (data: /data/db)
 [portal] bundled MongoDB ready
 [portal] restoring snapshot…
-✓ Media: 261 installed, 0 already present
-· Snapshot captured 2026-07-27T17:46:27.946Z
+✓ Media: 376 installed, 0 already present
+· Snapshot captured 2026-08-13T12:46:24.348Z
 ✓ announcements: restored 6 document(s)
 ✓ audit_logs: restored 425 document(s)
 ✓ blog_posts: restored 10 document(s)
@@ -132,7 +176,7 @@ That is intended — see [DEPLOY.md](docker/DEPLOY.md#cors--open-to-everything-b
 
 On a **second** boot, the restore finds every collection populated and prints
 `· Database already populated (11 collection(s) left untouched)` with
-`Media: 0 installed, 261 already present`. Nothing is overwritten.
+`Media: 0 installed, 376 already present`. Nothing is overwritten.
 
 Then run every check at once:
 
@@ -242,14 +286,14 @@ more than usual here: `docker login` writes the credential to
 ### Tag and push
 
 ```bash
-docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:1.0
+docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:1.5
 docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:latest
 
-docker push $DH_USER/csistmarkscmsportal:1.0
+docker push $DH_USER/csistmarkscmsportal:1.5
 docker push $DH_USER/csistmarkscmsportal:latest
 ```
 
-Two tags on purpose. `1.0` is the one to deploy — it never moves, so a host that
+Two tags on purpose. `1.5` is the one to deploy — it never moves, so a host that
 restarts gets the image you tested. `latest` is a convenience pointer that will
 be reassigned by the next push; deploying from it means a restart can silently
 change what runs.
@@ -258,7 +302,7 @@ change what runs.
 
 ```bash
 docker logout
-docker manifest inspect $DH_USER/csistmarkscmsportal:1.0 2>&1 | head -3
+docker manifest inspect $DH_USER/csistmarkscmsportal:1.5 2>&1 | head -3
 ```
 
 You want this to **fail** with `unauthorized` or `denied`. If it prints a
@@ -286,7 +330,7 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 Then:
 
 ```bash
-./scripts/build-image.sh --multi-arch --push $DH_USER/csistmarkscmsportal:1.0
+./scripts/build-image.sh --multi-arch --push $DH_USER/csistmarkscmsportal:1.5
 ```
 
 The non-native half runs under QEMU emulation — expect 15–25 minutes rather than
@@ -315,13 +359,13 @@ only deploy from a registry.
 ```bash
 # The image is private, so the target must authenticate too.
 echo "$DH_TOKEN" | docker login -u "$DH_USER" --password-stdin
-docker pull $DH_USER/csistmarkscmsportal:1.0
+docker pull $DH_USER/csistmarkscmsportal:1.5
 
 docker run -d --name portal --restart unless-stopped \
   -p 8080:8080 \
   -v portal-data:/data \
   -v portal-uploads:/app/backend/uploads \
-  $DH_USER/csistmarkscmsportal:1.0
+  $DH_USER/csistmarkscmsportal:1.5
 ```
 
 On a hosting platform rather than a shell, the same credentials go in whatever
@@ -353,24 +397,24 @@ After a code change:
 ```bash
 cd ~/Portal-Docker
 ./scripts/build-image.sh
-docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:1.1
+docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:1.6
 docker tag csistmarkscmsportal:latest $DH_USER/csistmarkscmsportal:latest
-docker push $DH_USER/csistmarkscmsportal:1.1
+docker push $DH_USER/csistmarkscmsportal:1.6
 docker push $DH_USER/csistmarkscmsportal:latest
 ```
 
-A new version number each time, rather than overwriting `1.0`. That is what
+A new version number each time, rather than overwriting `1.5`. That is what
 lets you put the previous image back in one command when a change turns out to
 be wrong — with a single moving tag there is nothing to go back to.
 
 On the target:
 
 ```bash
-docker pull $DH_USER/csistmarkscmsportal:1.1
+docker pull $DH_USER/csistmarkscmsportal:1.6
 docker rm -f portal
 docker run -d --name portal --restart unless-stopped -p 8080:8080 \
   -v portal-data:/data -v portal-uploads:/app/backend/uploads \
-  $DH_USER/csistmarkscmsportal:1.1
+  $DH_USER/csistmarkscmsportal:1.6
 ```
 
 Rolling back is the same command with the old number:
@@ -379,7 +423,7 @@ Rolling back is the same command with the old number:
 docker rm -f portal
 docker run -d --name portal --restart unless-stopped -p 8080:8080 \
   -v portal-data:/data -v portal-uploads:/app/backend/uploads \
-  $DH_USER/csistmarkscmsportal:1.0
+  $DH_USER/csistmarkscmsportal:1.5
 ```
 
 Safe because the volumes are untouched by either direction — the database is not

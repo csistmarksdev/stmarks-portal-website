@@ -40,23 +40,23 @@ export function ServiceTimingsTable({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[var(--radius-sanctuary)] bg-[var(--surface)] shadow-sanctuary ring-1 ring-sand-200/70",
+        "relative overflow-hidden rounded-card bg-[var(--surface)] shadow-card ring-1 ring-[var(--border)]",
         className,
       )}
     >
       {groups.map((group) => (
         <section
           key={group.day.en}
-          className="grid gap-x-8 gap-y-5 px-6 py-8 sm:px-9 sm:py-9 lg:grid-cols-12 lg:gap-x-12 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-sand-200/70"
+          className="grid gap-x-8 gap-y-5 px-6 py-8 sm:px-9 sm:py-9 lg:grid-cols-12 lg:gap-x-12 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-[var(--border)]"
         >
           <div className="lg:col-span-3">
             <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
               {localize(group.day, locale)}
             </h3>
-            <span aria-hidden className="mt-3 block h-px w-10 rule-gild" />
+            <span aria-hidden className="mt-3 block h-px w-10 rule-section" />
           </div>
 
-          <ul className="divide-y divide-sand-200/70 lg:col-span-9">
+          <ul className="divide-y divide-[var(--border)] lg:col-span-9">
             {group.items.map((item) => (
               <li
                 key={item.id}

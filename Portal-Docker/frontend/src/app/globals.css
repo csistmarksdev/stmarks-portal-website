@@ -1,74 +1,108 @@
 @import "tailwindcss";
 
 /**
- * Design tokens, taken from the church crest itself (`public/logo.png`).
+ * Design tokens, taken from the church's own emblem — `public/Logo1.svg`, the
+ * Church of South India seal the public Website is built on.
  *
- * The artwork was sampled and its dominant colours converted to OKLCH, then
- * extended into perceptually even ramps:
+ * These are the Website's tokens, deliberately: `WebsiteRT/src/styles/globals.css`
+ * derives them from the same file, and the Portal is the CMS behind that site.
+ * Two palettes for one parish is how a CMS starts looking like somebody else's
+ * software.
  *
- *   azure  #01a7f9 (21% of the crest) → brand
- *   gold   #fce103 (15%)              → accent
- *   silver #c2c1c3 (10%)              → neutrals, from the shield border
- *   red    #de0102 (5%)               → the cross; reserved for destructive
+ * The seal carries exactly two colours over a white disc, plus the pale pink
+ * where they overlap:
  *
- * Red is deliberately *not* a general-purpose brand colour: it has to keep
- * meaning "this deletes something". The cross's red appears on the sign-in
- * screen and in the crest itself, nowhere else.
+ *   magenta #a81b5e — the cross, and the lettering round the rim  → brand
+ *   flame   #ee4505 — the lotus rising behind it                  → accent
+ *   pink    #fac1da — where the two meet (the brand 200 step)
  *
- * Every pairing below was contrast-checked against WCAG AA — body text 12.7:1,
- * primary button 6.9:1, muted text 4.6:1, accent text 6.6:1.
+ * `crimson` is seated at hue ~16, between the brand magenta (~359) and the
+ * flame (~36), and carries destructive actions. It has to keep meaning "this
+ * deletes something", so it is never used decoratively — with the flame now
+ * this warm, a red that drifted toward it would make Delete look like a
+ * highlight.
+ *
+ * Neutrals are `sand`: warm, barely tinted parchment rather than the cool grey
+ * this used to use. A cool neutral under a magenta-and-flame palette reads as
+ * two different systems on one page.
+ *
+ * Values are OKLCH so light/dark pairs stay perceptually even. Each ramp keeps
+ * the lightness curve of the one it replaced and changes only hue and chroma,
+ * so every contrast pairing the components rely on still holds — verified by
+ * `npm run check:contrast` against the compiled CSS, not against intent.
  */
 @theme {
-  /* Brand — the crest's azure */
-  --color-brand-50: oklch(0.975 0.02 242);
-  --color-brand-100: oklch(0.94 0.05 242);
-  --color-brand-200: oklch(0.88 0.09 242);
-  --color-brand-300: oklch(0.8 0.13 242);
-  --color-brand-400: oklch(0.72 0.16 242);
-  --color-brand-500: oklch(0.63 0.165 242);
-  --color-brand-600: oklch(0.545 0.15 242);
-  --color-brand-700: oklch(0.46 0.125 242);
-  --color-brand-800: oklch(0.38 0.1 242);
-  --color-brand-900: oklch(0.3 0.075 242);
-  --color-brand-950: oklch(0.2 0.05 242);
+  /*
+   * Brand — the magenta of the cross at the centre of the seal (#a81b5e, which
+   * falls between the 600 and 700 steps). Light steps drift toward the seal's
+   * pale pink; deep steps stay luminance-dark so white text holds on them.
+   */
+  --color-brand-50: oklch(0.975 0.014 351);
+  --color-brand-100: oklch(0.94 0.035 351);
+  --color-brand-200: oklch(0.887 0.069 352);
+  --color-brand-300: oklch(0.802 0.12 353);
+  --color-brand-400: oklch(0.714 0.158 355);
+  --color-brand-500: oklch(0.641 0.182 357);
+  --color-brand-600: oklch(0.542 0.19 359);
+  --color-brand-700: oklch(0.462 0.178 1);
+  --color-brand-800: oklch(0.386 0.152 2);
+  --color-brand-900: oklch(0.318 0.126 3);
+  --color-brand-950: oklch(0.226 0.09 4);
 
-  /* Accent — the crest's gold. Deepened past 300 so it can carry text. */
-  --color-accent-50: oklch(0.975 0.03 92);
-  --color-accent-100: oklch(0.94 0.07 92);
-  --color-accent-200: oklch(0.88 0.12 92);
-  --color-accent-300: oklch(0.8 0.16 92);
-  --color-accent-400: oklch(0.72 0.185 92);
-  --color-accent-500: oklch(0.63 0.19 92);
-  --color-accent-600: oklch(0.545 0.165 92);
-  --color-accent-700: oklch(0.46 0.135 92);
-  --color-accent-800: oklch(0.38 0.105 92);
-  --color-accent-900: oklch(0.3 0.08 92);
-  --color-accent-950: oklch(0.2 0.055 92);
+  /*
+   * Accent — the flame behind the cross (#ee4505, the 600 step). This replaced
+   * a gold: the seal has no gold in it, and the flame is the only warm colour
+   * the emblem actually carries. The lightest steps lean amber so a highlight
+   * on a dark ground reads as warm rather than as more orange.
+   */
+  --color-accent-50: oklch(0.973 0.015 52);
+  --color-accent-100: oklch(0.941 0.033 48);
+  --color-accent-200: oklch(0.885 0.065 44);
+  --color-accent-300: oklch(0.822 0.105 42);
+  --color-accent-400: oklch(0.762 0.147 40);
+  --color-accent-500: oklch(0.702 0.18 38);
+  --color-accent-600: oklch(0.612 0.2 36);
+  --color-accent-700: oklch(0.508 0.166 34);
+  --color-accent-800: oklch(0.418 0.132 32);
+  --color-accent-900: oklch(0.352 0.106 31);
+  --color-accent-950: oklch(0.268 0.082 30);
 
-  /* Cross red — destructive only. */
-  --color-cross-50: oklch(0.975 0.02 29);
-  --color-cross-100: oklch(0.94 0.05 29);
-  --color-cross-200: oklch(0.88 0.09 29);
-  --color-cross-300: oklch(0.8 0.14 29);
-  --color-cross-400: oklch(0.72 0.19 29);
-  --color-cross-500: oklch(0.63 0.225 29);
-  --color-cross-600: oklch(0.545 0.232 29);
-  --color-cross-700: oklch(0.46 0.2 29);
-  --color-cross-800: oklch(0.38 0.16 29);
-  --color-cross-900: oklch(0.3 0.12 29);
+  /* Crimson — destructive only. Sited between the brand and the flame. */
+  --color-crimson-50: oklch(0.968 0.016 16);
+  --color-crimson-100: oklch(0.928 0.037 16);
+  --color-crimson-200: oklch(0.858 0.077 17);
+  --color-crimson-300: oklch(0.762 0.134 18);
+  --color-crimson-400: oklch(0.668 0.174 18);
+  --color-crimson-500: oklch(0.586 0.196 18);
+  --color-crimson-600: oklch(0.512 0.194 17);
+  --color-crimson-700: oklch(0.44 0.172 16);
+  --color-crimson-800: oklch(0.368 0.14 15);
+  --color-crimson-900: oklch(0.302 0.108 14);
+  --color-crimson-950: oklch(0.228 0.08 14);
 
-  /* Silver neutrals, from the shield border — cool, barely tinted. */
-  --color-silver-50: oklch(0.975 0.003 265);
-  --color-silver-100: oklch(0.94 0.004 265);
-  --color-silver-200: oklch(0.88 0.006 265);
-  --color-silver-300: oklch(0.8 0.008 265);
-  --color-silver-400: oklch(0.72 0.01 265);
-  --color-silver-500: oklch(0.63 0.011 265);
-  --color-silver-600: oklch(0.545 0.011 265);
-  --color-silver-700: oklch(0.46 0.01 265);
-  --color-silver-800: oklch(0.38 0.009 265);
-  --color-silver-900: oklch(0.3 0.008 265);
-  --color-silver-950: oklch(0.2 0.006 265);
+  /*
+   * Sand neutrals — the seal's warm white ground.
+   *
+   * Hue and chroma are the Website's; the *lightness* ramp is the cool grey's
+   * that this replaced, and deliberately not the Website's own. Ported whole,
+   * the Website's sand fails two of the structural checks here: its 50 step is
+   * lighter than the white card that sits on it, and its 200 step is too pale
+   * to draw a card's edge. The site can afford that — its content sits on
+   * broad parchment panels — but the Portal is a grid of white cards on a tinted
+   * ground, and both separations are load-bearing. Warmth is what was wanted
+   * from sand; the contrast steps were already correct.
+   */
+  --color-sand-50: oklch(0.975 0.004 85);
+  --color-sand-100: oklch(0.94 0.006 85);
+  --color-sand-200: oklch(0.88 0.008 82);
+  --color-sand-300: oklch(0.8 0.01 80);
+  --color-sand-400: oklch(0.72 0.012 78);
+  --color-sand-500: oklch(0.63 0.013 76);
+  --color-sand-600: oklch(0.545 0.013 74);
+  --color-sand-700: oklch(0.46 0.012 72);
+  --color-sand-800: oklch(0.38 0.011 70);
+  --color-sand-900: oklch(0.3 0.01 68);
+  --color-sand-950: oklch(0.2 0.009 66);
 
   /* Typography — Fraunces carries display type, Inter the UI */
   --font-display: var(--font-fraunces), "Georgia", serif;
@@ -79,19 +113,19 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   /*
-   * Layered elevation, tinted with the crest's azure rather than plain black —
+   * Layered elevation, tinted with the seal's magenta rather than plain black —
    * a shadow that carries a little of the brand hue reads as light falling on
    * a surface instead of grey haze sitting on top of it.
    */
   --shadow-card:
-    0 1px 2px oklch(0.3 0.03 242 / 0.06), 0 4px 12px oklch(0.3 0.03 242 / 0.05);
+    0 1px 2px oklch(0.32 0.05 359 / 0.07), 0 4px 12px oklch(0.32 0.05 359 / 0.06);
   --shadow-card-hover:
-    0 2px 4px oklch(0.3 0.03 242 / 0.07),
-    0 12px 28px oklch(0.3 0.04 242 / 0.11),
-    0 24px 48px oklch(0.3 0.04 242 / 0.07);
+    0 2px 4px oklch(0.32 0.05 359 / 0.08),
+    0 12px 28px oklch(0.32 0.06 359 / 0.12),
+    0 24px 48px oklch(0.32 0.06 359 / 0.08);
   --shadow-float:
-    0 2px 6px oklch(0.2 0.05 242 / 0.16),
-    0 16px 40px oklch(0.2 0.05 242 / 0.22);
+    0 2px 6px oklch(0.23 0.08 359 / 0.17),
+    0 16px 40px oklch(0.23 0.08 359 / 0.23);
 
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
@@ -111,22 +145,22 @@
  * need no `dark:` variants of their own.
  */
 :root {
-  --background: var(--color-silver-50);
-  --foreground: var(--color-silver-900);
+  --background: var(--color-sand-50);
+  --foreground: var(--color-sand-900);
   --card: #ffffff;
-  --card-foreground: var(--color-silver-900);
+  --card-foreground: var(--color-sand-900);
   /* Second stop of the card's top-down wash. */
-  --card-wash: var(--color-silver-50);
-  --muted: var(--color-silver-100);
-  --muted-foreground: var(--color-silver-600);
-  --border: var(--color-silver-200);
-  --border-strong: var(--color-silver-300);
-  --input: var(--color-silver-200);
+  --card-wash: var(--color-sand-50);
+  --muted: var(--color-sand-100);
+  --muted-foreground: var(--color-sand-600);
+  --border: var(--color-sand-200);
+  --border-strong: var(--color-sand-300);
+  --input: var(--color-sand-200);
   --primary: var(--color-brand-700);
   --primary-foreground: #ffffff;
   --secondary: var(--color-brand-50);
   --secondary-foreground: var(--color-brand-800);
-  --destructive: var(--color-cross-600);
+  --destructive: var(--color-crimson-600);
   --destructive-foreground: #ffffff;
   --ring: var(--color-brand-500);
   --success: oklch(0.55 0.13 155);
@@ -135,51 +169,51 @@
   --hover-tint: var(--color-brand-50);
   --primary-hover: var(--color-brand-800);
   --secondary-hover: var(--color-brand-100);
-  /* Gold that stays legible on the page ground — eyebrows, kickers. */
+  /* Flame that stays legible on the page ground — eyebrows, kickers. */
   --accent-fg: var(--color-accent-700);
 }
 
 /**
  * Dark theme.
  *
- * The ground is the crest's azure carried all the way down to black — hue 242
- * at a chroma just high enough that the dark reads as *this* church's blue
+ * The ground is the seal's magenta carried all the way down to black — hue 359
+ * at a chroma just high enough that the dark reads as *this* church's colour
  * rather than generic charcoal, and far too low to look coloured. Surfaces
  * step up in lightness rather than relying on borders, so depth survives
  * without the light theme's shadows.
  *
- * Brand and accent move *up* their ramps here: azure-700 is a fine button on
+ * Brand and accent move *up* their ramps here: magenta-700 is a fine button on
  * white and illegible on near-black, so dark uses the 300–400 range.
  */
 [data-theme="dark"] {
   /*
-   * The ground sits at L 0.125 — effectively black. Chroma is held at 0.018
-   * so the blue still leads the red channel by ~11/255; any lighter and it
-   * stops reading as black, any less saturated and it stops reading as blue.
+   * The ground sits at L 0.125 — effectively black, with the faintest warmth
+   * from the seal rather than a blue cast. Any lighter and it stops reading as
+   * black; any less saturated and the tint is gone entirely.
    */
-  --background: oklch(0.125 0.018 242);
-  --foreground: oklch(0.95 0.005 242);
-  --card: oklch(0.175 0.021 242);
-  --card-foreground: oklch(0.95 0.005 242);
-  --card-wash: oklch(0.152 0.02 242);
-  --muted: oklch(0.215 0.024 242);
-  --muted-foreground: oklch(0.72 0.014 242);
-  --border: oklch(0.27 0.028 242);
-  --border-strong: oklch(0.35 0.032 242);
-  --input: oklch(0.29 0.03 242);
+  --background: oklch(0.125 0.014 359);
+  --foreground: oklch(0.95 0.004 359);
+  --card: oklch(0.175 0.017 359);
+  --card-foreground: oklch(0.95 0.004 359);
+  --card-wash: oklch(0.152 0.016 359);
+  --muted: oklch(0.215 0.02 359);
+  --muted-foreground: oklch(0.72 0.012 359);
+  --border: oklch(0.27 0.023 359);
+  --border-strong: oklch(0.35 0.027 359);
+  --input: oklch(0.29 0.025 359);
   --primary: var(--color-brand-400);
-  --primary-foreground: oklch(0.125 0.018 242);
-  --secondary: oklch(0.26 0.05 242);
+  --primary-foreground: oklch(0.125 0.014 359);
+  --secondary: oklch(0.26 0.045 359);
   --secondary-foreground: var(--color-brand-200);
-  --destructive: var(--color-cross-400);
-  --destructive-foreground: oklch(0.125 0.018 242);
+  --destructive: var(--color-crimson-400);
+  --destructive-foreground: oklch(0.125 0.014 359);
   --ring: var(--color-brand-400);
   --success: oklch(0.72 0.14 155);
   --success-soft: oklch(0.3 0.06 155);
-  --hover-tint: oklch(0.225 0.035 242);
+  --hover-tint: oklch(0.225 0.03 359);
   /* Hover *lightens* on a dark ground; darkening would read as disabled. */
   --primary-hover: var(--color-brand-300);
-  --secondary-hover: oklch(0.34 0.055 242);
+  --secondary-hover: oklch(0.34 0.05 359);
   --accent-fg: var(--color-accent-300);
 
   /*

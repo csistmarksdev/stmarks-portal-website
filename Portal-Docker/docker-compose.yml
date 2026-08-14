@@ -1,7 +1,19 @@
 # CSI St. Mark's Portal — the whole thing, one container.
 #
+#   node scripts/build-production-bundle.mjs      compile, once, out here
 #   docker compose up -d --build
 #   open http://localhost:8080
+#
+# The first line is not optional and not a convenience. `Dockerfile` compiles
+# nothing: it copies the `dist-portal/` folder that command produces, so
+# `compose up --build` without it fails immediately with a missing-file error
+# rather than building something that cannot start. `./scripts/build-image.sh`
+# runs both steps together.
+#
+# Why that way round: a `next build` inside the image builder wants ~2 GB of RAM
+# and minutes of CPU on every rebuild, which is more than the small hosts this
+# is meant for can spare. Out here it runs once, on a checkout that already has
+# `node_modules`, and can be tested before an image exists.
 #
 # There is no database service here and that is the point: the image carries its
 # own MongoDB and a snapshot of the church's content, media and accounts, so
@@ -54,6 +66,11 @@ services:
       # is recreated — fine for a demo, not for the church's actual portal.
       - portal-data:/data
       - portal-uploads:/app/backend/uploads
+
+    # The entrypoint stops the API and CMS first and lets `mongod` finish a few
+    # seconds later, so its files close cleanly. Docker's 10-second default cuts
+    # that short; 30 lets it complete.
+    stop_grace_period: 30s
 
     healthcheck:
       test:

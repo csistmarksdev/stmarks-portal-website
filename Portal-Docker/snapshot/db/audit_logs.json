@@ -8146,5 +8146,202 @@
     "__v": {
       "$numberInt": "0"
     }
+  },
+  {
+    "_id": {
+      "$oid": "6a67a2a577fb470d7f5ef343"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785176741728"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a6897bde1d0bf5bf8235848"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1785239485374"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a775f07954c0982cffec3a6"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786208007426"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a776ac7a22819f1139d41b6"
+    },
+    "action": "update",
+    "resource": "backup",
+    "resourceId": "a5f8ae44-0ecc-437d-ab70-cf8e63e19cc5",
+    "summary": "Administrator restored a backup taken 2026-08-08T17:41:16.044Z (replace) — 570 document(s) across 12 collection(s), 288 file(s)",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786211015539"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a7777ecf582b4c5bae8b94a"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786214380600"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a777815f582b4c5bae8b956"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786214421598"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a777832f582b4c5bae8b962"
+    },
+    "action": "update",
+    "resource": "blog",
+    "resourceId": "6a624d77e3588b623bca2af9",
+    "summary": "Updated blog post \"Postman Test Post\"",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786214450706"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a778a715ce4cff26a12e565"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786219121156"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a778a7a5ce4cff26a12e57f"
+    },
+    "action": "logout",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed out",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786219130099"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a778a835ce4cff26a12e584"
+    },
+    "action": "login",
+    "resource": "auth",
+    "resourceId": "6a622da0ad952d26e9d58e88",
+    "summary": "Administrator signed in",
+    "userId": "6a622da0ad952d26e9d58e88",
+    "userName": "Administrator",
+    "ip": "127.0.0.1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1786219139190"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
   }
 ]

@@ -19,6 +19,8 @@ export default function EventsPage() {
       searchPlaceholder="Search by title or slug…"
       emptyTitle="No events on the calendar"
       emptyHint="Add the next service or gathering and publish it when the details are settled."
+      banner={(event) => event.image}
+      bannerNoun="picture"
       columns={[
         {
           key: "title",

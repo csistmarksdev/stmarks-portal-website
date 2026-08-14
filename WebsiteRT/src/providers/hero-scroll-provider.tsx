@@ -16,6 +16,7 @@ import {
 } from "react";
 
 import { useScrolledPast } from "@/hooks/use-scroll-position";
+import { usePathname } from "@/i18n/navigation";
 
 interface HeroScrollContextValue {
   /** 0 → 1 progress through the cinematic hero section. */
@@ -91,9 +92,17 @@ export function useHeroScroll(): HeroScrollContextValue {
 export function usePastOpening(threshold = 24): boolean {
   const { progress, hasHero } = useHeroScroll();
   const scrolled = useScrolledPast(threshold);
+  const pathname = usePathname();
 
   const [heroComplete, setHeroComplete] = useState(false);
   const heroCompleteRef = useRef(false);
+
+  const [renderedPath, setRenderedPath] = useState(pathname);
+  if (renderedPath !== pathname) {
+    setRenderedPath(pathname);
+    heroCompleteRef.current = false;
+    setHeroComplete(false);
+  }
 
   useMotionValueEvent(progress, "change", (value) => {
     const complete = heroCompleteRef.current ? value > 0.95 : value > 0.97;
@@ -105,3 +114,4 @@ export function usePastOpening(threshold = 24): boolean {
 
   return hasHero ? heroComplete : scrolled;
 }
+

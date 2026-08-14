@@ -2,7 +2,7 @@
   "name": "csistmc-portal",
   "version": "1.0.0",
   "private": true,
-  "description": "CSI St. Mark's Church — Portal (Admin CMS + NestJS API). Single source of truth for the public Website.",
+  "description": "CSI St. Mark's Church \u2014 Portal (Admin CMS + NestJS API). Single source of truth for the public Website.",
   "workspaces": [
     "shared",
     "backend",
@@ -27,7 +27,10 @@
     "verify": "npm run build && npm run typecheck && npm run test",
     "export:demo-data": "node backend/scripts/export-demo-data.mjs",
     "build:bundle": "node scripts/build-production-bundle.mjs",
-    "check:website": "node scripts/check-website-api.mjs"
+    "capture": "node scripts/capture-live-data.mjs",
+    "verify:snapshot": "node scripts/verify-snapshot.mjs",
+    "preflight": "node scripts/preflight-image.mjs",
+    "test:bundle": "node .bundle-e2e.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

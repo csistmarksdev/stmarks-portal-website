@@ -1,3 +1,4 @@
+import type { LocalizedText } from "@/types/common";
 import type { Leader } from "@/types/content";
 
 /**
@@ -138,8 +139,105 @@ export const LEADERS: Leader[] = [
   },
 
   /*
-   * Former pastors: the roll of succession is not on file. The section renders
-   * its empty state until the church supplies the names and tenure years —
-   * placeholder clergy would be a false claim about this parish's history.
+   * The roll of succession is not part of `LEADERS`: it is a register of terms
+   * rather than a list of people, and it is kept as `PRESBYTER_ERAS` below.
    */
+];
+
+/* -------------------------------------------------------------------------- */
+/* The roll of presbyters                                                     */
+/* -------------------------------------------------------------------------- */
+
+/** One presbyter's term, as printed on the church's own roll. */
+export interface PresbyterTerm {
+  /** Serial number *within its era* — the roll restarts at 1 each time. */
+  no: number;
+  /**
+   * Set in Latin script for both locales.
+   *
+   * The clergy currently serving carry Tamil forms in `LEADERS` above because
+   * the church supplied them. For the sixteen names below it did not, and a
+   * transliteration invented here would be this site putting words in a real
+   * person's name. They render the same in both locales until the church
+   * provides the Tamil; see the note in the page component.
+   */
+  name: string;
+  /** Qualifier shown after the name, e.g. an additional-charge appointment. */
+  note?: LocalizedText;
+  from: string;
+  to: string;
+}
+
+/**
+ * An era of the roll. The congregation was attached to two other pastorates
+ * before it became a unit in its own right, and the roll is numbered afresh
+ * under each — so the eras are the structure, not decoration.
+ */
+export interface PresbyterEra {
+  id: string;
+  title: LocalizedText;
+  terms: PresbyterTerm[];
+}
+
+/**
+ * The succession of presbyters, exactly as the church keeps it.
+ *
+ * Hardcoded for the same reason as everything else in this file: it gains one
+ * row a year at most, and the history behind that row never changes. Dates are
+ * kept as the church writes them — "April 1993", "Aug. 1997" — rather than
+ * parsed into `Date`s, because a month and a year is genuinely all that is
+ * recorded and turning that into a day would invent precision the register
+ * does not have.
+ */
+export const PRESBYTER_ERAS: PresbyterEra[] = [
+  {
+    id: "moovarasampet",
+    title: {
+      en: "With Moovarasampet Pastorate",
+      ta: "மூவரசம்பேட்டை பாஸ்டரேட்டுடன்",
+    },
+    terms: [
+      { no: 1, name: "Rev. Sekaran Esakiyel", from: "April 1993", to: "May 1995" },
+      { no: 2, name: "Rev. J. John Dhanapal", from: "June 1995", to: "May 1997" },
+      { no: 3, name: "Rev. Bakthan Theopphilius", from: "June 1997", to: "July 1997" },
+      { no: 4, name: "Rev. T. J. David", from: "Aug. 1997", to: "May 1998" },
+      { no: 5, name: "Rev. Earnest Jeya Kumar", from: "June 1998", to: "May 1999" },
+    ],
+  },
+  {
+    id: "adambakkam",
+    title: {
+      en: "With Adambakkam Pastorate",
+      ta: "ஆதம்பாக்கம் பாஸ்டரேட்டுடன்",
+    },
+    terms: [
+      { no: 1, name: "Rev. S. P. Paul Prabakaran", from: "June 1999", to: "May 2001" },
+      { no: 2, name: "Rev. G. Lawrence Jebadhas", from: "June 2001", to: "Oct. 2001" },
+      {
+        no: 3,
+        name: "Rev. S. Prabakaran Rajasekaran",
+        note: { en: "Addl. Charge", ta: "கூடுதல் பொறுப்பு" },
+        from: "Oct. 2001",
+        to: "May 2002",
+      },
+      { no: 4, name: "Rev. D. Mohan Raj", from: "June 2002", to: "Mar. 2007" },
+    ],
+  },
+  {
+    /* The congregation became a unit in its own right on 1 April 2007. */
+    id: "madipakkam-unit",
+    title: {
+      en: "Madipakkam Unit (01/04/2007)",
+      ta: "மடிப்பாக்கம் யூனிட் (01/04/2007)",
+    },
+    terms: [
+      { no: 1, name: "Rev. D. Mohan Raj", from: "April 2007", to: "May 2007" },
+      { no: 2, name: "Rev. G. Earnest Selva Durai", from: "June 2007", to: "May 2012" },
+      { no: 3, name: "Rev. J. Raja Freeman", from: "June 2012", to: "May 2018" },
+      { no: 4, name: "Rev. M. John Christopher", from: "June 2018", to: "May 2023" },
+      { no: 5, name: "Rev. D. Paul William", from: "June 2023", to: "May 2024" },
+      { no: 6, name: "Rev. D. Y. Dinakaran", from: "June 2024", to: "May 2025" },
+      { no: 7, name: "Rev. Y. John Bunyan", from: "June 2025", to: "May 2026" },
+    ],
+  },
 ];

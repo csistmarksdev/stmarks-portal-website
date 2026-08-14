@@ -11,6 +11,8 @@ import {
   type ReactNode,
 } from "react";
 
+import { usePathname } from "@/i18n/navigation";
+
 interface LenisContextValue {
   /**
    * Sends the page back to the very top, through Lenis when it is driving.
@@ -35,14 +37,23 @@ const LenisContext = createContext<LenisContextValue | null>(null);
  * devices, where native momentum scrolling feels better than an emulated one.
  */
 export function LenisProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   // Null whenever Lenis is not driving — before mount, and for the whole
   // session under reduced motion.
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+
 
     if (prefersReducedMotion) return;
 

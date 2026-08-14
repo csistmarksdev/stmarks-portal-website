@@ -87,5 +87,6 @@ docker compose up --build
 - **Audit** — login/logout, create/update/delete, publish/unpublish/archive, pin and media uploads are logged and browsable at `/admin/audit-logs` and in the CMS.
 - **Media** — uploads go to `backend/uploads/` (served at `/uploads/**`); images get intrinsic dimensions, a WebP thumbnail and a base64 blur preview via sharp.
 - **Website revalidation** — on publish the backend can POST to the Website's ISR webhook (`WEBSITE_REVALIDATE_URL`); left empty during the standalone phase, making it a no-op.
+- **Backup & restore** — `/backup` in the CMS builds one zip of every collection (canonical Extended JSON, `_id` preserved) plus every uploaded file, and takes one back. The module works through the raw Mongo connection rather than a schema list, so a collection added later is carried without anyone remembering to add it. Restoring is two steps — upload and inspect, then apply — because it cannot be undone; `replace` rolls the database back, `merge` upserts and deletes nothing, and a safety backup is taken first by default. Both halves are **super-admin only** (`backup.read`, `backup.restore`) — the archive is the whole database in one file, so downloading one is as consequential as putting one back.
 
 See [docs/API.md](docs/API.md) and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for details.

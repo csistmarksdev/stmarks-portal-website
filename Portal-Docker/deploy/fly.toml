@@ -1,0 +1,76 @@
+# Fly.io — the Portal on a machine with a volume.
+#
+#     cp Portal-Docker/deploy/fly.toml ./fly.toml
+#     fly apps create csistmarks-portal
+#     fly volumes create portal_data --size 3 --region sin
+#     fly deploy
+#
+# Fly is one of the better places for this image: a Fly volume is a real disk,
+# so the bundled MongoDB persists and no external database is needed. The whole
+# installation — content, media, accounts — runs on one machine.
+#
+# The image below is the published one. To deploy a locally built image instead:
+#
+#     cd Portal-Docker
+#     ./scripts/build-image.sh -t registry.fly.io/csistmarks-portal:latest
+#     fly auth docker && docker push registry.fly.io/csistmarks-portal:latest
+
+app = "csistmarks-portal"
+primary_region = "sin"
+
+[build]
+  image = "stmarksdev/csistmarkscmsportal:1.5"
+
+[env]
+  PORT = "8080"
+  # Media on the same volume as the database, so one mount covers everything
+  # that must outlive a deploy.
+  UPLOAD_DIR = "/data/uploads"
+  # Fly's edge terminates TLS and forwards. Without this the rate limiter sees
+  # every request as coming from the proxy and buckets the whole world
+  # together, and the audit log records Fly rather than a person.
+  TRUST_PROXY = "1"
+
+[[mounts]]
+  source = "portal_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+
+  # Both of these matter more than they look.
+  #
+  # `auto_stop_machines` suspends an idle machine, which means SIGTERM to a
+  # running `mongod`. The entrypoint shuts the database down cleanly when that
+  # happens, so it is survivable — but the first request after a stop then waits
+  # through a full boot and a WiredTiger recovery. For a portal the parish
+  # actually uses, keeping one machine up is both faster and safer.
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  # One machine, and not a tuning choice: the container runs its own MongoDB
+  # against a volume that permits a single writer. A second machine would bring
+  # a second `mongod` that cannot attach — and a Fly volume cannot be mounted
+  # twice anyway. Scale out by moving to an external `MONGODB_URI` first.
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+[[http_service.checks]]
+  method = "GET"
+  path = "/v1/health"
+  interval = "30s"
+  timeout = "5s"
+  # The first boot restores 577 documents and 376 media files before anything
+  # listens. Fly would otherwise kill the machine mid-restore and retry.
+  grace_period = "120s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  # MongoDB's cache is capped at 256 MB inside the container, so this is
+  # headroom rather than a target. 512 MB works; 256 MB does not — the API and
+  # the CMS are two Node processes before the database is counted.
+  memory = "1gb"

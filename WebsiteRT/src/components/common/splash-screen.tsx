@@ -3,7 +3,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { SanctuaryMotes } from "@/components/common/ornament";
+import {
+  BareTree,
+  Bauble,
+  Bell,
+  Butterfly,
+  Calvary,
+  Candle,
+  CandyCane,
+  EmptyCross,
+  Gift,
+  HangingStar,
+  Holly,
+  Lily,
+  Stone,
+  Thorns,
+  Tree,
+  Veil,
+  Wreath,
+} from "@/components/common/section-ornaments";
+
 
 /**
  * The opening frame: the parish crest set in a drawn arch on white, held while
@@ -244,64 +263,31 @@ export function SplashScreen() {
      * transform. The rasterised texture stays the pill's own size, a few
      * thousand pixels, however large it is drawn.
      */
-    const morphGroundToMasthead = (ground: HTMLElement | null): boolean => {
+    /*
+     * The Sacred Sanctuary Unveiling:
+     * The white parchment ground smoothly lifts upward while dissolving with a soft radiant glow,
+     * while the parish crest emblem flies seamlessly to the header logo slot.
+     */
+    const revealSacredSanctuary = (ground: HTMLElement | null): boolean => {
       if (prefersReducedMotion || !ground) return false;
-
-      const pill = document.querySelector<HTMLElement>(
-        "[data-site-header] [data-header-pill]",
-      );
-
-      if (!pill || typeof ground.animate !== "function") return false;
-
-      const box = pill.getBoundingClientRect();
-
-      if (!box.width || !box.height) return false;
-
-      /*
-       * The pill is `rounded-full`, a radius far larger than the shape, which
-       * the browser clamps to half the short side. Clamping it here too means
-       * the element really is a stadium — the shape the reader can see — rather
-       * than a rectangle carrying a number that only resolves at paint.
-       */
-      const radius = Math.min(box.width, box.height) / 2;
-
-      const centreX = box.left + box.width / 2;
-      const centreY = box.top + box.height / 2;
-
-      /*
-       * The scale that still covers the viewport, measured from the pill's own
-       * centre because that is what `transform` scales about. Each axis needs
-       * to reach whichever of its two edges is further away; the larger of the
-       * two wins, and a little over so that no rounding leaves a hairline of
-       * the page showing along an edge.
-       */
-      const scale =
-        Math.max(
-          Math.max(centreX, window.innerWidth - centreX) / (box.width / 2),
-          Math.max(centreY, window.innerHeight - centreY) / (box.height / 2),
-        ) * 1.06;
-
-      /*
-       * Re-seat the field as the pill, pre-scaled to cover what it was covering
-       * a frame ago. `inset` is cleared first: it is what is holding this
-       * element full-bleed, and a stale `right`/`bottom` would fight the
-       * explicit width and height.
-       */
-      ground.style.inset = "auto";
-      ground.style.top = `${box.top}px`;
-      ground.style.left = `${box.left}px`;
-      ground.style.width = `${box.width}px`;
-      ground.style.height = `${box.height}px`;
-      ground.style.borderRadius = `${radius}px`;
-      ground.style.transform = `scale(${scale})`;
+      if (typeof ground.animate !== "function") return false;
 
       ground.animate(
-        [{ transform: `scale(${scale})` }, { transform: "scale(1)" }],
+        [
+          {
+            transform: "translate3d(0, 0, 0) scale(1)",
+            opacity: 1,
+            filter: "brightness(1)",
+          },
+          {
+            transform: "translate3d(0, -100%, 0) scale(1.02)",
+            opacity: 0,
+            filter: "brightness(1.15)",
+          },
+        ],
         {
-          duration: MORPH_MS,
-          delay: 120,
-          // Matches the crest's flight, so the two read as one movement with
-          // two parts rather than as two animations that happen to overlap.
+          duration: 900,
+          delay: 20,
           easing: "cubic-bezier(0.16, 1, 0.3, 1)",
           fill: "forwards",
         },
@@ -320,7 +306,7 @@ export function SplashScreen() {
       timers.push(
         window.setTimeout(() => {
           const flying = flyCrestToMasthead();
-          morphGroundToMasthead(groundRef.current);
+          revealSacredSanctuary(groundRef.current);
 
           /*
            * The root attribute holds the masthead's own crest down while its
@@ -437,9 +423,7 @@ export function SplashScreen() {
     >
       <span className="sr-only">{t("loading")}</span>
 
-      {/* The white field, and the thing that morphs: this is what closes down
-          onto the masthead's pill. Separate from the shell because it is
-          clipped and the crest flying out across it must not be. */}
+      {/* The white field */}
       <span aria-hidden ref={groundRef} className="splash-ground" />
 
       {/* A slow warm bloom, so the white has a centre rather than reading as a
@@ -449,8 +433,6 @@ export function SplashScreen() {
       {/* The site's own gilded motes, drifting behind the arch — dust caught in
           window light. `z-0` overrides the component's own `-z-10`, which would
           otherwise put them behind the white ground. */}
-      <SanctuaryMotes tone="default" className="z-0" />
-
       {/* The crest, set in the arch — and the one element here that does not
           leave, but flies. */}
       <span aria-hidden className="splash-crest">
@@ -521,6 +503,139 @@ export function SplashScreen() {
       {/* The same hairline the route-level `loading.tsx` uses, swept rather
           than pulsed — this one is covering a known, finite wait. */}
       <span aria-hidden className="splash-rule" />
+
+      {/*
+        The season's own figures, standing along the foot of the opening frame —
+        the same firs, bare branches, crosses and lilies that line every section
+        of the site, so the splash belongs to the year the page behind it is
+        keeping.
+
+        Every set is rendered and all but one is hidden by CSS. That looks
+        wasteful and is the only thing that works here: the season is written to
+        the root element by the bootstrap script *before first paint*, but React
+        does not re-render this component until hydration — which on this page
+        is exactly the moment the splash is leaving. Choosing the set in
+        JavaScript would mean choosing it too late to be seen, which is the bug
+        this whole arrangement exists to avoid. Rendering all five and letting a
+        CSS attribute selector pick costs a few hundred bytes of markup and is
+        correct on the first frame.
+      */}
+      {/*
+        And the same again at the head of the frame.
+
+        The site's grammar for this is already settled: things *hang* from the
+        head of a section and *stand* at its foot. The splash follows it rather
+        than inventing a second arrangement — baubles and stars in December,
+        veils through Lent, the crown of thorns in Holy Week and on Good Friday,
+        and at Easter the light itself.
+
+        Nothing is mirrored to fill the top. A standing figure flipped upside
+        down is a cheap way to fill a row and, for three of these five seasons,
+        an inverted cross — which is not a thing to put on a church's opening
+        screen by accident.
+      */}
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="christmas">
+        <Bauble drop={10} className="w-4 sm:w-5" />
+        <HangingStar drop={22} className="w-4 sm:w-5" />
+        <Bauble drop={34} className="w-4 sm:w-5" />
+        <HangingStar drop={14} className="w-4 sm:w-5" />
+        <Bauble drop={26} className="w-4 sm:w-5" />
+        <HangingStar drop={38} className="w-4 sm:w-5" />
+        <Bauble drop={18} className="w-4 sm:w-5" />
+        <HangingStar drop={30} className="w-4 sm:w-5" />
+      </span>
+
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="lent">
+        <Veil drop={14} className="w-4 sm:w-5" />
+        <Veil drop={30} className="w-4 sm:w-5" />
+        <Veil drop={20} className="w-4 sm:w-5" />
+        <Veil drop={36} className="w-4 sm:w-5" />
+        <Veil drop={16} className="w-4 sm:w-5" />
+      </span>
+
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="holy-week">
+        <Veil drop={18} className="w-4 sm:w-5" />
+        <Thorns drop={12} className="w-6 sm:w-7" />
+        <Veil drop={32} className="w-4 sm:w-5" />
+        <Thorns drop={26} className="w-6 sm:w-7" />
+        <Veil drop={16} className="w-4 sm:w-5" />
+      </span>
+
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="good-friday">
+        <Thorns drop={14} className="w-6 sm:w-7" />
+        <Thorns drop={30} className="w-6 sm:w-7" />
+        <Thorns drop={20} className="w-6 sm:w-7" />
+        <Thorns drop={34} className="w-6 sm:w-7" />
+      </span>
+
+      {/* Easter hangs light rather than an object — the season's decoration is
+          the light, exactly as it is in the sections. */}
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="easter">
+        <span className="splash-ray" style={{ height: "34%" }} />
+        <span className="splash-ray" style={{ height: "58%" }} />
+        <span className="splash-ray" style={{ height: "42%" }} />
+        <span className="splash-ray" style={{ height: "66%" }} />
+        <span className="splash-ray" style={{ height: "38%" }} />
+        <span className="splash-ray" style={{ height: "52%" }} />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="christmas">
+        <Tree className="h-[64%] w-auto" />
+        <Gift className="h-[22%] w-auto" />
+        <Tree className="h-[88%] w-auto" />
+        <Candle className="h-[46%] w-auto" />
+        <Tree className="h-full w-auto" />
+        <Bell className="h-[32%] w-auto" />
+        <Tree className="h-[76%] w-auto" />
+        <CandyCane className="h-[38%] w-auto" />
+        <Holly className="h-[22%] w-auto" />
+        <Tree className="h-[58%] w-auto" />
+        <Wreath className="h-[34%] w-auto" />
+        <Tree className="h-[70%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="lent">
+        <Stone className="h-[10%] w-auto" />
+        <BareTree className="h-[68%] w-auto" />
+        <Stone className="h-[8%] w-auto" />
+        <BareTree className="h-full w-auto" />
+        <Stone className="h-[11%] w-auto" />
+        <BareTree className="h-[74%] w-auto" />
+        <Stone className="h-[9%] w-auto" />
+        <BareTree className="h-[56%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="holy-week">
+        <Stone className="h-[9%] w-auto" />
+        <BareTree className="h-[62%] w-auto" />
+        <Calvary className="h-[82%] w-auto" />
+        <Stone className="h-[11%] w-auto" />
+        <Calvary className="h-full w-auto" />
+        <BareTree className="h-[70%] w-auto" />
+        <Stone className="h-[8%] w-auto" />
+        <BareTree className="h-[52%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="good-friday">
+        <Stone className="h-[10%] w-auto" />
+        <Calvary className="h-[68%] w-auto" />
+        <Stone className="h-[8%] w-auto" />
+        <Calvary className="h-full w-auto" />
+        <Stone className="h-[9%] w-auto" />
+        <Calvary className="h-[68%] w-auto" />
+        <Stone className="h-[11%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="easter">
+        <Lily className="h-[58%] w-auto" />
+        <Butterfly className="h-[26%] w-auto" />
+        <Lily className="h-[74%] w-auto" />
+        <EmptyCross className="h-full w-auto" />
+        <Lily className="h-[80%] w-auto" />
+        <Butterfly className="h-[22%] w-auto" />
+        <Lily className="h-[62%] w-auto" />
+        <Stone className="h-[8%] w-auto" />
+      </span>
     </div>
   );
 }

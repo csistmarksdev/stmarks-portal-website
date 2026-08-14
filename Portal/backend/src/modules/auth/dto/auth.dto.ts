@@ -6,9 +6,15 @@ export class LoginDto {
   @IsEmail()
   email: string;
 
+  /*
+   * No minimum worth enforcing here — this checks an existing password, and a
+   * length rule on the way in only tells an attacker which guesses are worth
+   * making. The ceiling stays: bcrypt would otherwise hash a megabyte on every
+   * unauthenticated attempt.
+   */
   @ApiProperty({ example: "ChangeMe@123" })
   @IsString()
-  @MinLength(8)
+  @MaxLength(200)
   password: string;
 }
 

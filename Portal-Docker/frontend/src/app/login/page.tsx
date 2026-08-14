@@ -33,14 +33,14 @@ export default function LoginPage() {
 
   return (
     /*
-     * Two panels: the crest on its own field of azure, the form on white.
+     * Two panels: the crest on its own field of deep magenta, the form on white.
      * On a phone the artwork panel collapses to a compact band so the
      * keyboard never pushes the form out of view.
      */
     <main className="grid min-h-dvh lg:grid-cols-[1.1fr_1fr]">
       {/* ------------------------------- Crest ------------------------------ */}
       <section className="relative isolate overflow-hidden bg-brand-900 px-6 py-10 text-white lg:flex lg:flex-col lg:justify-between lg:px-14 lg:py-14">
-        {/* Light falling from above, in the crest's own blue and gold. */}
+        {/* Light falling from above, in the seal's own magenta and flame. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(90%_70%_at_50%_-20%,var(--color-brand-600),transparent_65%)]"
@@ -56,14 +56,29 @@ export default function LoginPage() {
         />
 
         <div className="flex items-center gap-4 lg:block">
-          <Image
-            src="/logo.png"
-            alt=""
-            width={96}
-            height={108}
-            priority
-            className="h-14 w-auto drop-shadow-2xl lg:h-28"
-          />
+          {/* The parish crest and the diocesan arms, as the site pairs them. */}
+          <div className="flex shrink-0 items-end gap-3 lg:gap-4">
+            <Image
+              src="/Logo1.svg"
+              alt=""
+              aria-hidden
+              width={940}
+              height={940}
+              priority
+              unoptimized
+              className="size-14 object-contain drop-shadow-2xl lg:size-28"
+            />
+            <Image
+              src="/Logo2.svg"
+              alt=""
+              aria-hidden
+              width={523}
+              height={860}
+              priority
+              unoptimized
+              className="h-12 w-auto object-contain drop-shadow-2xl lg:h-24"
+            />
+          </div>
           <div className="lg:mt-8">
             <p className="label text-accent-300">Church of South India</p>
             <h1 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold leading-tight tracking-tight lg:mt-2 lg:text-4xl">

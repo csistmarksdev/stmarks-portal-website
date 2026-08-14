@@ -17,6 +17,8 @@ export default function GalleryPage() {
       searchPlaceholder="Search albums…"
       emptyTitle="The archive is empty"
       emptyHint="Create an album for a recent occasion, pick a cover, then fill it with photos from the media library."
+      banner={(album) => album.cover}
+      bannerNoun="cover"
       columns={[
         {
           key: "title",

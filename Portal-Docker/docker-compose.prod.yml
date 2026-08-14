@@ -1,6 +1,11 @@
 # CSI St. Mark's Portal — production, with a separate database container.
 #
+#   node scripts/build-production-bundle.mjs
 #   docker compose -f docker-compose.prod.yml up -d --build
+#
+# The compile step comes first and is required: `Dockerfile` copies the
+# prebuilt `dist-portal/` rather than building inside the image. See
+# docker-compose.yml for why.
 #
 # Same image as docker-compose.yml, pointed at a MongoDB of its own instead of
 # the one bundled inside it. Setting `MONGODB_URI` is the whole switch: the
@@ -86,6 +91,17 @@ services:
       # Generated secrets, so sessions survive a restart. No database lives here
       # in this stack — `mongo` has its own volume.
       - state:/data
+
+    # Shorter than it needs to be elsewhere, because no database runs inside
+    # this container — but the API is still given time to finish in-flight
+    # requests against `mongo` rather than being cut off mid-write.
+    stop_grace_period: 30s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
     healthcheck:
       test:

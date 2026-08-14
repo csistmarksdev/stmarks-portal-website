@@ -48,7 +48,20 @@ export type Permission =
   /** Purging audit history. Super-admin only — it removes the record of who did what. */
   | "audit.delete"
   | "settings.write"
-  | "contact.read";
+  | "contact.read"
+  /**
+   * Downloading a full backup. Super-admin only — every collection is in the
+   * archive, so it carries password hashes and the contact inbox. Holding this
+   * is read access to the entire installation in one portable file, which is a
+   * larger thing than any of the permissions above it.
+   */
+  | "backup.read"
+  /**
+   * Uploading a backup to restore. Super-admin only — a restore rewrites the
+   * user table, and whoever can do it can hand themselves any account in the
+   * archive.
+   */
+  | "backup.restore";
 
 /** Static role → permission matrix. Single source for backend guard + frontend UI. */
 export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
@@ -66,6 +79,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
     "audit.delete",
     "settings.write",
     "contact.read",
+    "backup.read",
+    "backup.restore",
   ],
   admin: [
     "content.read",
@@ -209,6 +224,104 @@ export interface ContactMessage {
   message: string;
   read: boolean;
   createdAt: string;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Backup & restore                                                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Bumped whenever the archive layout changes in a way an older Portal could
+ * not read. The restore refuses anything it does not recognise rather than
+ * half-importing it.
+ */
+export const BACKUP_FORMAT = "csistmc-portal-backup";
+export const BACKUP_FORMAT_VERSION = 1;
+
+/** `manifest.json` at the root of every backup archive. */
+export interface BackupManifest {
+  format: typeof BACKUP_FORMAT;
+  formatVersion: number;
+  capturedAt: string;
+  /** Origin the archive was taken from, for the operator's benefit only. */
+  publicUrl: string;
+  database: string;
+  createdBy?: { id: string; name: string; email: string };
+  /** Collection name → document count. Empty collections are listed too. */
+  collections: Record<string, number>;
+  documents: number;
+  uploads: { files: number; bytes: number };
+}
+
+/** What a backup taken right now would contain — shown before one is built. */
+export interface BackupPreview {
+  collections: Record<string, number>;
+  documents: number;
+  uploads: { files: number; bytes: number };
+  /** Humanised lower bound on the archive size, e.g. "84.2 MB". */
+  estimatedSize: string;
+}
+
+/** What `POST /admin/backup` hands back — the archive waits on the server. */
+export interface BackupTicket {
+  id: string;
+  filename: string;
+  sizeBytes: number;
+  /** Human-readable, e.g. "84.2 MB". */
+  size: string;
+  /** Relative API path, already carrying its one-time token. */
+  downloadPath: string;
+  expiresAt: string;
+  manifest: BackupManifest;
+}
+
+/**
+ * `replace` empties every collection the archive contains before inserting, so
+ * the database ends up exactly as it was when the backup was taken — records
+ * created since are gone. `merge` upserts by `_id` and deletes nothing.
+ */
+export type RestoreMode = "replace" | "merge";
+
+export const RESTORE_MODES: readonly RestoreMode[] = ["replace", "merge"] as const;
+
+/**
+ * An uploaded archive, inspected and held but not yet applied.
+ *
+ * Restoring is destructive and cannot be undone, so the upload and the decision
+ * to apply it are two separate requests: the CMS shows what is actually in the
+ * file — when it was taken, from where, how much of it there is — and only then
+ * offers the button. Uploading the file twice to achieve that would be cruel on
+ * a church's connection.
+ */
+export interface StagedRestore {
+  id: string;
+  expiresAt: string;
+  manifest: BackupManifest;
+  /** Bytes the archive expands to on disk. */
+  uploadBytes: number;
+  /** Collections in this installation the archive says nothing about. */
+  untouchedCollections: string[];
+  /** Anything worth reading before pressing the button. */
+  warnings: string[];
+}
+
+export interface RestoreResult {
+  mode: RestoreMode;
+  manifest: BackupManifest;
+  collections: Array<{
+    name: string;
+    inserted: number;
+    /** Documents overwritten in place (merge only). */
+    updated: number;
+    /** Documents removed before inserting (replace only). */
+    removed: number;
+  }>;
+  documents: number;
+  uploads: { written: number; skipped: number };
+  /** True when the restore rewrote `users`, so the caller's session may be gone. */
+  usersReplaced: boolean;
+  /** The pre-restore backup taken automatically, when one was asked for. */
+  safetyBackup?: BackupTicket;
 }
 
 /* -------------------------------------------------------------------------- */

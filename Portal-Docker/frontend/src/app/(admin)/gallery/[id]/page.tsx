@@ -110,7 +110,7 @@ function PhotosManager({ albumId }: { albumId: string }) {
               />
               {photo.video && (
                 <span
-                  className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-silver-950/75 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm"
+                  className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-sand-950/75 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm"
                   title={photo.video.url}
                 >
                   <PlayIcon className="size-2.5 fill-current" />

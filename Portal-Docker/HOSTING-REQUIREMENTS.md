@@ -7,7 +7,9 @@ the API, and a snapshot of the church's content, media and accounts. The host
 does **not** need Node, npm, MongoDB, a web server, or the source code.
 
 Operating instructions are in [DEPLOY-AND-TEST.md](DEPLOY-AND-TEST.md) and
-[docker/DEPLOY.md](docker/DEPLOY.md). This file is only the shopping list.
+[docker/DEPLOY.md](docker/DEPLOY.md); ready-made configuration for Render,
+Railway, Fly.io and Heroku is in [deploy/](deploy/README.md). This file is only
+the shopping list.
 
 ---
 
@@ -63,7 +65,7 @@ arm64 (Raspberry Pi 5, Ampere, Apple silicon) has no AVX requirement. Confirm
 the published tag covers the host's architecture before provisioning:
 
 ```bash
-docker manifest inspect stmarksdev/csistmarkscmsportal:1.0
+docker manifest inspect stmarksdev/csistmarkscmsportal:1.5
 ```
 
 If that returns a single-architecture manifest, the image must be rebuilt with
@@ -91,8 +93,8 @@ accept less. A host that cannot spare it needs an external database.
 room to pull an upgrade tag alongside the running one before switching over.
 Confirm the actual pulled size on the host with `docker image ls` and adjust.
 
-The data itself is small and grows slowly: the shipped snapshot is ~15 MB and
-261 media files at ~13.6 MB. Growth is whatever the parish uploads afterwards —
+The data itself is small and grows slowly: the shipped snapshot is ~15 MB in
+total — 577 documents and 376 media files. Growth is whatever the parish uploads afterwards —
 photographs and the occasional video, at 15 MB and 200 MB per-file ceilings.
 
 The storage must be **persistent block or file storage, not ephemeral**. This
@@ -147,8 +149,8 @@ Cloudflare Tunnel). Two things must be right:
   most image uploads. Match the container's own ceilings (`MAX_UPLOAD_MB=15`,
   `MAX_VIDEO_UPLOAD_MB=200`) or whatever they are set to.
 
-Also allow a generous proxy read timeout; the first boot restores 567 documents
-and 261 media files before anything listens.
+Also allow a generous proxy read timeout; the first boot restores 577 documents
+and 376 media files before anything listens.
 
 ---
 
@@ -178,8 +180,21 @@ volume, then drops to an unprivileged user. Nothing that serves a request runs
 as root. It needs no capabilities beyond the Docker default, no `--privileged`,
 and no host devices.
 
-It will **not** work where the platform forces a non-root UID at start
-(OpenShift's random-UID policy) or mounts the root filesystem read-only.
+A platform that forces an arbitrary non-root UID (OpenShift, and any Kubernetes
+with a restricted security context) is supported by the image: its writable
+directories are owned by group 0 and group-writable, which is the group those
+platforms put the imposed UID in, and the entrypoint skips the ownership fix
+when it is already unprivileged.
+
+The volume is the part that still needs attention there. A freshly provisioned
+one arrives owned by `root:root` with no group write, and no process in the
+container has the privilege to correct it — so set `fsGroup: 0` in the pod's
+security context (OpenShift's default `restricted-v2` SCC does this) and the
+mount arrives writable. Without it `mongod` exits on its first write to
+`/data/db`, which reads as a broken image rather than a missing field.
+
+It will **not** work with a read-only root filesystem. MongoDB and both Node
+processes need their writable paths, and `/data` alone is not enough.
 
 Set a restart policy of `unless-stopped`.
 

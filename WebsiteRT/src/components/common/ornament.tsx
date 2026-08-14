@@ -1,17 +1,21 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Liturgical cross mark — the redesign's section ornament, lifted from the
- * cross at the heart of the parish crest. Replaces the broadsheet folio number
- * as the thing that opens a masthead: a small crimson cross, optionally haloed
- * by a faint gilded ring, so every section is headed by the same sacred sign
- * rather than a printed folio.
+ * Liturgical cross mark — the section ornament, lifted from the cross at the
+ * heart of the parish crest.
+ *
+ * The halo is off by default now. A tinted ring around a small glyph is the
+ * icon-in-a-circle treatment that every template on the internet uses for its
+ * feature list, and setting one behind the cross at the head of every section
+ * turned a sacred sign into a UI badge. Bare, at the same size, it reads as a
+ * mark struck on the page — which is what it is. The ring is still available
+ * for the one or two places that genuinely want a medallion.
  */
 export function CrossMark({
   className,
   size = "md",
   tone = "sacred",
-  halo = true,
+  halo = false,
 }: {
   className?: string;
   size?: "sm" | "md" | "lg";
@@ -29,6 +33,8 @@ export function CrossMark({
   return (
     <span
       aria-hidden
+      /* Stable hook for season styling — see `data-button` on the Button. */
+      data-ornament="cross"
       className={cn(
         "relative inline-grid shrink-0 place-items-center",
         dims,
@@ -45,66 +51,38 @@ export function CrossMark({
           )}
         />
       ) : null}
+      {/*
+        A drawn cross, not a filled block.
+
+        The previous mark was a solid slab: 2.8 units of stroke on a 24 unit
+        square, with the arms meeting the upright at the same weight. At the
+        sizes it is actually used — 24 to 44 pixels — that reads as a heavy
+        plus sign. Struck as a line instead, with rounded ends and the
+        crossbar set high in the classical proportion, it reads as a cross
+        cut into stone or ruled in ink: lighter on the page, and more
+        obviously made by a hand.
+      */}
       <svg
         viewBox="0 0 24 24"
-        fill="currentColor"
-        className={cn("relative size-[55%]", color)}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        className={cn("relative size-[62%]", color)}
       >
-        <path d="M10.6 2h2.8v4.2H19v2.8h-5.6V22h-2.8V9H5V6.2h5.6V2Z" />
+        <path d="M12 2.6v18.8M5.4 8.4h13.2" />
       </svg>
     </span>
   );
 }
 
 /**
- * Sanctuary motes — a scattering of gilded diamonds that drift slowly behind an
- * emotional section, like dust caught in light through a window. Purely
- * decorative and hidden from assistive tech; the drift stills under
- * `prefers-reduced-motion`. Kept sparse and low-contrast so it reads as depth,
- * never as confetti.
- */
-export function SanctuaryMotes({
-  tone = "onDark",
-  className,
-}: {
-  tone?: "default" | "onDark";
-  className?: string;
-}) {
-  const dot =
-    tone === "onDark" ? "bg-accent-300/35" : "bg-accent-500/25";
-
-  const motes = [
-    "left-[9%] top-[22%] size-2 float-a",
-    "left-[84%] top-[16%] size-1.5 float-b",
-    "left-[72%] top-[64%] size-2 float-c",
-    "left-[18%] top-[74%] size-1.5 float-b",
-    "left-[48%] top-[12%] size-1 float-a",
-    "left-[60%] top-[40%] size-1 float-c",
-  ];
-
-  return (
-    <div
-      aria-hidden
-      className={cn(
-        "pointer-events-none absolute inset-0 -z-10 overflow-hidden",
-        className,
-      )}
-    >
-      {motes.map((m, i) => (
-        <span
-          key={i}
-          className={cn("absolute rotate-45 rounded-[1px]", dot, m)}
-        />
-      ))}
-    </div>
-  );
-}
-
-/**
- * Illuminated divider — a centred cross struck between two gilded rules that
- * bloom toward it. The redesign's rest between movements, replacing the plain
- * hairline `SectionDivider`. Small flanking diamonds pick up the gilding of the
- * crest's rays.
+ * Illuminated divider — a centred cross struck between two long rules.
+ *
+ * The rest between movements. It had a pair of gilded diamonds flanking the
+ * cross as well; four marks where one will do is how a flourish becomes
+ * clutter, so the cross now stands alone between the rules and the pause reads
+ * as a caesura rather than an ornament rail.
  */
 export function IlluminatedDivider({
   className,
@@ -118,23 +96,11 @@ export function IlluminatedDivider({
   return (
     <div
       aria-hidden
-      className={cn("flex items-center justify-center gap-4", className)}
+      className={cn("flex items-center justify-center gap-5", className)}
     >
-      <span className={cn("h-px w-16 rule-gild sm:w-28", rule)} />
-      <span
-        className={cn(
-          "size-1.5 rotate-45",
-          tone === "onDark" ? "bg-accent-300/70" : "bg-accent-500/70",
-        )}
-      />
+      <span className={cn("h-px w-20 rule-gild sm:w-36", rule)} />
       <CrossMark size="sm" tone={tone === "onDark" ? "onDark" : "sacred"} />
-      <span
-        className={cn(
-          "size-1.5 rotate-45",
-          tone === "onDark" ? "bg-accent-300/70" : "bg-accent-500/70",
-        )}
-      />
-      <span className={cn("h-px w-16 rotate-180 rule-gild sm:w-28", rule)} />
+      <span className={cn("h-px w-20 rotate-180 rule-gild sm:w-36", rule)} />
     </div>
   );
 }

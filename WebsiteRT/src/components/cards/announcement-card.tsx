@@ -49,7 +49,7 @@ export async function AnnouncementCard({
           className="pointer-events-none absolute inset-0 opacity-70"
           style={{
             backgroundImage:
-              "radial-gradient(70% 100% at 0% 0%, oklch(0.508 0.166 34 / 0.35), transparent 65%)",
+              `radial-gradient(70% 100% at 0% 0%, var(--season-light-dark, oklch(0.508 0.166 34 / 0.35)), transparent 65%)`,
           }}
         />
 
@@ -90,7 +90,7 @@ export async function AnnouncementCard({
       <CardBody>
         <time
           dateTime={announcement.publishedAt}
-          className="numeric label text-accent-700"
+          className="numeric label text-[var(--muted-foreground)]"
         >
           {date}
         </time>

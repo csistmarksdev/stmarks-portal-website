@@ -84,27 +84,37 @@ export async function ContactPreview() {
         }
       />
 
-      {/* A ruled directory rather than four floating boxes — gilded marks, the
-          rows divided like a register. */}
+      {/*
+        A register, not four boxes.
+
+        Each entry carried its icon inside a tinted circle — the treatment every
+        template on the internet uses for its list of features, and four of them
+        in a two-by-two grid is exactly that layout. The circles are gone: the
+        glyph sits in the margin at the weight of a printer's mark, the label
+        rides above the answer in small caps, and the rows are divided by the
+        same hairline that rules the rest of the page. It reads like the back
+        page of a parish notice, which is where a stranger looks for an address.
+      */}
       <Reveal>
-        <ul className="grid overflow-hidden rounded-[var(--radius-sanctuary)] bg-[var(--surface)] shadow-sanctuary ring-1 ring-sand-200/70 sm:grid-cols-2">
+        <ul className="relative grid overflow-hidden rounded-card bg-[var(--surface)] shadow-card ring-1 ring-[var(--border)] sm:grid-cols-2">
           {items.map((item) => {
             const Icon = item.icon;
 
             return (
               <li
                 key={item.key}
-                className="flex items-start gap-4 border-t border-sand-200/70 px-6 py-6 first:border-t-0 sm:px-8 sm:even:border-l sm:[&:nth-child(2)]:border-t-0"
+                className="group/entry flex items-start gap-4 border-t border-[var(--border)] px-6 py-7 first:border-t-0 sm:px-9 sm:py-8 sm:even:border-l sm:[&:nth-child(2)]:border-t-0"
               >
-                <span
+                <Icon
                   aria-hidden
-                  className="grid size-11 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-700 ring-1 ring-accent-500/20"
-                >
-                  <Icon className="size-5" />
-                </span>
+                  strokeWidth={1.5}
+                  className="mt-0.5 size-5 shrink-0 text-accent-700"
+                />
 
                 <div className="min-w-0">
-                  <h3 className="label text-accent-700">{item.label}</h3>
+                  <h3 className="label text-[var(--muted-foreground)]">
+                    {item.label}
+                  </h3>
 
                   {item.href ? (
                     <a
@@ -112,12 +122,12 @@ export async function ContactPreview() {
                       {...(item.external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="mt-2 block leading-relaxed text-[var(--foreground)] transition-colors hover:text-[var(--primary)]"
+                      className="link-underline mt-2.5 inline-block leading-relaxed text-[var(--foreground)] transition-colors hover:text-[var(--primary)]"
                     >
                       {item.value}
                     </a>
                   ) : (
-                    <p className="mt-2 leading-relaxed text-[var(--foreground)]">
+                    <p className="mt-2.5 leading-relaxed text-[var(--foreground)]">
                       {item.value}
                     </p>
                   )}

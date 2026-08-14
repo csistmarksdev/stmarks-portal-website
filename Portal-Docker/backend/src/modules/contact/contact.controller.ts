@@ -56,7 +56,10 @@ export class ContactAdminController {
 
   @Get()
   @RequirePermissions("contact.read")
-  @ApiOperation({ summary: "Contact form submissions, newest first" })
+  @ApiOperation({
+    summary:
+      "Contact form submissions, newest first. `search` matches sender, email, subject and body.",
+  })
   list(
     @Query() query: PaginationQueryDto,
     @Query("unread") unread?: string,
@@ -65,6 +68,7 @@ export class ContactAdminController {
       query.page ?? 1,
       query.pageSize ?? 20,
       unread === "true",
+      query.search,
     );
   }
 

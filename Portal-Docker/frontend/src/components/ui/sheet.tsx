@@ -21,7 +21,7 @@ function SheetContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="animate-overlay fixed inset-0 z-50 bg-silver-950/50 backdrop-blur-[2px]" />
+      <DialogPrimitive.Overlay className="animate-overlay fixed inset-0 z-50 bg-sand-950/50 backdrop-blur-[2px]" />
       <DialogPrimitive.Content
         className={cn(
           "animate-sheet pb-safe fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] overflow-y-auto rounded-t-3xl bg-card [box-shadow:var(--shadow-float)]",

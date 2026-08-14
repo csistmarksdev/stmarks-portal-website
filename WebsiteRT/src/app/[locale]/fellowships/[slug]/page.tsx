@@ -166,8 +166,8 @@ export default async function FellowshipPage({
       {/* At a glance */}
       <Section spacing="md">
         <Reveal>
-          <p className="label mb-5 flex items-center gap-2.5 text-accent-700">
-            <span aria-hidden className="h-px w-6 rule-brass" />
+          <p className="label mb-5 flex items-center gap-2.5 text-[var(--muted-foreground)]">
+            <span aria-hidden className="h-px w-6 rule-section" />
             {t("atAGlance")}
           </p>
           <StatLedger items={glance} />
@@ -220,7 +220,7 @@ export default async function FellowshipPage({
               return (
                 <StaggerItem key={member.id} className="w-full max-w-[13rem]">
                   <figure className="group text-center">
-                    <div className="window-arch relative mx-auto aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950 shadow-sanctuary ring-1 ring-sand-200">
+                    <div className="window-arch relative mx-auto aspect-[4/5] w-full overflow-hidden bg-brand-800 shadow-card ring-1 ring-[var(--border)]">
                       {member.image ? (
                         <Image
                           src={member.image.url}
@@ -246,9 +246,9 @@ export default async function FellowshipPage({
                       </p>
                       <span
                         aria-hidden
-                        className="mx-auto mt-2 block h-px w-8 rule-gild"
+                        className="mx-auto mt-2 block h-px w-8 rule-section"
                       />
-                      <p className="label mt-2 text-accent-700">
+                      <p className="label mt-2 text-[var(--muted-foreground)]">
                         {localize(member.designation, locale)}
                       </p>
                     </figcaption>

@@ -64,7 +64,7 @@
       "currentPastors": "Current Pastors",
       "assistantPastors": "Assistant Pastors",
       "committee": "Church Committee",
-      "formerPastors": "Former Pastors"
+      "presbyters": "List of Presbyters"
     },
     "fellowshipItems": {
       "youth": "Youth Fellowship",
@@ -78,7 +78,7 @@
     }
   },
   "header": {
-    "worshipWithUs": "Worship with us"
+    "planVisit": "Plan your visit"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -239,11 +239,10 @@
       "title": "Church Staff",
       "subtitle": "Those who keep the church and its grounds in good order."
     },
-    "formerPastors": {
-      "title": "Former Pastors",
-      "subtitle": "With gratitude for those who served before us.",
-      "tenure": "{from} – {to}",
-      "present": "Present"
+    "presbyters": {
+      "title": "List of Presbyters",
+      "subtitle": "The succession of ministers who have served this congregation, from its years under Moovarasampet and Adambakkam to the Madipakkam Unit.",
+      "term": "{from} – {to}"
     },
     "card": {
       "since": "Serving since {year}",
@@ -417,6 +416,9 @@
       "email": "Email",
       "office": "Office Hours"
     },
+    "timings": {
+      "title": "Church Timings"
+    },
     "map": {
       "title": "Find us",
       "label": "Map showing the location of {name}",
@@ -466,5 +468,24 @@
     "title": "Something went wrong",
     "subtitle": "An unexpected error occurred. Please try again.",
     "retry": "Try again"
+  },
+  "season": {
+    "christmas": {
+      "greeting": "Merry Christmas & Happy New Year",
+      "blessing": "Glory to God in the highest"
+    },
+    "lent": {
+      "greeting": "Return to me with all your heart",
+      "reference": "Joel 2:12",
+      "label": "Lent"
+    },
+    "goodFriday": {
+      "greeting": "It is finished",
+      "reference": "John 19:30"
+    },
+    "easter": {
+      "greeting": "Christ is risen!",
+      "response": "He is risen indeed. Halleluyah!"
+    }
   }
 }

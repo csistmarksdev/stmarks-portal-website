@@ -1,6 +1,6 @@
 "use client";
 
-import type { PublishStatus } from "@portal/shared";
+import type { ImageAsset, PublishStatus } from "@portal/shared";
 import { PUBLISH_STATUSES } from "@portal/shared";
 import {
   ArchiveIcon,
@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
+import { CardBanner } from "@/components/admin/card-banner";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
@@ -58,6 +59,8 @@ export function ResourceListPage<T extends WithIdStatus>({
   routeBase,
   label,
   columns,
+  banner,
+  bannerNoun,
   extraRowActions,
   canCreate = true,
   searchPlaceholder,
@@ -74,6 +77,16 @@ export function ResourceListPage<T extends WithIdStatus>({
   routeBase: string;
   label: string;
   columns: ColumnDef<T>[];
+  /**
+   * The record's own picture, shown across the top of its card.
+   *
+   * Opt-in per collection rather than assumed, because not every one has an
+   * image — announcements and downloads have nothing to show, and giving them
+   * a placeholder band would be inventing a gap rather than reporting one.
+   */
+  banner?: (item: T) => ImageAsset | undefined;
+  /** What the picture is called, for the empty state: "No cover yet". */
+  bannerNoun?: string;
   extraRowActions?: (item: T) => ReactNode;
   canCreate?: boolean;
   searchPlaceholder?: string;
@@ -161,7 +174,9 @@ export function ResourceListPage<T extends WithIdStatus>({
       {isLoading ? (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-44 rounded-3xl" />
+            // Matches the real card's height in each mode, so the grid does not
+            // jolt taller the moment the data lands.
+            <Skeleton key={i} className={banner ? "h-80 rounded-3xl" : "h-44 rounded-3xl"} />
           ))}
         </div>
       ) : isError ? (
@@ -218,8 +233,20 @@ export function ResourceListPage<T extends WithIdStatus>({
                    box-shadow + transform only) — this previously used
                    `transition-all`, which animated the gradient and every
                    colour on all 20 cards and made hovering the grid stutter. */
-                className="flex flex-col hover:-translate-y-1 hover:ring-border-strong hover:[box-shadow:var(--shadow-card-hover)]"
+                className="flex flex-col overflow-hidden hover:-translate-y-1 hover:ring-border-strong hover:[box-shadow:var(--shadow-card-hover)]"
               >
+                {banner &&
+                  (can("content.write") ? (
+                    // The picture is part of the same target as the title —
+                    // clicking a card's image to open the record is the thing
+                    // everyone tries first.
+                    <Link href={`${routeBase}/${item.id}`} aria-hidden tabIndex={-1}>
+                      <CardBanner image={banner(item)} noun={bannerNoun} />
+                    </Link>
+                  ) : (
+                    <CardBanner image={banner(item)} noun={bannerNoun} />
+                  ))}
+
                 <div className="flex-1 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 text-[15px] leading-snug">

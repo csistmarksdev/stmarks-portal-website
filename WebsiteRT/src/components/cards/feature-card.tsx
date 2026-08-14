@@ -43,7 +43,7 @@ export function FeatureCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-sanctuary)] bg-[var(--surface)] p-8 shadow-sanctuary ring-1 ring-sand-200/70 transition-all duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-sanctuary-hover sm:p-10",
+        "group relative flex h-full flex-col overflow-hidden rounded-card bg-[var(--surface)] p-8 shadow-card ring-1 ring-[var(--border)] transition-all duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-card-hover sm:p-10",
         className,
       )}
     >
@@ -51,7 +51,7 @@ export function FeatureCard({
           margin on a manuscript leaf. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-4 rounded-[calc(var(--radius-sanctuary)-0.75rem)] ring-1 ring-accent-500/20"
+        className="pointer-events-none absolute inset-4 rounded-[2px] ring-1 ring-accent-500/20"
       />
 
       {/* Versal initial, standing behind the text. */}
@@ -79,7 +79,7 @@ export function FeatureCard({
         {title}
       </h3>
 
-      <span aria-hidden className="relative mt-4 block h-px w-16 rule-gild" />
+      <span aria-hidden className="relative mt-4 block h-px w-16 rule-section" />
 
       <p className="relative mt-5 text-base leading-relaxed text-[var(--muted-foreground)] sm:text-lg">
         {body}

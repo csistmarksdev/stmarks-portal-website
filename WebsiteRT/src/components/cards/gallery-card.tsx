@@ -108,7 +108,7 @@ export async function GalleryCard({
       */}
       <Link
         href={ROUTES.album(album.slug)}
-        className="absolute inset-0 z-10 rounded-[var(--radius-plate)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        className="absolute inset-0 z-10 rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         <span className="sr-only">{title}</span>
       </Link>

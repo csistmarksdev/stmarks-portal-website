@@ -30,7 +30,7 @@ import * as bcrypt from "bcryptjs";
 import type { Model } from "mongoose";
 import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import sharp from "sharp";
 
 import { AppModule } from "../app.module";
@@ -129,7 +129,7 @@ async function seed() {
      */
     const config = app.get(ConfigService);
     const placeholderImage = await ensurePlaceholderImage(
-      join(process.cwd(), config.get<string>("uploadDir", "uploads")),
+      resolve(process.cwd(), config.get<string>("uploadDir", "uploads")),
       config.get<string>("publicUrl", "http://localhost:4000"),
     );
 

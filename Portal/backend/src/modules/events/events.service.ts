@@ -13,6 +13,7 @@ import type { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
+import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
@@ -111,9 +112,9 @@ export class EventsService {
     if (status) filter.status = status;
     if (search) {
       filter.$or = [
-        { "title.en": { $regex: search, $options: "i" } },
-        { "title.ta": { $regex: search, $options: "i" } },
-        { slug: { $regex: search, $options: "i" } },
+        { "title.en": containsInsensitive(search) },
+        { "title.ta": containsInsensitive(search) },
+        { slug: containsInsensitive(search) },
       ];
     }
     const [docs, total] = await Promise.all([

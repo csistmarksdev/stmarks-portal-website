@@ -374,6 +374,33 @@ group("Media");
   check("images are cross-origin readable by the Website",
     fetched.every((f) => f.cors === "*"),
     `access-control-allow-origin: ${fetched[0]?.cors ?? "n/a"}`);
+
+  /*
+   * Media URLs must follow the host each request arrived on, not the one baked
+   * in at boot.
+   *
+   * The check above passes whenever the deployment is reached at its own
+   * configured `PUBLIC_URL` — which is every check run from the machine hosting
+   * it. The failure it cannot see is a portal whose stored origin is
+   * `http://localhost:8080` (the default when nothing is configured) served to
+   * browsers on other machines: the API answers 200, the files are on disk, and
+   * every image is broken because `localhost` is the *viewer's* computer.
+   *
+   * Asking for a hostname this deployment has never been reached on is what
+   * separates the two.
+   */
+  const foreign = "contract-check.invalid";
+  const { body: rehosted } = await get("/gallery", {
+    "X-Forwarded-Host": foreign,
+    "X-Forwarded-Proto": "https",
+  });
+  const rehostedImages = collectImages(Array.isArray(rehosted) ? rehosted : []);
+  const followed = rehostedImages.filter((i) => new URL(i.url).host === foreign);
+  check("media URLs follow the request's host (not the baked-in origin)",
+    rehostedImages.length > 0 && followed.length === rehostedImages.length,
+    rehostedImages.length === 0
+      ? "no images to check"
+      : `${followed.length}/${rehostedImages.length} — e.g. ${rehostedImages[0].url}`);
 }
 
 /* -- pagination ---------------------------------------------------------- */

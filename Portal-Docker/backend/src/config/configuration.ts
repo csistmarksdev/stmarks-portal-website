@@ -6,6 +6,8 @@ export interface AppConfig {
   publicUrl: string;
   corsOrigins: string[];
   corsAllowPrivateNetwork: boolean;
+  /** Express `trust proxy` setting. `false` disables forwarded headers. */
+  trustProxy: boolean | string | number;
   mongodbUri: string;
   jwt: {
     accessSecret: string;
@@ -20,6 +22,18 @@ export interface AppConfig {
     url: string;
     secret: string;
   };
+}
+
+/**
+ * `TRUST_PROXY` as Express understands it: `false`/`true`, a hop count, or a
+ * named range such as `loopback`.
+ */
+function parseTrustProxy(raw?: string): boolean | number | string | undefined {
+  if (raw === undefined || raw === "") return undefined;
+  if (raw === "false") return false;
+  if (raw === "true") return true;
+  const hops = Number(raw);
+  return Number.isInteger(hops) && hops >= 0 ? hops : raw;
 }
 
 export default (): AppConfig => ({
@@ -54,6 +68,20 @@ export default (): AppConfig => ({
     process.env.CORS_ALLOW_PRIVATE_NETWORK !== undefined
       ? process.env.CORS_ALLOW_PRIVATE_NETWORK !== "false"
       : process.env.NODE_ENV !== "production",
+  /*
+   * Whether to believe `X-Forwarded-For`.
+   *
+   * This decides what `req.ip` is, and `req.ip` is what the rate limiter buckets
+   * by and what the audit log records. Left off behind a proxy, every request in
+   * the world shares one bucket — one attacker can exhaust the sign-in limit for
+   * the whole parish, and every audit entry names the proxy instead of a person.
+   * Turned on when nothing is in front, a caller sets the header themselves and
+   * the per-IP limit stops meaning anything.
+   *
+   * Off by default: in this layout the API is reached directly, so any
+   * `X-Forwarded-For` on an inbound request was put there by the caller.
+   */
+  trustProxy: parseTrustProxy(process.env.TRUST_PROXY) ?? false,
   mongodbUri:
     process.env.MONGODB_URI ?? "mongodb://localhost:27017/csistmc-portal",
   jwt: {
@@ -62,6 +90,20 @@ export default (): AppConfig => ({
     refreshSecret: process.env.JWT_REFRESH_SECRET ?? "dev-refresh-secret",
     refreshExpires: process.env.JWT_REFRESH_EXPIRES ?? "7d",
   },
+  /*
+   * Where uploaded media is written. Relative to the working directory, or
+   * absolute.
+   *
+   * Absolute is what makes single-disk hosting work. Render, Fly and Railway
+   * give a service exactly one persistent volume, and this deployment has two
+   * things that must survive a redeploy — the database and the media. Pointing
+   * `UPLOAD_DIR=/data/uploads` puts both under the one mount.
+   *
+   * Every consumer resolves this with `path.resolve` rather than `path.join`
+   * for that reason: `join("/app/backend", "/data/uploads")` quietly produces
+   * `/app/backend/data/uploads`, so an absolute setting would be accepted,
+   * ignored, and the media written to the container's ephemeral layer instead.
+   */
   uploadDir: process.env.UPLOAD_DIR ?? "uploads",
   maxUploadMb: parseInt(process.env.MAX_UPLOAD_MB ?? "15", 10),
   maxVideoUploadMb: parseInt(process.env.MAX_VIDEO_UPLOAD_MB ?? "200", 10),

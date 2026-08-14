@@ -18,6 +18,8 @@ export default function BlogPage() {
       searchPlaceholder="Search by title…"
       emptyTitle="No stories written yet"
       emptyHint="After the next event, write up how it went — posts can link back to the event they report on."
+      banner={(post) => post.coverImage}
+      bannerNoun="cover"
       columns={[
         {
           key: "title",

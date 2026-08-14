@@ -1,0 +1,62 @@
+{
+  "name": "CSI St. Mark's Portal",
+  "description": "Admin CMS and content API for the church website. Carries its own content, media and accounts; needs an external MongoDB on Heroku because a dyno has no disk.",
+  "keywords": ["church", "cms", "nestjs", "nextjs", "mongodb"],
+  "stack": "container",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "env": {
+    "MONGODB_URI": {
+      "description": "Required on Heroku. A dyno's filesystem is ephemeral, so the bundled MongoDB would lose everything on each restart. Use MongoDB Atlas or any managed instance: mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal. The snapshot is restored into it on first boot, per collection, only where a collection is empty.",
+      "required": true
+    },
+    "STATE_DIR": {
+      "description": "Where generated secrets are written. /tmp is the only writable path on a dyno; it does not survive a restart, which is why the secrets below are set explicitly rather than generated.",
+      "value": "/tmp/portal-state"
+    },
+    "JWT_ACCESS_SECRET": {
+      "description": "Signs access tokens. At least 32 characters, and different from the refresh secret. Generated here so that sessions survive the daily dyno restart — without a disk the container would otherwise mint new secrets on every boot and sign everyone out.",
+      "generator": "secret"
+    },
+    "JWT_REFRESH_SECRET": {
+      "description": "Signs refresh tokens. Must differ from the access secret: sharing them means a leaked access token can forge refresh tokens too.",
+      "generator": "secret"
+    },
+    "SEED_ADMIN_PASSWORD": {
+      "description": "Only used to create an administrator on a database that has none. The snapshot already carries the church's accounts, so on a normal deploy this is never used — it exists so an empty external database still ends up with a way in. At least 12 characters.",
+      "generator": "secret"
+    },
+    "TRUST_PROXY": {
+      "description": "Heroku terminates TLS at its router and forwards. Without this every request appears to come from the router, so the rate limiter buckets the whole world into one bucket and the audit log records Heroku instead of a person.",
+      "value": "1"
+    },
+    "CORS_ORIGINS": {
+      "description": "Origins allowed to call the API — the public website's domain, comma-separated. Defaults to * so the portal answers wherever it is reached; narrow it once the website's domain is settled.",
+      "value": "*",
+      "required": false
+    },
+    "PUBLIC_URL": {
+      "description": "Only needed for a custom domain. Heroku forwards X-Forwarded-Host and X-Forwarded-Proto, so media URLs already come back on the hostname the request arrived on.",
+      "required": false
+    },
+    "WEBSITE_REVALIDATE_URL": {
+      "description": "The public website's revalidation endpoint. Without it, publishing in the CMS never refreshes the website.",
+      "required": false
+    },
+    "WEBSITE_REVALIDATE_SECRET": {
+      "description": "Shared secret for the revalidation endpoint above.",
+      "required": false
+    }
+  },
+  "healthchecks": [
+    {
+      "type": "startup",
+      "name": "portal",
+      "path": "/v1/health"
+    }
+  ]
+}

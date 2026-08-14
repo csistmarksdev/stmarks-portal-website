@@ -28,23 +28,44 @@ export function Sidebar() {
 
   return (
     <aside className="fixed inset-y-4 left-4 z-40 hidden w-60 flex-col overflow-hidden rounded-3xl bg-gradient-to-b from-card to-card-wash ring-1 ring-border/70 [box-shadow:var(--shadow-card-hover)] lg:flex">
-      <div className="flex items-center gap-3 border-b border-border/70 px-5 pb-4 pt-5">
+      {/*
+       * Crest, name, arms — the same arrangement the public site uses in its
+       * header, so the CMS is recognisably the back of the same building.
+       *
+       * `unoptimized` on both: these are SVGs, and Next's image optimiser
+       * refuses SVG unless `dangerouslyAllowSVG` is on. Without it the requests
+       * 400 and the header comes up with two broken images.
+       */}
+      <div className="flex items-center gap-2 border-b border-border/70 px-4 pb-4 pt-5">
         <Image
-          src="/logo.png"
+          src="/Logo1.svg"
           alt=""
-          width={36}
-          height={40}
+          aria-hidden
+          width={940}
+          height={940}
           priority
-          className="h-10 w-auto shrink-0"
+          unoptimized
+          className="size-9 shrink-0 object-contain"
         />
-        <div className="leading-tight">
-          <p className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-tight text-foreground">
+        <div className="min-w-0 flex-1 text-center leading-tight">
+          <p className="truncate font-[family-name:var(--font-display)] text-[13px] font-semibold tracking-tight text-foreground">
             St. Mark&apos;s Portal
           </p>
-          <p className="label mt-0.5 text-[9px] tracking-[0.18em] text-accent-fg">
+          <p className="label mt-0.5 truncate text-[9px] tracking-[0.16em] text-accent-fg">
             CSI Madipakkam
           </p>
         </div>
+        {/* The diocesan arms, balancing the parish crest across the name. */}
+        <Image
+          src="/Logo2.svg"
+          alt=""
+          aria-hidden
+          width={523}
+          height={860}
+          priority
+          unoptimized
+          className="h-9 w-auto shrink-0 object-contain"
+        />
       </div>
 
       <nav className="scrollbar-ghost flex-1 space-y-5 overflow-y-auto px-3 pb-4 pt-4">
@@ -76,9 +97,6 @@ export function Sidebar() {
                         )}
                       />
                       {item.label}
-                      {active && (
-                        <span className="absolute right-2.5 size-1.5 rounded-full bg-accent-500" />
-                      )}
                     </Link>
                   </li>
                 );

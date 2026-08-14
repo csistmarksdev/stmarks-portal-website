@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { usePastOpening } from "@/providers/hero-scroll-provider";
 
@@ -108,10 +108,10 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
    * other page the first section is the dark PageHero, which is short, so the
    * usual scroll threshold applies.
    */
-  const isTransparent = overHero ?? !pastOpening;
+  const isHero = overHero ?? !pastOpening;
 
   /** The glass surface appears only once the header sits over page content. */
-  const showSurface = pastOpening;
+  const showSurface = !isHero;
 
   function isActive(href: string) {
     if (href === ROUTES.home) return pathname === ROUTES.home;
@@ -122,7 +122,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
     The menu shares the bar's surface, so it shares the bar's text colour too:
     light over a hero, dark once the glass appears.
   */
-  const lightOnDark = isTransparent;
+  const lightOnDark = isHero;
 
   return (
     // `data-site-header` marks this as *the* site header for the splash
@@ -134,7 +134,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
         aria-hidden
         className={cn(
           "pointer-events-none fixed inset-x-0 top-0 h-32 bg-gradient-to-b from-black/45 to-transparent transition-opacity duration-500",
-          isTransparent ? "opacity-100" : "opacity-0",
+          isHero ? "opacity-100" : "opacity-0",
         )}
       />
 
@@ -155,107 +155,105 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
       </AnimatePresence>
 
       {/*
-        Floating island, sized by the page container so its edges line up
-        with the hero text and every section's measure below. Its shape never
-        reacts to the menu — the menu is a separate panel beneath it.
+        Header layout container:
+        In hero section: expanded separated layout across max-w-7xl with transparent background.
+        Scrolled past hero: compact floating pill with glass surface and rounded-full shape.
       */}
-      <Container className="relative">
-        <div
-          /*
-           * The splash screen's white ground morphs into this shape: it
-           * measures this box and clips its full-viewport white field down to
-           * it, so the field the reader has been looking at *becomes* the
-           * masthead rather than being cleared away in front of it.
-           */
+      <Container
+        size={isHero ? "full" : "xl"}
+        padded={false}
+        className="relative px-4 sm:px-8 lg:px-12 transition-all duration-500"
+      >
+        <motion.div
+          key={pathname}
+          layout
           data-header-pill
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+            mass: 0.8,
+          }}
           className={cn(
-            "rounded-full border transition-all duration-500 ease-[var(--ease-out-expo)]",
-            showSurface
-              ? "glass border-[var(--border)] shadow-lg shadow-sand-900/5"
-              : "border-white/15 bg-white/[0.06] backdrop-blur-md",
+            "mx-auto flex h-[var(--header-height)] items-center justify-between gap-4 sm:gap-6 lg:gap-8 rounded-full transition-colors duration-500",
+            isHero
+              ? "w-full bg-transparent border-transparent shadow-none"
+              : "w-full max-w-7xl px-5 sm:px-8 glass border border-[var(--border)] shadow-lg shadow-sand-900/5",
           )}
         >
-          <div className="flex h-[var(--header-height)] items-center justify-between gap-3 pl-4 pr-2.5 sm:pl-6 sm:pr-4">
-          {/* Wordmark */}
-          <Link
-            href={ROUTES.home}
-            className={cn(
-              // Must be allowed to shrink: with `shrink-0` the nav overflows
-              // on top of the wordmark instead of the name truncating. The cap
-              // is a little wider than the single-crest version was, to pay for
-              // the diocese arms now sitting on the other side of the name.
-              "group flex min-w-0 max-w-[62vw] items-center gap-2.5 transition-colors sm:max-w-none",
-              lightOnDark ? "text-white" : "text-[var(--foreground)]",
-            )}
-          >
-            {/* The parish crest. Drop-shadow lifts the silver shield edge off
-                both the dark hero and the light glass surface below it. */}
-            <Image
-              src="/Logo1.svg"
-              alt=""
-              aria-hidden
-              /*
-               * The splash screen's hand-off lands here: it measures this box
-               * and flies its own copy of the crest onto it, then swaps. This
-               * one is held at opacity 0 for the length of that flight — see
-               * `html[data-splash] [data-header-crest]` in `globals.css` — so
-               * the same emblem is never on screen twice at once.
-               */
-              data-header-crest
-              width={940}
-              height={940}
-              priority
-              unoptimized
-              className="size-9 shrink-0 object-contain drop-shadow-sm sm:size-10"
-            />
+          {/* Wordmark Logo */}
+          <motion.div layout="position" className="shrink-0">
+            <Link
+              href={ROUTES.home}
+              className={cn(
+                // Must be allowed to shrink: with `shrink-0` the nav overflows
+                // on top of the wordmark instead of the name truncating. The cap
+                // is a little wider than the single-crest version was, to pay for
+                // the diocese arms now sitting on the other side of the name.
+                "group flex min-w-0 max-w-[62vw] items-center gap-2 transition-colors sm:max-w-none sm:gap-2.5",
+                lightOnDark ? "text-white" : "text-[var(--foreground)]",
+              )}
+            >
+              {/* The parish crest. Drop-shadow lifts the silver shield edge off
+                  both the dark hero and the light glass surface below it. */}
+              <Image
+                src="/Logo1.svg"
+                alt=""
+                aria-hidden
+                data-header-crest
+                width={940}
+                height={940}
+                priority
+                unoptimized
+                className="size-8 shrink-0 object-contain drop-shadow-sm sm:size-9"
+              />
 
-            {/*
-              Church name over locality, centred between the two crests.
-              `text-center` rather than `items-center`: the lines stay
-              full-width so `truncate` keeps working, which it would not if
-              each line shrank to its own content width.
-            */}
-            <span className="flex min-w-0 flex-col text-center leading-[1.15]">
-              <span
-                data-wordmark
-                className="truncate font-display text-[0.8125rem] font-semibold sm:text-[0.9375rem]"
-              >
-                {tSite("wordmark.line1")}
+              {/*
+                Church name over locality, centred between the two crests.
+                `text-center` rather than `items-center`: the lines stay
+                full-width so `truncate` keeps working, which it would not if
+                each line shrank to its own content width.
+              */}
+              <span className="flex min-w-0 flex-col text-center leading-[1.15]">
+                <span
+                  data-wordmark
+                  className="truncate font-display text-[0.8rem] font-semibold sm:text-[0.875rem]"
+                >
+                  {tSite("wordmark.line1")}
+                </span>
+                <span
+                  data-wordmark-sub
+                  className={cn(
+                    "truncate text-[0.575rem] uppercase tracking-[0.14em] sm:text-[0.625rem]",
+                    lightOnDark
+                      ? "text-white/70"
+                      : "text-[var(--muted-foreground)]",
+                  )}
+                >
+                  {tSite("wordmark.line2")}
+                </span>
               </span>
-              <span
-                data-wordmark-sub
-                className={cn(
-                  "truncate text-[0.6rem] uppercase tracking-[0.14em] sm:text-[0.65rem]",
-                  lightOnDark
-                    ? "text-white/70"
-                    : "text-[var(--muted-foreground)]",
-                )}
-              >
-                {tSite("wordmark.line2")}
-              </span>
-            </span>
 
-            {/* The diocese arms, balancing the parish crest across the name.
-                Sized by height with a free width — the shield is portrait, so
-                a square box would shrink it to match the parish crest's
-                diameter rather than its stature. */}
-            <Image
-              src="/Logo2.svg"
-              alt=""
-              aria-hidden
-              width={523}
-              height={860}
-              priority
-              unoptimized
-              className="h-9 w-auto shrink-0 object-contain drop-shadow-sm sm:h-10"
-            />
-          </Link>
+              {/* The diocese arms, balancing the parish crest across the name. */}
+              <Image
+                src="/Logo2.svg"
+                alt=""
+                aria-hidden
+                width={523}
+                height={860}
+                priority
+                unoptimized
+                className="h-8 w-auto shrink-0 object-contain drop-shadow-sm sm:h-9"
+              />
+            </Link>
+          </motion.div>
 
           {/* Desktop navigation */}
-          <nav
+          <motion.nav
+            layout="position"
             data-site-nav
             aria-label={t("primary")}
-            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 xl:flex"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 xl:flex"
           >
             {nav.map((item) => {
               const active = isActive(item.href);
@@ -277,12 +275,12 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
                       hasChildren ? openDropdown === item.href : undefined
                     }
                     className={cn(
-                      "inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-1.5 text-[0.78rem] font-medium transition-colors",
-                      isTransparent
+                      "inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-1 text-[0.75rem] font-medium transition-colors sm:px-2.5 sm:py-1.5 sm:text-[0.78rem]",
+                      isHero
                         ? "text-white/85 hover:bg-white/10 hover:text-white"
                         : "text-[var(--foreground)] hover:bg-sand-100",
                       active &&
-                        (isTransparent
+                        (isHero
                           ? "bg-white/15 text-white"
                           : "text-[var(--primary)]"),
                     )}
@@ -326,12 +324,12 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
                 </div>
               );
             })}
-          </nav>
+          </motion.nav>
 
           {/* Right cluster */}
-          <div className="flex shrink-0 items-center gap-2.5">
+          <motion.div layout="position" className="flex shrink-0 items-center gap-2.5">
             <LanguageSwitcher
-              tone={isTransparent ? "onDark" : "default"}
+              tone={isHero ? "onDark" : "default"}
               className="hidden sm:flex"
             />
 
@@ -354,9 +352,8 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
                 <Menu aria-hidden className="size-5" />
               )}
             </button>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/*
           Menu panel: its own card below the bar, carrying the bar's surface

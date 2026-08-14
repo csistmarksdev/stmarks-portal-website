@@ -12,6 +12,7 @@ import { PermissionsGuard } from "./common/guards/permissions.guard";
 import { AnnouncementsModule } from "./modules/announcements/announcements.module";
 import { AuditModule } from "./modules/audit/audit.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { BackupModule } from "./modules/backup/backup.module";
 import { BlogModule } from "./modules/blog/blog.module";
 import { ChurchModule } from "./modules/church/church.module";
 import { ContactModule } from "./modules/contact/contact.module";
@@ -62,6 +63,7 @@ import { UsersModule } from "./modules/users/users.module";
     ChurchModule,
     ContactModule,
     DashboardModule,
+    BackupModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

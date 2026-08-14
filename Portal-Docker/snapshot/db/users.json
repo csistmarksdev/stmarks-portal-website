@@ -15,7 +15,7 @@
     },
     "updatedAt": {
       "$date": {
-        "$numberLong": "1785172923712"
+        "$numberLong": "1786219139185"
       }
     },
     "__v": {
@@ -23,9 +23,9 @@
     },
     "lastLoginAt": {
       "$date": {
-        "$numberLong": "1785172923712"
+        "$numberLong": "1786219139185"
       }
     },
-    "refreshTokenHash": "$2b$10$jCmcrt1cLAzko3zlN5lQcOPZr8k16GAiheKYg9VzoFyKP9d6orQ7u"
+    "refreshTokenHash": "$2b$10$AP2A6TutaRiVenKkpIA5GOi7mbK.tsTRN32W56EGKl8EJYEqCcel."
   }
 ]

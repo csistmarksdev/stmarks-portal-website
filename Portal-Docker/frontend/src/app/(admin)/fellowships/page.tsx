@@ -17,6 +17,8 @@ export default function FellowshipsPage() {
       searchPlaceholder="Search fellowships…"
       emptyTitle="No fellowships set up"
       emptyHint="Run the seed, or create each of the eight fellowships by hand — the website expects all of them."
+      banner={(fellowship) => fellowship.banner}
+      bannerNoun="banner"
       columns={[
         {
           key: "name",

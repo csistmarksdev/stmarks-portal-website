@@ -1,0 +1,210 @@
+# CSI St. Mark's Portal — one compose file that works everywhere.
+#
+#   docker login -u stmarksdev                                  # private image
+#   docker compose -f docker-compose.universal.yml up -d
+#   open http://localhost:8080
+#
+# Or paste it into Portainer's stack editor, ZimaOS's or CasaOS's "custom app"
+# import, Synology Container Manager, Dockge, Komodo, Coolify, Dokploy, a
+# Proxmox LXC with Docker, or Podman (`podman compose up -d`). Nothing here is
+# specific to any of them.
+#
+# What makes it portable, and what each rule costs
+# ------------------------------------------------
+# Every app-store UI ships its own partial compose parser, and each of the
+# following is a thing at least one of them gets wrong — silently, producing a
+# container that starts and behaves oddly rather than an error anyone can act on.
+#
+# 1. **No `${VAR}` substitution, anywhere.** The ZimaOS importer stores the text
+#    verbatim instead of expanding it, so `${JWT_ACCESS_SECRET:-}` would arrive
+#    as a literal 22-character string — and the API refuses to start on a secret
+#    shorter than 32 characters, boot-looping with nothing in the logs that names
+#    the cause. Every value below is either a literal or absent.
+#
+# 2. **No `env_file`.** Relative paths resolve against wherever the UI happened
+#    to write the file, which is not where you put it.
+#
+# 3. **No profiles, and one service.** Profiles are ignored by most importers,
+#    which then start the profiled service too — for this stack, a second portal
+#    with a second MongoDB fighting over the same volumes.
+#
+# 4. **No `version:` key.** It has been obsolete since Compose v2 and now only
+#    produces a warning on every command.
+#
+# 5. **Both halves of the port written out.** A bare `"8080"` publishes a random
+#    host port, and some UIs blank the container side of the mapping entirely.
+#
+# 6. **Named volumes rather than host paths.** `/DATA/AppData/...` exists on
+#    ZimaOS and nowhere else; `./data` lands wherever the UI's working directory
+#    happens to be. Named volumes work identically on every one of them.
+#    On ZimaOS, `docker-compose.zimaos.yml` uses that machine's own convention
+#    instead, so its file manager can see the data.
+#
+# The cost of rule 1 is that configuration moves out of this file. It is not
+# needed: the container generates its own secrets into the volume on first boot,
+# allows any origin, and detects its public URL. An empty environment is a
+# *correct* deployment, not an unconfigured one. What to set once a domain
+# exists is at the bottom.
+#
+# Related files:
+#   docker-compose.zimaos.yml   ZimaOS/CasaOS, with that machine's paths
+#   docker-compose.deploy.yml   the `docker compose` CLI, with a verify profile
+#   docker-compose.prod.yml     with a separate MongoDB container
+#   docker-compose.yml          build the image from source instead of pulling
+#   docker/DEPLOY.md            configuration, platforms, troubleshooting
+
+name: csistmarks-portal
+
+services:
+  portal:
+    # Pinned deliberately. `latest` moves whenever anything is pushed, so a host
+    # that restarts at the wrong moment silently changes version. Bumping this
+    # line is what makes an upgrade deliberate and a rollback one edit.
+    image: stmarksdev/csistmarkscmsportal:1.5
+    container_name: portal
+    restart: unless-stopped
+
+    ports:
+      # host:container. One port serves everything — /v1 and /uploads reach the
+      # API, everything else the admin CMS — so there is a single origin and no
+      # CORS between the two halves. Change only the left number.
+      - "8080:8080"
+
+    volumes:
+      # The database, and the secrets generated on first boot. Without this the
+      # portal still runs and returns to the shipped snapshot every time the
+      # container is recreated — fine for a trial, wrong for the parish's real
+      # portal.
+      - portal-data:/data
+      # Media uploaded through the CMS. The snapshot's 376 files are installed
+      # here on first boot; after that they are ordinary files the church owns.
+      - portal-uploads:/app/backend/uploads
+
+    environment:
+      # The only value set here, and only because it is knowable now: log
+      # timestamps and any server-rendered date are in the parish's own time
+      # rather than UTC. Everything else is either detected or generated.
+      TZ: Asia/Kolkata
+
+    # Ordered shutdown takes about fifteen seconds, and the default is ten.
+    #
+    # On stop, the entrypoint signals the API and the CMS first and leaves
+    # `mongod` running for a few more seconds so in-flight writes land and
+    # WiredTiger closes its files. Docker's 10-second default expires in the
+    # middle of that and SIGKILLs the database with its files open — which is
+    # survivable, because the next boot runs recovery, but recovery is exactly
+    # what this avoids needing.
+    stop_grace_period: 30s
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      # The first boot restores 577 documents and 376 media files before
+      # anything listens. A shorter grace period marks the container unhealthy
+      # while it is doing exactly what it was told to, and orchestrators respond
+      # by killing and retrying it — forever.
+      start_period: 120s
+      retries: 5
+
+    # A parish CMS plus its database. MongoDB's cache is already capped at
+    # 256 MB inside the container, so a gigabyte is headroom rather than a
+    # target. Both spellings are here on purpose: `mem_limit` is what the
+    # Compose CLI and most UIs read, `deploy.resources` is what Swarm and some
+    # importers read, and each ignores the other.
+    mem_limit: 1g
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+    # A parish box runs for years without anyone looking at it. Unbounded
+    # json-file logs are one of the two things that quietly fill its disk.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  portal-data:
+  portal-uploads:
+
+# Metadata for ZimaOS and CasaOS app lists. Every other Docker host ignores
+# unknown `x-` keys, so this costs nothing anywhere else.
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: portal
+  store_app_id: csistmarks-portal
+  webui_port: 8080
+  scheme: http
+  index: /
+  category: Media
+  title:
+    en_us: CSI St. Mark's Portal
+  tagline:
+    en_us: Admin CMS and content API for the church website
+  description:
+    en_us: >-
+      The parish content system: an admin CMS, a public content API, and the
+      church's existing content, media and accounts. Self-contained — it brings
+      its own database and needs nothing configured.
+  # icon: https://your-host/portal-icon.png
+  tips:
+    before_install:
+      en_us: >-
+        The image is private. Sign in to the registry on this machine first
+        (docker login -u stmarksdev), or add the credentials in the system
+        settings, otherwise the pull fails with "access denied".
+  port_map: "8080"
+  ports:
+    - container: "8080"
+      description:
+        en_us: The portal. The CMS and the API share this one port.
+  volumes:
+    - container: /data
+      description:
+        en_us: Database and generated secrets. Back this up.
+    - container: /app/backend/uploads
+      description:
+        en_us: Photographs and files uploaded through the CMS. Back this up too.
+
+# ---------------------------------------------------------------------------
+# Once there is a real domain
+#
+# Add these under `environment:` above, as literal values — no ${...}:
+#
+#   PUBLIC_URL: https://portal.stmarkschurch.org
+#     The canonical origin handed to the public website. Media URLs are
+#     rewritten to the origin each request arrived on regardless, so this is a
+#     better starting value rather than a requirement.
+#
+#   CORS_ORIGINS: https://stmarkschurch.org,https://www.stmarkschurch.org
+#     Defaults to "*", which is what lets the portal answer from any hostname it
+#     is reached on. Narrow it once the website's domain is settled.
+#
+#   TRUST_PROXY: "1"
+#     Set this if a reverse proxy terminates TLS in front. Without it every
+#     request appears to come from the proxy, so the rate limiter buckets the
+#     whole world together and the audit log records the proxy rather than a
+#     person.
+#
+#   JWT_ACCESS_SECRET / JWT_REFRESH_SECRET
+#     Generated into the volume on first boot and kept there. Set them only to
+#     survive a volume reset, or to share them with the website.
+#     `openssl rand -base64 48` — at least 32 characters, and not equal to each
+#     other.
+#
+#   WEBSITE_REVALIDATE_URL / WEBSITE_REVALIDATE_SECRET
+#     Without these, publishing in the CMS never refreshes the public website.
+#
+#   MONGODB_URI: mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal
+#     Point at a managed database and the bundled MongoDB never starts. The
+#     snapshot is restored into it on first boot, per collection, only where a
+#     collection is empty.

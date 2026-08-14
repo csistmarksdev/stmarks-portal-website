@@ -43,6 +43,42 @@ const nextConfig: NextConfig = {
     "*.local",
   ],
 
+  /*
+   * Security headers for the CMS itself.
+   *
+   * Next sends none of these by default, and the API's `helmet` does not cover
+   * this app — the two are separate servers, and behind the container's router
+   * they answer on one origin, so a reader cannot tell which sent what.
+   *
+   * `frame-ancestors 'none'` is the one that matters: without it the whole
+   * admin UI can be framed invisibly on another site and an administrator's
+   * clicks aimed at something else — deleting a record, or publishing one. The
+   * rest are inexpensive: stop the browser second-guessing declared types, and
+   * stop full URLs (which carry record ids) leaking to third parties in the
+   * referrer.
+   *
+   * No `script-src` policy here: Next inlines hydration scripts, and a CSP
+   * strict enough to be worth having would need nonces threaded through the
+   * whole app. Framing and sniffing are what this closes.
+   */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          },
+        ],
+      },
+    ];
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
     /*

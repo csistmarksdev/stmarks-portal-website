@@ -23,7 +23,7 @@ services:
     # Pinned, deliberately. `latest` moves whenever something is pushed, so a
     # host that restarts at the wrong moment silently changes version. Bump this
     # when you intend to upgrade — that is what makes rolling back one edit.
-    image: stmarksdev/csistmarkscmsportal:1.0
+    image: stmarksdev/csistmarkscmsportal:1.5
     container_name: portal
     restart: unless-stopped
 
@@ -63,6 +63,24 @@ services:
       # Point at a managed database and the bundled MongoDB never starts.
       # MONGODB_URI: mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal
 
+    # Ordered shutdown takes about fifteen seconds, and the default is ten.
+    #
+    # On stop, the entrypoint signals the API and the CMS first and leaves
+    # `mongod` running for a few more seconds so in-flight writes land and
+    # WiredTiger closes its files. Docker's 10-second default expires in the
+    # middle of that and SIGKILLs the database with its files open — survivable,
+    # because the next boot runs recovery, but recovery is what this avoids
+    # needing.
+    stop_grace_period: 30s
+
+    # Nobody looks at logs for years, and unbounded json-file logs are one of
+    # the two things that quietly fill a server's disk.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
     healthcheck:
       test:
         - CMD
@@ -71,7 +89,7 @@ services:
         - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
       interval: 30s
       timeout: 5s
-      # Generous: the first boot restores 567 documents and 261 media files
+      # Generous: the first boot restores 577 documents and 376 media files
       # before anything listens. Marking it unhealthy while it does exactly what
       # it was told to causes orchestrators to kill and retry it forever.
       start_period: 120s
@@ -99,15 +117,15 @@ services:
   # container is reachable by service name — which is how the Website will reach
   # it if they are deployed side by side.
   #
-  # The test is baked into images built after 2026-07-28. On the original `1.0`
-  # it is absent and this service exits with "Cannot find module" — either
-  # uncomment the bind mount below (needs this repository checked out beside the
-  # compose file), or copy it in once:
+  # The test is baked into the image from `1.1` onwards, so `1.5` has it. On the
+  # original `1.0` it is absent and this service exits with "Cannot find module"
+  # — either uncomment the bind mount below (needs this repository checked out
+  # beside the compose file), or copy it in once:
   #
   #   docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs
   #   docker exec portal node /app/check-website-api.mjs http://127.0.0.1:8080
   verify:
-    image: stmarksdev/csistmarkscmsportal:1.0
+    image: stmarksdev/csistmarkscmsportal:1.5
     profiles: ["verify"]
     depends_on:
       portal:

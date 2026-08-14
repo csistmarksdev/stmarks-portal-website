@@ -2,7 +2,6 @@ import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
-import { CrossMark } from "@/components/common/ornament";
 import { Card, CardBody, CardMedia } from "@/components/ui/card";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
@@ -71,7 +70,7 @@ export async function LeaderCard({
           <p className="truncate font-display text-base font-semibold leading-snug">
             {name}
           </p>
-          <p className="label mt-1.5 truncate text-accent-700">{designation}</p>
+          <p className="label mt-1.5 truncate text-[var(--muted-foreground)]">{designation}</p>
         </div>
       </Card>
     );
@@ -97,19 +96,19 @@ export async function LeaderCard({
             mediaFirst ? "lg:order-1" : "lg:order-2",
           )}
         >
-          <div className="lancet-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-sanctuary ring-1 ring-sand-200">
+          <div className="lancet-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-card ring-1 ring-[var(--border)]">
             {leader.image ? (
               <Image
                 src={leader.image.url}
                 alt={localize(leader.image.alt, locale)}
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
-                className="ken-burns object-cover"
+                className="object-cover"
               />
             ) : (
               <div
                 aria-hidden
-                className="grid size-full place-items-center bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+                className="grid size-full place-items-center bg-brand-800"
               >
                 <span className="font-display text-7xl font-semibold text-white/85">
                   {initials(name)}
@@ -132,8 +131,8 @@ export async function LeaderCard({
           )}
         >
           <div className="flex items-center gap-3">
-            <CrossMark size="sm" tone="sacred" />
-            <p className="label text-accent-700">{designation}</p>
+            <span aria-hidden className="h-px w-6 shrink-0 rule-section" />
+            <p className="label text-[var(--muted-foreground)]">{designation}</p>
           </div>
 
           <h3 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
@@ -146,7 +145,7 @@ export async function LeaderCard({
             </p>
           ) : null}
 
-          <span aria-hidden className="mt-6 block h-px w-20 rule-gild" />
+          <span aria-hidden className="mt-6 block h-px w-20 rule-section" />
 
           {bio ? (
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)] sm:text-lg">
@@ -211,7 +210,7 @@ export async function LeaderCard({
            instead of collapsing to a shorter card. */
         <div
           aria-hidden
-          className="grid aspect-[3/4] shrink-0 place-items-center rounded-t-[var(--radius-plate)] bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+          className="grid aspect-[3/4] shrink-0 place-items-center rounded-t-card bg-brand-800"
         >
           <span className="font-display text-5xl font-semibold text-white/85">
             {initials(name)}
@@ -225,7 +224,7 @@ export async function LeaderCard({
         </h3>
 
         <div className="mt-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-          <p className="label text-accent-700">{designation}</p>
+          <p className="label text-[var(--muted-foreground)]">{designation}</p>
 
           {leader.servingSince ? (
             <p className="numeric label text-[var(--muted-foreground)]">
@@ -241,7 +240,7 @@ export async function LeaderCard({
         ) : null}
 
         {hasContact ? (
-          <div className="mt-auto flex flex-col gap-2 border-t border-sand-200/80 pt-5">
+          <div className="mt-auto flex flex-col gap-2 border-t border-[var(--border)] pt-5">
             {leader.email ? (
               <a
                 href={`mailto:${leader.email}`}
@@ -306,7 +305,7 @@ function Avatar({
     <div
       aria-hidden
       className={cn(
-        "window-arch grid shrink-0 place-items-center bg-gradient-to-br from-brand-600 to-brand-800 font-display font-semibold text-white ring-1 ring-accent-500/25",
+        "window-arch grid shrink-0 place-items-center bg-brand-800 font-display font-semibold text-white ring-1 ring-accent-500/25",
         dimension,
         size === "sm" ? "text-sm" : "text-2xl",
       )}

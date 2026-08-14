@@ -64,14 +64,30 @@ function toFormValues(fields: FieldDef[], record: FormValues): FormValues {
   return values;
 }
 
-/** Editable form values → API payload (drops empty optionals). */
+/**
+ * Editable form values → API payload.
+ *
+ * An emptied optional field becomes an explicit `null`, which the API reads as
+ * "remove this". Omitting the key instead — which this did — means "leave it
+ * alone", so clearing a cover image or a fellowship saved cleanly and changed
+ * nothing: the field came back on the next load, and the only clue was that the
+ * record had quietly disagreed with the form all along.
+ *
+ * Nulls are stripped again for a create (see `submit`), where there is no prior
+ * value to remove and an explicit null would only write one.
+ */
 function toPayload(fields: FieldDef[], values: FormValues): FormValues {
   const payload: FormValues = {};
   for (const field of fields) {
     const raw = values[field.name];
     switch (field.kind) {
       case "localized":
-        if (!field.required && isEmptyLocalized(raw)) break;
+        // A required field is never nulled — `validate` has already refused an
+        // empty one, so reaching here with no text is not a clearing.
+        if (!field.required && isEmptyLocalized(raw)) {
+          payload[field.name] = null;
+          break;
+        }
         payload[field.name] = raw ?? { en: "", ta: "" };
         break;
       case "paragraphs":
@@ -79,12 +95,18 @@ function toPayload(fields: FieldDef[], values: FormValues): FormValues {
         break;
       case "date": {
         const text = (raw as string) ?? "";
-        if (!text) break;
+        if (!text) {
+          if (!field.required) payload[field.name] = null;
+          break;
+        }
         payload[field.name] = new Date(text).toISOString();
         break;
       }
       case "number": {
-        if (raw === "" || raw === undefined || raw === null) break;
+        if (raw === "" || raw === undefined || raw === null) {
+          if (!field.required) payload[field.name] = null;
+          break;
+        }
         payload[field.name] = Number(raw);
         break;
       }
@@ -95,16 +117,27 @@ function toPayload(fields: FieldDef[], values: FormValues): FormValues {
       case "text":
       case "email": {
         const text = ((raw as string) ?? "").trim();
-        if (!text) break;
+        if (!text) {
+          if (!field.required) payload[field.name] = null;
+          break;
+        }
         payload[field.name] = text;
         break;
       }
       case "image":
         if (raw) payload[field.name] = raw as ImageAsset;
+        else if (!field.required) payload[field.name] = null;
         break;
     }
   }
   return payload;
+}
+
+/** Drops the `null`s a create has no use for — nothing exists to remove yet. */
+function withoutRemovals(payload: FormValues): FormValues {
+  return Object.fromEntries(
+    Object.entries(payload).filter(([, value]) => value !== null),
+  );
 }
 
 function validate(fields: FieldDef[], values: FormValues): string | null {
@@ -298,7 +331,7 @@ export function ResourceFormPage({
     if (isEdit && id) {
       await update.mutateAsync({ id, body: payload });
     } else {
-      await create.mutateAsync(payload);
+      await create.mutateAsync(withoutRemovals(payload));
       router.push(routeBase);
     }
   };

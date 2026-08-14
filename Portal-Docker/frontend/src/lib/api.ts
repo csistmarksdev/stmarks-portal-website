@@ -193,6 +193,82 @@ async function request<T>(endpoint: string, options: RequestOptions = {}, retrie
   return (await response.json()) as T;
 }
 
+/**
+ * A multipart POST that reports how much has gone up.
+ *
+ * `fetch` cannot do this — there is no upload-progress event on it — so this
+ * one call drops to `XMLHttpRequest`. Justified by what it carries: a restore
+ * archive is the whole media library, potentially gigabytes over a church
+ * office's connection, and a bare spinner for four minutes is indistinguishable
+ * from a hang.
+ */
+export function uploadWithProgress<T>(
+  endpoint: string,
+  formData: FormData,
+  onProgress: (fraction: number) => void,
+  retried = false,
+): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", `${apiUrl()}${endpoint}`);
+
+    const access = tokenStore.access;
+    if (access) request.setRequestHeader("Authorization", `Bearer ${access}`);
+
+    request.upload.addEventListener("progress", (event) => {
+      // `lengthComputable` is false for a chunked body; leaving the caller on
+      // its last known value beats reporting a made-up one.
+      if (event.lengthComputable) onProgress(event.loaded / event.total);
+    });
+
+    request.addEventListener("error", () =>
+      reject(new ApiError("The upload failed — check the connection", 0, endpoint)),
+    );
+    request.addEventListener("abort", () =>
+      reject(new ApiError("The upload was cancelled", 0, endpoint)),
+    );
+
+    request.addEventListener("load", () => {
+      if (request.status === 401 && !retried) {
+        void tryRefresh().then((refreshed) => {
+          if (refreshed) {
+            resolve(uploadWithProgress<T>(endpoint, formData, onProgress, true));
+            return;
+          }
+          tokenStore.clear();
+          reject(new ApiError("Your session has expired", 401, endpoint));
+        });
+        return;
+      }
+
+      let body: unknown;
+      try {
+        body = JSON.parse(request.responseText);
+      } catch {
+        body = undefined;
+      }
+
+      if (request.status >= 200 && request.status < 300) {
+        resolve(body as T);
+        return;
+      }
+
+      const message = (body as { message?: string | string[] } | undefined)?.message;
+      reject(
+        new ApiError(
+          Array.isArray(message)
+            ? message.join("; ")
+            : (message ?? `Request failed with ${request.status}`),
+          request.status,
+          endpoint,
+        ),
+      );
+    });
+
+    request.send(formData);
+  });
+}
+
 export const api = {
   get: <T>(endpoint: string, params?: RequestOptions["params"]) =>
     request<T>(endpoint, { params }),

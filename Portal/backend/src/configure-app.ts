@@ -19,6 +19,16 @@ export function configureApp(app: INestApplication): void {
 
   app.setGlobalPrefix(config.get<string>("apiPrefix", "v1"));
 
+  /*
+   * Decides what `req.ip` resolves to — see `trustProxy` in `configuration.ts`
+   * for why the default differs between the two deployments. Set before the
+   * throttler guard sees a request, because that guard keys its buckets on it.
+   */
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .set("trust proxy", config.get("trustProxy", false));
+
   app.use(
     helmet({
       // Media is loaded cross-origin by the CMS and the Website.

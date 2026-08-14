@@ -51,13 +51,17 @@ export function MobileNav() {
        */}
       <header className="pt-safe glass sticky top-0 z-30 border-b border-border/70 lg:hidden">
         <div className="flex h-14 items-center gap-3 px-4">
+          {/* Crest only on a phone — the page title needs the width more than
+              the diocesan arms do, and the two together left it truncating. */}
           <Image
-            src="/logo.png"
+            src="/Logo1.svg"
             alt=""
-            width={28}
-            height={32}
+            aria-hidden
+            width={940}
+            height={940}
             priority
-            className="h-8 w-auto shrink-0"
+            unoptimized
+            className="size-8 shrink-0 object-contain"
           />
           <div className="min-w-0 flex-1 leading-tight">
             <p className="truncate font-[family-name:var(--font-display)] text-[15px] font-semibold tracking-tight">

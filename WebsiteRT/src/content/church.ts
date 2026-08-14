@@ -58,82 +58,82 @@ export const CHURCH_PROFILE: ChurchProfile = {
     ta: "திங்கள் முதல் சனி வரை, காலை 9:00 – மாலை 5:00",
   },
   socials: [
-    { platform: "facebook", url: "https://facebook.com" },
+    { platform: "facebook", url: "https://www.facebook.com/csistmarks/" },
     { platform: "instagram", url: "https://instagram.com" },
-    { platform: "youtube", url: "https://youtube.com" },
+    { platform: "youtube", url: "https://www.youtube.com/@csistmarkschurch" },
   ],
 };
 
 
 export const CHURCH_HISTORY: ChurchHistory = {
   intro: {
-    en: "For decades, St. Mark's has been a place of worship, refuge and service for the families of Madipakkam.",
-    ta: "பல பத்தாண்டுகளாக, புனித மாற்கு ஆலயம் மடிப்பாக்கம் குடும்பங்களுக்கு ஆராதனை, அடைக்கலம், சேவையின் இடமாக இருந்து வருகிறது.",
+    en: "From a humble gathering of six pioneer families in a thatched terrace shed in 1993 to a vibrant sanctuary of over 190 families, the journey of CSI St. Mark's Church, Madipakkam is a testimony of God's grace and guidance.",
+    ta: "1993-இல் ஒரு மொட்டை மாடி ஓலைக் கொட்டகையில் 6 குடும்பங்களின் ஆராதனையுடன் தொடங்கி, இன்று 190-க்கும் மேற்பட்ட குடும்பங்கள் கொண்ட சபையாக வளர்ந்துள்ள சி.எஸ்.ஐ. புனித மாற்கு ஆலயம், தேவனின் கிருபைக்கு சாட்சியாகும்.",
   },
   body: [
     {
-      en: "What began as a small prayer gathering in a family home has grown into a congregation of hundreds. In its earliest years, believers met wherever space allowed — under thatched roofs, in courtyards, and in borrowed halls — carried by little more than shared conviction and song.",
-      ta: "ஒரு குடும்ப வீட்டில் சிறிய ஜெபக் கூட்டமாகத் தொடங்கியது இன்று நூற்றுக்கணக்கானோர் கொண்ட சபையாக வளர்ந்துள்ளது. ஆரம்ப ஆண்டுகளில், விசுவாசிகள் இடம் கிடைத்த எங்கும் கூடினர் — ஓலைக் கூரைகளின் கீழ், முற்றங்களில், இரவல் மண்டபங்களில் — பகிர்ந்த நம்பிக்கையும் பாடலும் மட்டுமே துணையாக.",
+      en: "In early 1993, guided by Bishop Rt. Rev. Dr. Azariah, six pioneer families in Madipakkam gathered for worship in a thatched terrace shed at Mr. Paulkanthan's home. On April 25th, 1993 (St. Mark's Day), the first Holy Eucharist was celebrated, and the congregation was named 'St. Mark's Church'.",
+      ta: "1993-ன் தொடக்கத்தில் ஆயர் மேதகு டாக்டர் அஸரியா அவர்களின் வழிகாட்டுதலின்படி, மடிப்பாக்கத்தில் 6 குடும்பங்கள் திரு. பால்காந்தன் வீட்டின் மொட்டை மாடி ஓலைக் கொட்டகையில் கூடினர். ஏப்ரல் 25, 1993 (புனித மாற்கு தினம்) அன்று முதல் பரிசுத்த நற்கருணை ஆராதனை நடைபெற்று 'புனித மாற்கு ஆலயம்' என பெயரிடப்பட்டது.",
     },
     {
-      en: "The present sanctuary was raised through the labour and giving of the congregation itself. Families contributed what they could, and the building rose slowly, season by season, until its doors opened to the whole neighbourhood.",
-      ta: "தற்போதைய ஆலயம் சபையினரின் உழைப்பாலும் காணிக்கையாலும் எழுப்பப்பட்டது. குடும்பங்கள் தங்களால் இயன்றதைக் கொடுத்தனர், கட்டிடம் பருவம் பருவமாக மெதுவாக உயர்ந்து, இறுதியில் அதன் கதவுகள் முழு அயலாருக்கும் திறக்கப்பட்டன.",
+      en: "As the congregation expanded, 5.5 grounds of land was acquired on April 9th, 1995, followed by the dedication of a new sanctuary on February 8th, 1997. The church earned independent Unit Status in 2007 under Rev. D. Mohanraj, with Rev. Raja Freeman taking charge in 2012.",
+      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு, 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் ரெவ். டி. மோகன்ராஜ் தலைமையில் 'யூனிட் தகுதி' பெற்ற ஆலயம், 2012 முதல் ரெவ். ராஜா பிரீமேன் தலைமையில் வழிநடத்தப்படுகிறது.",
     },
     {
-      en: "Today the church continues that inheritance through its weekly worship, through its fellowships and Sunday school, and through quiet service to those in need around it.",
-      ta: "இன்று திருச்சபை அந்த மரபை வாராந்திர ஆராதனை மூலமாகவும், ஐக்கியங்கள் மற்றும் ஞாயிறு பள்ளி மூலமாகவும், சுற்றியுள்ள தேவையுள்ளோருக்கு அமைதியான சேவை மூலமாகவும் தொடர்கிறது.",
+      en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
+      ta: "இன்று 190-க்கும் மேற்பட்ட குடும்பங்களுடன் ஐக்கியங்கள், பாடகர் குழுக்கள் மற்றும் சமூக சேவைகளுடன் இயங்கும் திருச்சபை, கீழே விசாலமான கார் பார்க்கிங், பிரத்யேக ஞாயிறு பள்ளி வளாகம் மற்றும் கம்பீரமான மணி கோபுரத்துடன் கூடிய 'ஸ்டில்ட் பிளஸ்' ஆலயத்தில் ஆராதித்து வருகிறது.",
     },
   ],
   milestones: [
     {
       id: "ms-1",
-      year: "1962",
-      title: { en: "First gathering", ta: "முதல் கூட்டம்" },
+      year: "1993",
+      title: { en: "First Service & Naming", ta: "முதல் ஆராதனை & பெயர் சூட்டல்" },
       description: {
-        en: "A handful of families begin meeting for prayer in Madipakkam.",
-        ta: "மாடிப்பாக்கத்தில் சில குடும்பங்கள் ஜெபத்திற்காகக் கூடத் தொடங்கின.",
+        en: "Six pioneer families gather on a terrace shed; named St. Mark's Church on April 25th.",
+        ta: "மொட்டை மாடி கொட்டகையில் 6 குடும்பங்கள் கூடினர்; ஏப்ரல் 25 அன்று புனித மாற்கு ஆலயம் என பெயரிடப்பட்டது.",
       },
     },
     {
       id: "ms-2",
-      year: "1974",
-      title: { en: "Sanctuary consecrated", ta: "ஆலயம் பிரதிஷ்டை" },
+      year: "1995–1997",
+      title: { en: "Land & Sanctuary Dedicated", ta: "நிலம் & ஆலயம் அர்ப்பணிப்பு" },
       description: {
-        en: "The church building is completed and dedicated to the glory of God.",
-        ta: "ஆலயக் கட்டிடம் முடிக்கப்பட்டு தேவனுடைய மகிமைக்காக அர்ப்பணிக்கப்பட்டது.",
+        en: "Purchased 5.5 grounds of land; new sanctuary dedicated on Feb 8, 1997 by Bishop Dr. Azariah.",
+        ta: "5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு 1997 பிப்ரவரி 8 அன்று ஆயர் டாக்டர் அஸரியாவால் ஆலயம் பிரதிஷ்டை செய்யப்பட்டது.",
       },
     },
     {
       id: "ms-3",
-      year: "1988",
-      title: { en: "Fellowships formed", ta: "ஐக்கியங்கள் உருவாக்கம்" },
+      year: "2007",
+      title: { en: "Independent Unit Status", ta: "சுயாதீன யூனிட் தகுதி" },
       description: {
-        en: "Youth, women's and men's fellowships are established.",
-        ta: "இளைஞர், மகளிர், ஆடவர் ஐக்கியங்கள் நிறுவப்பட்டன.",
+        en: "Awarded independent Unit Status under Rev. D. Mohanraj; adjacent 1.5 grounds acquired.",
+        ta: "ரெவ். டி. மோகன்ராஜ் தலைமையில் யூனிட் தகுதி பெற்றது; 1.5 கிரவுண்ட் நிலம் கூடுதலாக வாங்கப்பட்டது.",
       },
     },
     {
       id: "ms-4",
-      year: "2004",
-      title: { en: "Parish hall dedicated", ta: "சபை மண்டபம் அர்ப்பணிப்பு" },
+      year: "2012",
+      title: { en: "Rev. Raja Freeman Takes Charge", ta: "ரெவ். ராஜா பிரீமேன் பொறுப்பேற்பு" },
       description: {
-        en: "A new parish hall is dedicated, giving the fellowships and Sunday school a home of their own.",
-        ta: "புதிய சபை மண்டபம் அர்ப்பணிக்கப்பட்டு, ஐக்கியங்களுக்கும் ஞாயிறு பள்ளிக்கும் சொந்த இடம் கிடைத்தது.",
+        en: "Rev. Raja Freeman assumes leadership, expanding fellowship ministries and outreach.",
+        ta: "ரெவ். ராஜா பிரீமேன் குருவானவராகப் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
       },
     },
     {
       id: "ms-5",
-      year: "2012",
-      title: { en: "Golden Jubilee", ta: "பொன் விழா" },
+      year: "Present",
+      title: { en: "Stilt-Plus Sanctuary, Bell Tower & Sunday School", ta: "புதிய ஆலயம், மணி கோபுரம் & ஞாயிறு பள்ளி" },
       description: {
-        en: "Fifty years of worship and witness are celebrated together.",
-        ta: "ஐம்பது ஆண்டு ஆராதனையும் சாட்சியும் ஒன்றாகக் கொண்டாடப்பட்டன.",
+        en: "Growing to 190+ families with a completed Stilt-Plus sanctuary, covered parking, Sunday School complex, and Bell Tower.",
+        ta: "190+ குடும்பங்கள், புதிய ஸ்டில்ட் பிளஸ் ஆலயம், பார்க்கிங், ஞாயிறு பள்ளி வளாகம் மற்றும் மணி கோபுரம்.",
       },
     },
   ],
   image: placeholderImage(40, {
-    en: "The church sanctuary",
-    ta: "ஆலயத்தின் உட்புறம்",
+    en: "CSI St. Mark's Church Sanctuary",
+    ta: "சி.எஸ்.ஐ. புனித மாற்கு ஆலயம்",
   }),
 };
 

@@ -10,6 +10,7 @@ import type { FilterQuery } from "mongoose";
 
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { serializeDoc } from "../../common/utils/serialize";
+import { containsInsensitive } from "../../common/utils/mongo";
 import { AuditService } from "../audit/audit.service";
 import { ContactFormDto } from "./dto/contact.dto";
 import { ContactMessageEntity } from "./schemas/contact-message.schema";
@@ -45,10 +46,31 @@ export class ContactService {
     page: number,
     pageSize: number,
     unreadOnly?: boolean,
+    search?: string,
   ): Promise<Paginated<ContactMessage>> {
     const filter: FilterQuery<ContactMessageEntity> = unreadOnly
       ? { read: false }
       : {};
+
+    if (search) {
+      /*
+       * The body is searched as well as the headers, unlike the content lists
+       * which match on titles alone. Someone hunting through the inbox is
+       * usually looking for a half-remembered phrase — "the family asking about
+       * baptism" — not for a subject line they never wrote.
+       *
+       * Escaped before it reaches Mongo: an unescaped `(` is a syntax error the
+       * driver raises, and a user typing a bracket should get no results, not a
+       * 500.
+       */
+      const term = containsInsensitive(search);
+      filter.$or = [
+        { name: term },
+        { email: term },
+        { subject: term },
+        { message: term },
+      ];
+    }
     const [docs, total] = await Promise.all([
       this.model
         .find(filter)

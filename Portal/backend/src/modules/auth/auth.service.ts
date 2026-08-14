@@ -17,6 +17,14 @@ function digest(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
+/**
+ * A real bcrypt hash of a string nobody knows, used to spend the same time on
+ * an unknown address as on a known one. Its plaintext is irrelevant — only the
+ * cost matters, and the cost factor here matches `SALT_ROUNDS` in the users
+ * service so the two paths take the same length of time.
+ */
+const DECOY_HASH = "$2b$12$Ku7QoQ9CxLcOaGCzHhFP4.zL1aVXlLqLZ6WHV2ZzY6cq9m0nJqk6y";
+
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { AuditService } from "../audit/audit.service";
 import type { UserDocument } from "../users/schemas/user.schema";
@@ -36,11 +44,21 @@ export class AuthService {
 
   async login(email: string, password: string, ip?: string): Promise<LoginResponse> {
     const user = await this.usersRepo.findByEmailWithSecrets(email);
-    if (!user || !user.active) {
-      throw new UnauthorizedException("Invalid credentials");
-    }
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
+
+    /*
+     * An unknown address is compared against a decoy hash rather than returned
+     * on straight away.
+     *
+     * The message was already identical either way, but the *timing* was not:
+     * a real address spent ~100ms in bcrypt and an invented one came back
+     * immediately, which is a reliable oracle for finding out who holds an
+     * account here. That is worth closing on its own, and more so because those
+     * addresses are parishioners' and clergy's real ones.
+     */
+    const hash = user?.passwordHash ?? DECOY_HASH;
+    const valid = await bcrypt.compare(password, hash);
+
+    if (!user || !user.active || !valid) {
       throw new UnauthorizedException("Invalid credentials");
     }
 

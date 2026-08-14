@@ -33,7 +33,7 @@ import {
   readdirSync,
   statSync,
 } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 
 /*
  * This file is installed inside `backend/` rather than beside the entrypoint,
@@ -45,7 +45,16 @@ const APP_ROOT = join(import.meta.dirname, "..");
 const SNAPSHOT_DB = process.env.SNAPSHOT_DB_DIR ?? join(APP_ROOT, "snapshot", "db");
 const SNAPSHOT_UPLOADS =
   process.env.SNAPSHOT_UPLOADS_DIR ?? join(APP_ROOT, "snapshot", "uploads");
-const UPLOAD_DIR = join(import.meta.dirname, process.env.UPLOAD_DIR ?? "uploads");
+/*
+ * `resolve`, not `join`: an absolute `UPLOAD_DIR` must win outright.
+ * `join("/app/backend", "/data/uploads")` quietly produces
+ * `/app/backend/data/uploads`, so the bundled media would be written into the
+ * container's ephemeral layer instead of the volume the deployment mounted —
+ * accepted, ignored, and gone on the next redeploy. Every other consumer of
+ * `uploadDir` (the API, the seed, the initializer) resolves it the same way;
+ * this is what makes `UPLOAD_DIR=/data/uploads` single-disk hosting work.
+ */
+const UPLOAD_DIR = resolve(import.meta.dirname, process.env.UPLOAD_DIR ?? "uploads");
 
 /**
  * Origin that `{{MEDIA}}` resolves to.

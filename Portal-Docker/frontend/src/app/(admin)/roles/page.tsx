@@ -26,7 +26,10 @@ const ALL_PERMISSIONS: Array<{ permission: Permission; label: string }> = [
   { permission: "users.read", label: "View users" },
   { permission: "users.write", label: "Manage users" },
   { permission: "audit.read", label: "View audit logs" },
+  { permission: "audit.delete", label: "Clear audit history" },
   { permission: "settings.write", label: "Change settings" },
+  { permission: "backup.read", label: "Download a backup" },
+  { permission: "backup.restore", label: "Restore from a backup" },
 ];
 
 export default function RolesPage() {

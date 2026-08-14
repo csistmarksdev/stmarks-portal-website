@@ -34,14 +34,50 @@ const nextConfig: NextConfig = {
     "*.local",
   ],
 
+  /*
+   * Security headers for the CMS itself.
+   *
+   * Next sends none of these by default, and the API's `helmet` does not cover
+   * this app — the two are separate servers, and behind the container's router
+   * they answer on one origin, so a reader cannot tell which sent what.
+   *
+   * `frame-ancestors 'none'` is the one that matters: without it the whole
+   * admin UI can be framed invisibly on another site and an administrator's
+   * clicks aimed at something else — deleting a record, or publishing one. The
+   * rest are inexpensive: stop the browser second-guessing declared types, and
+   * stop full URLs (which carry record ids) leaking to third parties in the
+   * referrer.
+   *
+   * No `script-src` policy here: Next inlines hydration scripts, and a CSP
+   * strict enough to be worth having would need nonces threaded through the
+   * whole app. Framing and sniffing are what this closes.
+   */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          },
+        ],
+      },
+    ];
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
     /*
      * Uploaded media is served by the API, whose host is not knowable at build
-     * time. Listing the build machine's own addresses — which is what this did
-     * — bakes them into the image, so a container built on a laptop and run on
-     * Render refuses every image it is asked to optimise and the CMS comes up
-     * blank.
+     * time. Listing the build machine's own addresses bakes them into the
+     * artifact, so a bundle built on a laptop and run on Render — or in the
+     * container — refuses every image it is asked to optimise, and the CMS
+     * comes up blank.
      *
      * The path is what is constrained instead: only `/uploads/**` is allowed,
      * so this is an image proxy for our own media and nothing else. Host is
@@ -56,6 +92,9 @@ const nextConfig: NextConfig = {
      * a poor trade in a container that already stores a WebP thumbnail beside
      * each upload, and on a small host it is the difference between the CMS
      * feeling instant and feeling broken. Serve the bytes we already have.
+     *
+     * Set by the build, not at runtime: `NEXT_PUBLIC_*` is inlined into the
+     * client bundle and cannot be changed once the artifact exists.
      */
     unoptimized: process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true",
   },

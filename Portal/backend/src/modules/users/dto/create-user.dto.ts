@@ -6,6 +6,7 @@ import {
   IsIn,
   IsOptional,
   IsString,
+  MaxLength,
   MinLength,
 } from "class-validator";
 
@@ -19,9 +20,19 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({ minLength: 8 })
+  /*
+   * Twelve, matching the self-service change and what the CMS has always told
+   * people. This was eight, so the account an administrator created for someone
+   * could be weaker than the password that person was later allowed to set —
+   * and the weaker one is the one that exists on day one.
+   *
+   * The ceiling is not decoration: bcrypt hashes whatever it is handed, and an
+   * unbounded field turns account creation into a way to spend the server's CPU.
+   */
+  @ApiProperty({ minLength: 12, maxLength: 200 })
   @IsString()
-  @MinLength(8)
+  @MinLength(12)
+  @MaxLength(200)
   password: string;
 
   @ApiProperty({ enum: USER_ROLES })

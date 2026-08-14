@@ -3,18 +3,25 @@
 # Import this one rather than `docker-compose.deploy.yml`, which is written for
 # the `docker compose` CLI and imports badly here.
 #
-# What is different, and why
-# --------------------------
+# `docker-compose.universal.yml` also imports correctly on ZimaOS and follows
+# the same rules. The difference is storage: it uses named Docker volumes, which
+# work everywhere and are invisible to the ZimaOS file manager. This file uses
+# /DATA/AppData, so the church's database and photographs appear as folders you
+# can browse, copy to a USB disk, and back up like anything else on the box.
+# On a ZimaOS machine that is worth more than portability.
+#
+# What is different from the general file, and why
+# ------------------------------------------------
 # 1. No compose variable substitution — no dollar-brace defaults anywhere. The
 #    ZimaOS importer does not expand that syntax; it stores the text verbatim.
 #    JWT_ACCESS_SECRET would arrive as a 22-character literal, and the API
 #    refuses to start on a secret shorter than 32 characters. The container
 #    would boot-loop with no obvious cause.
 #
-# 2. No environment section at all. Every setting is optional: the container
-#    generates real secrets into its volume on first boot and allows any origin
-#    by default. Adding a variable here can only make things worse until you
-#    have a real value for it.
+# 2. Only literal values in `environment`, and only ones knowable now. Every
+#    setting is optional: the container generates real secrets into its volume
+#    on first boot and allows any origin by default. Adding a variable here can
+#    only make things worse until there is a real value for it.
 #
 # 3. No `verify` service. ZimaOS does not support compose profiles, so a
 #    test-only service is imported as a second application and would start a
@@ -25,12 +32,18 @@
 #
 # Before importing: `docker login -u stmarksdev` on the ZimaOS box, or add the
 # registry credentials in its settings. The image is private.
+#
+# After importing, the portal is at http://<zima-box>:8080 and the API at
+# http://<zima-box>:8080/v1 — one port, one origin, no CORS between them.
 
 name: csistmarks-portal
 
 services:
   portal:
-    image: stmarksdev/csistmarkscmsportal:1.0
+    # Pinned deliberately. `latest` moves whenever anything is pushed, so a box
+    # that restarts at the wrong moment silently changes version. Bumping this
+    # line is what makes an upgrade deliberate and a rollback one edit.
+    image: stmarksdev/csistmarkscmsportal:1.5
     container_name: portal
     restart: unless-stopped
 
@@ -44,13 +57,37 @@ services:
       # The database and the secrets generated on first boot. Lose this and the
       # portal resets to the shipped snapshot on every restart.
       - /DATA/AppData/portal/data:/data
-      # Media uploaded through the CMS. The bundled media is installed here on
-      # first boot; after that these are ordinary files the church owns.
+      # Media uploaded through the CMS. The bundled media — 376 files — is
+      # installed here on first boot; after that these are ordinary files the
+      # church owns, visible in the ZimaOS file manager.
       - /DATA/AppData/portal/uploads:/app/backend/uploads
+
+    environment:
+      # The only value set here, and only because it is knowable now: log
+      # timestamps and any server-rendered date are in the parish's own time
+      # rather than UTC. Everything else is either detected or generated.
+      TZ: Asia/Kolkata
+
+    # Ordered shutdown takes about fifteen seconds, and the default is ten.
+    #
+    # On stop, the entrypoint signals the API and the CMS first and leaves
+    # `mongod` running for a few more seconds so in-flight writes land and
+    # WiredTiger closes its files. Docker's 10-second default expires in the
+    # middle of that and SIGKILLs the database with its files open. The next
+    # boot then runs recovery — survivable, and exactly what a home box losing
+    # power at the wrong moment does not need on top of everything else.
+    stop_grace_period: 30s
 
     # A parish CMS plus MongoDB. MongoDB's cache is already capped at 256 MB
     # inside the container, so this is headroom rather than a target.
     mem_limit: 1g
+
+    # A ZimaBoard's disk is not large and nobody looks at logs for years.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
     healthcheck:
       test:
@@ -60,7 +97,7 @@ services:
         - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
       interval: 30s
       timeout: 5s
-      # The first boot restores 567 documents and 261 media files before
+      # The first boot restores 577 documents and 376 media files before
       # anything listens. Too short a grace period here and ZimaOS restarts a
       # container that is doing exactly what it was told to.
       start_period: 120s
@@ -73,9 +110,11 @@ x-casaos:
     - amd64
     - arm64
   main: portal
+  store_app_id: csistmarks-portal
   webui_port: 8080
   scheme: http
   index: /
+  category: Media
   title:
     en_us: CSI St. Mark's Portal
   tagline:
@@ -85,5 +124,29 @@ x-casaos:
       The parish content system: an admin CMS, a public content API, and the
       church's existing content, media and accounts. Self-contained — it brings
       its own database and needs nothing configured.
-  category: Media
+  # Any URL the box can reach at install time; leave commented rather than
+  # pointing at one that 404s, which shows a broken image in the app list.
+  # icon: https://your-host/portal-icon.png
+  tips:
+    before_install:
+      en_us: >-
+        The image is private. Sign in to the registry on this box first
+        (docker login -u stmarksdev), or add the credentials in ZimaOS settings,
+        otherwise the pull fails with "access denied". First boot takes up to a
+        minute while the church's content and media are restored.
   port_map: "8080"
+  ports:
+    - container: "8080"
+      description:
+        en_us: The portal. The CMS and the API share this one port.
+  volumes:
+    - container: /data
+      description:
+        en_us: >-
+          Database and generated secrets, at /DATA/AppData/portal/data.
+          Back this up.
+    - container: /app/backend/uploads
+      description:
+        en_us: >-
+          Photographs and files uploaded through the CMS, at
+          /DATA/AppData/portal/uploads. Back this up too.

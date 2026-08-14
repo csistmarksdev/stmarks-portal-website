@@ -82,9 +82,9 @@ export default async function ContactPage({
                 <div className="flex gap-4">
                   <span
                     aria-hidden
-                    className="grid size-10 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700"
+                    className="mt-0.5 shrink-0 text-accent-700"
                   >
-                    <MapPin className="size-4" />
+                    <MapPin strokeWidth={1.5} className="size-5" />
                   </span>
                   <div>
                     <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -105,9 +105,9 @@ export default async function ContactPage({
                 <div className="flex gap-4">
                   <span
                     aria-hidden
-                    className="grid size-10 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700"
+                    className="mt-0.5 shrink-0 text-accent-700"
                   >
-                    <Phone className="size-4" />
+                    <Phone strokeWidth={1.5} className="size-5" />
                   </span>
                   <div>
                     <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -130,9 +130,9 @@ export default async function ContactPage({
                 <div className="flex gap-4">
                   <span
                     aria-hidden
-                    className="grid size-10 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700"
+                    className="mt-0.5 shrink-0 text-accent-700"
                   >
-                    <Mail className="size-4" />
+                    <Mail strokeWidth={1.5} className="size-5" />
                   </span>
                   <div>
                     <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -155,9 +155,9 @@ export default async function ContactPage({
                 <div className="flex gap-4">
                   <span
                     aria-hidden
-                    className="grid size-10 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700"
+                    className="mt-0.5 shrink-0 text-accent-700"
                   >
-                    <Clock className="size-4" />
+                    <Clock strokeWidth={1.5} className="size-5" />
                   </span>
                   <div>
                     <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -223,7 +223,13 @@ export default async function ContactPage({
 
       {/* Service timings */}
       <Section spacing="lg">
-        <SectionHeading title={t("details.title")} />
+        {/*
+          Its own key, not `details.title`. That one heads the contact card
+          above — address, phone, email, office hours — and this section is a
+          table of service times; they were sharing a string and so could not be
+          named accurately at the same time.
+        */}
+        <SectionHeading title={t("timings.title")} />
         <Reveal>
           <ServiceTimingsTable timings={timings} locale={locale} />
         </Reveal>

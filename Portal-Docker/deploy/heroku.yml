@@ -1,0 +1,50 @@
+# Heroku — build the Portal from this repository.
+#
+# Heroku reads `heroku.yml` from the *repository root*, so copy this file there
+# before setting the stack to `container`:
+#
+#     cp Portal-Docker/deploy/heroku.yml ./heroku.yml
+#     heroku stack:set container --app <app>
+#     git push heroku main
+#
+# `Dockerfile.source`, not `Dockerfile`
+# ------------------------------------
+# This path compiles inside Heroku's builder, which is the slow and expensive
+# way and the only one available here: `Dockerfile` copies `dist-portal/`, and
+# that folder is generated rather than committed, so a `git push heroku` build
+# would never see it.
+#
+# Pushing a prebuilt image avoids the whole problem and is the better route —
+# the compile then happens once, on a machine you control:
+#
+#     cd Portal-Docker
+#     node scripts/build-production-bundle.mjs
+#     heroku container:login
+#     heroku container:push web --app <app>      # uses Dockerfile, no compile
+#     heroku container:release web --app <app>
+#
+# What Heroku cannot do
+# ---------------------
+# A dyno's filesystem is ephemeral and cannot hold a volume, so the bundled
+# MongoDB has nowhere to keep anything: every restart — and Heroku restarts
+# daily — would come back to the snapshot and lose whatever the parish had
+# entered. `MONGODB_URI` pointing at Atlas (or any managed MongoDB) is therefore
+# required here rather than optional. See `app.json` beside this file for the
+# configuration that goes with it.
+#
+# Uploads have the same problem and degrade more gently: the snapshot's media is
+# reinstalled from the image on every boot, so the church's existing photos are
+# always there and only files uploaded *since the last restart* are lost. If
+# that matters, the Portal is on the wrong platform — use Render, Railway, Fly
+# or a Docker host, all of which give it a disk.
+
+build:
+  docker:
+    web: Portal-Docker/Dockerfile.source
+
+run:
+  # Heroku replaces the image's CMD with this, and honours the ENTRYPOINT — so
+  # `launch.sh` still runs, sees it is already an unprivileged user, and execs
+  # straight through. `PORT` is injected by the dyno and the entrypoint listens
+  # on it.
+  web: node /app/start.mjs

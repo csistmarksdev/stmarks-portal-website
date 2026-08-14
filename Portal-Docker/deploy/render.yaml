@@ -1,0 +1,109 @@
+# Render — Blueprint for the Portal.
+#
+# Render reads `render.yaml` from the *repository root*, so copy this file
+# there before connecting the blueprint:
+#
+#     cp Portal-Docker/deploy/render.yaml ./render.yaml
+#
+# Two services are described and only one should be enabled at a time. They are
+# the same application; the difference is where the image comes from.
+#
+#   portal-image   pulls a published image. This is the one to use.
+#   portal-repo    builds from this repository, inside Render's builder.
+#
+# Prefer the image. The whole point of `Dockerfile` is that compiling happens
+# on a machine you control, once, and the image build is a file copy — a
+# Render build box repeating a Next.js compile on every push is the cost this
+# layout exists to avoid, and on the free instance type it is also the thing
+# most likely to run out of memory.
+#
+#     ./scripts/build-image.sh --push you/csistmarkscmsportal:1.0
+#
+# `portal-repo` cannot use `Dockerfile`, because `dist-portal/` is generated
+# and not committed. It uses `Dockerfile.source`, which compiles in the builder.
+
+services:
+  # ---------------------------------------------------- published image ----
+  - type: web
+    name: portal
+    runtime: image
+    plan: starter # `free` has no disk; see the note on `disk` below.
+    region: singapore
+    image:
+      url: docker.io/stmarksdev/csistmarkscmsportal:1.0
+      # Private registry: add the credential under Render's Registry
+      # Credentials and name it here.
+      # creds: fromRegistryCreds: { name: dockerhub }
+
+    # Render injects PORT and routes its HTTPS front door to it. The entrypoint
+    # serves the CMS and the API together on that one port, so the API is
+    # `https://<service>.onrender.com/v1` with no second service and no CORS.
+    healthCheckPath: /v1/health
+
+    # The database, the media and the secrets generated on first boot.
+    #
+    # Without a disk the container still runs — it restores the baked-in
+    # snapshot on every boot — but anything the parish enters is lost when
+    # Render recycles the instance, and everyone is signed out because the JWT
+    # secrets are regenerated. That is fine for a demonstration and wrong for
+    # the church's actual portal, which is why this is not on the free plan:
+    # free instances cannot have a disk at all.
+    disk:
+      name: portal-data
+      mountPath: /data
+      sizeGB: 5
+
+    envVars:
+      # Render sets RENDER_EXTERNAL_URL itself and the entrypoint reads it, so
+      # PUBLIC_URL is only needed for a custom domain.
+      # - key: PUBLIC_URL
+      #   value: https://portal.example.org
+
+      # Generated into the disk on first boot when unset. Set them here to keep
+      # sessions alive across a disk reset, or to share them with the Website.
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+
+      # Uploaded media lives on the same disk as the database, so that one
+      # mount covers everything that must survive a redeploy.
+      - key: UPLOAD_DIR
+        value: /data/uploads
+
+      # Render terminates TLS and forwards; without this every request looks
+      # like it came from the proxy, so the rate limiter buckets the whole
+      # world together and the audit log names Render instead of a person.
+      - key: TRUST_PROXY
+        value: "1"
+
+      # Point at Atlas and the bundled MongoDB never starts. The snapshot is
+      # restored into it on first boot exactly the same way.
+      # - key: MONGODB_URI
+      #   value: mongodb+srv://user:pass@cluster.mongodb.net/csistmc-portal
+
+  # ------------------------------------------- built from this repository ---
+  # Enable this one *instead* if you would rather Render build. Delete the
+  # service above first — two services would both claim the disk name.
+  #
+  # - type: web
+  #   name: portal
+  #   runtime: docker
+  #   plan: starter
+  #   region: singapore
+  #   rootDir: Portal-Docker
+  #   dockerfilePath: ./Dockerfile.source
+  #   healthCheckPath: /v1/health
+  #   disk:
+  #     name: portal-data
+  #     mountPath: /data
+  #     sizeGB: 5
+  #   envVars:
+  #     - key: JWT_ACCESS_SECRET
+  #       generateValue: true
+  #     - key: JWT_REFRESH_SECRET
+  #       generateValue: true
+  #     - key: UPLOAD_DIR
+  #       value: /data/uploads
+  #     - key: TRUST_PROXY
+  #       value: "1"

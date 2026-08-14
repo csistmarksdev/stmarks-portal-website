@@ -20,6 +20,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { BaseRepository } from "../../common/repositories/base.repository";
 import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
+import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
 import {
   describeVideoProblem,
@@ -109,9 +110,9 @@ export class GalleryService {
     if (status) filter.status = status;
     if (search) {
       filter.$or = [
-        { "title.en": { $regex: search, $options: "i" } },
-        { "title.ta": { $regex: search, $options: "i" } },
-        { slug: { $regex: search, $options: "i" } },
+        { "title.en": containsInsensitive(search) },
+        { "title.ta": containsInsensitive(search) },
+        { slug: containsInsensitive(search) },
       ];
     }
     const [docs, total] = await Promise.all([

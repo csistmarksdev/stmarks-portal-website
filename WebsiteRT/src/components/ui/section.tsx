@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps } from "react";
 
 import { CrossMark } from "@/components/common/ornament";
+import { SectionOrnaments } from "@/components/common/section-ornaments";
 import { Reveal } from "@/components/motion/reveal";
 import { GRAIN } from "@/lib/textures";
 import { cn } from "@/lib/utils";
@@ -11,11 +12,19 @@ import { Heading, Text } from "./typography";
 
 const sectionVariants = cva("relative isolate w-full", {
   variants: {
+    /*
+     * Breath. A church is mostly empty space and that is the point of it — the
+     * quiet around a thing is what tells you it is worth attending to. The
+     * scale runs one step more generous than a marketing page would, and the
+     * largest step is genuinely large, because the sections it carries (the
+     * presbyter's letter, the week's verse, those who serve) are the ones the
+     * reader is meant to slow down for.
+     */
     spacing: {
       none: "",
-      sm: "py-12 sm:py-16",
-      md: "py-16 sm:py-20 lg:py-24",
-      lg: "py-20 sm:py-28 lg:py-36",
+      sm: "py-14 sm:py-18",
+      md: "py-18 sm:py-24 lg:py-28",
+      lg: "py-24 sm:py-32 lg:py-40",
     },
     tone: {
       default: "bg-[var(--background)]",
@@ -70,6 +79,14 @@ export function Section({
     >
       {atmosphere ? <SectionAtmosphere tone={tone} /> : null}
 
+      {/*
+        Christmas decorations in the gutters, on the same `-z-10` layer as the
+        section's light and grain — so they are always behind the words, and
+        nothing else has to know they exist. Renders `null` for the rest of the
+        year, and on any screen too narrow to have a margin worth decorating.
+      */}
+      <SectionOrnaments onDark={tone === "dark" || tone === "brand"} />
+
       {contained ? (
         <Container size={containerSize} className="relative">
           {children}
@@ -103,14 +120,24 @@ function SectionAtmosphere({ tone }: { tone: SectionProps["tone"] }) {
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
       >
         <div
-          className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.1] mix-blend-overlay"
           style={{ backgroundImage: GRAIN }}
         />
-        <div className="glow-sanctuary-dark absolute inset-0 opacity-90" />
+        <div className="glow-sanctuary-dark absolute inset-0" />
       </div>
     );
   }
 
+  /*
+   * Light grounds carry grain and one fall of light, and nothing else.
+   *
+   * There were four layers here: grain, two tinted radial washes, a white
+   * gradient down from the top and a grey one up from the foot. Stacked on
+   * every section, the washes tinted the parchment unevenly and the foot
+   * gradient put a soft grey band across every seam in the page — a section
+   * boundary that reads as a smudge rather than as a decision. Paper has a
+   * texture and a light source; it does not have four.
+   */
   return (
     <div
       aria-hidden
@@ -121,23 +148,6 @@ function SectionAtmosphere({ tone }: { tone: SectionProps["tone"] }) {
         style={{ backgroundImage: GRAIN }}
       />
       <div className="glow-sanctuary absolute inset-0" />
-      {/* Light entering from above and a whisper of shade at the foot, so each
-          section reads as a lit stage with gentle depth rather than a flat
-          band — and the seam into the next section softens instead of snapping. */}
-      <div
-        className="absolute inset-x-0 top-0 h-40"
-        style={{
-          backgroundImage:
-            "linear-gradient(180deg, oklch(1 0 0 / 0.5), transparent)",
-        }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 h-28"
-        style={{
-          backgroundImage:
-            "linear-gradient(0deg, oklch(0.232 0.01 68 / 0.035), transparent)",
-        }}
-      />
     </div>
   );
 }
@@ -187,8 +197,8 @@ export function SectionHeading({
   // weight, not read as sub-heads.
   const titleClass =
     level === "h1"
-      ? "text-[clamp(2.5rem,4.5vw+1rem,4.25rem)] leading-[1.02] tracking-[-0.03em]"
-      : "text-[clamp(2.125rem,3.6vw+1rem,3.5rem)] leading-[1.05] tracking-[-0.025em]";
+      ? "text-[clamp(2.25rem,3.6vw+1rem,3.5rem)] leading-[1.05] tracking-[-0.028em]"
+      : "text-[clamp(1.875rem,2.6vw+1rem,2.75rem)] leading-[1.1] tracking-[-0.022em]";
 
   const kicker = eyebrow ? (
     <span
@@ -220,7 +230,10 @@ export function SectionHeading({
 
           <span
             aria-hidden
-            className={cn("mt-7 h-px w-28 rule-gild", onDark && "opacity-80")}
+            className={cn(
+              "mt-7 h-px w-28 rule-section",
+              onDark && "rule-section-dark",
+            )}
           />
 
           {subtitle ? (
@@ -265,8 +278,8 @@ export function SectionHeading({
         <span
           aria-hidden
           className={cn(
-            "mt-7 block h-px w-24 rule-gild",
-            onDark && "opacity-80",
+            "mt-7 block h-px w-24 rule-section",
+            onDark && "rule-section-dark",
           )}
         />
 

@@ -99,18 +99,37 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   /*
-   * Card elevation. Layered rather than a single blur: a tight contact shadow
-   * anchors the card to the page while a wide, faint one gives it depth. Tinted
-   * with the warm neutral so it reads as shade on parchment, not grey haze.
+   * The card corner. Aliased to the sanctuary radius so a plain card and the
+   * squared foot of an arched frame are cut to the same curve — the arch
+   * changes the head of a frame, never its base.
+   */
+  --radius-card: var(--radius-sanctuary);
+
+  /*
+   * The control corner — buttons, chips, inputs, tabs.
+   *
+   * Fully rounded: the soft, capsule-cut control is part of this site's
+   * existing character and it is kept. What was taken away from the buttons is
+   * the gradient wash and the coloured glow they carried, not their shape — the
+   * shape was never the thing that made them read as software.
+   */
+  --radius-control: 9999px;
+
+  /*
+   * Card elevation.
+   *
+   * Two hairlines' worth of shade and nothing more. The frame does the work of
+   * separating a card from the parchment; the shadow only stops it floating
+   * free of the page. Tinted with the warm neutral so it reads as shade on
+   * paper rather than grey haze, and kept short — a long, wide blur is the
+   * quickest way to make an editorial page look like a dashboard.
    */
   --shadow-card:
-    inset 0 1px 0 oklch(1 0 0 / 0.5), 0 1px 2px oklch(0.232 0.01 68 / 0.05),
-    0 4px 12px oklch(0.232 0.01 68 / 0.04);
+    inset 0 1px 0 oklch(1 0 0 / 0.5), 0 1px 2px oklch(0.232 0.01 68 / 0.04),
+    0 8px 20px -14px oklch(0.232 0.01 68 / 0.16);
   --shadow-card-hover:
-    inset 0 1px 0 oklch(1 0 0 / 0.5), 0 2px 4px oklch(0.232 0.01 68 / 0.06),
-    0 12px 28px oklch(0.232 0.01 68 / 0.1),
-    0 24px 48px oklch(0.232 0.01 68 / 0.06),
-    0 28px 64px oklch(0.612 0.2 36 / 0.12);
+    inset 0 1px 0 oklch(1 0 0 / 0.5), 0 2px 4px oklch(0.232 0.01 68 / 0.05),
+    0 18px 34px -20px oklch(0.232 0.01 68 / 0.22);
 
   /*
    * Editorial "plate" elevation — the broadsheet card language. Crisper and
@@ -126,27 +145,20 @@
    * beside soft sanctuary ones.
    */
   --radius-plate: var(--radius-sanctuary);
-  --shadow-plate:
-    inset 0 1px 0 oklch(1 0 0 / 0.6), 0 1px 1px oklch(0.232 0.01 68 / 0.04),
-    0 2px 6px oklch(0.232 0.01 68 / 0.05);
-  --shadow-plate-hover:
-    inset 0 1px 0 oklch(1 0 0 / 0.6), 0 10px 24px oklch(0.232 0.01 68 / 0.1),
-    0 22px 44px oklch(0.612 0.2 36 / 0.12);
+  --shadow-plate: var(--shadow-card);
+  --shadow-plate-hover: var(--shadow-card-hover);
 
   /*
-   * Sanctuary elevation — the redesign's card language. Softer and warmer than
-   * the crisp editorial `--shadow-plate`: a gentle contact shadow with a long,
-   * low diffusion, so a card reads as resting on parchment in soft sanctuary
-   * light. Hover adds lift and a faint gilded bloom (accent-tinted).
+   * The sheet radius — every card, plate, media well and panel on the site.
+   *
+   * Generously rounded, and deliberately so: the soft corner is part of this
+   * site's warmth and it is kept at full strength. The refinement went into
+   * what sits *inside* the corner — flat surfaces, hairline frames and honest
+   * shade instead of gradient washes and coloured bloom.
    */
   --radius-sanctuary: 1.375rem;
-  --shadow-sanctuary:
-    inset 0 1px 0 oklch(1 0 0 / 0.65), 0 1px 2px oklch(0.232 0.01 68 / 0.04),
-    0 10px 30px -14px oklch(0.232 0.01 68 / 0.16);
-  --shadow-sanctuary-hover:
-    inset 0 1px 0 oklch(1 0 0 / 0.7), 0 2px 4px oklch(0.232 0.01 68 / 0.05),
-    0 20px 44px -18px oklch(0.232 0.01 68 / 0.2),
-    0 34px 70px -34px oklch(0.612 0.2 36 / 0.18);
+  --shadow-sanctuary: var(--shadow-card);
+  --shadow-sanctuary-hover: var(--shadow-card-hover);
 
   /* Layout */
   --spacing-section: 6rem;
@@ -158,16 +170,30 @@
  * steps so a future theme swap is a single-file change.
  */
 :root {
-  --background: var(--color-sand-50);
-  --foreground: var(--color-sand-900);
-  --surface: #ffffff;
-  --surface-muted: var(--color-sand-100);
-  --border: var(--color-sand-200);
+  /*
+   * The ground is parchment, not paper.
+   *
+   * `sand-50` was so close to white that the site's own white cards had nothing
+   * to sit on: two nearly-identical whites read as one flat field, and every
+   * page went cold. Warmed and dropped a step, the ground now reads as the
+   * ivory of a service sheet, white cards lift off it, and the whole site
+   * gains the temperature of a room with the lights on rather than a screen
+   * with the backlight up.
+   */
+  --background: oklch(0.968 0.011 78);
+  /* Ink, not black. Warmed toward the brown of a printed service sheet so the
+     type sits in the same light as the parchment under it. */
+  --foreground: oklch(0.242 0.016 62);
+  --surface: oklch(0.995 0.004 84);
+  --surface-muted: oklch(0.947 0.014 76);
+  --border: oklch(0.9 0.014 74);
   --primary: var(--color-brand-700);
   --primary-foreground: #ffffff;
   --accent: var(--color-accent-600);
   --sacred: var(--color-crimson-700);
-  --muted-foreground: var(--color-sand-600);
+  /* Warmed to match the ink above; a neutral grey beside a warm black is the
+     detail that makes a page look printed on two different presses. */
+  --muted-foreground: oklch(0.503 0.019 66);
   --ring: var(--color-brand-500);
 
   --header-height: 3.75rem;
@@ -334,7 +360,13 @@
   h3,
   h4 {
     font-family: var(--font-display);
+    /*
+     * The floor, not the rule. Anything that reaches display size is set
+     * lighter by the `Heading` variants (see `ui/typography.tsx`); a bare
+     * heading with no variant is small by definition and wants the weight.
+     */
     font-weight: 600;
+    font-optical-sizing: auto;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
@@ -356,7 +388,7 @@
   }
 
   ::selection {
-    background-color: var(--color-brand-200);
+    background-color: var(--splash-rule-track);
     color: var(--color-brand-950);
   }
 }
@@ -727,53 +759,84 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
 
   /*
-   * Gilded rule — a hairline that blooms from a warm gold centre and fades at
-   * both ends, so it reads as a struck line of gilding rather than a hard
-   * divider. Pair horizontally under a masthead or vertically as a column rule.
+   * Gilded rule — a hairline that blooms from a warm centre and fades at both
+   * ends, so it reads as a struck line rather than a hard divider. Pair
+   * horizontally under a masthead or vertically as a column rule.
    */
   .rule-gild {
     background-image: linear-gradient(
       90deg,
       transparent,
-      var(--color-accent-400) 20%,
-      var(--color-accent-500) 50%,
-      var(--color-accent-400) 80%,
+      color-mix(in oklab, var(--color-accent-600) 45%, transparent) 22%,
+      color-mix(in oklab, var(--color-accent-600) 70%, transparent) 50%,
+      color-mix(in oklab, var(--color-accent-600) 45%, transparent) 78%,
       transparent
     );
   }
 
   /*
-   * Light through glass — a soft, off-axis warm glow to sit behind a section's
-   * content as a decorative `-z-10` layer, so a flat parchment band gains the
-   * feeling of light falling into the room.
+   * The section rule — the short hairline struck under a heading, beside a
+   * kicker, or beneath a caption. The most repeated mark on the site, so it is
+   * a flat colour rather than a gradient: it is set both left-aligned and
+   * centred, and a rule that fades to one side reads as broken when it is
+   * centred under a name.
+   *
+   * The flame of the seal at just under half strength — present enough to
+   * belong to the brand, quiet enough that twenty of them down a page never
+   * add up to decoration.
+   */
+  .rule-section {
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-600) 45%,
+      transparent
+    );
+  }
+
+  /* On ink the same mark has to carry itself rather than sit back, so it is
+     struck in the lighter step of the flame. */
+  .rule-section-dark {
+    background-color: color-mix(
+      in oklab,
+      var(--color-accent-300) 62%,
+      transparent
+    );
+  }
+
+  /*
+   * Light through glass.
+   *
+   * This was two tinted radial washes — one warm, one pink — floating in the
+   * middle of every light section. Two coloured blobs behind a page is the
+   * clearest tell of a machine-made layout, and sat mid-band they read as a
+   * stain rather than as light.
+   *
+   * Now it falls, and it falls from above: one warm source entering high and
+   * off-axis, the way morning light comes through a clerestory window and lands
+   * down the far wall of a church. Same instinct, honest geometry — light has a
+   * direction and a source, and once it has both the eye stops seeing a
+   * gradient and starts seeing a room.
    */
   .glow-sanctuary {
     background-image:
       radial-gradient(
-        50% 60% at 72% 0%,
-        oklch(0.762 0.147 40 / 0.14),
-        transparent 70%
+        58% 62% at 76% -10%,
+        var(--season-light, oklch(0.885 0.065 44 / 0.16)),
+        transparent 66%
       ),
-      radial-gradient(
-        44% 50% at 12% 8%,
-        oklch(0.714 0.158 355 / 0.08),
-        transparent 72%
-      );
+      radial-gradient(70% 40% at 50% 0%, oklch(1 0 0 / 0.5), transparent 60%);
   }
 
-  /* The same, keyed to a dark ground: gilding warmed by the crimson of the cross. */
+  /*
+   * The same on ink, where a flat dark band genuinely does need relieving:
+   * a single warm fall of light from above, no second colour beneath it.
+   */
   .glow-sanctuary-dark {
-    background-image:
-      radial-gradient(
-        55% 70% at 50% 0%,
-        oklch(0.586 0.196 18 / 0.16),
-        transparent 72%
-      ),
-      radial-gradient(
-        40% 50% at 80% 10%,
-        oklch(0.702 0.18 38 / 0.14),
-        transparent 70%
-      );
+    background-image: radial-gradient(
+      60% 72% at 50% -8%,
+      var(--season-light-dark, oklch(0.702 0.18 38 / 0.1)),
+      transparent 70%
+    );
   }
 
   /* Sacred text — the crimson of the cross, for scripture references and marks. */
@@ -863,46 +926,12 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 }
 
 /*
- * Gentle floating drift for the decorative gilded motes behind the emotional
- * sections. Three phases at different periods so a cluster never moves in
- * lockstep and never reads as a loop.
+ * The three `float-*` drift animations that used to live here are gone with the
+ * gilded motes they carried — six specks drifting behind the presbyter's letter
+ * and behind the closing invitation. Sparkle is the cheapest kind of atmosphere
+ * and it was the only decoration on this site that carried no meaning at all;
+ * light, grain and space do the work now.
  */
-@keyframes float-a {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-@keyframes float-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(7px, 11px, 0);
-  }
-}
-@keyframes float-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-9px, -9px, 0);
-  }
-}
-.float-a {
-  animation: float-a 9s var(--ease-in-out-soft) infinite;
-}
-.float-b {
-  animation: float-b 12s var(--ease-in-out-soft) infinite;
-}
-.float-c {
-  animation: float-c 15s var(--ease-in-out-soft) infinite;
-}
 
 @layer utilities {
   /*
@@ -996,9 +1025,8 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /*
  * A gilded diamond descending the rule.
  *
- * The diamond is the site's `SanctuaryMotes` mark — the same rotated square
- * that drifts behind the sacred sections — borrowed here because it gives the
- * eye a thing to follow. The first version of this cue put a tapered band of
+ * The diamond is borrowed from the crest's own rays, because it gives the eye a
+ * thing to follow. The first version of this cue put a tapered band of
  * light *inside* a 1px track, and at that width over a photograph it read as a
  * stray orange tick rather than as a movement: there was nothing to see, only
  * something to notice.
@@ -1058,6 +1086,1637 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   .scroll-cue-beam {
     top: calc(50% - 0.1875rem);
   }
+}
+
+/* -------------------------------------------------------------------------- */
+/* The church year                                                            */
+/*                                                                            */
+/* `components/common/liturgical-season.tsx` computes the season from the      */
+/* reader's own date and writes it to `<html data-season>`; these blocks are   */
+/* the whole of what it changes. Four properties, no more:                     */
+/*                                                                            */
+/*   --background        the temperature of the paper                         */
+/*   --sacred            the colour of the cross that heads every section      */
+/*   --season-light      the light falling into a section on parchment         */
+/*   --season-light-dark the same on the ink grounds                           */
+/*                                                                            */
+/* The colours follow the CSI Book of Common Worship's own sequence — violet   */
+/* in Advent and Lent, white and gold at Christmas and Easter, red at          */
+/* Pentecost, green in ordinary time — but they are *drawn from the parish     */
+/* crest* rather than sampled from a frontal. The seal carries a magenta cross */
+/* and an orange flame, and every season below is a mixture of those two with  */
+/* the parchment. So Lent is the crest's own magenta pulled toward violet and  */
+/* drained, Pentecost is its flame at full strength, Easter is that flame      */
+/* turned to gold. The church's year, in the church's own two colours.         */
+/*                                                                            */
+/* Nothing here moves a layout, swaps a photograph, or adds an element. A      */
+/* congregation walking into their own church in Lent does not find a          */
+/* different building — they find the same one, barer, and they know at once.  */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Each season retints the palette itself, not a decorative layer over it.
+ *
+ * The first attempt at this moved four properties by two per cent of lightness
+ * and was, correctly, reported as no change at all. The reason is worth
+ * recording: the components on this site do not paint with the semantic tokens,
+ * they paint with the *scale* — `text-accent-700` on every eyebrow,
+ * `rule-section` under every heading, `bg-sand-950` behind the week's verse. A
+ * season that adjusts only `--background` adjusts almost nothing anyone can see.
+ *
+ * Tailwind v4 compiles `text-accent-700` to `color: var(--color-accent-700)`,
+ * which means the scale steps are live custom properties and a season can
+ * simply redefine them. That is what happens below. Each season restates:
+ *
+ *   the paper     --background, --surface, --surface-muted, --border
+ *   its colour    --color-accent-200…700  (eyebrows, rules, chips, drop caps,
+ *                                          gilded text, card frames)
+ *   the sacred    --sacred                (the cross at every section head)
+ *   the call      --primary               (buttons, links, active nav)
+ *   the ink       --color-brand-900       (the presbyter's letter)
+ *                 --color-sand-950        (the week's verse, photo scrims)
+ *
+ * Every value is mixed from the parish crest's two colours — the magenta of the
+ * cross and the orange of the flame — pulled around the wheel and drained or
+ * enriched. Nothing here is a hue the church's own arms have no claim to.
+ *
+ * Contrast was checked at each step rather than assumed: `accent-700` is
+ * eyebrow text on paper and stays dark enough to read; `primary` carries white
+ * button labels and stays below 0.5 lightness; `sand-950` and `brand-900` carry
+ * white body copy and stay far below it. No season is harder to read than
+ * another.
+ */
+
+
+
+/*
+ * CHRISTMAS — red, on snow.
+ *
+ * Two corrections are recorded in this block, because both were right.
+ *
+ * The first version was *warm*: amber paper, gold light, honey rules. It read
+ * as autumn. Christmas in the imagination of every carol, card and crib scene
+ * is cold — white light, snow, blue shadow — so the ground here is snow: a
+ * white barely tinted, sitting a full step cooler and lighter than the
+ * parchment the site keeps the rest of the year.
+ *
+ * The second version answered that by making everything cold, and lost the
+ * feast. Christmas is a *red* season. So the red is back, and it is now the
+ * only warm thing in the room: every rule, eyebrow, chip and drop cap is struck
+ * in it, the cross is deep crimson, the buttons are crimson, and the ink
+ * grounds behind the presbyter's letter and the week's verse are a deep
+ * burgundy rather than the usual near-black.
+ *
+ * Red on snow, and nothing else competing — which is what a church looks like
+ * on Christmas morning, and why the two colours have belonged to the feast for
+ * five hundred years.
+ */
+html[data-season="christmas"] {
+  /* Snow: cold, light, and only just tinted. */
+  --background: oklch(0.972 0.007 20);
+  --surface: oklch(0.997 0.003 20);
+  --surface-muted: oklch(0.944 0.012 18);
+  --border: oklch(0.894 0.018 18);
+  --sacred: oklch(0.442 0.178 22);
+  --primary: oklch(0.418 0.172 22);
+  --muted-foreground: oklch(0.5 0.022 25);
+  --foreground: oklch(0.238 0.024 25);
+
+  /* The feast's red, carrying every rule, eyebrow, chip and drop cap. */
+  --color-accent-200: oklch(0.888 0.062 20);
+  --color-accent-300: oklch(0.808 0.108 21);
+  --color-accent-400: oklch(0.712 0.158 22);
+  --color-accent-500: oklch(0.628 0.192 23);
+  --color-accent-600: oklch(0.532 0.196 23);
+  --color-accent-700: oklch(0.452 0.178 22);
+
+  /* Burgundy, for the two ink grounds. */
+  --color-brand-900: oklch(0.268 0.112 22);
+  --color-sand-950: oklch(0.156 0.058 22);
+
+  --season-light: oklch(0.808 0.108 21 / 0.3);
+  --season-light-dark: oklch(0.628 0.192 23 / 0.22);
+}
+
+/*
+ * LENT — violet, drained. Forty days of less.
+ *
+ * The paper goes ashen and the season's colour loses most of its chroma, so the
+ * eyebrows and rules that carry the flame for the rest of the year read as
+ * grey-violet marks instead. This is the season the restraint of the whole
+ * design was built for, and the one that should look most obviously unlike
+ * ordinary time.
+ */
+html[data-season="lent"] {
+  --background: oklch(0.924 0.009 310);
+  --surface: oklch(0.969 0.005 310);
+  --surface-muted: oklch(0.893 0.011 310);
+  --border: oklch(0.852 0.013 310);
+  --sacred: oklch(0.36 0.1 310);
+  --primary: oklch(0.382 0.1 310);
+  --muted-foreground: oklch(0.492 0.014 310);
+  --foreground: oklch(0.238 0.016 310);
+
+  --color-accent-200: oklch(0.858 0.028 310);
+  --color-accent-300: oklch(0.772 0.045 310);
+  --color-accent-400: oklch(0.664 0.065 310);
+  --color-accent-500: oklch(0.572 0.078 310);
+  --color-accent-600: oklch(0.484 0.085 310);
+  --color-accent-700: oklch(0.418 0.082 310);
+  --color-brand-900: oklch(0.258 0.068 310);
+  --color-sand-950: oklch(0.158 0.022 310);
+
+  --season-light: oklch(0.772 0.045 310 / 0.12);
+  --season-light-dark: oklch(0.484 0.085 310 / 0.12);
+}
+
+/* HOLY WEEK — red over ash. The cross turns to the crimson of the Passion, the
+   last warmth leaves the paper, and the photography begins to veil. */
+html[data-season="holy-week"] {
+  --background: oklch(0.911 0.009 25);
+  --surface: oklch(0.961 0.006 25);
+  --surface-muted: oklch(0.879 0.013 25);
+  --border: oklch(0.838 0.015 25);
+  --sacred: oklch(0.355 0.13 16);
+  --primary: oklch(0.378 0.14 16);
+  --muted-foreground: oklch(0.49 0.016 30);
+  --foreground: oklch(0.236 0.018 30);
+
+  --color-accent-200: oklch(0.862 0.048 20);
+  --color-accent-300: oklch(0.762 0.088 19);
+  --color-accent-400: oklch(0.662 0.128 18);
+  --color-accent-500: oklch(0.572 0.15 18);
+  --color-accent-600: oklch(0.492 0.155 17);
+  --color-accent-700: oklch(0.422 0.14 16);
+  --color-brand-900: oklch(0.242 0.09 16);
+  --color-sand-950: oklch(0.142 0.03 20);
+
+  --season-light: oklch(0.662 0.128 18 / 0.14);
+  --season-light-dark: oklch(0.492 0.155 17 / 0.16);
+}
+
+/*
+ * GOOD FRIDAY — black and white.
+ *
+ * The one day the church strips its own altar: no frontal, no flowers, no
+ * light. So the site takes the colour out — not dimmed, not desaturated a
+ * little, but *out*. Every step of every palette is redefined below as a pure
+ * neutral at exactly the lightness it had in colour, so nothing shifts weight
+ * or contrast: a button that was brand-700 is now the grey that brand-700
+ * weighed, and every ratio the design relied on holds unchanged.
+ *
+ * Redefining the scales rather than filtering the page is what makes this
+ * honest. A `filter: grayscale()` over the document would flatten the
+ * photography too, cost a full-page composite, and fight the browser on every
+ * scroll; this is thirty-odd custom properties, resolved once.
+ *
+ * The photography is deliberately **left in colour**. The congregation should
+ * still see their own church and their own faces on Good Friday — it is the
+ * building that is stripped, not the people in it. What goes monochrome is
+ * everything the site itself draws: type, rules, buttons, icons, chips, marks.
+ *
+ * Grave, and not gloomy. Nothing here is harder to read than on any other day.
+ */
+html[data-season="good-friday"] {
+  --background: oklch(0.893 0 0);
+  --surface: oklch(0.949 0 0);
+  --surface-muted: oklch(0.859 0 0);
+  --border: oklch(0.813 0 0);
+  --sacred: oklch(0.3 0 0);
+  --primary: oklch(0.328 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --muted-foreground: oklch(0.48 0 0);
+  --foreground: oklch(0.2 0 0);
+  --accent: oklch(0.462 0 0);
+  --ring: oklch(0.4 0 0);
+
+  /* Every scale, drained to its own lightness. */
+  --color-brand-50: oklch(0.975 0 0);
+  --color-brand-100: oklch(0.94 0 0);
+  --color-brand-200: oklch(0.887 0 0);
+  --color-brand-300: oklch(0.802 0 0);
+  --color-brand-400: oklch(0.714 0 0);
+  --color-brand-500: oklch(0.641 0 0);
+  --color-brand-600: oklch(0.542 0 0);
+  --color-brand-700: oklch(0.462 0 0);
+  --color-brand-800: oklch(0.386 0 0);
+  --color-brand-900: oklch(0.318 0 0);
+  --color-brand-950: oklch(0.226 0 0);
+
+  --color-accent-50: oklch(0.973 0 0);
+  --color-accent-100: oklch(0.941 0 0);
+  --color-accent-200: oklch(0.885 0 0);
+  --color-accent-300: oklch(0.822 0 0);
+  --color-accent-400: oklch(0.762 0 0);
+  --color-accent-500: oklch(0.702 0 0);
+  --color-accent-600: oklch(0.612 0 0);
+  --color-accent-700: oklch(0.508 0 0);
+  --color-accent-800: oklch(0.418 0 0);
+  --color-accent-900: oklch(0.352 0 0);
+
+  --color-crimson-50: oklch(0.968 0 0);
+  --color-crimson-100: oklch(0.928 0 0);
+  --color-crimson-200: oklch(0.858 0 0);
+  --color-crimson-300: oklch(0.762 0 0);
+  --color-crimson-400: oklch(0.668 0 0);
+  --color-crimson-500: oklch(0.586 0 0);
+  --color-crimson-600: oklch(0.512 0 0);
+  --color-crimson-700: oklch(0.44 0 0);
+  --color-crimson-800: oklch(0.368 0 0);
+  --color-crimson-900: oklch(0.302 0 0);
+  --color-crimson-950: oklch(0.228 0 0);
+
+  --color-sand-50: oklch(0.988 0 0);
+  --color-sand-100: oklch(0.972 0 0);
+  --color-sand-200: oklch(0.938 0 0);
+  --color-sand-300: oklch(0.884 0 0);
+  --color-sand-400: oklch(0.76 0 0);
+  --color-sand-500: oklch(0.632 0 0);
+  --color-sand-600: oklch(0.51 0 0);
+  --color-sand-700: oklch(0.412 0 0);
+  --color-sand-800: oklch(0.312 0 0);
+  --color-sand-900: oklch(0.232 0 0);
+  --color-sand-950: oklch(0.158 0 0);
+
+  --season-light: transparent;
+  --season-light-dark: transparent;
+}
+
+/*
+ * The photography stays in colour, and these two rules are what say so.
+ *
+ * An earlier version veiled the images toward grey through Passiontide — the
+ * practice of covering a church's crosses and images. It has been taken off:
+ * the instruction is that the *interface* goes monochrome, not the pictures.
+ * The rules remain, set to `none`, so that anything which later tries to filter
+ * an image on these days has to argue with a line that says it should not.
+ */
+html[data-season="holy-week"] img,
+html[data-season="good-friday"] img {
+  filter: none;
+}
+
+/*
+ * EASTER — white and gold, at full strength.
+ *
+ * The brightest the year gets, and the deliberate opposite of Good Friday two
+ * days earlier: paper at its lightest and warmest, gold in every rule and
+ * eyebrow, the cross gilded rather than crimson — an empty cross in gold, which
+ * is the Easter reading of it — and the ink grounds warmed from near-black to a
+ * lit brown.
+ */
+html[data-season="easter"] {
+  --background: oklch(0.985 0.019 92);
+  --surface: oklch(1 0.004 95);
+  --surface-muted: oklch(0.957 0.03 90);
+  --border: oklch(0.912 0.034 88);
+  --sacred: oklch(0.548 0.125 80);
+  --primary: oklch(0.452 0.112 78);
+  --muted-foreground: oklch(0.502 0.026 80);
+  --foreground: oklch(0.244 0.022 70);
+
+  --color-accent-200: oklch(0.922 0.07 90);
+  --color-accent-300: oklch(0.862 0.1 88);
+  --color-accent-400: oklch(0.802 0.13 86);
+  --color-accent-500: oklch(0.742 0.145 84);
+  --color-accent-600: oklch(0.658 0.145 82);
+  --color-accent-700: oklch(0.548 0.125 80);
+  --color-brand-900: oklch(0.302 0.082 70);
+  --color-sand-950: oklch(0.172 0.026 70);
+
+  --season-light: oklch(0.862 0.1 88 / 0.52);
+  --season-light-dark: oklch(0.742 0.145 84 / 0.34);
+}
+
+
+
+/*
+ * CSI DAY — the 27th of September, and the only entry here that belongs to this
+ * communion alone. Four churches became one in Madras in 1947, so the day is
+ * dressed in both of the seal's colours at once: the magenta cross at full
+ * strength with the flame carrying the light behind it.
+ */
+html[data-season="csi-day"] {
+  --background: oklch(0.97 0.016 62);
+  --surface: oklch(0.996 0.006 70);
+  --surface-muted: oklch(0.942 0.024 58);
+  --border: oklch(0.896 0.028 56);
+  --sacred: oklch(0.462 0.178 1);
+  --primary: oklch(0.462 0.178 1);
+  --foreground: oklch(0.242 0.02 50);
+
+  --color-accent-200: oklch(0.885 0.068 46);
+  --color-accent-300: oklch(0.822 0.108 44);
+  --color-accent-400: oklch(0.762 0.15 40);
+  --color-accent-500: oklch(0.702 0.18 38);
+  --color-accent-600: oklch(0.612 0.2 36);
+  --color-accent-700: oklch(0.512 0.17 34);
+  --color-brand-900: oklch(0.302 0.13 3);
+  --color-sand-950: oklch(0.16 0.03 20);
+
+  --season-light: oklch(0.822 0.108 44 / 0.28);
+  --season-light-dark: oklch(0.641 0.182 357 / 0.2);
+}
+
+/*
+ * ORDINARY TIME — green in the BCW, and green is the one colour the parish
+ * crest does not contain. Rather than introduce a hue the church's own arms
+ * have no claim to, the site rests: these are the tokens exactly as they are
+ * defined at the top of this file, restated so the default reads as a decision
+ * rather than an omission.
+ *
+ * That is also the honest reading of the season. Ordinary time is not an
+ * occasion the building is dressed for; it is the building.
+ */
+html[data-season="ordinary"] {
+  --background: oklch(0.968 0.011 78);
+  --surface: oklch(0.995 0.004 84);
+  --surface-muted: oklch(0.947 0.014 76);
+  --border: oklch(0.9 0.014 74);
+  --sacred: var(--color-crimson-700);
+  --primary: var(--color-brand-700);
+  --muted-foreground: oklch(0.503 0.019 66);
+  --foreground: oklch(0.242 0.016 62);
+
+  --season-light: oklch(0.885 0.065 44 / 0.16);
+  --season-light-dark: oklch(0.702 0.18 38 / 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Christmas — the effects                                                    */
+/*                                                                            */
+/* Easter is lit; Christmas is *decorated*, and the difference is deliberate.  */
+/* Where Eastertide adds one warm light to every surface, this adds objects to */
+/* the room and then lights only those: the bulbs on the strings, the snow     */
+/* settling on the cards, the frost creeping in at the corners of a window.    */
+/* The page itself stays cold, which is what makes the small warm points read. */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * The bulbs on the string lights.
+ *
+ * Each one is a filled dot with its own halo, and they breathe out of step —
+ * `animation-delay` is set per bulb from its index in `section-ornaments.tsx`,
+ * so a string of twenty never pulses in unison. A synchronised string is a
+ * status indicator; an unsynchronised one is a decoration.
+ *
+ * `currentColor` throughout, so the four bulb tones drive both the fill and the
+ * light each one casts.
+ */
+.christmas-bulb {
+  background-color: currentColor;
+  box-shadow:
+    0 0 6px 1px currentColor,
+    0 0 16px 3px currentColor;
+  animation: christmas-twinkle 3.4s var(--ease-in-out-soft) infinite;
+  will-change: opacity;
+}
+
+@keyframes christmas-twinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/*
+ * Snow, settling on the cards.
+ *
+ * A dusting along the top edge of every plate on the site, thicker at the
+ * corners where snow actually gathers. It is a `::before` on the card rather
+ * than an element, so nothing in the tree changes and every card gets it for
+ * free — including ones written after today.
+ *
+ * `border-radius: inherit` matters: the site's cards are generously rounded, so
+ * a square cap would sit proud of both corners. Inheriting means the snow
+ * follows whatever curve the card has.
+ */
+/*
+ * The host must be positioned, and the selector says so.
+ *
+ * This cap is `position: absolute`, so it anchors to the nearest *positioned*
+ * ancestor. Several elements on this site carry `shadow-card` without carrying
+ * `relative` — the ruled contact register, the service timings table — and for
+ * those the cap escaped its own card entirely and anchored to the `<section>`,
+ * which is `relative isolate`. The result was a 14px white bar straight across
+ * the head of the whole section, at full width. That is what it looked like on
+ * the page, and it was reported twice.
+ *
+ * Requiring `.relative` in the selector means the cap can only ever be drawn on
+ * a box that will actually contain it. The two elements above have been given
+ * `relative` in their components, so they still get their snow.
+ */
+html[data-season="christmas"] .shadow-card.relative::before,
+html[data-season="christmas"] .shadow-sanctuary.relative::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 14px;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image:
+    radial-gradient(14px 9px at 12% 0, oklch(1 0 0 / 0.95), transparent 70%),
+    radial-gradient(18px 10px at 42% 0, oklch(1 0 0 / 0.9), transparent 72%),
+    radial-gradient(13px 8px at 74% 0, oklch(1 0 0 / 0.92), transparent 70%),
+    linear-gradient(
+      to bottom,
+      oklch(1 0 0 / 0.85),
+      oklch(1 0 0 / 0.35) 55%,
+      transparent
+    );
+}
+
+/* The dark plates take a colder, thinner cap: snow on ink reads at a fraction
+   of the strength it needs on paper. */
+html[data-season="christmas"] .bg-sand-950::before,
+html[data-season="christmas"] .bg-brand-900::before {
+  opacity: 0.55;
+}
+
+/*
+ * Frost at the corners of the page.
+ *
+ * Fixed, behind everything, and only in the four corners — the way frost
+ * actually forms on a window, from the edges inward. It is the one Christmas
+ * effect that touches the whole viewport rather than a component, and it is
+ * kept faint enough to be atmosphere rather than a border.
+ */
+html[data-season="christmas"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      42% 34% at 0% 0%,
+      oklch(0.95 0.03 240 / 0.5),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 34% at 100% 0%,
+      oklch(0.95 0.03 240 / 0.45),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 30% at 0% 100%,
+      oklch(0.95 0.03 240 / 0.35),
+      transparent 72%
+    ),
+    radial-gradient(
+      50% 30% at 100% 100%,
+      oklch(0.95 0.03 240 / 0.35),
+      transparent 72%
+    );
+}
+
+/* The ornaments themselves catch a little light, so the row along the foot of
+   each section does not read as flat line work. */
+html[data-season="christmas"] [data-season-ornaments] svg {
+  filter: drop-shadow(0 0 5px oklch(0.808 0.108 21 / 0.4));
+}
+
+/* The greeting at the foot of the page, and the crest above it, warmed. */
+html[data-season="christmas"] [data-ornament="cross"] {
+  filter: drop-shadow(0 0 8px oklch(0.808 0.108 21 / 0.5));
+}
+
+/*
+ * Reduced motion: the bulbs stop breathing and settle at full brightness — a
+ * string of lights that is simply *on*. Everything else here is static anyway,
+ * so the season loses its twinkle and keeps all of its decoration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .christmas-bulb {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/*
+ * Bokeh: the lights of the room, out of focus.
+ *
+ * A very slow lift and swell — the movement of a hand-held camera rather than
+ * of the lights themselves, which is why it is measured in whole minutes and
+ * why no two orbs share a period.
+ */
+.christmas-bokeh {
+  animation-name: christmas-bokeh-drift;
+  animation-timing-function: var(--ease-in-out-soft);
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes christmas-bokeh-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(2.5%, -4%, 0) scale(1.12);
+    opacity: 0.9;
+  }
+}
+
+/*
+ * A star, crossing.
+ *
+ * One element: the head is the box's own background, the tail is a gradient
+ * drawn behind it by `::after`, angled to lie along the path of travel. Visible
+ * for roughly two seconds in twenty — the opacity keyframes hold it at zero for
+ * the other eighteen, so nothing has to be scheduled in JavaScript and nothing
+ * is animating that anyone can see for most of the cycle.
+ */
+.christmas-star {
+  width: 3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: oklch(1 0 0 / 0.95);
+  box-shadow: 0 0 8px 2px oklch(0.9 0.05 90 / 0.8);
+  opacity: 0;
+  animation: christmas-star-cross 21s linear infinite;
+  will-change: transform, opacity;
+}
+
+.christmas-star::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  width: 90px;
+  height: 1.5px;
+  transform: translateY(-50%) rotate(-24deg);
+  transform-origin: right center;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to left,
+    oklch(1 0 0 / 0.7),
+    oklch(0.9 0.05 90 / 0.25) 45%,
+    transparent
+  );
+}
+
+@keyframes christmas-star-cross {
+  0%,
+  88% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  90% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(78vw, 34vh, 0);
+  }
+}
+
+/*
+ * The candle in the section row, flickering.
+ *
+ * Only the flame, and only its opacity and a fractional scale — a flame that
+ * moves position reads as a fault in the drawing. Three seconds, uneven, so it
+ * never falls into a rhythm.
+ */
+.christmas-flame {
+  transform-origin: 50% 100%;
+  animation: christmas-flicker 2.9s ease-in-out infinite;
+}
+
+@keyframes christmas-flicker {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+  18% {
+    opacity: 1;
+    transform: scaleY(1.06);
+  }
+  37% {
+    opacity: 0.82;
+    transform: scaleY(0.97);
+  }
+  58% {
+    opacity: 1;
+    transform: scaleY(1.04);
+  }
+  76% {
+    opacity: 0.88;
+    transform: scaleY(0.99);
+  }
+}
+
+/*
+ * The icicles that were here are gone, and the reason is worth keeping.
+ *
+ * They were drawn with a `repeating-conic-gradient` — a clever way to cut a row
+ * of spikes with no markup, and in this case simply wrong: a 90° wedge struck
+ * from the top edge of a 26×22 tile fills almost the whole tile, so twenty of
+ * them side by side render as one solid white band across the head of every
+ * section. That is exactly what it looked like on the page.
+ *
+ * They are elements now (`Icicles` in `section-ornaments.tsx`) — one per spike,
+ * each a triangle with its own width and length. More nodes, but a shape that
+ * is *drawn* rather than inferred from the geometry of a gradient, and one that
+ * can be looked at and corrected.
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  .christmas-bokeh,
+  .christmas-flame {
+    animation: none;
+    opacity: 0.8;
+  }
+
+  /* The star simply never comes: a single object crossing the screen is the
+     most attention-taking thing on this site, and it is the first to go. */
+  .christmas-star {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Christmas — the interface                                                  */
+/*                                                                            */
+/* The decorations above put things *in* the room. This dresses the room       */
+/* itself: every control, surface, rule and state on the site takes the        */
+/* season's own three materials — deep red, gold, and frost — while keeping    */
+/* every shape, size and contrast ratio exactly as it is the rest of the year. */
+/*                                                                            */
+/* Nothing here changes a text colour or a fill that carries type. The whole   */
+/* block is borders, rings, shadows and background *edges*, which is why the   */
+/* season can be this emphatic without a single contrast pairing moving.       */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Buttons: a gift, ribboned.
+ *
+ * The fill is already the feast's deep red (the palette block above). What this
+ * adds is the gold hairline around it and the warm shade beneath — the ribbon
+ * and the weight of something wrapped. Hover brightens the gold rather than
+ * lightening the red, so the label never loses contrast against its ground.
+ */
+html[data-season="christmas"] [data-button] {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.22),
+    0 0 0 1px oklch(0.842 0.1 86 / 0.55),
+    0 2px 10px -2px oklch(0.452 0.178 22 / 0.45),
+    0 12px 30px -14px oklch(0.452 0.178 22 / 0.6);
+}
+
+html[data-season="christmas"] [data-button]:hover {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.3),
+    0 0 0 1px oklch(0.882 0.11 88 / 0.9),
+    0 0 16px oklch(0.842 0.1 86 / 0.5),
+    0 4px 16px -2px oklch(0.452 0.178 22 / 0.55),
+    0 20px 46px -16px oklch(0.452 0.178 22 / 0.7);
+}
+
+/* The outline button takes the gold as its actual border, so the pair read as
+   ribbon on paper and ribbon on ink. */
+html[data-season="christmas"] [data-button].border-sand-300 {
+  border-color: oklch(0.842 0.1 86 / 0.7);
+}
+
+/*
+ * Cards: a wrapped parcel under snow.
+ *
+ * The frame turns to gold ribbon and the shade beneath warms to red. The snow
+ * cap along the top edge is set separately, above.
+ */
+html[data-season="christmas"] .shadow-card,
+html[data-season="christmas"] .shadow-sanctuary,
+html[data-season="christmas"] .shadow-plate {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.8),
+    0 0 0 1px oklch(0.842 0.1 86 / 0.3),
+    0 6px 20px -10px oklch(0.452 0.178 22 / 0.3),
+    0 22px 54px -28px oklch(0.452 0.178 22 / 0.45);
+}
+
+html[data-season="christmas"] .shadow-card:hover,
+html[data-season="christmas"] .hover\:shadow-card-hover:hover {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.9),
+    0 0 0 1px oklch(0.882 0.11 88 / 0.65),
+    0 0 22px oklch(0.842 0.1 86 / 0.32),
+    0 10px 28px -10px oklch(0.452 0.178 22 / 0.4),
+    0 34px 76px -30px oklch(0.452 0.178 22 / 0.55);
+}
+
+/* Every ringed surface — the ruled contact register, the timings table, the
+   arched portraits — takes the same gold hairline. */
+html[data-season="christmas"] .ring-1 {
+  --tw-ring-color: oklch(0.842 0.1 86 / 0.32);
+}
+
+/*
+ * The section rule, as ribbon candy.
+ *
+ * The most repeated mark on the site becomes a barber's stripe for the season —
+ * red and warm white on the diagonal. At one pixel tall it resolves into a fine
+ * dashed line rather than a novelty, which is the point: it should register as
+ * "this rule is dressed" and not as a candy cane laid across the page.
+ */
+html[data-season="christmas"] .rule-section {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    45deg,
+    oklch(0.532 0.196 23) 0 4px,
+    oklch(0.98 0.01 60) 4px 8px
+  );
+}
+
+html[data-season="christmas"] .rule-section-dark {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    45deg,
+    oklch(0.712 0.158 22) 0 4px,
+    oklch(0.99 0.005 60) 4px 8px
+  );
+}
+
+/* The gilded rule under the illuminated divider goes with it. */
+html[data-season="christmas"] .rule-gild {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    oklch(0.842 0.1 86 / 0.5) 22%,
+    oklch(0.842 0.1 86 / 0.85) 50%,
+    oklch(0.842 0.1 86 / 0.5) 78%,
+    transparent
+  );
+}
+
+/*
+ * Form fields, frosted.
+ *
+ * A cold, slightly blue field with a white inner highlight — glass with the
+ * cold on the other side of it. Focus turns the frame gold rather than red, so
+ * the focus state is unmistakably *not* the error state, which is red all year.
+ */
+html[data-season="christmas"] input,
+html[data-season="christmas"] textarea,
+html[data-season="christmas"] select {
+  border-color: oklch(0.86 0.03 235);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.9);
+}
+
+html[data-season="christmas"] input:focus-visible,
+html[data-season="christmas"] textarea:focus-visible,
+html[data-season="christmas"] select:focus-visible {
+  border-color: oklch(0.752 0.11 86);
+}
+
+/* Focus, everywhere: gold, and unmistakable on both grounds. */
+html[data-season="christmas"] :focus-visible {
+  outline-color: oklch(0.752 0.11 86);
+  box-shadow: 0 0 0 4px oklch(0.842 0.1 86 / 0.3);
+}
+
+/* Frosted chips over photography — dates, counts, formats — take a cold rim. */
+html[data-season="christmas"] .backdrop-blur-md,
+html[data-season="christmas"] .backdrop-blur-sm {
+  box-shadow:
+    inset 0 0 0 1px oklch(0.95 0.03 240 / 0.35),
+    0 0 14px oklch(0.808 0.108 21 / 0.3);
+}
+
+/* Media wells get a rimed edge, as if the glass had frosted at its border. */
+html[data-season="christmas"] .rounded-t-card,
+html[data-season="christmas"] .window-arch,
+html[data-season="christmas"] .lancet-arch {
+  box-shadow: inset 0 0 18px -6px oklch(0.95 0.03 240 / 0.75);
+}
+
+/* Small-caps kickers pick up the gold. */
+html[data-season="christmas"] .label {
+  text-shadow: 0 0 10px oklch(0.842 0.1 86 / 0.35);
+}
+
+/* Selecting text lifts the feast's own red. */
+html[data-season="christmas"] ::selection {
+  background-color: oklch(0.888 0.062 20);
+  color: oklch(0.238 0.024 25);
+}
+
+/*
+ * The masthead, as frosted glass.
+ *
+ * The header's own shape, position and behaviour are untouched — this is the
+ * one property that says what the glass is made of, and for six weeks it is
+ * made of cold.
+ */
+html[data-season="christmas"] .glass {
+  background-color: color-mix(in oklab, oklch(0.985 0.01 235) 74%, transparent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Easter — the light                                                         */
+/*                                                                            */
+/* Every other season changes what colour the site is. This one changes how it */
+/* is *lit*: the surfaces glow. It is the one day of the year the building is  */
+/* full of light before dawn, and the counterpart, forty-eight hours later, to */
+/* the black-and-white of Good Friday.                                        */
+/*                                                                            */
+/* Three rules keep it from becoming a neon sign:                             */
+/*                                                                            */
+/* Every glow is a `box-shadow` or a `text-shadow` — additive light around an  */
+/* element, never a change to its fill or its text colour. So no contrast      */
+/* ratio moves: the palette that passed AA at the top of this file is the      */
+/* palette still in use, and the light sits *outside* the letterforms.        */
+/*                                                                            */
+/* It is warm and it is one colour. The glow is the flame of the crest turned  */
+/* to gold — the same hue the Easter palette above is mixed from — so the page */
+/* reads as one light source rather than as a set of components that each      */
+/* happen to be lit.                                                          */
+/*                                                                            */
+/* Nothing pulses. A glow that breathes is a notification; this one is         */
+/* constant, and only the hover states move.                                   */
+/* -------------------------------------------------------------------------- */
+
+html[data-season="easter"] {
+  /* The one light, stated once. */
+  --paschal: oklch(0.742 0.145 84);
+  --paschal-soft: oklch(0.802 0.13 86 / 0.4);
+}
+
+/* Dawn over the whole page — the light that is already in the room before any
+   component is lit by it. Behind everything, and fixed, so it reads as the sky
+   rather than as a band at the top of the document. */
+html[data-season="easter"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /*
+   * Two sources rather than one: the high sun that lights the whole page, and a
+   * lower, warmer bloom off to the side that gives the light a direction. A
+   * single centred wash reads as a screen turned up; two read as a room.
+   */
+  background-image:
+    radial-gradient(
+      130% 74% at 50% -16%,
+      oklch(0.882 0.11 88 / 0.5),
+      transparent 64%
+    ),
+    radial-gradient(
+      70% 50% at 88% 18%,
+      oklch(0.822 0.13 80 / 0.28),
+      transparent 70%
+    );
+}
+
+/*
+ * The drift of the light shafts over the hero (`easter-rays.tsx`).
+ *
+ * A slow lean and a slight change of width, as the sun moves and the air in
+ * front of it does. Deliberately long — half a minute a cycle — so it is felt
+ * rather than watched, and composited (`transform`, `opacity`) so it costs the
+ * scroll nothing. The blanket reduced-motion rule at the foot of this file
+ * stills it and the shafts simply hold their position.
+ */
+@keyframes easter-shaft-drift {
+  0%,
+  100% {
+    scale: 1 1;
+    opacity: 1;
+  }
+  50% {
+    scale: 1.14 1;
+    opacity: 0.7;
+  }
+}
+
+.easter-shaft {
+  animation-name: easter-shaft-drift;
+  animation-timing-function: var(--ease-in-out-soft);
+  animation-iteration-count: infinite;
+  will-change: scale, opacity;
+}
+
+/* Buttons: lit from within, and brighter under the hand. */
+html[data-season="easter"] [data-button] {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.28),
+    0 0 0 1px oklch(0.862 0.12 88 / 0.55),
+    0 0 10px oklch(0.882 0.12 88 / 0.7),
+    0 0 26px oklch(0.802 0.14 86 / 0.6),
+    0 6px 24px -2px oklch(0.742 0.145 84 / 0.65),
+    0 20px 56px -12px oklch(0.742 0.145 84 / 0.75);
+}
+
+html[data-season="easter"] [data-button]:hover {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.35),
+    0 0 0 1px oklch(0.902 0.11 90 / 0.8),
+    0 0 18px oklch(0.902 0.11 90 / 0.9),
+    0 0 44px oklch(0.842 0.14 88 / 0.8),
+    0 8px 34px -2px oklch(0.742 0.145 84 / 0.85),
+    0 30px 80px -14px oklch(0.742 0.145 84 / 0.9);
+}
+
+/* Cards and every other plate on the site: the shade they cast warms into
+   light. Both utilities are redefined rather than the component, so anything
+   using the site's elevation is lit without knowing about the season. */
+html[data-season="easter"] .shadow-card,
+html[data-season="easter"] .shadow-sanctuary,
+html[data-season="easter"] .shadow-plate {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.85),
+    0 0 0 1px oklch(0.862 0.11 88 / 0.4),
+    0 0 12px oklch(0.882 0.11 88 / 0.4),
+    0 0 34px oklch(0.802 0.13 86 / 0.5),
+    0 10px 34px -12px oklch(0.742 0.145 84 / 0.6),
+    0 30px 76px -24px oklch(0.742 0.145 84 / 0.7);
+}
+
+/* Every framed surface takes a gilded hairline, not only the ones carrying a
+   shadow utility — the ruled register on the contact page, the timings table,
+   the arched portraits. */
+html[data-season="easter"] .ring-1 {
+  --tw-ring-color: oklch(0.842 0.1 86 / 0.35);
+}
+
+html[data-season="easter"] .shadow-card:hover,
+html[data-season="easter"] .hover\:shadow-card-hover:hover {
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.9),
+    0 0 0 1px oklch(0.902 0.11 90 / 0.65),
+    0 0 20px oklch(0.902 0.11 90 / 0.6),
+    0 0 52px oklch(0.842 0.13 88 / 0.7),
+    0 16px 44px -12px oklch(0.742 0.145 84 / 0.75),
+    0 44px 100px -26px oklch(0.742 0.145 84 / 0.85);
+}
+
+/* The cross at the head of every section, haloed — the one place on the site
+   where a glow is not decoration but the subject. */
+html[data-season="easter"] [data-ornament="cross"] {
+  filter: drop-shadow(0 0 10px oklch(0.802 0.13 86 / 0.65))
+    drop-shadow(0 0 22px oklch(0.742 0.145 84 / 0.35));
+}
+
+/* Rules and keylines catch the light along their length. */
+html[data-season="easter"] .rule-section,
+html[data-season="easter"] .rule-gild {
+  box-shadow: 0 0 8px oklch(0.802 0.13 86 / 0.55);
+}
+
+/* Display type is lit from behind rather than recoloured: the shadow sits
+   outside the glyphs, so the letterforms keep their full contrast against the
+   paper and only the air around them warms. */
+html[data-season="easter"] h1,
+html[data-season="easter"] [data-heading="display"],
+html[data-season="easter"] [data-heading="h1"] {
+  text-shadow: 0 0 28px oklch(0.802 0.13 86 / 0.45);
+}
+
+/* On the ink grounds — the presbyter's letter, the week's verse — the same
+   light, carried further because there is more dark for it to fall through. */
+html[data-season="easter"] .bg-sand-950 h1,
+html[data-season="easter"] .bg-sand-950 h2,
+html[data-season="easter"] .bg-brand-900 h1,
+html[data-season="easter"] .bg-brand-900 h2 {
+  text-shadow:
+    0 0 24px oklch(0.802 0.13 86 / 0.4),
+    0 0 60px oklch(0.742 0.145 84 / 0.3);
+}
+
+
+/*
+ * The rest of the interface catches the light too.
+ *
+ * Everything below is a `box-shadow`, a `text-shadow` or a `drop-shadow` — the
+ * three properties that add light around a thing without touching the thing
+ * itself. Nothing changes a fill, a text colour or a ring's opacity, so every
+ * contrast ratio measured for this season still holds exactly.
+ */
+
+/* Chips over photography, badges, the frosted date marks. */
+html[data-season="easter"] .backdrop-blur-md,
+html[data-season="easter"] .backdrop-blur-sm {
+  box-shadow: 0 0 18px oklch(0.882 0.11 88 / 0.45);
+}
+
+/* Media wells: light spills from the edge of every photograph. */
+html[data-season="easter"] .rounded-t-card,
+html[data-season="easter"] .window-arch,
+html[data-season="easter"] .lancet-arch {
+  box-shadow: 0 0 26px -4px oklch(0.822 0.13 86 / 0.5);
+}
+
+/* Section heads and sub-heads, lit from behind like the display type above. */
+html[data-season="easter"] [data-heading="h2"],
+html[data-season="easter"] [data-heading="h3"] {
+  text-shadow: 0 0 22px oklch(0.842 0.12 88 / 0.4);
+}
+
+/* Small-caps kickers and every gilded label. */
+html[data-season="easter"] .label {
+  text-shadow: 0 0 14px oklch(0.862 0.12 88 / 0.55);
+}
+
+/* Line icons — the glyphs in the contact register, the card meta rows, the
+   social marks in the footer. */
+html[data-season="easter"] svg {
+  filter: drop-shadow(0 0 6px oklch(0.882 0.11 88 / 0.4));
+}
+
+/* Focus rings glow rather than merely outline — the one interactive state that
+   must stay unmistakable in every season. */
+html[data-season="easter"] :focus-visible {
+  box-shadow: 0 0 0 4px oklch(0.862 0.12 88 / 0.4);
+}
+
+/*
+ * There was a rule here that lit "the seam where two grounds meet", and it was
+ * wrong twice over.
+ *
+ * A `box-shadow` glows around the *whole* box, not along the one edge that
+ * carries the border — so an element with `border-t` got a rectangle of light
+ * on all four sides. And because most of these elements are transparent (the
+ * footer's copyright row, card footers, list rows), the shadow was not even
+ * hidden behind them: it showed straight through, drawing a visible box around
+ * the content. That is exactly what appeared at the foot of the page.
+ *
+ * The selector was the deeper mistake. `.border-t` matches dozens of unrelated
+ * things across the site — every card footer, every ruled list row — so the
+ * rule was lighting a class of element rather than a place in the design. A
+ * seam worth marking is a decision about a specific boundary, not a broadcast
+ * to every element that happens to carry a top border, and the site's section
+ * boundaries already read perfectly well through `--season-light`.
+ */
+
+/* Photography is lifted a touch rather than glowed: a picture with a halo
+   round it looks like a mistake, but the whole page has gone brighter and an
+   untouched photograph would sit in it looking heavy. */
+html[data-season="easter"] img {
+  filter: brightness(1.04) saturate(1.06);
+}
+
+
+
+
+/*
+ * The verse in ordinary time.
+ *
+ * An arch was drawn here — the round head of the splash screen, struck as a
+ * hairline behind the scripture — and taken out again on the ask. Nothing
+ * architectural replaced it, deliberately: the section is a page of type on a
+ * dark ground, and the thing it actually wants is *light*, which is what every
+ * other season here does too. So ordinary time gets the same treatment as the
+ * rest of the year, quieter: one warm fall from the crown, and shade closing at
+ * the foot so the words sit in a lit space rather than on a flat panel.
+ *
+ * Stated for the un-stamped root as well, which is the case when JavaScript
+ * never arrives — a reader without it gets the considered version rather than
+ * the bare one.
+ */
+html[data-season="ordinary"] [data-verse]::before,
+html[data-season="csi-day"] [data-verse]::before,
+html[data-season="lent"] [data-verse]::before,
+html[data-season="holy-week"] [data-verse]::before,
+html:not([data-season]) [data-verse]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 64%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    56% 82% at 50% -12%,
+    oklch(0.762 0.147 40 / 0.16),
+    oklch(0.612 0.2 36 / 0.06) 48%,
+    transparent 76%
+  );
+  mix-blend-mode: screen;
+}
+
+/* The penitential weeks keep the fall of light and drain it. */
+html[data-season="lent"] [data-verse]::before,
+html[data-season="holy-week"] [data-verse]::before {
+  background-image: radial-gradient(
+    56% 82% at 50% -12%,
+    oklch(0.772 0.045 310 / 0.12),
+    transparent 74%
+  );
+}
+
+/* Shade at the foot, so the section closes rather than stopping. */
+html[data-season="ordinary"] [data-verse]::after,
+html[data-season="csi-day"] [data-verse]::after,
+html[data-season="lent"] [data-verse]::after,
+html[data-season="holy-week"] [data-verse]::after,
+html:not([data-season]) [data-verse]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 34%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to top,
+    oklch(0.158 0.009 66 / 0.5),
+    transparent
+  );
+}
+
+/* Good Friday takes neither: no light falls on that day, and the section is
+   the plain ground the rest of the page already is. */
+
+/*
+ * The verse, at Christmas: a frosted window with a candle behind it.
+ *
+ * This section is the one place on the site that is *not* built from
+ * `Section` — it is a bare `<section>` with its own ground, so none of the
+ * seasonal ornament layers reach it and at Christmas it was the only band on
+ * the page still undressed. It gets its own treatment here, through the same
+ * `[data-verse]` hook Easter uses.
+ *
+ * The image is a window on a cold night, seen from inside: ice gathering in
+ * from the four corners of the pane, a candle burning behind the glass, and
+ * snow settled along the top edge of the frame. That is the right image for
+ * this section specifically — it is the only part of the page with no
+ * photography in it, so it can be a *place* rather than a panel.
+ */
+
+/* The pane: ice creeping in from the corners and edges, never the middle,
+   because that is where the words are and where a window stays clear. */
+html[data-season="christmas"] [data-verse]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    /*
+     * Snow along the head of the frame, thicker where it gathers. It lives in
+     * this layer rather than in one of its own because an element has only two
+     * pseudo-elements and both are spoken for — and a background-image stack is
+     * exactly the right tool for "several things painted on one plane".
+     */
+    radial-gradient(26px 13px at 14% 0, oklch(1 0 0 / 0.5), transparent 70%),
+    radial-gradient(34px 15px at 38% 0, oklch(1 0 0 / 0.42), transparent 72%),
+    radial-gradient(24px 12px at 63% 0, oklch(1 0 0 / 0.46), transparent 70%),
+    radial-gradient(30px 14px at 86% 0, oklch(1 0 0 / 0.4), transparent 72%),
+    linear-gradient(
+      to bottom,
+      oklch(1 0 0 / 0.34),
+      oklch(1 0 0 / 0.1) 26px,
+      transparent 44px
+    ),
+    radial-gradient(
+      38% 46% at 0% 0%,
+      oklch(0.9 0.05 235 / 0.22),
+      transparent 72%
+    ),
+    radial-gradient(
+      38% 46% at 100% 0%,
+      oklch(0.9 0.05 235 / 0.2),
+      transparent 72%
+    ),
+    radial-gradient(
+      42% 40% at 0% 100%,
+      oklch(0.9 0.05 235 / 0.16),
+      transparent 74%
+    ),
+    radial-gradient(
+      42% 40% at 100% 100%,
+      oklch(0.9 0.05 235 / 0.16),
+      transparent 74%
+    );
+  mix-blend-mode: screen;
+}
+
+/*
+ * The candle behind the glass: one warm source at the crown, in the feast's own
+ * red-gold rather than the cold of the frost. The whole point of a cold season
+ * is that the warm things in it read — so the ice is blue and the light is not.
+ */
+html[data-season="christmas"] [data-verse]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 70%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    52% 84% at 50% -12%,
+    oklch(0.842 0.12 86 / 0.26),
+    oklch(0.628 0.192 23 / 0.14) 46%,
+    transparent 76%
+  );
+  mix-blend-mode: screen;
+}
+
+/* The scripture takes a warm halo — gold, against everything else here being
+   cold. */
+html[data-season="christmas"] [data-verse] blockquote p {
+  text-shadow:
+    0 0 26px oklch(0.842 0.12 86 / 0.4),
+    0 0 70px oklch(0.628 0.192 23 / 0.3);
+}
+
+/* The reference and the kicker pick up the same gold. */
+html[data-season="christmas"] [data-verse] cite {
+  text-shadow: 0 0 14px oklch(0.842 0.12 86 / 0.5);
+}
+
+/*
+ * The verse, at Easter: light falling into the section from above.
+ *
+ * The first version of this was a sunburst behind the scripture, rotating
+ * ninety seconds to the turn. It was rejected on sight and correctly: a wheel
+ * of rays centred on the type is a screensaver, and once it moves there is
+ * nothing else it can be. The mistake was reaching for a *shape* that means
+ * radiance instead of asking what the light in this room is actually doing.
+ *
+ * It falls. Every other Easter effect on the site falls — the dawn wash, the
+ * shafts across the hero, the glow under a card — and the verse should be lit
+ * by the same sun as the rest of the page rather than by a light source of its
+ * own invention.
+ *
+ * So the rays are struck from a point *above* the section and fan downward into
+ * it. That is a conic gradient whose origin sits outside its own box: only the
+ * wedge pointing down is inside the element, so only the downward fan is ever
+ * drawn, and it genuinely diverges — the shafts are further apart at the foot
+ * of the section than at the head, because they come from one place.
+ *
+ * Nothing rotates. The source is above the church, and it does not move.
+ */
+html[data-season="easter"] [data-verse]::before {
+  content: "";
+  position: absolute;
+  inset: -6% -10% 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /*
+   * Soft-edged shafts, and the edges are the whole point.
+   *
+   * The first fall of light here used hard angular bands — `transparent 0 3.4deg,
+   * colour 3.4deg 5.2deg` — which is a stripe by definition: the colour begins
+   * and ends at an exact angle, so every ray had two crisp sides and the section
+   * read as ruled rather than lit. Real shafts have no sides at all; they are
+   * brightest along a centre line and fade to nothing across their width.
+   *
+   * Three stops per repeat gives that: transparent, colour, transparent, with
+   * the gradient interpolating *between* them. The rays are also wider apart
+   * and much fainter than before — eight degrees of period against five, at a
+   * third of the alpha — because a soft ray needs room either side to fade into,
+   * and light that is doing its job is barely visible when you look straight at
+   * it.
+   */
+  background-image: repeating-conic-gradient(
+    from 0deg at 50% -22%,
+    transparent 0deg,
+    oklch(0.93 0.09 90 / 0.11) 3.6deg,
+    transparent 8.4deg
+  );
+
+  /*
+   * A short blur on top of the soft stops. The gradient alone still resolves
+   * into faint banding on a wide viewport, because a conic ramp spread over two
+   * thousand pixels quantises into steps at 8-bit colour — the same reason the
+   * splash halo is a single ramp rather than two. Six pixels is under the width
+   * of one ray, so it softens the banding without softening the shape.
+   *
+   * Affordable precisely because nothing here moves: painted once, not once a
+   * frame.
+   */
+  filter: blur(6px);
+
+  /* Screen, so the shafts can only ever add light to the ink beneath them and
+     can never darken the scripture. */
+  mix-blend-mode: screen;
+
+  mask-image: linear-gradient(
+    to bottom,
+    oklch(0 0 0 / 0.7) 0%,
+    black 26%,
+    oklch(0 0 0 / 0.4) 64%,
+    transparent 90%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    oklch(0 0 0 / 0.7) 0%,
+    black 26%,
+    oklch(0 0 0 / 0.4) 64%,
+    transparent 90%
+  );
+}
+
+/*
+ * The source: a warm crown at the head of the section, where the shafts are
+ * coming from. Held still, and placed at the top rather than behind the type —
+ * light has somewhere it comes *from*, and on this page that is always above.
+ */
+html[data-season="easter"] [data-verse]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 62%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    64% 86% at 50% -16%,
+    oklch(0.93 0.09 90 / 0.26),
+    oklch(0.742 0.145 84 / 0.1) 48%,
+    transparent 78%
+  );
+  mix-blend-mode: screen;
+}
+
+/* The scripture itself takes a deeper halo than the rest of the season's type:
+   this is the one block of words the whole section exists to carry. */
+html[data-season="easter"] [data-verse] blockquote p {
+  text-shadow:
+    0 0 30px oklch(0.902 0.11 90 / 0.55),
+    0 0 80px oklch(0.742 0.145 84 / 0.4);
+}
+
+/*
+ * Reduced motion is not the relevant preference here — nothing moves — but a
+ * reader who has asked for it is also, often, a reader who finds heavy visual
+ * effects difficult. The glows come down to roughly a third rather than off
+ * entirely, so the season still reads.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html[data-season="easter"] [data-button],
+  html[data-season="easter"] .shadow-card,
+  html[data-season="easter"] .shadow-sanctuary,
+  html[data-season="easter"] .shadow-plate {
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.5),
+      0 6px 20px -14px oklch(0.742 0.145 84 / 0.3);
+  }
+
+  html[data-season="easter"] h1,
+  html[data-season="easter"] [data-heading="display"],
+  html[data-season="easter"] [data-heading="h1"] {
+    text-shadow: none;
+  }
+}
+
+/*
+ * The change of season, when it happens under a reader who is sitting on the
+ * page — a preview switch, or midnight on Holy Saturday. Long enough to be a
+ * change of light rather than a repaint, and only on the properties that carry
+ * colour. Stilled entirely under reduced motion by the blanket rule at the foot
+ * of this file.
+ */
+html {
+  transition:
+    background-color 1.2s var(--ease-in-out-soft),
+    color 1.2s var(--ease-in-out-soft);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Snowfall — Advent and Christmastide                                        */
+/*                                                                            */
+/* Mounted site-wide by `components/common/snowfall.tsx`, which renders        */
+/* nothing at all outside December and nothing for a reader who has asked for  */
+/* reduced motion. Everything here is `transform` and `opacity`, so the whole   */
+/* fall runs on the compositor and the main thread never sees it.              */
+/*                                                                            */
+/* The layer sits above the page and below the masthead, the menus and the     */
+/* dialogs. Snow drifting *over* the navigation would be the moment a seasonal */
+/* touch became something the reader has to look past to use the site.         */
+/* -------------------------------------------------------------------------- */
+
+.snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+  /* Fences the fall off from the document's layout and paint: 28 elements are
+     animating in here forever, and none of them can affect anything outside. */
+  contain: strict;
+}
+
+.snowflake {
+  position: absolute;
+  top: -2rem;
+  border-radius: 50%;
+  /*
+   * Not pure white. The site's ground is parchment and its light is warm, so a
+   * cold white speck reads as a dead pixel; the flake carries the faintest
+   * warmth, which is also what real snow does under a warm sky.
+   */
+  background-color: oklch(0.99 0.006 80);
+  /* Promoted once, up front. A layer created mid-fall is a dropped frame. */
+  will-change: transform;
+  animation: snow-fall var(--fall-duration, 15s) linear var(--fall-delay, 0s)
+    infinite;
+}
+
+/*
+ * The near flakes — the six large, blurred ones — are the only part of this
+ * that costs anything to paint, and on a phone they are also the ones that read
+ * as smudges rather than as depth at that scale. Held back for `sm` and up.
+ */
+.snowflake.sm-only {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .snowflake.sm-only {
+    display: block;
+  }
+}
+
+/*
+ * One animation, not two.
+ *
+ * The obvious build is a falling parent with a swaying child, and it is twice
+ * the elements for a motion that can be written as a single path: the sway is
+ * expressed here as horizontal offsets at the quarter points of the descent, so
+ * each flake traces a slow S down the screen from one element. It also fades in
+ * at the top and out at the foot, so flakes are never seen appearing or being
+ * cut off at an edge.
+ *
+ * `110svh` rather than `100vh`: the flake has to clear the bottom of the
+ * *visible* viewport on a phone, where the browser chrome comes and goes.
+ */
+@keyframes snow-fall {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate3d(var(--drift, 16px), 27.5svh, 0);
+  }
+  50% {
+    transform: translate3d(0, 55svh, 0);
+  }
+  75% {
+    transform: translate3d(calc(var(--drift, 16px) * -1), 82.5svh, 0);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 110svh, 0);
+    opacity: 0;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* The splash, by season                                                      */
+/*                                                                            */
+/* The opening frame is the first thing anyone sees, and until now it was the  */
+/* one surface on the site that kept the same colours all year — a magenta     */
+/* arch over a warm bloom, in Lent as much as at Christmas.                    */
+/*                                                                            */
+/* Six properties are lifted onto tokens here and retargeted per season below. */
+/* The ground itself needed nothing: it is `--surface`, which the season       */
+/* blocks already move.                                                       */
+/*                                                                            */
+/* One timing note. The splash is server-rendered and up before hydration,     */
+/* while `data-season` is written a frame or two later — so the arch draws in  */
+/* the default colours for a moment and settles into the season's as it is     */
+/* being struck. Given the arch takes 1.4s to draw, the change lands inside    */
+/* the drawing rather than after it, which is why it reads as part of the      */
+/* animation rather than as a correction. A flash-free version would mean      */
+/* computing the season in a blocking inline script, and a church's splash     */
+/* screen is not worth a blocking script.                                     */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --splash-line: var(--color-brand-300);
+  --splash-point: var(--color-accent-500);
+  --splash-halo-inner: oklch(0.641 0.182 357 / 0.1);
+  --splash-halo-outer: oklch(0.702 0.18 38 / 0.05);
+  --splash-rule-track: var(--color-brand-200);
+  --splash-rule-a: var(--color-brand-500);
+  --splash-rule-b: var(--color-accent-500);
+  --splash-ring-a: var(--color-brand-300);
+  --splash-ring-b: var(--color-accent-400);
+}
+
+/*
+ * CHRISTMAS — the arch struck in the feast's red over a cold white, its
+ * keystones gilded, and the halo turned to frost. The one opening in the year
+ * where the light behind the emblem is colder than the paper.
+ */
+html[data-season="christmas"] {
+  --splash-line: oklch(0.628 0.192 23);
+  --splash-point: oklch(0.842 0.12 86);
+  --splash-halo-inner: oklch(0.9 0.05 235 / 0.16);
+  --splash-halo-outer: oklch(0.842 0.12 86 / 0.07);
+  --splash-rule-track: oklch(0.888 0.062 20);
+  --splash-rule-a: oklch(0.532 0.196 23);
+  --splash-rule-b: oklch(0.842 0.12 86);
+  --splash-ring-a: oklch(0.808 0.108 21);
+  --splash-ring-b: oklch(0.882 0.11 88);
+}
+
+/*
+ * LENT — the arch in drained violet on ashen paper, and the bloom behind it
+ * almost put out. The opening frame should already feel like the season before
+ * a word of the site has loaded.
+ */
+html[data-season="lent"] {
+  --splash-line: oklch(0.664 0.065 310);
+  --splash-point: oklch(0.484 0.085 310);
+  --splash-halo-inner: oklch(0.572 0.078 310 / 0.05);
+  --splash-halo-outer: transparent;
+  --splash-rule-track: oklch(0.858 0.028 310);
+  --splash-rule-a: oklch(0.572 0.078 310);
+  --splash-rule-b: oklch(0.664 0.065 310);
+  --splash-ring-a: oklch(0.664 0.065 310);
+  --splash-ring-b: oklch(0.772 0.045 310);
+}
+
+/* HOLY WEEK — the same, swung to the crimson of the Passion. */
+html[data-season="holy-week"] {
+  --splash-line: oklch(0.662 0.128 18);
+  --splash-point: oklch(0.492 0.155 17);
+  --splash-halo-inner: oklch(0.572 0.15 18 / 0.06);
+  --splash-halo-outer: transparent;
+  --splash-rule-track: oklch(0.862 0.048 20);
+  --splash-rule-a: oklch(0.572 0.15 18);
+  --splash-rule-b: oklch(0.662 0.128 18);
+  --splash-ring-a: oklch(0.662 0.128 18);
+  --splash-ring-b: oklch(0.762 0.088 19);
+}
+
+/*
+ * GOOD FRIDAY — no colour and no light.
+ *
+ * The arch is struck in plain ink on stone, its keystones the same, and the
+ * bloom behind it is `transparent` rather than dim: the halo is the one thing
+ * on this screen whose whole job is to be light, so on the day the church puts
+ * its lights out it is simply not there. The rings that open as the crest
+ * leaves go with it.
+ */
+html[data-season="good-friday"] {
+  --splash-line: oklch(0.462 0 0);
+  --splash-point: oklch(0.328 0 0);
+  --splash-halo-inner: transparent;
+  --splash-halo-outer: transparent;
+  --splash-rule-track: oklch(0.852 0 0);
+  --splash-rule-a: oklch(0.462 0 0);
+  --splash-rule-b: oklch(0.552 0 0);
+  --splash-ring-a: oklch(0.552 0 0);
+  --splash-ring-b: oklch(0.652 0 0);
+}
+
+/*
+ * EASTER — gold, and the brightest the screen gets all year. The arch is
+ * gilded, the keystones burn, and the bloom is at full strength: the opening
+ * frame is the first thing to say the season has turned, before the page
+ * behind it has even been uncovered.
+ */
+html[data-season="easter"] {
+  --splash-line: oklch(0.742 0.145 84);
+  --splash-point: oklch(0.658 0.145 82);
+  --splash-halo-inner: oklch(0.862 0.1 88 / 0.24);
+  --splash-halo-outer: oklch(0.742 0.145 84 / 0.12);
+  --splash-rule-track: oklch(0.922 0.07 90);
+  --splash-rule-a: oklch(0.742 0.145 84);
+  --splash-rule-b: oklch(0.902 0.09 90);
+  --splash-ring-a: oklch(0.802 0.13 86);
+  --splash-ring-b: oklch(0.882 0.1 88);
+}
+
+/* CSI DAY — both of the seal's colours at full strength, which is the one
+   thing this day is for. */
+html[data-season="csi-day"] {
+  --splash-line: oklch(0.641 0.182 357);
+  --splash-point: oklch(0.612 0.2 36);
+  --splash-halo-inner: oklch(0.641 0.182 357 / 0.14);
+  --splash-halo-outer: oklch(0.702 0.18 38 / 0.08);
+  --splash-rule-a: oklch(0.542 0.19 359);
+  --splash-rule-b: oklch(0.612 0.2 36);
+}
+
+/*
+ * Good Friday takes the arch's glow off as well. Everything else on this
+ * screen is line and ground; this is the only lit thing left.
+ */
+html[data-season="good-friday"] .splash-crest img {
+  filter: grayscale(1) contrast(1.05);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1171,8 +2830,8 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
    */
   background: radial-gradient(
     circle at 50% 47%,
-    oklch(0.641 0.182 357 / 0.1) 0%,
-    oklch(0.702 0.18 38 / 0.05) 45%,
+    var(--splash-halo-inner) 0%,
+    var(--splash-halo-outer) 45%,
     transparent 72%
   );
   animation: splash-bloom 6s var(--ease-in-out-soft) infinite;
@@ -1229,7 +2888,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
 .splash-arch path {
   fill: none;
-  stroke: var(--color-brand-300);
+  stroke: var(--splash-line);
   stroke-width: 1.5;
   stroke-linecap: round;
   /*
@@ -1255,7 +2914,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  * before them.
  */
 .splash-arch circle {
-  fill: var(--color-accent-500);
+  fill: var(--splash-point);
   opacity: 0;
   animation: splash-arch-point 500ms var(--ease-out-expo) both;
 }
@@ -1342,7 +3001,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   left: -3.25rem;
   width: 6.5rem;
   height: 6.5rem;
-  border: 1px solid var(--color-brand-300);
+  border: 1px solid var(--splash-ring-a);
   border-radius: 50%;
   opacity: 0;
 }
@@ -1350,7 +3009,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /* Only the tint differs, so the two read as the emblem's own two colours
    spreading together rather than as one ring repeated. */
 .splash-rings::after {
-  border-color: var(--color-accent-400);
+  border-color: var(--splash-ring-b);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1372,7 +3031,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   height: 1px;
   overflow: hidden;
   border-radius: 9999px;
-  background-color: var(--color-brand-200);
+  background-color: var(--splash-rule-track);
   animation: splash-rule-in 600ms var(--ease-out-expo) 1150ms both;
 }
 
@@ -1386,8 +3045,8 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   background: linear-gradient(
     90deg,
     transparent,
-    var(--color-brand-500),
-    var(--color-accent-500),
+    var(--splash-rule-a),
+    var(--splash-rule-b),
     transparent
   );
   animation: splash-rule-sweep 1.4s var(--ease-in-out-soft) infinite;
@@ -1549,6 +3208,294 @@ html[data-splash="leaving"] [data-header-crest] {
   }
 }
 
+
+/*
+ * The seasonal figures along the foot of the splash.
+ *
+ * All five sets are in the markup and four are `display: none` — see the note
+ * at the render site in `splash-screen.tsx` for why the choice cannot be made
+ * in JavaScript. The attribute selector below is what picks the one that
+ * belongs to today, and it does so on the first frame, because the bootstrap
+ * script has already put the season on the root element by then.
+ *
+ * They stand on the foot of the frame rather than around the crest: the arch
+ * and the emblem are the subject of this screen, and a row along the bottom is
+ * the one place something can be added without competing with them. Same
+ * instinct as the sections — the decoration goes where the ground is.
+ */
+.splash-flora {
+  position: absolute;
+  inset-inline: 0;
+  display: none;
+  height: 5.5rem;
+  align-items: flex-end;
+  /*
+   * Spread across the full width rather than clustered in the middle. The rows
+   * are decoration at the two edges of the frame; the arch and the crest own
+   * the centre, and a huddle of figures under them would be competing for it.
+   */
+  justify-content: space-evenly;
+  color: var(--splash-line);
+  /*
+   * Raised from 0.28. At that strength the figures were technically present and
+   * effectively invisible: they sit in the season's own line colour, which is a
+   * light tint on a white ground, so a quarter of it disappears into the paper.
+   * Half reads as drawn without competing with the arch, which is still the
+   * darkest thing on the screen by some margin.
+   */
+  opacity: 0.5;
+  /* Fades toward the edge of the screen, so the figures stand *in* the white
+     rather than being cut off by it. The fade starts later than it did, so more
+     of each figure survives at full strength. */
+  mask-image: linear-gradient(to bottom, black 74%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black 74%, transparent);
+}
+
+.splash-flora:not(.splash-flora-top) {
+  bottom: 0;
+}
+
+/* The head of the frame: the same row, hanging. */
+.splash-flora-top {
+  top: 0;
+  align-items: flex-start;
+  mask-image: linear-gradient(to top, black 74%, transparent);
+  -webkit-mask-image: linear-gradient(to top, black 74%, transparent);
+}
+
+/* Easter hangs light instead of an object: a tapering shaft, brightest where
+   it enters. Same construction as the rays in the sections — a gradient and a
+   clip, so there is no gradient `id` to collide with. */
+.splash-ray {
+  width: 1.75rem;
+  background-image: linear-gradient(to bottom, currentColor, transparent 92%);
+  clip-path: polygon(34% 0, 66% 0, 100% 100%, 0 100%);
+  opacity: 0.7;
+}
+
+@media (min-width: 640px) {
+  .splash-flora {
+    height: 7rem;
+  }
+
+  .splash-ray {
+    width: 2.25rem;
+  }
+}
+
+html[data-season="christmas"] .splash-flora[data-for="christmas"],
+html[data-season="lent"] .splash-flora[data-for="lent"],
+html[data-season="holy-week"] .splash-flora[data-for="holy-week"],
+html[data-season="good-friday"] .splash-flora[data-for="good-friday"],
+html[data-season="easter"] .splash-flora[data-for="easter"] {
+  display: flex;
+}
+
+/* Good Friday stands its three crosses a little stronger and closer: on the
+   one day the screen has no colour and no light, the figures are the only
+   thing on it besides the arch. */
+html[data-season="good-friday"] .splash-flora {
+  opacity: 0.62;
+}
+
+/* Easter lifts its row into the season's gold. */
+html[data-season="easter"] .splash-flora {
+  opacity: 0.58;
+}
+
+/* They leave with everything else, rather than sitting on the white as it
+   lifts away. */
+.splash-shell[data-phase="leaving"] .splash-flora {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+
+/* -------------------------------------------------------------------------- */
+/* The splash, in motion, by season                                           */
+/*                                                                            */
+/* The colours of the opening frame already follow the year. This gives it a   */
+/* different *behaviour* in each season — how the light breathes, how patient  */
+/* the wait is, and what happens as the crest leaves.                          */
+/*                                                                            */
+/* One constraint governs everything below, and it is why the arch's own       */
+/* drawing is never touched. `data-season` is written a frame or two after     */
+/* mount, so any animation whose timing changes at that moment restarts from   */
+/* the beginning — invisible on a loop that has no start anyone can see (the   */
+/* bloom, the sweep), and a visible jump on a one-shot that is already partway */
+/* through (the arch being struck, the crest rising). So the seasons retune    */
+/* the loops and the exit, and leave the two one-shots alone.                  */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * CHRISTMAS — snow behind the arch, and a quicker light.
+ *
+ * The flakes are one tiled dot field moved by `transform`, not a scatter of
+ * elements and not an animated `background-position`. Both alternatives cost a
+ * paint per frame during hydration, which is the one moment on this site that
+ * cannot afford one; a transform on a promoted layer costs nothing. The tile is
+ * 220px and the travel is exactly one tile, so the loop is seamless.
+ */
+html[data-season="christmas"] .splash-shell::before {
+  content: "";
+  position: absolute;
+  inset: -220px 0 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 18% 12%, oklch(1 0 0 / 0.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at 62% 26%, oklch(1 0 0 / 0.45), transparent 60%),
+    radial-gradient(2px 2px at 84% 8%, oklch(1 0 0 / 0.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 34% 52%, oklch(1 0 0 / 0.4), transparent 60%),
+    radial-gradient(2px 2px at 72% 68%, oklch(1 0 0 / 0.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 8% 78%, oklch(1 0 0 / 0.42), transparent 60%),
+    radial-gradient(2px 2px at 48% 88%, oklch(1 0 0 / 0.46), transparent 60%);
+  background-size: 220px 220px;
+  animation: splash-snow 7s linear infinite;
+  will-change: transform;
+}
+
+@keyframes splash-snow {
+  to {
+    transform: translate3d(0, 220px, 0);
+  }
+}
+
+/* The waiting rule sweeps quicker and brighter — a string of lights rather than
+   a bar filling. */
+html[data-season="christmas"] .splash-rule::after {
+  animation-duration: 1s;
+}
+
+/*
+ * LENT — the light stops breathing and the wait grows patient.
+ *
+ * The bloom is held still rather than removed: a season of less is not a season
+ * of nothing, and a halo that has stopped pulsing is exactly the difference.
+ * The sweep is slowed to a crawl, which is the only honest way a loading
+ * indicator can express forty days.
+ */
+html[data-season="lent"] .splash-halo,
+html[data-season="holy-week"] .splash-halo {
+  animation: none;
+}
+
+html[data-season="lent"] .splash-rule::after {
+  animation-duration: 2.6s;
+}
+
+html[data-season="holy-week"] .splash-rule::after {
+  animation-duration: 3.2s;
+}
+
+/* And the rings that open as the crest leaves go quietly, barely spreading. */
+html[data-season="lent"] .splash-shell[data-phase="leaving"] .splash-rings::before,
+html[data-season="lent"] .splash-shell[data-phase="leaving"] .splash-rings::after,
+html[data-season="holy-week"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::before,
+html[data-season="holy-week"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::after {
+  animation-name: splash-ring-open-quiet;
+}
+
+@keyframes splash-ring-open-quiet {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  30% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/*
+ * GOOD FRIDAY — nothing moves that does not have to.
+ *
+ * The bloom is already `transparent` (the colour block above); here its
+ * animation comes off as well, so there is not even a still gradient breathing
+ * behind the emblem. The sweep stops and the rule becomes a plain track: on
+ * this day the site does not tell you it is working, it simply waits. And the
+ * rings do not open — the crest leaves without ceremony.
+ *
+ * The arch still draws. It is the one thing that should: a line arriving under
+ * its own hand, in ink, on the day the church is stripped.
+ */
+html[data-season="good-friday"] .splash-halo {
+  animation: none;
+}
+
+html[data-season="good-friday"] .splash-rule::after {
+  animation: none;
+  background: var(--splash-rule-a);
+  opacity: 0.55;
+}
+
+html[data-season="good-friday"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::before,
+html[data-season="good-friday"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::after {
+  animation: none;
+}
+
+/*
+ * EASTER — the light at full strength, and the rings open wide.
+ *
+ * The bloom breathes faster and further, the sweep runs bright, and as the
+ * crest flies to the masthead the two rings spread nearly twice as far as they
+ * do the rest of the year. The exit is the one moment of this sequence that can
+ * be made emphatic without touching a one-shot mid-flight, which is exactly
+ * where the season with something to announce should spend it.
+ */
+html[data-season="easter"] .splash-halo {
+  animation-duration: 4s;
+}
+
+html[data-season="easter"] .splash-rule::after {
+  animation-duration: 1.1s;
+}
+
+html[data-season="easter"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::before,
+html[data-season="easter"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::after {
+  animation-name: splash-ring-open-wide;
+  animation-duration: 900ms;
+}
+
+@keyframes splash-ring-open-wide {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  22% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.6);
+  }
+}
+
+/*
+ * Reduced motion. The blanket rule at the foot of this file already collapses
+ * every duration above; the snow is the one thing that must not merely stop but
+ * go, since a frozen field of white dots over the crest is a defect rather than
+ * a decoration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html[data-season="christmas"] .splash-shell::before {
+    display: none;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Frame budget                                                               */
 /* -------------------------------------------------------------------------- */
@@ -1556,17 +3503,14 @@ html[data-splash="leaving"] [data-header-crest] {
 /*
  * Nothing decorative keeps looping through the exit.
  *
- * The bloom, the motes and the rule's sweep have no part to play once the
- * splash is leaving, and the exit is the most expensive moment in the sequence
- * — a morph and a flight, both composited, both wanting the frame. Paused
- * rather than removed: `animation: none` would snap each of them back to its
- * resting transform, which is a visible twitch on the frame the reader is
- * already watching something else happen on.
+ * The bloom and the rule's sweep have no part to play once the splash is
+ * leaving, and the exit is the most expensive moment in the sequence — a lift
+ * and a flight, both composited, both wanting the frame. Paused rather than
+ * removed: `animation: none` would snap it back to its resting transform, which
+ * is a visible twitch on the frame the reader is already watching something
+ * else happen on.
  */
-.splash-shell[data-phase="leaving"] .splash-rule::after,
-.splash-shell[data-phase="leaving"] .float-a,
-.splash-shell[data-phase="leaving"] .float-b,
-.splash-shell[data-phase="leaving"] .float-c {
+.splash-shell[data-phase="leaving"] .splash-rule::after {
   animation-play-state: paused;
 }
 
@@ -1577,17 +3521,14 @@ html[data-splash="leaving"] [data-header-crest] {
  * exactly as it is. A slow device gets a simpler splash, not a broken one.
  */
 html[data-splash-lite] .splash-halo,
-html[data-splash-lite] .splash-rule::after,
-html[data-splash-lite] .splash-shell .float-a,
-html[data-splash-lite] .splash-shell .float-b,
-html[data-splash-lite] .splash-shell .float-c {
+html[data-splash-lite] .splash-rule::after {
   animation: none;
 }
 
 /* Without its sweep the rule would be an inert track, so let it carry the
    colour itself rather than sit there empty. */
 html[data-splash-lite] .splash-rule::after {
-  background: var(--color-brand-400);
+  background: var(--splash-rule-a);
   opacity: 0.7;
 }
 
@@ -1611,7 +3552,7 @@ html[data-splash-lite] .splash-rule::after {
 
   /* Nothing is sweeping, so the rule would otherwise be an inert pink line. */
   .splash-rule::after {
-    background: var(--color-brand-400);
+    background: var(--splash-rule-a);
   }
 
   /* The ground is not closing onto anything, so it has to leave on its own,

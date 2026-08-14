@@ -8,7 +8,17 @@ import { cn } from "@/lib/utils";
 /* Heading                                                                    */
 /* -------------------------------------------------------------------------- */
 
-const headingVariants = cva("font-display", {
+/*
+ * Weight descends as size ascends.
+ *
+ * Every level was set at 600. A semibold works at 20px, where it has to hold
+ * its own against body copy; at 60px it is a shout, and a page of shouting is
+ * why a lot of well-meaning sites feel like advertising. Fraunces is a variable
+ * face, so the largest levels can be set at 500 and the smallest left at 600 —
+ * the display line then reads with the composure of a chapter opening in a
+ * printed book, and the section heads under it keep their authority.
+ */
+const headingVariants = cva("font-display [font-optical-sizing:auto]", {
   variants: {
     level: {
       // Below `sm` the two largest levels are fluid: a fixed 36px reads as
@@ -16,9 +26,9 @@ const headingVariants = cva("font-display", {
       // name is long enough to wrap badly there. 28px→36px and 24px→30px
       // across the 320–640px range, meeting the `sm` sizes at the breakpoint.
       display:
-        "text-[clamp(1.75rem,2.5vw+1.25rem,2.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] font-semibold",
-      h1: "text-[clamp(1.5rem,1.875vw+1.125rem,1.875rem)] sm:text-4xl lg:text-5xl leading-[1.1] font-semibold",
-      h2: "text-2xl sm:text-3xl lg:text-4xl leading-[1.15] font-semibold",
+        "text-[clamp(1.75rem,2.5vw+1.25rem,2.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] font-[500]",
+      h1: "text-[clamp(1.5rem,1.875vw+1.125rem,1.875rem)] sm:text-4xl lg:text-5xl leading-[1.1] font-[520]",
+      h2: "text-2xl sm:text-3xl lg:text-4xl leading-[1.15] font-[550]",
       h3: "text-xl sm:text-2xl leading-snug font-semibold",
       h4: "text-lg sm:text-xl leading-snug font-semibold",
     },

@@ -10,12 +10,13 @@ import { InjectModel } from "@nestjs/mongoose";
 import type { MediaItem, MediaKind, Paginated } from "@portal/shared";
 import { randomUUID } from "node:crypto";
 import { mkdir, unlink, writeFile } from "node:fs/promises";
-import { extname, join } from "node:path";
+import { join } from "node:path";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
 import sharp from "sharp";
 
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
+import { containsInsensitive } from "../../common/utils/mongo";
 import { humanFileSize } from "../../common/utils/format";
 import {
   inferVideoProvider,
@@ -57,6 +58,49 @@ const DOCUMENT_MIMES = new Set([
 
 const THUMB_WIDTH = 480;
 const BLUR_WIDTH = 16;
+
+/**
+ * The extension each accepted type is stored under.
+ *
+ * The stored filename is derived from the *validated* MIME type and never from
+ * the name the browser sent. That used to be the other way round — the
+ * extension came from `file.originalname`, and only the MIME type was checked
+ * against the allow-list — which meant the two could disagree and the filename
+ * won:
+ *
+ *   upload `payload.html` declared as `image/png`
+ *     → passes `kindOf()`, because the *declared* type is an image
+ *     → stored as `uploads/images/<uuid>.html`
+ *     → served back as `text/html`, because static hosting types a file by its
+ *       extension
+ *
+ * and in the container, where one router serves the CMS and the API on a single
+ * origin, that is a stored script running on the CMS's own origin. Access
+ * tokens live in `localStorage`, so any editor could have taken a super-admin's
+ * session by uploading a file and getting them to open it.
+ *
+ * A fixed map is what closes it: an extension that is never attacker-controlled
+ * cannot contradict the type the file is served with.
+ */
+const EXTENSION_FOR_MIME: Record<string, string> = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/avif": ".avif",
+  "image/gif": ".gif",
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/ogg": ".ogv",
+  "video/quicktime": ".mov",
+  "application/pdf": ".pdf",
+  "application/msword": ".doc",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
+  "application/vnd.ms-excel": ".xls",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
+  "application/vnd.ms-powerpoint": ".ppt",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": ".pptx",
+  "text/plain": ".txt",
+};
 
 @Injectable()
 export class MediaService {
@@ -130,10 +174,37 @@ export class MediaService {
       );
     }
 
+    /*
+     * Decoding is also the check that the bytes are an image at all, and it
+     * happens before anything is written — a refused upload must not leave a
+     * file behind.
+     *
+     * The declared MIME type is the client's word for it and nothing more.
+     * This used to be attempted *after* the write and its failure only logged,
+     * so arbitrary content declared as `image/png` was stored and served. Now a
+     * file that will not parse is refused outright. Between this and the fixed
+     * extension map, spoofing the type gets nothing: the bytes have to be an
+     * image, and the name it is stored under is not the caller's to choose.
+     */
+    if (kind === "image") {
+      const probe = await sharp(file.buffer)
+        .metadata()
+        .catch(() => null);
+      if (!probe?.width || !probe.height) {
+        throw new BadRequestException(
+          "That file is not a readable image, whatever its name or type says.",
+        );
+      }
+    }
+
     const id = randomUUID();
-    const ext = (extname(file.originalname) || `.${file.mimetype.split("/")[1]}`)
-      .toLowerCase()
-      .replace(/[^a-z0-9.]/g, "");
+    /*
+     * From the allow-listed MIME type, not from `file.originalname` — see
+     * `EXTENSION_FOR_MIME`. `kindOf` has already rejected anything not in the
+     * map, so the lookup cannot miss; the fallback is belt and braces and
+     * deliberately inert rather than something a browser will execute.
+     */
+    const ext = EXTENSION_FOR_MIME[file.mimetype] ?? ".bin";
 
     const dir = kind === "image" ? "images" : kind === "video" ? "videos" : "files";
     const path = `${dir}/${id}${ext}`;
@@ -146,6 +217,8 @@ export class MediaService {
     let blurDataURL: string | undefined;
 
     if (kind === "image") {
+      // Already known to decode (checked above); this pass derives the
+      // thumbnail and blur preview, and a failure here is cosmetic.
       try {
         const image = sharp(file.buffer, { failOn: "none" });
         const metadata = await image.metadata();
@@ -307,7 +380,7 @@ export class MediaService {
   ): Promise<Paginated<MediaItem>> {
     const filter: FilterQuery<MediaEntity> = {};
     if (kind) filter.kind = kind;
-    if (search) filter.filename = { $regex: search, $options: "i" };
+    if (search) filter.filename = containsInsensitive(search);
 
     const [docs, total] = await Promise.all([
       this.model

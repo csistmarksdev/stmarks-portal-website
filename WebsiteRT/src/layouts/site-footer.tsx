@@ -2,6 +2,10 @@ import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { ChristmasScene } from "@/components/common/christmas-scene";
+import { EasterScene } from "@/components/common/easter-scene";
+import { GoodFridayScene } from "@/components/common/good-friday-scene";
+import { LentScene } from "@/components/common/lent-scene";
 import {
   SOCIAL_ICONS,
   SOCIAL_LABELS,
@@ -19,7 +23,7 @@ import type { Locale } from "@/i18n/routing";
 function ColumnHead({ children }: { children: React.ReactNode }) {
   return (
     <h3 className="label flex items-center gap-2.5 text-white/55">
-      <span aria-hidden className="h-px w-5 rule-brass" />
+      <span aria-hidden className="h-px w-5 rule-section" />
       {children}
     </h3>
   );
@@ -46,7 +50,7 @@ export async function SiteFooter() {
     <footer className="cv-auto relative isolate overflow-hidden bg-sand-950 text-white">
       {/* Brass edge and a soft brass bloom from the top, so the footer opens
           like the head of a printed colophon rather than a flat slab. */}
-      <div aria-hidden className="absolute inset-x-0 top-0 h-px rule-brass" />
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px rule-section" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.14] mix-blend-overlay"
@@ -57,7 +61,7 @@ export async function SiteFooter() {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64"
         style={{
           backgroundImage:
-            "radial-gradient(60% 100% at 30% 0%, oklch(0.508 0.166 34 / 0.16), transparent 70%)",
+            `radial-gradient(60% 100% at 30% 0%, var(--season-light-dark, oklch(0.508 0.166 34 / 0.16)), transparent 70%)`,
         }}
       />
 
@@ -269,6 +273,21 @@ export async function SiteFooter() {
           <p className="text-xs text-white/40">{t("builtWith")}</p>
         </div>
       </Container>
+
+      {/*
+        The season's own scene at the foot of the page: a snowy stand of firs
+        through December, a bare wilderness through Lent and Holy Week, and
+        nothing whatever the rest of the year — including Good Friday, when the
+        page is stripped. Each component gates itself, so the footer is unchanged
+        for most of the calendar.
+
+        Outside the `Container` deliberately: the ground line has to reach both
+        edges of the page rather than stopping at the content measure.
+      */}
+      <ChristmasScene />
+      <LentScene />
+      <GoodFridayScene />
+      <EasterScene />
     </footer>
   );
 }

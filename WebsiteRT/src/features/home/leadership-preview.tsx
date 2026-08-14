@@ -90,7 +90,7 @@ function PortraitFigure({
 
   return (
     <figure className="group mx-auto flex w-full max-w-xs flex-col items-center text-center">
-      <div className="window-arch relative aspect-[4/5] w-full overflow-hidden bg-sand-200 shadow-sanctuary ring-1 ring-sand-200 transition-shadow duration-500 group-hover:shadow-sanctuary-hover">
+      <div className="window-arch relative aspect-[4/5] w-full overflow-hidden bg-sand-200 shadow-card ring-1 ring-[var(--border)] transition-shadow duration-500 group-hover:shadow-card-hover">
         {leader.image ? (
           <Image
             src={leader.image.url}
@@ -102,7 +102,7 @@ function PortraitFigure({
         ) : (
           <div
             aria-hidden
-            className="grid size-full place-items-center bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+            className="grid size-full place-items-center bg-brand-800"
           >
             <span className="font-display text-6xl font-semibold text-white/85">
               {initials(name)}
@@ -122,9 +122,9 @@ function PortraitFigure({
           {name}
         </h3>
 
-        <span aria-hidden className="mx-auto mt-3 block h-px w-10 rule-gild" />
+        <span aria-hidden className="mx-auto mt-3 block h-px w-10 rule-section" />
 
-        <p className="label mt-3 text-accent-700">
+        <p className="label mt-3 text-[var(--muted-foreground)]">
           {localize(leader.designation, locale)}
         </p>
 

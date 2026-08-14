@@ -4,7 +4,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { CrossMark } from "@/components/common/ornament";
 import { ScrollCue } from "@/components/common/scroll-cue";
 import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
@@ -127,13 +126,13 @@ export default async function EventDetailPage({
           <div className="lg:col-span-7">
             <Reveal>
               <div className="flex items-center gap-3">
-                <CrossMark size="sm" tone="sacred" />
+                <span aria-hidden className="h-px w-6 shrink-0 rule-section" />
                 <Heading as="h2" level="h3">
                   {t("details.aboutEvent")}
                 </Heading>
               </div>
 
-              <span aria-hidden className="mt-5 block h-px w-20 rule-gild" />
+              <span aria-hidden className="mt-5 block h-px w-20 rule-section" />
 
               <div className="mt-7">
                 <Prose paragraphs={localizeAll(event.description, locale)} lead />
@@ -149,9 +148,9 @@ export default async function EventDetailPage({
                   <div className="flex gap-4">
                     <span
                       aria-hidden
-                      className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-700 ring-1 ring-accent-500/20"
+                      className="mt-0.5 shrink-0 text-accent-700"
                     >
-                      <CalendarDays className="size-4" />
+                      <CalendarDays strokeWidth={1.5} className="size-5" />
                     </span>
                     <div>
                       <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -176,9 +175,9 @@ export default async function EventDetailPage({
                   <div className="flex gap-4">
                     <span
                       aria-hidden
-                      className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-700 ring-1 ring-accent-500/20"
+                      className="mt-0.5 shrink-0 text-accent-700"
                     >
-                      <MapPin className="size-4" />
+                      <MapPin strokeWidth={1.5} className="size-5" />
                     </span>
                     <div>
                       <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
@@ -194,9 +193,9 @@ export default async function EventDetailPage({
                     <div className="flex gap-4">
                       <span
                         aria-hidden
-                        className="grid size-10 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-700 ring-1 ring-accent-500/20"
+                        className="mt-0.5 shrink-0 text-accent-700"
                       >
-                        <Users className="size-4" />
+                        <Users strokeWidth={1.5} className="size-5" />
                       </span>
                       <div>
                         <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">

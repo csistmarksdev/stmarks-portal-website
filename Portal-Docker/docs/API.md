@@ -69,6 +69,50 @@ Extras:
 - `GET /admin/contact-messages`, `PATCH /admin/contact-messages/:id/read`, `DELETE /admin/contact-messages/:id`
 - `GET /admin/dashboard/stats`
 
+## Backup & restore
+
+One zip holding the whole installation: every collection as canonical Extended
+JSON under `db/`, every uploaded file under `uploads/`, and a `manifest.json`
+describing both. Nothing is filtered and `_id` is preserved — the archive is a
+clone, so restoring it reproduces the installation rather than an export of it.
+Media URLs are stored absolute, so they are rewritten to `{{MEDIA}}/…` on the
+way out and back to this installation's origin on the way in; an archive taken
+from a LAN address restores correctly onto a domain.
+
+| Method | Endpoint | Permission | Notes |
+|---|---|---|---|
+| GET | `/admin/backup/preview` | `backup.read` | Counts per collection, media file count and bytes, without building anything. |
+| POST | `/admin/backup` | `backup.read` | Builds the archive and returns a `BackupTicket` — size, manifest, and a `downloadPath` carrying a one-time token. |
+| GET | `/admin/backup/:id/download?token=` | *(token)* | Streams the zip. **Unauthenticated by design**: a browser download is a navigation and cannot send a Bearer header. The token is 256 bits, checked in constant time, scoped to one archive, and expires with it (30 min). |
+| POST | `/admin/backup/restore` | `backup.restore` | Multipart `file`. Reads and validates the archive, writes **nothing**, returns a `StagedRestore` with the manifest and any warnings. |
+| POST | `/admin/backup/restore/:id` | `backup.restore` | `{ mode, safetyBackup }` — applies the staged archive. |
+
+Upload and apply are two requests so the CMS can show what is in the file
+before anyone commits to it, without asking for the upload twice.
+
+**Modes.** `replace` empties each collection the archive contains before
+inserting, so the database ends up exactly as it was when the backup was taken —
+records created since are gone. `merge` upserts by `_id` and deletes nothing.
+For media, `replace` overwrites files and `merge` leaves existing ones alone.
+Uploads are restored before the database: a run that dies between the two leaves
+orphaned files, which is harmless, rather than records pointing at missing images.
+
+`safetyBackup` (default `true`) takes a full backup *before* applying and
+returns its ticket in the response. Its download link is token-based, so it
+still works even when the restore has just replaced the account that asked for it.
+
+**Permissions.** `backup.read` and `backup.restore` are both **super-admin only**.
+Downloading is held as high as restoring because the archive is the whole
+database in one portable file: an admin who can take one has every password hash
+in the installation, whether or not they can put one back. And a restore rewrites
+the user table, so whoever can run one can hand themselves any account in it.
+
+**Configuration.** `MAX_BACKUP_UPLOAD_MB` (default 4096) caps an uploaded
+archive. `BACKUP_WORK_DIR` (default `<tmp>/csistmc-portal-backup`) is where
+archives are built and uploads land; point it at a volume when `/tmp` is
+smaller than the media library. The directory is wiped at boot and swept on
+every request.
+
 ## Media hosting
 
 Uploads are stored under `backend/uploads/` and served statically at `PUBLIC_URL/uploads/**` (no API prefix). When integrating the Website, add this hostname to its `next.config.ts` `images.remotePatterns`.

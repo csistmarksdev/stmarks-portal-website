@@ -5,7 +5,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { FeatureCard } from "@/components/cards/feature-card";
 import { CtaBand } from "@/components/common/cta-band";
-import { CrossMark } from "@/components/common/ornament";
 import { PageHero } from "@/components/common/page-hero";
 import { ServiceTimingsTable } from "@/components/common/service-timings-table";
 import { Reveal } from "@/components/motion/reveal";
@@ -77,8 +76,8 @@ export default async function AboutPage({
           <div className="lg:col-span-6">
             <Reveal>
               <div className="flex items-center gap-3">
-                <CrossMark size="sm" tone="sacred" />
-                <span className="label text-accent-700">
+                <span aria-hidden className="h-px w-6 shrink-0 rule-section" />
+                <span className="label text-[var(--muted-foreground)]">
                   {t("history.eyebrow")}
                 </span>
               </div>
@@ -87,7 +86,7 @@ export default async function AboutPage({
                 {t("history.title")}
               </Heading>
 
-              <span aria-hidden className="mt-6 block h-px w-24 rule-gild" />
+              <span aria-hidden className="mt-6 block h-px w-24 rule-section" />
             </Reveal>
 
             {/* The intro reads as a standfirst that flows straight into the
@@ -115,13 +114,13 @@ export default async function AboutPage({
               {/* Arched and held in place while the story scrolls past — a
                   window onto the sanctuary rather than a floating snapshot. */}
               <figure className="lg:sticky lg:top-28">
-                <div className="lancet-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-sanctuary ring-1 ring-sand-200">
+                <div className="lancet-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-card ring-1 ring-[var(--border)]">
                   <Image
                     src={history.image.url}
                     alt={localize(history.image.alt, locale)}
                     fill
                     sizes="(max-width: 1024px) 100vw, 46vw"
-                    className="ken-burns object-cover"
+                    className="object-cover"
                   />
                   <div
                     aria-hidden
@@ -218,7 +217,7 @@ export default async function AboutPage({
         <div className="mt-20">
           <Reveal>
             <div className="flex items-center gap-3">
-              <CrossMark size="sm" tone="sacred" />
+              <span aria-hidden className="h-px w-6 shrink-0 rule-section" />
               <Heading as="h3" level="h3">
                 {t("visionMission.valuesTitle")}
               </Heading>
@@ -231,7 +230,7 @@ export default async function AboutPage({
             way an illuminated page marks a passage — and the columns are ruled
             off from one another rather than boxed in.
           */}
-          <StaggerGroup className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-sand-200/80">
+          <StaggerGroup className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-[var(--border)]/80">
             {vision.values.map((value) => {
               const title = localize(value.title, locale);
 
@@ -248,7 +247,7 @@ export default async function AboutPage({
                     {title}
                   </h4>
 
-                  <span aria-hidden className="mt-3 block h-px w-10 rule-gild" />
+                  <span aria-hidden className="mt-3 block h-px w-10 rule-section" />
 
                   <p className="mt-4 text-sm leading-relaxed text-[var(--muted-foreground)]">
                     {localize(value.description, locale)}
@@ -270,7 +269,7 @@ export default async function AboutPage({
               it, which is the one thing an emblem must never do. */}
           {diocese.image ? (
             <Reveal direction="right" className="lg:col-span-5 lg:order-1">
-              <figure className="relative grid place-items-center overflow-hidden rounded-[var(--radius-sanctuary)] bg-sand-100 p-10 shadow-sanctuary ring-1 ring-sand-200 sm:p-14">
+              <figure className="relative grid place-items-center overflow-hidden rounded-card bg-sand-100 p-10 shadow-card ring-1 ring-[var(--border)] sm:p-14">
                 <Image
                   src={diocese.image.url}
                   alt={localize(diocese.image.alt, locale)}
@@ -284,7 +283,7 @@ export default async function AboutPage({
                 {/* Gilded inner margin, set in from the edge like a ruled leaf. */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute inset-3 rounded-[calc(var(--radius-sanctuary)-0.5rem)] ring-1 ring-accent-500/20"
+                  className="pointer-events-none absolute inset-3 rounded-[2px] ring-1 ring-accent-500/20"
                 />
               </figure>
             </Reveal>
@@ -293,8 +292,8 @@ export default async function AboutPage({
           <div className="lg:order-2 lg:col-span-7">
             <Reveal>
               <div className="flex items-center gap-3">
-                <CrossMark size="sm" tone="sacred" />
-                <span className="label text-accent-700">
+                <span aria-hidden className="h-px w-6 shrink-0 rule-section" />
+                <span className="label text-[var(--muted-foreground)]">
                   {t("diocese.eyebrow")}
                 </span>
               </div>
@@ -303,7 +302,7 @@ export default async function AboutPage({
                 {localize(diocese.name, locale)}
               </Heading>
 
-              <span aria-hidden className="mt-6 block h-px w-24 rule-gild" />
+              <span aria-hidden className="mt-6 block h-px w-24 rule-section" />
             </Reveal>
 
             <Reveal delay={0.1}>

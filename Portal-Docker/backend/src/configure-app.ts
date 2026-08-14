@@ -4,6 +4,7 @@ import compression from "compression";
 import helmet from "helmet";
 
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
+import { MediaOriginInterceptor } from "./common/interceptors/media-origin.interceptor";
 import { corsOriginChecker } from "./common/utils/cors";
 
 /**
@@ -18,6 +19,16 @@ export function configureApp(app: INestApplication): void {
   const config = app.get(ConfigService);
 
   app.setGlobalPrefix(config.get<string>("apiPrefix", "v1"));
+
+  /*
+   * Decides what `req.ip` resolves to — see `trustProxy` in `configuration.ts`
+   * for why the default differs between the two deployments. Set before the
+   * throttler guard sees a request, because that guard keys its buckets on it.
+   */
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .set("trust proxy", config.get("trustProxy", false));
 
   app.use(
     helmet({
@@ -97,6 +108,25 @@ export function configureApp(app: INestApplication): void {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
+
+  /*
+   * Media URLs follow the origin each request arrived on.
+   *
+   * Without this every response hands out `${PUBLIC_URL}/uploads/…`, and
+   * `PUBLIC_URL` is whatever could be worked out at boot — inside the container
+   * with nothing configured, `http://localhost:8080`. That is correct for
+   * exactly one viewer: someone sitting at the machine running Docker. Reached
+   * from anywhere else — a ZimaOS box on the LAN, a phone, a public domain —
+   * `localhost` is the *viewer's* own machine, which serves nothing, and every
+   * image in the CMS and on the website is broken while the API reports 200 and
+   * the files are plainly there on disk.
+   *
+   * Registered here rather than as an `APP_INTERCEPTOR` provider so the smoke
+   * test, which boots through `configureApp`, exercises it too. It needs no
+   * injection: see `media-origin.interceptor.ts` for what it rewrites and what
+   * it deliberately leaves alone.
+   */
+  app.useGlobalInterceptors(new MediaOriginInterceptor());
 
   app.useGlobalFilters(new AllExceptionsFilter());
 }

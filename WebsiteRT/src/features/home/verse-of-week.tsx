@@ -29,14 +29,27 @@ export async function VerseOfWeek() {
   const locale = (await getLocale()) as Locale;
 
   return (
-    <section className="relative isolate overflow-hidden bg-sand-950 py-28 text-white sm:py-36 lg:py-44">
-      {/* Brass bloom, drifting. */}
+    <section
+      /* `data-verse` is the hook the season blocks in `globals.css` use to
+         light this section; it carries no styling of its own. */
+      data-verse=""
+      className="relative isolate overflow-hidden bg-sand-950 py-32 text-white sm:py-40 lg:py-48"
+    >
+      {/*
+        One light, from above.
+
+        There were two coloured blooms here before — one high left, one low
+        right — drifting past each other, which is a lava lamp, not a sanctuary.
+        A single warm source entering at the crown is what a lit church actually
+        looks like from the back of the nave, and it puts the light where the
+        scripture is rather than in the corners.
+      */}
       <div
         aria-hidden
         className="verse-bloom pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(55% 60% at 22% 18%, oklch(0.508 0.166 34 / 0.42), transparent 68%), radial-gradient(45% 55% at 82% 82%, oklch(0.586 0.196 18 / 0.34), transparent 70%)",
+            `radial-gradient(58% 55% at 50% -8%, var(--season-light-dark, oklch(0.508 0.166 34 / 0.5)), transparent 72%)`,
         }}
       />
 
@@ -46,49 +59,60 @@ export async function VerseOfWeek() {
         style={{ backgroundImage: GRAIN }}
       />
 
-      {/* Closes the edges so the bloom reads as light, not as a gradient band. */}
+      {/* Closes the edges so the light reads as light, not as a gradient band. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(115% 95% at 50% 50%, transparent 38%, oklch(0.158 0.009 66 / 0.9) 100%)",
+            "radial-gradient(118% 96% at 50% 42%, transparent 36%, oklch(0.158 0.009 66 / 0.92) 100%)",
         }}
       />
 
       <Container size="md" className="relative">
         <Reveal>
           <figure className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-            {/* Kicker: the cross struck between two gilded rules, centred like
-                the head of an illuminated page. */}
-            <div className="flex items-center gap-3.5">
+            {/* The head of an illuminated page: the cross, then the kicker
+                struck between two rules. */}
+            <CrossMark size="md" tone="onDark" />
+
+            <div className="mt-6 flex items-center gap-4">
               <span
                 aria-hidden
-                className="h-px w-10 rule-gild sm:w-16"
+                className="h-px w-10 rule-section rule-section-dark sm:w-16"
               />
-              <CrossMark size="sm" tone="onDark" />
-              <p className="label shrink-0 text-accent-300/90">{t("eyebrow")}</p>
+              <p className="label shrink-0 text-white/70">{t("eyebrow")}</p>
               <span
                 aria-hidden
-                className="h-px w-10 rotate-180 rule-gild sm:w-16"
+                className="h-px w-10 rule-section rule-section-dark sm:w-16"
               />
             </div>
 
-            <blockquote className="mt-10 sm:mt-12">
-              {/* A faint brass halo lifts the type off the ground without
-                  tinting it. */}
-              <p className="text-balance font-display text-[1.75rem] leading-[1.3] tracking-[-0.015em] [text-shadow:0_2px_60px_oklch(0.702_0.18_38/0.28)] sm:text-4xl lg:text-[3.25rem] lg:leading-[1.2]">
+            <blockquote className="mt-12 sm:mt-14">
+              {/*
+                Set in the display serif, at rest, with a faint warm halo so the
+                letterforms lift off the ground without being tinted by it. The
+                quotation marks hang outside the measure the way they would in a
+                printed lectionary.
+              */}
+              <p className="text-balance font-display text-[1.75rem] font-normal leading-[1.34] tracking-[-0.012em] [text-shadow:0_2px_60px_var(--season-light-dark,oklch(0.702_0.18_38/0.28))] sm:text-4xl sm:leading-[1.3] lg:text-[3.25rem] lg:leading-[1.24]">
                 &ldquo;{localize(verse.text, locale)}&rdquo;
               </p>
             </blockquote>
 
-            <figcaption className="mt-12 flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3">
-                <span aria-hidden className="h-px w-8 rule-gild" />
+            <figcaption className="mt-14 flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3.5">
+                <span
+                  aria-hidden
+                  className="h-px w-8 rule-section rule-section-dark"
+                />
                 <cite className="font-display text-base font-semibold not-italic text-accent-200">
                   {localize(verse.reference, locale)}
                 </cite>
-                <span aria-hidden className="h-px w-8 rotate-180 rule-gild" />
+                <span
+                  aria-hidden
+                  className="h-px w-8 rule-section rule-section-dark"
+                />
               </div>
 
               <time

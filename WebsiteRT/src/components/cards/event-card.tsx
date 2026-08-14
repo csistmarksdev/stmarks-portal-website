@@ -58,7 +58,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
     >
       {/* Image-forward: a tall photo carries the card, the essentials read off
           it as frosted overlays, and the details drop into the panel below. */}
-      <div className="relative aspect-[4/5] shrink-0 overflow-hidden rounded-t-[var(--radius-plate)] bg-sand-200">
+      <div className="relative aspect-[4/5] shrink-0 overflow-hidden rounded-t-card bg-sand-200">
         {event.image ? (
           <Image
             src={event.image.url}
@@ -70,7 +70,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
         ) : (
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+            className="absolute inset-0 bg-brand-800"
           />
         )}
 
@@ -95,7 +95,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
 
         {/* Title + date-line, riding the foot of the photograph. */}
         <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-          <p className="numeric label text-accent-300">
+          <p className="numeric label text-white/70">
             {month} {year}
           </p>
           <CardTitle className="mt-2 line-clamp-2 text-white group-hover/card:text-white sm:text-2xl">
@@ -126,7 +126,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
           </div>
         </dl>
 
-        <CardFooter className="border-t border-sand-200/80">
+        <CardFooter className="border-t border-[var(--border)]">
           <CardAction>
             {tCommon("viewDetails")}
             <ArrowRight />
@@ -140,7 +140,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
       */}
       <Link
         href={ROUTES.event(event.slug)}
-        className="absolute inset-0 z-10 rounded-[var(--radius-plate)] focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="absolute inset-0 z-10 rounded-card focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <span className="sr-only">{title}</span>
       </Link>

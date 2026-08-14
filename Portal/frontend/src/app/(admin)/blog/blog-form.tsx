@@ -272,25 +272,38 @@ export function BlogForm({ id }: { id?: string }) {
       return;
     }
 
-    const payload = {
+    const required = {
       title: draft.title,
       excerpt: draft.excerpt,
       author: draft.author,
       body: textToParagraphs(draft.bodyEn, draft.bodyTa),
       publishedAt: new Date(draft.publishedAt).toISOString(),
       status,
-      ...(draft.coverImage ? { coverImage: draft.coverImage } : {}),
-      ...(draft.eventSlug.trim() ? { eventSlug: draft.eventSlug.trim() } : {}),
-      ...(draft.fellowshipSlug.trim()
-        ? { fellowshipSlug: draft.fellowshipSlug.trim() }
-        : {}),
+    };
+
+    /*
+     * The three optional fields, sent as `null` when empty rather than left out.
+     *
+     * Omitting a key means "leave it as it is", so removing a cover image used
+     * to save without complaint and change nothing — the picture was still
+     * there on the next load, and on the post's page on the website. `null`
+     * says remove it, which is what clearing the field meant.
+     */
+    const optional = {
+      coverImage: draft.coverImage ?? null,
+      eventSlug: draft.eventSlug.trim() || null,
+      fellowshipSlug: draft.fellowshipSlug.trim() || null,
     };
 
     if (isEdit && id) {
-      await update.mutateAsync({ id, body: payload });
+      await update.mutateAsync({ id, body: { ...required, ...optional } });
       setDirty(false);
     } else {
-      await create.mutateAsync(payload);
+      // Nothing to remove on a new post; a null here would only store one.
+      const set = Object.fromEntries(
+        Object.entries(optional).filter(([, value]) => value !== null),
+      );
+      await create.mutateAsync({ ...required, ...set });
       setDirty(false);
       router.push("/blog");
     }

@@ -102,8 +102,8 @@ export const MAIN_NAV: NavItem[] = [
         href: `${ROUTES.leadership}#committee`,
       },
       {
-        labelKey: "leadershipItems.formerPastors",
-        href: `${ROUTES.leadership}#former-pastors`,
+        labelKey: "leadershipItems.presbyters",
+        href: `${ROUTES.leadership}#presbyters`,
       },
     ],
   },

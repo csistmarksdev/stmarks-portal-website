@@ -1,4 +1,5 @@
 import {
+  ArchiveIcon,
   BellIcon,
   BookOpenIcon,
   CalendarIcon,
@@ -62,6 +63,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { href: "/users", label: "Users", icon: UsersIcon },
       { href: "/roles", label: "Roles & permissions", icon: ShieldIcon },
       { href: "/audit-logs", label: "Audit logs", icon: FileClockIcon },
+      { href: "/backup", label: "Backup & restore", short: "Backup", icon: ArchiveIcon },
       { href: "/settings", label: "Settings", icon: SettingsIcon },
     ],
   },

@@ -9,6 +9,7 @@ import { PageHero } from "@/components/common/page-hero";
 import { StaggerGroup, StaggerItem } from "@/components/motion/stagger";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { HERO_SLIDES } from "@/content/hero-slides";
+import { PRESBYTER_ERAS } from "@/content/leadership";
 import { routing, type Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
 import type { Leader } from "@/types/content";
@@ -17,7 +18,6 @@ import {
   getAssistantPastors,
   getCommittee,
   getCurrentPastors,
-  getFormerPastors,
   getStaff,
 } from "@/services";
 
@@ -54,7 +54,7 @@ function PortraitTile({
 
   return (
     <figure className="group text-center">
-      <div className="window-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-sanctuary ring-1 ring-sand-200 transition-shadow duration-500 group-hover:shadow-sanctuary-hover">
+      <div className="window-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-card ring-1 ring-[var(--border)] transition-shadow duration-500 group-hover:shadow-card-hover">
         {leader.image ? (
           <Image
             src={leader.image.url}
@@ -66,7 +66,7 @@ function PortraitTile({
         ) : (
           <div
             aria-hidden
-            className="grid size-full place-items-center bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+            className="grid size-full place-items-center bg-brand-800"
           >
             <span className="font-display text-4xl font-semibold text-white/85">
               {initials(name)}
@@ -85,9 +85,9 @@ function PortraitTile({
           {name}
         </h3>
 
-        <span aria-hidden className="mx-auto mt-2.5 block h-px w-8 rule-gild" />
+        <span aria-hidden className="mx-auto mt-2.5 block h-px w-8 rule-section" />
 
-        <p className="label mt-2.5 text-accent-700">
+        <p className="label mt-2.5 text-[var(--muted-foreground)]">
           {localize(leader.designation, locale)}
         </p>
 
@@ -135,7 +135,12 @@ export default async function LeadershipPage({
 
   const locale = rawLocale as Locale;
 
-  const [t, tCommon, tCard, pastors, assistants, committee, staff, formerPastors] =
+  /*
+   * The roll of presbyters is not fetched: it is hardcoded in
+   * `src/content/leadership.ts` alongside the rest of the write-once material,
+   * so there is nothing to await for it.
+   */
+  const [t, tCommon, tCard, pastors, assistants, committee, staff] =
     await Promise.all([
       getTranslations("leadership"),
       getTranslations("common"),
@@ -144,7 +149,6 @@ export default async function LeadershipPage({
       getAssistantPastors(),
       getCommittee(),
       getStaff(),
-      getFormerPastors(),
     ]);
 
   const phoneLabel = (name: string) => tCard("phoneLabel", { name });
@@ -270,43 +274,98 @@ export default async function LeadershipPage({
         </Section>
       ) : null}
 
-      {/* Former pastors */}
-      <Section spacing="lg" id="former-pastors">
+      {/* The roll of presbyters */}
+      <Section spacing="lg" id="presbyters">
         <SectionHeading
           index="05"
-          title={t("formerPastors.title")}
-          subtitle={t("formerPastors.subtitle")}
+          title={t("presbyters.title")}
+          subtitle={t("presbyters.subtitle")}
         />
 
-        {formerPastors.length === 0 ? (
-          <EmptyState message={tCommon("noResults")} />
-        ) : (
-          // A roll of succession: names against years, ruled like a register.
-          <StaggerGroup className="border-b border-sand-300">
-            {formerPastors.map((leader) => (
-              <StaggerItem key={leader.id}>
-                <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-t border-sand-300 py-5">
-                  <div className="min-w-0">
-                    <h3 className="font-display text-lg font-semibold">
-                      {localize(leader.name, locale)}
-                    </h3>
-                    <p className="label mt-1.5 text-[var(--muted-foreground)]">
-                      {localize(leader.designation, locale)}
-                    </p>
-                  </div>
+        {/*
+          A register, not a gallery. There are no portraits for these sixteen
+          terms and there never will be for most of them, so the page sets them
+          the way the church's own roll does — ruled rows of name against years.
 
-                  <p className="numeric font-display text-lg font-semibold text-accent-700">
-                    {t("formerPastors.tenure", {
-                      from: leader.tenureFrom ?? "",
-                      to: leader.tenureTo ?? t("formerPastors.present"),
-                    })}
-                  </p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
+          An ordered list rather than a table, and that is the responsive
+          decision as much as the semantic one. The church's roll has four
+          columns, and four columns on a 360px phone can only be solved by
+          scrolling the table sideways inside its own frame, which is a poor
+          thing to hand someone reading a list of their own clergy. A list row
+          carries the same four facts and simply reflows: on a phone the years
+          drop beneath the name, on a desktop they sit out to the right against
+          the rule. Nothing is hidden at any width and nothing scrolls sideways.
+
+          It is also what the data is. "Sl. No" is a list index — the roll
+          restarts at 1 under each era — so an `ol` per era states that
+          structurally instead of spending a column on it.
+        */}
+        <div className="mt-10 space-y-12 sm:mt-12 sm:space-y-14">
+          {PRESBYTER_ERAS.map((era) => (
+            <section key={era.id} aria-labelledby={`presbyters-${era.id}`}>
+              <h3
+                id={`presbyters-${era.id}`}
+                className="font-display text-lg font-semibold sm:text-2xl"
+              >
+                {localize(era.title, locale)}
+              </h3>
+
+              <ol className="mt-4 border-b border-sand-300 sm:mt-5">
+                {era.terms.map((term) => (
+                  <li
+                    key={`${era.id}-${term.no}`}
+                    className="border-t border-[var(--border)] first:border-t-sand-300"
+                  >
+                    {/*
+                      `flex-wrap` with `justify-between` is what does the
+                      reflowing: while both halves fit they sit at opposite ends
+                      of the rule, and when they stop fitting the years wrap to
+                      their own line under the name rather than crushing it.
+                    */}
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 py-4 sm:py-5">
+                      <div className="flex min-w-0 items-baseline gap-3 sm:gap-4">
+                        {/*
+                          The serial number as the church prints it. Hidden from
+                          assistive tech because the `ol` already conveys the
+                          position — announcing both would read "one, one".
+                        */}
+                        <span
+                          aria-hidden
+                          className="numeric w-5 shrink-0 text-sm text-[var(--muted-foreground)] sm:w-6 sm:text-base"
+                        >
+                          {term.no}
+                        </span>
+
+                        <p className="min-w-0 font-display text-base font-semibold sm:text-lg">
+                          {term.name}
+                          {term.note ? (
+                            /* `block` on a phone so a long name and its
+                               qualifier do not fight over one line. */
+                            <span className="mt-0.5 block text-xs font-normal text-[var(--muted-foreground)] sm:mt-0 sm:ml-2 sm:inline">
+                              ({localize(term.note, locale)})
+                            </span>
+                          ) : null}
+                        </p>
+                      </div>
+
+                      {/*
+                        `pl-8` on a phone lines the years up under the name
+                        rather than under the serial number once they have
+                        wrapped; `nowrap` keeps a term from breaking across
+                        lines mid-dash.
+                      */}
+                      <p className="numeric whitespace-nowrap pl-8 text-sm font-semibold text-accent-700 sm:pl-0 sm:text-base">
+                        {t("presbyters.term", { from: term.from, to: term.to })}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
       </Section>
+
     </main>
   );
 }

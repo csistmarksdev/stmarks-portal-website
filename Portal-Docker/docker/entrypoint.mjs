@@ -35,7 +35,7 @@
  * expecting a shared origin, so `SPLIT_PORTS` also needs `NEXT_PUBLIC_API_URL`
  * set at build time to be useful from a browser.
  */
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer, request as httpRequest } from "node:http";
@@ -234,6 +234,19 @@ function ensureSecrets() {
 /** True when the URI points at the database this container runs itself. */
 function isEmbeddedUri(uri) {
   return /^mongodb:\/\/(127\.0\.0\.1|localhost)(:27017)?(\/|$)/.test(uri);
+}
+
+/**
+ * Whether a `mongod` binary is on PATH at all.
+ *
+ * The container always has one. The same entrypoint also drives the plain
+ * `dist-portal/` folder on a VM, where it usually does not — and spawning a
+ * command that does not exist surfaces as `ENOENT`, which says nothing about
+ * what to do next. Checked up front so the failure names the fix instead.
+ */
+function hasMongod() {
+  const probe = spawnSync("mongod", ["--version"], { stdio: "ignore" });
+  return !probe.error;
 }
 
 /**
@@ -542,6 +555,14 @@ async function main() {
   process.env.MONGODB_URI ??= "mongodb://127.0.0.1:27017/csistmc-portal";
 
   if (embedded) {
+    if (!hasMongod()) {
+      throw new Error(
+        "no MONGODB_URI is set and there is no `mongod` on PATH to start. " +
+          "Inside the container image one is always present, so this is a bundle " +
+          "running on a host without MongoDB: either install MongoDB, or point " +
+          "MONGODB_URI at a database (`mongodb+srv://…` for Atlas).",
+      );
+    }
     if (!(await startEmbeddedMongo())) {
       throw new Error("bundled MongoDB did not start listening in time");
     }

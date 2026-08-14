@@ -140,30 +140,6 @@ export function collectProductionConfigReport(
     );
   }
 
-  /*
-   * `*` is deliberate, not an oversight, and still worth saying out loud.
-   *
-   * It is what lets the public Website — and anything else the parish points at
-   * this API — read published content from any origin, including one that did
-   * not exist when the image was built. `configureApp` serves it as a literal
-   * wildcard with credentials disabled, which is the combination the CORS
-   * specification permits.
-   *
-   * That is what makes it safe rather than merely convenient: with credentials
-   * off, a browser attaches no cookie and no session to a cross-origin request,
-   * so a hostile page calling this API gets exactly the anonymous access it
-   * would get from `curl`. Everything that matters is behind
-   * `Authorization: Bearer`, which a hostile page cannot obtain.
-   *
-   * The condition to watch is authentication moving to cookies, so the warning
-   * names it rather than just naming the setting.
-   */
-  if (config.corsOrigins.includes("*")) {
-    warnings.push(
-      'CORS_ORIGINS is "*", so any website may read this API (served as a literal wildcard, credentials disabled). That is intended — it is what lets the public Website consume it from any domain — and stays safe only while authentication is Bearer-token rather than cookie-based.',
-    );
-  }
-
   const localOrigins = config.corsOrigins.filter((origin) =>
     LOCAL_ADDRESS.test(origin),
   );

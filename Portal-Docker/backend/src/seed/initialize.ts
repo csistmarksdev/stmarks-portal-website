@@ -27,7 +27,7 @@ import * as bcrypt from "bcryptjs";
 import type { Connection } from "mongoose";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { copyFile, mkdir } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 import { AppModule } from "../app.module";
 
@@ -148,7 +148,7 @@ async function initialize() {
     const publicUrl = config
       .get<string>("publicUrl", "http://localhost:4000")
       .replace(/\/$/, "");
-    const uploadRoot = join(
+    const uploadRoot = resolve(
       process.cwd(),
       config.get<string>("uploadDir", "uploads"),
     );

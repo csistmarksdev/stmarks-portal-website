@@ -35,9 +35,16 @@ export const viewport: Viewport = {
   // `cover` lets the app bar and tab bar reach the edges; the safe-area
   // utilities keep their content clear of the notch and home indicator.
   viewportFit: "cover",
+  /*
+   * The browser chrome, matched to the page ground so the address bar does not
+   * sit as a grey band above a warm page. These are the *compiled* values of
+   * `--color-sand-50` and the dark theme's `--background` — a meta tag cannot
+   * read a CSS variable, so they are copied by hand and must be re-copied if
+   * either token moves.
+   */
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f7f9" },
-    { media: "(prefers-color-scheme: dark)", color: "#02070d" },
+    { media: "(prefers-color-scheme: light)", color: "#f8f7f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0506" },
   ],
   width: "device-width",
   initialScale: 1,

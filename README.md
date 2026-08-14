@@ -33,6 +33,7 @@ The complete web platform for CSI St. Mark's Church, Madipakkam: a bilingual
 - [Getting started](#getting-started)
 - [Environment variables](#environment-variables)
 - [Deployment](#deployment)
+- [Backup and restore](#backup-and-restore)
 - [Security](#security)
 - [Conventions](#conventions)
 
@@ -620,6 +621,7 @@ POST /v1/contact                   GET  /v1/church/weekly-verse
 /v1/admin/users           CRUD                      (users.read / users.write)
 /v1/admin/contact-messages GET · PATCH :id/read · DELETE :id   (contact.read)
 /v1/admin/audit-logs      GET · DELETE              (audit.read / audit.delete)
+/v1/admin/backup          preview · POST · restore  (backup.read / backup.restore)
 ```
 
 The status transition is its own endpoint (`PATCH :id/status`) rather than a
@@ -713,6 +715,10 @@ usual reason a fresh `next dev` crash-loops.
 | `SEED_ADMIN_EMAIL` / `_NAME` / `_PASSWORD` | First admin, used by `npm run seed` | password is **secret** |
 | `UPLOAD_DIR` | Media root on disk | |
 | `MAX_UPLOAD_MB` | Upload size cap | |
+| `MAX_BACKUP_UPLOAD_MB` | Cap on an uploaded restore archive | default `4096` |
+| `MAX_BACKUP_EXPANDED_MB` | Cap on what that archive may expand to | default `16384`; guards against a zip bomb filling the database's disk |
+| `TRUST_PROXY` | Whether `X-Forwarded-For` is believed | `false` here, `loopback` in the container. Sets `req.ip`, which the rate limiter and audit log depend on |
+| `BACKUP_WORK_DIR` | Where archives are built and uploads land | default `<tmp>/csistmc-portal-backup`; point at a volume if `/tmp` is small |
 | `WEBSITE_REVALIDATE_URL` | Website's revalidation endpoint | e.g. `https://…/api/revalidate` |
 | `WEBSITE_REVALIDATE_SECRET` | Shared secret for it | **secret**, must match the website |
 
@@ -778,6 +784,76 @@ the cache.
 
 ---
 
+## Backup and restore
+
+**Backup & restore** in the CMS (`/backup`) produces one zip file holding the
+entire installation, and takes one back.
+
+```
+manifest.json           what was captured, when, from where, by whom
+db/<collection>.json    every collection, canonical Extended JSON
+uploads/<path>          every file in the media library
+```
+
+Nothing is filtered and `_id` is preserved, because this is a **clone rather
+than an export**: documents reference each other by id — a gallery album's cover
+is a `media` record, a contact message belongs to a user — and dropping ids would
+sever every one of those. That also means the archive contains admin accounts,
+password hashes and the contact inbox. It is the database. Store it accordingly.
+
+Extended JSON rather than plain JSON for the same reason
+`Portal-Docker/scripts/capture-live-data.mjs` uses it: `JSON.stringify` flattens
+a `Date` and an `ObjectId` to indistinguishable strings, and every query that
+filters on a date or joins on an id would then quietly match nothing.
+
+Media URLs are stored absolute — the Website reads the API cross-origin and
+cannot resolve a relative path against its own domain — so they are rewritten to
+the token `{{MEDIA}}/…` on the way out and to this installation's own origin on
+the way in. A backup taken from a LAN address restores correctly onto a domain.
+
+### Restoring
+
+Uploading and applying are **two separate steps**. The upload is inspected and
+held; the CMS shows the manifest — when the backup was taken, from which
+installation, how much of it there is, and what will be overwritten — and only
+then offers the button. A restore cannot be undone, and uploading the file twice
+to confirm is not a kindness on a church office's connection.
+
+| Mode | Database | Media |
+|---|---|---|
+| `replace` | Empties each collection in the archive, then inserts. A true rollback — anything created since the backup is gone. | Overwrites existing files. |
+| `merge` | Upserts by `_id`. Deletes nothing; records deleted since stay deleted. | Leaves existing files alone. |
+
+Media is written before the database. A run that dies between the two leaves
+files nothing references, which is harmless; the reverse is a site full of
+broken pictures.
+
+By default a **safety backup** of the current data is taken first and its
+download link returned with the result. Its link carries its own token, so it
+still works even when the restore has just replaced the account that asked for
+it — which a `replace` restore of the `users` collection does.
+
+### Who can do it
+
+| Permission | Roles | |
+|---|---|---|
+| `backup.read` | super-admin | Build and download an archive. |
+| `backup.restore` | super-admin | Upload and apply one. |
+
+**Super-admin only, both halves** — the only feature in the CMS an `admin` cannot
+touch at all. Downloading is held as high as restoring on purpose: the archive is
+the whole database in one portable file, so taking one hands over every password
+hash in the installation whether or not you can put one back. And a restore
+rewrites the user table, so whoever can run one can give themselves any account
+in the archive.
+
+The download itself is served on an unguessable 256-bit token rather than a
+Bearer header, because a browser download is a navigation and cannot carry one.
+The token is checked in constant time, refers to a single archive, and expires
+with it after thirty minutes.
+
+---
+
 ## Security
 
 ### Before the first push — read this
@@ -825,6 +901,64 @@ objects stay reachable through forks, caches and clones.
 - `~25 MB` of seed media is duplicated between `Portal/backend/seed-assets` and
   `Portal-Docker/{snapshot,backend/seed-assets}`. It is tracked deliberately
   (first boot needs it), but it is a candidate for Git LFS.
+
+### What the application defends against
+
+Reviewed across both halves; each item below is enforced in code and, where the
+failure would be silent, covered by a check in `backend/scripts/smoke-test.js`.
+
+**Uploads cannot become code.** The stored filename comes from the *validated*
+MIME type (`EXTENSION_FOR_MIME`), never from the name the browser sent, and an
+image must actually decode before it is written. Previously the two were
+independent — only the declared type was checked, while the extension came from
+the filename — so `payload.html` declared `image/png` was stored under
+`uploads/images/` and served back as `text/html`. On the single-container
+deployment the CMS and the API share one origin, which made that a script on the
+CMS's own origin, and access tokens live in `localStorage`.
+
+**Search terms are literals.** Every `$regex` filter escapes its input.
+Unescaped, `(` is a driver syntax error surfaced as a 500, and `(a+)+$` is
+catastrophic backtracking inside the database — a denial of service available to
+any `content.read` holder, which includes `viewer`.
+
+**Rate limits are per client.** `TRUST_PROXY` decides what `req.ip` resolves to;
+the container's router sets `X-Forwarded-For` and the image trusts one loopback
+hop, while the plain deployment trusts nothing. Left unset behind a proxy, every
+caller shared one bucket — one attacker could exhaust the sign-in limit for the
+whole parish — and every audit entry recorded the proxy rather than a person.
+
+**Sign-in tells you nothing.** Identical message and, since an unknown address
+is compared against a decoy hash, identical timing. Passwords are bcrypt, floor
+12 everywhere (the administrator-set path was 8), and bounded at 200 characters
+so an unauthenticated request cannot spend the server's CPU.
+
+**Restores cannot escape their directory.** Archive entry names are rejected for
+absolute paths, drive letters, `..` segments and control characters, and the
+resolved path is then checked to fall inside the upload root — two independent
+gates. An archive is refused if its declared expansion exceeds
+`MAX_BACKUP_EXPANDED_MB`, checked before anything is written.
+
+**The CMS cannot be framed.** `X-Frame-Options: DENY` and
+`frame-ancestors 'none'`, plus `nosniff` and a referrer policy. Next sets none
+of these itself, and the API's `helmet` does not cover the CMS — they are
+separate servers.
+
+### Known residual risks
+
+Stated rather than quietly carried:
+
+- **Tokens live in `localStorage`.** Any future XSS in the CMS therefore yields
+  a session. The editor escapes before writing `innerHTML` and no other
+  injection sink was found, but `httpOnly` cookies would make the class of bug
+  survivable rather than fatal. Changing it means CSRF protection, which the
+  Bearer scheme currently makes unnecessary.
+- **No account lockout**, only rate limiting. Adequate against one host; a
+  distributed guesser is bounded only by the 12-character floor.
+- **A hostile archive may under-declare its expanded size.** The pre-flight
+  ceiling catches the accident; a lying header ends at the real disk. Only a
+  super-admin can restore, and they can already replace the whole database.
+- **No CSP on the CMS beyond `frame-ancestors`.** Next inlines its hydration
+  scripts, so a policy worth having needs nonces threaded through the app.
 
 ---
 

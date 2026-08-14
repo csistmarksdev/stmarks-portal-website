@@ -113,14 +113,14 @@ export default async function BlogPostPage({
         {post.coverImage ? (
           <Container size="md" className="-mt-10 sm:-mt-14">
             <Reveal>
-              <div className="relative aspect-[16/9] overflow-hidden rounded-[var(--radius-sanctuary)] bg-sand-200 shadow-sanctuary ring-1 ring-sand-200/70">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-card bg-sand-200 shadow-card ring-1 ring-[var(--border)]">
                 <Image
                   src={post.coverImage.url}
                   alt={localize(post.coverImage.alt, locale)}
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 800px"
-                  className="ken-burns object-cover"
+                  className="object-cover"
                 />
               </div>
             </Reveal>
@@ -135,7 +135,7 @@ export default async function BlogPostPage({
 
           {relatedEvent ? (
             <Reveal className="mt-16">
-              <span aria-hidden className="mb-6 block h-px w-16 rule-gild" />
+              <span aria-hidden className="mb-6 block h-px w-16 rule-section" />
               <Link
                 href={ROUTES.event(relatedEvent.slug)}
                 className="group flex items-center justify-between gap-6"

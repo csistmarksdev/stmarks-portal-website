@@ -1,0 +1,30 @@
+# Line endings, decided here rather than by whoever cloned this.
+#
+# The image's entrypoint is `docker/launch.sh`, run by `/bin/sh` inside a Linux
+# container. If it is checked out with CRLF — which is what git does by default
+# on Windows, where this repository is developed — the kernel reads the shebang
+# as `/bin/sh\r`, cannot find it, and the container dies with
+#
+#     exec /usr/local/bin/launch.sh: no such file or directory
+#
+# naming a file that is plainly there. `README.md` documents `dos2unix` as the
+# cure; this file is the reason nobody should need it.
+#
+# `eol=lf` is stronger than `text=auto` for these: it applies on checkout too,
+# so a Windows working tree gets LF for the files that must have it, whatever
+# `core.autocrlf` is set to locally.
+
+* text=auto
+
+*.sh        text eol=lf
+Dockerfile* text eol=lf
+*.mjs       text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.toml      text eol=lf
+
+# Binary, and never to be touched: the snapshot's media is the church's actual
+# photographs and documents. A newline "fix" applied to a JPEG corrupts it
+# silently, and the copy in this repository is the one the image ships.
+snapshot/uploads/**  binary
+backend/seed-assets/**  binary

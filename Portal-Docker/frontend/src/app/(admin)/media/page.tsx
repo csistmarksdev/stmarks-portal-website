@@ -156,13 +156,13 @@ export default function MediaPage() {
                           pulling the whole clip down. */}
                       <video
                         src={item.url}
-                        className="size-full bg-silver-950 object-cover"
+                        className="size-full bg-sand-950 object-cover"
                         preload="metadata"
                         muted
                         playsInline
                       />
                       <span className="pointer-events-none absolute inset-0 grid place-items-center">
-                        <span className="grid size-9 place-items-center rounded-full bg-silver-950/60 text-white backdrop-blur-sm">
+                        <span className="grid size-9 place-items-center rounded-full bg-sand-950/60 text-white backdrop-blur-sm">
                           <PlayIcon className="size-4 fill-current" />
                         </span>
                       </span>

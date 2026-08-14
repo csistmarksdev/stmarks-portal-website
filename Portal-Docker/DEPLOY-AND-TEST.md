@@ -13,7 +13,15 @@ and accounts.
 
 ## 1. Deploy
 
-Copy `docker-compose.deploy.yml` to the target (it is the only file needed), then:
+Copy one compose file to the target — it is the only file needed. Which one:
+
+- **`docker-compose.universal.yml`** for anything with a web UI (Portainer,
+  ZimaOS, Synology, Unraid, Coolify) or when you would rather not think about
+  it. No `${VAR}`, no profiles, nothing an app-store parser mishandles.
+- **`docker-compose.zimaos.yml`** on a ZimaOS or CasaOS box, to keep the data
+  under `/DATA/AppData/portal/` where its file manager can see it.
+- **`docker-compose.deploy.yml`**, below, for the `docker compose` CLI — the one
+  place `${VAR}` and the `verify` profile actually work.
 
 ```bash
 docker login -u stmarksdev
@@ -22,7 +30,7 @@ docker compose -f docker-compose.deploy.yml logs -f portal
 ```
 
 Wait for `[portal] listening on :8080`. First boot takes 20–40 seconds while it
-restores 567 documents and 261 media files.
+restores 577 documents and 376 media files.
 
 Without compose, the same thing:
 
@@ -32,7 +40,7 @@ docker run -d --name portal --restart unless-stopped \
   -p 8080:8080 \
   -v portal-data:/data \
   -v portal-uploads:/app/backend/uploads \
-  stmarksdev/csistmarkscmsportal:1.0
+  stmarksdev/csistmarkscmsportal:1.5
 ```
 
 ---
@@ -70,8 +78,8 @@ node scripts/check-website-api.mjs http://<host>:8080
 
 Expect `53/53 checks passed`.
 
-> The bundled test exists in images built after this was added. On an older
-> `1.0`, copy it in first:
+> The bundled test is in the image from `1.1` onwards. On the original `1.0`,
+> copy it in first:
 > `docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs`
 
 ### A ten-second smoke test
@@ -95,7 +103,7 @@ docker compose -f docker-compose.deploy.yml logs portal | grep -i "already popul
 ```
 
 Expect `Database already populated (11 collection(s) left untouched)` and
-`Media: 0 installed, 261 already present`. Your edit is still there. If instead
+`Media: 0 installed, 376 already present`. Your edit is still there. If instead
 it restores everything again, the volumes are not attached and every change will
 be lost on the next restart.
 
@@ -179,8 +187,8 @@ to it, or set `unoptimized: true` as this container's own CMS does.
 ```bash
 # on the build machine
 ./scripts/build-image.sh
-docker tag csistmarkscmsportal:latest stmarksdev/csistmarkscmsportal:1.1
-docker push stmarksdev/csistmarkscmsportal:1.1
+docker tag csistmarkscmsportal:latest stmarksdev/csistmarkscmsportal:1.6
+docker push stmarksdev/csistmarkscmsportal:1.6
 ```
 
 ```bash

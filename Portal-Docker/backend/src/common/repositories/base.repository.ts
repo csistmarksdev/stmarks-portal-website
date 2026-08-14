@@ -8,6 +8,46 @@ import type {
 } from "mongoose";
 
 /**
+ * Rewrites `field: null` in an update into `$unset: { field: 1 }`.
+ *
+ * A PATCH body has to be able to say three different things: leave this alone
+ * (omit the key), set it to this (send a value), and *remove* it (send null).
+ * Mongo's `$set: { coverImage: null }` does the first two and gets the third
+ * wrong — it stores a null rather than removing the field, which then
+ * serialises back out as `coverImage: null` where the contract says the key is
+ * simply absent.
+ *
+ * Without this there is no way to express removal at all, and the CMS was
+ * quietly broken because of it: clearing a post's cover image sent no
+ * `coverImage` key, the update left the old one in place, and the form reported
+ * a successful save of a change that never happened.
+ *
+ * Keys already beginning with `$` are operators the caller wrote deliberately
+ * (`$push`, `$pull`, an explicit `$unset`) and pass through untouched, merged
+ * with anything derived here.
+ */
+function withRemovals<T>(update: UpdateQuery<T>): UpdateQuery<T> {
+  const set: Record<string, unknown> = {};
+  const unset: Record<string, 1> = {};
+  const operators: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(update)) {
+    if (key.startsWith("$")) operators[key] = value;
+    else if (value === null) unset[key] = 1;
+    else set[key] = value;
+  }
+
+  const merged: Record<string, unknown> = { ...operators };
+  const mergedSet = { ...(operators.$set as object), ...set };
+  const mergedUnset = { ...(operators.$unset as object), ...unset };
+
+  if (Object.keys(mergedSet).length > 0) merged.$set = mergedSet;
+  if (Object.keys(mergedUnset).length > 0) merged.$unset = mergedUnset;
+
+  return merged as UpdateQuery<T>;
+}
+
+/**
  * Thin generic data-access layer over a Mongoose model. Content services
  * compose these primitives; controllers never touch models directly.
  */
@@ -53,7 +93,10 @@ export class BaseRepository<T> {
     update: UpdateQuery<T>,
   ): Promise<HydratedDocument<T>> {
     const doc = await this.model
-      .findByIdAndUpdate(id, update, { new: true, runValidators: true })
+      .findByIdAndUpdate(id, withRemovals(update), {
+        new: true,
+        runValidators: true,
+      })
       .exec();
     if (!doc) {
       throw new NotFoundException(

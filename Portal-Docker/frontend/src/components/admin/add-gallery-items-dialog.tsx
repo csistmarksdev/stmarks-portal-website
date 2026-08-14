@@ -317,7 +317,7 @@ export function AddGalleryItemsDialog({
                           "absolute left-1.5 top-1.5 grid size-5 place-items-center rounded-full border transition-colors",
                           isPicked
                             ? "border-primary bg-primary text-primary-foreground"
-                            : "border-white/70 bg-silver-950/30 text-transparent backdrop-blur-sm",
+                            : "border-white/70 bg-sand-950/30 text-transparent backdrop-blur-sm",
                         )}
                       >
                         <CheckIcon className="size-3" />

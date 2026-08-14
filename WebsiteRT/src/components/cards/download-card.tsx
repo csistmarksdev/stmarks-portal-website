@@ -43,15 +43,21 @@ export async function DownloadCard({
       interactive
       className={cn("flex h-full gap-5 p-5 sm:gap-6 sm:p-6", className)}
     >
-      {/* Format tile */}
+      {/*
+        The format tile, as a filing tab rather than a gradient chip.
+
+        A document in a parish office is identified by what is written on its
+        edge, so the tile is a plain leaf of paper with the format set on it in
+        small caps over a rule — the same rule that heads every section. The
+        gradient it carried was doing the work of a texture and reading as a
+        button.
+      */}
       <div
         aria-hidden
-        className="relative grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 text-brand-700 ring-1 ring-brand-100 transition-colors duration-500 group-hover/card:from-brand-100 group-hover/card:to-brand-200 sm:size-16"
+        className="relative flex size-14 shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg bg-[var(--surface-muted)] text-brand-800 ring-1 ring-[var(--border)] transition-colors duration-500 group-hover/card:bg-brand-50 group-hover/card:ring-brand-200 sm:size-16"
       >
-        <FileText className="size-6 sm:size-7" />
-        <span className="absolute bottom-1.5 text-[0.5625rem] font-bold uppercase tracking-wider">
-          {file.format}
-        </span>
+        <FileText strokeWidth={1.25} className="size-6 sm:size-7" />
+        <span className="label text-[0.5rem] leading-none">{file.format}</span>
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -90,7 +96,7 @@ export async function DownloadCard({
         href={file.fileUrl}
         download
         aria-label={`${tCommon("download")}: ${title}`}
-        className="absolute inset-0 z-10 rounded-[var(--radius-plate)] focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="absolute inset-0 z-10 rounded-card focus-visible:outline-2 focus-visible:outline-offset-2"
       />
     </Card>
   );

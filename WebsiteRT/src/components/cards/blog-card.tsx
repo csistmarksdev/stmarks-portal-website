@@ -52,7 +52,7 @@ export async function BlogCard({ post, locale, className }: BlogCardProps) {
         ) : (
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-sand-950"
+            className="absolute inset-0 bg-brand-800"
           />
         )}
       </CardMedia>
@@ -78,11 +78,11 @@ export async function BlogCard({ post, locale, className }: BlogCardProps) {
           {localize(post.excerpt, locale)}
         </p>
 
-        <p className="label mt-5 text-accent-700">
+        <p className="label mt-5 text-[var(--muted-foreground)]">
           {t("by", { author: localize(post.author, locale) })}
         </p>
 
-        <CardFooter className="border-t border-sand-200/80">
+        <CardFooter className="border-t border-[var(--border)]">
           <CardAction>
             {tCommon("readMore")}
             <ArrowRight />
@@ -92,7 +92,7 @@ export async function BlogCard({ post, locale, className }: BlogCardProps) {
 
       <Link
         href={ROUTES.blogPost(post.slug)}
-        className="absolute inset-0 z-10 rounded-[var(--radius-plate)] focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="absolute inset-0 z-10 rounded-card focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <span className="sr-only">{title}</span>
       </Link>

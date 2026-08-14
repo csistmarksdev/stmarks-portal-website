@@ -1,21 +1,29 @@
 # What the build context must NOT carry.
 #
 # Two reasons, and the second is the one that bites. The obvious one is size:
-# `node_modules` and `.next` are hundreds of megabytes that get re-uploaded to
-# the daemon on every build.
+# the source `node_modules` and `.next` are hundreds of megabytes that get
+# re-uploaded to the daemon on every build.
 #
-# The other is correctness. Host-built artifacts must never reach the image.
-# `sharp` and Next's SWC binary are native and platform-specific — a
-# `node_modules` built on Windows or macOS and copied into a Linux container
-# fails at runtime with an error about a missing binding, long after the build
-# has "succeeded". Everything here is rebuilt inside the image from source.
+# The other is correctness. Host-built *source-tree* artifacts must never reach
+# the image. `sharp` and Next's SWC binary are native and platform-specific, so
+# a `node_modules` installed on Windows or macOS and copied into a Linux
+# container fails at runtime with an error about a missing binding, long after
+# the build has "succeeded".
+#
+# `dist-portal/` is the deliberate exception, and it is re-included at the
+# bottom of this file. It is not the source tree's `node_modules` — it is a
+# bundle whose dependencies were resolved for `linux/<target>` explicitly
+# (`npm install --os --cpu`, plus sharp's platform binaries fetched by hand),
+# assembled by `scripts/build-production-bundle.mjs` and stamped with the
+# architecture it was built for. The image's own verification step refuses a
+# bundle whose architecture does not match, so the failure this file used to
+# prevent is now caught rather than merely avoided.
 
 node_modules
 **/node_modules
 **/dist
 **/.next
 **/*.tsbuildinfo
-dist-portal
 dist-portal.zip
 
 # Runtime and local configuration. Secrets in a `.env` would otherwise be baked
@@ -44,3 +52,18 @@ docs
 
 # Local compose overrides — the image must not depend on anyone's machine.
 docker-compose.override.yml
+
+# ---------------------------------------------------------------------------
+# The prebuilt bundle, re-included.
+#
+# Negations must come last: Docker applies these rules in order and the final
+# match wins, so `!dist-portal/**` placed above `**/node_modules` would be
+# overridden by it and the bundle would arrive with no dependencies — an image
+# that builds and then cannot start.
+!dist-portal
+!dist-portal/**
+
+# ...except a `.env` someone left in it while testing the bundle by hand. That
+# one is a real secrets file, and re-including the tree above would otherwise
+# undo the exclusion at the top and bake it into a published image.
+dist-portal/.env

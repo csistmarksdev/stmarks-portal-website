@@ -9,6 +9,7 @@ import type { FilterQuery } from "mongoose";
 
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { serializeDoc } from "../../common/utils/serialize";
+import { containsInsensitive } from "../../common/utils/mongo";
 import { AuditService } from "../audit/audit.service";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -36,8 +37,8 @@ export class UsersService {
     const filter: FilterQuery<User> = search
       ? {
           $or: [
-            { name: { $regex: search, $options: "i" } },
-            { email: { $regex: search, $options: "i" } },
+            { name: containsInsensitive(search) },
+            { email: containsInsensitive(search) },
           ],
         }
       : {};
@@ -90,8 +91,23 @@ export class UsersService {
         throw new ConflictException(`A user with email ${dto.email} already exists`);
       }
     }
+    /*
+     * Nulls are dropped rather than passed through.
+     *
+     * `updateById` reads `field: null` as "remove this field", which is what
+     * content records want — an optional cover image has to be removable. No
+     * field on a *user* is optional in that sense, and `PartialType` makes every
+     * one of them nullable as far as validation is concerned. So `{ role: null }`
+     * would have unset the role, and an account with no role has no permissions
+     * and cannot be signed into: an administrator could lock someone out, or
+     * themselves, with a request that looks like an ordinary edit.
+     */
+    const changes = Object.fromEntries(
+      Object.entries(dto).filter(([, value]) => value !== null),
+    );
+
     const doc = await this.repo.updateById(id, {
-      ...dto,
+      ...changes,
       ...(dto.email ? { email: dto.email.toLowerCase() } : {}),
     });
     await this.audit.log(actor, "update", "users", id, `Updated user "${doc.email}"`);

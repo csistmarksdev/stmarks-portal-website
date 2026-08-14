@@ -18,7 +18,7 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & { wide?: boolean }) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="animate-overlay fixed inset-0 z-50 bg-silver-950/60 backdrop-blur-[2px]" />
+      <DialogPrimitive.Overlay className="animate-overlay fixed inset-0 z-50 bg-sand-950/60 backdrop-blur-[2px]" />
       <DialogPrimitive.Content
         className={cn(
           // Phone: a bottom sheet, so the content and its buttons sit in the
