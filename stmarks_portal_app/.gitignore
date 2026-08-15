@@ -1,0 +1,118 @@
+# ---------------------------------------------------------------------------
+# Flutter / Dart / Pub
+# ---------------------------------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+**/doc/api/
+.widget_preview/
+lib/generated_plugin_registrant.dart
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# ---------------------------------------------------------------------------
+# Android Specific
+# ---------------------------------------------------------------------------
+android/.gradle/
+android/.kotlin/
+android/local.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/captures/
+**/android/.cxx/
+**/GeneratedPluginRegistrant.java
+
+# Android Security & Keystores (NEVER share keystores or key properties)
+key.properties
+**/*.keystore
+**/*.jks
+
+# ---------------------------------------------------------------------------
+# iOS / macOS Specific
+# ---------------------------------------------------------------------------
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flt
+**/ios/Flutter/ephemeral/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/profile/
+**/ios/debug/
+**/ios/release/
+**/ios/Runner/GeneratedPluginRegistrant.h
+**/ios/Runner/GeneratedPluginRegistrant.m
+**/ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+**/ios/Runner.xcodeproj/xcuserdata/
+**/ios/Runner.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# iOS Security & Certificates
+*.p12
+*.mobileprovision
+*.cer
+
+# ---------------------------------------------------------------------------
+# Environment & Secrets
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.env.bak-*
+.env.bak-*
+*.pem
+*.key
+*.pfx
+id_rsa*
+
+# ---------------------------------------------------------------------------
+# IDE & Editors
+# ---------------------------------------------------------------------------
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# ---------------------------------------------------------------------------
+# OS & Temp Files
+# ---------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+*.log
+*.swp
+*~
+*.tmp
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/

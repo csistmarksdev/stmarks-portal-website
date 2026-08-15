@@ -97,6 +97,27 @@ public/
 
 Content fields are localized **per record**: `LocalizedText = { en: string; ta: string }`. The backend must store and return both languages on every translatable field. The frontend resolves them with `localize(field, locale)`.
 
+> ### Every piece of content is required in **both English and Tamil**
+>
+> This is not a nice-to-have on this project. The site is served at `/` in
+> English and `/ta/…` in Tamil, and a Tamil reader who hits a record with no
+> `ta` value is shown the English — which is the one failure mode the whole
+> bilingual setup exists to prevent.
+>
+> It applies to **everything**, in both directions:
+>
+> - **Anything typed into the Portal** — every event title and description,
+>   blog post, album name, photo caption, announcement, download title,
+>   fellowship page, service timing, pastor's message and weekly verse.
+> - **Anything written into the code** — the church profile, history, vision and
+>   mission, diocese details, every leader's name and designation, and all UI
+>   wording in `src/messages/{en,ta}.json`.
+>
+> When collecting content from the church, ask for both languages **in the same
+> pass**. Retro-fitting Tamil is materially harder than gathering it alongside —
+> see [docs/content-requirements.md](docs/content-requirements.md), which is the
+> brief written for the church itself.
+
 ---
 
 ## 3. Core shared types (what every API response uses)
@@ -232,6 +253,117 @@ Slugs are a fixed enum: `youth-fellowship`, `young-couple-fellowship`, `sunday-s
 Pastors, assistant pastors, the committee and the roll of former ministers live in [src/content/leadership.ts](src/content/leadership.ts) and ship with the build. Appointments happen roughly once a year, so the roll is versioned with the code rather than administered in a CMS.
 
 `getLeadership`, `getLeadersByRole`, `getCurrentPastors`, `getAssistantPastors`, `getCommittee`, `getFormerPastors` and `getLeadershipPreview` read straight from that file and **must not be converted to `apiGet`** — the Portal serves no `/leadership` endpoint. To change who is listed, edit that file and redeploy.
+
+#### The leadership page, in full
+
+Transcribed from [src/content/leadership.ts](src/content/leadership.ts) so the
+roll can be checked against the church's own records without reading the source.
+**If this and that file ever disagree, the file is right** — update this section
+when you edit it.
+
+The page renders five blocks, in this order. The headings and the lines under
+them are UI text from `src/messages/{en,ta}.json` (`leadership.*`), not
+content — changing them is a translation edit, not a data edit.
+
+---
+
+**Current Pastors** — *Serving the congregation today.*
+
+| Name | Tamil | Designation | Phone |
+|---|---|---|---|
+| Rev. V. Pavun Sangeetha | பணி. வி. பவுன் சங்கீதா | Chairperson & Presbyter-in-charge | +91 99941 88987 |
+
+**Associate Presbyters** — *Supporting the ministry of word and sacrament.*
+
+| Name | Tamil | Designation | Phone |
+|---|---|---|---|
+| Rev. Y. John Bunyan | பணி. ஒய். ஜான் பன்யன் | Associate Presbyter | +91 89397 69268 |
+
+**Church Committee** — *Elected members entrusted with the stewardship of the church.*
+
+| Name | Tamil | Designation | Phone |
+|---|---|---|---|
+| Mr. George V. | திரு. ஜார்ஜ் வி. | Hon. Secretary | +91 94440 64537 |
+| Mr. Andrews Ruban J. | திரு. ஆண்ட்ரூஸ் ரூபன் ஜெ. | Hon. Treasurer | +91 99521 28956 |
+| Mr. Henry Albert R. | திரு. ஹென்றி ஆல்பர்ட் ஆர். | Committee Member | — |
+| Mr. Richard Abraham W. | திரு. ரிச்சர்ட் ஆபிரகாம் டபிள்யூ. | Committee Member | — |
+| Mr. Robinson S. | திரு. ராபின்சன் எஸ். | Committee Member | — |
+| Mr. Samuel Jesudass K. | திரு. சாமுவேல் ஜேசுதாஸ் கே. | Committee Member | — |
+| Mrs. Keziah Jerom N. | திருமதி. கெசியா ஜெரோம் என். | Committee Member | — |
+| Mrs. Ranjitha Peter D.G. | திருமதி. ரஞ்சிதா பீட்டர் டி.ஜி. | Committee Member | — |
+
+**Church Staff** — *Those who keep the church and its grounds in good order.*
+
+| Name | Tamil | Designation | Phone |
+|---|---|---|---|
+| Mr. Stephen Raj C. | திரு. ஸ்டீபன் ராஜ் சி. | Sexton | +91 88701 89014 |
+
+---
+
+Eleven people in total. Notes on the data as it stands:
+
+- **Nobody has a photograph.** `image` is unset on all eleven records, so each
+  person renders as their initials — `VP`, `YJ`, `GV` — on a brand-coloured
+  ground. Portraits are item 4 of
+  [docs/content-requirements.md](docs/content-requirements.md).
+- **Six of the eleven have no phone number**, and **none has an email**. Both
+  fields are optional and only render when present, so the cards are correct as
+  they are; it is a content gap rather than a bug.
+- **Nobody has `servingSince` set.** The card shows "Serving since {year}"
+  when it is present, and simply omits the line when it is not.
+- Every name and designation is stored bilingually as `{ en, ta }`. The Tamil
+  column above is the second half of that pair.
+
+#### The roll of presbyters
+
+Also in `src/content/leadership.ts`, as `PRESBYTER_ERAS` — grouped by the
+pastorate the congregation belonged to at the time. Rendered on the leadership
+page as a list of names and terms.
+
+**With Moovarasampet Pastorate**
+
+| # | Name | Term |
+|---|---|---|
+| 1 | Rev. Sekaran Esakiyel | April 1993 – May 1995 |
+| 2 | Rev. J. John Dhanapal | June 1995 – May 1997 |
+| 3 | Rev. Bakthan Theopphilius | June 1997 – July 1997 |
+| 4 | Rev. T. J. David | Aug. 1997 – May 1998 |
+| 5 | Rev. Earnest Jeya Kumar | June 1998 – May 1999 |
+
+**With Adambakkam Pastorate**
+
+| # | Name | Term |
+|---|---|---|
+| 1 | Rev. S. P. Paul Prabakaran | June 1999 – May 2001 |
+| 2 | Rev. G. Lawrence Jebadhas | June 2001 – Oct. 2001 |
+| 3 | Rev. S. Prabakaran Rajasekaran *(Addl. Charge)* | Oct. 2001 – May 2002 |
+| 4 | Rev. D. Mohan Raj | June 2002 – Mar. 2007 |
+
+**Madipakkam Unit** — from 01/04/2007
+
+| # | Name | Term |
+|---|---|---|
+| 1 | Rev. D. Mohan Raj | April 2007 – May 2007 |
+| 2 | Rev. G. Earnest Selva Durai | June 2007 – May 2012 |
+| 3 | Rev. J. Raja Freeman | June 2012 – May 2018 |
+| 4 | Rev. M. John Christopher | June 2018 – May 2023 |
+| 5 | Rev. D. Paul William | June 2023 – May 2024 |
+| 6 | Rev. D. Y. Dinakaran | June 2024 – May 2025 |
+| 7 | Rev. Y. John Bunyan | June 2025 – May 2026 |
+
+Sixteen terms across three eras. `PresbyterTerm` carries `no`, `name`, `from`,
+`to` and an optional `note` — **there is no photograph field**, so if the church
+supplies portraits of former ministers the type and the page both need
+extending.
+
+Two things worth noticing in the data, for whoever checks it against the
+church's records:
+
+- **Rev. Y. John Bunyan** appears twice — as the current Associate Presbyter in
+  the table above, and as the seventh Madipakkam term. That is consistent, not a
+  duplicate.
+- **The last term ends May 2026.** It is the only entry whose end date is in the
+  future, so it will need revisiting when that appointment closes.
 
 ### 5.8 Church singletons
 
