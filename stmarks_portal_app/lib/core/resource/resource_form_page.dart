@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -11,6 +12,7 @@ import '../api/resource_repository.dart';
 import '../models/common.dart';
 import '../theme/app_theme.dart';
 import 'field_def.dart';
+import '../../widgets/app_surface.dart';
 
 /// Generic, config-driven create/edit form — mirrors the web app's
 /// `ResourceFormPage`. Works against a plain `Map<String, dynamic>` of wire
@@ -183,7 +185,7 @@ class _ResourceFormPageState<T> extends ConsumerState<ResourceFormPage<T>> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -193,7 +195,7 @@ class _ResourceFormPageState<T> extends ConsumerState<ResourceFormPage<T>> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(LucideIcons.arrowLeft),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const SizedBox(width: 4),
@@ -202,7 +204,7 @@ class _ResourceFormPageState<T> extends ConsumerState<ResourceFormPage<T>> {
                   ),
                   if (_isEdit)
                     IconButton(
-                      icon: Icon(Icons.delete_outline_rounded, color: theme.colorScheme.error),
+                      icon: Icon(LucideIcons.trash2, color: theme.colorScheme.error),
                       onPressed: _delete,
                       tooltip: 'Delete',
                     ),
@@ -211,11 +213,10 @@ class _ResourceFormPageState<T> extends ConsumerState<ResourceFormPage<T>> {
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(AppRadii.card),
-                  border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-                ),
+                decoration: ShapeDecoration(
+        color: theme.colorScheme.surface,
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
+      ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -269,7 +270,7 @@ class _ResourceFormPageState<T> extends ConsumerState<ResourceFormPage<T>> {
                   ),
                 ],
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: kFloatingDockHeight + 24),
             ],
           ),
         ),
@@ -380,7 +381,7 @@ class _DateField extends StatelessWidget {
             onChanged(result.toIso8601String());
           },
           child: InputDecorator(
-            decoration: const InputDecoration(suffixIcon: Icon(Icons.calendar_today_rounded, size: 18)),
+            decoration: const InputDecoration(suffixIcon: Icon(LucideIcons.calendarDays, size: 18)),
             child: Text(display.isEmpty ? 'Select date' : display, style: theme.textTheme.bodyMedium),
           ),
         ),
@@ -461,7 +462,7 @@ class _FileField extends ConsumerWidget {
           decoration: BoxDecoration(border: Border.all(color: theme.colorScheme.outline), borderRadius: BorderRadius.circular(AppRadii.md)),
           child: Row(
             children: [
-              Icon(Icons.insert_drive_file_outlined, color: theme.colorScheme.onSurfaceVariant),
+              Icon(LucideIcons.file, color: theme.colorScheme.onSurfaceVariant),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

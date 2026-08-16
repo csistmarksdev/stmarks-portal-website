@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/models/admin.dart';
@@ -144,7 +145,7 @@ class _MediaPickerSheetState extends ConsumerState<_MediaPickerSheet> {
             child: Row(
               children: [
                 Expanded(child: Text('Media library', style: theme.textTheme.titleLarge)),
-                IconButton(icon: const Icon(Icons.close_rounded), onPressed: () => Navigator.pop(context)),
+                IconButton(icon: const Icon(LucideIcons.x), onPressed: () => Navigator.pop(context)),
               ],
             ),
           ),
@@ -158,7 +159,7 @@ class _MediaPickerSheetState extends ConsumerState<_MediaPickerSheet> {
                     onSubmitted: (_) => _load(),
                     decoration: InputDecoration(
                       hintText: 'Search media…',
-                      prefixIcon: const Icon(Icons.search_rounded),
+                      prefixIcon: const Icon(LucideIcons.search),
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
@@ -169,7 +170,7 @@ class _MediaPickerSheetState extends ConsumerState<_MediaPickerSheet> {
                   onPressed: _uploading ? null : _upload,
                   icon: _uploading
                       ? const SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.upload_rounded, size: 18),
+                      : const Icon(LucideIcons.upload, size: 18),
                   label: const Text('Upload'),
                   style: FilledButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
@@ -283,7 +284,7 @@ class _MediaPickerSheetState extends ConsumerState<_MediaPickerSheet> {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    selected ? Icons.check_rounded : Icons.circle_outlined,
+                    selected ? LucideIcons.check : LucideIcons.circle,
                     size: 14,
                     color: Colors.white,
                   ),
@@ -300,11 +301,11 @@ class _MediaPickerSheetState extends ConsumerState<_MediaPickerSheet> {
 IconData _kindIcon(String kind) {
   switch (kind) {
     case 'video':
-      return Icons.videocam_rounded;
+      return LucideIcons.video;
     case 'pdf':
-      return Icons.picture_as_pdf_rounded;
+      return LucideIcons.fileText;
     default:
-      return Icons.insert_drive_file_rounded;
+      return LucideIcons.file;
   }
 }
 

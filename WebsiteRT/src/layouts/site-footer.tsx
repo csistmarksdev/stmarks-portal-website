@@ -2,6 +2,7 @@ import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { AshWednesdayScene } from "@/components/common/ash-wednesday-scene";
 import { ChristmasScene } from "@/components/common/christmas-scene";
 import { EasterScene } from "@/components/common/easter-scene";
 import { GoodFridayScene } from "@/components/common/good-friday-scene";
@@ -285,6 +286,7 @@ export async function SiteFooter() {
         edges of the page rather than stopping at the content measure.
       */}
       <ChristmasScene />
+      <AshWednesdayScene />
       <LentScene />
       <GoodFridayScene />
       <EasterScene />

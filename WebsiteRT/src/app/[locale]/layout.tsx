@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Fraunces, Inter, Noto_Sans_Tamil } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -29,7 +30,7 @@ import "@/styles/globals.css";
  * run it against the real `getSeason` rather than against a copy of it.
  */
 export const SEASON_BOOTSTRAP =
-  '(function(){var v=["christmas","lent","holy-week","good-friday","easter","csi-day","ordinary"],q=new URLSearchParams(location.search).get("season"),s;if(q&&v.indexOf(q)>-1){s=q}else{var d=new Date(),y=d.getFullYear(),o=function(Y,M,D){return Math.floor(Date.UTC(Y,M-1,D)/864e5)},a=y%19,b=Math.floor(y/100),c=y%100,D4=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-D4-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),E=o(y,Math.floor((h+l-7*m+114)/31),(h+l-7*m+114)%31+1),t=o(y,d.getMonth()+1,d.getDate());s=t===E-2?"good-friday":t>=E-7&&t<E?"holy-week":t>=E-46&&t<E-7?"lent":t>=E&&t<=E+49?"easter":t>=o(y,12,1)||t<=o(y,1,1)?"christmas":t===o(y,9,27)?"csi-day":"ordinary"}document.documentElement.dataset.season=s})()';
+  '(function(){var v=["christmas","ash-wednesday","lent","holy-week","good-friday","easter","csi-day","ordinary"],q=new URLSearchParams(location.search).get("season"),s;if(q&&v.indexOf(q)>-1){s=q}else{var d=new Date(),y=d.getFullYear(),o=function(Y,M,D){return Math.floor(Date.UTC(Y,M-1,D)/864e5)},a=y%19,b=Math.floor(y/100),c=y%100,D4=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-D4-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),E=o(y,Math.floor((h+l-7*m+114)/31),(h+l-7*m+114)%31+1),t=o(y,d.getMonth()+1,d.getDate());s=t===E-2?"good-friday":t>=E-7&&t<E?"holy-week":t===E-46?"ash-wednesday":t>E-46&&t<E-7?"lent":t>=E&&t<=E+49?"easter":t>=o(y,12,1)||t<=o(y,1,1)?"christmas":t===o(y,9,27)?"csi-day":"ordinary"}document.documentElement.dataset.season=s})()';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -156,7 +157,29 @@ export default async function LocaleLayout({
           to 2044 — 7,671 days — and it fails loudly if they ever drift. If you
           change `getSeason`, change this too and run that script.
         */}
-        <script
+        <Script
+          /*
+           * `next/script`, not a bare `<script>` tag.
+           *
+           * A raw tag rendered by a React component does run on the first,
+           * server-rendered document — which is why this worked — but React
+           * warns about it in development, and the warning is right: on a
+           * client-side navigation React reconciles the tag into the DOM
+           * without ever executing it. The season would then be correct on a
+           * hard load and stale on any route change that re-rendered this
+           * layout.
+           *
+           * `beforeInteractive` is the documented strategy for exactly this —
+           * "load before any Next.js code and before any page hydration
+           * occurs" — and the docs require it to live in the root layout, which
+           * is where it already was.
+           *
+           * `id` is mandatory for an inline script: Next uses it to track and
+           * de-duplicate the script, and omitting it is the one documented way
+           * to get this wrong.
+           */
+          id="liturgical-season-bootstrap"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: SEASON_BOOTSTRAP,
           }}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import '../../core/providers/providers.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/app_theme_extension.dart';
+import '../../widgets/app_surface.dart';
 import '../../widgets/empty_state.dart';
 import 'dashboard_data.dart';
 
@@ -34,11 +36,14 @@ class DashboardScreen extends ConsumerWidget {
     final firstName = nameParts.isNotEmpty ? nameParts.first : '';
 
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: () => ref.refresh(dashboardDataProvider.future),
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context, 20), 20, 8),
             sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +73,7 @@ class DashboardScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          const SliverToBoxAdapter(child: SizedBox(height: kFloatingDockHeight + 24)),
         ],
       ),
     );
@@ -97,25 +102,25 @@ class _DashboardBody extends ConsumerWidget {
     final needsAttention = <_ActionItem>[
       if (unread > 0)
         _ActionItem(
-          icon: Icons.inbox_rounded,
+          icon: LucideIcons.inbox,
           label: unread == 1 ? '1 contact message is waiting for a reply' : '$unread contact messages are waiting for a reply',
           route: '/contact-messages',
         ),
       if (eventDrafts > 0)
         _ActionItem(
-          icon: Icons.edit_note_rounded,
+          icon: LucideIcons.squarePen,
           label: eventDrafts == 1 ? '1 event is written but not yet published' : '$eventDrafts events are written but not yet published',
           route: '/events',
         ),
       if (blogDrafts > 0)
         _ActionItem(
-          icon: Icons.edit_note_rounded,
+          icon: LucideIcons.squarePen,
           label: blogDrafts == 1 ? '1 blog post is still a draft' : '$blogDrafts blog posts are still drafts',
           route: '/blog',
         ),
       if (announcementsPinned == 0 && announcementsTotal > 0)
         _ActionItem(
-          icon: Icons.push_pin_outlined,
+          icon: LucideIcons.pin,
           label: "No announcement is pinned — the website's notice band is empty",
           route: '/announcements',
         ),
@@ -139,7 +144,7 @@ class _DashboardBody extends ConsumerWidget {
                   label: stats.events.get('published') == 1 ? 'event live' : 'events live',
                   value: '${stats.events.get('published')}',
                   note: stats.events.get('upcoming') > 0 ? '${stats.events.get('upcoming')} still to come' : 'none still to come',
-                  icon: Icons.calendar_month_rounded,
+                  icon: LucideIcons.calendar,
                   highlight: stats.events.get('upcoming') > 0,
                   onTap: () => context.push('/events'),
                 ),
@@ -147,21 +152,21 @@ class _DashboardBody extends ConsumerWidget {
                   label: stats.blog.get('published') == 1 ? 'post live' : 'posts live',
                   value: '${stats.blog.get('published')}',
                   note: blogDrafts > 0 ? '$blogDrafts still in draft' : 'nothing in draft',
-                  icon: Icons.article_rounded,
+                  icon: LucideIcons.newspaper,
                   onTap: () => context.push('/blog'),
                 ),
                 _StatTile(
                   label: stats.gallery.get('albums') == 1 ? 'album' : 'albums',
                   value: '${stats.gallery.get('albums')}',
                   note: '${stats.gallery.get('photos')} photographs',
-                  icon: Icons.photo_library_rounded,
+                  icon: LucideIcons.images,
                   onTap: () => context.push('/gallery'),
                 ),
                 _StatTile(
                   label: 'unread',
                   value: '$unread',
                   note: '${stats.contact.get('total')} received in total',
-                  icon: Icons.inbox_rounded,
+                  icon: LucideIcons.inbox,
                   highlight: unread > 0,
                   onTap: () => context.push('/contact-messages'),
                 ),
@@ -185,7 +190,7 @@ class _DashboardBody extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Row(
                             children: [
-                              Icon(Icons.check_circle_rounded, size: 18, color: context.semanticColors.success),
+                              Icon(LucideIcons.circleCheck, size: 18, color: context.semanticColors.success),
                               const SizedBox(width: 10),
                               const Expanded(child: Text('All caught up — nothing is waiting on you today.')),
                             ],
@@ -198,7 +203,7 @@ class _DashboardBody extends ConsumerWidget {
                                 contentPadding: EdgeInsets.zero,
                                 leading: Icon(item.icon, color: Theme.of(context).colorScheme.tertiary),
                                 title: Text(item.label),
-                                trailing: const Icon(Icons.chevron_right_rounded),
+                                trailing: const Icon(LucideIcons.chevronRight),
                                 onTap: () => context.push(item.route),
                               ),
                           ],
@@ -207,14 +212,14 @@ class _DashboardBody extends ConsumerWidget {
                 const SizedBox(height: 14),
                 _SectionCard(
                   title: 'Coming up',
-                  action: TextButton(onPressed: () => context.push('/events'), child: const Text('All events')),
+                  action: _CardLink(label: 'All events', onTap: () => context.push('/events')),
                   child: data.upcomingEvents.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              const Icon(Icons.calendar_month_rounded, size: 18),
+                              const Icon(LucideIcons.calendar, size: 18),
                               const SizedBox(width: 10),
                               const Text('Nothing on the calendar.'),
                               if (can('content.write'))
@@ -248,7 +253,7 @@ class _DashboardBody extends ConsumerWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                trailing: const Icon(Icons.chevron_right_rounded),
+                                trailing: const Icon(LucideIcons.chevronRight),
                                 onTap: () => context.push('/events/${event.id}'),
                               ),
                           ],
@@ -260,7 +265,7 @@ class _DashboardBody extends ConsumerWidget {
                   const SizedBox(height: 14),
                   _SectionCard(
                     title: 'Recently in the portal',
-                    action: TextButton(onPressed: () => context.push('/audit-logs'), child: const Text('Full log')),
+                    action: _CardLink(label: 'Full log', onTap: () => context.push('/audit-logs')),
                     child: data.recentAudit.isEmpty
                         ? const Padding(
                             padding: EdgeInsets.symmetric(vertical: 12),
@@ -288,10 +293,10 @@ class _DashboardBody extends ConsumerWidget {
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        _QuickAction(icon: Icons.calendar_month_rounded, label: 'New event', onTap: () => context.push('/events/new')),
-                        _QuickAction(icon: Icons.campaign_rounded, label: 'Announcement', onTap: () => context.push('/announcements/new')),
-                        _QuickAction(icon: Icons.article_rounded, label: 'Blog post', onTap: () => context.push('/blog/new')),
-                        _QuickAction(icon: Icons.upload_rounded, label: 'Upload media', onTap: () => context.push('/media')),
+                        _QuickAction(icon: LucideIcons.calendar, label: 'New event', onTap: () => context.push('/events/new')),
+                        _QuickAction(icon: LucideIcons.bell, label: 'Announcement', onTap: () => context.push('/announcements/new')),
+                        _QuickAction(icon: LucideIcons.newspaper, label: 'Blog post', onTap: () => context.push('/blog/new')),
+                        _QuickAction(icon: LucideIcons.upload, label: 'Upload media', onTap: () => context.push('/media')),
                       ],
                     ),
                   ),
@@ -388,41 +393,66 @@ class _StatTile extends StatelessWidget {
     final theme = Theme.of(context);
     final semantic = context.semanticColors;
 
-    return Material(
+    final accent = highlight ? semantic.accentForeground : theme.colorScheme.onSurfaceVariant;
+
+    return AppSurface(
+      onTap: onTap,
       color: highlight ? semantic.warningSoft : theme.colorScheme.surface,
-      borderRadius: BorderRadius.circular(AppRadii.card),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadii.card),
-            border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      borderColor: highlight
+          ? semantic.accentForeground.withValues(alpha: 0.25)
+          : theme.colorScheme.outline.withValues(alpha: 0.7),
+      padding: const EdgeInsets.fromLTRB(15, 13, 15, 13),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(icon, size: 18, color: highlight ? semantic.accentForeground : theme.colorScheme.onSurfaceVariant),
-                  const Spacer(),
-                ],
+              Container(
+                width: 28,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: ShapeDecoration(
+                  color: (highlight ? semantic.accentForeground : theme.colorScheme.onSurfaceVariant)
+                      .withValues(alpha: 0.1),
+                  shape: appSquircle(AppRadii.sm),
+                ),
+                child: Icon(icon, size: 16, color: accent),
               ),
-              const SizedBox(height: 6),
-              Text(value, style: theme.textTheme.headlineMedium),
-              Text(label, style: theme.textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-              const SizedBox(height: 2),
-              Text(
-                note,
-                style: theme.textTheme.labelSmall?.copyWith(letterSpacing: 0, color: highlight ? semantic.accentForeground : null),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              const Spacer(),
+              if (onTap != null)
+                Icon(LucideIcons.arrowUpRight, size: 14, color: accent.withValues(alpha: 0.5)),
             ],
           ),
-        ),
+          const Spacer(),
+          Text(
+            value,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              height: 1,
+              letterSpacing: -0.5,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+            maxLines: 1,
+          ),
+          const SizedBox(height: 3),
+          Text(
+            label,
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface, height: 1.2),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 2),
+          Text(
+            note,
+            style: theme.textTheme.labelSmall?.copyWith(
+              letterSpacing: 0,
+              height: 1.2,
+              color: highlight ? semantic.accentForeground : null,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
@@ -437,26 +467,58 @@ class _SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
+    return AppSurface(
       width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-      ),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(child: Text(title, style: theme.textTheme.titleMedium)),
-              ?action,
+              // The action's own button padding would otherwise push it off
+              // the card's right margin and add a row of dead space below.
+              if (action case final a?)
+                Padding(padding: const EdgeInsets.only(left: 8), child: a),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           child,
         ],
+      ),
+    );
+  }
+}
+
+/// The compact "see everything" link in a section card's header. A plain
+/// [TextButton] carries enough padding to make the header row twice as tall
+/// as the title needs.
+class _CardLink extends StatelessWidget {
+  const _CardLink({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadii.sm),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: theme.textTheme.labelLarge?.copyWith(fontSize: 13, color: theme.colorScheme.primary),
+            ),
+            const SizedBox(width: 2),
+            Icon(LucideIcons.chevronRight, size: 16, color: theme.colorScheme.primary),
+          ],
+        ),
       ),
     );
   }
@@ -479,9 +541,9 @@ class _DateBlock extends StatelessWidget {
       width: 44,
       height: 44,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: today ? semantic.warningSoft : theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(AppRadii.md),
+        shape: appSquircle(AppRadii.md),
       ),
       child: date == null
           ? null
@@ -522,13 +584,14 @@ class _VerseCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
+      decoration: ShapeDecoration(
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [AppColors.brand900, AppColors.brand800, AppColors.accent900],
         ),
-        borderRadius: BorderRadius.circular(AppRadii.card),
+        shape: appSquircle(AppRadii.card),
+        shadows: restingShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -554,7 +617,7 @@ class _VerseCard extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.menu_book_rounded, size: 14, color: Colors.white70),
+                  const Icon(LucideIcons.bookOpen, size: 14, color: Colors.white70),
                   const SizedBox(width: 6),
                   Text(
                     'Change the verse',
@@ -648,27 +711,27 @@ class _AuditRow extends StatelessWidget {
   IconData _actionIcon(String action) {
     switch (action) {
       case 'create':
-        return Icons.add_circle_outline_rounded;
+        return LucideIcons.circlePlus;
       case 'update':
-        return Icons.edit_outlined;
+        return LucideIcons.pencil;
       case 'delete':
-        return Icons.delete_outline_rounded;
+        return LucideIcons.trash2;
       case 'publish':
-        return Icons.public_rounded;
+        return LucideIcons.globe;
       case 'unpublish':
-        return Icons.public_off_rounded;
+        return LucideIcons.globeLock;
       case 'archive':
-        return Icons.archive_outlined;
+        return LucideIcons.archive;
       case 'pin':
-        return Icons.push_pin_outlined;
+        return LucideIcons.pin;
       case 'upload':
-        return Icons.upload_outlined;
+        return LucideIcons.upload;
       case 'login':
-        return Icons.login_rounded;
+        return LucideIcons.logIn;
       case 'logout':
-        return Icons.logout_rounded;
+        return LucideIcons.logOut;
       default:
-        return Icons.circle_outlined;
+        return LucideIcons.circle;
     }
   }
 }

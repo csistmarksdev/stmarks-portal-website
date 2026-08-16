@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../widgets/app_surface.dart';
 
 /// Landing page for the Church module — three navigation tiles to the
 /// singleton-document editors (service timings, pastor's message, weekly
@@ -15,7 +17,7 @@ class ChurchLandingScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, kFloatingDockHeight + 24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -30,21 +32,21 @@ class ChurchLandingScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
               _ChurchTile(
-                icon: Icons.schedule_rounded,
+                icon: LucideIcons.clock,
                 title: 'Service timings',
                 subtitle: 'Weekly service days, times and venues',
                 onTap: () => context.push('/church/service-timings'),
               ),
               const SizedBox(height: 14),
               _ChurchTile(
-                icon: Icons.chat_bubble_outline_rounded,
+                icon: LucideIcons.messageSquare,
                 title: "Pastor's message",
                 subtitle: "The pastor's welcome message and photo",
                 onTap: () => context.push('/church/pastor-message'),
               ),
               const SizedBox(height: 14),
               _ChurchTile(
-                icon: Icons.menu_book_rounded,
+                icon: LucideIcons.bookOpen,
                 title: 'Verse of the week',
                 subtitle: 'The Bible verse shown on the dashboard and website',
                 onTap: () => context.push('/church/weekly-verse'),
@@ -71,23 +73,23 @@ class _ChurchTile extends StatelessWidget {
 
     return Material(
       color: theme.colorScheme.surface,
-      borderRadius: BorderRadius.circular(AppRadii.card),
+      shape: appSquircle(
+        AppRadii.card,
+        side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+      ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
+        customBorder: appSquircle(AppRadii.card),
         onTap: onTap,
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadii.card),
-            border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-          ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
+                decoration: ShapeDecoration(
                   color: theme.colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(AppRadii.md),
+                  shape: appSquircle(AppRadii.md),
                 ),
                 child: Icon(icon, color: theme.colorScheme.onSecondary, size: 22),
               ),
@@ -105,7 +107,7 @@ class _ChurchTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: theme.colorScheme.onSurfaceVariant),
+              Icon(LucideIcons.chevronRight, color: theme.colorScheme.onSurfaceVariant),
             ],
           ),
         ),

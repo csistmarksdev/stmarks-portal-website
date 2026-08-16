@@ -57,6 +57,7 @@
  */
 export type Season =
   | "christmas"
+  | "ash-wednesday"
   | "lent"
   | "holy-week"
   | "good-friday"
@@ -66,6 +67,7 @@ export type Season =
 
 export const SEASONS: readonly Season[] = [
   "christmas",
+  "ash-wednesday",
   "lent",
   "holy-week",
   "good-friday",
@@ -150,9 +152,20 @@ export function getSeason(date: Date): Season {
   /* Palm Sunday through Holy Saturday — Good Friday already answered above. */
   if (today >= easter - 7 && today < easter) return "holy-week";
 
-  /* Ash Wednesday is 46 days before Easter: forty days of Lent, plus the six
-     Sundays inside it, which are not counted because a Sunday is never a fast. */
-  if (today >= easter - 46 && today < easter - 7) return "lent";
+  /*
+   * Ash Wednesday — the first day of Lent, and dressed for separately.
+   *
+   * Tested before the Lent range that contains it, for the same reason Good
+   * Friday is tested before Holy Week: these seasons nest, and a day inside a
+   * range can only win if it is asked about first.
+   *
+   * It is 46 days before Easter — forty days of Lent, plus the six Sundays
+   * inside it, which are not counted because a Sunday is never a fast.
+   */
+  if (today === easter - 46) return "ash-wednesday";
+
+  /* The rest of Lent: the day after Ash Wednesday to the eve of Palm Sunday. */
+  if (today > easter - 46 && today < easter - 7) return "lent";
 
   /* Eastertide runs to Pentecost, the fiftieth day counting Easter as the
      first. Pentecost is no longer dressed for separately, so the season simply
@@ -204,7 +217,15 @@ export function isSnowSeason(season: Season): boolean {
  * Whether the season carries the bare-branch decorations.
  *
  * Lent and Holy Week — and pointedly **not** Good Friday, which sits inside
- * both. On that one day the church strips its own altar, so the site carries
+ * both, nor **Ash Wednesday**, which has a scene and a row of its own.
+ *
+ * Ash Wednesday was briefly included here, and it caused exactly the bug that
+ * inclusion invites: the Lenten scene and the Ash Wednesday scene both rendered
+ * at the foot of the page, so the day carried two scriptures — Genesis 3:19
+ * above Joel 2:12 — and two sets of figures. Every call site then had to
+ * exclude it again by hand, which is the signal that the predicate was wrong
+ * rather than the call sites. A day that is dressed for separately does not
+ * belong in the predicate for the season around it. On that one day the church strips its own altar, so the site carries
  * nothing at all: no branches, no scene, no verse at the foot of the page. A
  * decoration that survived Good Friday would be the one that proved none of
  * this was ever really keeping the calendar.

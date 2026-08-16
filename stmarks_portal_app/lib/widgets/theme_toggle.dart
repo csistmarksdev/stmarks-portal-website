@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/providers/providers.dart';
@@ -9,9 +10,9 @@ class ThemeToggle extends ConsumerWidget {
   const ThemeToggle({super.key});
 
   static const _options = [
-    (value: 'light', label: 'Light', icon: Icons.light_mode_rounded),
-    (value: 'dark', label: 'Dark', icon: Icons.dark_mode_rounded),
-    (value: 'system', label: 'Auto', icon: Icons.desktop_windows_rounded),
+    (value: 'light', label: 'Light', icon: LucideIcons.sun),
+    (value: 'dark', label: 'Dark', icon: LucideIcons.moon),
+    (value: 'system', label: 'Auto', icon: LucideIcons.monitor),
   ];
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +11,7 @@ import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/localized_field.dart';
+import '../../widgets/app_surface.dart';
 
 /// Editor for the church's verse of the week — a singleton document.
 class WeeklyVerseScreen extends ConsumerStatefulWidget {
@@ -103,7 +105,7 @@ class _WeeklyVerseScreenState extends ConsumerState<WeeklyVerseScreen> {
     final display = current == null ? '' : DateFormat('d MMM yyyy').format(current.toLocal());
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, kFloatingDockHeight + 24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -113,7 +115,7 @@ class _WeeklyVerseScreenState extends ConsumerState<WeeklyVerseScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(LucideIcons.arrowLeft),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const SizedBox(width: 4),
@@ -133,11 +135,10 @@ class _WeeklyVerseScreenState extends ConsumerState<WeeklyVerseScreen> {
               else ...[
                 Container(
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(AppRadii.card),
-                    border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-                  ),
+                  decoration: ShapeDecoration(
+        color: theme.colorScheme.surface,
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
+      ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -168,7 +169,7 @@ class _WeeklyVerseScreenState extends ConsumerState<WeeklyVerseScreen> {
                         borderRadius: BorderRadius.circular(AppRadii.md),
                         onTap: _pickWeekOf,
                         child: InputDecorator(
-                          decoration: const InputDecoration(suffixIcon: Icon(Icons.calendar_today_rounded, size: 18)),
+                          decoration: const InputDecoration(suffixIcon: Icon(LucideIcons.calendarDays, size: 18)),
                           child: Text(display.isEmpty ? 'Select date' : display, style: theme.textTheme.bodyMedium),
                         ),
                       ),

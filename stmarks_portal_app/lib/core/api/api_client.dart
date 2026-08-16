@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 
@@ -196,6 +197,27 @@ class ApiClient {
         onSendProgress: onProgress,
       );
       return response.data as T;
+    } on DioException catch (e) {
+      throw _toApiException(e, path);
+    }
+  }
+
+  /// Fetches a path as raw bytes, through the same interceptor as every other
+  /// call — so the bearer token is attached and a 401 still triggers the
+  /// refresh-and-retry.
+  ///
+  /// Handing a protected URL to the system browser instead (the obvious
+  /// shortcut for a download) does not work: the browser has no access token,
+  /// so the server answers 401 and nothing reaches the device.
+  Future<Uint8List> getBytes(String path, {void Function(int received, int total)? onProgress}) async {
+    _requireConfigured();
+    try {
+      final response = await dio.get<List<int>>(
+        path,
+        options: Options(responseType: ResponseType.bytes),
+        onReceiveProgress: onProgress,
+      );
+      return Uint8List.fromList(response.data ?? const []);
     } on DioException catch (e) {
       throw _toApiException(e, path);
     }

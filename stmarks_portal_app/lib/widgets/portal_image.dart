@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/providers/providers.dart';
@@ -18,12 +19,30 @@ class PortalImage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final placeholderColor = theme.colorScheme.surfaceContainerHighest;
 
-    Widget placeholder() => Container(
-      color: placeholderColor,
-      alignment: Alignment.center,
-      child: Icon(icon ?? Icons.image_outlined, color: theme.colorScheme.onSurfaceVariant, size: 28),
+    // A flat grey rectangle at 16:9 is a lot of dead card. A soft diagonal
+    // wash with a centred glyph reads as "no picture yet" rather than as a
+    // hole in the layout.
+    Widget wash({Widget? child}) => DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.surfaceContainerHighest,
+            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
+          ],
+        ),
+      ),
+      child: child == null ? null : Center(child: child),
+    );
+
+    Widget placeholder() => wash(
+      child: Icon(
+        icon ?? LucideIcons.image,
+        color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.55),
+        size: 30,
+      ),
     );
 
     Widget content;
@@ -35,7 +54,8 @@ class PortalImage extends ConsumerWidget {
       content = CachedNetworkImage(
         imageUrl: resolved,
         fit: fit,
-        placeholder: (_, _) => Container(color: placeholderColor),
+        fadeInDuration: const Duration(milliseconds: 220),
+        placeholder: (_, _) => wash(),
         errorWidget: (_, _, _) => placeholder(),
       );
     }

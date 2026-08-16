@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../core/models/common.dart';
 import 'localized_field.dart';
@@ -50,7 +51,7 @@ class ParagraphsField extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 26),
                     child: IconButton(
-                      icon: const Icon(Icons.remove_circle_outline_rounded, size: 20),
+                      icon: const Icon(LucideIcons.circleMinus, size: 20),
                       onPressed: () {
                         final next = [...items]..removeAt(i);
                         onChanged(next);
@@ -62,7 +63,7 @@ class ParagraphsField extends StatelessWidget {
           ),
         OutlinedButton.icon(
           onPressed: () => onChanged([...items, LocalizedText.empty]),
-          icon: const Icon(Icons.add_rounded, size: 16),
+          icon: const Icon(LucideIcons.plus, size: 16),
           label: const Text('Add paragraph'),
         ),
       ],

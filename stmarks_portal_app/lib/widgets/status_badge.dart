@@ -35,9 +35,34 @@ class StatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: theme.textTheme.labelSmall?.copyWith(color: fg, letterSpacing: 0.3, fontSize: 11)),
+      padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: fg.withValues(alpha: 0.22)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // A colour-coded dot as well as the wash, so the three states stay
+          // distinguishable to anyone who can't separate them by hue alone.
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: fg, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: fg,
+              letterSpacing: 0.2,
+              fontSize: 11,
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

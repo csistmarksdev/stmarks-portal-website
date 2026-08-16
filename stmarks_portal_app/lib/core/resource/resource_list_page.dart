@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../widgets/confirm_dialog.dart';
@@ -32,7 +33,7 @@ class ResourceListPage<T> extends ConsumerStatefulWidget {
     this.canWrite = true,
     this.canDelete = true,
     this.canPublish = true,
-    this.emptyIcon = Icons.inbox_outlined,
+    this.emptyIcon = LucideIcons.inbox,
     this.emptyTitle = 'Nothing here yet',
     this.emptyMessage,
     this.createLabel = 'New',
@@ -139,6 +140,9 @@ class _ResourceListPageState<T> extends ConsumerState<ResourceListPage<T>> {
   }
 
   void _onSearchChanged(String _) {
+    // Rebuild immediately so the clear button tracks the field; the query
+    // itself still waits out the debounce.
+    setState(() {});
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), _load);
   }
@@ -184,11 +188,14 @@ class _ResourceListPageState<T> extends ConsumerState<ResourceListPage<T>> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: _load,
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 8),
             sliver: SliverToBoxAdapter(
               child: _Header(
                 title: widget.title,
@@ -211,10 +218,23 @@ class _ResourceListPageState<T> extends ConsumerState<ResourceListPage<T>> {
                         child: TextField(
                           controller: _searchController,
                           onChanged: _onSearchChanged,
+                          textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             hintText: widget.searchHint,
-                            prefixIcon: const Icon(Icons.search_rounded),
+                            prefixIcon: const Icon(LucideIcons.search, size: 20),
+                            prefixIconConstraints: const BoxConstraints(minWidth: 42),
                             isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                            suffixIcon: _searchController.text.isEmpty
+                                ? null
+                                : IconButton(
+                                    icon: const Icon(LucideIcons.x, size: 18),
+                                    tooltip: 'Clear search',
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      _load();
+                                    },
+                                  ),
                           ),
                         ),
                       ),
@@ -243,7 +263,7 @@ class _ResourceListPageState<T> extends ConsumerState<ResourceListPage<T>> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyState(
-                icon: Icons.search_off_rounded,
+                icon: LucideIcons.searchX,
                 title: 'Nothing matches that search',
                 actionLabel: 'Clear filters',
                 onAction: () {
@@ -276,7 +296,7 @@ class _ResourceListPageState<T> extends ConsumerState<ResourceListPage<T>> {
                 ),
               ),
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, kFloatingDockHeight + 24),
               sliver: SliverLayoutBuilder(
                 builder: (context, constraints) {
                   final width = constraints.crossAxisExtent;
@@ -376,7 +396,7 @@ class _Header extends StatelessWidget {
         if (canWrite)
           FilledButton.icon(
             onPressed: onCreate,
-            icon: const Icon(Icons.add_rounded, size: 18),
+            icon: const Icon(LucideIcons.plus, size: 18),
             label: Text(createLabel),
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
@@ -396,13 +416,19 @@ class _StatusFilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final filtered = value != null;
+
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: theme.colorScheme.outline),
+        color: filtered ? theme.colorScheme.primaryContainer : theme.colorScheme.surface,
+        border: Border.all(
+          color: filtered ? theme.colorScheme.primary.withValues(alpha: 0.4) : theme.colorScheme.outline,
+        ),
         borderRadius: BorderRadius.circular(AppRadii.md),
       ),
       child: PopupMenuButton<String?>(
         initialValue: value,
+        tooltip: 'Filter by status',
         onSelected: onChanged,
         itemBuilder: (context) => const [
           PopupMenuItem(value: null, child: Text('All statuses')),
@@ -411,13 +437,28 @@ class _StatusFilterButton extends StatelessWidget {
           PopupMenuItem(value: 'archived', child: Text('Archived')),
         ],
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+          padding: const EdgeInsets.fromLTRB(13, 13, 9, 13),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(value == null ? 'All' : value![0].toUpperCase() + value!.substring(1)),
-              const SizedBox(width: 4),
-              const Icon(Icons.arrow_drop_down_rounded, size: 18),
+              Icon(
+                LucideIcons.slidersHorizontal,
+                size: 16,
+                color: filtered ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 7),
+              Text(
+                value == null ? 'All' : value![0].toUpperCase() + value!.substring(1),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: filtered ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.onSurface,
+                ),
+              ),
+              Icon(
+                LucideIcons.chevronDown,
+                size: 18,
+                color: filtered ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+              ),
             ],
           ),
         ),

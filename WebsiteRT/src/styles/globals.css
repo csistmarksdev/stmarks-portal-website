@@ -1001,7 +1001,15 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
    * the desktop height the two would overlap by a finger's width on a phone,
    * which is where that matters most.
    */
-  --cue-height: 3.25rem;
+  /*
+   * Halved. The rule was 3.25rem on a phone and 5rem above it — tall enough
+   * that it read as a piece of the layout rather than as a hint, and on a short
+   * viewport it took a visible slice out of the hero it was sitting on. A cue
+   * is the smallest mark that will do the job; at 1.75rem the descent is still
+   * legible as a movement downward and the rule no longer competes with the
+   * photograph behind it.
+   */
+  --cue-height: 1.75rem;
 
   position: relative;
   display: block;
@@ -1039,13 +1047,13 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 0.375rem;
-  height: 0.375rem;
-  margin-left: -0.1875rem;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  margin-left: -0.15625rem;
   rotate: 45deg;
   border-radius: 1px;
   background: var(--color-accent-300);
-  animation: scroll-cue-descend 2.6s var(--ease-in-out-soft) infinite;
+  animation: scroll-cue-descend 2.2s var(--ease-in-out-soft) infinite;
 }
 
 /*
@@ -1055,14 +1063,14 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  */
 @media (min-width: 640px) {
   .scroll-cue {
-    --cue-height: 5rem;
+    --cue-height: 2.5rem;
   }
 }
 
 @keyframes scroll-cue-descend {
   0% {
     opacity: 0;
-    translate: 0 -0.4rem;
+    translate: 0 -0.3rem;
   }
   18% {
     opacity: 1;
@@ -1072,7 +1080,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
   100% {
     opacity: 0;
-    translate: 0 calc(var(--cue-height) + 0.4rem);
+    translate: 0 calc(var(--cue-height) + 0.3rem);
   }
 }
 
@@ -1084,7 +1092,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  */
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue-beam {
-    top: calc(50% - 0.1875rem);
+    top: calc(50% - 0.15625rem);
   }
 }
 
@@ -1196,6 +1204,44 @@ html[data-season="christmas"] {
 
   --season-light: oklch(0.808 0.108 21 / 0.3);
   --season-light-dark: oklch(0.628 0.192 23 / 0.22);
+}
+
+/*
+ * ASH WEDNESDAY — ash, and one day of it.
+ *
+ * The first day of Lent, and the only one on which a mark is put on the
+ * congregation themselves. Lent is drained; this is drained *further* — the
+ * paper goes to the grey of cold ash with barely any violet left in it, and the
+ * season's colour is the lowest-chroma of the whole year apart from Good
+ * Friday.
+ *
+ * It sits between two things it must not be confused with. Against ordinary
+ * time it should read as a fast beginning; against Good Friday it must still
+ * have colour in it, because the altar is not stripped today — it is marked.
+ * So: ash on the paper, the last of the violet in the rules, and the cross in
+ * a grey deep enough to look like a thumbprint.
+ */
+html[data-season="ash-wednesday"] {
+  --background: oklch(0.916 0.004 300);
+  --surface: oklch(0.962 0.003 300);
+  --surface-muted: oklch(0.885 0.005 300);
+  --border: oklch(0.845 0.006 300);
+  --sacred: oklch(0.335 0.02 300);
+  --primary: oklch(0.362 0.03 300);
+  --muted-foreground: oklch(0.486 0.008 300);
+  --foreground: oklch(0.232 0.01 300);
+
+  --color-accent-200: oklch(0.852 0.012 300);
+  --color-accent-300: oklch(0.762 0.02 300);
+  --color-accent-400: oklch(0.652 0.03 300);
+  --color-accent-500: oklch(0.558 0.038 300);
+  --color-accent-600: oklch(0.468 0.042 300);
+  --color-accent-700: oklch(0.402 0.04 300);
+  --color-brand-900: oklch(0.244 0.03 300);
+  --color-sand-950: oklch(0.148 0.012 300);
+
+  --season-light: oklch(0.762 0.02 300 / 0.09);
+  --season-light-dark: oklch(0.468 0.042 300 / 0.1);
 }
 
 /*
@@ -2185,6 +2231,7 @@ html[data-season="easter"] img {
  */
 html[data-season="ordinary"] [data-verse]::before,
 html[data-season="csi-day"] [data-verse]::before,
+html[data-season="ash-wednesday"] [data-verse]::before,
 html[data-season="lent"] [data-verse]::before,
 html[data-season="holy-week"] [data-verse]::before,
 html:not([data-season]) [data-verse]::before {
@@ -2217,6 +2264,7 @@ html[data-season="holy-week"] [data-verse]::before {
 /* Shade at the foot, so the section closes rather than stopping. */
 html[data-season="ordinary"] [data-verse]::after,
 html[data-season="csi-day"] [data-verse]::after,
+html[data-season="ash-wednesday"] [data-verse]::after,
 html[data-season="lent"] [data-verse]::after,
 html[data-season="holy-week"] [data-verse]::after,
 html:not([data-season]) [data-verse]::after {
@@ -2636,6 +2684,32 @@ html[data-season="christmas"] {
  * almost put out. The opening frame should already feel like the season before
  * a word of the site has loaded.
  */
+/*
+ * ASH WEDNESDAY — the arch struck in ash, and nothing behind it.
+ *
+ * This block was missing, and its absence is worth recording because of how it
+ * failed: with no `--splash-*` tokens of its own the season fell through to
+ * `:root`, so the opening frame on the greyest day of the year was drawn in the
+ * crest's *pink*. Everything else about the day was correct — the palette, the
+ * figures, the scripture — and the first thing anyone saw was the wrong colour
+ * entirely.
+ *
+ * The halo is transparent on both stops: on this day there is no light behind
+ * the emblem, only the mark. The rule's two colours are the same grey, so the
+ * sweep reads as a shadow passing rather than as a colour running.
+ */
+html[data-season="ash-wednesday"] {
+  --splash-line: oklch(0.612 0.024 300);
+  --splash-point: oklch(0.468 0.042 300);
+  --splash-halo-inner: oklch(0.558 0.038 300 / 0.04);
+  --splash-halo-outer: transparent;
+  --splash-rule-track: oklch(0.852 0.012 300);
+  --splash-rule-a: oklch(0.468 0.042 300);
+  --splash-rule-b: oklch(0.558 0.038 300);
+  --splash-ring-a: oklch(0.612 0.024 300);
+  --splash-ring-b: oklch(0.762 0.02 300);
+}
+
 html[data-season="lent"] {
   --splash-line: oklch(0.664 0.065 310);
   --splash-point: oklch(0.484 0.085 310);
@@ -3284,6 +3358,7 @@ html[data-splash="leaving"] [data-header-crest] {
 }
 
 html[data-season="christmas"] .splash-flora[data-for="christmas"],
+html[data-season="ash-wednesday"] .splash-flora[data-for="ash-wednesday"],
 html[data-season="lent"] .splash-flora[data-for="lent"],
 html[data-season="holy-week"] .splash-flora[data-for="holy-week"],
 html[data-season="good-friday"] .splash-flora[data-for="good-friday"],
@@ -3373,9 +3448,16 @@ html[data-season="christmas"] .splash-rule::after {
  * The sweep is slowed to a crawl, which is the only honest way a loading
  * indicator can express forty days.
  */
+html[data-season="ash-wednesday"] .splash-halo,
 html[data-season="lent"] .splash-halo,
 html[data-season="holy-week"] .splash-halo {
   animation: none;
+}
+
+html[data-season="ash-wednesday"] .splash-rule::after {
+  /* Slower than Lent itself: the day the fast begins is the most deliberate
+     moment in the season. */
+  animation-duration: 3.6s;
 }
 
 html[data-season="lent"] .splash-rule::after {
@@ -3387,6 +3469,12 @@ html[data-season="holy-week"] .splash-rule::after {
 }
 
 /* And the rings that open as the crest leaves go quietly, barely spreading. */
+html[data-season="ash-wednesday"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::before,
+html[data-season="ash-wednesday"]
+  .splash-shell[data-phase="leaving"]
+  .splash-rings::after,
 html[data-season="lent"] .splash-shell[data-phase="leaving"] .splash-rings::before,
 html[data-season="lent"] .splash-shell[data-phase="leaving"] .splash-rings::after,
 html[data-season="holy-week"]

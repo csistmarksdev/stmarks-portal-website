@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,7 @@ class BlogListScreen extends ConsumerWidget {
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.article_outlined,
+      emptyIcon: LucideIcons.newspaper,
       emptyTitle: 'No stories written yet',
       emptyMessage: 'After the next event, write up how it went — posts can link back to the event they report on.',
       createLabel: 'New post',
@@ -40,14 +41,14 @@ class BlogListScreen extends ConsumerWidget {
         final fellowshipLabel = item.fellowshipSlug != null ? kFellowshipLabels[item.fellowshipSlug] : null;
         return ContentCard(
           imageUrl: item.coverImage?.url,
-          imageIcon: Icons.article_outlined,
+          imageIcon: LucideIcons.newspaper,
           title: item.title.en.isNotEmpty ? item.title.en : item.title.ta,
           badges: [if (fellowshipLabel != null) _FellowshipBadge(label: fellowshipLabel)],
           metaRows: [
-            if (item.author.en.isNotEmpty) MetaRow(icon: Icons.person_outline_rounded, text: item.author.en),
-            if (published != null) MetaRow(icon: Icons.event_rounded, text: DateFormat('d MMM yyyy').format(published)),
+            if (item.author.en.isNotEmpty) MetaRow(icon: LucideIcons.user, text: item.author.en),
+            if (published != null) MetaRow(icon: LucideIcons.calendarDays, text: DateFormat('d MMM yyyy').format(published)),
             if (item.readingMinutes != null)
-              MetaRow(icon: Icons.schedule_rounded, text: '${item.readingMinutes} min read'),
+              MetaRow(icon: LucideIcons.clock, text: '${item.readingMinutes} min read'),
           ],
           onEdit: onEdit,
           onDelete: onDelete,

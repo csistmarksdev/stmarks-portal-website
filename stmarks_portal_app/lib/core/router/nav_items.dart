@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class NavItem {
   const NavItem({required this.path, required this.label, this.shortLabel, required this.icon, this.permission});
@@ -24,29 +25,29 @@ class NavSection {
 const navSections = <NavSection>[
   NavSection(
     label: 'Overview',
-    items: [NavItem(path: '/dashboard', label: 'Dashboard', shortLabel: 'Home', icon: Icons.dashboard_rounded)],
+    items: [NavItem(path: '/dashboard', label: 'Dashboard', shortLabel: 'Home', icon: LucideIcons.layoutDashboard)],
   ),
   NavSection(
     label: 'Content',
     items: [
-      NavItem(path: '/events', label: 'Events', icon: Icons.calendar_month_rounded, permission: 'content.read'),
-      NavItem(path: '/blog', label: 'Blog', icon: Icons.article_rounded, permission: 'content.read'),
-      NavItem(path: '/gallery', label: 'Gallery', icon: Icons.photo_library_rounded, permission: 'content.read'),
+      NavItem(path: '/events', label: 'Events', icon: LucideIcons.calendar, permission: 'content.read'),
+      NavItem(path: '/blog', label: 'Blog', icon: LucideIcons.newspaper, permission: 'content.read'),
+      NavItem(path: '/gallery', label: 'Gallery', icon: LucideIcons.images, permission: 'content.read'),
       NavItem(
         path: '/announcements',
         label: 'Announcements',
         shortLabel: 'Notices',
-        icon: Icons.campaign_rounded,
+        icon: LucideIcons.bell,
         permission: 'content.read',
       ),
-      NavItem(path: '/downloads', label: 'Downloads', icon: Icons.download_rounded, permission: 'content.read'),
+      NavItem(path: '/downloads', label: 'Downloads', icon: LucideIcons.download, permission: 'content.read'),
     ],
   ),
   NavSection(
     label: 'Church',
     items: [
-      NavItem(path: '/church', label: 'Church content', icon: Icons.church_rounded, permission: 'content.read'),
-      NavItem(path: '/fellowships', label: 'Fellowships', icon: Icons.groups_rounded, permission: 'content.read'),
+      NavItem(path: '/church', label: 'Church content', icon: LucideIcons.church, permission: 'content.read'),
+      NavItem(path: '/fellowships', label: 'Fellowships', icon: LucideIcons.bookOpen, permission: 'content.read'),
     ],
   ),
   NavSection(
@@ -56,27 +57,27 @@ const navSections = <NavSection>[
         path: '/media',
         label: 'Media library',
         shortLabel: 'Media',
-        icon: Icons.image_rounded,
+        icon: LucideIcons.image,
         permission: 'media.read',
       ),
       NavItem(
         path: '/contact-messages',
         label: 'Contact inbox',
         shortLabel: 'Inbox',
-        icon: Icons.inbox_rounded,
+        icon: LucideIcons.inbox,
         permission: 'contact.read',
       ),
-      NavItem(path: '/users', label: 'Users', icon: Icons.people_alt_rounded, permission: 'users.read'),
-      NavItem(path: '/roles', label: 'Roles & permissions', icon: Icons.shield_rounded),
-      NavItem(path: '/audit-logs', label: 'Audit logs', icon: Icons.history_rounded, permission: 'audit.read'),
+      NavItem(path: '/users', label: 'Users', icon: LucideIcons.users, permission: 'users.read'),
+      NavItem(path: '/roles', label: 'Roles & permissions', icon: LucideIcons.shield),
+      NavItem(path: '/audit-logs', label: 'Audit logs', icon: LucideIcons.fileClock, permission: 'audit.read'),
       NavItem(
         path: '/backup',
         label: 'Backup & restore',
         shortLabel: 'Backup',
-        icon: Icons.archive_rounded,
+        icon: LucideIcons.archive,
         permission: 'backup.read',
       ),
-      NavItem(path: '/settings', label: 'Settings', icon: Icons.settings_rounded),
+      NavItem(path: '/settings', label: 'Settings', icon: LucideIcons.settings),
     ],
   ),
 ];

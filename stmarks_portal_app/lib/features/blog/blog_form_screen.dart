@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -8,8 +9,9 @@ import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/image_picker_field.dart';
 import '../../widgets/localized_field.dart';
-import '../../widgets/paragraphs_field.dart';
+import '../../widgets/bilingual_body_editor.dart';
 import 'blog_repository_provider.dart';
+import '../../widgets/app_surface.dart';
 
 const _kStepTitles = ['Details', 'Write', 'Cover image', 'Review'];
 
@@ -219,7 +221,7 @@ class _BlogFormScreenState extends ConsumerState<BlogFormScreen> {
     final isLastStep = _currentStep == _kStepTitles.length - 1;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -229,7 +231,7 @@ class _BlogFormScreenState extends ConsumerState<BlogFormScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(LucideIcons.arrowLeft),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const SizedBox(width: 4),
@@ -238,7 +240,7 @@ class _BlogFormScreenState extends ConsumerState<BlogFormScreen> {
                   ),
                   if (_isEdit)
                     IconButton(
-                      icon: Icon(Icons.delete_outline_rounded, color: theme.colorScheme.error),
+                      icon: Icon(LucideIcons.trash2, color: theme.colorScheme.error),
                       onPressed: _saving ? null : _delete,
                       tooltip: 'Delete',
                     ),
@@ -249,11 +251,10 @@ class _BlogFormScreenState extends ConsumerState<BlogFormScreen> {
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(AppRadii.card),
-                  border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-                ),
+                decoration: ShapeDecoration(
+        color: theme.colorScheme.surface,
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
+      ),
                 child: _buildStep(_currentStep),
               ),
               const SizedBox(height: 20),
@@ -286,7 +287,7 @@ class _BlogFormScreenState extends ConsumerState<BlogFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: kFloatingDockHeight + 24),
             ],
           ),
         ),
@@ -394,7 +395,7 @@ class _StepDot extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: isCompleted
-                  ? Icon(Icons.check_rounded, size: 16, color: fg)
+                  ? Icon(LucideIcons.check, size: 16, color: fg)
                   : Text(
                       '${index + 1}',
                       style: theme.textTheme.labelMedium?.copyWith(color: fg, fontWeight: FontWeight.w600),
@@ -502,7 +503,7 @@ class _WriteStep extends StatelessWidget {
           style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
         ),
         const SizedBox(height: 20),
-        ParagraphsField(
+        BilingualBodyEditor(
           label: 'Body',
           value: body,
           onChanged: (v) => onPatch({'body': v.map((e) => e.toJson()).toList()}),
@@ -707,7 +708,7 @@ class _PublishedDateField extends StatelessWidget {
             onChanged(date.toIso8601String());
           },
           child: InputDecorator(
-            decoration: const InputDecoration(suffixIcon: Icon(Icons.calendar_today_rounded, size: 18)),
+            decoration: const InputDecoration(suffixIcon: Icon(LucideIcons.calendarDays, size: 18)),
             child: Text(display.isEmpty ? 'Select date' : display, style: theme.textTheme.bodyMedium),
           ),
         ),

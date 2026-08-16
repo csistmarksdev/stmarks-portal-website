@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/models/common.dart';
@@ -9,6 +10,7 @@ import '../../widgets/image_picker_field.dart';
 import '../../widgets/localized_field.dart';
 import '../../widgets/paragraphs_field.dart';
 import 'fellowships_repository_provider.dart';
+import '../../widgets/app_surface.dart';
 
 /// Custom create/edit form for Fellowships — doesn't use the generic
 /// `ResourceFormPage` because of the fixed slug dropdown (locked once
@@ -162,7 +164,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -172,7 +174,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(LucideIcons.arrowLeft),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const SizedBox(width: 4),
@@ -184,7 +186,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
                   ),
                   if (_isEdit)
                     IconButton(
-                      icon: Icon(Icons.delete_outline_rounded, color: theme.colorScheme.error),
+                      icon: Icon(LucideIcons.trash2, color: theme.colorScheme.error),
                       onPressed: _delete,
                       tooltip: 'Delete',
                     ),
@@ -193,11 +195,10 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(AppRadii.card),
-                  border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-                ),
+                decoration: ShapeDecoration(
+        color: theme.colorScheme.surface,
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
+      ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -308,7 +309,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: kFloatingDockHeight + 24),
             ],
           ),
         ),
@@ -414,7 +415,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.remove_circle_outline_rounded, size: 20),
+                    icon: const Icon(LucideIcons.circleMinus, size: 20),
                     tooltip: 'Remove member',
                     onPressed: () {
                       final next = [...members]..removeAt(i);
@@ -437,7 +438,7 @@ class _FellowshipFormScreenState extends ConsumerState<FellowshipFormScreen> {
             ];
             _updateCommittee(next);
           },
-          icon: const Icon(Icons.add_rounded, size: 16),
+          icon: const Icon(LucideIcons.plus, size: 16),
           label: const Text('Add committee member'),
         ),
       ],

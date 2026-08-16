@@ -505,6 +505,118 @@ export function Lily({
 }
 
 /*
+ * Ash Wednesday's own figures.
+ *
+ * The day has one image and it is not a landscape: a thumb, a smudge of ash,
+ * and a cross drawn on a forehead. So these are the things that are *on the
+ * table* at the imposition — the bowl the ashes are in, the palm they were
+ * burned from, and the mark itself — rather than another set of trees.
+ *
+ * They are drawn at the lowest weight of any season's set. The day is the
+ * quietest on the calendar that is not Good Friday, and the figures should be
+ * noticed a moment after the paper is, not before it.
+ */
+
+/* The bowl of ashes, with the ash heaped in it. */
+export function AshBowl({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="0 0 56 44"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.15"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      style={style}
+    >
+      {/* The heap, mounded above the rim. */}
+      <path
+        d="M16 24c3-7 8-10 12-10s9 3 12 10Z"
+        className="fill-current/22"
+      />
+      {/* A few grains catching the light on top of it. */}
+      <path d="M24 20l1-2M31 18l1-2M27 16l1-1.5" className="opacity-55" strokeWidth="0.9" />
+
+      {/* The bowl: a shallow dish on a foot. */}
+      <path d="M8 24h40a20 20 0 0 1-40 0Z" className="fill-current/12" />
+      <path d="M22 40h12M28 38v4" />
+    </svg>
+  );
+}
+
+/*
+ * The mark itself — a cross thumbed onto a forehead.
+ *
+ * Two short strokes, deliberately uneven and slightly rough at the ends,
+ * because this one is made with a thumb rather than drawn with a pen. It is the
+ * only figure in the whole seasonal set that is meant to look *imperfect*, and
+ * the roughness is the entire point of it.
+ */
+export function AshCross({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="0 0 40 44"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      className={className}
+      style={style}
+    >
+      <path d="M20 8.5c.6 6 .8 14 .4 27" strokeWidth="3.4" className="opacity-80" />
+      <path d="M9.5 19c7-.8 14-.9 21 .2" strokeWidth="3.1" className="opacity-70" />
+      {/* The smudge either side, where the thumb lifted. */}
+      <path d="M8 19.5c-.8.2-1.4.5-1.8.9M31 19.6c.9.1 1.6.4 2.1.8" strokeWidth="1.4" className="opacity-40" />
+    </svg>
+  );
+}
+
+/*
+ * A palm frond — last year's Palm Sunday branches, which are what the ashes are
+ * made of. It is the one figure on this site that belongs to two seasons at
+ * once, and the reason the day connects backwards as well as forwards.
+ */
+export function PalmFrond({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="0 0 40 62"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.15"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      style={style}
+    >
+      {/* The spine, from the base line up and curving. */}
+      <path d="M20 59c0-16 1-28 4-42" strokeWidth="1.4" />
+      <path d="M15 59h10" strokeWidth="1.4" />
+
+      {/* Leaflets, shorter toward the tip, angled with the curve. */}
+      <path d="M21 48l-9 5M21 48l8 3M22 40l-9 4M22 40l8 2M23 32l-8 3M23 32l7 2M24 25l-7 3M24 25l6 2M25 19l-5 2M25 19l5 2" />
+    </svg>
+  );
+}
+
+/*
  * The Easter row, along the foot of every section.
  *
  * Linear and alternating: lilies, with the empty cross standing among them and
@@ -950,6 +1062,114 @@ const TREELINE = [
   { left: 97, kind: "tree", height: 54, hide: false },
 ] as const;
 
+/*
+ * Falling ash, hung from the head of the section.
+ *
+ * Ash Wednesday's counterpart to December's baubles, Lent's veils, Good
+ * Friday's crown and Easter's light — and the only one of the five that is not
+ * an object. Nothing is hung on this day; something falls.
+ *
+ * A thread that fades in from the top edge and ends in a speck, with a second
+ * and third speck adrift beside it. The line is thinner and fainter than the
+ * threads of the other seasons because it is not holding anything up: it is the
+ * path something took on the way down. *To dust you shall return* is the
+ * sentence of the day, and this is the only figure that says it without words.
+ */
+export function AshFall({
+  drop,
+  className,
+  style,
+}: {
+  drop: number;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox={`0 0 16 ${drop + 16}`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      strokeLinecap="round"
+      className={className}
+      style={style}
+    >
+      <path d={`M8 0v${drop}`} className="opacity-30" />
+      <circle cx="8" cy={drop + 3} r="1.5" className="fill-current/45 stroke-none" />
+      <circle cx="4" cy={drop + 8} r="1" className="fill-current/30 stroke-none" />
+      <circle cx="11.5" cy={drop + 12} r="0.8" className="fill-current/22 stroke-none" />
+    </svg>
+  );
+}
+
+/*
+ * A heap of ash on the ground: a low mound with the grain of it showing.
+ *
+ * Flatter and wider than Lent's stones, because ash settles where a stone sits.
+ * It is what is left of the palms, and the reason the fronds beside it are
+ * drawn dry.
+ */
+export function AshHeap({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="0 0 34 14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      style={style}
+    >
+      <path d="M2 13c1-6 6-9 15-9s14 3 15 9z" className="fill-current/14" />
+      <path d="M10 9l2-2M17 7l2-2M23 9l2-2" className="opacity-45" strokeWidth="0.8" />
+    </svg>
+  );
+}
+
+/*
+ * Ash Wednesday's row: the table at the imposition rather than a landscape.
+ *
+ * Sparser than Lent's, which is itself sparser than December's — the fast opens
+ * on this day, and the page should be at its emptiest before the six weeks that
+ * follow gradually strip it further.
+ */
+const ASH_ROW = [
+  { left: 3, kind: "heap", height: 11, hide: true },
+  { left: 9, kind: "frond", height: 48, hide: false },
+  { left: 16, kind: "cross", height: 32, hide: true },
+  { left: 22, kind: "bowl", height: 28, hide: false },
+  { left: 29, kind: "heap", height: 9, hide: true },
+  { left: 35, kind: "frond", height: 40, hide: false },
+  { left: 42, kind: "cross", height: 38, hide: true },
+  { left: 50, kind: "bowl", height: 32, hide: false },
+  { left: 57, kind: "heap", height: 12, hide: true },
+  { left: 64, kind: "frond", height: 52, hide: false },
+  { left: 71, kind: "cross", height: 30, hide: true },
+  { left: 78, kind: "bowl", height: 26, hide: false },
+  { left: 85, kind: "heap", height: 10, hide: true },
+  { left: 91, kind: "frond", height: 44, hide: false },
+  { left: 97, kind: "cross", height: 34, hide: true },
+] as const;
+
+/** Ash falling from the head of the section, at these depths. */
+const ASH_FALL = [
+  { left: 7, drop: 30, hide: true },
+  { left: 19, drop: 58, hide: false },
+  { left: 31, drop: 22, hide: true },
+  { left: 44, drop: 44, hide: false },
+  { left: 56, drop: 68, hide: true },
+  { left: 68, drop: 26, hide: false },
+  { left: 81, drop: 50, hide: true },
+  { left: 93, drop: 36, hide: false },
+] as const;
+
 /** What hangs from the head of the section, and how far down. */
 const HANGING = [
   { left: 6, drop: 26, kind: "bauble", hide: true },
@@ -974,9 +1194,11 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
   const christmas = isSnowSeason(season);
   const lent = isLentSeason(season);
   const goodFriday = season === "good-friday";
+  const ashWednesday = season === "ash-wednesday";
   const easter = season === "easter";
 
-  if (!christmas && !lent && !goodFriday && !easter) return null;
+  if (!christmas && !lent && !goodFriday && !easter && !ashWednesday)
+    return null;
 
   /*
    * The row is shifted along by a few positions per section, from the id React
@@ -1003,7 +1225,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
     ? onDark
       ? "text-accent-200/40"
       : "text-accent-600/25"
-    : lent
+    : lent || ashWednesday
       ? onDark
         ? "text-accent-200/25"
         : "text-accent-700/15"
@@ -1133,7 +1355,50 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           />
         ))}
 
-      {/* Veils at the head, through Lent and Holy Week. */}
+      {/* Ash falling from the head — Ash Wednesday only. Nothing is hung on
+          this day; something falls. */}
+      {ashWednesday &&
+        ASH_FALL.map((item, index) => (
+          <AshFall
+            key={`ashfall-${index}`}
+            drop={item.drop}
+            className={cn(
+              "absolute top-0 w-3 -translate-x-1/2 sm:w-4",
+              item.hide && "hidden sm:block",
+            )}
+            style={{ left: `${(item.left + shift) % 100}%` }}
+          />
+        ))}
+
+      {/* The imposition table — Ash Wednesday only. */}
+      {ashWednesday &&
+        ASH_ROW.map((item, index) => {
+          const Standing =
+            item.kind === "bowl"
+              ? AshBowl
+              : item.kind === "cross"
+                ? AshCross
+                : item.kind === "heap"
+                  ? AshHeap
+                  : PalmFrond;
+
+          return (
+            <Standing
+              key={`ash-${index}`}
+              className={cn(
+                "absolute bottom-0 w-auto -translate-x-1/2",
+                item.hide && "hidden sm:block",
+              )}
+              style={{
+                left: `${(item.left + shift) % 100}%`,
+                height: `${item.height}px`,
+              }}
+            />
+          );
+        })}
+
+      {/* Veils at the head, through Lent and Holy Week — not Ash Wednesday,
+          which has its own row above. */}
       {lent &&
         LENT_HANGING.map((item, index) => (
           <Veil

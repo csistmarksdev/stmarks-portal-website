@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -46,7 +47,7 @@ class _AnnouncementsListScreenState extends ConsumerState<AnnouncementsListScree
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.campaign_outlined,
+      emptyIcon: LucideIcons.bell,
       emptyTitle: 'No notices posted',
       emptyMessage: 'Share what the congregation should know — pin the most important one to keep it on top.',
       createLabel: 'New announcement',
@@ -57,7 +58,7 @@ class _AnnouncementsListScreenState extends ConsumerState<AnnouncementsListScree
       cardBuilder: (context, item, {required onEdit, required onDelete, statusMenu}) {
         final published = DateTime.tryParse(item.publishedAt);
         return ContentCard(
-          imageIcon: Icons.campaign_outlined,
+          imageIcon: LucideIcons.bell,
           title: item.title.en.isNotEmpty ? item.title.en : item.title.ta,
           badges: [
             if (item.pinned)
@@ -67,7 +68,7 @@ class _AnnouncementsListScreenState extends ConsumerState<AnnouncementsListScree
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.push_pin_rounded, size: 12, color: Colors.white),
+                    Icon(LucideIcons.pin, size: 12, color: Colors.white),
                     SizedBox(width: 3),
                     Text('Pinned', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600)),
                   ],
@@ -75,15 +76,15 @@ class _AnnouncementsListScreenState extends ConsumerState<AnnouncementsListScree
               ),
           ],
           metaRows: [
-            if (published != null) MetaRow(icon: Icons.event_rounded, text: DateFormat('d MMM yyyy').format(published)),
-            MetaRow(icon: Icons.notes_rounded, text: item.body.en),
+            if (published != null) MetaRow(icon: LucideIcons.calendarDays, text: DateFormat('d MMM yyyy').format(published)),
+            MetaRow(icon: LucideIcons.alignLeft, text: item.body.en),
           ],
           onEdit: onEdit,
           onDelete: onDelete,
           statusMenu: statusMenu,
           footerExtra: IconButton(
             tooltip: item.pinned ? 'Unpin' : 'Pin to top',
-            icon: Icon(item.pinned ? Icons.push_pin_rounded : Icons.push_pin_outlined, size: 19),
+            icon: Icon(item.pinned ? LucideIcons.pin : LucideIcons.pin, size: 19),
             onPressed: can('content.write') ? () => _togglePin(item) : null,
           ),
         );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,7 @@ class GalleryListScreen extends ConsumerWidget {
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.photo_library_outlined,
+      emptyIcon: LucideIcons.images,
       emptyTitle: 'No albums yet',
       emptyMessage: 'Create your first album to show it on the website.',
       createLabel: 'New album',
@@ -38,17 +39,17 @@ class GalleryListScreen extends ConsumerWidget {
         final fellowshipLabel = item.fellowshipSlug != null ? kFellowshipLabels[item.fellowshipSlug] : null;
         return ContentCard(
           imageUrl: item.cover?.url,
-          imageIcon: Icons.photo_library_outlined,
+          imageIcon: LucideIcons.images,
           title: item.title.en.isNotEmpty ? item.title.en : item.title.ta,
           badges: [
             if (item.shared == true)
-              const _ChipBadge(icon: Icons.public, label: 'Shared')
+              const _ChipBadge(icon: LucideIcons.globe, label: 'Shared')
             else if (fellowshipLabel != null)
-              _ChipBadge(icon: Icons.groups_outlined, label: fellowshipLabel),
+              _ChipBadge(icon: LucideIcons.users, label: fellowshipLabel),
           ],
           metaRows: [
-            if (date != null) MetaRow(icon: Icons.event_rounded, text: DateFormat('d MMM yyyy').format(date)),
-            MetaRow(icon: Icons.photo_outlined, text: '${item.photos.length} items'),
+            if (date != null) MetaRow(icon: LucideIcons.calendarDays, text: DateFormat('d MMM yyyy').format(date)),
+            MetaRow(icon: LucideIcons.image, text: '${item.photos.length} items'),
           ],
           onEdit: onEdit,
           onDelete: onDelete,

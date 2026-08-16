@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/admin.dart';
 import '../../core/models/common.dart';
 import '../../core/providers/providers.dart';
+import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/app_surface.dart';
 
 const List<String> _kAuditActions = [
   'login',
@@ -149,11 +152,14 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen> {
     final canPurge = can('audit.delete');
 
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: _load,
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 8),
             sliver: SliverToBoxAdapter(
               child: Wrap(
                 alignment: WrapAlignment.spaceBetween,
@@ -174,7 +180,7 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen> {
                   if (canPurge)
                     OutlinedButton.icon(
                       onPressed: _purge,
-                      icon: Icon(Icons.delete_sweep_outlined, size: 18, color: theme.colorScheme.error),
+                      icon: Icon(LucideIcons.trash2, size: 18, color: theme.colorScheme.error),
                       label: Text('Purge old entries', style: TextStyle(color: theme.colorScheme.error)),
                       style: OutlinedButton.styleFrom(side: BorderSide(color: theme.colorScheme.error)),
                     ),
@@ -213,7 +219,7 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen> {
                                 ? 'All actions'
                                 : _actionFilter![0].toUpperCase() + _actionFilter!.substring(1)),
                             const SizedBox(width: 4),
-                            const Icon(Icons.arrow_drop_down_rounded, size: 18),
+                            const Icon(LucideIcons.chevronDown, size: 18),
                           ],
                         ),
                       ),
@@ -228,7 +234,7 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen> {
                         hintText: 'e.g. events, media, auth',
                         isDense: true,
                         suffixIcon: IconButton(
-                          icon: const Icon(Icons.search_rounded),
+                          icon: const Icon(LucideIcons.search),
                           onPressed: _load,
                         ),
                       ),
@@ -246,14 +252,14 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen> {
             const SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyState(
-                icon: Icons.history_rounded,
+                icon: LucideIcons.fileClock,
                 title: 'No audit entries',
                 message: 'Actions taken in the portal will be logged here.',
               ),
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, kFloatingDockHeight + 24),
               sliver: SliverList.separated(
                 itemCount: _items.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 10),
@@ -285,27 +291,27 @@ class _AuditRow extends StatelessWidget {
   IconData _actionIcon(String action) {
     switch (action) {
       case 'create':
-        return Icons.add_circle_outline_rounded;
+        return LucideIcons.circlePlus;
       case 'update':
-        return Icons.edit_outlined;
+        return LucideIcons.pencil;
       case 'delete':
-        return Icons.delete_outline_rounded;
+        return LucideIcons.trash2;
       case 'publish':
-        return Icons.public_rounded;
+        return LucideIcons.globe;
       case 'unpublish':
-        return Icons.public_off_rounded;
+        return LucideIcons.globeLock;
       case 'archive':
-        return Icons.archive_outlined;
+        return LucideIcons.archive;
       case 'pin':
-        return Icons.push_pin_outlined;
+        return LucideIcons.pin;
       case 'upload':
-        return Icons.upload_outlined;
+        return LucideIcons.upload;
       case 'login':
-        return Icons.login_rounded;
+        return LucideIcons.logIn;
       case 'logout':
-        return Icons.logout_rounded;
+        return LucideIcons.logOut;
       default:
-        return Icons.circle_outlined;
+        return LucideIcons.circle;
     }
   }
 
@@ -325,9 +331,11 @@ class _AuditRow extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+      decoration: ShapeDecoration(
+        shape: appSquircle(
+          AppRadii.card,
+          side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

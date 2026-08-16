@@ -1,15 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { usePastOpening } from "@/providers/hero-scroll-provider";
 
 import { LanguageSwitcher } from "@/components/common/language-switcher";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import {
   MAIN_NAV,
@@ -415,7 +414,6 @@ function MobileMenu({
   onDark: boolean;
 }) {
   const t = useTranslations("nav");
-  const tHeader = useTranslations("header");
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
@@ -556,21 +554,24 @@ function MobileMenu({
 
       <div
         className={cn(
-          "flex items-center gap-3 border-t p-4",
+          "flex items-center justify-end border-t p-4",
           onDark ? "border-white/10" : "border-[var(--border)]",
         )}
       >
-        <Button asChild variant="accent" size="md" className="flex-1">
-          <Link href={ROUTES.contact} onClick={onClose}>
-            {tHeader("worshipWithUs")}
-            <ArrowRight aria-hidden />
-          </Link>
-        </Button>
+        {/*
+          The call-to-action that stood here has been removed.
 
-        <LanguageSwitcher
-          tone={onDark ? "onDark" : "default"}
-          className="shrink-0"
-        />
+          It was the menu's one primary button, and it had been calling
+          `header.worshipWithUs` — a key that is in no message catalogue and
+          never has been, in either language. So it rendered the key itself as
+          its label, visible to anyone who opened the menu on a phone. Removing
+          the button removes the only reference to that key, which is why there
+          is nothing left to translate.
+
+          The language switcher keeps the row: every navigation item already
+          links where it needs to, and Contact is one of them.
+        */}
+        <LanguageSwitcher tone={onDark ? "onDark" : "default"} />
       </div>
     </div>
   );

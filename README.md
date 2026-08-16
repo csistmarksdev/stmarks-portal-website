@@ -30,6 +30,17 @@ The complete web platform for CSI St. Mark's Church, Madipakkam: a bilingual
   - [Enumerations](#enumerations)
 - [Authentication and authorisation](#authentication-and-authorisation)
 - [API surface](#api-surface)
+- [Complete architecture](#complete-architecture)
+- [Data model](#data-model)
+- [API reference](#api-reference)
+- [Authorisation matrix](#authorisation-matrix)
+- [WebsiteRT](#websitert--the-public-website)
+- [The mobile CMS](#the-mobile-cms--stmarks_portal_app)
+- [Terms of use](#terms-of-use)
+- [Privacy notice](#privacy-notice)
+- [Accessibility statement](#accessibility-statement)
+- [The website's church calendar](#the-websites-church-calendar)
+- [Content ownership](#content-ownership--what-the-cms-owns-and-what-the-code-owns)
 - [Getting started](#getting-started)
 - [Environment variables](#environment-variables)
 - [Deployment](#deployment)
@@ -41,25 +52,32 @@ The complete web platform for CSI St. Mark's Church, Madipakkam: a bilingual
 
 ## Repository layout
 
-Four top-level projects. They are **not** a single npm workspace — each is
-installed and built on its own.
+**Five** top-level projects, in three languages. They are **not** a single npm
+workspace — each is installed and built on its own.
 
 ```
 .
-├── Portal/          Admin CMS + content API   (npm workspaces monorepo)
-│   ├── shared/      @portal/shared — types, enums, role→permission matrix
-│   ├── backend/     @portal/backend — NestJS REST API      :4000  /v1
-│   ├── frontend/    @portal/frontend — Next.js admin CMS   :3001
-│   ├── docs/        API contract and design notes
-│   └── scripts/     contract parity, Postman export, bundle build
+├── Portal/               Admin CMS + content API   (npm workspaces monorepo)
+│   ├── shared/           @portal/shared — types, enums, role→permission matrix
+│   ├── backend/          @portal/backend — NestJS REST API      :4000  /v1
+│   ├── frontend/         @portal/frontend — Next.js admin CMS   :3001
+│   ├── docs/             API contract and design notes
+│   └── scripts/          contract parity, Postman export, bundle build
 │
-├── Portal-Docker/   The same Portal, packaged as ONE Docker image
-│   ├── docker/      entrypoint router, snapshot restore, launch
-│   ├── snapshot/    shipped content, media and accounts for first boot
+├── Portal-Docker/        The same Portal, packaged as ONE Docker image
+│   ├── docker/           entrypoint router, snapshot restore, launch
+│   ├── snapshot/         shipped content, media and accounts for first boot
 │   └── docker-compose.zimaos.yml   ← import this on ZimaOS / CasaOS
 │
-├── WebsiteRT/       Public website — ACTIVE
-└── Website/         Public website — earlier iteration, superseded
+├── WebsiteRT/            Public website — ACTIVE
+│   ├── src/lib/          incl. liturgical-year.ts — the church calendar
+│   ├── docs/             seasons, and the content brief for the church
+│   └── scripts/          incl. verify-season-script.mjs
+│
+├── stmarks_portal_app/   Portal as a mobile app  (Flutter, `csi_portal`)
+│   └── lib/features/     the same 18 areas the web CMS covers
+│
+└── Website/              Public website — earlier iteration, superseded
 ```
 
 ### On the duplicated projects
@@ -76,6 +94,22 @@ container that brings its own database and content.
 **`WebsiteRT/` and `Website/`** are two iterations of the public site.
 **`WebsiteRT/` is current**; `Website/` predates it by 42 differing or unique
 files and is kept for reference.
+
+### The mobile client
+
+`stmarks_portal_app/` is a **Flutter** app — the Portal's CMS as a phone app
+rather than a second product. It signs in against the same NestJS API on
+`:4000/v1`, and its `lib/features/` directory covers the same ground as the web
+CMS: announcements, blog, church content, connect, contact, downloads, events,
+fellowships, gallery, media, users, roles, audit, backup and settings.
+
+Riverpod for state, `go_router` for routing, `dio` for HTTP. The API base URL is
+entered at runtime and stored on the device — there is no compiled-in host, so
+one build works against a laptop, a ZimaOS box or a hosted server.
+
+Because it consumes the same contract as the CMS, **a breaking change to the API
+now breaks three clients rather than two.** `Portal/scripts/` has a contract
+parity check for the two web projects; the Flutter models are not yet in it.
 
 > If you are starting work: **`Portal/`** and **`WebsiteRT/`**.
 >
@@ -634,6 +668,1003 @@ Contract tooling in `Portal/`:
 npm run check:contract   # asserts the API matches the documented contract
 npm run postman          # regenerates a Postman collection
 ```
+
+---
+
+## The website's church calendar
+
+The public site **dresses itself for the church's year**. Nothing is scheduled,
+stored or switched on: it works out today's season from the visitor's own date
+and restyles accordingly. This is the largest piece of behaviour in `WebsiteRT/`
+that has no counterpart in the Portal, so it is summarised here and documented
+in full in [`WebsiteRT/docs/liturgical-seasons.md`](WebsiteRT/docs/liturgical-seasons.md).
+
+### The eight seasons
+
+| Season | When | What changes |
+|---|---|---|
+| **Christmas** | 1 Dec – 1 Jan | Red on snow-white; snowfall, string lights, a treeline in every section, a frieze and greeting at the foot |
+| **Ash Wednesday** | Easter − 46 | Ash; falling dust, an imposition table — bowl, thumbed cross, palm fronds |
+| **Lent** | to the eve of Palm Sunday | Ashen violet; bare branches, veils, stones |
+| **Holy Week** | Palm Sunday – Holy Saturday | Deeper ash and crimson |
+| **Good Friday** | one day | **Every scale drained to pure neutral.** Calvary, crown of thorns, nails. Photographs stay in colour |
+| **Easter** | 50 days | Everything glows; light shafts, lilies, the empty tomb, the Paschal greeting |
+| **CSI Day** | 27 September | Both colours of the parish seal |
+| **Ordinary time** | the rest | The site at rest |
+
+### How it works, in three files
+
+| File | Knows about |
+|---|---|
+| `src/lib/liturgical-year.ts` | **Dates only.** Gregorian computus, season boundaries. No React, no DOM, no colour |
+| `src/components/common/liturgical-season.tsx` | Resolves today's season, writes `<html data-season>` |
+| `src/styles/globals.css` | **Colour only.** One block per season |
+
+The split is the point: the calendar file knows nothing about colour, and the
+stylesheet knows nothing about dates.
+
+Seasons are resolved **client-side**, because every page is statically
+prerendered — a season decided at build time would arrive with a deploy and
+leave with one. It resolves twice: an inline `next/script` with
+`strategy="beforeInteractive"` sets it **before first paint** (the splash screen
+is up for as little as 1.9s and would otherwise be over before hydration), and
+`LiturgicalSeason` confirms it afterwards.
+
+### Previewing, and the one script you must run
+
+Any route takes `?season=` — `christmas`, `ash-wednesday`, `lent`, `holy-week`,
+`good-friday`, `easter`, `csi-day`, `ordinary` — plus `?snow` / `?snow=0`. The
+choice sticks as you browse and resets on a clean reload. An unrecognised value
+is ignored rather than honoured.
+
+> The pre-paint bootstrap is a **hand-inlined copy** of the date arithmetic — an
+> ES import cannot be made to run before hydration. If you change `getSeason`,
+> change the bootstrap too and run:
+>
+> ```bash
+> cd WebsiteRT && node scripts/verify-season-script.mjs
+> ```
+>
+> It extracts the shipped bootstrap string, runs it under Node, and compares it
+> against the real `getSeason` on **every day from 2024 to 2044** — 7,671 days —
+> failing on the first disagreement. The failure mode it guards against is the
+> worst kind: nobody notices until Good Friday.
+
+### Accessibility, stated once
+
+Every season was contrast-checked across seven text/ground pairings; all pass
+WCAG AA, the lowest reading in the year being 7.9:1. Seasons move **colour and
+light only** — never type size, layout or navigation. Everything decorative is
+`aria-hidden` and `pointer-events-none`, sits behind the content layer, and
+stills or disappears under `prefers-reduced-motion`.
+
+---
+
+## Content ownership — what the CMS owns and what the code owns
+
+A recurring question, and the answer is not what the folder names suggest.
+The full brief written *for the church* is
+[`WebsiteRT/docs/content-requirements.md`](WebsiteRT/docs/content-requirements.md).
+
+| Managed in the Portal | Hard-coded in `WebsiteRT/` |
+|---|---|
+| Events, blog, gallery, announcements, downloads | Church profile — address, phone, email, office hours, socials |
+| Fellowships | History, vision & mission, diocese details |
+| **Weekly verse** (changes weekly) | **Leadership** — pastors, committee, staff, and the presbyter roll |
+| Service timings | All UI wording, in both languages |
+| Pastor's message | Hero photography, the crest, the cinematic frames |
+| Contact inbox, media library, users | Navigation structure, site URL |
+
+Two of these are worth revisiting rather than accepting: **committee members**
+change on election, and **a phone number** can change at any time — both
+currently need a developer and a deploy.
+
+> **Everything is required in both English and Tamil**, on both sides of that
+> table. `LocalizedText = { en, ta }` on every translatable field; a missing
+> `ta` shows the English to a Tamil reader, which is the failure the bilingual
+> setup exists to prevent.
+
+---
+
+## Complete architecture
+
+Everything in this section is generated from the source and re-checked on each
+update: **94 endpoints across 13 modules**,
+**11 collections** carrying **95 mapped fields**,
+**15 permissions** over 4 roles, and a public site of **14
+routes** built from **63 components**.
+
+### C4 level 1 — system context
+
+```mermaid
+graph TB
+    subgraph people [" "]
+        visitor["Visitor<br/><i>congregation & public</i>"]
+        office["Church office<br/><i>editor / admin</i>"]
+        super["Super-admin<br/><i>backups, users, audit</i>"]
+    end
+
+    subgraph system ["CSI St. Mark's platform"]
+        web["WebsiteRT<br/><b>Public website</b><br/>Next.js 16 · SSG · en + ta"]
+        cms["Portal frontend<br/><b>Admin CMS</b><br/>Next.js · :3001"]
+        app["csi_portal<br/><b>Mobile CMS</b><br/>Flutter · Riverpod"]
+        api["Portal backend<br/><b>REST API</b><br/>NestJS · :4000/v1"]
+        db[("MongoDB<br/>11 collections")]
+        disk[("Media storage<br/>uploads on disk")]
+    end
+
+    visitor -->|reads| web
+    office -->|edits| cms
+    office -->|edits on phone| app
+    super -->|manages| cms
+
+    web -->|"GET /v1/* (public)"| api
+    cms -->|"JWT · all verbs"| api
+    app -->|"JWT · all verbs"| api
+    api --> db
+    api --> disk
+    api -.->|"revalidate webhook"| web
+```
+
+**The one-way rule.** The website only ever *reads*, and only ever from the
+19 public endpoints. It holds no credentials and cannot write. Every
+mutation goes through an authenticated client.
+
+### C4 level 2 — containers and ports
+
+```mermaid
+graph LR
+    subgraph dev ["Development — three processes"]
+        d1["Portal/backend<br/>:4000"]
+        d2["Portal/frontend<br/>:3001"]
+        d3["WebsiteRT<br/>:3000"]
+        d4[("mongod<br/>:27017")]
+        d1 --> d4
+        d2 --> d1
+        d3 --> d1
+    end
+
+    subgraph ship ["Production — one container"]
+        e1["entrypoint router"]
+        e2["NestJS + static CMS"]
+        e3[("bundled MongoDB")]
+        e4["snapshot restore<br/><i>first boot only</i>"]
+        e1 --> e2 --> e3
+        e4 -.-> e3
+    end
+
+    dev -.->|"docker build"| ship
+```
+
+### Request paths, end to end
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant V as Visitor
+    participant W as WebsiteRT
+    participant A as API
+    participant D as MongoDB
+
+    Note over V,D: Cold read — page not yet generated
+    V->>W: GET /events
+    W->>A: GET /v1/events
+    A->>D: find({ status: "published" })
+    D-->>A: documents
+    A-->>W: JSON
+    W-->>V: HTML + cached page
+
+    Note over V,D: Warm read — served from cache
+    V->>W: GET /events
+    W-->>V: cached HTML (no API call)
+
+    Note over V,D: Editor publishes
+    participant E as Editor
+    E->>A: PATCH /v1/admin/events/:id
+    A->>D: update
+    A->>W: POST /api/revalidate (tag)
+    W-->>A: 200
+    Note right of W: next request regenerates
+```
+
+### Authentication flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant A as API
+    participant D as MongoDB
+
+    C->>A: POST /v1/auth/login
+    A->>D: find user by email
+    D-->>A: user + argon2 hash
+    A->>A: verify password
+    alt invalid
+        A-->>C: 401
+    else valid
+        A->>A: sign access + refresh
+        A->>D: write audit entry
+        A-->>C: tokens + profile
+    end
+
+    C->>A: GET /v1/admin/... (Bearer)
+    A->>A: JwtGuard → PermissionsGuard
+    alt lacks permission
+        A-->>C: 403
+    else permitted
+        A-->>C: 200
+    end
+
+    Note over C,A: On 401, refresh once, then retry
+    C->>A: POST /v1/auth/refresh
+    A-->>C: new access token
+```
+
+### Content lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft: editor creates
+    Draft --> Draft: save
+    Draft --> Published: publish<br/>(content.publish)
+    Published --> Draft: unpublish
+    Published --> Archived: archive
+    Archived --> Draft: restore
+    Draft --> [*]: delete<br/>(content.delete)
+    Archived --> [*]: delete
+
+    note right of Published
+        Only published documents
+        appear on the public site.
+        Publishing fires revalidation.
+    end note
+```
+
+### The seasonal layer (WebsiteRT only)
+
+```mermaid
+flowchart TD
+    load["Page load"] --> boot["Inline bootstrap<br/><i>beforeInteractive</i>"]
+    boot --> comp["Gregorian computus<br/>find Easter"]
+    comp --> tests["Precedence tests<br/>Good Friday → Holy Week →<br/>Ash Wednesday → Lent →<br/>Easter → Christmas → CSI Day"]
+    tests --> attr["html[data-season]"]
+    attr --> css["CSS season blocks<br/><i>palette, light</i>"]
+    attr --> comps["useLiturgicalSeason()<br/><i>snow, ornaments, scenes</i>"]
+    hyd["Hydration"] --> ls["LiturgicalSeason<br/><i>confirms the same value</i>"]
+    ls --> attr
+```
+
+---
+
+## Data model
+
+### Entity relationships
+
+```mermaid
+erDiagram
+    Announcement {
+        string slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText title "required"
+        LocalizedText body "required"
+        Date publishedAt "required, indexed"
+        boolean pinned "indexed"
+        FellowshipSlug fellowshipSlug "indexed"
+    }
+    AuditLog {
+        AuditAction action "required, indexed"
+        string resource "required, indexed"
+        string resourceId
+        string summary "required"
+        string userId "indexed"
+        string userName
+        string ip
+    }
+    BlogPost {
+        string slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText title "required"
+        LocalizedText excerpt "required"
+        LocalizedText__ body
+        Date publishedAt "required, indexed"
+        LocalizedText author "required"
+        ImageAsset coverImage
+        string eventSlug "indexed"
+        FellowshipSlug fellowshipSlug "indexed"
+        number readingMinutes
+    }
+    Singleton {
+        SingletonKey key "required, unique"
+        unknown data "required"
+    }
+    ContactMessage {
+        string name "required"
+        string email "required"
+        string phone
+        string subject "required"
+        string message "required"
+        boolean read "indexed"
+    }
+    Download {
+        string slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText title "required"
+        LocalizedText description
+        DownloadCategory category "required, indexed"
+        string fileUrl "required"
+        string format "required"
+        string size "required"
+        Date publishedAt "required, indexed"
+        FellowshipSlug fellowshipSlug "indexed"
+    }
+    ChurchEvent {
+        string slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText title "required"
+        LocalizedText summary "required"
+        LocalizedText__ description
+        Date startDate "required, indexed"
+        Date endDate
+        LocalizedText location "required"
+        ImageAsset image
+        FellowshipSlug fellowshipSlug "indexed"
+        LocalizedText organiser
+        boolean featured "indexed"
+    }
+    Fellowship {
+        FellowshipSlug slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText name "required"
+        LocalizedText tagline "required"
+        LocalizedText__ about
+        LocalizedText vision "required"
+        LocalizedText schedule "required"
+        number memberCount
+        ImageAsset banner "required"
+        FellowshipCommitteeMembe committee
+        __name__LocalizedText coordinator "required"
+        number order "required"
+    }
+    GalleryAlbum {
+        string slug "required, unique, indexed"
+        PublishStatus status "required, indexed"
+        LocalizedText title "required"
+        LocalizedText description
+        Date date "required, indexed"
+        ImageAsset cover "required"
+        GalleryPhoto__ photos
+        FellowshipSlug fellowshipSlug "indexed"
+        boolean shared "indexed"
+    }
+    Media {
+        MediaKind kind "required, indexed"
+        string path "required"
+        string thumbnailPath
+        string filename "required"
+        string mimeType "required"
+        string format "required"
+        number sizeBytes "required"
+        string size "required"
+        number width
+        number height
+        string blurDataURL
+        LocalizedText alt
+    }
+    User {
+        string name "required"
+        string email "required, unique"
+        string passwordHash "required"
+        UserRole role "required"
+        boolean active
+        Date lastLoginAt
+        string refreshTokenHash
+    }
+```
+
+### Collection reference
+
+
+#### `Announcement`
+
+`Portal/backend/src\modules\announcements\schemas\announcement.schema.ts` — 7 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `string` | required, unique, indexed |
+| `status` | `PublishStatus` | required, indexed, enum, default `"draft"` |
+| `title` | `LocalizedText` | required |
+| `body` | `LocalizedText` | required |
+| `publishedAt` | `Date` | required, indexed |
+| `pinned` | `boolean` | indexed, default `false` |
+| `fellowshipSlug` | `FellowshipSlug` | indexed, enum |
+
+#### `AuditLog`
+
+`Portal/backend/src\modules\audit\schemas\audit-log.schema.ts` — 7 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `action` | `AuditAction` | required, indexed, enum |
+| `resource` | `string` | required, indexed |
+| `resourceId` | `string` | — |
+| `summary` | `string` | required |
+| `userId` | `string` | indexed |
+| `userName` | `string` | — |
+| `ip` | `string` | — |
+
+#### `BlogPost`
+
+`Portal/backend/src\modules\blog\schemas\blog-post.schema.ts` — 11 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `string` | required, unique, indexed |
+| `status` | `PublishStatus` | required, indexed, enum, default `"draft"` |
+| `title` | `LocalizedText` | required |
+| `excerpt` | `LocalizedText` | required |
+| `body` | `LocalizedText[]` | default `[]` |
+| `publishedAt` | `Date` | required, indexed |
+| `author` | `LocalizedText` | required |
+| `coverImage` | `ImageAsset` | — |
+| `eventSlug` | `string` | indexed |
+| `fellowshipSlug` | `FellowshipSlug` | indexed, enum |
+| `readingMinutes` | `number` | — |
+
+#### `ChurchEvent`
+
+`Portal/backend/src\modules\events\schemas\event.schema.ts` — 12 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `string` | required, unique, indexed |
+| `status` | `PublishStatus` | required, indexed, enum, default `"draft"` |
+| `title` | `LocalizedText` | required |
+| `summary` | `LocalizedText` | required |
+| `description` | `LocalizedText[]` | default `[]` |
+| `startDate` | `Date` | required, indexed |
+| `endDate` | `Date` | — |
+| `location` | `LocalizedText` | required |
+| `image` | `ImageAsset` | — |
+| `fellowshipSlug` | `FellowshipSlug` | indexed, enum |
+| `organiser` | `LocalizedText` | — |
+| `featured` | `boolean` | indexed, default `false` |
+
+#### `ContactMessage`
+
+`Portal/backend/src\modules\contact\schemas\contact-message.schema.ts` — 6 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `name` | `string` | required |
+| `email` | `string` | required |
+| `phone` | `string` | — |
+| `subject` | `string` | required |
+| `message` | `string` | required |
+| `read` | `boolean` | indexed, default `false` |
+
+#### `Download`
+
+`Portal/backend/src\modules\downloads\schemas\download.schema.ts` — 10 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `string` | required, unique, indexed |
+| `status` | `PublishStatus` | required, indexed, enum, default `"draft"` |
+| `title` | `LocalizedText` | required |
+| `description` | `LocalizedText` | — |
+| `category` | `DownloadCategory` | required, indexed, enum |
+| `fileUrl` | `string` | required |
+| `format` | `string` | required |
+| `size` | `string` | required |
+| `publishedAt` | `Date` | required, indexed |
+| `fellowshipSlug` | `FellowshipSlug` | indexed, enum |
+
+#### `Fellowship`
+
+`Portal/backend/src\modules\fellowships\schemas\fellowship.schema.ts` — 12 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `FellowshipSlug` | required, unique, indexed, enum |
+| `status` | `PublishStatus` | required, indexed, enum, default `"published"` |
+| `name` | `LocalizedText` | required |
+| `tagline` | `LocalizedText` | required |
+| `about` | `LocalizedText[]` | default `[]` |
+| `vision` | `LocalizedText` | required |
+| `schedule` | `LocalizedText` | required |
+| `memberCount` | `number` | — |
+| `banner` | `ImageAsset` | required |
+| `committee` | `FellowshipCommitteeMember[]` | default `[]` |
+| `coordinator` | `{ name: LocalizedText` | required |
+| `order` | `number` | required, default `0` |
+
+#### `GalleryAlbum`
+
+`Portal/backend/src\modules\gallery\schemas\gallery-album.schema.ts` — 9 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `slug` | `string` | required, unique, indexed |
+| `status` | `PublishStatus` | required, indexed, enum, default `"draft"` |
+| `title` | `LocalizedText` | required |
+| `description` | `LocalizedText` | — |
+| `date` | `Date` | required, indexed |
+| `cover` | `ImageAsset` | required |
+| `photos` | `GalleryPhoto[]` | default `[]` |
+| `fellowshipSlug` | `FellowshipSlug` | indexed, enum |
+| `shared` | `boolean` | indexed, default `false` |
+
+#### `Media`
+
+`Portal/backend/src\modules\media\schemas\media.schema.ts` — 12 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `kind` | `MediaKind` | required, indexed, enum |
+| `path` | `string` | required |
+| `thumbnailPath` | `string` | — |
+| `filename` | `string` | required |
+| `mimeType` | `string` | required |
+| `format` | `string` | required |
+| `sizeBytes` | `number` | required |
+| `size` | `string` | required |
+| `width` | `number` | — |
+| `height` | `number` | — |
+| `blurDataURL` | `string` | — |
+| `alt` | `LocalizedText` | — |
+
+#### `Singleton`
+
+`Portal/backend/src\modules\church\schemas\singleton.schema.ts` — 2 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `key` | `SingletonKey` | required, unique, enum |
+| `data` | `unknown` | required |
+
+#### `User`
+
+`Portal/backend/src\modules\users\schemas\user.schema.ts` — 7 fields
+
+| Field | Type | Constraints |
+|---|---|---|
+| `name` | `string` | required |
+| `email` | `string` | required, unique |
+| `passwordHash` | `string` | required |
+| `role` | `UserRole` | required, enum, default `"editor"` |
+| `active` | `boolean` | default `true` |
+| `lastLoginAt` | `Date` | — |
+| `refreshTokenHash` | `string` | — |
+
+---
+
+## API reference
+
+**94 endpoints.** Base URL `/{API_PREFIX}` — `/v1` by default.
+Public endpoints need no credentials; every other route requires a Bearer token
+and the permission named in the Access column.
+
+
+#### `announcements` — 9 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/announcements` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/announcements` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/announcements/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/announcements/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/announcements/:id` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/announcements/:id/pin` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/announcements/:id/status` | `RequirePermissions` | authenticated |
+| `GET` | `/announcements` | `ApiOperation` | **public** |
+| `GET` | `/announcements/pinned` | `ApiOperation` | **public** |
+
+#### `audit` — 2 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `DELETE` | `/admin/audit-logs` | `RequirePermissions` | authenticated |
+| `GET` | `/admin/audit-logs` | `RequirePermissions` | authenticated |
+
+#### `auth` — 6 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `POST` | `/auth/change-password` | `HttpCode` | authenticated |
+| `POST` | `/auth/login` | `HttpCode` | authenticated |
+| `POST` | `/auth/logout` | `HttpCode` | authenticated |
+| `GET` | `/auth/me` | `ApiBearerAuth` | authenticated |
+| `PATCH` | `/auth/me` | `ApiBearerAuth` | authenticated |
+| `POST` | `/auth/refresh` | `HttpCode` | authenticated |
+
+#### `backup` — 5 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `POST` | `/admin/backup` | `RequirePermissions` | `backup.read` |
+| `GET` | `/admin/backup/:id/download` | `Public` | authenticated |
+| `GET` | `/admin/backup/preview` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/backup/restore` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/backup/restore/:id` | `RequirePermissions` | authenticated |
+
+#### `blog` — 9 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/blog` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/blog` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/blog/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/blog/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/blog/:id` | `RequirePermissions` | `content.read` |
+| `PATCH` | `/admin/blog/:id/status` | `RequirePermissions` | `content.write` |
+| `GET` | `/blog` | `ApiOperation` | **public** |
+| `GET` | `/blog/:slug` | `ApiOperation` | **public** |
+| `GET` | `/blog/slugs` | `ApiOperation` | **public** |
+
+#### `church` — 9 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/church/pastor-message` | `RequirePermissions` | authenticated |
+| `PUT` | `/admin/church/pastor-message` | `ApiOperation` | `content.read` |
+| `GET` | `/admin/church/service-timings` | `RequirePermissions` | `content.write` |
+| `PUT` | `/admin/church/service-timings` | `ApiOperation` | `content.read` |
+| `GET` | `/admin/church/weekly-verse` | `RequirePermissions` | authenticated |
+| `PUT` | `/admin/church/weekly-verse` | `ApiOperation` | `content.read` |
+| `GET` | `/church/pastor-message` | `ApiOperation` | **public** |
+| `GET` | `/church/service-timings` | `ApiOperation` | **public** |
+| `GET` | `/church/weekly-verse` | `ApiOperation` | **public** |
+
+#### `contact` — 4 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/contact` | `RequirePermissions` | authenticated |
+| `POST` | `/contact` | `HttpCode` | authenticated |
+| `DELETE` | `/contact/:id` | `RequirePermissions` | `contact.read` |
+| `PATCH` | `/contact/:id/read` | `RequirePermissions` | authenticated |
+
+#### `downloads` — 8 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/downloads` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/downloads` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/downloads/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/downloads/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/downloads/:id` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/downloads/:id/status` | `RequirePermissions` | `content.write` |
+| `GET` | `/downloads` | `ApiOperation` | **public** |
+| `GET` | `/downloads/grouped` | `ApiOperation` | **public** |
+
+#### `events` — 9 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/events` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/events` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/events/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/events/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/events/:id` | `RequirePermissions` | `content.read` |
+| `PATCH` | `/admin/events/:id/status` | `RequirePermissions` | `content.write` |
+| `GET` | `/events` | `ApiOperation` | **public** |
+| `GET` | `/events/:slug` | `ApiOperation` | **public** |
+| `GET` | `/events/slugs` | `ApiOperation` | **public** |
+
+#### `fellowships` — 9 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/fellowships` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/fellowships` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/fellowships/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/fellowships/:id` | `RequirePermissions` | `content.read` |
+| `PATCH` | `/admin/fellowships/:id` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/fellowships/:id/status` | `RequirePermissions` | `content.write` |
+| `GET` | `/fellowships` | `ApiOperation` | **public** |
+| `GET` | `/fellowships/:slug` | `ApiOperation` | **public** |
+| `GET` | `/fellowships/slugs` | `ApiOperation` | **public** |
+
+#### `gallery` — 12 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/gallery` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/gallery` | `RequirePermissions` | `content.read` |
+| `DELETE` | `/admin/gallery/:id` | `RequirePermissions` | `content.publish` |
+| `GET` | `/admin/gallery/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/gallery/:id` | `RequirePermissions` | `content.write` |
+| `POST` | `/admin/gallery/:id/photos` | `RequirePermissions` | `content.delete` |
+| `DELETE` | `/admin/gallery/:id/photos/:photoId` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/gallery/:id/photos/reorder` | `RequirePermissions` | `content.write` |
+| `PATCH` | `/admin/gallery/:id/status` | `RequirePermissions` | `content.write` |
+| `GET` | `/gallery` | `ApiOperation` | **public** |
+| `GET` | `/gallery/:slug` | `ApiOperation` | **public** |
+| `GET` | `/gallery/slugs` | `ApiOperation` | **public** |
+
+#### `media` — 6 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/media` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/media` | `RequirePermissions` | authenticated |
+| `DELETE` | `/admin/media/:id` | `RequirePermissions` | `media.write` |
+| `GET` | `/admin/media/:id` | `RequirePermissions` | authenticated |
+| `PATCH` | `/admin/media/:id` | `RequirePermissions` | `media.read` |
+| `POST` | `/admin/media/video-poster` | `RequirePermissions` | authenticated |
+
+#### `users` — 6 endpoints
+
+| Method | Path | Handler | Access |
+|---|---|---|---|
+| `GET` | `/admin/users` | `RequirePermissions` | authenticated |
+| `POST` | `/admin/users` | `RequirePermissions` | `users.read` |
+| `DELETE` | `/admin/users/:id` | `RequirePermissions` | `users.write` |
+| `GET` | `/admin/users/:id` | `RequirePermissions` | `users.read` |
+| `PATCH` | `/admin/users/:id` | `RequirePermissions` | `users.read` |
+| `PATCH` | `/admin/users/:id/password` | `RequirePermissions` | `users.write` |
+
+### Conventions
+
+| | |
+|---|---|
+| **Auth** | `Authorization: Bearer <access token>` |
+| **Errors** | `{ statusCode, message, error }` — NestJS default shape |
+| **Dates** | ISO 8601 UTC |
+| **Bilingual fields** | `{ en, ta }` on every translatable field |
+| **Publishing** | `status` is `draft` \| `published` \| `archived`; public routes return `published` only |
+
+---
+
+## Authorisation matrix
+
+Four roles, 15 permissions, defined once in
+`Portal/shared/src/admin.ts` and consumed by both the backend guard and the CMS
+UI — so the button a user cannot press is the same button the API would refuse.
+
+| Permission | super-admin | admin | editor | viewer |
+|---|:--:|:--:|:--:|:--:|
+| `content.read` | ● | ● | ● | ● |
+| `content.write` | ● | ● | ● | · |
+| `content.publish` | ● | ● | ● | · |
+| `content.delete` | ● | ● | · | · |
+| `media.read` | ● | ● | ● | ● |
+| `media.write` | ● | ● | ● | · |
+| `media.delete` | ● | ● | · | · |
+| `users.read` | ● | ● | · | · |
+| `users.write` | ● | · | · | · |
+| `audit.read` | ● | ● | · | ● |
+| `audit.delete` | ● | · | · | · |
+| `settings.write` | ● | ● | · | · |
+| `contact.read` | ● | ● | ● | ● |
+| `backup.read` | ● | · | · | · |
+| `backup.restore` | ● | · | · | · |
+
+Three permissions are **super-admin only**, and each for a stated reason:
+
+- **`backup.read`** — the archive contains every collection, including password
+  hashes and the contact inbox. Holding it is read access to the entire
+  installation in one portable file.
+- **`backup.restore`** — a restore rewrites the user table; whoever can do it can
+  hand themselves any account in the archive.
+- **`audit.delete`** — it removes the record of who did what.
+
+---
+
+## WebsiteRT — the public website
+
+Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, `next-intl`, Framer
+Motion, Lenis. Statically generated, bilingual, and **read-only** against the
+Portal API.
+
+### Routes
+
+All 14 routes live under `src/app/[locale]/`, served at `/` in
+English and `/ta/…` in Tamil (`localePrefix: "as-needed"`).
+
+| Route |
+|---|
+| `\[locale]\about\page.tsx` |
+| `\[locale]\announcements\page.tsx` |
+| `\[locale]\contact\page.tsx` |
+| `\[locale]\downloads\page.tsx` |
+| `\[locale]\events\[slug]\page.tsx` |
+| `\[locale]\events\blog\[slug]\page.tsx` |
+| `\[locale]\events\blog\page.tsx` |
+| `\[locale]\events\page.tsx` |
+| `\[locale]\fellowships\[slug]\page.tsx` |
+| `\[locale]\fellowships\page.tsx` |
+| `\[locale]\gallery\[slug]\page.tsx` |
+| `\[locale]\gallery\page.tsx` |
+| `\[locale]\leadership\page.tsx` |
+| `\[locale]\page.tsx` |
+
+### Layers
+
+```mermaid
+graph TD
+    page["Page — src/app/[locale]/*"]
+    feat["Feature — src/features/*"]
+    comp["Component — src/components/*"]
+    svc["Service — src/services/*"]
+    api[("Portal API")]
+    mock[("src/data/*.mock.ts")]
+
+    page --> feat --> comp
+    page --> svc
+    feat --> svc
+    svc -->|"NEXT_PUBLIC_API_URL set"| api
+    svc -.->|"unset — dev only"| mock
+```
+
+**Components never import from `src/data/`.** Everything reaches the UI through
+the service layer, which is the single place the API is called. The mocks are a
+*configuration* fallback so the site runs with no backend; once
+`NEXT_PUBLIC_API_URL` is set a failed request throws, because silently serving
+last year's events is worse than an error page.
+
+Services: `announcements`, `blog`, `church`, `contact`, `downloads`, `events`, `fellowships`, `gallery`, `leadership`.
+
+### The design system
+
+| Concern | Where |
+|---|---|
+| Tokens — colour, type, spacing, radius, shadow, motion | `src/styles/globals.css` (`@theme`) |
+| Semantic surfaces | `--background`, `--surface`, `--foreground`, `--primary`, `--sacred`, `--border` |
+| Primitives | `Button`, `Card`, `Section`, `Container`, `Badge`, `Input`, `Dialog`, `Typography` |
+| Motion | `Reveal`, `Stagger`, `Parallax` — all honour `prefers-reduced-motion` |
+
+The palette is sampled from the parish seal: the magenta of the cross
+(`brand`) and the orange of the flame (`accent`), with `crimson` seated between
+them for sacred marks, over a warm parchment neutral. Values are in **OKLCH** so
+light/dark pairs stay perceptually even.
+
+### Bilingual rules
+
+| | |
+|---|---|
+| **UI chrome** | `src/messages/{en,ta}.json`, via `useTranslations()` |
+| **Content** | `LocalizedText = { en, ta }` per record, via `localize()` |
+
+Tamil is not a translation layer bolted on: `globals.css` carries a Tamil metric
+scale (larger glyphs, longer words, no capital forms), so headings, nav labels
+and the wordmark all step down on small screens under `html[lang="ta"]`.
+
+---
+
+## The mobile CMS — `stmarks_portal_app`
+
+Flutter, package `csi_portal`. The Portal's CMS as a phone app, against the same
+API. State with Riverpod, routing with `go_router`, HTTP with `dio`, and the API
+base URL entered at runtime rather than compiled in.
+
+Feature areas (18): `announcements`, `audit`, `auth`, `backup`, `blog`, `church`, `connect`, `contact`, `dashboard`, `downloads`, `events`, `fellowships`, `gallery`, `media`, `roles`, `settings`, `shell`, `users`.
+
+```mermaid
+graph LR
+    ui["features/*"] --> prov["core/providers<br/>Riverpod"]
+    prov --> api["core/api<br/>dio + interceptors"]
+    api --> store["core/storage<br/>shared_preferences"]
+    api --> backend[("Portal API")]
+    ui --> router["core/router<br/>go_router"]
+    ui --> theme["core/theme"]
+```
+
+> **Three clients, one contract.** A breaking API change now breaks the website,
+> the web CMS and this app. `Portal/scripts/` checks contract parity for the two
+> TypeScript clients; the Dart models are **not** in that check, and adding them
+> is the obvious next step.
+
+---
+
+## Terms of use
+
+*Template wording for the public site. It has **not** been reviewed by a lawyer;
+have the church's own advisor read it before publishing.*
+
+### 1. Who runs this site
+
+This website is operated by **CSI St. Mark's Church, Madipakkam**, a
+congregation of the Church of South India. Contact details are on the Contact
+page.
+
+### 2. Using the site
+
+The site is provided for information about the church, its services, its
+fellowships and its activities. You may read, print and share its pages for
+personal, non-commercial purposes.
+
+You may not: present the site or its contents as your own; use it to
+misrepresent the church; attempt to gain unauthorised access to any part of it;
+or use automated tools in a way that degrades it for others.
+
+### 3. Accuracy
+
+Service times, events and announcements are published in good faith and kept as
+current as the church office is able. **Times and dates can change at short
+notice** — for anything you are travelling for, please confirm with the church.
+
+### 4. Photographs and copyright
+
+Photographs, text, the parish crest and the diocese arms are the property of the
+church or used with permission. The crest and arms are marks of the church and
+of the Church of South India and may not be reused without written permission.
+
+**If you appear in a photograph and would like it removed, contact the church
+office and it will be taken down.** No explanation is required.
+
+### 5. External links
+
+The site links to the diocese and to social media accounts. The church is not
+responsible for the content of any site it links to.
+
+### 6. Availability
+
+The site is offered as-is. The church does not guarantee uninterrupted
+availability and is not liable for loss arising from its use or unavailability.
+
+---
+
+## Privacy notice
+
+*Template wording. Have it reviewed before publishing.*
+
+### What is collected
+
+| Where | What | Why |
+|---|---|---|
+| **Contact form** | Name, email, phone (if given), your message | To reply to you |
+| **Server logs** | IP address, browser, pages requested | Security and diagnosis |
+| **Portal accounts** | Name, email, role | To operate the CMS |
+
+**No advertising or analytics trackers are used, and no cookies are set for
+tracking.** The site stores no personal data in your browser beyond the language
+you have chosen.
+
+### Contact form messages
+
+Messages are stored in the church's own database and read by authorised staff.
+They are not sold, shared or used for mailings. Ask the office and a message
+will be deleted.
+
+### Children
+
+Photographs of children are published **only with the consent of a parent or
+guardian**. Consent can be withdrawn at any time by contacting the office.
+
+### Your rights
+
+You may ask what is held about you, ask for it to be corrected, or ask for it to
+be deleted. Requests go to the church office.
+
+### Where the data lives
+
+On infrastructure the church controls. Backups contain the same data and are
+held with the same care.
+
+---
+
+## Accessibility statement
+
+The site aims to meet **WCAG 2.1 Level AA**.
+
+| | |
+|---|---|
+| **Contrast** | Every colour pairing measured; all pass AA, in all eight liturgical seasons. Lowest reading in the year: 7.9:1 |
+| **Keyboard** | Every control reachable and operable; visible focus on all of them |
+| **Structure** | Semantic landmarks, one `h1` per page, ordered headings |
+| **Images** | Alt text on content images; decorative artwork `aria-hidden` |
+| **Motion** | Everything honours `prefers-reduced-motion` — snow, ornaments and drift stop or disappear |
+| **Targets** | Interactive controls at least 44×44px |
+| **Language** | `lang` set per locale; Tamil carries its own metric scale |
+| **Zoom** | Usable to 200% without horizontal scrolling |
+
+**Known limits.** The home page opens with a scroll-driven cinematic sequence;
+it is decorative and every page is fully readable without it. The seasonal
+decoration is `aria-hidden` throughout and conveys nothing not also in text.
+
+To report a barrier, contact the church office — it will be treated as a bug.
 
 ---
 

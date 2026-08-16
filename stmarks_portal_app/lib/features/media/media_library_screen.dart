@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/models/admin.dart';
@@ -25,11 +26,11 @@ const Map<String?, String> _kKindFilters = {
 IconData _kindIcon(String kind) {
   switch (kind) {
     case 'video':
-      return Icons.videocam_rounded;
+      return LucideIcons.video;
     case 'pdf':
-      return Icons.picture_as_pdf_rounded;
+      return LucideIcons.fileText;
     default:
-      return Icons.insert_drive_file_rounded;
+      return LucideIcons.file;
   }
 }
 
@@ -162,11 +163,14 @@ class _MediaLibraryScreenState extends ConsumerState<MediaLibraryScreen> {
     final canWrite = auth.can('media.write');
 
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: _load,
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 8),
             sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +199,7 @@ class _MediaLibraryScreenState extends ConsumerState<MediaLibraryScreen> {
                           onChanged: _onSearchChanged,
                           decoration: const InputDecoration(
                             hintText: 'Search media…',
-                            prefixIcon: Icon(Icons.search_rounded),
+                            prefixIcon: Icon(LucideIcons.search),
                             isDense: true,
                           ),
                         ),
@@ -210,7 +214,7 @@ class _MediaLibraryScreenState extends ConsumerState<MediaLibraryScreen> {
                                   width: 14,
                                   child: CircularProgressIndicator(strokeWidth: 2),
                                 )
-                              : const Icon(Icons.upload_rounded, size: 18),
+                              : const Icon(LucideIcons.upload, size: 18),
                           label: const Text('Upload'),
                           style: FilledButton.styleFrom(
                             backgroundColor: theme.colorScheme.primary,
@@ -252,14 +256,14 @@ class _MediaLibraryScreenState extends ConsumerState<MediaLibraryScreen> {
             const SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyState(
-                icon: Icons.perm_media_outlined,
+                icon: LucideIcons.folderOpen,
                 title: 'No media yet',
                 message: 'Upload something to get started.',
               ),
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, kFloatingDockHeight + 24),
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 160,

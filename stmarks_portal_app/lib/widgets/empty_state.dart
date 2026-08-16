@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../core/theme/app_theme.dart';
+import 'app_surface.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState({
@@ -22,40 +26,45 @@ class EmptyState extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, size: 32, color: theme.colorScheme.onSurfaceVariant),
-            ),
-            const SizedBox(height: 16),
-            Text(title, style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
-            if (message != null) ...[
-              const SizedBox(height: 6),
-              Text(
-                message!,
-                style: theme.textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-            ],
-            if (actionLabel != null && onAction != null) ...[
-              const SizedBox(height: 20),
-              FilledButton.icon(
-                onPressed: onAction,
-                icon: const Icon(Icons.add_rounded, size: 18),
-                label: Text(actionLabel!),
-                style: FilledButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 360),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 76,
+                height: 76,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      theme.colorScheme.surfaceContainerHighest,
+                      theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
+                    ],
+                  ),
+                  border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.6)),
                 ),
+                child: Icon(icon, size: 31, color: theme.colorScheme.onSurfaceVariant),
               ),
+              const SizedBox(height: 18),
+              Text(title, style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
+              if (message != null) ...[
+                const SizedBox(height: 7),
+                Text(message!, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
+              ],
+              if (actionLabel != null && onAction != null) ...[
+                const SizedBox(height: 22),
+                FilledButton.icon(
+                  onPressed: onAction,
+                  icon: const Icon(LucideIcons.plus, size: 18),
+                  label: Text(actionLabel!),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -84,10 +93,12 @@ class ErrorRetryState extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
           constraints: const BoxConstraints(maxWidth: 420),
-          decoration: BoxDecoration(
+          decoration: ShapeDecoration(
             color: theme.colorScheme.error.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: theme.colorScheme.error.withValues(alpha: 0.3), style: BorderStyle.solid),
+            shape: appSquircle(
+              AppRadii.card,
+              side: BorderSide(color: theme.colorScheme.error.withValues(alpha: 0.3)),
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -95,7 +106,7 @@ class ErrorRetryState extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: theme.colorScheme.error.withValues(alpha: 0.1), shape: BoxShape.circle),
-                child: Icon(Icons.wifi_off_rounded, size: 20, color: theme.colorScheme.error),
+                child: Icon(LucideIcons.wifiOff, size: 20, color: theme.colorScheme.error),
               ),
               const SizedBox(height: 12),
               Text(title, style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
@@ -110,7 +121,7 @@ class ErrorRetryState extends StatelessWidget {
                 onPressed: busy ? null : onRetry,
                 icon: busy
                     ? const SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const Icon(Icons.refresh_rounded, size: 18),
+                    : const Icon(LucideIcons.refreshCw, size: 18),
                 label: Text(busy ? 'Retrying…' : 'Try again'),
               ),
             ],
@@ -122,24 +133,141 @@ class ErrorRetryState extends StatelessWidget {
 }
 
 class LoadingListSkeleton extends StatelessWidget {
-  const LoadingListSkeleton({super.key, this.count = 6});
+  const LoadingListSkeleton({super.key, this.count = 5});
 
   final int count;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
       itemCount: count,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, i) => Container(
-        height: 88,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(20),
+      physics: const NeverScrollableScrollPhysics(),
+      separatorBuilder: (_, _) => const SizedBox(height: 14),
+      itemBuilder: (context, i) => Shimmer(
+        // Each row starts its sweep a beat after the one above it, so the
+        // list reads as loading top-down rather than pulsing as one slab.
+        delay: Duration(milliseconds: i * 90),
+        child: Container(
+          height: 84,
+          padding: const EdgeInsets.all(14),
+          decoration: ShapeDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            shape: appSquircle(
+              AppRadii.card,
+              side: BorderSide(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.7)),
+            ),
+          ),
+          child: const Row(
+            children: [
+              _Bone(width: 56, height: 56, radius: AppRadii.md),
+              SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _Bone(width: double.infinity, height: 13),
+                    SizedBox(height: 9),
+                    _Bone(width: 140, height: 11),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+class _Bone extends StatelessWidget {
+  const _Bone({required this.width, required this.height, this.radius = AppRadii.sm});
+
+  final double width;
+  final double height;
+  final double radius;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: ShapeDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        shape: appSquircle(radius),
+      ),
+    );
+  }
+}
+
+/// Sweeps a soft highlight across its subtree. Used for loading placeholders,
+/// where a moving surface reads as "still working" and a static grey block
+/// reads as "this is the content, and it's broken".
+class Shimmer extends StatefulWidget {
+  const Shimmer({super.key, required this.child, this.delay = Duration.zero});
+
+  final Widget child;
+  final Duration delay;
+
+  @override
+  State<Shimmer> createState() => _ShimmerState();
+}
+
+class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.delay == Duration.zero) {
+      _controller.repeat();
+    } else {
+      Future<void>.delayed(widget.delay, () {
+        if (mounted) _controller.repeat();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final highlight = (isDark ? Colors.white : Colors.white).withValues(alpha: isDark ? 0.06 : 0.55);
+
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) => ShaderMask(
+        blendMode: BlendMode.srcATop,
+        shaderCallback: (bounds) => LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [Colors.transparent, highlight, Colors.transparent],
+          stops: const [0.0, 0.5, 1.0],
+          transform: _SlideGradient(_controller.value),
+        ).createShader(bounds),
+        child: child,
+      ),
+      child: widget.child,
+    );
+  }
+}
+
+/// Slides the gradient from fully off the left edge to fully off the right.
+class _SlideGradient extends GradientTransform {
+  const _SlideGradient(this.progress);
+
+  final double progress;
+
+  @override
+  Matrix4 transform(Rect bounds, {TextDirection? textDirection}) =>
+      Matrix4.translationValues(bounds.width * (progress * 2 - 1), 0, 0);
 }

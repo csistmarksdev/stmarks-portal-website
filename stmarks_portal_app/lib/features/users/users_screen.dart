@@ -1,14 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/admin.dart';
 import '../../core/models/common.dart';
 import '../../core/providers/providers.dart';
+import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/app_surface.dart';
 
 /// Admin users management — list, create, edit, reset password and delete.
 class UsersScreen extends ConsumerStatefulWidget {
@@ -117,7 +120,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             decoration: InputDecoration(
               labelText: 'New password (min 8 characters)',
               suffixIcon: IconButton(
-                icon: Icon(obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                icon: Icon(obscure ? LucideIcons.eye : LucideIcons.eyeOff),
                 tooltip: obscure ? 'Show password' : 'Hide password',
                 onPressed: () => setDialogState(() => obscure = !obscure),
               ),
@@ -174,11 +177,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     final myId = ref.watch(authControllerProvider).user?.id;
 
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: _load,
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 8),
             sliver: SliverToBoxAdapter(
               child: Wrap(
                 alignment: WrapAlignment.spaceBetween,
@@ -199,7 +205,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                   if (canWrite)
                     FilledButton.icon(
                       onPressed: _createUser,
-                      icon: const Icon(Icons.add_rounded, size: 18),
+                      icon: const Icon(LucideIcons.plus, size: 18),
                       label: const Text('New user'),
                       style: FilledButton.styleFrom(
                         backgroundColor: theme.colorScheme.primary,
@@ -218,7 +224,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                 onChanged: _onSearchChanged,
                 decoration: const InputDecoration(
                   hintText: 'Search by name or email…',
-                  prefixIcon: Icon(Icons.search_rounded),
+                  prefixIcon: Icon(LucideIcons.search),
                   isDense: true,
                 ),
               ),
@@ -232,14 +238,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             const SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyState(
-                icon: Icons.people_alt_outlined,
+                icon: LucideIcons.users,
                 title: 'No users yet',
                 message: 'Invite your team to the portal.',
               ),
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, kFloatingDockHeight + 24),
               sliver: SliverList.separated(
                 itemCount: _items.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 10),
@@ -308,9 +314,11 @@ class _UserRow extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+      decoration: ShapeDecoration(
+        shape: appSquircle(
+          AppRadii.card,
+          side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+        ),
       ),
       child: Row(
         children: [
@@ -493,7 +501,7 @@ class _UserFormDialogState extends ConsumerState<_UserFormDialog> {
                 decoration: InputDecoration(
                   labelText: 'Password (min 8 characters)',
                   suffixIcon: IconButton(
-                    icon: Icon(_obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    icon: Icon(_obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff),
                     tooltip: _obscurePassword ? 'Show password' : 'Hide password',
                     onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),

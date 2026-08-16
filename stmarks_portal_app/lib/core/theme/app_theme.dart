@@ -15,11 +15,41 @@ class AppRadii {
   static const pill = 999.0;
 }
 
+/// Vertical space the mobile shell's floating dock occupies, including the
+/// gap it keeps from the bottom edge. Scrollable pages end with at least this
+/// much slack so their last row never comes to rest under the dock.
+const double kFloatingDockHeight = 78;
+
+/// Top inset a scrollable page leaves before its first row.
+///
+/// On mobile the page scrolls *underneath* the floating top bar, so the shell
+/// publishes the bar's height as `MediaQuery.padding.top` and this puts the
+/// first row to rest just below it. On the desktop and tablet shells the
+/// surrounding `SafeArea` has already eaten the inset, so this collapses to
+/// the plain [gutter].
+double appPageTop(BuildContext context, [double gutter = 16]) =>
+    MediaQuery.paddingOf(context).top + gutter;
+
+/// Shared motion durations, so the shells stay in step with one another
+/// instead of each picking its own timing.
+class AppDurations {
+  AppDurations._();
+  static const fast = Duration(milliseconds: 150);
+  static const medium = Duration(milliseconds: 260);
+  static const slow = Duration(milliseconds: 420);
+}
+
 class AppTheme {
   AppTheme._();
 
   static const _fontDisplay = 'Fraunces';
   static const _fontSans = 'Inter';
+
+  /// Neither Inter nor Fraunces contains a single Tamil glyph, and half this
+  /// app's content is Tamil. Naming the fallback explicitly means the platform
+  /// resolves a known Tamil face rather than whatever its default chain
+  /// happens to reach for first.
+  static const _fontFallback = <String>['Noto Sans Tamil', 'Noto Sans', 'sans-serif'];
 
   static ThemeData light() => _build(Brightness.light);
   static ThemeData dark() => _build(Brightness.dark);
@@ -48,18 +78,37 @@ class AppTheme {
       onSecondary: secondaryForeground,
       error: destructive,
       onError: isDark ? AppColors.darkBackground : Colors.white,
+      errorContainer: isDark ? const Color(0xFF3A0F1B) : AppColors.brand50,
+      onErrorContainer: destructive,
       surface: card,
       onSurface: cardForeground,
+      // Four rungs of surface so nested panels read as depth rather than as
+      // the same flat card drawn twice.
+      surfaceDim: isDark ? AppColors.darkBackground : AppColors.sand100,
+      surfaceBright: isDark ? AppColors.darkMuted : Colors.white,
+      surfaceContainerLowest: isDark ? AppColors.darkBackground : Colors.white,
+      surfaceContainerLow: isDark ? AppColors.darkCardWash : AppColors.sand50,
+      surfaceContainer: isDark ? AppColors.darkCard : AppColors.sand50,
+      surfaceContainerHigh: isDark ? AppColors.darkMuted : AppColors.sand100,
       surfaceContainerHighest: muted,
       onSurfaceVariant: mutedForeground,
       outline: border,
-      outlineVariant: border,
+      outlineVariant: isDark ? AppColors.darkBorder : AppColors.sand200,
+      shadow: isDark ? Colors.black : AppColors.brand950,
+      scrim: isDark ? Colors.black : AppColors.sand950,
       inverseSurface: isDark ? AppColors.sand50 : AppColors.sand900,
       onInverseSurface: isDark ? AppColors.sand900 : AppColors.sand50,
+      inversePrimary: isDark ? AppColors.brand700 : AppColors.brand300,
       primaryContainer: secondary,
       onPrimaryContainer: secondaryForeground,
+      // Kept distinct from `primaryContainer` so `FilledButton.tonal` reads as
+      // a neutral secondary action, not a second brand-tinted primary.
+      secondaryContainer: muted,
+      onSecondaryContainer: cardForeground,
       tertiary: isDark ? AppColors.accent300 : AppColors.accent700,
       onTertiary: isDark ? AppColors.darkBackground : Colors.white,
+      tertiaryContainer: isDark ? const Color(0xFF3A2416) : AppColors.accent50,
+      onTertiaryContainer: isDark ? AppColors.accent300 : AppColors.accent800,
     );
 
     final textTheme = _textTheme(cardForeground, mutedForeground);
@@ -71,6 +120,7 @@ class AppTheme {
       scaffoldBackgroundColor: background,
       canvasColor: background,
       fontFamily: _fontSans,
+      fontFamilyFallback: _fontFallback,
       textTheme: textTheme,
       splashFactory: InkRipple.splashFactory,
       dividerTheme: DividerThemeData(color: border, thickness: 1, space: 1),
@@ -89,7 +139,7 @@ class AppTheme {
         color: card,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
+        shape: RoundedSuperellipseBorder(
           borderRadius: BorderRadius.circular(AppRadii.card),
           side: BorderSide(color: border.withValues(alpha: 0.7)),
         ),
@@ -151,10 +201,13 @@ class AppTheme {
           textStyle: const TextStyle(fontFamily: _fontSans, fontWeight: FontWeight.w600),
         ),
       ),
+      // Deliberately leaves the colours to Material's own defaults so that
+      // `FilledButton` is the solid brand call-to-action and
+      // `FilledButton.tonal` is the neutral one — the same theme data feeds
+      // both variants, so naming a background here would flatten them into a
+      // single look.
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: secondary,
-          foregroundColor: secondaryForeground,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           shape: const StadiumBorder(),
@@ -183,28 +236,124 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: card,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.card)),
+        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(28)),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: card,
+        modalBackgroundColor: card,
         surfaceTintColor: Colors.transparent,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.card)),
+        modalBarrierColor: (isDark ? Colors.black : AppColors.sand950).withValues(alpha: 0.45),
+        elevation: 0,
+        modalElevation: 0,
+        dragHandleColor: border,
+        dragHandleSize: const Size(36, 4),
+        showDragHandle: true,
+        clipBehavior: Clip.antiAlias,
+        shape: const RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: card,
+        surfaceTintColor: Colors.transparent,
+        elevation: 8,
+        shadowColor: (isDark ? Colors.black : AppColors.brand950).withValues(alpha: 0.22),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(AppRadii.lg),
+          side: BorderSide(color: border),
+        ),
+        textStyle: textTheme.bodyMedium,
+      ),
+      menuTheme: MenuThemeData(
+        style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(card),
+          surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+          shape: WidgetStatePropertyAll(
+            RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(AppRadii.lg),
+              side: BorderSide(color: border),
+            ),
+          ),
+        ),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: mutedForeground,
+        textColor: cardForeground,
+        titleTextStyle: textTheme.bodyMedium,
+        subtitleTextStyle: textTheme.bodySmall,
+        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+        minVerticalPadding: 10,
+      ),
+      tooltipTheme: TooltipThemeData(
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.sand100 : AppColors.sand900,
+          borderRadius: BorderRadius.circular(AppRadii.sm),
+        ),
+        textStyle: TextStyle(
+          fontFamily: _fontSans,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: isDark ? AppColors.sand900 : AppColors.sand50,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        waitDuration: const Duration(milliseconds: 500),
+      ),
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor: WidgetStatePropertyAll(mutedForeground.withValues(alpha: 0.35)),
+        radius: const Radius.circular(AppRadii.pill),
+        thickness: const WidgetStatePropertyAll(6),
+        crossAxisMargin: 2,
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: primary,
+        selectionColor: primary.withValues(alpha: 0.22),
+        selectionHandleColor: primary,
+      ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        side: BorderSide(color: border, width: 1.5),
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? primary : Colors.transparent,
+        ),
+        checkColor: WidgetStatePropertyAll(primaryForeground),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? primary : border,
+        ),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+          backgroundColor: card,
+          foregroundColor: mutedForeground,
+          selectedBackgroundColor: secondary,
+          selectedForegroundColor: secondaryForeground,
+          side: BorderSide(color: border),
+          shape: const StadiumBorder(),
+          textStyle: const TextStyle(fontFamily: _fontSans, fontWeight: FontWeight.w600, fontSize: 13),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: isDark ? AppColors.sand50 : AppColors.sand900,
         contentTextStyle: TextStyle(color: isDark ? AppColors.sand900 : AppColors.sand50),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(AppRadii.lg)),
+        insetPadding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       ),
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: card,
         indicatorColor: secondary,
-        selectedIconTheme: IconThemeData(color: primary),
-        unselectedIconTheme: IconThemeData(color: mutedForeground),
-        selectedLabelTextStyle: TextStyle(color: primary, fontWeight: FontWeight.w600),
-        unselectedLabelTextStyle: TextStyle(color: mutedForeground),
+        useIndicator: true,
+        indicatorShape: const StadiumBorder(),
+        selectedIconTheme: IconThemeData(color: primary, size: 22),
+        unselectedIconTheme: IconThemeData(color: mutedForeground, size: 22),
+        selectedLabelTextStyle: TextStyle(
+          fontFamily: _fontSans,
+          fontSize: 11,
+          color: primary,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelTextStyle: TextStyle(fontFamily: _fontSans, fontSize: 11, color: mutedForeground),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
@@ -328,5 +477,34 @@ List<BoxShadow> cardShadow(BuildContext context) {
   return [
     BoxShadow(color: AppColors.brand950.withValues(alpha: 0.06), blurRadius: 3, offset: const Offset(0, 1)),
     BoxShadow(color: AppColors.brand950.withValues(alpha: 0.05), blurRadius: 14, offset: const Offset(0, 4)),
+  ];
+}
+
+/// A barely-there lift for resting surfaces (list cards, stat tiles). Softer
+/// than [cardShadow] so a grid of cards doesn't read as a grid of buttons.
+List<BoxShadow> restingShadow(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  if (isDark) {
+    return [BoxShadow(color: Colors.black.withValues(alpha: 0.28), blurRadius: 10, offset: const Offset(0, 3))];
+  }
+  return [
+    BoxShadow(color: AppColors.brand950.withValues(alpha: 0.04), blurRadius: 2, offset: const Offset(0, 1)),
+    BoxShadow(color: AppColors.brand950.withValues(alpha: 0.04), blurRadius: 10, offset: const Offset(0, 4)),
+  ];
+}
+
+/// The deep, wide shadow that lets the floating dock and other detached
+/// chrome sit convincingly *above* the page rather than on it.
+List<BoxShadow> floatingShadow(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  if (isDark) {
+    return [
+      BoxShadow(color: Colors.black.withValues(alpha: 0.55), blurRadius: 28, offset: const Offset(0, 10)),
+      BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 6, offset: const Offset(0, 2)),
+    ];
+  }
+  return [
+    BoxShadow(color: AppColors.brand950.withValues(alpha: 0.12), blurRadius: 28, offset: const Offset(0, 10)),
+    BoxShadow(color: AppColors.brand950.withValues(alpha: 0.07), blurRadius: 6, offset: const Offset(0, 2)),
   ];
 }

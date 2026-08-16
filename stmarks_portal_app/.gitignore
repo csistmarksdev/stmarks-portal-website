@@ -1,114 +1,9 @@
-# ---------------------------------------------------------------------------
-# Flutter / Dart / Pub
-# ---------------------------------------------------------------------------
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
-.pub/
-/build/
-/coverage/
-**/doc/api/
-.widget_preview/
-lib/generated_plugin_registrant.dart
-
-# Symbolication & Obfuscation
-app.*.symbols
-app.*.map.json
-
-# ---------------------------------------------------------------------------
-# Android Specific
-# ---------------------------------------------------------------------------
-android/.gradle/
-android/.kotlin/
-android/local.properties
-**/android/app/debug/
-**/android/app/profile/
-**/android/app/release/
-**/android/captures/
-**/android/.cxx/
-**/GeneratedPluginRegistrant.java
-
-# Android Security & Keystores (NEVER share keystores or key properties)
-key.properties
-**/*.keystore
-**/*.jks
-
-# ---------------------------------------------------------------------------
-# iOS / macOS Specific
-# ---------------------------------------------------------------------------
-**/ios/Flutter/.last_build_id
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/Flutter.podspec
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/app.flt
-**/ios/Flutter/ephemeral/
-**/ios/Pods/
-**/ios/.symlinks/
-**/ios/profile/
-**/ios/debug/
-**/ios/release/
-**/ios/Runner/GeneratedPluginRegistrant.h
-**/ios/Runner/GeneratedPluginRegistrant.m
-**/ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
-**/ios/Runner.xcodeproj/xcuserdata/
-**/ios/Runner.xcworkspace/xcuserdata/
-DerivedData/
-*.ipa
-*.dSYM.zip
-*.dSYM
-
-# iOS Security & Certificates
-*.p12
-*.mobileprovision
-*.cer
-
-# ---------------------------------------------------------------------------
-# Environment & Secrets
-# ---------------------------------------------------------------------------
-.env
-.env.*
-!.env.example
-!.env.*.example
-*.env.bak-*
-.env.bak-*
-*.pem
-*.key
-*.pfx
-id_rsa*
-
-# ---------------------------------------------------------------------------
-# IDE & Editors
-# ---------------------------------------------------------------------------
-# IntelliJ / Android Studio
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# Visual Studio Code
-.vscode/*
-!.vscode/launch.json
-!.vscode/settings.json
-!.vscode/tasks.json
-
-# ---------------------------------------------------------------------------
-# OS & Temp Files
-# ---------------------------------------------------------------------------
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-Desktop.ini
+# Miscellaneous
+*.class
 *.log
+*.pyc
 *.swp
-*~
-*.tmp
+.DS_Store
 .atom/
 .build/
 .buildlog/
@@ -116,3 +11,38 @@ Desktop.ini
 .svn/
 .swiftpm/
 migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Widget Preview related
+.widget_preview/

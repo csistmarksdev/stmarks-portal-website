@@ -20,6 +20,7 @@ Both parameters work on **every route**, not just the home page.
 | Parameter | Season |
 | --- | --- |
 | `?season=christmas` | Christmas |
+| `?season=ash-wednesday` | Ash Wednesday |
 | `?season=lent` | Lent |
 | `?season=holy-week` | Holy Week |
 | `?season=good-friday` | Good Friday |
@@ -81,6 +82,7 @@ and the two ink grounds behind the presbyter's letter and the week's verse
 | Season | Paper | The season's colour | Cross & buttons | Ink grounds | Extra |
 | --- | --- | --- | --- | --- | --- |
 | **Christmas** (1 Dec – 1 Jan) | Snow — cold, near-white | Red, at full strength | Crimson | Burgundy | ❄ Snow, garland, treeline, frieze, greeting |
+| **Ash Wednesday** | Ash — the greyest paper of the year outside Good Friday | Violet, almost drained out | Deep grey | Violet-black | Ash bowl, thumbed cross, palm fronds |
 | **Lent** | Ashen violet-grey | Violet, drained of chroma | Deep violet | Violet-black | Bare branches, veils, stones, wilderness frieze |
 | **Holy Week** | Ash, red-leaning | Crimson | Passion crimson | Near-black red | Lent's branches, veils and stones continue |
 | **Good Friday** | Cold stone | **Every scale drained to pure neutral** | Plain ink | Near-black | Calvary, crown of thorns, nails; photography **left in colour** |
@@ -287,6 +289,157 @@ find the same one, barer, and they know at once.
 
 ---
 
+## How the season is calculated
+
+There is no table of dates anywhere in this system, and there cannot be. The
+church's year hangs on two points: **Christmas**, fixed to the 25th of December,
+and **Easter**, which is fixed to nothing at all — it is the Sunday after the
+first full moon on or after the vernal equinox. That single moveable date drags
+Ash Wednesday, Lent, Holy Week, Good Friday and Pentecost with it, by up to five
+weeks from one year to the next.
+
+So the site calculates the year the way the church does: find Easter, count
+outward from it, then ask what today is.
+
+### Step 1 — Find Easter
+
+`easterSunday(year)` in `src/lib/liturgical-year.ts` implements the **anonymous
+Gregorian computus** (also called Meeus/Jones/Butcher). It is a page of modular
+arithmetic reconciling the 19-year Metonic lunar cycle with the Gregorian leap
+rule and its century corrections.
+
+The variable names are the traditional single letters *on purpose*, so the code
+can be checked against any published statement of the algorithm letter for
+letter. Worked for 2026:
+
+| | | |
+|---|---|---|
+| `a = year mod 19` | **12** | position in the 19-year Metonic cycle |
+| `b = ⌊year / 100⌋` | **20** | century |
+| `c = year mod 100` | **26** | year within the century |
+| `d`, `e` | 5, 0 | century leap corrections |
+| `f`, `g` | 1, 6 | Gregorian lunar corrections |
+| **`h`** | **12** | **days from 21 March to the paschal full moon** |
+| `i`, `k` | 6, 2 | weekday arithmetic |
+| **`l`** | **2** | **days from that full moon to the next Sunday** |
+| `m` | 0 | a clamp that only bites once or twice a century |
+
+21 March + `h` + `l` → **Easter Sunday, 5 April 2026**. Checked against the
+published dates for 2024–2038 and 2285.
+
+> The Gregorian computus is the correct one **because the CSI keeps the Western
+> calendar**. An Orthodox parish would need the Julian variant, which can place
+> Easter up to five weeks later.
+
+### Step 2 — Count outward from it
+
+Every moveable season is a fixed offset:
+
+| Season | Offset | Why that number |
+|---|---|---|
+| **Ash Wednesday** | Easter − 46 | Forty days of Lent **plus** the six Sundays inside them, which are not counted because a Sunday is never a fast |
+| **Lent** | Easter − 45 … − 8 | The day after Ash Wednesday to the eve of Palm Sunday |
+| **Holy Week** | Easter − 7 … − 1 | Palm Sunday through Holy Saturday |
+| **Good Friday** | Easter − 2 | |
+| **Easter** | Easter … + 49 | Closes on Pentecost, the 50th day *counting Easter as the first* |
+
+And two are fixed to the calendar, not to Easter: **Christmas** (1 Dec – 1 Jan)
+and **CSI Day** (27 September).
+
+### Step 3 — Compare as whole days
+
+Dates are converted to an integer **day ordinal** before anything is compared:
+
+```ts
+Math.floor(Date.UTC(year, month - 1, date) / 86_400_000)
+```
+
+The year, month and day are taken off the reader's *local* date and then
+compared through UTC, so every comparison is plain integer subtraction. No
+timezone offset and no daylight-saving boundary can turn "46 days before Easter"
+into 45 — which is the classic way a calendar like this goes quietly wrong for
+one day in a year, in one hemisphere.
+
+### Step 4 — Ask in the right order
+
+The seasons **nest**: Good Friday is inside Holy Week, which is inside Lent; Ash
+Wednesday is inside Lent too. A day inside a range can only win if it is asked
+about first, so `getSeason` is ordered by **precedence, not by the calendar**:
+
+```ts
+if (today === easter - 2)                          return "good-friday";
+if (today >= easter - 7  && today <  easter)       return "holy-week";
+if (today === easter - 46)                         return "ash-wednesday";
+if (today >  easter - 46 && today <  easter - 7)   return "lent";
+if (today >= easter      && today <= easter + 49)  return "easter";
+if (today >= 1 December)                           return "christmas";
+if (today <= 1 January)                            return "christmas";
+if (today === 27 September)                        return "csi-day";
+return "ordinary";
+```
+
+Written calendar-first, Lent would swallow Ash Wednesday, Holy Week and Good
+Friday, and none of the three would ever fire.
+
+Two details in that list are worth pointing at:
+
+- **Christmas is two tests, not one range**, because the season crosses the new
+  year. On the 1st of January the December in question is the *previous* year's,
+  and a single range compared against the current year would look for a December
+  that has not happened yet.
+- **CSI Day is asked last** even though it is a fixed date. It falls in late
+  September, which is always ordinary time, so it can never collide with a
+  moveable season and never needs to win one.
+
+### Step 5 — Answer on the reader's own clock
+
+The season is resolved **in the browser, from the visitor's date** — never on
+the server. Every page here is statically prerendered, so a season decided at
+build time would be whichever season the site was last deployed in: it would
+arrive with a deploy and leave with one.
+
+It is resolved twice, deliberately:
+
+| | Where | When |
+|---|---|---|
+| **Bootstrap** | An inline `next/script` with `strategy="beforeInteractive"` in the root layout | **Before first paint** |
+| **`LiturgicalSeason`** | A client component, via `useSyncExternalStore` | After hydration |
+
+The bootstrap exists because of the splash screen. `LiturgicalSeason` sets the
+season from an effect, which cannot run until React has hydrated the whole tree
+— and on the home page that tree includes the cinematic hero. The splash is up
+for as little as 1.9 seconds, so the effect was landing exactly as the splash
+was leaving: every seasonal thing about the opening frame was correct, and none
+of it was ever seen.
+
+Both write the same value to `<html data-season="…">`. From there, CSS reads
+`html[data-season="lent"]` and components call `useLiturgicalSeason()` — so the
+snowfall never counts months of its own, and the two can never disagree about
+what day it is.
+
+### The duplication, and the thing that keeps it honest
+
+The bootstrap is a **hand-inlined copy** of the arithmetic above. It has to be:
+an ES import cannot be made to run before hydration.
+
+Duplicated logic drifts, so it is checked rather than trusted:
+
+```bash
+node scripts/verify-season-script.mjs
+```
+
+That script extracts the *shipped* bootstrap string out of the layout, runs it
+under Node with `document` and `location` stubbed, and compares it against the
+real `getSeason` **on every single day from 2024 to 2044** — 7,671 days. It
+fails on the first disagreement and names the date.
+
+It tests the shipped string rather than a rewritten copy, because testing a
+rewrite would test the rewrite. **If you change `getSeason`, change the
+bootstrap too and run that script.** The failure mode it guards against is the
+worst kind: nobody notices until Good Friday.
+
+---
+
 ## The dates
 
 Christmas is fixed. Easter is not — it is the Sunday after the first full moon on
@@ -305,7 +458,8 @@ Fixed dates: **Christmas** 1 Dec – 1 Jan · **CSI Day** 27 Sep.
 
 ### Season boundaries
 
-- **Lent** — Ash Wednesday (Easter − 46) to the day before Palm Sunday. Forty
+- **Ash Wednesday** — Easter − 46. One day, always a Wednesday, dressed for separately.
+- **Lent** — the day *after* Ash Wednesday to the day before Palm Sunday. Forty
   days plus the six Sundays inside them, which are not counted because a Sunday
   is never a fast.
 - **Holy Week** — Palm Sunday (Easter − 7) through Holy Saturday, with Good

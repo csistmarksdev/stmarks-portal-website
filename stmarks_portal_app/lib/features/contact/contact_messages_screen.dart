@@ -1,14 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/admin.dart';
 import '../../core/models/common.dart';
+import '../../core/notifications/contact_watcher.dart';
+import '../../core/notifications/notification_service.dart';
 import '../../core/providers/providers.dart';
+import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/app_surface.dart';
 
 /// Contact messages inbox — lists messages submitted through the public
 /// contact form, with unread tracking, a detail view and delete.
@@ -65,6 +70,8 @@ class _ContactMessagesScreenState extends ConsumerState<ContactMessagesScreen> {
         },
       );
       final result = Paginated.fromJson(json, ContactMessage.fromJson);
+      // Reading the inbox is the moment the alert has done its job.
+      unawaited(NotificationService.instance.cancelAll());
       setState(() {
         _items = append ? [..._items, ...result.items] : result.items;
         _page = result.page;
@@ -103,6 +110,8 @@ class _ContactMessagesScreenState extends ConsumerState<ContactMessagesScreen> {
     try {
       final api = ref.read(apiClientProvider);
       await api.patch<dynamic>('/admin/contact-messages/${m.id}/read', data: {'read': true});
+      final current = ref.read(unreadContactCountProvider);
+      if (current > 0) ref.read(unreadContactCountProvider.notifier).state = current - 1;
     } catch (_) {
       // Non-fatal — leave the optimistic state as-is.
     }
@@ -146,11 +155,14 @@ class _ContactMessagesScreenState extends ConsumerState<ContactMessagesScreen> {
     final theme = Theme.of(context);
 
     return RefreshIndicator(
+      // The list starts at y=0 under the floating bar, so the spinner has
+      // to be pushed clear of it.
+      edgeOffset: MediaQuery.paddingOf(context).top,
       onRefresh: _load,
       child: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 8),
             sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +188,7 @@ class _ContactMessagesScreenState extends ConsumerState<ContactMessagesScreen> {
                       onChanged: _onSearchChanged,
                       decoration: const InputDecoration(
                         hintText: 'Search by name, email or subject…',
-                        prefixIcon: Icon(Icons.search_rounded),
+                        prefixIcon: Icon(LucideIcons.search),
                         isDense: true,
                       ),
                     ),
@@ -202,14 +214,14 @@ class _ContactMessagesScreenState extends ConsumerState<ContactMessagesScreen> {
             const SliverFillRemaining(
               hasScrollBody: false,
               child: EmptyState(
-                icon: Icons.mark_email_read_outlined,
+                icon: LucideIcons.mailOpen,
                 title: 'No messages',
                 message: 'Contact form submissions will show up here.',
               ),
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, kFloatingDockHeight + 24),
               sliver: SliverList.separated(
                 itemCount: _items.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 10),
@@ -250,16 +262,16 @@ class _MessageRow extends StatelessWidget {
 
     return Material(
       color: theme.colorScheme.surface,
-      borderRadius: BorderRadius.circular(24),
+      shape: appSquircle(
+        AppRadii.card,
+        side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+      ),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: BorderRadius.circular(24),
+        customBorder: appSquircle(AppRadii.card),
         onTap: onTap,
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -354,21 +366,21 @@ class _MessageDetailSheet extends StatelessWidget {
                   style: theme.textTheme.bodySmall,
                 ),
               const SizedBox(height: 16),
-              _DetailRow(icon: Icons.person_outline_rounded, label: message.name),
+              _DetailRow(icon: LucideIcons.user, label: message.name),
               const SizedBox(height: 8),
-              _DetailRow(icon: Icons.mail_outline_rounded, label: message.email),
+              _DetailRow(icon: LucideIcons.mail, label: message.email),
               if (message.phone != null && message.phone!.isNotEmpty) ...[
                 const SizedBox(height: 8),
-                _DetailRow(icon: Icons.phone_outlined, label: message.phone!),
+                _DetailRow(icon: LucideIcons.phone, label: message.phone!),
               ],
               const SizedBox(height: 16),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                decoration: ShapeDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        shape: appSquircle(16),
+      ),
                 child: Text(message.message, style: theme.textTheme.bodyMedium),
               ),
               const SizedBox(height: 20),
@@ -377,7 +389,7 @@ class _MessageDetailSheet extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: onDelete,
-                      icon: Icon(Icons.delete_outline_rounded, color: theme.colorScheme.error),
+                      icon: Icon(LucideIcons.trash2, color: theme.colorScheme.error),
                       label: Text('Delete', style: TextStyle(color: theme.colorScheme.error)),
                       style: OutlinedButton.styleFrom(side: BorderSide(color: theme.colorScheme.error)),
                     ),

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import {
+  AshBowl,
+  AshCross,
   BareTree,
   Bauble,
   Bell,
@@ -16,6 +18,7 @@ import {
   HangingStar,
   Holly,
   Lily,
+  PalmFrond,
   Stone,
   Thorns,
   Tree,
@@ -592,6 +595,20 @@ export function SplashScreen() {
         <Tree className="h-[58%] w-auto" />
         <Wreath className="h-[34%] w-auto" />
         <Tree className="h-[70%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora" data-for="ash-wednesday">
+        <PalmFrond className="h-[62%] w-auto" />
+        <AshCross className="h-[44%] w-auto" />
+        <AshBowl className="h-[34%] w-auto" />
+        <AshCross className="h-[38%] w-auto" />
+        <PalmFrond className="h-[54%] w-auto" />
+      </span>
+
+      <span aria-hidden className="splash-flora splash-flora-top" data-for="ash-wednesday">
+        <Veil drop={16} className="w-4 sm:w-5" />
+        <Veil drop={30} className="w-4 sm:w-5" />
+        <Veil drop={20} className="w-4 sm:w-5" />
       </span>
 
       <span aria-hidden className="splash-flora" data-for="lent">

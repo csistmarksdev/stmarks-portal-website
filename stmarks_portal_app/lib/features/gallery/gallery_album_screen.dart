@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -14,6 +15,7 @@ import '../../widgets/media_picker_sheet.dart';
 import '../../widgets/portal_image.dart';
 import '../media/media_repository.dart';
 import 'gallery_repository_provider.dart';
+import '../../widgets/app_surface.dart';
 
 /// Create/edit screen for a gallery album. Unlike the other content types,
 /// an album has a photo sub-resource that can only be managed once the
@@ -262,7 +264,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
         child: Wrap(
           children: [
             ListTile(
-              leading: const Icon(Icons.photo_library_outlined),
+              leading: const Icon(LucideIcons.images),
               title: const Text('From media library'),
               onTap: () {
                 Navigator.pop(ctx);
@@ -270,7 +272,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.link_rounded),
+              leading: const Icon(LucideIcons.link),
               title: const Text('Add video by link'),
               onTap: () {
                 Navigator.pop(ctx);
@@ -292,7 +294,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -305,7 +307,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back_rounded),
+                        icon: const Icon(LucideIcons.arrowLeft),
                         onPressed: () => Navigator.of(context).maybePop(),
                       ),
                       const SizedBox(width: 4),
@@ -314,7 +316,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
                       ),
                       if (_isEdit)
                         IconButton(
-                          icon: Icon(Icons.delete_outline_rounded, color: theme.colorScheme.error),
+                          icon: Icon(LucideIcons.trash2, color: theme.colorScheme.error),
                           onPressed: _deleteAlbum,
                           tooltip: 'Delete',
                         ),
@@ -323,11 +325,10 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-                    ),
+                    decoration: ShapeDecoration(
+        color: theme.colorScheme.surface,
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
+      ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -427,7 +428,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
               child: _buildPhotoSection(theme),
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: kFloatingDockHeight + 24),
         ],
       ),
     );
@@ -458,7 +459,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
             if (picked != null) setState(() => _date = picked.toIso8601String());
           },
           child: InputDecorator(
-            decoration: const InputDecoration(suffixIcon: Icon(Icons.calendar_today_rounded, size: 18)),
+            decoration: const InputDecoration(suffixIcon: Icon(LucideIcons.calendarDays, size: 18)),
             child: Text(display.isEmpty ? 'Select date' : display, style: theme.textTheme.bodyMedium),
           ),
         ),
@@ -488,13 +489,13 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
     if (_albumId == null) {
       return Container(
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
-          borderRadius: BorderRadius.circular(AppRadii.card),
-        ),
+        decoration: ShapeDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+        shape: appSquircle(AppRadii.card),
+      ),
         child: Row(
           children: [
-            Icon(Icons.info_outline_rounded, color: theme.colorScheme.onSurfaceVariant),
+            Icon(LucideIcons.info, color: theme.colorScheme.onSurfaceVariant),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -523,7 +524,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
             ],
             FilledButton.icon(
               onPressed: _photoBusy ? null : _openAddPhotosSheet,
-              icon: const Icon(Icons.add_photo_alternate_outlined, size: 18),
+              icon: const Icon(LucideIcons.imagePlus, size: 18),
               label: const Text('Add photos'),
               style: FilledButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
@@ -535,7 +536,7 @@ class _GalleryAlbumScreenState extends ConsumerState<GalleryAlbumScreen> {
         const SizedBox(height: 14),
         if (_photos.isEmpty)
           const EmptyState(
-            icon: Icons.photo_outlined,
+            icon: LucideIcons.image,
             title: 'No photos yet',
             message: 'Add photos from the media library or a video link.',
           )
@@ -585,7 +586,7 @@ class _PhotoTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.45), shape: BoxShape.circle),
-                child: const Icon(Icons.play_circle_fill, color: Colors.white, size: 28),
+                child: const Icon(LucideIcons.circlePlay, color: Colors.white, size: 28),
               ),
             ),
           Positioned(
@@ -599,7 +600,7 @@ class _PhotoTile extends StatelessWidget {
                 onTap: onDelete,
                 child: const Padding(
                   padding: EdgeInsets.all(6),
-                  child: Icon(Icons.delete_outline_rounded, size: 16, color: Colors.white),
+                  child: Icon(LucideIcons.trash2, size: 16, color: Colors.white),
                 ),
               ),
             ),

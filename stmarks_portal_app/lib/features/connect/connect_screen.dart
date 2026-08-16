@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers/providers.dart';
@@ -111,7 +112,7 @@ class _ConnectScreenState extends ConsumerState<ConnectScreen> {
                       decoration: const InputDecoration(
                         labelText: 'API base URL',
                         hintText: 'https://portal.example.org or 192.168.1.5:4000',
-                        prefixIcon: Icon(Icons.dns_rounded),
+                        prefixIcon: Icon(LucideIcons.server),
                       ),
                       validator: (v) => (v == null || v.trim().isEmpty) ? 'Enter a server address' : null,
                     ),

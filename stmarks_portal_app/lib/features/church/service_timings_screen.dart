@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/api/api_exception.dart';
@@ -9,6 +10,7 @@ import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/localized_field.dart';
+import '../../widgets/app_surface.dart';
 
 /// Editor for the church's weekly service timings list — a singleton
 /// document (`{items: ServiceTiming[]}`) rather than a paginated resource,
@@ -129,7 +131,7 @@ class _ServiceTimingsScreenState extends ConsumerState<ServiceTimingsScreen> {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, kFloatingDockHeight + 24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -139,7 +141,7 @@ class _ServiceTimingsScreenState extends ConsumerState<ServiceTimingsScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
+                    icon: const Icon(LucideIcons.arrowLeft),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const SizedBox(width: 4),
@@ -167,7 +169,7 @@ class _ServiceTimingsScreenState extends ConsumerState<ServiceTimingsScreen> {
                 ],
                 OutlinedButton.icon(
                   onPressed: _addRow,
-                  icon: const Icon(Icons.add_rounded, size: 18),
+                  icon: const Icon(LucideIcons.plus, size: 18),
                   label: const Text('Add row'),
                 ),
                 const SizedBox(height: 24),
@@ -209,10 +211,9 @@ class _ServiceTimingCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+        shape: appSquircle(AppRadii.card, side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -223,7 +224,7 @@ class _ServiceTimingCard extends StatelessWidget {
                 child: Text('Service', style: theme.textTheme.labelLarge),
               ),
               IconButton(
-                icon: Icon(Icons.delete_outline_rounded, size: 20, color: theme.colorScheme.error),
+                icon: Icon(LucideIcons.trash2, size: 20, color: theme.colorScheme.error),
                 tooltip: 'Delete row',
                 onPressed: onDelete,
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,7 @@ class EventsListScreen extends ConsumerWidget {
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.calendar_month_outlined,
+      emptyIcon: LucideIcons.calendar,
       emptyTitle: 'No events on the calendar',
       emptyMessage: 'Add the next service or gathering and publish it when the details are settled.',
       createLabel: 'New event',
@@ -40,13 +41,13 @@ class EventsListScreen extends ConsumerWidget {
         final fellowshipLabel = item.fellowshipSlug != null ? kFellowshipLabels[item.fellowshipSlug] : null;
         return ContentCard(
           imageUrl: item.image?.url,
-          imageIcon: Icons.calendar_month_outlined,
+          imageIcon: LucideIcons.calendar,
           title: item.title.en.isNotEmpty ? item.title.en : item.title.ta,
           badges: [if (item.featured) const _FeaturedBadge()],
           metaRows: [
-            if (start != null) MetaRow(icon: Icons.event_rounded, text: DateFormat('d MMM yyyy, h:mm a').format(start)),
-            if (item.location.en.isNotEmpty) MetaRow(icon: Icons.location_on_outlined, text: item.location.en),
-            if (fellowshipLabel != null) MetaRow(icon: Icons.groups_outlined, text: fellowshipLabel),
+            if (start != null) MetaRow(icon: LucideIcons.calendarDays, text: DateFormat('d MMM yyyy, h:mm a').format(start)),
+            if (item.location.en.isNotEmpty) MetaRow(icon: LucideIcons.mapPin, text: item.location.en),
+            if (fellowshipLabel != null) MetaRow(icon: LucideIcons.users, text: fellowshipLabel),
           ],
           onEdit: onEdit,
           onDelete: onDelete,
@@ -68,7 +69,7 @@ class _FeaturedBadge extends StatelessWidget {
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.star_rounded, size: 12, color: Colors.white),
+          Icon(LucideIcons.star, size: 12, color: Colors.white),
           SizedBox(width: 3),
           Text('Featured', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600)),
         ],

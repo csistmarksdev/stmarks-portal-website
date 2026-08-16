@@ -13,6 +13,7 @@ class LocalizedField extends StatefulWidget {
     this.maxLines = 1,
     this.required = false,
     this.hint,
+    this.tamilHint,
   });
 
   final String label;
@@ -20,7 +21,15 @@ class LocalizedField extends StatefulWidget {
   final ValueChanged<LocalizedText> onChanged;
   final int maxLines;
   final bool required;
+
+  /// Placeholder for the English box. Defaults to "English", matching the web
+  /// Portal's `localized-field.tsx`.
   final String? hint;
+
+  /// Placeholder for the Tamil box, in Tamil. Defaults to "தமிழ்" — a Tamil
+  /// field prompting in English is the kind of small thing that tells a
+  /// translator the language was an afterthought.
+  final String? tamilHint;
 
   @override
   State<LocalizedField> createState() => _LocalizedFieldState();
@@ -71,25 +80,31 @@ class _LocalizedFieldState extends State<LocalizedField> {
         LayoutBuilder(
           builder: (context, constraints) {
             final wide = constraints.maxWidth > 480;
-            final enField = TextFormField(
-              controller: _enController,
-              maxLines: widget.maxLines,
-              decoration: InputDecoration(
-                prefixText: 'EN  ',
-                hintText: widget.hint,
-                isDense: true,
+            final enField = _LanguageBox(
+              caption: 'English',
+              child: TextFormField(
+                controller: _enController,
+                maxLines: widget.maxLines,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  hintText: widget.hint ?? 'English',
+                  isDense: true,
+                ),
+                onChanged: (v) => widget.onChanged(widget.value.copyWith(en: v)),
               ),
-              onChanged: (v) => widget.onChanged(widget.value.copyWith(en: v)),
             );
-            final taField = TextFormField(
-              controller: _taController,
-              maxLines: widget.maxLines,
-              decoration: InputDecoration(
-                prefixText: 'TA  ',
-                hintText: widget.hint,
-                isDense: true,
+            final taField = _LanguageBox(
+              caption: 'Tamil',
+              child: TextFormField(
+                controller: _taController,
+                maxLines: widget.maxLines,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  hintText: widget.tamilHint ?? 'தமிழ்',
+                  isDense: true,
+                ),
+                onChanged: (v) => widget.onChanged(widget.value.copyWith(ta: v)),
               ),
-              onChanged: (v) => widget.onChanged(widget.value.copyWith(ta: v)),
             );
             if (wide) {
               return Row(
@@ -101,8 +116,36 @@ class _LocalizedFieldState extends State<LocalizedField> {
                 ],
               );
             }
-            return Column(children: [enField, const SizedBox(height: 10), taField]);
+            return Column(children: [enField, const SizedBox(height: 12), taField]);
           },
+        ),
+      ],
+    );
+  }
+}
+
+/// A field with its language named underneath, the way the web Portal labels
+/// its bilingual pairs. The caption carries the language once the writer has
+/// typed and the placeholder is gone.
+class _LanguageBox extends StatelessWidget {
+  const _LanguageBox({required this.caption, required this.child});
+
+  final String caption;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        child,
+        Padding(
+          padding: const EdgeInsets.only(top: 3, left: 4),
+          child: Text(
+            caption,
+            style: theme.textTheme.labelSmall?.copyWith(letterSpacing: 0.2, fontSize: 10.5),
+          ),
         ),
       ],
     );

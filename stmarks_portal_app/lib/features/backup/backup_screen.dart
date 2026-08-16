@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/api/api_exception.dart';
 import '../../core/models/admin.dart';
@@ -14,6 +14,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/theme/app_theme_extension.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/app_surface.dart';
 
 /// The word a super-admin has to type before a replace restore will run —
 /// mirrors the web app's `CONFIRM_PHRASE`. Only "replace" demands it: merge
@@ -40,6 +41,9 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
   bool _building = false;
   BackupTicket? _ticket;
   String? _buildError;
+
+  bool _downloading = false;
+  double? _downloadProgress;
 
   bool _uploading = false;
   double? _uploadProgress;
@@ -107,11 +111,55 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     }
   }
 
+  /// Pulls the archive down over the authenticated client and hands it to the
+  /// system save dialog, so it lands wherever the operator chooses on the
+  /// device.
+  ///
+  /// This used to `launchUrl` the download path into the system browser. The
+  /// browser carries no access token, so the server answered 401 and nothing
+  /// was ever saved — the backup only *looked* like it downloaded.
   Future<void> _downloadTicket(BackupTicket ticket) async {
-    final url = ref.read(apiClientProvider).absoluteUrl(ticket.downloadPath);
-    final ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    if (!ok && mounted) {
-      showAppSnackBar(context, 'Could not open the download link.', error: true);
+    if (_downloading) return;
+    setState(() {
+      _downloading = true;
+      _downloadProgress = null;
+      _buildError = null;
+    });
+    try {
+      final bytes = await ref.read(apiClientProvider).getBytes(
+        ticket.downloadPath,
+        onProgress: (received, total) {
+          if (!mounted || total <= 0) return;
+          setState(() => _downloadProgress = received / total);
+        },
+      );
+      if (!mounted) return;
+      setState(() {
+        _downloading = false;
+        _downloadProgress = null;
+      });
+
+      final name = ticket.filename.isNotEmpty ? ticket.filename : 'csi-portal-backup.zip';
+      final saved = await FilePicker.saveFile(
+        fileName: name,
+        bytes: bytes,
+        mimeType: 'application/zip',
+        dialogTitle: 'Save backup archive',
+      );
+      if (!mounted) return;
+      if (saved == null) {
+        // Cancelling the save dialog is a choice, not a failure.
+        showAppSnackBar(context, 'Save cancelled — the backup is still on the server.');
+        return;
+      }
+      showAppSnackBar(context, 'Backup saved to your device — $name');
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _downloading = false;
+        _downloadProgress = null;
+        _buildError = e is ApiException ? e.message : 'Could not download the backup.';
+      });
     }
   }
 
@@ -217,7 +265,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     if (!canRead) {
       return const Center(
         child: EmptyState(
-          icon: Icons.lock_outline_rounded,
+          icon: LucideIcons.lock,
           title: 'Not available to your role',
           message:
               'A backup contains every record in the Portal, including admin accounts and their passwords. '
@@ -227,7 +275,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, kFloatingDockHeight + 24),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -256,6 +304,8 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
               const SizedBox(height: 20),
               _BuildCard(
                 building: _building,
+                downloading: _downloading,
+                downloadProgress: _downloadProgress,
                 error: _buildError,
                 ticket: _ticket,
                 onBuild: _buildBackup,
@@ -377,11 +427,13 @@ class _SectionCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-        boxShadow: cardShadow(context),
+        shape: appSquircle(
+          AppRadii.card,
+          side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+        ),
+        shadows: restingShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -494,7 +546,7 @@ class _PreviewCard extends StatelessWidget {
       subtitle: 'Everything in the Portal, as it is right now, in a single zip file.',
       trailing: IconButton(
         tooltip: 'Refresh',
-        icon: const Icon(Icons.refresh_rounded),
+        icon: const Icon(LucideIcons.refreshCw),
         onPressed: loading ? null : onRefresh,
       ),
       child: body,
@@ -529,6 +581,8 @@ class _Stat extends StatelessWidget {
 class _BuildCard extends StatelessWidget {
   const _BuildCard({
     required this.building,
+    required this.downloading,
+    required this.downloadProgress,
     required this.error,
     required this.ticket,
     required this.onBuild,
@@ -536,6 +590,8 @@ class _BuildCard extends StatelessWidget {
   });
 
   final bool building;
+  final bool downloading;
+  final double? downloadProgress;
   final String? error;
   final BackupTicket? ticket;
   final VoidCallback onBuild;
@@ -553,17 +609,37 @@ class _BuildCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FilledButton.icon(
-            onPressed: building ? null : onBuild,
-            icon: building
+            onPressed: (building || downloading) ? null : onBuild,
+            icon: (building || downloading)
                 ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                : const Icon(Icons.archive_outlined, size: 18),
-            label: Text(building ? 'Building…' : 'Build & download backup'),
+                : const Icon(LucideIcons.archive, size: 18),
+            label: Text(
+              building
+                  ? 'Building…'
+                  : downloading
+                      ? 'Downloading…'
+                      : 'Build & save backup',
+            ),
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.onPrimary,
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
           ),
+          if (downloading) ...[
+            const SizedBox(height: 12),
+            ClipRSuperellipse(
+              borderRadius: BorderRadius.circular(AppRadii.pill),
+              child: LinearProgressIndicator(value: downloadProgress, minHeight: 6),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              downloadProgress == null
+                  ? 'Fetching the archive…'
+                  : '${(downloadProgress! * 100).round()}% downloaded',
+              style: theme.textTheme.bodySmall,
+            ),
+          ],
           if (error != null) ...[
             const SizedBox(height: 12),
             Text(error!, style: TextStyle(color: theme.colorScheme.error)),
@@ -572,9 +648,9 @@ class _BuildCard extends StatelessWidget {
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
+              decoration: ShapeDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(AppRadii.md),
+                shape: appSquircle(AppRadii.md),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,9 +662,9 @@ class _BuildCard extends StatelessWidget {
                   Text('Link expires ${_formatDateTime(ticket.expiresAt)}.', style: theme.textTheme.bodySmall),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
-                    onPressed: () => onDownload(ticket),
-                    icon: const Icon(Icons.download_rounded, size: 18),
-                    label: const Text('Download again'),
+                    onPressed: downloading ? null : () => onDownload(ticket),
+                    icon: const Icon(LucideIcons.save, size: 18),
+                    label: const Text('Save to device again'),
                   ),
                 ],
               ),
@@ -676,7 +752,7 @@ class _RestoreCard extends StatelessWidget {
           ] else if (staged == null && restoreResult == null)
             OutlinedButton.icon(
               onPressed: onPickFile,
-              icon: const Icon(Icons.upload_file_rounded, size: 18),
+              icon: const Icon(LucideIcons.fileUp, size: 18),
               label: const Text('Choose a backup file'),
             ),
           if (uploadError != null) ...[
@@ -714,9 +790,9 @@ class _RestoreCard extends StatelessWidget {
             const SizedBox(height: 14),
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
+              decoration: ShapeDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(AppRadii.md),
+                shape: appSquircle(AppRadii.md),
               ),
               child: Row(
                 children: [
@@ -746,7 +822,7 @@ class _RestoreCard extends StatelessWidget {
                   onPressed: restoring ? null : onApply,
                   icon: restoring
                       ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                      : const Icon(Icons.restore_rounded, size: 18),
+                      : const Icon(LucideIcons.rotateCcw, size: 18),
                   label: Text(restoring ? 'Working…' : 'Restore this backup'),
                   style: FilledButton.styleFrom(
                     backgroundColor: mode == 'replace' ? theme.colorScheme.error : theme.colorScheme.primary,
@@ -798,7 +874,7 @@ class _ModeOption extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12),
               child: Icon(
-                checked ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                checked ? LucideIcons.circleDot : LucideIcons.circle,
                 color: checked ? theme.colorScheme.primary : theme.colorScheme.outline,
                 size: 20,
               ),
@@ -884,7 +960,7 @@ class _StagedSummary extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.warning_amber_rounded, size: 16, color: semantic.accentForeground),
+                      Icon(LucideIcons.triangleAlert, size: 16, color: semantic.accentForeground),
                       const SizedBox(width: 6),
                       Text('Warnings', style: theme.textTheme.labelLarge?.copyWith(color: semantic.accentForeground)),
                     ],
@@ -931,7 +1007,7 @@ class _RestoreResultSummary extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.check_circle_outline_rounded, color: semantic.success, size: 18),
+              Icon(LucideIcons.circleCheck, color: semantic.success, size: 18),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -991,7 +1067,7 @@ class _RestoreResultSummary extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.warning_amber_rounded, size: 16, color: context.semanticColors.accentForeground),
+                  Icon(LucideIcons.triangleAlert, size: 16, color: context.semanticColors.accentForeground),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

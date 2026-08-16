@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +37,7 @@ class _DownloadsListScreenState extends ConsumerState<DownloadsListScreen> {
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.download_outlined,
+      emptyIcon: LucideIcons.download,
       emptyTitle: 'Nothing to hand out yet',
       emptyMessage: "Upload this week's bulletin or a form to the media library, then list it here for the congregation.",
       createLabel: 'New download',
@@ -64,7 +65,7 @@ class _DownloadsListScreenState extends ConsumerState<DownloadsListScreen> {
       cardBuilder: (context, item, {required onEdit, required onDelete, statusMenu}) {
         final published = DateTime.tryParse(item.publishedAt);
         return ContentCard(
-          imageIcon: item.category == 'bulletin' ? Icons.menu_book_outlined : Icons.description_outlined,
+          imageIcon: item.category == 'bulletin' ? LucideIcons.bookOpen : LucideIcons.fileText,
           title: item.title.en.isNotEmpty ? item.title.en : item.title.ta,
           badges: [
             Container(
@@ -77,8 +78,8 @@ class _DownloadsListScreenState extends ConsumerState<DownloadsListScreen> {
             ),
           ],
           metaRows: [
-            MetaRow(icon: Icons.insert_drive_file_outlined, text: '${item.format} · ${item.size}'),
-            if (published != null) MetaRow(icon: Icons.event_rounded, text: DateFormat('d MMM yyyy').format(published)),
+            MetaRow(icon: LucideIcons.file, text: '${item.format} · ${item.size}'),
+            if (published != null) MetaRow(icon: LucideIcons.calendarDays, text: DateFormat('d MMM yyyy').format(published)),
           ],
           onEdit: onEdit,
           onDelete: onDelete,

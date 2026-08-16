@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,7 +27,7 @@ class FellowshipsListScreen extends ConsumerWidget {
       canWrite: can('content.write'),
       canDelete: can('content.delete'),
       canPublish: can('content.publish'),
-      emptyIcon: Icons.groups_outlined,
+      emptyIcon: LucideIcons.users,
       emptyTitle: 'No fellowships yet',
       emptyMessage: 'Create your first fellowship to show it on the website.',
       createLabel: 'New fellowship',
@@ -36,13 +37,13 @@ class FellowshipsListScreen extends ConsumerWidget {
       cardBuilder: (context, item, {required onEdit, required onDelete, statusMenu}) {
         return ContentCard(
           imageUrl: item.banner?.url,
-          imageIcon: Icons.groups_outlined,
+          imageIcon: LucideIcons.users,
           title: item.name.en.isNotEmpty ? item.name.en : item.name.ta,
           metaRows: [
-            if (item.tagline.en.isNotEmpty) MetaRow(icon: Icons.info_outline_rounded, text: item.tagline.en),
-            MetaRow(icon: Icons.badge_outlined, text: '${item.committee.length} committee members'),
+            if (item.tagline.en.isNotEmpty) MetaRow(icon: LucideIcons.info, text: item.tagline.en),
+            MetaRow(icon: LucideIcons.idCard, text: '${item.committee.length} committee members'),
             if (item.memberCount != null)
-              MetaRow(icon: Icons.people_alt_outlined, text: '${item.memberCount} members'),
+              MetaRow(icon: LucideIcons.users, text: '${item.memberCount} members'),
           ],
           onEdit: onEdit,
           onDelete: onDelete,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,6 +7,8 @@ import '../../core/api/api_exception.dart';
 import '../../core/providers/providers.dart';
 import '../../core/theme/app_theme.dart';
 import '../../widgets/confirm_dialog.dart';
+import '../../widgets/app_surface.dart';
+import '../legal/legal_documents.dart';
 
 /// Settings — account, password, appearance, server connection and sign out.
 /// Each concern lives in its own rounded-24 card, mirroring the visual
@@ -23,7 +26,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, appPageTop(context), 20, 20),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -46,9 +49,65 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const _ServerCard(),
               const SizedBox(height: 20),
               const _SignOutCard(),
-              const SizedBox(height: 100),
+              const SizedBox(height: 20),
+              const _LegalCard(),
+              const SizedBox(height: kFloatingDockHeight + 24),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Privacy Policy and Terms, reachable from a settled place rather than only
+/// from a sign-in screen nobody reads.
+class _LegalCard extends StatelessWidget {
+  const _LegalCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return _SectionCard(
+      title: 'About & legal',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final doc in legalDocuments)
+            _LegalRow(
+              label: doc.title,
+              onTap: () => context.push('/legal/${doc.slug}'),
+            ),
+          const SizedBox(height: 10),
+          Text(
+            "CSI St. Mark's Portal — version $kAppVersion",
+            style: theme.textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LegalRow extends StatelessWidget {
+  const _LegalRow({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return InkWell(
+      customBorder: appSquircle(AppRadii.md),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        child: Row(
+          children: [
+            Expanded(child: Text(label, style: theme.textTheme.bodyMedium)),
+            Icon(LucideIcons.chevronRight, size: 20, color: theme.colorScheme.onSurfaceVariant),
+          ],
         ),
       ),
     );
@@ -70,11 +129,13 @@ class _SectionCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
-        boxShadow: cardShadow(context),
+        shape: appSquircle(
+          AppRadii.card,
+          side: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.7)),
+        ),
+        shadows: restingShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -331,9 +392,9 @@ class _AppearanceCard extends ConsumerWidget {
       title: 'Appearance',
       child: SegmentedButton<String>(
         segments: const [
-          ButtonSegment(value: 'light', label: Text('Light'), icon: Icon(Icons.light_mode_outlined, size: 16)),
-          ButtonSegment(value: 'dark', label: Text('Dark'), icon: Icon(Icons.dark_mode_outlined, size: 16)),
-          ButtonSegment(value: 'system', label: Text('System'), icon: Icon(Icons.brightness_auto_outlined, size: 16)),
+          ButtonSegment(value: 'light', label: Text('Light'), icon: Icon(LucideIcons.sun, size: 16)),
+          ButtonSegment(value: 'dark', label: Text('Dark'), icon: Icon(LucideIcons.moon, size: 16)),
+          ButtonSegment(value: 'system', label: Text('System'), icon: Icon(LucideIcons.monitorCog, size: 16)),
         ],
         selected: {mode},
         onSelectionChanged: (s) => select(s.first),
@@ -367,7 +428,7 @@ class _ServerCard extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.dns_rounded, size: 18, color: theme.colorScheme.onSurfaceVariant),
+                Icon(LucideIcons.server, size: 18, color: theme.colorScheme.onSurfaceVariant),
                 const SizedBox(width: 10),
                 Expanded(child: Text(baseUrl, style: theme.textTheme.bodyMedium, overflow: TextOverflow.ellipsis)),
               ],
@@ -416,7 +477,7 @@ class _SignOutCard extends ConsumerWidget {
         alignment: Alignment.centerLeft,
         child: FilledButton.icon(
           onPressed: () => _confirmLogout(context, ref),
-          icon: const Icon(Icons.logout_rounded, size: 18),
+          icon: const Icon(LucideIcons.logOut, size: 18),
           label: const Text('Sign out'),
           style: FilledButton.styleFrom(
             backgroundColor: theme.colorScheme.error,

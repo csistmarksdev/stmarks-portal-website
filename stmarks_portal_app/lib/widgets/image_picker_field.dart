@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../core/models/common.dart';
 import '../core/theme/app_theme.dart';
@@ -55,7 +56,7 @@ class ImagePickerField extends StatelessWidget {
                   child: value != null
                       ? PortalImage(url: value!.url, borderRadius: BorderRadius.circular(AppRadii.md - 1))
                       : Center(
-                          child: Icon(Icons.add_photo_alternate_outlined, size: 32, color: theme.colorScheme.onSurfaceVariant),
+                          child: Icon(LucideIcons.imagePlus, size: 32, color: theme.colorScheme.onSurfaceVariant),
                         ),
                 ),
               ),
@@ -67,9 +68,9 @@ class ImagePickerField extends StatelessWidget {
                     if (value != null)
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: _RoundButton(icon: Icons.close_rounded, onTap: () => onChanged(null)),
+                        child: _RoundButton(icon: LucideIcons.x, onTap: () => onChanged(null)),
                       ),
-                    _RoundButton(icon: Icons.edit_rounded, onTap: () => _pick(context)),
+                    _RoundButton(icon: LucideIcons.pencil, onTap: () => _pick(context)),
                   ],
                 ),
               ),
@@ -80,7 +81,7 @@ class ImagePickerField extends StatelessWidget {
           const SizedBox(height: 6),
           Row(
             children: [
-              Icon(Icons.warning_amber_rounded, size: 14, color: theme.colorScheme.error),
+              Icon(LucideIcons.triangleAlert, size: 14, color: theme.colorScheme.error),
               const SizedBox(width: 4),
               Text('Missing alt text', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
             ],

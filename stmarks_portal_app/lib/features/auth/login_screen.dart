@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/api/api_exception.dart';
+import '../../core/notifications/notification_service.dart';
 import '../../core/providers/providers.dart';
 import '../../core/theme/app_colors.dart';
 import '../../widgets/brand_mark.dart';
@@ -37,6 +41,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     try {
       await ref.read(authControllerProvider.notifier).login(_emailController.text.trim(), _passwordController.text);
+      // Asked for here rather than at launch: the prompt makes sense once the
+      // person is signed in and there is an inbox that could actually alert
+      // them. Declining is fine — everything else still works.
+      unawaited(NotificationService.instance.requestPermission());
       if (mounted) context.go('/dashboard');
     } on ApiException catch (e) {
       setState(() => _error = e.message);
@@ -145,6 +153,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
+/// Quiet, small link styling — these are references, not calls to action.
+final ButtonStyle _legalLinkStyle = TextButton.styleFrom(
+  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+  minimumSize: Size.zero,
+  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  textStyle: const TextStyle(fontFamily: 'Inter', fontSize: 12.5, fontWeight: FontWeight.w600),
+);
+
 class _FormPanel extends StatelessWidget {
   const _FormPanel({
     required this.formKey,
@@ -202,7 +218,7 @@ class _FormPanel extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.email],
-                decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.mail_outline_rounded)),
+                decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(LucideIcons.mail)),
                 validator: (v) => (v == null || v.trim().isEmpty) ? 'Enter your email' : null,
               ),
               const SizedBox(height: 16),
@@ -214,9 +230,9 @@ class _FormPanel extends StatelessWidget {
                 onFieldSubmitted: (_) => onSubmit(),
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
+                  prefixIcon: const Icon(LucideIcons.lock),
                   suffixIcon: IconButton(
-                    icon: Icon(obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    icon: Icon(obscure ? LucideIcons.eye : LucideIcons.eyeOff),
                     onPressed: onToggleObscure,
                   ),
                 ),
@@ -232,7 +248,7 @@ class _FormPanel extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.error_outline_rounded, color: theme.colorScheme.error, size: 18),
+                      Icon(LucideIcons.circleAlert, color: theme.colorScheme.error, size: 18),
                       const SizedBox(width: 8),
                       Expanded(child: Text(error!, style: TextStyle(color: theme.colorScheme.error))),
                     ],
@@ -265,9 +281,29 @@ class _FormPanel extends StatelessWidget {
               Center(
                 child: TextButton.icon(
                   onPressed: () => GoRouter.of(context).push('/connect'),
-                  icon: const Icon(Icons.dns_outlined, size: 16),
+                  icon: const Icon(LucideIcons.server, size: 16),
                   label: const Text('Change server'),
                 ),
+              ),
+              const SizedBox(height: 4),
+              // Readable without an account — the `/legal-public` routes sit
+              // outside the shell and outside the auth redirect.
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () => GoRouter.of(context).push('/legal-public/privacy'),
+                    style: _legalLinkStyle,
+                    child: const Text('Privacy Policy'),
+                  ),
+                  Text('·', style: theme.textTheme.bodySmall),
+                  TextButton(
+                    onPressed: () => GoRouter.of(context).push('/legal-public/terms'),
+                    style: _legalLinkStyle,
+                    child: const Text('Terms & Conditions'),
+                  ),
+                ],
               ),
             ],
           ),
