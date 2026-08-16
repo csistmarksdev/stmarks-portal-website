@@ -105,12 +105,17 @@ test/failures/
 # ---------------------------------------------------------------------------
 # Runtime data.
 #
-# Uploaded media, the database and its dumps are the *installation's* content,
-# not the project's. Portal-Docker ships a deliberate `snapshot/` for first
-# boot — that is committed on purpose and is not what these lines are about.
+# **Media is deliberately NOT ignored.** An `uploads/` rule was added here and
+# taken straight back out: it matched 337 real files — the church's images,
+# thumbnails and videos in `Portal/backend/uploads/` — and it also swallowed
+# `Portal-Docker/snapshot/`'s shipped media, because a negation cannot re-include
+# anything inside an already-ignored directory. Photographs of this congregation
+# are among the hardest things on the project to replace; they stay in the
+# repository.
+#
+# What is left here is the database and its dumps, which are reproducible and
+# which no one photographs.
 # ---------------------------------------------------------------------------
-uploads/
-!snapshot/**/uploads/
 data/db/
 mongodb-data/
 *.bson

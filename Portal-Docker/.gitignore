@@ -12,8 +12,16 @@ out/
 .env.local
 .env.*.local
 
-# Uploaded media (runtime data)
-backend/uploads/
+# Uploaded media — **kept in the repository, deliberately.**
+#
+# This was `backend/uploads/`, and it was excluding 337 real files: the
+# congregation's photographs, their thumbnails and video, in
+# `backend/uploads/{images,thumbs,videos}`. They are the church's own media —
+# among the hardest things on this project to replace, and in several cases
+# irreplaceable — so they are versioned with everything else rather than living
+# only on whichever machine happens to be serving.
+#
+# The trade-off is a larger repository. That is the cheaper of the two risks.
 
 # Logs
 *.log
