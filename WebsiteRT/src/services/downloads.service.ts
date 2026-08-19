@@ -31,7 +31,7 @@ export function getDownloadsByCategory(
 }
 
 /**
- * All categories at once, so the page makes a single call — the API groups
+ * All categories at once, so the page makes a single call - the API groups
  * them server-side rather than the page fetching three times.
  */
 export function getDownloadsGrouped(): Promise<

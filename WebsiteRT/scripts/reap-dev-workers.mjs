@@ -17,7 +17,7 @@
  * What it does
  * ------------
  * Kills only workers that are (a) this project's, matched on the absolute
- * `.next` path, and (b) genuinely orphaned — their parent process is gone. A
+ * `.next` path, and (b) genuinely orphaned - their parent process is gone. A
  * worker belonging to a live dev server is never touched, so this is safe to
  * run while one is going.
  *
@@ -77,7 +77,7 @@ function isAlive(pid) {
     process.kill(pid, 0);
     return true;
   } catch (error) {
-    // EPERM means it exists but belongs to someone else — still alive.
+    // EPERM means it exists but belongs to someone else - still alive.
     return error.code === "EPERM";
   }
 }

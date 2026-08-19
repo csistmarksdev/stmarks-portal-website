@@ -13,7 +13,7 @@ const fieldStyles =
   "peer w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 pb-2 pt-6 text-base text-[var(--foreground)] shadow-[inset_0_1px_0_oklch(1_0_0/0.6)] transition-all duration-300 placeholder:text-transparent hover:border-sand-300 focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-500/12 disabled:cursor-not-allowed disabled:opacity-60 aria-[invalid=true]:border-crimson-400 aria-[invalid=true]:focus:ring-crimson-500/15";
 
 /**
- * Floating-label field — the redesign's form control. The label rests inside
+ * Floating-label field - the redesign's form control. The label rests inside
  * the field at full size, then rises and shrinks to a gilded cap as the field
  * gains focus or content, driven purely by `:placeholder-shown` so it needs no
  * JS state. Renders an `input` or a `textarea` via `multiline`.
@@ -112,7 +112,7 @@ export function FieldError({
 }
 
 /* ---------------------------------------------------------------------------
- * Legacy primitives — kept for any bare inputs outside the floating-label
+ * Legacy primitives - kept for any bare inputs outside the floating-label
  * `Field`. They share the same surface language.
  * ------------------------------------------------------------------------- */
 

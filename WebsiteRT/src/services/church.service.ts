@@ -22,7 +22,7 @@ import type {
 import { apiGet, mockResponse } from "./http";
 
 /* -------------------------------------------------------------------------- */
-/* Permanent site content — never fetched                                     */
+/* Permanent site content - never fetched                                     */
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -30,7 +30,7 @@ import { apiGet, mockResponse } from "./http";
  *
  * The church's name, address, story, vision and diocese change once in a
  * decade, so they are versioned with the code rather than administered in the
- * Portal — there is no `/church/profile`, `/church/history`,
+ * Portal - there is no `/church/profile`, `/church/history`,
  * `/church/vision-mission` or `/church/diocese` endpoint to wire up. To change
  * any of them, edit `src/content/church.ts` and redeploy.
  *
@@ -55,7 +55,7 @@ export function getDioceseInfo(): Promise<DioceseInfo> {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Managed in the Portal CMS — served by the API                               */
+/* Managed in the Portal CMS - served by the API                               */
 /* -------------------------------------------------------------------------- */
 
 /**

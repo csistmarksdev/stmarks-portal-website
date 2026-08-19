@@ -50,7 +50,7 @@ export interface CinematicHeroProps {
   children?: ReactNode;
   /**
    * Section height as a multiple of the viewport. The animation is spread
-   * across this distance — 5 means 500vh, matching the original component.
+   * across this distance - 5 means 500vh, matching the original component.
    */
   scrollLength?: number;
 }
@@ -105,7 +105,7 @@ export function CinematicHero({
   // are deferred to idle time and fetched at low priority so the ~15 MB tail of
   // the sequence never competes with the page's critical resources or the main
   // thread. The drawing and scroll logic below is unchanged, so the animation
-  // is identical — the frames simply stream in without starving first paint.
+  // is identical - the frames simply stream in without starving first paint.
   useEffect(() => {
     const images: HTMLImageElement[] = new Array(frameCount);
     imagesRef.current = images;
@@ -116,7 +116,7 @@ export function CinematicHero({
      * Under reduced motion the sequence never animates, so there is nothing to
      * preload: one frame is fetched as a still and the other 299 (~15 MB) are
      * skipped outright. Everything else on the site already honours this
-     * preference — this was the one animation that did not, and it is by far
+     * preference - this was the one animation that did not, and it is by far
      * the most motion-heavy.
      */
     if (reducedMotion) {
@@ -195,8 +195,8 @@ export function CinematicHero({
    *
    * Progress and the frame index are the same measurement, so they are taken
    * together. Splitting them across two listeners meant two `scroll` handlers,
-   * two rAF callbacks and — because `getBoundingClientRect` inside rAF forces
-   * layout — two synchronous reflows on every frame of a scroll that also has
+   * two rAF callbacks and - because `getBoundingClientRect` inside rAF forces
+   * layout - two synchronous reflows on every frame of a scroll that also has
    * Lenis, five overlay scenes and a canvas repaint on it. That was the second
    * half of the stutter.
    */
@@ -264,7 +264,7 @@ export function CinematicHero({
      * Size the backing store from the canvas's own rendered box rather than the
      * window. `window.innerHeight` excludes the mobile address bar while the
      * `dvh` box below does not, so measuring the window left the canvas shorter
-     * than its container and let the black background show through beneath it —
+     * than its container and let the black background show through beneath it -
      * and every address-bar collapse resized it, jumping the image mid-scroll.
      * The element's own box is correct by construction at any viewport.
      */
@@ -318,7 +318,7 @@ export function CinematicHero({
        * container must not: at `scrollLength` 8, a `dvh` height multiplies
        * every address-bar collapse by eight, so one flick on a phone changed
        * the document height by ~480px and shunted every section below the hero
-       * up or down by that much mid-scroll — read as the page snapping to the
+       * up or down by that much mid-scroll - read as the page snapping to the
        * neighbouring section. `svh` is fixed for the life of the viewport, so
        * the document height is stable.
        *

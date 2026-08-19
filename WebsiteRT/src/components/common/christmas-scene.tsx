@@ -6,7 +6,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 import { isSnowSeason } from "@/lib/liturgical-year";
 
 /**
- * The Christmas frieze — a snowy scene along the foot of the site.
+ * The Christmas frieze - a snowy scene along the foot of the site.
  *
  * Firs, a snowman, a lantern and the star, standing on a drift at the very
  * bottom of the page through Advent and Christmastide. It is the one piece of
@@ -29,7 +29,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * be got past. Here it occupies real space at the foot of the footer, where the
  * page has finished saying what it has to say.
  *
- * It is **decorative and declared as such** — `aria-hidden`, no text, no focus
+ * It is **decorative and declared as such** - `aria-hidden`, no text, no focus
  * stop. A screen reader gets the church's address, not a description of a
  * snowman.
  *
@@ -49,7 +49,7 @@ export function ChristmasScene() {
         The greeting.
 
         Real text in the site's own display serif, not lettering drawn as an
-        SVG path — which matters for three reasons that all point the same way.
+        SVG path - which matters for three reasons that all point the same way.
         It is translated, so a Tamil reader gets "இனிய கிறிஸ்துமஸ்" rather than
         an English picture. It is *read* by a screen reader and found by search,
         because unlike the trees around it this is a message, not a decoration.
@@ -104,7 +104,7 @@ export function ChristmasScene() {
         /*
          * In the flow and full-bleed: it takes its own height, so nothing above
          * it can collide with it, and it spans the whole footer rather than
-         * sitting inside the content measure — the drift has to reach both edges
+         * sitting inside the content measure - the drift has to reach both edges
          * of the page or it reads as a picture of a landscape instead of the
          * ground the page is standing on.
          */
@@ -113,7 +113,7 @@ export function ChristmasScene() {
       <svg
         viewBox="0 0 1200 100"
         /*
-         * `slice`, anchored to the bottom of the box — and the reason the band
+         * `slice`, anchored to the bottom of the box - and the reason the band
          * gets taller at each breakpoint.
          *
          * `slice` scales to *cover*, so on a wide viewport the scale is set by
@@ -122,7 +122,7 @@ export function ChristmasScene() {
          * scale is 1.6, which leaves only 60 of the 100 view-box units visible.
          * The band therefore grows with the breakpoints, and every figure is
          * drawn between y=20 and y=100, so the worst case still shows all of
-         * them. Horizontal crop is unimportant by construction — only the two
+         * them. Horizontal crop is unimportant by construction - only the two
          * small distant firs live out at the edges.
          */
         preserveAspectRatio="xMidYMax slice"

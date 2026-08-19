@@ -129,7 +129,7 @@ export default async function BlogPostPage({
 
         <Section spacing="lg" containerSize="md">
           <Reveal>
-            {/* Slightly larger measure than body copy — this is long-form. */}
+            {/* Slightly larger measure than body copy - this is long-form. */}
             <Prose paragraphs={localizeAll(post.body, locale)} size="lg" lead />
           </Reveal>
 

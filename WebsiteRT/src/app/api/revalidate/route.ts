@@ -11,19 +11,19 @@ import { NextResponse } from "next/server";
  * an album in the Portal and the index can show the new title for minutes while
  * the album's own page still shows the old one. Two pages disagreeing about the
  * same record is worse than both being briefly stale, and no amount of tuning
- * the TTL fixes it — only invalidating on the edit does.
+ * the TTL fixes it - only invalidating on the edit does.
  *
  * `{ expire: 0 }` rather than `"max"`
  * -----------------------------------
  * `"max"` marks the tag stale and serves stale-while-revalidate, so the first
  * visitor after a publish still sees the old content. An editor who just hit
  * Publish and reloads would conclude it had not worked. The Next docs name
- * `{ expire: 0 }` as the form for exactly this case — an external system
+ * `{ expire: 0 }` as the form for exactly this case - an external system
  * calling a Route Handler that needs data gone immediately. (`updateTag` is the
  * Server Action equivalent and is not usable from here.)
  */
 
-/** The tags the services attach to their fetches — see `src/services/*`. */
+/** The tags the services attach to their fetches - see `src/services/*`. */
 const KNOWN_TAGS = [
   "events",
   "blog",

@@ -44,7 +44,7 @@ function buildUrl(
  *
  * `fallback` keeps the documented behaviour from `README.md`: with
  * `NEXT_PUBLIC_API_URL` unset the site still renders, from `src/data/*.mock.ts`.
- * That is only a *configuration* fallback — once the variable is set, a failing
+ * That is only a *configuration* fallback - once the variable is set, a failing
  * request throws rather than quietly serving stale fiction, because a page that
  * silently shows last year's events is worse than one that errors.
  */
@@ -78,8 +78,8 @@ export async function apiGet<T>(
 
 /**
  * `apiGet` for the by-slug endpoints, which 404 when a record is missing or
- * unpublished. The services they back are typed `Promise<T | null>` — the
- * Website treats "no such album" as an empty state, not an error — so the 404
+ * unpublished. The services they back are typed `Promise<T | null>` - the
+ * Website treats "no such album" as an empty state, not an error - so the 404
  * is translated here rather than in eight separate catch blocks.
  *
  * Only 404 is swallowed. A 500 still throws.
@@ -98,7 +98,7 @@ export async function apiGetOrNull<T>(
 }
 
 /**
- * POST helper — currently just the contact form.
+ * POST helper - currently just the contact form.
  *
  * Unlike the GETs there is no mock fallback: silently pretending a message was
  * delivered when no backend is configured would be a lie to a real visitor.

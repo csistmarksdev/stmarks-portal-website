@@ -6,7 +6,7 @@ import type {
 
 /**
  * Placeholder data for the church content the **Portal CMS** owns. Replaced by
- * live API responses once `NEXT_PUBLIC_API_URL` is set — see `src/services`.
+ * live API responses once `NEXT_PUBLIC_API_URL` is set - see `src/services`.
  *
  * The church profile, history, vision & mission and diocese details are not
  * here: they are permanent site content and live in `src/content/church.ts`.
@@ -63,8 +63,8 @@ export const PASTOR_MESSAGE: PastorMessage = {
   },
   body: [
     {
-      en: "Dear friends, a church is not a building of stone and mortar but a people gathered by grace. Every week I watch this congregation live that out — in the hands raised in worship, in meals shared after service, in quiet prayers whispered for one another.",
-      ta: "அன்பு நண்பர்களே, திருச்சபை என்பது கல்லும் சுண்ணாம்பும் கொண்ட கட்டிடம் அல்ல, கிருபையால் ஒன்றுசேர்க்கப்பட்ட மக்கள். ஒவ்வொரு வாரமும் இந்தச் சபை அதை வாழ்ந்து காட்டுவதை நான் காண்கிறேன் — ஆராதனையில் உயர்த்தப்படும் கரங்களில், ஆராதனைக்குப் பின் பகிரப்படும் உணவில், ஒருவருக்காக ஒருவர் மெல்லிய குரலில் செய்யும் ஜெபங்களில்.",
+      en: "Dear friends, a church is not a building of stone and mortar but a people gathered by grace. Every week I watch this congregation live that out - in the hands raised in worship, in meals shared after service, in quiet prayers whispered for one another.",
+      ta: "அன்பு நண்பர்களே, திருச்சபை என்பது கல்லும் சுண்ணாம்பும் கொண்ட கட்டிடம் அல்ல, கிருபையால் ஒன்றுசேர்க்கப்பட்ட மக்கள். ஒவ்வொரு வாரமும் இந்தச் சபை அதை வாழ்ந்து காட்டுவதை நான் காண்கிறேன் - ஆராதனையில் உயர்த்தப்படும் கரங்களில், ஆராதனைக்குப் பின் பகிரப்படும் உணவில், ஒருவருக்காக ஒருவர் மெல்லிய குரலில் செய்யும் ஜெபங்களில்.",
     },
     {
       en: "If you are searching, grieving, celebrating or simply curious, I invite you to come and sit with us. You will not be asked to be anyone other than yourself.",

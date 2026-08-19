@@ -32,7 +32,7 @@ import {
  * the document finishes becoming the site.
  *
  * Marked `"use client"` for its dismissal effect, but it is still rendered on
- * the server, so the overlay is present in the very first bytes of HTML — it
+ * the server, so the overlay is present in the very first bytes of HTML - it
  * covers the page from the first paint rather than appearing a moment later,
  * which would be the one thing worse than no splash at all.
  *
@@ -43,7 +43,7 @@ import {
  * sight of the page is the typography we chose.
  *
  * It deliberately does *not* wait on `window.load`. That would include the
- * hero photography — several megabytes with its own fade-in — and would leave
+ * hero photography - several megabytes with its own fade-in - and would leave
  * the crest sitting there long after the site behind it was ready to be read.
  *
  * It does not fade out. It morphs: the white field closes down onto the
@@ -57,7 +57,7 @@ import {
  * Held at least this long: the arch finishes drawing at 1520ms and its
  * springing points land at 1840ms.
  *
- * Long for a splash, and deliberately so — the arch is meant to be watched
+ * Long for a splash, and deliberately so - the arch is meant to be watched
  * being struck, and cutting it off half-drawn would be worse than not drawing
  * it. The floor only bites on a warm cache; a first visit is normally still
  * waiting on fonts well past it, so this is not time added to a real load, it
@@ -67,7 +67,7 @@ const MIN_VISIBLE_MS = 1900;
 
 /**
  * Hard ceiling. Whatever we are waiting for, the site is server-rendered and
- * readable — after this we get out of the way and let it finish arriving in
+ * readable - after this we get out of the way and let it finish arriving in
  * the open.
  */
 const MAX_VISIBLE_MS = 3600;
@@ -85,7 +85,7 @@ const MORPH_MS = 760;
 const FADE_MS = 1180;
 
 /**
- * When the masthead gets its own crest back — while the white ground is still
+ * When the masthead gets its own crest back - while the white ground is still
  * covering that corner, so it is never seen arriving.
  */
 const HANDOFF_MS = 900;
@@ -104,7 +104,7 @@ export function SplashScreen() {
     let settled = false;
 
     /*
-     * The scroll lock is owned entirely by this effect — set when it runs,
+     * The scroll lock is owned entirely by this effect - set when it runs,
      * released when it dismisses. That is the point: a document whose JS never
      * arrives never gets locked in the first place, and the CSS failsafe on
      * `.splash-shell` lifts the curtain without us. A lock rendered into the
@@ -128,7 +128,7 @@ export function SplashScreen() {
     /*
      * The lite tier.
      *
-     * Three of the things on this screen loop forever while it is up — the
+     * Three of the things on this screen loop forever while it is up - the
      * bloom breathing, six motes drifting, the rule sweeping. Each is one
      * composited layer being ticked every frame, which is nothing on a laptop
      * and is not nothing on a four-core phone that is also hydrating a React
@@ -137,7 +137,7 @@ export function SplashScreen() {
      * flies, the morph still lands.
      *
      * `hardwareConcurrency` is a blunt signal and the only broadly supported
-     * one — there is no media query for "this device is slow". Four or fewer
+     * one - there is no media query for "this device is slow". Four or fewer
      * cores is genuinely low-end territory now rather than merely modest.
      * `saveData` is honoured alongside it: a reader who has asked the browser
      * to economise has told us plainly enough.
@@ -154,7 +154,7 @@ export function SplashScreen() {
      * The hand-off: fly the splash crest onto the header's crest.
      *
      * This is the whole reason the splash reads as part of the site rather
-     * than as a screen in front of it — it is the same emblem, from the same
+     * than as a screen in front of it - it is the same emblem, from the same
      * file, and it ends the sequence by becoming the one in the masthead.
      *
      * Measured rather than authored. Both boxes are read at the moment of
@@ -163,7 +163,7 @@ export function SplashScreen() {
      * truncation have done to it. A hand-off that lands near the target reads
      * as a bug; there is no version of this worth shipping that guesses.
      *
-     * Returns whether it actually flew — the caller has to know, because the
+     * Returns whether it actually flew - the caller has to know, because the
      * masthead's own crest is being held down for the duration and must not be
      * held down if nothing is coming to replace it.
      */
@@ -184,7 +184,7 @@ export function SplashScreen() {
        *
        * The wrapper rises over 900ms and holds `transform` with `fill: both`.
        * If readiness lands while that is still playing, the box measured here
-       * is a box mid-rise — and since the wrapper's transform composes with
+       * is a box mid-rise - and since the wrapper's transform composes with
        * the image's own, the flight would be computed from a position the
        * crest is about to leave and would miss the masthead by whatever was
        * left of the rise. `finish()` jumps it to its resting state, which is
@@ -210,7 +210,7 @@ export function SplashScreen() {
       /*
        * Centre-to-centre, then scale. Transforms scale about the element's own
        * centre by default, so matching the centres and then the size is the
-       * whole of the arithmetic — no transform-origin games, and it stays
+       * whole of the arithmetic - no transform-origin games, and it stays
        * correct if either box changes size between now and the next viewport.
        */
       const dx = to.left + to.width / 2 - (from.left + from.width / 2);
@@ -244,7 +244,7 @@ export function SplashScreen() {
      * This is the piece that makes the splash *become* the header rather than
      * get out of its way. The field the reader has been looking at ends up as
      * exactly the box and exactly the radius of the floating pill in the
-     * masthead — so the white does not leave the screen, it arrives somewhere.
+     * masthead - so the white does not leave the screen, it arrives somewhere.
      * The dark hero is uncovered by the closing rather than faded in behind it,
      * which is why no frame in this sequence is ever two things at once.
      *
@@ -252,7 +252,7 @@ export function SplashScreen() {
      *
      * Clipping was the first implementation and the obvious one: animate
      * `clip-path` from the viewport inward to the pill's `inset()`. It is also
-     * the expensive one — Chrome composites `transform`, `opacity`, `filter`
+     * the expensive one - Chrome composites `transform`, `opacity`, `filter`
      * and `backdrop-filter`, and nothing else. `clip-path` is a paint property,
      * so every frame repainted the full viewport on the main thread, during
      * hydration, on whatever hardware the reader has. That is precisely where a
@@ -260,9 +260,9 @@ export function SplashScreen() {
      *
      * So instead: re-seat this element as the pill itself, pre-scaled by enough
      * to still cover the viewport, and animate that scale to 1. The swap is
-     * invisible — a stadium scaled ~25x has straight edges running well past
+     * invisible - a stadium scaled ~25x has straight edges running well past
      * every viewport edge and its rounded ends far off-screen, so before and
-     * after are both "the screen is white" — and what is left is one composited
+     * after are both "the screen is white" - and what is left is one composited
      * transform. The rasterised texture stays the pill's own size, a few
      * thousand pixels, however large it is drawn.
      */
@@ -313,7 +313,7 @@ export function SplashScreen() {
 
           /*
            * The root attribute holds the masthead's own crest down while its
-           * counterpart is in the air — two of the same emblem on screen at
+           * counterpart is in the air - two of the same emblem on screen at
            * once is the one detail that would give the trick away. Set only
            * when something is actually flying, so a reader on reduced motion,
            * or one whose JS never arrived, never has a crest hidden with
@@ -343,7 +343,7 @@ export function SplashScreen() {
 
     /*
      * The crest is the one asset the splash itself depends on, so it is waited
-     * on explicitly — fading out to reveal the site while the emblem that was
+     * on explicitly - fading out to reveal the site while the emblem that was
      * meant to introduce it is still blank would be a worse first impression
      * than a slightly longer hold.
      */
@@ -369,7 +369,7 @@ export function SplashScreen() {
      * Readiness normally lands while React is still hydrating the header, the
      * hero and the menus, and the main thread is the scarcest thing on the page
      * at that moment. Beginning a morph and a flight into that contention is
-     * how the first frame gets dropped on modest hardware — and the first frame
+     * how the first frame gets dropped on modest hardware - and the first frame
      * is the one the eye is most likely to catch.
      *
      * `requestIdleCallback` waits for the thread to come up for air, and the
@@ -433,23 +433,23 @@ export function SplashScreen() {
           blank screen the site failed to fill. */}
       <span aria-hidden className="splash-halo" />
 
-      {/* The site's own gilded motes, drifting behind the arch — dust caught in
+      {/* The site's own gilded motes, drifting behind the arch - dust caught in
           window light. `z-0` overrides the component's own `-z-10`, which would
           otherwise put them behind the white ground. */}
-      {/* The crest, set in the arch — and the one element here that does not
+      {/* The crest, set in the arch - and the one element here that does not
           leave, but flies. */}
       <span aria-hidden className="splash-crest">
         {/*
          * The arch.
          *
          * Two jambs and a true semicircle struck between them, radius 100
-         * about (100,160) — a round Romanesque head, not a Gothic point. That
+         * about (100,160) - a round Romanesque head, not a Gothic point. That
          * is the faithful choice: the arch over St. Mark's own altar is round,
          * and a lancet here would have been a prettier drawing of a different
          * church.
          *
          * Inside this wrapper rather than beside it, so it centres on the
-         * crest with no arithmetic — and so it stays where it was struck when
+         * crest with no arithmetic - and so it stays where it was struck when
          * the crest flies out of it, because the flight is on the image.
          *
          * `pathLength={1000}` normalises the outline to a thousand units
@@ -459,7 +459,7 @@ export function SplashScreen() {
         <svg className="splash-arch" viewBox="-6 54 212 252" fill="none">
           <path pathLength={1000} d="M0 300V160a100 100 0 0 1 200 0v140" />
 
-          {/* The keystone at the crown, then the two springing points — the
+          {/* The keystone at the crown, then the two springing points - the
               three places an arch is actually made. */}
           <circle cx="100" cy="60" r="0" />
           <circle cx="0" cy="160" r="0" />
@@ -473,7 +473,7 @@ export function SplashScreen() {
         {/*
          * A plain `img`, not `next/image`. The crest has to be in the first
          * paint of a static document, and this is one 512px file at a fixed
-         * size with nothing for the optimizer to decide — `next/image` would
+         * size with nothing for the optimizer to decide - `next/image` would
          * add a wrapper and a srcset to reach the same pixels.
          *
          * It is a raster reduction of `public/Logo1.svg` rather than the SVG
@@ -492,7 +492,7 @@ export function SplashScreen() {
           /*
            * `async`, not `sync`. A synchronous decode blocks the main thread
            * until the bitmap is ready, which on a slow CPU is a dropped frame
-           * during hydration — and it buys nothing here, because the dismissal
+           * during hydration - and it buys nothing here, because the dismissal
            * already waits on this image's `load` before it will let the splash
            * go. The crest is guaranteed to be up long before it is needed.
            */
@@ -504,11 +504,11 @@ export function SplashScreen() {
       </span>
 
       {/* The same hairline the route-level `loading.tsx` uses, swept rather
-          than pulsed — this one is covering a known, finite wait. */}
+          than pulsed - this one is covering a known, finite wait. */}
       <span aria-hidden className="splash-rule" />
 
       {/*
-        The season's own figures, standing along the foot of the opening frame —
+        The season's own figures, standing along the foot of the opening frame -
         the same firs, bare branches, crosses and lilies that line every section
         of the site, so the splash belongs to the year the page behind it is
         keeping.
@@ -516,7 +516,7 @@ export function SplashScreen() {
         Every set is rendered and all but one is hidden by CSS. That looks
         wasteful and is the only thing that works here: the season is written to
         the root element by the bootstrap script *before first paint*, but React
-        does not re-render this component until hydration — which on this page
+        does not re-render this component until hydration - which on this page
         is exactly the moment the splash is leaving. Choosing the set in
         JavaScript would mean choosing it too late to be seen, which is the bug
         this whole arrangement exists to avoid. Rendering all five and letting a
@@ -528,13 +528,13 @@ export function SplashScreen() {
 
         The site's grammar for this is already settled: things *hang* from the
         head of a section and *stand* at its foot. The splash follows it rather
-        than inventing a second arrangement — baubles and stars in December,
+        than inventing a second arrangement - baubles and stars in December,
         veils through Lent, the crown of thorns in Holy Week and on Good Friday,
         and at Easter the light itself.
 
         Nothing is mirrored to fill the top. A standing figure flipped upside
         down is a cheap way to fill a row and, for three of these five seasons,
-        an inverted cross — which is not a thing to put on a church's opening
+        an inverted cross - which is not a thing to put on a church's opening
         screen by accident.
       */}
       <span aria-hidden className="splash-flora splash-flora-top" data-for="christmas">
@@ -571,7 +571,7 @@ export function SplashScreen() {
         <Thorns drop={34} className="w-6 sm:w-7" />
       </span>
 
-      {/* Easter hangs light rather than an object — the season's decoration is
+      {/* Easter hangs light rather than an object - the season's decoration is
           the light, exactly as it is in the sections. */}
       <span aria-hidden className="splash-flora splash-flora-top" data-for="easter">
         <span className="splash-ray" style={{ height: "34%" }} />

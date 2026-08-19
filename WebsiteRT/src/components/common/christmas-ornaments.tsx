@@ -4,9 +4,9 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 import { isSnowSeason } from "@/lib/liturgical-year";
 
 /**
- * The garland — Christmas across the whole site, not only at the foot of it.
+ * The garland - Christmas across the whole site, not only at the foot of it.
  *
- * Ornaments hung on threads from the top edge of every page — the decoration a
+ * Ornaments hung on threads from the top edge of every page - the decoration a
  * parish actually puts up first, because you hang things from the top of the
  * room.
  *
@@ -14,7 +14,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * boughs with needles struck along them. At the size they rendered, they read
  * as scribble: the eye wants a silhouette it can name before it will accept
  * detail. They are gone, and what is left is a set of shapes that are legible
- * at 20 pixels — a round bauble, a five-pointed star, a bell, a six-armed
+ * at 20 pixels - a round bauble, a five-pointed star, a bell, a six-armed
  * flake. The greenery belongs where it can be drawn large enough to be
  * greenery: the treeline in every section, and the frieze at the foot.
  *
@@ -22,8 +22,8 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  *
  * It is `absolute`, so it scrolls away with the page rather than following the
  * reader down it. That is not timidity, it is the only placement that works
- * here: every page on this site opens on a full-height dark photograph — the
- * cinematic hero at home, the `PageHero` everywhere else — so ornaments hung at
+ * here: every page on this site opens on a full-height dark photograph - the
+ * cinematic hero at home, the `PageHero` everywhere else - so ornaments hung at
  * the top of the document are always over ink, where silver and frost read
  * beautifully. Fixed to the viewport, the same ornaments would drift over the
  * parchment sections below and vanish, and hang in front of whatever the reader
@@ -44,7 +44,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * anything else.
  */
 
-/** A bauble, a star, a bell, a lantern — hung at these depths and positions. */
+/** A bauble, a star, a bell, a lantern - hung at these depths and positions. */
 const HANGING = [
   { left: 7, drop: 84, kind: "star", tone: "gold", hide: false },
   { left: 15, drop: 52, kind: "bauble", tone: "frost", hide: true },
@@ -132,7 +132,7 @@ export function ChristmasOrnaments() {
       /*
        * `z-30` sits above the hero's photography and its scrims and below the
        * masthead at `z-50`, so the ornaments hang in front of the picture and
-       * behind the navigation — which is the order they would be in if they
+       * behind the navigation - which is the order they would be in if they
        * were really hanging in the room.
        */
       className="pointer-events-none absolute inset-x-0 top-0 z-30 h-40 select-none overflow-hidden lg:h-48"

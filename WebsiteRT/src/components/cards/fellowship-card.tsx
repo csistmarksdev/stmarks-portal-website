@@ -19,7 +19,7 @@ export interface FellowshipCardProps {
 /**
  * A fellowship, as a single full-bleed plate.
  *
- * The photograph is the card — there is no body panel. Only the essentials ride
+ * The photograph is the card - there is no body panel. Only the essentials ride
  * the foot of the image: the name, and one quiet meta line carrying when the
  * fellowship gathers and how many belong to it. A deep foot scrim keeps that
  * copy legible over any banner; everything else is withheld so a wall of these
@@ -57,7 +57,7 @@ export async function FellowshipCard({
         className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover/card:scale-[1.05]"
       />
 
-      {/* Foot scrim only — the middle of the photograph stays untinted. */}
+      {/* Foot scrim only - the middle of the photograph stays untinted. */}
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-t from-sand-950/92 via-sand-950/25 to-transparent transition-opacity duration-500 group-hover/card:from-sand-950/96"

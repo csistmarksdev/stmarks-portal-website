@@ -8,14 +8,14 @@ const timestamps = {
 /**
  * `fileUrl` values point at paths the media service will serve. Until the
  * backend exists these resolve to nothing, so the UI links are rendered but
- * will 404 if followed — replace with real URLs on integration.
+ * will 404 if followed - replace with real URLs on integration.
  */
 export const DOWNLOADS: DownloadFile[] = [
   {
     ...timestamps,
     id: "dl-1",
     slug: "bulletin-2026-07-19",
-    title: { en: "Weekly Bulletin — 19 July 2026", ta: "வாராந்திர அறிக்கை — 19 ஜூலை 2026" },
+    title: { en: "Weekly Bulletin - 19 July 2026", ta: "வாராந்திர அறிக்கை - 19 ஜூலை 2026" },
     description: {
       en: "Order of service, readings and notices for this Sunday.",
       ta: "இந்த ஞாயிற்றுக்கிழமைக்கான ஆராதனை ஒழுங்கு, வாசகங்கள், அறிவிப்புகள்.",
@@ -30,7 +30,7 @@ export const DOWNLOADS: DownloadFile[] = [
     ...timestamps,
     id: "dl-2",
     slug: "bulletin-2026-07-12",
-    title: { en: "Weekly Bulletin — 12 July 2026", ta: "வாராந்திர அறிக்கை — 12 ஜூலை 2026" },
+    title: { en: "Weekly Bulletin - 12 July 2026", ta: "வாராந்திர அறிக்கை - 12 ஜூலை 2026" },
     category: "bulletin",
     fileUrl: "/downloads/bulletin-2026-07-12.pdf",
     format: "PDF",
@@ -41,7 +41,7 @@ export const DOWNLOADS: DownloadFile[] = [
     ...timestamps,
     id: "dl-3",
     slug: "bulletin-2026-07-05",
-    title: { en: "Weekly Bulletin — 5 July 2026", ta: "வாராந்திர அறிக்கை — 5 ஜூலை 2026" },
+    title: { en: "Weekly Bulletin - 5 July 2026", ta: "வாராந்திர அறிக்கை - 5 ஜூலை 2026" },
     category: "bulletin",
     fileUrl: "/downloads/bulletin-2026-07-05.pdf",
     format: "PDF",
@@ -70,7 +70,7 @@ export const DOWNLOADS: DownloadFile[] = [
     title: { en: "Marriage Banns Form", ta: "திருமண அறிவிப்புப் படிவம்" },
     description: {
       en: "Required for marriages solemnised at St. Mark's.",
-      ta: "புனித மாற்கு ஆலயத்தில் நடைபெறும் திருமணங்களுக்குத் தேவை.",
+      ta: "தூய மாற்கு ஆலயத்தில் நடைபெறும் திருமணங்களுக்குத் தேவை.",
     },
     category: "form",
     fileUrl: "/downloads/marriage-banns-form.pdf",

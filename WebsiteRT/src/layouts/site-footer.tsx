@@ -71,8 +71,8 @@ export async function SiteFooter() {
         <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             {/*
-              The same lockup the header carries — parish crest, name over the
-              unit, diocese arms — so the page opens and closes on one mark.
+              The same lockup the header carries - parish crest, name over the
+              unit, diocese arms - so the page opens and closes on one mark.
               The name steps down from the old oversized setting: at 3rem it
               dwarfed the crests either side of it, and the point of the lockup
               is that the three read as one object.
@@ -95,7 +95,7 @@ export async function SiteFooter() {
                   `wordmark.line1`, not `site.name`: the latter is the full
                   legal name, "…Church, Madipakkam", which put the locality
                   immediately above the unit line saying it again. The header
-                  splits the same name across these two keys — the lockup reads
+                  splits the same name across these two keys - the lockup reads
                   from both so the two masts stay identical by construction.
                 */}
                 <span className="font-display text-[clamp(1.375rem,2.2vw+0.75rem,2rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-balance">
@@ -106,7 +106,7 @@ export async function SiteFooter() {
                 </span>
               </span>
 
-              {/* Sized by height with a free width — the shield is portrait, so
+              {/* Sized by height with a free width - the shield is portrait, so
                   a square box would shrink it to the round seal's diameter. */}
               <Image
                 src="/Logo2.svg"
@@ -278,7 +278,7 @@ export async function SiteFooter() {
       {/*
         The season's own scene at the foot of the page: a snowy stand of firs
         through December, a bare wilderness through Lent and Holy Week, and
-        nothing whatever the rest of the year — including Good Friday, when the
+        nothing whatever the rest of the year - including Good Friday, when the
         page is stripped. Each component gates itself, so the footer is unchanged
         for most of the calendar.
 

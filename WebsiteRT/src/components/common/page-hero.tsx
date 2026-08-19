@@ -46,7 +46,7 @@ export function PageHero({
       {slides ? <HeroSlideshow images={slides} /> : null}
 
       {/*
-        Neutral scrim — no colour cast, so the photography reads as itself.
+        Neutral scrim - no colour cast, so the photography reads as itself.
         Weighted to the bottom and the left, where the copy sits.
       */}
       <div

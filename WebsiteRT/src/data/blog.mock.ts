@@ -30,8 +30,8 @@ export const BLOG_POSTS: BlogPost[] = [
         ta: "உள்ளே நடக்கும் ஆராதனையால் முழுமையாக மீட்டுருவாக்க முடியாத ஒன்று ஒன்றாகக் காத்திருப்பதில் உள்ளது. யாரும் வார்த்தைகளைப் படிக்க முடியாத நிலையிலேயே முதல் பாடல் தொடங்கியது. மூன்றாவது பாடலுக்குள், சிலுவைக்குப் பின்னால் வானம் இளம் தேநீரின் நிறமாக மாறியிருந்தது, சுவிசேஷ வாசகம் காலை பத்து மணிக்கு விழுவதைவிட வேறுவிதமாக விழுந்தது.",
       },
       {
-        en: "Afterwards there was breakfast in the parish hall — idli, sambar, and more conversation than the tables could hold. Several people said the same thing on the way out: that they had not expected to be moved, and were.",
-        ta: "பின்னர் சபை மண்டபத்தில் காலை உணவு — இட்லி, சாம்பார், மேசைகள் தாங்க முடியாத அளவு உரையாடல். வெளியே செல்லும் வழியில் பலரும் ஒரே விஷயத்தைச் சொன்னார்கள்: தாங்கள் நெகிழ்வார்கள் என எதிர்பார்க்கவில்லை, ஆனால் நெகிழ்ந்தார்கள்.",
+        en: "Afterwards there was breakfast in the parish hall - idli, sambar, and more conversation than the tables could hold. Several people said the same thing on the way out: that they had not expected to be moved, and were.",
+        ta: "பின்னர் சபை மண்டபத்தில் காலை உணவு - இட்லி, சாம்பார், மேசைகள் தாங்க முடியாத அளவு உரையாடல். வெளியே செல்லும் வழியில் பலரும் ஒரே விஷயத்தைச் சொன்னார்கள்: தாங்கள் நெகிழ்வார்கள் என எதிர்பார்க்கவில்லை, ஆனால் நெகிழ்ந்தார்கள்.",
       },
     ],
     publishedAt: "2026-04-07",
@@ -61,8 +61,8 @@ export const BLOG_POSTS: BlogPost[] = [
         ta: "ஒத்திகைகள் ஆறு வாரங்களுக்கு முன்பே தொடங்கின, நான்கு வயது மேய்ப்பனுக்கு எங்கே நிற்பது என்று கற்பிக்க முயலும் வரை அது போதுமான நேரம் போலத் தோன்றும். ஆடைகளை தாய்மார்களும் பாட்டிமார்களும் மாறி மாறி தைத்தனர், அரங்க அமைப்புகள் மூன்று சனிக்கிழமைகளில் சபை மண்டப தரையில் வரையப்பட்டன.",
       },
       {
-        en: "On the day itself, every child had a line, whether or not the line was audible. Prizes were given for attendance, memory verses and craft, and no child left without something in hand — which was, we think, the point.",
-        ta: "அந்த நாளில், ஒவ்வொரு குழந்தைக்கும் ஒரு வசனம் இருந்தது, அது கேட்டதோ இல்லையோ. வருகை, மனனப் பாடல்கள், கைவினைக்குப் பரிசுகள் வழங்கப்பட்டன, எந்தக் குழந்தையும் கையில் ஏதாவது இல்லாமல் செல்லவில்லை — அதுவே நோக்கம் என்று நினைக்கிறோம்.",
+        en: "On the day itself, every child had a line, whether or not the line was audible. Prizes were given for attendance, memory verses and craft, and no child left without something in hand - which was, we think, the point.",
+        ta: "அந்த நாளில், ஒவ்வொரு குழந்தைக்கும் ஒரு வசனம் இருந்தது, அது கேட்டதோ இல்லையோ. வருகை, மனனப் பாடல்கள், கைவினைக்குப் பரிசுகள் வழங்கப்பட்டன, எந்தக் குழந்தையும் கையில் ஏதாவது இல்லாமல் செல்லவில்லை - அதுவே நோக்கம் என்று நினைக்கிறோம்.",
       },
     ],
     publishedAt: "2026-03-18",
@@ -124,8 +124,8 @@ export const BLOG_POSTS: BlogPost[] = [
         ta: "சனிக்கிழமை அதிகாலையில், கிடார்கள், தூங்கும் பைகள், நம் அனைவராலும் நியாயமாக சாப்பிட முடியாத அளவு சிற்றுண்டிகளுடன் நிறைந்த பேருந்தில் புறப்பட்டோம். முகாம் மையத்தை அடையும் நேரத்தில் நகரம் விலகியிருந்தது, அதனுடன் நாம் கவனிக்காமல் சுமக்கும் அவசரமும் சிறிது விலகியது.",
       },
       {
-        en: "The sessions were good, but it was the unscheduled hours that stayed with people — late conversations by the fire, a morning walk, the slow discovery that faith is easier to talk about when you are not in a hurry. We came back tired and, in the way that matters, rested.",
-        ta: "அமர்வுகள் நன்றாக இருந்தன, ஆனால் நேரம் ஒதுக்கப்படாத மணிநேரங்களே மக்களுடன் தங்கின — நெருப்பருகே இரவு உரையாடல்கள், ஒரு காலை நடை, அவசரத்தில் இல்லாதபோது விசுவாசத்தைப் பற்றிப் பேசுவது எளிது என்ற மெதுவான கண்டுபிடிப்பு. நாங்கள் சோர்வுடன், ஆனால் முக்கியமான விதத்தில் ஓய்வுடன் திரும்பினோம்.",
+        en: "The sessions were good, but it was the unscheduled hours that stayed with people - late conversations by the fire, a morning walk, the slow discovery that faith is easier to talk about when you are not in a hurry. We came back tired and, in the way that matters, rested.",
+        ta: "அமர்வுகள் நன்றாக இருந்தன, ஆனால் நேரம் ஒதுக்கப்படாத மணிநேரங்களே மக்களுடன் தங்கின - நெருப்பருகே இரவு உரையாடல்கள், ஒரு காலை நடை, அவசரத்தில் இல்லாதபோது விசுவாசத்தைப் பற்றிப் பேசுவது எளிது என்ற மெதுவான கண்டுபிடிப்பு. நாங்கள் சோர்வுடன், ஆனால் முக்கியமான விதத்தில் ஓய்வுடன் திரும்பினோம்.",
       },
     ],
     publishedAt: "2026-05-20",
@@ -151,12 +151,12 @@ export const BLOG_POSTS: BlogPost[] = [
     },
     body: [
       {
-        en: "Once a month we set out chairs in a circle, put on the kettle, and let couples talk honestly about the ordinary work of staying close — money, in-laws, tiredness, and the small resentments that grow quietly if left alone.",
-        ta: "மாதம் ஒருமுறை நாற்காலிகளை வட்டமாக அமைத்து, தண்ணீரைக் காய்ச்சி, நெருக்கமாக இருப்பதற்கான சாதாரண உழைப்பைப் பற்றி — பணம், மாமியார் வீட்டார், சோர்வு, தனியே விடப்பட்டால் அமைதியாக வளரும் சிறு புகார்கள் — தம்பதியர்கள் நேர்மையாகப் பேச விடுகிறோம்.",
+        en: "Once a month we set out chairs in a circle, put on the kettle, and let couples talk honestly about the ordinary work of staying close - money, in-laws, tiredness, and the small resentments that grow quietly if left alone.",
+        ta: "மாதம் ஒருமுறை நாற்காலிகளை வட்டமாக அமைத்து, தண்ணீரைக் காய்ச்சி, நெருக்கமாக இருப்பதற்கான சாதாரண உழைப்பைப் பற்றி - பணம், மாமியார் வீட்டார், சோர்வு, தனியே விடப்பட்டால் அமைதியாக வளரும் சிறு புகார்கள் - தம்பதியர்கள் நேர்மையாகப் பேச விடுகிறோம்.",
       },
       {
-        en: "What people asked for, again and again, was not advice but company: other couples a few years ahead, willing to say that they had struggled too. That is what the fellowship tries to be — not a class, but a room where no one has to pretend.",
-        ta: "மக்கள் மீண்டும் மீண்டும் கேட்டது அறிவுரை அல்ல, துணை: சில ஆண்டுகள் முன்னதாக இருக்கும் மற்ற தம்பதியர்கள், தாங்களும் போராடியதாகச் சொல்ல தயாராக இருப்பவர்கள். ஐக்கியம் அதுவாகவே இருக்க முயல்கிறது — ஒரு வகுப்பு அல்ல, யாரும் பாசாங்கு செய்ய வேண்டியதில்லாத ஓர் அறை.",
+        en: "What people asked for, again and again, was not advice but company: other couples a few years ahead, willing to say that they had struggled too. That is what the fellowship tries to be - not a class, but a room where no one has to pretend.",
+        ta: "மக்கள் மீண்டும் மீண்டும் கேட்டது அறிவுரை அல்ல, துணை: சில ஆண்டுகள் முன்னதாக இருக்கும் மற்ற தம்பதியர்கள், தாங்களும் போராடியதாகச் சொல்ல தயாராக இருப்பவர்கள். ஐக்கியம் அதுவாகவே இருக்க முயல்கிறது - ஒரு வகுப்பு அல்ல, யாரும் பாசாங்கு செய்ய வேண்டியதில்லாத ஓர் அறை.",
       },
     ],
     publishedAt: "2026-04-22",
@@ -217,8 +217,8 @@ export const BLOG_POSTS: BlogPost[] = [
         ta: "ஆடவர் ஐக்கியம் பெரும்பாலானோர் தூங்க விரும்பும் ஒரு மணிநேரத்தில் கூடுகிறது. காபி, எளிய காலை உணவு, ஒரு குறுகிய வாசிப்பு, பின்னர் முக்கியமான பகுதி: ஆடவர்கள் வேலை, தந்தையர், தோல்வி, விசுவாசம் பற்றி வேறெங்கும் அரிதாகப் பேசும் விதத்தில் வெளிப்படையாகப் பேசுகிறார்கள்.",
       },
       {
-        en: "No one is asked to have answers. Over months, though, a kind of trust builds that follows the men out of the room — into how they carry their homes, their tempers and their quiet burdens through the rest of the week.",
-        ta: "யாரும் பதில்களை வைத்திருக்கும்படி கேட்கப்படுவதில்லை. எனினும், மாதங்கள் கடக்க, ஒருவித நம்பிக்கை உருவாகி, அந்த அறையிலிருந்து வெளியே ஆடவர்களைப் பின்தொடர்கிறது — வாரத்தின் மீதி நாட்களில் அவர்கள் தங்கள் வீடுகளையும், கோபங்களையும், அமைதியான சுமைகளையும் சுமக்கும் விதத்திற்குள்.",
+        en: "No one is asked to have answers. Over months, though, a kind of trust builds that follows the men out of the room - into how they carry their homes, their tempers and their quiet burdens through the rest of the week.",
+        ta: "யாரும் பதில்களை வைத்திருக்கும்படி கேட்கப்படுவதில்லை. எனினும், மாதங்கள் கடக்க, ஒருவித நம்பிக்கை உருவாகி, அந்த அறையிலிருந்து வெளியே ஆடவர்களைப் பின்தொடர்கிறது - வாரத்தின் மீதி நாட்களில் அவர்கள் தங்கள் வீடுகளையும், கோபங்களையும், அமைதியான சுமைகளையும் சுமக்கும் விதத்திற்குள்.",
       },
     ],
     publishedAt: "2026-02-28",
@@ -244,12 +244,12 @@ export const BLOG_POSTS: BlogPost[] = [
     },
     body: [
       {
-        en: "Every request left in the box at the back of the church finds its way to the prayer fellowship. Illnesses, exams, marriages under strain, jobs lost and hoped for — names are read out and held, without comment or gossip, in confidence.",
-        ta: "ஆலயத்தின் பின்புறம் உள்ள பெட்டியில் விடப்படும் ஒவ்வொரு வேண்டுதலும் ஜெப ஐக்கியத்தை அடைகிறது. நோய்கள், தேர்வுகள், நெருக்கடியில் உள்ள திருமணங்கள், இழந்த மற்றும் எதிர்பார்க்கப்படும் வேலைகள் — பெயர்கள் வாசிக்கப்பட்டு, கருத்தோ வதந்தியோ இன்றி, ரகசியமாகப் பற்றிக்கொள்ளப்படுகின்றன.",
+        en: "Every request left in the box at the back of the church finds its way to the prayer fellowship. Illnesses, exams, marriages under strain, jobs lost and hoped for - names are read out and held, without comment or gossip, in confidence.",
+        ta: "ஆலயத்தின் பின்புறம் உள்ள பெட்டியில் விடப்படும் ஒவ்வொரு வேண்டுதலும் ஜெப ஐக்கியத்தை அடைகிறது. நோய்கள், தேர்வுகள், நெருக்கடியில் உள்ள திருமணங்கள், இழந்த மற்றும் எதிர்பார்க்கப்படும் வேலைகள் - பெயர்கள் வாசிக்கப்பட்டு, கருத்தோ வதந்தியோ இன்றி, ரகசியமாகப் பற்றிக்கொள்ளப்படுகின்றன.",
       },
       {
-        en: "It is unseen work, and deliberately so. But those who have been prayed for through a hard season know its weight — the strange comfort of learning, later, that while you struggled, a small room of people was holding your name to God.",
-        ta: "இது கண்ணுக்குத் தெரியாத வேலை, வேண்டுமென்றே அப்படித்தான். ஆனால் ஒரு கடினமான பருவத்தில் ஜெபிக்கப்பட்டவர்கள் அதன் எடையை அறிவார்கள் — நீங்கள் போராடிக்கொண்டிருந்தபோது, ஒரு சிறிய அறையில் மக்கள் உங்கள் பெயரைக் கடவுளிடம் பற்றியிருந்தார்கள் என்று பின்னர் அறிவதன் விசித்திரமான ஆறுதல்.",
+        en: "It is unseen work, and deliberately so. But those who have been prayed for through a hard season know its weight - the strange comfort of learning, later, that while you struggled, a small room of people was holding your name to God.",
+        ta: "இது கண்ணுக்குத் தெரியாத வேலை, வேண்டுமென்றே அப்படித்தான். ஆனால் ஒரு கடினமான பருவத்தில் ஜெபிக்கப்பட்டவர்கள் அதன் எடையை அறிவார்கள் - நீங்கள் போராடிக்கொண்டிருந்தபோது, ஒரு சிறிய அறையில் மக்கள் உங்கள் பெயரைக் கடவுளிடம் பற்றியிருந்தார்கள் என்று பின்னர் அறிவதன் விசித்திரமான ஆறுதல்.",
       },
     ],
     publishedAt: "2026-01-24",
@@ -275,8 +275,8 @@ export const BLOG_POSTS: BlogPost[] = [
     },
     body: [
       {
-        en: "Not everything happens under the church roof. Across Madipakkam, small groups gather midweek in homes — a dozen neighbours, a pot of tea, a passage of scripture, and the ordinary sharing of one another's weeks.",
-        ta: "எல்லாமே ஆலயக் கூரையின் கீழ் நடப்பதில்லை. மடிப்பாக்கம் முழுவதும், சிறு குழுக்கள் வார நடுவில் வீடுகளில் கூடுகின்றன — ஒரு டஜன் அயலவர்கள், ஒரு பானை தேநீர், ஒரு வேதப் பகுதி, ஒருவரின் வாரங்களை மற்றவருடன் சாதாரணமாகப் பகிர்தல்.",
+        en: "Not everything happens under the church roof. Across Madipakkam, small groups gather midweek in homes - a dozen neighbours, a pot of tea, a passage of scripture, and the ordinary sharing of one another's weeks.",
+        ta: "எல்லாமே ஆலயக் கூரையின் கீழ் நடப்பதில்லை. மடிப்பாக்கம் முழுவதும், சிறு குழுக்கள் வார நடுவில் வீடுகளில் கூடுகின்றன - ஒரு டஜன் அயலவர்கள், ஒரு பானை தேநீர், ஒரு வேதப் பகுதி, ஒருவரின் வாரங்களை மற்றவருடன் சாதாரணமாகப் பகிர்தல்.",
       },
       {
         en: "These cottage meetings are often where newcomers first feel they belong, and where prayer becomes specific and personal. They are the church at its smallest scale, and in many ways its most honest.",

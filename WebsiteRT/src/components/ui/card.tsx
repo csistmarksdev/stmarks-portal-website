@@ -4,12 +4,12 @@ import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Card surface — a mounted sheet.
+ * Card surface - a mounted sheet.
  *
  * The generous corner is the site's own and is kept. What changed is what the
  * corner contains: the frame carries the card now, not the shadow. The hover
  * used to raise the sheet a centimetre off the page and light a gold bloom
- * beneath it — the picture-of-an-app move. Now it rises a few pixels, the
+ * beneath it - the picture-of-an-app move. Now it rises a few pixels, the
  * frame draws in, and the shade deepens honestly.
  *
  * `group/card` is declared here so children can react to a hover anywhere on
@@ -21,7 +21,7 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        /* A white sheet inside a hairline frame — the default the site is set on. */
+        /* A white sheet inside a hairline frame - the default the site is set on. */
         solid: "bg-[var(--surface)] ring-1 ring-[var(--border)] shadow-card",
         muted: "bg-[var(--surface-muted)] ring-1 ring-[var(--border)]",
         outline: "bg-transparent ring-1 ring-sand-300",
@@ -75,7 +75,7 @@ export function Card({
 
 /**
  * Media well at the top of a leaf. Clips to the card radius and slowly zooms
- * its image when the card is hovered — a restrained pan rather than a jump. Set
+ * its image when the card is hovered - a restrained pan rather than a jump. Set
  * `arch` for a sanctuary-window top on featured media.
  */
 export function CardMedia({
@@ -179,7 +179,7 @@ export function CardFooter({ className, ...props }: ComponentProps<"div">) {
 }
 
 /**
- * Chip that floats over card media — dates, counts, formats.
+ * Chip that floats over card media - dates, counts, formats.
  * Frosted so it stays legible over any photograph.
  */
 export function CardChip({ className, ...props }: ComponentProps<"div">) {
@@ -195,7 +195,7 @@ export function CardChip({ className, ...props }: ComponentProps<"div">) {
 }
 
 /**
- * The "read more" affordance — a small-caps gilded label with a nudging arrow.
+ * The "read more" affordance - a small-caps gilded label with a nudging arrow.
  * Decorative: the card's overlay link is the real control, so this must never
  * become a focus stop of its own.
  */

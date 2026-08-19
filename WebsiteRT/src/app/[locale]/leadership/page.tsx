@@ -33,7 +33,7 @@ function initials(name: string): string {
 }
 
 /**
- * An arched portrait with the name and office beneath it — the same window
+ * An arched portrait with the name and office beneath it - the same window
  * language as the clergy above, ready to carry a real portrait and showing a
  * gilded monogram until it does.
  *
@@ -285,7 +285,7 @@ export default async function LeadershipPage({
         {/*
           A register, not a gallery. There are no portraits for these sixteen
           terms and there never will be for most of them, so the page sets them
-          the way the church's own roll does — ruled rows of name against years.
+          the way the church's own roll does - ruled rows of name against years.
 
           An ordered list rather than a table, and that is the responsive
           decision as much as the semantic one. The church's roll has four
@@ -296,8 +296,8 @@ export default async function LeadershipPage({
           drop beneath the name, on a desktop they sit out to the right against
           the rule. Nothing is hidden at any width and nothing scrolls sideways.
 
-          It is also what the data is. "Sl. No" is a list index — the roll
-          restarts at 1 under each era — so an `ol` per era states that
+          It is also what the data is. "Sl. No" is a list index - the roll
+          restarts at 1 under each era - so an `ol` per era states that
           structurally instead of spending a column on it.
         */}
         <div className="mt-10 space-y-12 sm:mt-12 sm:space-y-14">
@@ -327,7 +327,7 @@ export default async function LeadershipPage({
                         {/*
                           The serial number as the church prints it. Hidden from
                           assistive tech because the `ol` already conveys the
-                          position — announcing both would read "one, one".
+                          position - announcing both would read "one, one".
                         */}
                         <span
                           aria-hidden

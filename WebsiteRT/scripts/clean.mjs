@@ -4,7 +4,7 @@
  *
  * `.next` was measured at 2.6 GB on this project after a dev-worker storm, and
  * a corrupt dev cache is the usual reason a fresh `next dev` immediately starts
- * crash-looping. Deleting it costs one slow first compile and nothing else —
+ * crash-looping. Deleting it costs one slow first compile and nothing else -
  * everything in here is regenerated.
  *
  * `rm -rf` is not portable to PowerShell, hence a script rather than a

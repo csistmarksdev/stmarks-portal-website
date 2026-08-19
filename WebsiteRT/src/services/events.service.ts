@@ -9,7 +9,7 @@ const ascending = (a: ChurchEvent, b: ChurchEvent) =>
 
 const descending = (a: ChurchEvent, b: ChurchEvent) => -ascending(a, b);
 
-/** Cache tag — revalidate this when the Portal publishes an event. */
+/** Cache tag - revalidate this when the Portal publishes an event. */
 const TAGS = ["events"];
 
 export function getEvents(): Promise<ChurchEvent[]> {

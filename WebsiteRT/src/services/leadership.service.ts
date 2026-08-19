@@ -6,7 +6,7 @@ import { mockResponse } from "./http";
 /**
  * Leadership is **permanent site content**, read from
  * `src/content/leadership.ts`. Appointments happen roughly once a year, so the
- * roll is versioned with the code rather than administered in the Portal —
+ * roll is versioned with the code rather than administered in the Portal -
  * there is no `/leadership` endpoint and these must **not** become `apiGet`
  * calls. Edit that file and redeploy.
  *
@@ -36,7 +36,7 @@ export function getCommittee(): Promise<Leader[]> {
   return getLeadersByRole("committee");
 }
 
-/** Employed staff — the sexton and anyone else on the church payroll. */
+/** Employed staff - the sexton and anyone else on the church payroll. */
 export function getStaff(): Promise<Leader[]> {
   return getLeadersByRole("staff");
 }

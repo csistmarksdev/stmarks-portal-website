@@ -7,13 +7,13 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 /**
  * Ash Wednesday, at the foot of the page.
  *
- * Not a landscape. The other three scenes on this site are places — a snowy
- * stand of firs, a wilderness, a hill with a sunrise behind it — because their
+ * Not a landscape. The other three scenes on this site are places - a snowy
+ * stand of firs, a wilderness, a hill with a sunrise behind it - because their
  * seasons are stretches of time and a stretch of time has somewhere it happens.
  * This is one day, and what happens on it happens at a table: a bowl of ashes,
  * last year's palms burned down to make them, and a thumb.
  *
- * So the scene is that table, seen from across the chancel — the bowl at the
+ * So the scene is that table, seen from across the chancel - the bowl at the
  * centre, fronds either side, and the mark itself struck large above it.
  *
  * It is the quietest scene in the set apart from Good Friday's, and
@@ -21,7 +21,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * been since the last one. Everything the following six weeks will strip away
  * is already absent here.
  *
- * The words are the sentence said at the imposition — the oldest line in the
+ * The words are the sentence said at the imposition - the oldest line in the
  * whole liturgy, and the reason nobody needs it explained.
  */
 export function AshWednesdayScene() {

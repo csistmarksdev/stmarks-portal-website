@@ -5,12 +5,39 @@ import { ROUTES } from "./site";
 /**
  * Navigation model shared by the desktop menu, mobile drawer and footer.
  *
- * `labelKey` is a path into the `nav` namespace of the message files — never
+ * `labelKey` is a path into the `nav` namespace of the message files - never
  * a display string, so the menu translates automatically.
  */
 export interface NavChild {
   labelKey: string;
   href: string;
+  /**
+   * A display string that wins over `labelKey` when present.
+   *
+   * The one exception to the "never a display string" rule above, and it earns
+   * it: fellowship names are *content*. The church renames a fellowship in the
+   * Portal and the cards follow immediately, because they render the record;
+   * the menu did not, because it rendered a message key. The two had already
+   * drifted apart in production - the API called the choir "பாடகர் குழு" while
+   * the menu still said "கீர்த்தனைக் குழு", and the youth fellowship had been
+   * renamed to "வாலிபர் ஐக்கியம்" with the menu none the wiser.
+   *
+   * `labelKey` stays as the fallback rather than being replaced. With no API
+   * configured, or with one that cannot be reached, the menu still has to say
+   * something in the reader's language, and a translated approximation beats an
+   * empty item or a raw slug.
+   */
+  label?: string;
+}
+
+/**
+ * A fellowship as the menu needs it: which page it is, and what the church
+ * currently calls it. `name` is already localized - the menu is a client
+ * component and cannot reach for the record itself.
+ */
+export interface FellowshipNavEntry {
+  slug: FellowshipSlug;
+  name?: string;
 }
 
 export interface NavItem {
@@ -40,7 +67,7 @@ const FELLOWSHIP_LABEL_KEYS: Record<FellowshipSlug, string> = {
 };
 
 /**
- * Menu order is the declaration order above — one literal is the single source
+ * Menu order is the declaration order above - one literal is the single source
  * of both the set and its sequence, so there is no second array to fall out of
  * step with it.
  */
@@ -54,20 +81,23 @@ export const FELLOWSHIP_SLUGS = Object.keys(
  * never built; passing nothing lists them all.
  */
 export function fellowshipNavChildren(
-  available?: readonly FellowshipSlug[],
+  available?: readonly FellowshipNavEntry[],
 ): NavChild[] {
+  const names = new Map(available?.map((f) => [f.slug, f.name]));
+
   const slugs = available?.length
-    ? FELLOWSHIP_SLUGS.filter((slug) => available.includes(slug))
+    ? FELLOWSHIP_SLUGS.filter((slug) => names.has(slug))
     : FELLOWSHIP_SLUGS;
 
   return slugs.map((slug) => ({
     labelKey: FELLOWSHIP_LABEL_KEYS[slug],
+    label: names.get(slug),
     href: ROUTES.fellowship(slug),
   }));
 }
 
 export const MAIN_NAV: NavItem[] = [
-  // No "Home" item — the wordmark links home, so it would be redundant.
+  // No "Home" item - the wordmark links home, so it would be redundant.
   {
     labelKey: "about",
     href: ROUTES.about,

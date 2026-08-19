@@ -46,7 +46,7 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/30"
       />
 
-      {/* 1 — identity */}
+      {/* 1 - identity */}
       <HeroScene
         progress={progress}
         start={0}
@@ -73,7 +73,7 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         </Container>
       </HeroScene>
 
-      {/* 2 — welcome */}
+      {/* 2 - welcome */}
       <HeroScene
         progress={progress}
         start={0.21}
@@ -83,7 +83,7 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         {welcome}
       </HeroScene>
 
-      {/* 3 — service timings */}
+      {/* 3 - service timings */}
       <HeroScene
         progress={progress}
         start={0.44}
@@ -93,7 +93,7 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         {timings}
       </HeroScene>
 
-      {/* 4 — upcoming events */}
+      {/* 4 - upcoming events */}
       <HeroScene
         progress={progress}
         start={0.66}
@@ -103,7 +103,7 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         {events}
       </HeroScene>
 
-      {/* 5 — invitation */}
+      {/* 5 - invitation */}
       <HeroScene
         progress={progress}
         start={0.89}

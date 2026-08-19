@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
  * Every level was set at 600. A semibold works at 20px, where it has to hold
  * its own against body copy; at 60px it is a shout, and a page of shouting is
  * why a lot of well-meaning sites feel like advertising. Fraunces is a variable
- * face, so the largest levels can be set at 500 and the smallest left at 600 —
+ * face, so the largest levels can be set at 500 and the smallest left at 600 -
  * the display line then reads with the composure of a chapter opening in a
  * printed book, and the section heads under it keep their authority.
  */
@@ -50,7 +50,7 @@ export interface HeadingProps
     VariantProps<typeof headingVariants> {
   /**
    * The rendered tag. Kept separate from `level` so visual size and document
-   * outline can differ — required for correct heading hierarchy.
+   * outline can differ - required for correct heading hierarchy.
    */
   as?: ElementType;
 }
@@ -180,7 +180,7 @@ export function Prose({
   size?: TextProps["size"];
   /**
    * Open the read like a printed article: the first paragraph rides one step
-   * larger, in the foreground tone, with a brass drop cap (Latin only — the CSS
+   * larger, in the foreground tone, with a brass drop cap (Latin only - the CSS
    * scopes the initial to `lang="en"`).
    */
   lead?: boolean;

@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Liturgical cross mark — the section ornament, lifted from the cross at the
+ * Liturgical cross mark - the section ornament, lifted from the cross at the
  * heart of the parish crest.
  *
  * The halo is off by default now. A tinted ring around a small glyph is the
  * icon-in-a-circle treatment that every template on the internet uses for its
  * feature list, and setting one behind the cross at the head of every section
  * turned a sacred sign into a UI badge. Bare, at the same size, it reads as a
- * mark struck on the page — which is what it is. The ring is still available
+ * mark struck on the page - which is what it is. The ring is still available
  * for the one or two places that genuinely want a medallion.
  */
 export function CrossMark({
@@ -33,7 +33,7 @@ export function CrossMark({
   return (
     <span
       aria-hidden
-      /* Stable hook for season styling — see `data-button` on the Button. */
+      /* Stable hook for season styling - see `data-button` on the Button. */
       data-ornament="cross"
       className={cn(
         "relative inline-grid shrink-0 place-items-center",
@@ -56,7 +56,7 @@ export function CrossMark({
 
         The previous mark was a solid slab: 2.8 units of stroke on a 24 unit
         square, with the arms meeting the upright at the same weight. At the
-        sizes it is actually used — 24 to 44 pixels — that reads as a heavy
+        sizes it is actually used - 24 to 44 pixels - that reads as a heavy
         plus sign. Struck as a line instead, with rounded ends and the
         crossbar set high in the classical proportion, it reads as a cross
         cut into stone or ruled in ink: lighter on the page, and more
@@ -77,7 +77,7 @@ export function CrossMark({
 }
 
 /**
- * Illuminated divider — a centred cross struck between two long rules.
+ * Illuminated divider - a centred cross struck between two long rules.
  *
  * The rest between movements. It had a pair of gilded diamonds flanking the
  * cross as well; four marks where one will do is how a flourish becomes

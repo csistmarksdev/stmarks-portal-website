@@ -10,7 +10,7 @@ import type { Locale } from "@/i18n/routing";
  */
 export type LocalizedText = Record<Locale, string>;
 
-/** Optional localized field — not every record has every translation. */
+/** Optional localized field - not every record has every translation. */
 export type LocalizedTextOptional = Partial<Record<Locale, string>>;
 
 /** Every content record shares these. Mirrors a typical API entity. */

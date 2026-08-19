@@ -6,13 +6,13 @@ import { join } from "node:path";
  *
  * Permanent site content: the imagery is shipped with the build, not
  * administered in the Portal. Each section owns a folder under
- * `public/hero/<section>/` — to change a page's hero, drop files into its
+ * `public/hero/<section>/` - to change a page's hero, drop files into its
  * folder. Nothing else needs to move, and there is no `/hero-slides` endpoint
  * to wire up.
  *
  * The folder is read at build time rather than described by a hand-kept count.
  * That count used to live here as a `SLIDE_COUNT` map, so every change to the
- * photography was two edits in two places — and it failed silently in both
+ * photography was two edits in two places - and it failed silently in both
  * directions: a count set too high requested files that were not there, and one
  * set too low quietly ignored photographs someone had already added. Reading
  * the directory makes the folder the single source of truth, which is what the
@@ -23,7 +23,7 @@ import { join } from "node:path";
  *
  * The files currently in those folders are placeholders lifted from the
  * cinematic sequence in `public/frames`, one distinct run per section. Replace
- * them with real photography as it comes in — no code change needed.
+ * them with real photography as it comes in - no code change needed.
  */
 
 export type HeroSlideKey =
@@ -59,7 +59,7 @@ function slides(section: HeroSlideKey): string[] {
   try {
     entries = readdirSync(dir);
   } catch {
-    // A missing folder is a hero with no backdrop, not a broken build — the
+    // A missing folder is a hero with no backdrop, not a broken build - the
     // slideshow falls back to its own ground.
     return [];
   }

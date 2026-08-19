@@ -5,7 +5,7 @@
  * layer; this file holds build-time constants only (URLs, analytics ids).
  */
 export const SITE_CONFIG = {
-  /** Canonical origin — override per environment via NEXT_PUBLIC_SITE_URL. */
+  /** Canonical origin - override per environment via NEXT_PUBLIC_SITE_URL. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://csistmarksmadipakkam.org",
   ogImage: "/og/default.jpg",
   locale: {

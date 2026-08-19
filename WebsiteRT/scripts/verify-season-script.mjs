@@ -3,9 +3,9 @@
  *
  * The bootstrap in `src/app/[locale]/layout.tsx` is a hand-inlined copy of the
  * arithmetic in `src/lib/liturgical-year.ts`. It exists because the season has
- * to be on the root element *before first paint* — the splash screen is up for
+ * to be on the root element *before first paint* - the splash screen is up for
  * as little as 1.9 seconds, and an effect cannot run until React has hydrated
- * the cinematic hero — and an ES import cannot be made to run that early.
+ * the cinematic hero - and an ES import cannot be made to run that early.
  *
  * Duplicated logic drifts. This is the thing that stops it: it runs both
  * implementations over every day of a twenty-year window and fails on the first
@@ -14,7 +14,7 @@
  *     node scripts/verify-season-script.mjs
  *
  * Run it after touching either copy. The failure mode it guards against is the
- * worst kind — nobody notices until Good Friday.
+ * worst kind - nobody notices until Good Friday.
  */
 
 import { readFileSync } from "node:fs";
@@ -40,7 +40,7 @@ const bootstrap = match[1];
 
 /*
  * The script writes to `document.documentElement.dataset.season` and reads
- * `location.search`. Both are stubbed so it can run under Node unchanged —
+ * `location.search`. Both are stubbed so it can run under Node unchanged -
  * testing a rewritten version of it would test the rewrite, not the shipped
  * code.
  */
@@ -79,7 +79,7 @@ const out = mkdtempSync(join(tmpdir(), "season-"));
 
 /*
  * `shell: true` because on Windows `npx` is a `.cmd` shim, which Node will not
- * spawn directly — and the whole point of this script is that it runs for
+ * spawn directly - and the whole point of this script is that it runs for
  * whoever happens to be touching the calendar.
  */
 execFileSync(
@@ -132,11 +132,11 @@ for (let year = FROM; year <= TO; year++) {
 
 if (failures) {
   console.error(
-    `\nFAIL — the bootstrap and getSeason disagree on ${failures} of ${days} days.`,
+    `\nFAIL - the bootstrap and getSeason disagree on ${failures} of ${days} days.`,
   );
   process.exit(1);
 }
 
 console.log(
-  `ok — bootstrap and getSeason agree on all ${days} days, ${FROM}–${TO}.`,
+  `ok - bootstrap and getSeason agree on all ${days} days, ${FROM}–${TO}.`,
 );

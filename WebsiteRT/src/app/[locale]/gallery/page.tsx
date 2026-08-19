@@ -59,7 +59,7 @@ export default async function GalleryPage({
         {albums.length === 0 ? (
           <EmptyState message={t("empty")} />
         ) : (
-          // Uniform 4:3 tiles — the card's own aspect ratio sets the height.
+          // Uniform 4:3 tiles - the card's own aspect ratio sets the height.
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {albums.map((album) => (
               <StaggerItem key={album.id}>

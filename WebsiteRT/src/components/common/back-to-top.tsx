@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
  * Returns the reader to the top of the page in one gesture.
  *
  * Appears on the same signal as the header's glass surface, so on the home
- * page it stays out of the way for the whole cinematic sequence — where the
- * scroll cue and progress rule already own the foot of the screen — and only
+ * page it stays out of the way for the whole cinematic sequence - where the
+ * scroll cue and progress rule already own the foot of the screen - and only
  * joins once the page proper begins.
  *
  * The transition is CSS rather than a motion component so the global

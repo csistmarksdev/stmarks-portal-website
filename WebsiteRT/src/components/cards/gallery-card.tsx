@@ -17,7 +17,7 @@ export interface GalleryCardProps {
   className?: string;
   /**
    * Cover framing. `fill` drops the intrinsic ratio so the card takes its
-   * height from the grid row instead — used by the bento layout on the home
+   * height from the grid row instead - used by the bento layout on the home
    * page, where cards span differing numbers of rows.
    */
   ratio?: "square" | "portrait" | "landscape" | "fill";
@@ -31,7 +31,7 @@ const RATIOS = {
 } as const;
 
 /**
- * An album cover. Unlike the other cards this one is all media — the caption
+ * An album cover. Unlike the other cards this one is all media - the caption
  * sits over the photograph, so the surface itself is the image.
  */
 export async function GalleryCard({

@@ -81,7 +81,7 @@ export const GALLERY_ALBUMS: GalleryAlbum[] = [
       ta: "கிறிஸ்துமஸ் ஆராதனை 2025",
     }),
     photos: [
-      // A YouTube link — the player detects the provider from the URL and
+      // A YouTube link - the player detects the provider from the URL and
       // embeds it. Placeholder video; swap for the church's own upload.
       videoItem("vid-christmas-2025", 258, "https://youtu.be/jNQXAC9IVRw", {
         en: "Christmas carol service (video)",
@@ -92,7 +92,7 @@ export const GALLERY_ALBUMS: GalleryAlbum[] = [
         ta: "கிறிஸ்துமஸ் கொண்டாட்ட தருணம்",
       }),
     ],
-    // Churchwide festival — shown in every fellowship's gallery.
+    // Churchwide festival - shown in every fellowship's gallery.
     shared: true,
   },
   {

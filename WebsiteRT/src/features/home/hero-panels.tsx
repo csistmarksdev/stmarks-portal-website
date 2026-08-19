@@ -15,8 +15,8 @@ import {
 /**
  * Content panels rendered *inside* the cinematic hero.
  *
- * These are server components — they fetch through the service layer like any
- * other section — but are styled for dark full-bleed video and kept short
+ * These are server components - they fetch through the service layer like any
+ * other section - but are styled for dark full-bleed video and kept short
  * enough to fit one viewport, since the stage positions them absolutely.
  */
 
@@ -69,7 +69,7 @@ export async function HeroTimingsPanel() {
 
   const locale = (await getLocale()) as Locale;
 
-  // Only Sunday services — the full week is on the About page.
+  // Only Sunday services - the full week is on the About page.
   const sunday = timings.filter((timing) => timing.day.en === "Sunday");
 
   return (

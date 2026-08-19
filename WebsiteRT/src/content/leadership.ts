@@ -2,7 +2,7 @@ import type { LocalizedText } from "@/types/common";
 import type { Leader } from "@/types/content";
 
 /**
- * Permanent site content — the people serving the church.
+ * Permanent site content - the people serving the church.
  *
  * Pastors, the committee and the roll of former ministers change on the order
  * of once a year, so they are versioned with the code rather than administered
@@ -12,8 +12,8 @@ import type { Leader } from "@/types/content";
  * To update, edit this file and redeploy. See also `src/content/church.ts`.
  *
  * Only details the church has actually supplied appear here. Where a field is
- * unknown — a portrait, an email, a biography, the year someone began serving
- * — it is left off rather than filled with something plausible; every entry on
+ * unknown - a portrait, an email, a biography, the year someone began serving
+ * - it is left off rather than filled with something plausible; every entry on
  * this page names a real person, and the page renders cleanly without them.
  */
 
@@ -150,7 +150,7 @@ export const LEADERS: Leader[] = [
 
 /** One presbyter's term, as printed on the church's own roll. */
 export interface PresbyterTerm {
-  /** Serial number *within its era* — the roll restarts at 1 each time. */
+  /** Serial number *within its era* - the roll restarts at 1 each time. */
   no: number;
   /**
    * Set in Latin script for both locales.
@@ -171,7 +171,7 @@ export interface PresbyterTerm {
 /**
  * An era of the roll. The congregation was attached to two other pastorates
  * before it became a unit in its own right, and the roll is numbered afresh
- * under each — so the eras are the structure, not decoration.
+ * under each - so the eras are the structure, not decoration.
  */
 export interface PresbyterEra {
   id: string;
@@ -184,7 +184,7 @@ export interface PresbyterEra {
  *
  * Hardcoded for the same reason as everything else in this file: it gains one
  * row a year at most, and the history behind that row never changes. Dates are
- * kept as the church writes them — "April 1993", "Aug. 1997" — rather than
+ * kept as the church writes them - "April 1993", "Aug. 1997" - rather than
  * parsed into `Date`s, because a month and a year is genuinely all that is
  * recorded and turning that into a day would invent precision the register
  * does not have.

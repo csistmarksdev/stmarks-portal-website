@@ -87,7 +87,7 @@ export async function ContactPreview() {
       {/*
         A register, not four boxes.
 
-        Each entry carried its icon inside a tinted circle — the treatment every
+        Each entry carried its icon inside a tinted circle - the treatment every
         template on the internet uses for its list of features, and four of them
         in a two-by-two grid is exactly that layout. The circles are gone: the
         glyph sits in the margin at the weight of a printer's mark, the label

@@ -12,12 +12,12 @@ import { getWeeklyVerse } from "@/services";
 /**
  * Verse of the week.
  *
- * The pause between sections. Everything here is light and type — no
+ * The pause between sections. Everything here is light and type - no
  * photography, deliberately, because every hero on the site now carries
  * imagery and this section earns its weight by withholding it.
  *
  * Depth comes from stacked layers instead: a drifting brass bloom, film grain,
- * and a vignette that closes the edges — and the scripture is centred and
+ * and a vignette that closes the edges - and the scripture is centred and
  * struck between gilded rules like the head of an illuminated page.
  */
 export async function VerseOfWeek() {
@@ -38,8 +38,8 @@ export async function VerseOfWeek() {
       {/*
         One light, from above.
 
-        There were two coloured blooms here before — one high left, one low
-        right — drifting past each other, which is a lava lamp, not a sanctuary.
+        There were two coloured blooms here before - one high left, one low
+        right - drifting past each other, which is a lava lamp, not a sanctuary.
         A single warm source entering at the crown is what a lit church actually
         looks like from the back of the nave, and it puts the light where the
         scripture is rather than in the corners.
@@ -95,7 +95,15 @@ export async function VerseOfWeek() {
                 quotation marks hang outside the measure the way they would in a
                 printed lectionary.
               */}
-              <p className="text-balance font-display text-[1.75rem] font-normal leading-[1.34] tracking-[-0.012em] [text-shadow:0_2px_60px_var(--season-light-dark,oklch(0.702_0.18_38/0.28))] sm:text-4xl sm:leading-[1.3] lg:text-[3.25rem] lg:leading-[1.24]">
+              {/* `data-verse-text` is the hook for the Tamil metrics in
+                  globals.css. The sizes here are set inline rather than through
+                  `Heading`, so this line never picked up the `data-heading`
+                  scale that steps the rest of the site's Tamil down, and it was
+                  setting at the full Latin size in a script that needs less. */}
+              <p
+                data-verse-text=""
+                className="text-balance font-display text-[1.75rem] font-normal leading-[1.34] tracking-[-0.012em] [text-shadow:0_2px_60px_var(--season-light-dark,oklch(0.702_0.18_38/0.28))] sm:text-4xl sm:leading-[1.3] lg:text-[3.25rem] lg:leading-[1.24]"
+              >
                 &ldquo;{localize(verse.text, locale)}&rdquo;
               </p>
             </blockquote>

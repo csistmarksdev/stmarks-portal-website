@@ -9,7 +9,7 @@ type IconProps = SVGProps<SVGSVGElement>;
  *
  * lucide-react v1 removed brand icons for trademark reasons, so these are
  * defined here rather than imported. All are `currentColor` filled and
- * decorative — the accessible name comes from the surrounding link.
+ * decorative - the accessible name comes from the surrounding link.
  */
 
 function FacebookIcon(props: IconProps) {

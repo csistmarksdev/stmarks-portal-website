@@ -32,7 +32,7 @@ export function getFellowshipSlugs(): Promise<FellowshipSlug[]> {
 }
 
 /**
- * The same slugs, for the navigation menu — which must never fail the page it
+ * The same slugs, for the navigation menu - which must never fail the page it
  * sits on.
  *
  * `apiGet`'s `fallback` covers an *unconfigured* API only: once
@@ -43,7 +43,7 @@ export function getFellowshipSlugs(): Promise<FellowshipSlug[]> {
  * every page on the site over a submenu.
  *
  * Degrading to the full local list is the behaviour the menu had before it was
- * narrowed at all — at worst a link to a fellowship that is temporarily
+ * narrowed at all - at worst a link to a fellowship that is temporarily
  * unreachable, which is what the reader would hit anyway.
  */
 export async function getFellowshipSlugsForNav(): Promise<FellowshipSlug[]> {
@@ -51,5 +51,33 @@ export async function getFellowshipSlugsForNav(): Promise<FellowshipSlug[]> {
     return await getFellowshipSlugs();
   } catch {
     return FELLOWSHIPS.map((f) => f.slug);
+  }
+}
+
+/**
+ * The menu's fellowships - which pages exist, *and* what the church calls them.
+ *
+ * The slug-only version above was not enough. The submenu was labelling itself
+ * from `src/messages/*.json`, so renaming a fellowship in the Portal changed
+ * the cards and the fellowship's own page while the menu kept the old name
+ * indefinitely. Names are content and have to come from the record.
+ *
+ * `/fellowships` rather than `/fellowships/slugs`: it is one request either
+ * way, it carries the same `fellowships` tag so a publish invalidates both
+ * together, and the menu needs a field the slugs endpoint does not return.
+ *
+ * Degrades the same way and for the same reason - this renders in the root
+ * layout, where a throw would take down every page on the site over a submenu.
+ */
+export async function getFellowshipsForNav(): Promise<
+  { slug: FellowshipSlug; name: Fellowship["name"] }[]
+> {
+  try {
+    const fellowships = await getFellowships();
+    return fellowships.map(({ slug, name }) => ({ slug, name }));
+  } catch {
+    return [...FELLOWSHIPS]
+      .sort(byOrder)
+      .map(({ slug, name }) => ({ slug, name }));
   }
 }

@@ -10,7 +10,7 @@ export interface AnimatedRuleProps {
 }
 
 /**
- * A short gradient bar that draws itself in from the left as it enters view —
+ * A short gradient bar that draws itself in from the left as it enters view -
  * the modern counterpart to a printed masthead rule. Brass into indigo so it
  * carries both accent and primary of the church palette in one stroke.
  *

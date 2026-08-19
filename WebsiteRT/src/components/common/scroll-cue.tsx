@@ -8,7 +8,7 @@ export interface ScrollCueProps {
  * The cue at the foot of a hero: a hairline with a light travelling down it.
  *
  * Wordless, and deliberately. The label it used to carry ("Scroll to explore")
- * was doing nothing the motion does not already say — a light moving downward
+ * was doing nothing the motion does not already say - a light moving downward
  * at the bottom edge of a full-height hero reads as "there is more below" in
  * any language, which also spares this the awkwardness of setting a second
  * piece of UI copy in two scripts over a photograph.
@@ -20,7 +20,7 @@ export interface ScrollCueProps {
  *
  * Wholly decorative, so `aria-hidden`. This is an affordance about where the
  * viewport is, and a reader moving through the document by headings and
- * landmarks does not need to be told to scroll — the old label announced
+ * landmarks does not need to be told to scroll - the old label announced
  * itself to exactly the audience it was useless to.
  *
  * Shared by the cinematic home stage and every inner-page hero so the gesture

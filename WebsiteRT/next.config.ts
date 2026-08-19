@@ -7,7 +7,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
  * Allow `next/image` to optimise media served by the Portal.
  *
  * Derived from `NEXT_PUBLIC_API_URL` rather than hardcoded, so the same config
- * works in dev (`http://localhost:4000/v1`) and in production without an edit —
+ * works in dev (`http://localhost:4000/v1`) and in production without an edit -
  * and so a deployment that has not configured the API simply allows nothing,
  * which is the safe default. Scoped to `/uploads/**`: the API's JSON routes are
  * not images and have no business being proxied through the optimiser.
@@ -39,7 +39,7 @@ function portalMediaPatterns() {
 
 /**
  * Next 16 refuses to optimise images whose host resolves to a private or
- * loopback address — an SSRF guard, so a crafted `/_next/image?url=…` cannot be
+ * loopback address - an SSRF guard, so a crafted `/_next/image?url=…` cannot be
  * used to probe the network the server sits on. `dangerouslyAllowLocalIP` opts
  * out of it.
  *
@@ -85,7 +85,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
   /**
-   * Long-cache the build-static media that never changes between deploys — the
+   * Long-cache the build-static media that never changes between deploys - the
    * home hero's 300-frame sequence and the inner-page hero backdrops. Without
    * this, unfingerprinted `public/` assets revalidate on every visit; with it
    * the ~16 MB frame set is fetched once and served from cache thereafter,

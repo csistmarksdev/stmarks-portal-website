@@ -6,8 +6,33 @@ import { useParams } from "next/navigation";
 import { useTransition } from "react";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { localeLabels, locales, type Locale } from "@/i18n/routing";
+import {
+  defaultLocale,
+  localeLabels,
+  localeShortLabels,
+  locales,
+  type Locale,
+} from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+
+/**
+ * The site's own language first.
+ *
+ * The switcher read straight from `locales`, which is declared `["en", "ta"]` -
+ * so English sat in the first position long after Tamil became the language the
+ * site actually opens in. A toggle whose first option is not the current one
+ * reads as though the site is in English and Tamil is the alternative, which is
+ * now backwards.
+ *
+ * Derived rather than reordered by hand: `locales` is also the array
+ * `defineRouting` is built from, and its order matters to nothing else. Sorting
+ * here means the toggle follows `defaultLocale` on its own if the church ever
+ * changes which language leads.
+ */
+const ORDERED_LOCALES: readonly Locale[] = [
+  defaultLocale,
+  ...locales.filter((code) => code !== defaultLocale),
+];
 
 /**
  * Switches locale while staying on the current page.
@@ -62,7 +87,7 @@ export function LanguageSwitcher({
         )}
       />
 
-      {locales.map((code) => {
+      {ORDERED_LOCALES.map((code) => {
         const isActive = code === locale;
 
         return (
@@ -90,8 +115,18 @@ export function LanguageSwitcher({
                   : "text-[var(--muted-foreground)] hover:bg-sand-100",
             )}
           >
+            {/*
+              The full name for assistive technology, the short mark on screen.
+
+              This was `code === "en" ? "EN" : "தமிழ்"` - a hardcoded ternary
+              that spelled Tamil out in full, so one option ran five glyphs wide
+              against the other's two and the pill sat lopsided. `routing.ts`
+              already exported `localeShortLabels` for exactly this and nothing
+              was reading it. Using it also means the ternary can no longer
+              label a third locale as Tamil by default.
+            */}
             <span className="sr-only">{localeLabels[code]}</span>
-            <span aria-hidden>{code === "en" ? "EN" : "தமிழ்"}</span>
+            <span aria-hidden>{localeShortLabels[code]}</span>
           </button>
         );
       })}

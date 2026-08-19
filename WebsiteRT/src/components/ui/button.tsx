@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  *
  * The capsule shape is the site's own and is kept, through
  * `--radius-control`. What went is the finish: a top-down gradient wash, an
- * inner highlight and a coloured glow that bloomed under the button on hover —
+ * inner highlight and a coloured glow that bloomed under the button on hover -
  * three effects stacked to imitate a lit plastic key. A solid brand fill that
  * deepens on hover says the same thing in one move, and lets the label carry
  * the invitation, which on a church page is what the reader is actually

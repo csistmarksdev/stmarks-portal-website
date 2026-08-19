@@ -30,7 +30,7 @@ interface HeroScrollContextValue {
 const HeroScrollContext = createContext<HeroScrollContextValue | null>(null);
 
 /**
- * Shares the cinematic hero's scroll progress with components outside it —
+ * Shares the cinematic hero's scroll progress with components outside it -
  * chiefly the site header, which must stay transparent for the whole hero
  * rather than switching to glass after a few pixels of scroll.
  *
@@ -75,7 +75,7 @@ export function useHeroScroll(): HeroScrollContextValue {
 }
 
 /**
- * True once the page has scrolled past its opening — the moment page chrome
+ * True once the page has scrolled past its opening - the moment page chrome
  * (the header's glass surface, the back-to-top button) is allowed to appear.
  *
  * On a cinematic page that means the whole hero has played out; everywhere
@@ -84,7 +84,7 @@ export function useHeroScroll(): HeroScrollContextValue {
  *
  * The cinematic branch is latched with hysteresis and only re-renders on an
  * actual flip. `progress` changes on every frame of an 800vh scroll, so a bare
- * `setState(value > threshold)` handed React an update on all of them — and a
+ * `setState(value > threshold)` handed React an update on all of them - and a
  * single threshold made everything keyed off this flip-flop while the reader
  * hovered near the end of the hero, restarting each element's transition every
  * time. Separate on/off points give it somewhere to settle.

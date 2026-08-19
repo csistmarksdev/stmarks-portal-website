@@ -1,7 +1,7 @@
 /**
  * Service layer barrel.
  *
- * Every component reads content through these functions — never by importing
+ * Every component reads content through these functions - never by importing
  * from `src/data/*` directly. All of them are already async, so replacing the
  * mock bodies with `apiGet(...)` calls requires no change at any call site.
  */

@@ -29,7 +29,7 @@ export interface RevealProps {
 /**
  * Fade-and-slide a block into view on scroll.
  *
- * Honours `prefers-reduced-motion` by rendering the final state immediately —
+ * Honours `prefers-reduced-motion` by rendering the final state immediately -
  * content is never hidden from users who disable animation.
  */
 export function Reveal({
@@ -55,7 +55,7 @@ export function Reveal({
     // Fade-and-rise, driven purely by opacity + transform so the whole reveal
     // runs on the compositor and stays smooth on low-end GPUs. An animated
     // `filter: blur` gave a softer focus-in but forced a full re-raster every
-    // frame — the main scroll-jank source — so it was dropped; the distance,
+    // frame - the main scroll-jank source - so it was dropped; the distance,
     // duration and easing (the felt shape of the motion) are unchanged.
     hidden: { opacity: 0, x: offset.x, y: offset.y },
     visible: {

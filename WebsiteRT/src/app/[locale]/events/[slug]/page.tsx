@@ -140,7 +140,7 @@ export default async function EventDetailPage({
             </Reveal>
           </div>
 
-          {/* Detail sidebar — held in view while the description scrolls. */}
+          {/* Detail sidebar - held in view while the description scrolls. */}
           <aside className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
             <Reveal direction="left">
               <Card variant="muted" padded="lg">
@@ -162,7 +162,7 @@ export default async function EventDetailPage({
                         </time>
                         {event.endDate ? (
                           <>
-                            {" — "}
+                            {" - "}
                             <time dateTime={event.endDate}>
                               {formatDateTime(event.endDate, locale)}
                             </time>

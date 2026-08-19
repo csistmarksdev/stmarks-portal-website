@@ -6,7 +6,7 @@
  *
  * The palette is sampled from the church's own emblem (public/Logo1.svg): the
  * Church of South India seal, which carries exactly two colours over a white
- * disc — the deep magenta of the cross and the orange of the flame — plus the
+ * disc - the deep magenta of the cross and the orange of the flame - plus the
  * pale pink where they meet. Those become `brand` and `accent`, with `crimson`
  * seated between them for the sacred marks, all over a warm parchment neutral.
  *
@@ -19,7 +19,7 @@
  */
 @theme {
   /*
-   * Brand — the magenta of the cross at the centre of the seal (#a81858, which
+   * Brand - the magenta of the cross at the centre of the seal (#a81858, which
    * lands between the 600 and 700 steps below). The light steps drift toward
    * the seal's pale pink (#f8c0d8, essentially the 200 step); the deep steps
    * stay luminance-dark so white text and buttons keep their contrast.
@@ -37,7 +37,7 @@
   --color-brand-950: oklch(0.226 0.09 4);
 
   /*
-   * Accent — the flame rising behind the cross (#e84000, the 600 step). This
+   * Accent - the flame rising behind the cross (#e84000, the 600 step). This
    * replaced an aged-brass gilding: the seal has no gold in it, and the flame
    * is the only warm colour the emblem actually carries. The lightest steps
    * lean amber so a highlight on a dark ground still reads as warm rather than
@@ -55,7 +55,7 @@
   --color-accent-900: oklch(0.352 0.106 31);
 
   /*
-   * Crimson — the sacred accent, used for cross ornaments, scripture marks and
+   * Crimson - the sacred accent, used for cross ornaments, scripture marks and
    * moments of reverence rather than as a loud brand colour.
    *
    * Sited at hue ~16, deliberately between the brand magenta (~1) and the
@@ -100,17 +100,17 @@
 
   /*
    * The card corner. Aliased to the sanctuary radius so a plain card and the
-   * squared foot of an arched frame are cut to the same curve — the arch
+   * squared foot of an arched frame are cut to the same curve - the arch
    * changes the head of a frame, never its base.
    */
   --radius-card: var(--radius-sanctuary);
 
   /*
-   * The control corner — buttons, chips, inputs, tabs.
+   * The control corner - buttons, chips, inputs, tabs.
    *
    * Fully rounded: the soft, capsule-cut control is part of this site's
    * existing character and it is kept. What was taken away from the buttons is
-   * the gradient wash and the coloured glow they carried, not their shape — the
+   * the gradient wash and the coloured glow they carried, not their shape - the
    * shape was never the thing that made them read as software.
    */
   --radius-control: 9999px;
@@ -121,7 +121,7 @@
    * Two hairlines' worth of shade and nothing more. The frame does the work of
    * separating a card from the parchment; the shadow only stops it floating
    * free of the page. Tinted with the warm neutral so it reads as shade on
-   * paper rather than grey haze, and kept short — a long, wide blur is the
+   * paper rather than grey haze, and kept short - a long, wide blur is the
    * quickest way to make an editorial page look like a dashboard.
    */
   --shadow-card:
@@ -132,7 +132,7 @@
     0 18px 34px -20px oklch(0.232 0.01 68 / 0.22);
 
   /*
-   * Editorial "plate" elevation — the broadsheet card language. Crisper and
+   * Editorial "plate" elevation - the broadsheet card language. Crisper and
    * flatter than the floating `--shadow-card`: a hairline contact edge with a
    * short brass-tinted lift on hover, so a plate reads as a pressed sheet on the
    * page rather than an object hovering above it.
@@ -149,11 +149,11 @@
   --shadow-plate-hover: var(--shadow-card-hover);
 
   /*
-   * The sheet radius — every card, plate, media well and panel on the site.
+   * The sheet radius - every card, plate, media well and panel on the site.
    *
    * Generously rounded, and deliberately so: the soft corner is part of this
    * site's warmth and it is kept at full strength. The refinement went into
-   * what sits *inside* the corner — flat surfaces, hairline frames and honest
+   * what sits *inside* the corner - flat surfaces, hairline frames and honest
    * shade instead of gradient washes and coloured bloom.
    */
   --radius-sanctuary: 1.375rem;
@@ -231,9 +231,9 @@
   /*
    * Hide the scrollbar without disabling the scroll.
    *
-   * Lenis already replaced the scrollbar's *job* — position is communicated by
+   * Lenis already replaced the scrollbar's *job* - position is communicated by
    * the hero's scroll cue, the header's surface change and the back-to-top
-   * button, all of which are part of the design — while the bar itself stayed
+   * button, all of which are part of the design - while the bar itself stayed
    * behind as a chrome-coloured strip down the edge of a full-bleed cinematic
    * page. Applied to every scroller, not just the document, so the mobile menu
    * and the dialogs do not each grow their own.
@@ -241,7 +241,7 @@
    * Scrolling itself is untouched: wheel, trackpad, touch, keyboard, and
    * dragging a text selection past the edge all behave exactly as before. The
    * bar is only ever a redundant readout here, so removing it costs the reader
-   * nothing — this is deliberately *not* `overflow: hidden`, which would.
+   * nothing - this is deliberately *not* `overflow: hidden`, which would.
    */
   html,
   body,
@@ -257,7 +257,7 @@
 
   /*
    * Escape hatch. Put `show-scrollbar` on anything that genuinely needs the
-   * affordance back — a tall scrolling region inside a dialog, say, where there
+   * affordance back - a tall scrolling region inside a dialog, say, where there
    * is no other cue that content continues below the fold.
    */
   .show-scrollbar {
@@ -294,7 +294,7 @@
    * Browser scroll anchoring has to be off while Lenis is driving.
    *
    * Anchoring silently adjusts `scrollTop` whenever content above the viewport
-   * changes size — a font swapping in (three families load with `display:swap`
+   * changes size - a font swapping in (three families load with `display:swap`
    * here), an image landing, a section reflowing. Lenis keeps its own target
    * position and does not observe those corrections, so the next wheel tick
    * drives from the pre-correction value and yanks the page back to where the
@@ -332,7 +332,7 @@
   /*
    * Tamil font selection, done by retargeting the token rather than the tag.
    *
-   * `font-display` resolves to Fraunces, which carries no Tamil glyphs — a
+   * `font-display` resolves to Fraunces, which carries no Tamil glyphs - a
    * Tamil string set in it falls back to whatever the browser picks, at
    * unrelated metrics. The previous rule here only covered `h1`–`h4`, but
    * `font-display` is applied to `<span>`, `<p>`, `<a>` and `<cite>` across the
@@ -345,7 +345,20 @@
    * with no per-component changes.
    */
   html[lang="ta"] {
-    --font-display: var(--font-noto-tamil), "Latha", sans-serif;
+    /*
+     * Tamil now pairs the way the Latin does: a serif for display, a sans for
+     * everything else.
+     *
+     * Both of these used to be Noto Sans Tamil, which meant a Tamil heading was
+     * a sans while the same heading in English was Fraunces. Noto Serif Tamil
+     * is drawn on the same skeleton as its sans, so the pair relates as Fraunces
+     * relates to Inter - and the two languages finally read as one design
+     * rather than as two.
+     *
+     * "Latha" is the Windows Tamil fallback and stays last, for the case where
+     * neither web font arrives.
+     */
+    --font-display: var(--font-noto-serif-tamil), "Latha", serif;
     --font-sans: var(--font-noto-tamil), "Latha", sans-serif;
   }
 
@@ -411,7 +424,7 @@
   }
 
   /*
-   * The full Tamil name (புனித மாற்கு ஆலயம்) is much wider than the English
+   * The full Tamil name (தூய மாற்கு ஆலயம்) is much wider than the English
    * wordmark, so it is set smaller to buy the nav back its space rather than
    * dropping a word from the church's name.
    */
@@ -426,7 +439,7 @@
 
 /**
  * Tamil words are agglutinative and run far longer than their English
- * counterparts — up to 22 characters unbroken ("வரவேற்கப்படுகிறார்கள்") where the
+ * counterparts - up to 22 characters unbroken ("வரவேற்கப்படுகிறார்கள்") where the
  * English is 10. With the default `overflow-wrap: normal` a word that long has
  * no break opportunity, so at display sizes on a narrow viewport it runs past
  * its container and drags the whole page into horizontal scroll.
@@ -441,7 +454,7 @@ html[lang="ta"] body {
 /*
  * Uppercase + wide tracking is a Latin small-caps device: it works because
  * Latin capitals are a separate, evenly-weighted set of forms. Tamil has no
- * capital forms, so `text-transform` does nothing while the tracking survives —
+ * capital forms, so `text-transform` does nothing while the tracking survives -
  * pulling apart grapheme clusters that must read as one unit, and inflating
  * "தென்னிந்திய திருச்சபை" by roughly 45px at 12px type, which is what pushed
  * the hero eyebrow and the app bar's locality line out of their containers on
@@ -481,14 +494,14 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  * body than Fraunces or Inter do at the same nominal size, because the glyphs
  * have to carry vowel signs above and below the main band.
  *
- * So the whole scale steps down together on phones — roughly two-thirds of the
+ * So the whole scale steps down together on phones - roughly two-thirds of the
  * Latin size for display type, easing to ~88% for small copy, since the
  * penalty is worst where the type is largest. Stepping headings alone would have left them
  * out of proportion with the body copy beneath them. Above `sm` there is enough
  * measure that the Latin sizes hold.
  *
  * The Latin mobile tier is fluid (clamp in the Heading/Text variants), so the
- * largest Tamil steps are fluid too, holding that ratio across the range — a
+ * largest Tamil steps are fluid too, holding that ratio across the range - a
  * fixed 1.75rem display would sit at par with Latin on a 390px phone and read
  * as if Tamil had not been reduced at all.
  */
@@ -540,7 +553,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
   /*
    * Noto Sans Tamil sets wider and taller than Fraunces at the same size, and
-   * the Tamil name is 18 characters against the English 17 — at `text-sm` it
+   * the Tamil name is 18 characters against the English 17 - at `text-sm` it
    * crowds the bar and squeezes the menu button. A step down keeps both lines
    * on one line each without shrinking Tamil below readable size.
    */
@@ -550,6 +563,111 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
   html[lang="ta"] [data-wordmark-sub] {
     font-size: 0.5625rem;
+  }
+}
+
+
+/*
+ * Tamil display type above the fold, from `sm` upward.
+ *
+ * The step-down below only covered phones. Above 640px Tamil was running at the
+ * full Latin scale - 48px, then 60px, then 72px for a display heading - and the
+ * hero is where that shows worst: the church's own name is 43 characters in
+ * Tamil against 33 in English, its glyphs are wider, and it carries vowel signs
+ * above and below the band, so the same nominal size occupies far more of the
+ * screen. The opening title was filling three lines and crowding everything
+ * under it.
+ *
+ * These are roughly three quarters of the Latin sizes, which is where the two
+ * languages set to the same *optical* weight rather than the same number. The
+ * hero reads as one design in either language, and the photograph behind it is
+ * visible again.
+ *
+ * Only the three largest levels move. Body copy, labels and small headings are
+ * already correct - the mismatch is a function of size, and it does not appear
+ * until type is big enough for the width difference to compound.
+ */
+@media (min-width: 40rem) {
+  html[lang="ta"] [data-heading="display"] {
+    font-size: 2.25rem;
+  }
+
+  html[lang="ta"] [data-heading="h1"] {
+    font-size: 1.75rem;
+  }
+
+  html[lang="ta"] [data-heading="h2"] {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  html[lang="ta"] [data-heading="display"] {
+    font-size: 2.75rem;
+  }
+
+  html[lang="ta"] [data-heading="h1"] {
+    font-size: 2.25rem;
+  }
+
+  html[lang="ta"] [data-heading="h2"] {
+    font-size: 1.875rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  html[lang="ta"] [data-heading="display"] {
+    font-size: 3.25rem;
+  }
+}
+
+/**
+ * The verse of the week, in Tamil.
+ *
+ * Everything above keys off `data-heading` / `data-text`, which the components
+ * set for us. The verse does not go through `Heading` - it sets its own scale
+ * inline, because it is neither a heading nor body copy but a single line of
+ * scripture struck across the section - so none of the Tamil steps reached it,
+ * and it was left at the full Latin curve: 28px on a phone climbing to 52px on
+ * a desktop, in a script that is wider per character and carries vowel signs
+ * above and below the band. Beside Tamil headings that had already stepped down
+ * to two thirds of their Latin size, the verse read as if it were shouting.
+ *
+ * These are ~72–75% of the Latin sizes at each step - the same ratio the
+ * display headings use, which is where the two scripts set to equal optical
+ * weight rather than equal numbers.
+ *
+ * Two things travel with the size. The leading is opened well past the Latin
+ * 1.24–1.34, which is tight even for Fraunces and overlaps one line's vowel
+ * signs with the next in Tamil; and the negative tracking is unset, for the
+ * reason the uppercase rule above gives - letter-spacing pulls apart grapheme
+ * clusters that have to read as one unit, and here it is pulling them together.
+ */
+html[lang="ta"] [data-verse-text] {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: normal;
+}
+
+@media (min-width: 40rem) {
+  html[lang="ta"] [data-verse-text] {
+    font-size: 1.6875rem;
+    line-height: 1.55;
+  }
+}
+
+@media (min-width: 64rem) {
+  html[lang="ta"] [data-verse-text] {
+    font-size: 2.375rem;
+    line-height: 1.5;
+  }
+}
+
+/* The tracking is a bracket value, so it lands in the utilities layer - the
+   same case the `uppercase` rule above documents. Unset it there too. */
+@layer utilities {
+  html[lang="ta"] [data-verse-text] {
+    letter-spacing: normal;
   }
 }
 
@@ -599,7 +717,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  * Verse of the week.
  *
  * A very slow warm bloom behind the scripture, so the dark ground breathes
- * instead of sitting flat. Long enough that it never reads as an animation —
+ * instead of sitting flat. Long enough that it never reads as an animation -
  * it should only be noticeable if you stay on the section.
  */
 @keyframes verse-bloom {
@@ -623,13 +741,13 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /* Editorial / broadsheet system                                              */
 /*                                                                            */
 /* The revamped page bodies read as a printed order of service: numbered      */
-/* section indices, brass keylines, drop caps and pull quotes. All additive — */
+/* section indices, brass keylines, drop caps and pull quotes. All additive - */
 /* the header and every hero draw from the tokens above and never touch these */
 /* classes, so their appearance is unchanged.                                 */
 /* -------------------------------------------------------------------------- */
 @layer utilities {
   /*
-   * Section index numeral — "Nº 01". Set in the display serif with a hanging
+   * Section index numeral - "Nº 01". Set in the display serif with a hanging
    * baseline so it reads as a printed folio mark. Lining tabular figures keep
    * the digits on a common width across a stack of sections.
    */
@@ -658,7 +776,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
 
   /*
-   * Pull quote — an oversized display-serif aside lifted out of the body, hung
+   * Pull quote - an oversized display-serif aside lifted out of the body, hung
    * off a brass rule. The italic axis of Fraunces gives it a lettered,
    * editorial voice distinct from the running text.
    */
@@ -718,7 +836,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /* The redesign's own visual language, drawn from the parish crest: the sky   */
 /* azure already carried by the brand tokens, the gilding of the accent, and  */
 /* the crimson cross introduced above. Built around the arch of a sanctuary   */
-/* window and light falling through glass. Purely additive — the header and   */
+/* window and light falling through glass. Purely additive - the header and   */
 /* every hero draw only from the tokens above and never touch these classes.  */
 /* -------------------------------------------------------------------------- */
 @layer utilities {
@@ -727,7 +845,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
    * elements that already clip their own overflow (so the paint containment it
    * implies changes nothing visible). `contain-intrinsic-size: auto …` lets the
    * browser remember the real size after first render, so returning to it never
-   * jumps. A pure rendering optimisation — no effect on appearance.
+   * jumps. A pure rendering optimisation - no effect on appearance.
    */
   .cv-auto {
     content-visibility: auto;
@@ -743,7 +861,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
 
   /*
-   * Window arch — a rounded (Romanesque) arched top on a media well or panel,
+   * Window arch - a rounded (Romanesque) arched top on a media well or panel,
    * echoing the sanctuary windows. Elliptical so it scales with the element
    * rather than snapping to a semicircle on wide crops.
    */
@@ -759,7 +877,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
 
   /*
-   * Gilded rule — a hairline that blooms from a warm centre and fades at both
+   * Gilded rule - a hairline that blooms from a warm centre and fades at both
    * ends, so it reads as a struck line rather than a hard divider. Pair
    * horizontally under a masthead or vertically as a column rule.
    */
@@ -775,13 +893,13 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   }
 
   /*
-   * The section rule — the short hairline struck under a heading, beside a
+   * The section rule - the short hairline struck under a heading, beside a
    * kicker, or beneath a caption. The most repeated mark on the site, so it is
    * a flat colour rather than a gradient: it is set both left-aligned and
    * centred, and a rule that fades to one side reads as broken when it is
    * centred under a name.
    *
-   * The flame of the seal at just under half strength — present enough to
+   * The flame of the seal at just under half strength - present enough to
    * belong to the brand, quiet enough that twenty of them down a page never
    * add up to decoration.
    */
@@ -806,14 +924,14 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   /*
    * Light through glass.
    *
-   * This was two tinted radial washes — one warm, one pink — floating in the
+   * This was two tinted radial washes - one warm, one pink - floating in the
    * middle of every light section. Two coloured blobs behind a page is the
    * clearest tell of a machine-made layout, and sat mid-band they read as a
    * stain rather than as light.
    *
    * Now it falls, and it falls from above: one warm source entering high and
    * off-axis, the way morning light comes through a clerestory window and lands
-   * down the far wall of a church. Same instinct, honest geometry — light has a
+   * down the far wall of a church. Same instinct, honest geometry - light has a
    * direction and a source, and once it has both the eye stops seeing a
    * gradient and starts seeing a room.
    */
@@ -839,13 +957,13 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
     );
   }
 
-  /* Sacred text — the crimson of the cross, for scripture references and marks. */
+  /* Sacred text - the crimson of the cross, for scripture references and marks. */
   .text-sacred {
     color: var(--sacred);
   }
 
   /*
-   * Gilded display text — a soft brass gradient clipped to the glyphs, for the
+   * Gilded display text - a soft brass gradient clipped to the glyphs, for the
    * occasional scripture line or ornament set on a dark ground.
    */
   .text-gild {
@@ -862,7 +980,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 }
 
 /*
- * Sanctuary reveal — the shared entrance for redesigned sections. A gentle rise
+ * Sanctuary reveal - the shared entrance for redesigned sections. A gentle rise
  * and settle, slower and softer than a UI transition so sections arrive with
  * the calm of the cinematic hero rather than snapping in.
  */
@@ -878,7 +996,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 }
 
 /*
- * Ambient gilded drift for decorative arch/halo glows behind sacred sections —
+ * Ambient gilded drift for decorative arch/halo glows behind sacred sections -
  * a very slow bloom so the light seems to breathe. Long enough that it never
  * reads as animation on a passing glance.
  */
@@ -907,7 +1025,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /* -------------------------------------------------------------------------- */
 
 /*
- * Ken Burns — a very slow, warm ambient zoom for feature and full-bleed
+ * Ken Burns - a very slow, warm ambient zoom for feature and full-bleed
  * imagery, so a still photograph breathes rather than sitting frozen. Paired
  * with `overflow-hidden` on the frame so the drift never reveals an edge.
  */
@@ -927,7 +1045,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
 /*
  * The three `float-*` drift animations that used to live here are gone with the
- * gilded motes they carried — six specks drifting behind the presbyter's letter
+ * gilded motes they carried - six specks drifting behind the presbyter's letter
  * and behind the closing invitation. Sparkle is the cheapest kind of atmosphere
  * and it was the only decoration on this site that carried no meaning at all;
  * light, grain and space do the work now.
@@ -935,7 +1053,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
 @layer utilities {
   /*
-   * Cinematic link underline — a hairline that draws in from the left on hover
+   * Cinematic link underline - a hairline that draws in from the left on hover
    * or keyboard focus and retracts on leave. A calm, reverent micro-interaction
    * for inline links, distinct from a hard `text-decoration`.
    */
@@ -963,7 +1081,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
 /*
  * Masked heading reveal. A display title rises out from behind its own baseline
- * as the block enters view — a filmic settle that pairs with the cinematic
+ * as the block enters view - a filmic settle that pairs with the cinematic
  * hero's language without touching it. The wrapper clips; the inner span rides.
  */
 @keyframes plate-rise {
@@ -985,7 +1103,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /* words "Scroll to explore"; the descent says the same thing without setting  */
 /* type over a photograph in two scripts.                                     */
 /*                                                                            */
-/* One composited transform on one small element, and nothing else — this sits */
+/* One composited transform on one small element, and nothing else - this sits */
 /* over the cinematic hero, which is already painting a canvas frame sequence  */
 /* on every scroll tick, and the cue must not be what costs that its frame.    */
 /* -------------------------------------------------------------------------- */
@@ -997,12 +1115,12 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
    * against the mote's own 6px box rather than the rule's height.
    *
    * Shorter on small screens deliberately. The home hero's panels sit on 96px
-   * of bottom padding there, and the cue is offset 32px from the bottom — at
+   * of bottom padding there, and the cue is offset 32px from the bottom - at
    * the desktop height the two would overlap by a finger's width on a phone,
    * which is where that matters most.
    */
   /*
-   * Halved. The rule was 3.25rem on a phone and 5rem above it — tall enough
+   * Halved. The rule was 3.25rem on a phone and 5rem above it - tall enough
    * that it read as a piece of the layout rather than as a hint, and on a short
    * viewport it took a visible slice out of the hero it was sitting on. A cue
    * is the smallest mark that will do the job; at 1.75rem the descent is still
@@ -1108,9 +1226,9 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /*   --season-light      the light falling into a section on parchment         */
 /*   --season-light-dark the same on the ink grounds                           */
 /*                                                                            */
-/* The colours follow the CSI Book of Common Worship's own sequence — violet   */
+/* The colours follow the CSI Book of Common Worship's own sequence - violet   */
 /* in Advent and Lent, white and gold at Christmas and Easter, red at          */
-/* Pentecost, green in ordinary time — but they are *drawn from the parish     */
+/* Pentecost, green in ordinary time - but they are *drawn from the parish     */
 /* crest* rather than sampled from a frontal. The seal carries a magenta cross */
 /* and an orange flame, and every season below is a mixture of those two with  */
 /* the parchment. So Lent is the crest's own magenta pulled toward violet and  */
@@ -1119,7 +1237,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 /*                                                                            */
 /* Nothing here moves a layout, swaps a photograph, or adds an element. A      */
 /* congregation walking into their own church in Lent does not find a          */
-/* different building — they find the same one, barer, and they know at once.  */
+/* different building - they find the same one, barer, and they know at once.  */
 /* -------------------------------------------------------------------------- */
 
 /*
@@ -1128,7 +1246,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  * The first attempt at this moved four properties by two per cent of lightness
  * and was, correctly, reported as no change at all. The reason is worth
  * recording: the components on this site do not paint with the semantic tokens,
- * they paint with the *scale* — `text-accent-700` on every eyebrow,
+ * they paint with the *scale* - `text-accent-700` on every eyebrow,
  * `rule-section` under every heading, `bg-sand-950` behind the week's verse. A
  * season that adjusts only `--background` adjusts almost nothing anyone can see.
  *
@@ -1144,8 +1262,8 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  *   the ink       --color-brand-900       (the presbyter's letter)
  *                 --color-sand-950        (the week's verse, photo scrims)
  *
- * Every value is mixed from the parish crest's two colours — the magenta of the
- * cross and the orange of the flame — pulled around the wheel and drained or
+ * Every value is mixed from the parish crest's two colours - the magenta of the
+ * cross and the orange of the flame - pulled around the wheel and drained or
  * enriched. Nothing here is a hue the church's own arms have no claim to.
  *
  * Contrast was checked at each step rather than assumed: `accent-700` is
@@ -1158,13 +1276,13 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
 
 
 /*
- * CHRISTMAS — red, on snow.
+ * CHRISTMAS - red, on snow.
  *
  * Two corrections are recorded in this block, because both were right.
  *
  * The first version was *warm*: amber paper, gold light, honey rules. It read
  * as autumn. Christmas in the imagination of every carol, card and crib scene
- * is cold — white light, snow, blue shadow — so the ground here is snow: a
+ * is cold - white light, snow, blue shadow - so the ground here is snow: a
  * white barely tinted, sitting a full step cooler and lighter than the
  * parchment the site keeps the rest of the year.
  *
@@ -1175,7 +1293,7 @@ html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
  * grounds behind the presbyter's letter and the week's verse are a deep
  * burgundy rather than the usual near-black.
  *
- * Red on snow, and nothing else competing — which is what a church looks like
+ * Red on snow, and nothing else competing - which is what a church looks like
  * on Christmas morning, and why the two colours have belonged to the feast for
  * five hundred years.
  */
@@ -1207,17 +1325,17 @@ html[data-season="christmas"] {
 }
 
 /*
- * ASH WEDNESDAY — ash, and one day of it.
+ * ASH WEDNESDAY - ash, and one day of it.
  *
  * The first day of Lent, and the only one on which a mark is put on the
- * congregation themselves. Lent is drained; this is drained *further* — the
+ * congregation themselves. Lent is drained; this is drained *further* - the
  * paper goes to the grey of cold ash with barely any violet left in it, and the
  * season's colour is the lowest-chroma of the whole year apart from Good
  * Friday.
  *
  * It sits between two things it must not be confused with. Against ordinary
  * time it should read as a fast beginning; against Good Friday it must still
- * have colour in it, because the altar is not stripped today — it is marked.
+ * have colour in it, because the altar is not stripped today - it is marked.
  * So: ash on the paper, the last of the violet in the rules, and the cross in
  * a grey deep enough to look like a thumbprint.
  */
@@ -1245,7 +1363,7 @@ html[data-season="ash-wednesday"] {
 }
 
 /*
- * LENT — violet, drained. Forty days of less.
+ * LENT - violet, drained. Forty days of less.
  *
  * The paper goes ashen and the season's colour loses most of its chroma, so the
  * eyebrows and rules that carry the flame for the rest of the year read as
@@ -1276,7 +1394,7 @@ html[data-season="lent"] {
   --season-light-dark: oklch(0.484 0.085 310 / 0.12);
 }
 
-/* HOLY WEEK — red over ash. The cross turns to the crimson of the Passion, the
+/* HOLY WEEK - red over ash. The cross turns to the crimson of the Passion, the
    last warmth leaves the paper, and the photography begins to veil. */
 html[data-season="holy-week"] {
   --background: oklch(0.911 0.009 25);
@@ -1302,10 +1420,10 @@ html[data-season="holy-week"] {
 }
 
 /*
- * GOOD FRIDAY — black and white.
+ * GOOD FRIDAY - black and white.
  *
  * The one day the church strips its own altar: no frontal, no flowers, no
- * light. So the site takes the colour out — not dimmed, not desaturated a
+ * light. So the site takes the colour out - not dimmed, not desaturated a
  * little, but *out*. Every step of every palette is redefined below as a pure
  * neutral at exactly the lightness it had in colour, so nothing shifts weight
  * or contrast: a button that was brand-700 is now the grey that brand-700
@@ -1317,7 +1435,7 @@ html[data-season="holy-week"] {
  * scroll; this is thirty-odd custom properties, resolved once.
  *
  * The photography is deliberately **left in colour**. The congregation should
- * still see their own church and their own faces on Good Friday — it is the
+ * still see their own church and their own faces on Good Friday - it is the
  * building that is stripped, not the people in it. What goes monochrome is
  * everything the site itself draws: type, rules, buttons, icons, chips, marks.
  *
@@ -1391,7 +1509,7 @@ html[data-season="good-friday"] {
 /*
  * The photography stays in colour, and these two rules are what say so.
  *
- * An earlier version veiled the images toward grey through Passiontide — the
+ * An earlier version veiled the images toward grey through Passiontide - the
  * practice of covering a church's crosses and images. It has been taken off:
  * the instruction is that the *interface* goes monochrome, not the pictures.
  * The rules remain, set to `none`, so that anything which later tries to filter
@@ -1403,12 +1521,12 @@ html[data-season="good-friday"] img {
 }
 
 /*
- * EASTER — white and gold, at full strength.
+ * EASTER - white and gold, at full strength.
  *
  * The brightest the year gets, and the deliberate opposite of Good Friday two
  * days earlier: paper at its lightest and warmest, gold in every rule and
- * eyebrow, the cross gilded rather than crimson — an empty cross in gold, which
- * is the Easter reading of it — and the ink grounds warmed from near-black to a
+ * eyebrow, the cross gilded rather than crimson - an empty cross in gold, which
+ * is the Easter reading of it - and the ink grounds warmed from near-black to a
  * lit brown.
  */
 html[data-season="easter"] {
@@ -1437,7 +1555,7 @@ html[data-season="easter"] {
 
 
 /*
- * CSI DAY — the 27th of September, and the only entry here that belongs to this
+ * CSI DAY - the 27th of September, and the only entry here that belongs to this
  * communion alone. Four churches became one in Madras in 1947, so the day is
  * dressed in both of the seal's colours at once: the magenta cross at full
  * strength with the flame carrying the light behind it.
@@ -1465,7 +1583,7 @@ html[data-season="csi-day"] {
 }
 
 /*
- * ORDINARY TIME — green in the BCW, and green is the one colour the parish
+ * ORDINARY TIME - green in the BCW, and green is the one colour the parish
  * crest does not contain. Rather than introduce a hue the church's own arms
  * have no claim to, the site rests: these are the tokens exactly as they are
  * defined at the top of this file, restated so the default reads as a decision
@@ -1489,7 +1607,7 @@ html[data-season="ordinary"] {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Christmas — the effects                                                    */
+/* Christmas - the effects                                                    */
 /*                                                                            */
 /* Easter is lit; Christmas is *decorated*, and the difference is deliberate.  */
 /* Where Eastertide adds one warm light to every surface, this adds objects to */
@@ -1501,7 +1619,7 @@ html[data-season="ordinary"] {
 /*
  * The bulbs on the string lights.
  *
- * Each one is a filled dot with its own halo, and they breathe out of step —
+ * Each one is a filled dot with its own halo, and they breathe out of step -
  * `animation-delay` is set per bulb from its index in `section-ornaments.tsx`,
  * so a string of twenty never pulses in unison. A synchronised string is a
  * status indicator; an unsynchronised one is a decoration.
@@ -1534,7 +1652,7 @@ html[data-season="ordinary"] {
  * A dusting along the top edge of every plate on the site, thicker at the
  * corners where snow actually gathers. It is a `::before` on the card rather
  * than an element, so nothing in the tree changes and every card gets it for
- * free — including ones written after today.
+ * free - including ones written after today.
  *
  * `border-radius: inherit` matters: the site's cards are generously rounded, so
  * a square cap would sit proud of both corners. Inheriting means the snow
@@ -1545,7 +1663,7 @@ html[data-season="ordinary"] {
  *
  * This cap is `position: absolute`, so it anchors to the nearest *positioned*
  * ancestor. Several elements on this site carry `shadow-card` without carrying
- * `relative` — the ruled contact register, the service timings table — and for
+ * `relative` - the ruled contact register, the service timings table - and for
  * those the cap escaped its own card entirely and anchored to the `<section>`,
  * which is `relative isolate`. The result was a 14px white bar straight across
  * the head of the whole section, at full width. That is what it looked like on
@@ -1586,7 +1704,7 @@ html[data-season="christmas"] .bg-brand-900::before {
 /*
  * Frost at the corners of the page.
  *
- * Fixed, behind everything, and only in the four corners — the way frost
+ * Fixed, behind everything, and only in the four corners - the way frost
  * actually forms on a window, from the edges inward. It is the one Christmas
  * effect that touches the whole viewport rather than a component, and it is
  * kept faint enough to be atmosphere rather than a border.
@@ -1632,7 +1750,7 @@ html[data-season="christmas"] [data-ornament="cross"] {
 }
 
 /*
- * Reduced motion: the bulbs stop breathing and settle at full brightness — a
+ * Reduced motion: the bulbs stop breathing and settle at full brightness - a
  * string of lights that is simply *on*. Everything else here is static anyway,
  * so the season loses its twinkle and keeps all of its decoration.
  */
@@ -1646,7 +1764,7 @@ html[data-season="christmas"] [data-ornament="cross"] {
 /*
  * Bokeh: the lights of the room, out of focus.
  *
- * A very slow lift and swell — the movement of a hand-held camera rather than
+ * A very slow lift and swell - the movement of a hand-held camera rather than
  * of the lights themselves, which is why it is measured in whole minutes and
  * why no two orbs share a period.
  */
@@ -1674,7 +1792,7 @@ html[data-season="christmas"] [data-ornament="cross"] {
  *
  * One element: the head is the box's own background, the tail is a gradient
  * drawn behind it by `::after`, angled to lie along the path of travel. Visible
- * for roughly two seconds in twenty — the opacity keyframes hold it at zero for
+ * for roughly two seconds in twenty - the opacity keyframes hold it at zero for
  * the other eighteen, so nothing has to be scheduled in JavaScript and nothing
  * is animating that anyone can see for most of the cycle.
  */
@@ -1728,7 +1846,7 @@ html[data-season="christmas"] [data-ornament="cross"] {
 /*
  * The candle in the section row, flickering.
  *
- * Only the flame, and only its opacity and a fractional scale — a flame that
+ * Only the flame, and only its opacity and a fractional scale - a flame that
  * moves position reads as a fault in the drawing. Three seconds, uneven, so it
  * never falls into a rhythm.
  */
@@ -1764,13 +1882,13 @@ html[data-season="christmas"] [data-ornament="cross"] {
 /*
  * The icicles that were here are gone, and the reason is worth keeping.
  *
- * They were drawn with a `repeating-conic-gradient` — a clever way to cut a row
+ * They were drawn with a `repeating-conic-gradient` - a clever way to cut a row
  * of spikes with no markup, and in this case simply wrong: a 90° wedge struck
  * from the top edge of a 26×22 tile fills almost the whole tile, so twenty of
  * them side by side render as one solid white band across the head of every
  * section. That is exactly what it looked like on the page.
  *
- * They are elements now (`Icicles` in `section-ornaments.tsx`) — one per spike,
+ * They are elements now (`Icicles` in `section-ornaments.tsx`) - one per spike,
  * each a triangle with its own width and length. More nodes, but a shape that
  * is *drawn* rather than inferred from the geometry of a gradient, and one that
  * can be looked at and corrected.
@@ -1791,11 +1909,11 @@ html[data-season="christmas"] [data-ornament="cross"] {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Christmas — the interface                                                  */
+/* Christmas - the interface                                                  */
 /*                                                                            */
 /* The decorations above put things *in* the room. This dresses the room       */
 /* itself: every control, surface, rule and state on the site takes the        */
-/* season's own three materials — deep red, gold, and frost — while keeping    */
+/* season's own three materials - deep red, gold, and frost - while keeping    */
 /* every shape, size and contrast ratio exactly as it is the rest of the year. */
 /*                                                                            */
 /* Nothing here changes a text colour or a fill that carries type. The whole   */
@@ -1807,7 +1925,7 @@ html[data-season="christmas"] [data-ornament="cross"] {
  * Buttons: a gift, ribboned.
  *
  * The fill is already the feast's deep red (the palette block above). What this
- * adds is the gold hairline around it and the warm shade beneath — the ribbon
+ * adds is the gold hairline around it and the warm shade beneath - the ribbon
  * and the weight of something wrapped. Hover brightens the gold rather than
  * lightening the red, so the label never loses contrast against its ground.
  */
@@ -1860,8 +1978,8 @@ html[data-season="christmas"] .hover\:shadow-card-hover:hover {
     0 34px 76px -30px oklch(0.452 0.178 22 / 0.55);
 }
 
-/* Every ringed surface — the ruled contact register, the timings table, the
-   arched portraits — takes the same gold hairline. */
+/* Every ringed surface - the ruled contact register, the timings table, the
+   arched portraits - takes the same gold hairline. */
 html[data-season="christmas"] .ring-1 {
   --tw-ring-color: oklch(0.842 0.1 86 / 0.32);
 }
@@ -1869,7 +1987,7 @@ html[data-season="christmas"] .ring-1 {
 /*
  * The section rule, as ribbon candy.
  *
- * The most repeated mark on the site becomes a barber's stripe for the season —
+ * The most repeated mark on the site becomes a barber's stripe for the season -
  * red and warm white on the diagonal. At one pixel tall it resolves into a fine
  * dashed line rather than a novelty, which is the point: it should register as
  * "this rule is dressed" and not as a candy cane laid across the page.
@@ -1907,7 +2025,7 @@ html[data-season="christmas"] .rule-gild {
 /*
  * Form fields, frosted.
  *
- * A cold, slightly blue field with a white inner highlight — glass with the
+ * A cold, slightly blue field with a white inner highlight - glass with the
  * cold on the other side of it. Focus turns the frame gold rather than red, so
  * the focus state is unmistakably *not* the error state, which is red all year.
  */
@@ -1930,7 +2048,7 @@ html[data-season="christmas"] :focus-visible {
   box-shadow: 0 0 0 4px oklch(0.842 0.1 86 / 0.3);
 }
 
-/* Frosted chips over photography — dates, counts, formats — take a cold rim. */
+/* Frosted chips over photography - dates, counts, formats - take a cold rim. */
 html[data-season="christmas"] .backdrop-blur-md,
 html[data-season="christmas"] .backdrop-blur-sm {
   box-shadow:
@@ -1959,7 +2077,7 @@ html[data-season="christmas"] ::selection {
 /*
  * The masthead, as frosted glass.
  *
- * The header's own shape, position and behaviour are untouched — this is the
+ * The header's own shape, position and behaviour are untouched - this is the
  * one property that says what the glass is made of, and for six weeks it is
  * made of cold.
  */
@@ -1968,7 +2086,7 @@ html[data-season="christmas"] .glass {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Easter — the light                                                         */
+/* Easter - the light                                                         */
 /*                                                                            */
 /* Every other season changes what colour the site is. This one changes how it */
 /* is *lit*: the surfaces glow. It is the one day of the year the building is  */
@@ -1977,13 +2095,13 @@ html[data-season="christmas"] .glass {
 /*                                                                            */
 /* Three rules keep it from becoming a neon sign:                             */
 /*                                                                            */
-/* Every glow is a `box-shadow` or a `text-shadow` — additive light around an  */
+/* Every glow is a `box-shadow` or a `text-shadow` - additive light around an  */
 /* element, never a change to its fill or its text colour. So no contrast      */
 /* ratio moves: the palette that passed AA at the top of this file is the      */
 /* palette still in use, and the light sits *outside* the letterforms.        */
 /*                                                                            */
 /* It is warm and it is one colour. The glow is the flame of the crest turned  */
-/* to gold — the same hue the Easter palette above is mixed from — so the page */
+/* to gold - the same hue the Easter palette above is mixed from - so the page */
 /* reads as one light source rather than as a set of components that each      */
 /* happen to be lit.                                                          */
 /*                                                                            */
@@ -1997,7 +2115,7 @@ html[data-season="easter"] {
   --paschal-soft: oklch(0.802 0.13 86 / 0.4);
 }
 
-/* Dawn over the whole page — the light that is already in the room before any
+/* Dawn over the whole page - the light that is already in the room before any
    component is lit by it. Behind everything, and fixed, so it reads as the sky
    rather than as a band at the top of the document. */
 html[data-season="easter"] body::before {
@@ -2028,7 +2146,7 @@ html[data-season="easter"] body::before {
  * The drift of the light shafts over the hero (`easter-rays.tsx`).
  *
  * A slow lean and a slight change of width, as the sun moves and the air in
- * front of it does. Deliberately long — half a minute a cycle — so it is felt
+ * front of it does. Deliberately long - half a minute a cycle - so it is felt
  * rather than watched, and composited (`transform`, `opacity`) so it costs the
  * scroll nothing. The blanket reduced-motion rule at the foot of this file
  * stills it and the shafts simply hold their position.
@@ -2089,7 +2207,7 @@ html[data-season="easter"] .shadow-plate {
 }
 
 /* Every framed surface takes a gilded hairline, not only the ones carrying a
-   shadow utility — the ruled register on the contact page, the timings table,
+   shadow utility - the ruled register on the contact page, the timings table,
    the arched portraits. */
 html[data-season="easter"] .ring-1 {
   --tw-ring-color: oklch(0.842 0.1 86 / 0.35);
@@ -2106,7 +2224,7 @@ html[data-season="easter"] .hover\:shadow-card-hover:hover {
     0 44px 100px -26px oklch(0.742 0.145 84 / 0.85);
 }
 
-/* The cross at the head of every section, haloed — the one place on the site
+/* The cross at the head of every section, haloed - the one place on the site
    where a glow is not decoration but the subject. */
 html[data-season="easter"] [data-ornament="cross"] {
   filter: drop-shadow(0 0 10px oklch(0.802 0.13 86 / 0.65))
@@ -2128,7 +2246,7 @@ html[data-season="easter"] [data-heading="h1"] {
   text-shadow: 0 0 28px oklch(0.802 0.13 86 / 0.45);
 }
 
-/* On the ink grounds — the presbyter's letter, the week's verse — the same
+/* On the ink grounds - the presbyter's letter, the week's verse - the same
    light, carried further because there is more dark for it to fall through. */
 html[data-season="easter"] .bg-sand-950 h1,
 html[data-season="easter"] .bg-sand-950 h2,
@@ -2143,7 +2261,7 @@ html[data-season="easter"] .bg-brand-900 h2 {
 /*
  * The rest of the interface catches the light too.
  *
- * Everything below is a `box-shadow`, a `text-shadow` or a `drop-shadow` — the
+ * Everything below is a `box-shadow`, a `text-shadow` or a `drop-shadow` - the
  * three properties that add light around a thing without touching the thing
  * itself. Nothing changes a fill, a text colour or a ring's opacity, so every
  * contrast ratio measured for this season still holds exactly.
@@ -2173,13 +2291,13 @@ html[data-season="easter"] .label {
   text-shadow: 0 0 14px oklch(0.862 0.12 88 / 0.55);
 }
 
-/* Line icons — the glyphs in the contact register, the card meta rows, the
+/* Line icons - the glyphs in the contact register, the card meta rows, the
    social marks in the footer. */
 html[data-season="easter"] svg {
   filter: drop-shadow(0 0 6px oklch(0.882 0.11 88 / 0.4));
 }
 
-/* Focus rings glow rather than merely outline — the one interactive state that
+/* Focus rings glow rather than merely outline - the one interactive state that
    must stay unmistakable in every season. */
 html[data-season="easter"] :focus-visible {
   box-shadow: 0 0 0 4px oklch(0.862 0.12 88 / 0.4);
@@ -2190,14 +2308,14 @@ html[data-season="easter"] :focus-visible {
  * wrong twice over.
  *
  * A `box-shadow` glows around the *whole* box, not along the one edge that
- * carries the border — so an element with `border-t` got a rectangle of light
+ * carries the border - so an element with `border-t` got a rectangle of light
  * on all four sides. And because most of these elements are transparent (the
  * footer's copyright row, card footers, list rows), the shadow was not even
  * hidden behind them: it showed straight through, drawing a visible box around
  * the content. That is exactly what appeared at the foot of the page.
  *
  * The selector was the deeper mistake. `.border-t` matches dozens of unrelated
- * things across the site — every card footer, every ruled list row — so the
+ * things across the site - every card footer, every ruled list row - so the
  * rule was lighting a class of element rather than a place in the design. A
  * seam worth marking is a decision about a specific boundary, not a broadcast
  * to every element that happens to carry a top border, and the site's section
@@ -2217,8 +2335,8 @@ html[data-season="easter"] img {
 /*
  * The verse in ordinary time.
  *
- * An arch was drawn here — the round head of the splash screen, struck as a
- * hairline behind the scripture — and taken out again on the ask. Nothing
+ * An arch was drawn here - the round head of the splash screen, struck as a
+ * hairline behind the scripture - and taken out again on the ask. Nothing
  * architectural replaced it, deliberately: the section is a page of type on a
  * dark ground, and the thing it actually wants is *light*, which is what every
  * other season here does too. So ordinary time gets the same treatment as the
@@ -2226,7 +2344,7 @@ html[data-season="easter"] img {
  * the foot so the words sit in a lit space rather than on a flat panel.
  *
  * Stated for the un-stamped root as well, which is the case when JavaScript
- * never arrives — a reader without it gets the considered version rather than
+ * never arrives - a reader without it gets the considered version rather than
  * the bare one.
  */
 html[data-season="ordinary"] [data-verse]::before,
@@ -2289,7 +2407,7 @@ html:not([data-season]) [data-verse]::after {
  * The verse, at Christmas: a frosted window with a candle behind it.
  *
  * This section is the one place on the site that is *not* built from
- * `Section` — it is a bare `<section>` with its own ground, so none of the
+ * `Section` - it is a bare `<section>` with its own ground, so none of the
  * seasonal ornament layers reach it and at Christmas it was the only band on
  * the page still undressed. It gets its own treatment here, through the same
  * `[data-verse]` hook Easter uses.
@@ -2297,7 +2415,7 @@ html:not([data-season]) [data-verse]::after {
  * The image is a window on a cold night, seen from inside: ice gathering in
  * from the four corners of the pane, a candle burning behind the glass, and
  * snow settled along the top edge of the frame. That is the right image for
- * this section specifically — it is the only part of the page with no
+ * this section specifically - it is the only part of the page with no
  * photography in it, so it can be a *place* rather than a panel.
  */
 
@@ -2313,7 +2431,7 @@ html[data-season="christmas"] [data-verse]::before {
     /*
      * Snow along the head of the frame, thicker where it gathers. It lives in
      * this layer rather than in one of its own because an element has only two
-     * pseudo-elements and both are spoken for — and a background-image stack is
+     * pseudo-elements and both are spoken for - and a background-image stack is
      * exactly the right tool for "several things painted on one plane".
      */
     radial-gradient(26px 13px at 14% 0, oklch(1 0 0 / 0.5), transparent 70%),
@@ -2352,7 +2470,7 @@ html[data-season="christmas"] [data-verse]::before {
 /*
  * The candle behind the glass: one warm source at the crown, in the feast's own
  * red-gold rather than the cold of the frost. The whole point of a cold season
- * is that the warm things in it read — so the ice is blue and the light is not.
+ * is that the warm things in it read - so the ice is blue and the light is not.
  */
 html[data-season="christmas"] [data-verse]::after {
   content: "";
@@ -2371,7 +2489,7 @@ html[data-season="christmas"] [data-verse]::after {
   mix-blend-mode: screen;
 }
 
-/* The scripture takes a warm halo — gold, against everything else here being
+/* The scripture takes a warm halo - gold, against everything else here being
    cold. */
 html[data-season="christmas"] [data-verse] blockquote p {
   text-shadow:
@@ -2393,15 +2511,15 @@ html[data-season="christmas"] [data-verse] cite {
  * nothing else it can be. The mistake was reaching for a *shape* that means
  * radiance instead of asking what the light in this room is actually doing.
  *
- * It falls. Every other Easter effect on the site falls — the dawn wash, the
- * shafts across the hero, the glow under a card — and the verse should be lit
+ * It falls. Every other Easter effect on the site falls - the dawn wash, the
+ * shafts across the hero, the glow under a card - and the verse should be lit
  * by the same sun as the rest of the page rather than by a light source of its
  * own invention.
  *
  * So the rays are struck from a point *above* the section and fan downward into
  * it. That is a conic gradient whose origin sits outside its own box: only the
  * wedge pointing down is inside the element, so only the downward fan is ever
- * drawn, and it genuinely diverges — the shafts are further apart at the foot
+ * drawn, and it genuinely diverges - the shafts are further apart at the foot
  * of the section than at the head, because they come from one place.
  *
  * Nothing rotates. The source is above the church, and it does not move.
@@ -2416,16 +2534,16 @@ html[data-season="easter"] [data-verse]::before {
   /*
    * Soft-edged shafts, and the edges are the whole point.
    *
-   * The first fall of light here used hard angular bands — `transparent 0 3.4deg,
-   * colour 3.4deg 5.2deg` — which is a stripe by definition: the colour begins
+   * The first fall of light here used hard angular bands - `transparent 0 3.4deg,
+   * colour 3.4deg 5.2deg` - which is a stripe by definition: the colour begins
    * and ends at an exact angle, so every ray had two crisp sides and the section
    * read as ruled rather than lit. Real shafts have no sides at all; they are
    * brightest along a centre line and fade to nothing across their width.
    *
    * Three stops per repeat gives that: transparent, colour, transparent, with
    * the gradient interpolating *between* them. The rays are also wider apart
-   * and much fainter than before — eight degrees of period against five, at a
-   * third of the alpha — because a soft ray needs room either side to fade into,
+   * and much fainter than before - eight degrees of period against five, at a
+   * third of the alpha - because a soft ray needs room either side to fade into,
    * and light that is doing its job is barely visible when you look straight at
    * it.
    */
@@ -2439,7 +2557,7 @@ html[data-season="easter"] [data-verse]::before {
   /*
    * A short blur on top of the soft stops. The gradient alone still resolves
    * into faint banding on a wide viewport, because a conic ramp spread over two
-   * thousand pixels quantises into steps at 8-bit colour — the same reason the
+   * thousand pixels quantises into steps at 8-bit colour - the same reason the
    * splash halo is a single ramp rather than two. Six pixels is under the width
    * of one ray, so it softens the banding without softening the shape.
    *
@@ -2470,7 +2588,7 @@ html[data-season="easter"] [data-verse]::before {
 
 /*
  * The source: a warm crown at the head of the section, where the shafts are
- * coming from. Held still, and placed at the top rather than behind the type —
+ * coming from. Held still, and placed at the top rather than behind the type -
  * light has somewhere it comes *from*, and on this page that is always above.
  */
 html[data-season="easter"] [data-verse]::after {
@@ -2499,7 +2617,7 @@ html[data-season="easter"] [data-verse] blockquote p {
 }
 
 /*
- * Reduced motion is not the relevant preference here — nothing moves — but a
+ * Reduced motion is not the relevant preference here - nothing moves - but a
  * reader who has asked for it is also, often, a reader who finds heavy visual
  * effects difficult. The glows come down to roughly a third rather than off
  * entirely, so the season still reads.
@@ -2523,7 +2641,7 @@ html[data-season="easter"] [data-verse] blockquote p {
 
 /*
  * The change of season, when it happens under a reader who is sitting on the
- * page — a preview switch, or midnight on Holy Saturday. Long enough to be a
+ * page - a preview switch, or midnight on Holy Saturday. Long enough to be a
  * change of light rather than a repaint, and only on the properties that carry
  * colour. Stilled entirely under reduced motion by the blanket rule at the foot
  * of this file.
@@ -2535,7 +2653,7 @@ html {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Snowfall — Advent and Christmastide                                        */
+/* Snowfall - Advent and Christmastide                                        */
 /*                                                                            */
 /* Mounted site-wide by `components/common/snowfall.tsx`, which renders        */
 /* nothing at all outside December and nothing for a reader who has asked for  */
@@ -2575,7 +2693,7 @@ html {
 }
 
 /*
- * The near flakes — the six large, blurred ones — are the only part of this
+ * The near flakes - the six large, blurred ones - are the only part of this
  * that costs anything to paint, and on a phone they are also the ones that read
  * as smudges rather than as depth at that scale. Held back for `sm` and up.
  */
@@ -2633,7 +2751,7 @@ html {
 /* The splash, by season                                                      */
 /*                                                                            */
 /* The opening frame is the first thing anyone sees, and until now it was the  */
-/* one surface on the site that kept the same colours all year — a magenta     */
+/* one surface on the site that kept the same colours all year - a magenta     */
 /* arch over a warm bloom, in Lent as much as at Christmas.                    */
 /*                                                                            */
 /* Six properties are lifted onto tokens here and retargeted per season below. */
@@ -2641,7 +2759,7 @@ html {
 /* blocks already move.                                                       */
 /*                                                                            */
 /* One timing note. The splash is server-rendered and up before hydration,     */
-/* while `data-season` is written a frame or two later — so the arch draws in  */
+/* while `data-season` is written a frame or two later - so the arch draws in  */
 /* the default colours for a moment and settles into the season's as it is     */
 /* being struck. Given the arch takes 1.4s to draw, the change lands inside    */
 /* the drawing rather than after it, which is why it reads as part of the      */
@@ -2663,7 +2781,7 @@ html {
 }
 
 /*
- * CHRISTMAS — the arch struck in the feast's red over a cold white, its
+ * CHRISTMAS - the arch struck in the feast's red over a cold white, its
  * keystones gilded, and the halo turned to frost. The one opening in the year
  * where the light behind the emblem is colder than the paper.
  */
@@ -2680,18 +2798,18 @@ html[data-season="christmas"] {
 }
 
 /*
- * LENT — the arch in drained violet on ashen paper, and the bloom behind it
+ * LENT - the arch in drained violet on ashen paper, and the bloom behind it
  * almost put out. The opening frame should already feel like the season before
  * a word of the site has loaded.
  */
 /*
- * ASH WEDNESDAY — the arch struck in ash, and nothing behind it.
+ * ASH WEDNESDAY - the arch struck in ash, and nothing behind it.
  *
  * This block was missing, and its absence is worth recording because of how it
  * failed: with no `--splash-*` tokens of its own the season fell through to
  * `:root`, so the opening frame on the greyest day of the year was drawn in the
- * crest's *pink*. Everything else about the day was correct — the palette, the
- * figures, the scripture — and the first thing anyone saw was the wrong colour
+ * crest's *pink*. Everything else about the day was correct - the palette, the
+ * figures, the scripture - and the first thing anyone saw was the wrong colour
  * entirely.
  *
  * The halo is transparent on both stops: on this day there is no light behind
@@ -2722,7 +2840,7 @@ html[data-season="lent"] {
   --splash-ring-b: oklch(0.772 0.045 310);
 }
 
-/* HOLY WEEK — the same, swung to the crimson of the Passion. */
+/* HOLY WEEK - the same, swung to the crimson of the Passion. */
 html[data-season="holy-week"] {
   --splash-line: oklch(0.662 0.128 18);
   --splash-point: oklch(0.492 0.155 17);
@@ -2736,7 +2854,7 @@ html[data-season="holy-week"] {
 }
 
 /*
- * GOOD FRIDAY — no colour and no light.
+ * GOOD FRIDAY - no colour and no light.
  *
  * The arch is struck in plain ink on stone, its keystones the same, and the
  * bloom behind it is `transparent` rather than dim: the halo is the one thing
@@ -2757,7 +2875,7 @@ html[data-season="good-friday"] {
 }
 
 /*
- * EASTER — gold, and the brightest the screen gets all year. The arch is
+ * EASTER - gold, and the brightest the screen gets all year. The arch is
  * gilded, the keystones burn, and the bloom is at full strength: the opening
  * frame is the first thing to say the season has turned, before the page
  * behind it has even been uncovered.
@@ -2774,7 +2892,7 @@ html[data-season="easter"] {
   --splash-ring-b: oklch(0.882 0.1 88);
 }
 
-/* CSI DAY — both of the seal's colours at full strength, which is the one
+/* CSI DAY - both of the seal's colours at full strength, which is the one
    thing this day is for. */
 html[data-season="csi-day"] {
   --splash-line: oklch(0.641 0.182 357);
@@ -2803,14 +2921,14 @@ html[data-season="good-friday"] .splash-crest img {
 /* closes down onto the masthead's own floating pill and becomes it, while the */
 /* crest flies into its slot in that pill. Both are measured from the real     */
 /* elements at the real viewport, so both land on the mark. What the reader     */
-/* has been looking at turns into the header they will use — which is the only */
+/* has been looking at turns into the header they will use - which is the only */
 /* honest way to join a splash to a site, and the reason there is no moment    */
 /* here where one thing stops and another starts.                              */
 /*                                                                            */
 /* Every animation in this sequence is `transform` or `opacity`, without        */
 /* exception. Those are the only two properties the compositor can run by       */
 /* itself; anything else is a main-thread paint, and this whole sequence plays  */
-/* during hydration — the busiest moment of the page's life, on whatever        */
+/* during hydration - the busiest moment of the page's life, on whatever        */
 /* hardware the reader actually has. A splash that stutters on its way out is   */
 /* worse than no splash at all.                                                */
 /*                                                                            */
@@ -2818,7 +2936,7 @@ html[data-season="good-friday"] .splash-crest img {
 /* obvious way to close a rectangle onto a pill and is the wrong one: Chrome    */
 /* does not composite `clip-path`, so every frame repainted the entire viewport */
 /* on the main thread, in competition with hydration. It is a `transform: scale`*/
-/* now — see `splash-screen.tsx` — which the compositor owns outright.          */
+/* now - see `splash-screen.tsx` - which the compositor owns outright.          */
 /* -------------------------------------------------------------------------- */
 
 .splash-shell {
@@ -2826,7 +2944,7 @@ html[data-season="good-friday"] .splash-crest img {
    * Fence the overlay off from the document underneath it.
    *
    * `contain` promises the browser that nothing in here can affect the layout,
-   * paint or styles of anything outside — which is true of a fixed, full-bleed
+   * paint or styles of anything outside - which is true of a fixed, full-bleed
    * overlay, and lets it skip re-checking the rest of the page while the
    * sequence plays. `size` is deliberately not included: the shell takes its
    * dimensions from `inset-0` and must keep doing so.
@@ -2835,7 +2953,7 @@ html[data-season="good-friday"] .splash-crest img {
 
   /*
    * Failsafe. The animation does nothing for its delay and then fades the
-   * whole thing out and takes it out of the flow — permanently, via `forwards`.
+   * whole thing out and takes it out of the flow - permanently, via `forwards`.
    *
    * This is the entire no-JS and broken-JS story. Every page here is
    * server-rendered and complete in the HTML, so a reader whose bundle never
@@ -2858,7 +2976,7 @@ html[data-season="good-friday"] .splash-crest img {
  * It is going to end up as the masthead's glass pill, and the pill is white.
  *
  * Only the resting, full-bleed state is here. The morph re-seats this element
- * onto the pill's measured box and scales it — geometry that only exists at
+ * onto the pill's measured box and scales it - geometry that only exists at
  * runtime, so it is set from `splash-screen.tsx`. What matters in this file is
  * that a document whose JS never runs still gets a plain white field, because
  * that is what the CSS failsafe fades out.
@@ -2870,7 +2988,7 @@ html[data-season="good-friday"] .splash-crest img {
   /*
    * Promoted up front, before it is asked to move. Requesting the layer in the
    * same frame as the animation starts means the first frame is spent creating
-   * it, which is exactly the frame that must not be dropped — and this is the
+   * it, which is exactly the frame that must not be dropped - and this is the
    * largest surface on the page.
    */
   will-change: transform;
@@ -2881,7 +2999,7 @@ html[data-season="good-friday"] .splash-crest img {
  * blank screen the site failed to fill. Sampled from the emblem above it: the
  * magenta of the cross, with the flame's orange beneath.
  *
- * `radial-gradient` on a fixed square rather than a blurred element — a
+ * `radial-gradient` on a fixed square rather than a blurred element - a
  * `filter: blur()` this large is a real cost on a mobile GPU, and this is
  * competing with hydration for the frame.
  */
@@ -2897,7 +3015,7 @@ html[data-season="good-friday"] .splash-crest img {
    * One ramp, not two, and it starts warmer than it needs to.
    *
    * The first version stacked two very low-alpha gradients over white and the
-   * result banded into visible concentric rings — 8-bit colour cannot express a
+   * result banded into visible concentric rings - 8-bit colour cannot express a
    * ramp that shallow over that many pixels, so the compositor rounds it into
    * steps. A single ramp with a stronger centre spends its alpha over a shorter
    * run and quantises below the threshold where the eye finds the edges.
@@ -2927,7 +3045,7 @@ html[data-season="good-friday"] .splash-crest img {
 /* The arch                                                                   */
 /*                                                                            */
 /* A round-headed arch: two jambs and a true semicircle struck between them.   */
-/* Romanesque rather than Gothic, and that is the faithful choice here — the   */
+/* Romanesque rather than Gothic, and that is the faithful choice here - the   */
 /* arch over St. Mark's own altar is round, so a lancet would have been a      */
 /* prettier drawing of somebody else's church. The crest sits inside the head, */
 /* where the rose window goes.                                                 */
@@ -2938,7 +3056,7 @@ html[data-season="good-friday"] .splash-crest img {
 /* would be a picture of an arch; this is the drawing of one.                  */
 /*                                                                            */
 /* It lives inside the crest's wrapper, which centres it on the crest with no  */
-/* arithmetic — and which stays put when the crest itself flies to the         */
+/* arithmetic - and which stays put when the crest itself flies to the         */
 /* masthead, because the flight is on the image, not the wrapper.              */
 /* -------------------------------------------------------------------------- */
 
@@ -3049,7 +3167,7 @@ html[data-season="good-friday"] .splash-crest img {
 }
 
 /*
- * The seal's own border, opening outward as the crest leaves — the ring that
+ * The seal's own border, opening outward as the crest leaves - the ring that
  * carries "THAT THEY ALL MAY BE ONE" around the edge of the emblem, and a rose
  * window besides. Two of them, offset, so it reads as light carrying rather
  * than as a single circle being drawn.
@@ -3093,7 +3211,7 @@ html[data-season="good-friday"] .splash-crest img {
 /* because the sweep says a specific thing is being waited for rather than     */
 /* that the page is merely busy.                                              */
 /*                                                                            */
-/* Indeterminate by design — there is no honest percentage to report, and a    */
+/* Indeterminate by design - there is no honest percentage to report, and a    */
 /* bar that invents one is a bar that sits at 90% while the real work          */
 /* finishes.                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -3114,7 +3232,7 @@ html[data-season="good-friday"] .splash-crest img {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  /* Brand at the head, flame at the tail — the emblem's two colours, in the
+  /* Brand at the head, flame at the tail - the emblem's two colours, in the
      order the eye meets them on the seal. */
   background: linear-gradient(
     90deg,
@@ -3151,7 +3269,7 @@ html[data-season="good-friday"] .splash-crest img {
 /*                                                                            */
 /* The white field closes onto the masthead's pill and becomes it; the crest   */
 /* flies into that pill's logo slot; the two land together. The dark hero is   */
-/* uncovered by the closing, not faded in behind it — there is no cross-fade   */
+/* uncovered by the closing, not faded in behind it - there is no cross-fade   */
 /* anywhere in this sequence, and so no frame that is two things at once.      */
 /*                                                                            */
 /* Both targets are measured from the live DOM in `splash-screen.tsx` and the  */
@@ -3167,7 +3285,7 @@ html[data-season="good-friday"] .splash-crest img {
 /*  900ms ────────── ground fades, the real pill is underneath ──┐             */
 /*                                                                            */
 /* The site itself is given nothing to do, deliberately. The hero fades its    */
-/* own canvas in over 700ms the moment its frames decode — that is the site's  */
+/* own canvas in over 700ms the moment its frames decode - that is the site's  */
 /* arrival, it was always there, and layering a second entrance over it is     */
 /* what makes a splash feel like a separate thing that happened first.         */
 /* -------------------------------------------------------------------------- */
@@ -3188,7 +3306,7 @@ html[data-season="good-friday"] .splash-crest img {
 
 /*
  * The wrapper's entrance is finished by JS immediately before the flight is
- * measured, so it is holding identity by the time this lands — but pinned here
+ * measured, so it is holding identity by the time this lands - but pinned here
  * as well, because the measurement is only correct if this element is not
  * moving, and that is worth stating twice.
  */
@@ -3199,7 +3317,7 @@ html[data-season="good-friday"] .splash-crest img {
 }
 
 /*
- * The arch opens outward and goes — struck line by line, taken away all at
+ * The arch opens outward and goes - struck line by line, taken away all at
  * once, because unbuilding it stroke by stroke would cost twice the length for
  * none of the meaning. It leaves before the crest does, so what the reader is
  * left following is the emblem on its way to the masthead.
@@ -3263,7 +3381,7 @@ html[data-season="good-friday"] .splash-crest img {
  * The masthead's own crest is held down while its counterpart is in the air.
  *
  * Without this there are two of the same emblem on screen for the length of
- * the flight — one sitting in the header, one flying toward it — which is the
+ * the flight - one sitting in the header, one flying toward it - which is the
  * single detail that would give the whole trick away. It comes back while the
  * white ground is still covering that corner, so it is never seen arriving.
  *
@@ -3286,7 +3404,7 @@ html[data-splash="leaving"] [data-header-crest] {
 /*
  * The seasonal figures along the foot of the splash.
  *
- * All five sets are in the markup and four are `display: none` — see the note
+ * All five sets are in the markup and four are `display: none` - see the note
  * at the render site in `splash-screen.tsx` for why the choice cannot be made
  * in JavaScript. The attribute selector below is what picks the one that
  * belongs to today, and it does so on the first frame, because the bootstrap
@@ -3295,7 +3413,7 @@ html[data-splash="leaving"] [data-header-crest] {
  * They stand on the foot of the frame rather than around the crest: the arch
  * and the emblem are the subject of this screen, and a row along the bottom is
  * the one place something can be added without competing with them. Same
- * instinct as the sections — the decoration goes where the ground is.
+ * instinct as the sections - the decoration goes where the ground is.
  */
 .splash-flora {
   position: absolute;
@@ -3338,7 +3456,7 @@ html[data-splash="leaving"] [data-header-crest] {
 }
 
 /* Easter hangs light instead of an object: a tapering shaft, brightest where
-   it enters. Same construction as the rays in the sections — a gradient and a
+   it enters. Same construction as the rays in the sections - a gradient and a
    clip, so there is no gradient `id` to collide with. */
 .splash-ray {
   width: 1.75rem;
@@ -3389,20 +3507,20 @@ html[data-season="easter"] .splash-flora {
 /* The splash, in motion, by season                                           */
 /*                                                                            */
 /* The colours of the opening frame already follow the year. This gives it a   */
-/* different *behaviour* in each season — how the light breathes, how patient  */
+/* different *behaviour* in each season - how the light breathes, how patient  */
 /* the wait is, and what happens as the crest leaves.                          */
 /*                                                                            */
 /* One constraint governs everything below, and it is why the arch's own       */
 /* drawing is never touched. `data-season` is written a frame or two after     */
 /* mount, so any animation whose timing changes at that moment restarts from   */
-/* the beginning — invisible on a loop that has no start anyone can see (the   */
+/* the beginning - invisible on a loop that has no start anyone can see (the   */
 /* bloom, the sweep), and a visible jump on a one-shot that is already partway */
 /* through (the arch being struck, the crest rising). So the seasons retune    */
 /* the loops and the exit, and leave the two one-shots alone.                  */
 /* -------------------------------------------------------------------------- */
 
 /*
- * CHRISTMAS — snow behind the arch, and a quicker light.
+ * CHRISTMAS - snow behind the arch, and a quicker light.
  *
  * The flakes are one tiled dot field moved by `transform`, not a scatter of
  * elements and not an animated `background-position`. Both alternatives cost a
@@ -3434,14 +3552,14 @@ html[data-season="christmas"] .splash-shell::before {
   }
 }
 
-/* The waiting rule sweeps quicker and brighter — a string of lights rather than
+/* The waiting rule sweeps quicker and brighter - a string of lights rather than
    a bar filling. */
 html[data-season="christmas"] .splash-rule::after {
   animation-duration: 1s;
 }
 
 /*
- * LENT — the light stops breathing and the wait grows patient.
+ * LENT - the light stops breathing and the wait grows patient.
  *
  * The bloom is held still rather than removed: a season of less is not a season
  * of nothing, and a halo that has stopped pulsing is exactly the difference.
@@ -3501,13 +3619,13 @@ html[data-season="holy-week"]
 }
 
 /*
- * GOOD FRIDAY — nothing moves that does not have to.
+ * GOOD FRIDAY - nothing moves that does not have to.
  *
  * The bloom is already `transparent` (the colour block above); here its
  * animation comes off as well, so there is not even a still gradient breathing
  * behind the emblem. The sweep stops and the rule becomes a plain track: on
  * this day the site does not tell you it is working, it simply waits. And the
- * rings do not open — the crest leaves without ceremony.
+ * rings do not open - the crest leaves without ceremony.
  *
  * The arch still draws. It is the one thing that should: a line arriving under
  * its own hand, in ink, on the day the church is stripped.
@@ -3532,7 +3650,7 @@ html[data-season="good-friday"]
 }
 
 /*
- * EASTER — the light at full strength, and the rings open wide.
+ * EASTER - the light at full strength, and the rings open wide.
  *
  * The bloom breathes faster and further, the sweep runs bright, and as the
  * crest flies to the masthead the two rings spread nearly twice as far as they
@@ -3592,7 +3710,7 @@ html[data-season="easter"]
  * Nothing decorative keeps looping through the exit.
  *
  * The bloom and the rule's sweep have no part to play once the splash is
- * leaving, and the exit is the most expensive moment in the sequence — a lift
+ * leaving, and the exit is the most expensive moment in the sequence - a lift
  * and a flight, both composited, both wanting the frame. Paused rather than
  * removed: `animation: none` would snap it back to its resting transform, which
  * is a visible twitch on the frame the reader is already watching something
@@ -3605,7 +3723,7 @@ html[data-season="easter"]
 /*
  * The lite tier, set from `splash-screen.tsx` on low-core and data-saver
  * devices. The three perpetual animations come off entirely; everything that
- * carries meaning — the arch drawing, the crest's flight, the morph — stays
+ * carries meaning - the arch drawing, the crest's flight, the morph - stays
  * exactly as it is. A slow device gets a simpler splash, not a broken one.
  */
 html[data-splash-lite] .splash-halo,
@@ -3627,7 +3745,7 @@ html[data-splash-lite] .splash-rule::after {
  * sweep, which is correct. Two things it does not cover:
  *
  * It collapses the failsafe's duration but not its delay, so the delay would
- * be the only thing left holding a screen that has nothing to show — pulled in
+ * be the only thing left holding a screen that has nothing to show - pulled in
  * here. And `splash-screen.tsx` reads the same media query and skips the morph
  * and the flight entirely, so the masthead rule above never engages and the
  * white simply goes, which is the whole of what a reader who asked for less
@@ -3644,7 +3762,7 @@ html[data-splash-lite] .splash-rule::after {
   }
 
   /* The ground is not closing onto anything, so it has to leave on its own,
-     and at once — it is the only thing between the reader and the page. */
+     and at once - it is the only thing between the reader and the page. */
   .splash-shell[data-phase="leaving"] .splash-ground {
     transition-delay: 0ms;
   }

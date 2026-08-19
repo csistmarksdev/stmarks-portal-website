@@ -2,7 +2,7 @@
  * The church year, as the Church of South India keeps it.
  *
  * Everything a church does is dated from two points: Christmas, which is fixed
- * to the 25th of December, and Easter, which is fixed to nothing — it is the
+ * to the 25th of December, and Easter, which is fixed to nothing - it is the
  * Sunday after the first full moon on or after the vernal equinox, which is why
  * Lent, Good Friday, Ascension and Pentecost all move by up to five weeks from
  * one year to the next.
@@ -10,20 +10,20 @@
  * So the site cannot carry a table of dates. It has to calculate the year the
  * way the church does, from Easter outward, and then ask what today is. That is
  * all this module does: dates in, season out. No React, no DOM, no styling
- * opinions — those live in `components/common/liturgical-season.tsx` and in the
+ * opinions - those live in `components/common/liturgical-season.tsx` and in the
  * season blocks of `globals.css`.
  *
  * ## Why this is the CSI calendar and not a generic one
  *
- * The CSI is a united church — Anglican, Methodist, Congregational,
- * Presbyterian and Reformed traditions joined in 1947 — in full communion with
+ * The CSI is a united church - Anglican, Methodist, Congregational,
+ * Presbyterian and Reformed traditions joined in 1947 - in full communion with
  * the Anglican Communion, and its *Book of Common Worship* keeps the Western
  * calendar and the Revised Common Lectionary. So:
  *
  * - The **Gregorian computus** below is the correct one. An Orthodox parish
  *   would need the Julian variant, which can put Easter five weeks later.
  * - **Lent is forty days plus Sundays**, counted back from Easter to Ash
- *   Wednesday — the Western reckoning, not the Eastern Great Lent.
+ *   Wednesday - the Western reckoning, not the Eastern Great Lent.
  * - **Pentecost closes Eastertide on the fiftieth day**, and the long green
  *   stretch after it is ordinary time rather than a numbered Trinity season.
  * - **CSI Day, the 27th of September**, is in here and would be in no other
@@ -31,7 +31,7 @@
  *   George's Cathedral, Madras. It is the one observance on this list that
  *   belongs to this communion alone, and a CSI congregation keeps it.
  *
- * The colours the seasons are dressed in follow the CSI BCW's own sequence —
+ * The colours the seasons are dressed in follow the CSI BCW's own sequence -
  * violet through Advent and Lent, white and gold at Christmas and Easter, red
  * at Pentecost, green in ordinary time, and Good Friday stripped bare. They are
  * stated in the season blocks of `globals.css`, where they are actually
@@ -43,13 +43,13 @@
  *
  * Deliberately shorter than a full lectionary, and shorter again than the first
  * version of this file: Advent, Epiphany and Pentecost were kept here and are
- * not any more. They remain in the church's calendar, of course — this is a
+ * not any more. They remain in the church's calendar, of course - this is a
  * list of the days the *website* changes its clothes for, not a statement about
  * what the parish observes.
  *
  * One consequence worth recording, because it is not obvious: with Advent gone,
  * Christmas is what carries December. It runs **1 December to 1 January** here,
- * which is neither of the liturgical boundaries — Christmastide proper is the
+ * which is neither of the liturgical boundaries - Christmastide proper is the
  * twelve days from the 25th to Twelfth Night. It opens early because the month
  * of waiting has to be dressed for by something, and it closes on New Year's
  * Day because that is when decorations actually come down. Both departures are
@@ -77,7 +77,7 @@ export const SEASONS: readonly Season[] = [
 ];
 
 /**
- * CSI Day — the 27th of September.
+ * CSI Day - the 27th of September.
  *
  * The Church of South India was inaugurated in St George's Cathedral, Madras,
  * on the 27th of September 1947: four traditions that had been separate
@@ -89,7 +89,7 @@ export const SEASONS: readonly Season[] = [
  */
 const CSI_DAY = { month: 9, date: 27 };
 
-/** A calendar day with no time and no zone — the only unit this file deals in. */
+/** A calendar day with no time and no zone - the only unit this file deals in. */
 type Day = { year: number; month: number; date: number };
 
 /** Days since an arbitrary epoch, so two days can be compared and offset. */
@@ -101,7 +101,7 @@ function toOrdinal({ year, month, date }: Day): number {
  * Easter Sunday, by the anonymous Gregorian computus.
  *
  * Also called the Meeus/Jones/Butcher algorithm. It is presented without
- * derivation in every source that carries it, including this one — the working
+ * derivation in every source that carries it, including this one - the working
  * is a page of modular arithmetic reconciling the 19-year Metonic lunar cycle
  * with the Gregorian leap rule and its century corrections. The variable names
  * are the traditional ones precisely so that the code can be checked against
@@ -149,17 +149,17 @@ export function getSeason(date: Date): Season {
   /* Good Friday. One day, and the only one the site strips itself for. */
   if (today === easter - 2) return "good-friday";
 
-  /* Palm Sunday through Holy Saturday — Good Friday already answered above. */
+  /* Palm Sunday through Holy Saturday - Good Friday already answered above. */
   if (today >= easter - 7 && today < easter) return "holy-week";
 
   /*
-   * Ash Wednesday — the first day of Lent, and dressed for separately.
+   * Ash Wednesday - the first day of Lent, and dressed for separately.
    *
    * Tested before the Lent range that contains it, for the same reason Good
    * Friday is tested before Holy Week: these seasons nest, and a day inside a
    * range can only win if it is asked about first.
    *
-   * It is 46 days before Easter — forty days of Lent, plus the six Sundays
+   * It is 46 days before Easter - forty days of Lent, plus the six Sundays
    * inside it, which are not counted because a Sunday is never a fast.
    */
   if (today === easter - 46) return "ash-wednesday";
@@ -175,7 +175,7 @@ export function getSeason(date: Date): Season {
   /*
    * Christmas: the whole of December, and New Year's Day.
    *
-   * Two tests rather than one range because the season crosses the new year —
+   * Two tests rather than one range because the season crosses the new year -
    * on the 1st of January the December in question is the *previous* year's,
    * and an ordinal comparison against `year` would look for a December that has
    * not happened yet.
@@ -185,7 +185,7 @@ export function getSeason(date: Date): Season {
    * separately here, so Christmas has to carry the month the congregation
    * actually spends waiting. It closes on the 1st of January rather than at
    * Twelfth Night on the 5th because that is where the decorations come down in
-   * practice — the site should not still be hung with baubles in the week
+   * practice - the site should not still be hung with baubles in the week
    * everyone has gone back to work.
    */
   if (today >= toOrdinal({ year, month: 12, date: 1 })) return "christmas";
@@ -204,7 +204,7 @@ export function getSeason(date: Date): Season {
 /**
  * Whether the season carries the snow and the decorations.
  *
- * Christmas, and only Christmas — 1 December through New Year's Day. The snow,
+ * Christmas, and only Christmas - 1 December through New Year's Day. The snow,
  * the garland, the treeline in every section and the frieze at the foot of the
  * page all key off this one answer, so they arrive together and leave together
  * and no single piece of it can be left hanging into January on its own.
@@ -216,13 +216,13 @@ export function isSnowSeason(season: Season): boolean {
 /**
  * Whether the season carries the bare-branch decorations.
  *
- * Lent and Holy Week — and pointedly **not** Good Friday, which sits inside
+ * Lent and Holy Week - and pointedly **not** Good Friday, which sits inside
  * both, nor **Ash Wednesday**, which has a scene and a row of its own.
  *
  * Ash Wednesday was briefly included here, and it caused exactly the bug that
  * inclusion invites: the Lenten scene and the Ash Wednesday scene both rendered
- * at the foot of the page, so the day carried two scriptures — Genesis 3:19
- * above Joel 2:12 — and two sets of figures. Every call site then had to
+ * at the foot of the page, so the day carried two scriptures - Genesis 3:19
+ * above Joel 2:12 - and two sets of figures. Every call site then had to
  * exclude it again by hand, which is the signal that the predicate was wrong
  * rather than the call sites. A day that is dressed for separately does not
  * belong in the predicate for the season around it. On that one day the church strips its own altar, so the site carries

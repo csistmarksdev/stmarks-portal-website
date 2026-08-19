@@ -6,11 +6,11 @@
  *
  * These exist so the gallery's video playback can be exercised before the
  * church supplies its own recordings. **They are not the parish's content.**
- * Every caption is prefixed with `DEMO —` and every item is removable with one
+ * Every caption is prefixed with `DEMO -` and every item is removable with one
  * command, so nothing here can quietly reach a live site.
  *
  * The videos are Blender Foundation open movies: Creative Commons, online for
- * over a decade, and obviously not church footage — a placeholder that looks
+ * over a decade, and obviously not church footage - a placeholder that looks
  * like a real service recording is the one thing worse than no placeholder.
  *
  * Posters come from the Portal's own `/admin/media/video-poster` endpoint,
@@ -28,7 +28,7 @@ const PASSWORD = process.env.PORTAL_ADMIN_PASSWORD ?? "ChangeMe@123";
 const REMOVE = process.argv.includes("--remove");
 
 /** Marks every record this script owns, so removal never guesses. */
-const MARKER = "DEMO —";
+const MARKER = "DEMO -";
 
 const DEMO_VIDEOS = [
   {
@@ -92,7 +92,7 @@ async function add() {
   for (const demo of DEMO_VIDEOS) {
     const album = await adminAlbum(demo.album);
     if (!album) {
-      console.log(`  ! ${demo.album} — no such album, skipped`);
+      console.log(`  ! ${demo.album} - no such album, skipped`);
       continue;
     }
 
@@ -100,7 +100,7 @@ async function add() {
       photo.video?.url === demo.url,
     );
     if (already) {
-      console.log(`  = ${demo.album} — already present`);
+      console.log(`  = ${demo.album} - already present`);
       continue;
     }
 
@@ -125,7 +125,7 @@ async function add() {
       ],
     });
 
-    console.log(`  + ${demo.album} — ${demo.url}`);
+    console.log(`  + ${demo.album} - ${demo.url}`);
   }
 }
 
@@ -142,7 +142,7 @@ async function remove() {
       if (!isDemo) continue;
 
       await request("DELETE", `/admin/gallery/${album.id}/photos/${photo.id}`);
-      console.log(`  - ${album.slug} — ${photo.video?.url ?? photo.id}`);
+      console.log(`  - ${album.slug} - ${photo.video?.url ?? photo.id}`);
       removed += 1;
     }
   }

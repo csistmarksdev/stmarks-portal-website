@@ -13,7 +13,7 @@ import { Heading, Text } from "./typography";
 const sectionVariants = cva("relative isolate w-full", {
   variants: {
     /*
-     * Breath. A church is mostly empty space and that is the point of it — the
+     * Breath. A church is mostly empty space and that is the point of it - the
      * quiet around a thing is what tells you it is worth attending to. The
      * scale runs one step more generous than a marketing page would, and the
      * largest step is genuinely large, because the sections it carries (the
@@ -81,7 +81,7 @@ export function Section({
 
       {/*
         Christmas decorations in the gutters, on the same `-z-10` layer as the
-        section's light and grain — so they are always behind the words, and
+        section's light and grain - so they are always behind the words, and
         nothing else has to know they exist. Renders `null` for the rest of the
         year, and on any screen too narrow to have a margin worth decorating.
       */}
@@ -104,7 +104,7 @@ export function Section({
  * material of the section rather than a scrim over it.
  *
  * Light grounds gain a whisper of printed grain plus a very soft off-axis glow
- * — light falling through a window — so no two plain parchment bands sit flat
+ * - light falling through a window - so no two plain parchment bands sit flat
  * beside each other. Ink grounds lift the grain and add a warmer crimson-gilt
  * bloom, so the dark bands breathe.
  */
@@ -134,7 +134,7 @@ function SectionAtmosphere({ tone }: { tone: SectionProps["tone"] }) {
    * There were four layers here: grain, two tinted radial washes, a white
    * gradient down from the top and a grey one up from the foot. Stacked on
    * every section, the washes tinted the parchment unevenly and the foot
-   * gradient put a soft grey band across every seam in the page — a section
+   * gradient put a soft grey band across every seam in the page - a section
    * boundary that reads as a smudge rather than as a decision. Paper has a
    * texture and a light source; it does not have four.
    */
@@ -172,7 +172,7 @@ export interface SectionHeadingProps {
 }
 
 /**
- * Section masthead — a sanctuary header.
+ * Section masthead - a sanctuary header.
  *
  * The crimson cross of the crest opens the block, a small-caps kicker beside
  * it; an oversized display title drops below, closed by a gilded rule that
@@ -193,7 +193,7 @@ export function SectionHeading({
   const onDark = tone === "onDark";
 
   // A big, cinematic type ramp so a section opens with the presence of a page
-  // title. Deliberately larger than the default h2 — sections should land with
+  // title. Deliberately larger than the default h2 - sections should land with
   // weight, not read as sub-heads.
   const titleClass =
     level === "h1"

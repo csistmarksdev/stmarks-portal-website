@@ -173,7 +173,7 @@ export interface ChurchEvent extends BaseEntity {
 /* -------------------------------------------------------------------------- */
 
 /**
- * A written piece about church life — a report on an event, a reflection, a
+ * A written piece about church life - a report on an event, a reflection, a
  * testimony. Authored in the CMS and served by the API; `body` is an ordered
  * list of paragraphs so it maps cleanly onto a rich-text field later.
  */
@@ -207,7 +207,7 @@ export interface GalleryVideo {
 }
 
 /**
- * One item in a gallery: a photograph, or — when `video` is set — a video whose
+ * One item in a gallery: a photograph, or - when `video` is set - a video whose
  * `image` is its poster/thumbnail. Modelling both as one type keeps albums a
  * single ordered stream the lightbox can page through, the way Google Photos
  * mixes stills and clips.

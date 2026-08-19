@@ -71,8 +71,8 @@ export const FELLOWSHIPS: Fellowship[] = [
     },
     about: [
       {
-        en: "A space for newly married and young families to grow together — with honest conversation about marriage, parenting and faith, and plenty of shared meals along the way.",
-        ta: "புதிதாகத் திருமணமானவர்களும் இளம் குடும்பங்களும் ஒன்றாக வளர ஓர் இடம் — திருமணம், பிள்ளை வளர்ப்பு, விசுவாசம் குறித்த நேர்மையான உரையாடலோடு, பகிர்ந்த உணவுகளோடும்.",
+        en: "A space for newly married and young families to grow together - with honest conversation about marriage, parenting and faith, and plenty of shared meals along the way.",
+        ta: "புதிதாகத் திருமணமானவர்களும் இளம் குடும்பங்களும் ஒன்றாக வளர ஓர் இடம் - திருமணம், பிள்ளை வளர்ப்பு, விசுவாசம் குறித்த நேர்மையான உரையாடலோடு, பகிர்ந்த உணவுகளோடும்.",
       },
     ],
     vision: {
@@ -147,8 +147,8 @@ export const FELLOWSHIPS: Fellowship[] = [
     tagline: { en: "Make a joyful noise", ta: "ஆனந்த சத்தமிடுங்கள்" },
     about: [
       {
-        en: "The choir leads the congregation in worship each Sunday and prepares special music for festivals, weddings and diocesan occasions. New voices are always welcome — no audition required, only commitment to practice.",
-        ta: "கீர்த்தனைக் குழு ஒவ்வொரு ஞாயிறும் சபையை ஆராதனையில் வழிநடத்துகிறது, பண்டிகைகள், திருமணங்கள், மறைமாவட்ட நிகழ்வுகளுக்குச் சிறப்பு இசையைத் தயாரிக்கிறது. புதிய குரல்கள் எப்போதும் வரவேற்கப்படுகின்றன — தேர்வு இல்லை, பயிற்சிக்கான அர்ப்பணிப்பு மட்டுமே.",
+        en: "The choir leads the congregation in worship each Sunday and prepares special music for festivals, weddings and diocesan occasions. New voices are always welcome - no audition required, only commitment to practice.",
+        ta: "கீர்த்தனைக் குழு ஒவ்வொரு ஞாயிறும் சபையை ஆராதனையில் வழிநடத்துகிறது, பண்டிகைகள், திருமணங்கள், மறைமாவட்ட நிகழ்வுகளுக்குச் சிறப்பு இசையைத் தயாரிக்கிறது. புதிய குரல்கள் எப்போதும் வரவேற்கப்படுகின்றன - தேர்வு இல்லை, பயிற்சிக்கான அர்ப்பணிப்பு மட்டுமே.",
       },
     ],
     vision: {
@@ -188,8 +188,8 @@ export const FELLOWSHIPS: Fellowship[] = [
     },
     about: [
       {
-        en: "The women's fellowship meets for Bible study and prayer, and carries much of the church's outreach — visiting the sick, supporting families in need, and organising the annual harvest festival.",
-        ta: "மகளிர் ஐக்கியம் வேதாகம வகுப்பு மற்றும் ஜெபத்திற்காகக் கூடுகிறது, திருச்சபையின் சேவைப் பணிகளில் பெரும்பகுதியைச் சுமக்கிறது — நோயாளிகளைச் சந்தித்தல், தேவையுள்ள குடும்பங்களுக்கு உதவுதல், ஆண்டு அறுவடைத் திருவிழாவை ஒழுங்கமைத்தல்.",
+        en: "The women's fellowship meets for Bible study and prayer, and carries much of the church's outreach - visiting the sick, supporting families in need, and organising the annual harvest festival.",
+        ta: "மகளிர் ஐக்கியம் வேதாகம வகுப்பு மற்றும் ஜெபத்திற்காகக் கூடுகிறது, திருச்சபையின் சேவைப் பணிகளில் பெரும்பகுதியைச் சுமக்கிறது - நோயாளிகளைச் சந்தித்தல், தேவையுள்ள குடும்பங்களுக்கு உதவுதல், ஆண்டு அறுவடைத் திருவிழாவை ஒழுங்கமைத்தல்.",
       },
     ],
     vision: {
@@ -311,8 +311,8 @@ export const FELLOWSHIPS: Fellowship[] = [
     },
     about: [
       {
-        en: "Alongside our main fellowships, smaller groups gather around shared callings — senior members, area prayer cells, the media and sound team, and seasonal mission groups.",
-        ta: "எங்கள் முக்கிய ஐக்கியங்களுடன், பகிர்ந்த அழைப்புகளைச் சுற்றி சிறிய குழுக்கள் கூடுகின்றன — மூத்த உறுப்பினர்கள், பகுதி ஜெபக் குழுக்கள், ஊடகம் மற்றும் ஒலி குழு, பருவகால மிஷன் குழுக்கள்.",
+        en: "Alongside our main fellowships, smaller groups gather around shared callings - senior members, area prayer cells, the media and sound team, and seasonal mission groups.",
+        ta: "எங்கள் முக்கிய ஐக்கியங்களுடன், பகிர்ந்த அழைப்புகளைச் சுற்றி சிறிய குழுக்கள் கூடுகின்றன - மூத்த உறுப்பினர்கள், பகுதி ஜெபக் குழுக்கள், ஊடகம் மற்றும் ஒலி குழு, பருவகால மிஷன் குழுக்கள்.",
       },
       {
         en: "If you would like to start or join one of these, speak with the church office.",

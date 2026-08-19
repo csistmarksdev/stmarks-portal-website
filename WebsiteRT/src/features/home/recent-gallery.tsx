@@ -43,7 +43,7 @@ export async function RecentGallery() {
         /*
           Bento layout: the newest album takes a double-width, double-height
           tile with the rest stacked beside it. Row height is set on the grid
-          and cards use `ratio="fill"` — an intrinsic aspect ratio would fight
+          and cards use `ratio="fill"` - an intrinsic aspect ratio would fight
           the row spans and leave uneven gaps.
         */
         <StaggerGroup className="grid auto-rows-[200px] gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[228px]">

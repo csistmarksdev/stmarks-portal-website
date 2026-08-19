@@ -19,7 +19,7 @@ export interface PhotoGridProps {
 
 type Provider = "file" | "youtube" | "vimeo";
 
-/** Which player an item needs — honour an explicit provider, else read the URL. */
+/** Which player an item needs - honour an explicit provider, else read the URL. */
 function resolveProvider(video: GalleryVideo): Provider {
   if (video.provider) return video.provider;
   if (/(?:youtube\.com|youtu\.be)/i.test(video.url)) return "youtube";
@@ -90,7 +90,7 @@ export function PhotoGrid({ photos, locale, className }: PhotoGridProps) {
   const activeVideo = activePhoto?.video ?? null;
   const activeProvider = activeVideo ? resolveProvider(activeVideo) : null;
   /*
-   * Captions are `LocalizedTextOptional`, so either language may be missing —
+   * Captions are `LocalizedTextOptional`, so either language may be missing -
    * an editor who writes only English should still see it rather than nothing.
    */
   const caption = activePhoto?.caption
@@ -249,7 +249,7 @@ export function PhotoGrid({ photos, locale, className }: PhotoGridProps) {
             </div>
 
             {/* The caption an editor wrote in the Portal. It was stored and
-                served all along without ever reaching the page — a field that
+                served all along without ever reaching the page - a field that
                 changes nothing when filled in is worse than no field. */}
             {caption ? (
               <figcaption className="relative z-20 mx-auto w-full max-w-3xl px-4 pb-6 text-center text-sm leading-relaxed text-white/80 sm:px-6 sm:text-base">

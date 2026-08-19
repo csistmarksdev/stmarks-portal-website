@@ -13,7 +13,7 @@ export interface PullQuoteProps {
 
 /**
  * An oversized display-serif aside lifted out of the running text and hung off
- * a brass rule — the broadsheet pull quote. Purely typographic emphasis; the
+ * a brass rule - the broadsheet pull quote. Purely typographic emphasis; the
  * same words usually appear in the body, so it carries no landmark of its own.
  */
 export function PullQuote({
@@ -71,7 +71,7 @@ export interface LeadProps {
 
 /**
  * Opening paragraph of a long read, set larger than the body with an initial
- * drop cap (Latin only — the CSS scopes `::first-letter` to `lang="en"`, so
+ * drop cap (Latin only - the CSS scopes `::first-letter` to `lang="en"`, so
  * Tamil leads render as a plain enlarged paragraph).
  */
 export function Lead({
@@ -117,7 +117,7 @@ export interface StatLedgerProps {
 }
 
 /**
- * A ruled row of figures — founding year, member count, service count — set as
+ * A ruled row of figures - founding year, member count, service count - set as
  * a ledger: big display numerals over small-caps labels, divided by faint
  * column rules the way a printed table rules off its columns.
  */

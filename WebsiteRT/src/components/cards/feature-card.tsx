@@ -6,7 +6,7 @@ export interface FeatureCardProps {
   icon: LucideIcon;
   title: string;
   body: string;
-  /** Which crest colour tints the tablet's details — the azure or the gilding. */
+  /** Which crest colour tints the tablet's details - the azure or the gilding. */
   accent?: "brand" | "gold";
   className?: string;
 }
@@ -23,7 +23,7 @@ const ACCENTS = {
 } as const;
 
 /**
- * A statement tablet — vision & mission set as illuminated leaves rather than
+ * A statement tablet - vision & mission set as illuminated leaves rather than
  * inked gradient panels. A warm parchment ground carries a gilded inner frame,
  * a line icon in a tinted ring, the statement in the display serif over a
  * gilded rule, and the initial of the statement standing behind it as a faint
@@ -47,7 +47,7 @@ export function FeatureCard({
         className,
       )}
     >
-      {/* Gilded inner frame — a hairline set in from the edge, like a ruled
+      {/* Gilded inner frame - a hairline set in from the edge, like a ruled
           margin on a manuscript leaf. */}
       <span
         aria-hidden

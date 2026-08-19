@@ -17,7 +17,7 @@ export interface DownloadCardProps {
 /**
  * A downloadable file.
  *
- * The format tile stands in for a thumbnail — these are documents, so there is
+ * The format tile stands in for a thumbnail - these are documents, so there is
  * no cover image to lead with, and a large "PDF" reads faster than an icon.
  */
 export async function DownloadCard({
@@ -48,7 +48,7 @@ export async function DownloadCard({
 
         A document in a parish office is identified by what is written on its
         edge, so the tile is a plain leaf of paper with the format set on it in
-        small caps over a rule — the same rule that heads every section. The
+        small caps over a rule - the same rule that heads every section. The
         gradient it carried was doing the work of a texture and reading as a
         button.
       */}
@@ -80,7 +80,7 @@ export async function DownloadCard({
         </p>
       </div>
 
-      {/* Download affordance — fills in on hover. */}
+      {/* Download affordance - fills in on hover. */}
       <span
         aria-hidden
         className="grid size-10 shrink-0 self-center place-items-center rounded-full bg-sand-100 text-sand-500 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover/card:bg-[var(--primary)] group-hover/card:text-white"

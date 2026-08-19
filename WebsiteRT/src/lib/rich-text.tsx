@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
  * Inline formatting for body copy.
  *
  * The API stores paragraphs as plain strings (`LocalizedText[]`), and that
- * contract is fixed — so emphasis travels as markers inside the string rather
+ * contract is fixed - so emphasis travels as markers inside the string rather
  * than as HTML or a rich-text document:
  *
  *     **bold**      __underline__      *italic*
@@ -18,7 +18,7 @@ import type { ReactNode } from "react";
  * execution on every reader's browser. There is no such risk here.
  *
  * The Portal has a copy of this syntax in `src/lib/rich-text.tsx` for its
- * editor preview. The two must agree — change both together.
+ * editor preview. The two must agree - change both together.
  */
 
 interface Rule {
@@ -89,7 +89,7 @@ export function renderInline(text: string): ReactNode {
   return nodes.length === 1 ? nodes[0] : nodes;
 }
 
-/** Strips markers — for previews, meta descriptions and other plain-text uses. */
+/** Strips markers - for previews, meta descriptions and other plain-text uses. */
 export function stripMarkers(text: string): string {
   return text
     .replace(/\*\*([\s\S]+?)\*\*(?!\*)/g, "$1")

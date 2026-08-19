@@ -13,8 +13,8 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * ## Why it sits at the top of the document
  *
  * The same reasoning as the Christmas garland: every page here opens on a
- * full-height dark photograph — the cinematic hero at home, the `PageHero`
- * everywhere else — so a layer pinned to the top of the document is always over
+ * full-height dark photograph - the cinematic hero at home, the `PageHero`
+ * everywhere else - so a layer pinned to the top of the document is always over
  * ink, which is the only ground light shafts read on at all. It is `absolute`
  * rather than `fixed`, so it scrolls away with the hero it belongs to instead
  * of hanging over the parchment sections below.
@@ -25,7 +25,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * ## Why it is legible without being bright
  *
  * `mix-blend-mode: screen` means each shaft can only ever *add* light to what
- * is behind it — it cannot darken a face or wash out a detail. Over the deep
+ * is behind it - it cannot darken a face or wash out a detail. Over the deep
  * ground of a hero photograph that reads as a real beam; over anything already
  * bright it does almost nothing, which is exactly how light behaves.
  *

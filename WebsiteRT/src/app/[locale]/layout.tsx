@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import Script from "next/script";
-import { Fraunces, Inter, Noto_Sans_Tamil } from "next/font/google";
+import {
+  Fraunces,
+  Inter,
+  Noto_Sans_Tamil,
+  Noto_Serif_Tamil,
+} from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -18,12 +22,13 @@ import { HeroScrollProvider } from "@/providers/hero-scroll-provider";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { SITE_CONFIG } from "@/constants/site";
 import { routing, type Locale } from "@/i18n/routing";
-import { getFellowshipSlugsForNav } from "@/services";
+import { localize } from "@/lib/localize";
+import { getFellowshipsForNav } from "@/services";
 
 import "@/styles/globals.css";
 
 /**
- * The season bootstrap — see the note at its use site in the body below.
+ * The season bootstrap - see the note at its use site in the body below.
  *
  * Kept as a module constant rather than an inline literal so it is one
  * greppable thing, and so the verification script can import it directly and
@@ -47,6 +52,26 @@ const fraunces = Fraunces({
 
 const notoTamil = Noto_Sans_Tamil({
   variable: "--font-noto-tamil",
+  subsets: ["tamil"],
+  display: "swap",
+});
+
+/**
+ * Tamil's display face - the counterpart to Fraunces.
+ *
+ * Tamil was set in Noto Sans Tamil for *both* roles, so every Tamil heading was
+ * a sans while the same heading in English was a serif. The two languages were
+ * not reading as one design: an English reader met an editorial masthead and a
+ * Tamil reader met a UI label at heading size.
+ *
+ * Noto Serif Tamil is the right pairing rather than merely a serif: it is drawn
+ * on the same skeleton as Noto Sans Tamil, so the display and body faces relate
+ * to each other exactly as Fraunces and Inter do on the Latin side - and it
+ * carries a variable weight axis, which the `Heading` variants need, since they
+ * step from 500 at display size to 600 at h3.
+ */
+const notoSerifTamil = Noto_Serif_Tamil({
+  variable: "--font-noto-serif-tamil",
   subsets: ["tamil"],
   display: "swap",
 });
@@ -77,10 +102,22 @@ export async function generateMetadata({
     description,
     alternates: {
       canonical: locale === routing.defaultLocale ? "/" : `/${locale}`,
-      languages: {
-        en: "/",
-        ta: "/ta",
-      },
+      /*
+       * Derived, not written out.
+       *
+       * This was `{ en: "/", ta: "/ta" }`, which silently encoded English as
+       * the language served from the root. The moment Tamil became the default
+       * that map was wrong in the one place nobody looks - hreflang - and it
+       * would have told search engines the Tamil homepage was the English one.
+       * Built from `routing` instead, so it can only ever agree with the
+       * router.
+       */
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [
+          l,
+          l === routing.defaultLocale ? "/" : `/${l}`,
+        ]),
+      ),
     },
     openGraph: {
       type: "website",
@@ -121,19 +158,30 @@ export default async function LocaleLayout({
   /*
    * The same data `generateStaticParams` uses for the fellowship pages, so the
    * menu offers exactly the fellowships the site built. Shares their cache tag,
-   * so it costs one request per revalidation rather than one per page — and the
+   * so it costs one request per revalidation rather than one per page - and the
    * `ForNav` variant degrades instead of throwing, because this runs in the root
    * layout where an error would take every page down with it.
    */
-  const [t, fellowshipSlugs] = await Promise.all([
+  const [t, fellowshipEntries] = await Promise.all([
     getTranslations("common"),
-    getFellowshipSlugsForNav(),
+    getFellowshipsForNav(),
   ]);
+
+  /*
+   * The menu is a client component and cannot reach for a record, so the names
+   * are resolved to the reader's language here. Previously it labelled itself
+   * from `src/messages/*.json`, which meant a fellowship renamed in the Portal
+   * kept its old name in the menu forever while the cards showed the new one.
+   */
+  const fellowships = fellowshipEntries.map(({ slug, name }) => ({
+    slug,
+    name: localize(name, locale as Locale),
+  }));
 
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${fraunces.variable} ${notoTamil.variable}`}
+      className={`${inter.variable} ${fraunces.variable} ${notoTamil.variable} ${notoSerifTamil.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-dvh antialiased">
@@ -141,47 +189,66 @@ export default async function LocaleLayout({
           The season, before first paint.
 
           `LiturgicalSeason` below is the authority on this, but it sets the
-          attribute from an effect — which cannot run until React has hydrated
+          attribute from an effect - which cannot run until React has hydrated
           the whole tree, and on this page that tree includes the cinematic
           hero. The splash screen is up for as little as 1.9s, so the effect was
           landing just as it was leaving: every seasonal thing about the opening
           frame was correct and none of it was ever seen.
 
           This runs synchronously, in document order, before anything paints.
-          It is the same arithmetic as `lib/liturgical-year.ts` — the Gregorian
-          computus and the six boundary tests — inlined because an import cannot
+          It is the same arithmetic as `lib/liturgical-year.ts` - the Gregorian
+          computus and the six boundary tests - inlined because an import cannot
           be made to run before hydration.
 
           **That duplication is real and it is checked.** `scripts/verify-season-script.mjs`
           asserts this script and the module agree on every single day from 2024
-          to 2044 — 7,671 days — and it fails loudly if they ever drift. If you
+          to 2044 - 7,671 days - and it fails loudly if they ever drift. If you
           change `getSeason`, change this too and run that script.
         */}
-        <Script
-          /*
-           * `next/script`, not a bare `<script>` tag.
-           *
-           * A raw tag rendered by a React component does run on the first,
-           * server-rendered document — which is why this worked — but React
-           * warns about it in development, and the warning is right: on a
-           * client-side navigation React reconciles the tag into the DOM
-           * without ever executing it. The season would then be correct on a
-           * hard load and stale on any route change that re-rendered this
-           * layout.
-           *
-           * `beforeInteractive` is the documented strategy for exactly this —
-           * "load before any Next.js code and before any page hydration
-           * occurs" — and the docs require it to live in the root layout, which
-           * is where it already was.
-           *
-           * `id` is mandatory for an inline script: Next uses it to track and
-           * de-duplicate the script, and omitting it is the one documented way
-           * to get this wrong.
-           */
-          id="liturgical-season-bootstrap"
-          strategy="beforeInteractive"
+        {/*
+          Written as raw markup rather than as a `<script>` element, for two
+          reasons that pull in the same direction.
+
+          **`next/script` cannot do this job.** `strategy="beforeInteractive"`
+          reads like the right answer and is not. For an inline script in the
+          App Router, `next/script` does not emit the code - it emits
+          `(self.__next_s=self.__next_s||[]).push([0, {children: "…"}])`, a
+          push onto a queue that *Next's own client runtime* drains later
+          (`node_modules/next/dist/client/script.js`, the `beforeInteractive`
+          branch). "Before interactive" means before Next's first-party code,
+          not before paint - the docs are explicit that it "does not block page
+          hydration". So the arithmetic below was running after the framework
+          bundle had downloaded and executed, which is precisely the timing the
+          bootstrap exists to beat. It was in the document early and doing
+          nothing early. Confirmed by grepping `.next/server/app/ta.html`: only
+          the queue push was there.
+
+          **A bare `<script>` element runs pre-paint but warns.** React 19
+          errors whenever it *creates* a script host instance on the client -
+          `createElement("script")`, which it replaces with a dead node,
+          "Scripts inside React components are never executed". There is no
+          opt-out: `isScriptDataBlock` exempts only non-executable `type`s. This
+          layout is the root layout *and* it sits under `[locale]`, so pressing
+          the language toggle changes the segment, remounts it, and takes that
+          exact path.
+
+          Raw markup satisfies both. On the server React writes the string into
+          the HTML stream untouched, so the browser parses a real `<script>` as
+          the first thing in the body and runs it synchronously, before any of
+          the page below it paints. On the client React only ever assigns
+          `innerHTML` - which by specification never executes scripts and, more
+          to the point here, never creates a script host instance. Nothing to
+          warn about, and nothing lost: by then the attribute is long set and
+          `LiturgicalSeason` is the authority anyway.
+
+          `hidden` because this is now an element rather than a `<script>`, and
+          it must not occupy a line box.
+        */}
+        <div
+          hidden
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: SEASON_BOOTSTRAP,
+            __html: `<script>${SEASON_BOOTSTRAP}</script>`,
           }}
         />
 
@@ -198,14 +265,14 @@ export default async function LocaleLayout({
             what the reader should be looking at while the rest of this arrives,
             which means the preload scanner should reach it before the header's
             own logos. Sits outside the scroll providers because it has nothing
-            to do with scrolling — it owns the scroll lock itself, for as long
+            to do with scrolling - it owns the scroll lock itself, for as long
             as it is up.
           */}
           <SplashScreen />
 
           <HeroScrollProvider>
             <LenisProvider>
-              <SiteHeader fellowshipSlugs={fellowshipSlugs} />
+              <SiteHeader fellowships={fellowships} />
               {children}
               <SiteFooter />
               <BackToTop />
@@ -215,7 +282,7 @@ export default async function LocaleLayout({
 
                 `LiturgicalSeason` computes the CSI season from the reader's own
                 date and writes it to `<html data-season>`; the season blocks in
-                `globals.css` do the rest — the light in a section, the colour of
+                `globals.css` do the rest - the light in a section, the colour of
                 the cross heading it, the temperature of the paper. The snowfall
                 reads the same season rather than counting months of its own, so
                 the two can never disagree about what day it is.
@@ -239,7 +306,7 @@ export default async function LocaleLayout({
 
               {/*
                 Eastertide: shafts of light struck down across the hero every
-                page opens on. Same placement logic as the garland above — the
+                page opens on. Same placement logic as the garland above - the
                 top of the document is always a dark photograph, which is the
                 only ground a light shaft reads on.
               */}

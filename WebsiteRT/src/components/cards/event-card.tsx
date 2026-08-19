@@ -29,7 +29,7 @@ export interface EventCardProps {
  *
  * The date rides on the media as a frosted chip rather than sitting in the
  * body, so a grid of events can still be scanned by date the way the earlier
- * ruled list was — the numerals stay on a common baseline across a row.
+ * ruled list was - the numerals stay on a common baseline across a row.
  */
 export async function EventCard({ event, locale, className }: EventCardProps) {
   const [t, tCommon] = await Promise.all([
@@ -50,7 +50,7 @@ export async function EventCard({ event, locale, className }: EventCardProps) {
       interactive
       className={cn(
         "flex h-full flex-col overflow-hidden",
-        // Past events recede but stay legible — this is the archive, not a
+        // Past events recede but stay legible - this is the archive, not a
         // disabled control.
         isPast && "opacity-80 saturate-[0.6]",
         className,

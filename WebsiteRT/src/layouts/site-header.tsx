@@ -13,12 +13,12 @@ import { Container } from "@/components/ui/container";
 import {
   MAIN_NAV,
   fellowshipNavChildren,
+  type FellowshipNavEntry,
   type NavItem,
 } from "@/constants/navigation";
 import { ROUTES } from "@/constants/site";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import type { FellowshipSlug } from "@/types/content";
 
 export interface SiteHeaderProps {
   /**
@@ -28,13 +28,13 @@ export interface SiteHeaderProps {
    */
   overHero?: boolean;
   /**
-   * The fellowships that actually exist, from the same call that feeds
-   * `generateStaticParams`. Omitted, the menu lists them all.
+   * The fellowships that actually exist, with their current names, from the
+   * Portal. Omitted, the menu lists all eight under their message-file labels.
    */
-  fellowshipSlugs?: readonly FellowshipSlug[];
+  fellowships?: readonly FellowshipNavEntry[];
 }
 
-export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) {
+export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
   const t = useTranslations("nav");
   const tCommon = useTranslations("common");
   const tSite = useTranslations("site");
@@ -43,7 +43,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
   /*
    * The fellowships submenu is narrowed to the slugs the site actually built.
    * The list is otherwise a static eight, while the pages behind it come from
-   * the Portal — so a fellowship removed there left the menu pointing at a
+   * the Portal - so a fellowship removed there left the menu pointing at a
    * 404. Falls back to the full set when nothing is passed, which is also what
    * happens when the API is unreachable and the local data answers instead.
    */
@@ -51,10 +51,10 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
     () =>
       MAIN_NAV.map((item) =>
         item.href === ROUTES.fellowships
-          ? { ...item, children: fellowshipNavChildren(fellowshipSlugs) }
+          ? { ...item, children: fellowshipNavChildren(fellowships) }
           : item,
       ),
-    [fellowshipSlugs],
+    [fellowships],
   );
 
   /*
@@ -102,7 +102,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
   }, [mobileOpen]);
 
   /**
-   * On a cinematic page the header stays transparent for the whole hero — it
+   * On a cinematic page the header stays transparent for the whole hero - it
    * only takes on its glass surface once the sequence has played out. On every
    * other page the first section is the dark PageHero, which is short, so the
    * usual scroll threshold applies.
@@ -125,7 +125,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
 
   return (
     // `data-site-header` marks this as *the* site header for the splash
-    // screen's hand-off animation — the blog article page renders a `<header>`
+    // screen's hand-off animation - the blog article page renders a `<header>`
     // of its own, so the bare element selector would catch that one too.
     <header data-site-header className="fixed inset-x-0 top-0 z-50 pt-3 sm:pt-5">
       {/* Keeps white nav text legible over bright cinematic frames. */}
@@ -312,7 +312,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
                                 href={child.href}
                                 className="block rounded-xl px-3 py-2 text-sm text-[var(--foreground)] transition-colors hover:bg-sand-100 hover:text-[var(--primary)]"
                               >
-                                {t(child.labelKey)}
+                                {child.label ?? t(child.labelKey)}
                               </Link>
                             </li>
                           ))}
@@ -399,7 +399,7 @@ export function SiteHeader({ overHero, fellowshipSlugs }: SiteHeaderProps = {}) 
  * dark text once the glass surface appears.
  *
  * `nav` is handed down rather than read from `MAIN_NAV` directly, so the drawer
- * and the desktop bar offer the same fellowships — narrowing one and not the
+ * and the desktop bar offer the same fellowships - narrowing one and not the
  * other is exactly the drift this was meant to remove.
  */
 function MobileMenu({
@@ -538,7 +538,7 @@ function MobileMenu({
                                   : "text-[var(--muted-foreground)] hover:bg-sand-100 hover:text-[var(--foreground)]",
                               )}
                             >
-                              {t(child.labelKey)}
+                              {child.label ?? t(child.labelKey)}
                             </Link>
                           </li>
                         ))}
@@ -562,7 +562,7 @@ function MobileMenu({
           The call-to-action that stood here has been removed.
 
           It was the menu's one primary button, and it had been calling
-          `header.worshipWithUs` — a key that is in no message catalogue and
+          `header.worshipWithUs` - a key that is in no message catalogue and
           never has been, in either language. So it rendered the key itself as
           its label, visible to anyone who opened the menu on a phone. Removing
           the button removes the only reference to that key, which is why there

@@ -225,7 +225,7 @@ export default async function ContactPage({
       <Section spacing="lg">
         {/*
           Its own key, not `details.title`. That one heads the contact card
-          above — address, phone, email, office hours — and this section is a
+          above - address, phone, email, office hours - and this section is a
           table of service times; they were sharing a string and so could not be
           named accurately at the same time.
         */}

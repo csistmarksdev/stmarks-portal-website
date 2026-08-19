@@ -10,8 +10,8 @@ export interface SectionDividerProps {
 /**
  * A quiet flourish between two sections that share a ground, where a tone change
  * would otherwise be the only thing separating them. The redesign's illuminated
- * divider — the crimson cross of the crest struck between two gilded rules that
- * bloom toward it — so the pause reads as a caesura in worship rather than a
+ * divider - the crimson cross of the crest struck between two gilded rules that
+ * bloom toward it - so the pause reads as a caesura in worship rather than a
  * hard rule across the measure.
  *
  * Purely decorative: hidden from assistive tech, no focus stop.

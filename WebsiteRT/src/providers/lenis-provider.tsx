@@ -31,7 +31,7 @@ const LenisContext = createContext<LenisContextValue | null>(null);
  * Smooth scrolling.
  *
  * Lenis drives `window.scrollY` itself, so the cinematic hero's scroll
- * listener keeps working unchanged — it still reads real scroll positions.
+ * listener keeps working unchanged - it still reads real scroll positions.
  *
  * Disabled entirely when the user prefers reduced motion, and on touch
  * devices, where native momentum scrolling feels better than an emulated one.
@@ -39,7 +39,7 @@ const LenisContext = createContext<LenisContextValue | null>(null);
 export function LenisProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
-  // Null whenever Lenis is not driving — before mount, and for the whole
+  // Null whenever Lenis is not driving - before mount, and for the whole
   // session under reduced motion.
   const lenisRef = useRef<Lenis | null>(null);
 

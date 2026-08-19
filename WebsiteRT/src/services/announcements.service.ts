@@ -24,7 +24,7 @@ export function getAnnouncements(limit?: number): Promise<Announcement[]> {
 
 /**
  * The endpoint returns `null` (not a 404) when nothing is pinned, so this is a
- * plain `apiGet` — a null body is a valid answer here, not a missing record.
+ * plain `apiGet` - a null body is a valid answer here, not a missing record.
  */
 export function getPinnedAnnouncement(): Promise<Announcement | null> {
   return apiGet<Announcement | null>("/announcements/pinned", {

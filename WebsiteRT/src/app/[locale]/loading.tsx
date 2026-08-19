@@ -1,7 +1,7 @@
 /**
  * Shown while a route's data resolves.
  *
- * Most pages are prerendered, so this rarely appears — it matters on a slow
+ * Most pages are prerendered, so this rarely appears - it matters on a slow
  * connection, where a navigation would otherwise leave the previous page on
  * screen with no sign that anything was happening. Deliberately quiet: a
  * pulsing rule rather than a spinner or a skeleton of a layout we cannot

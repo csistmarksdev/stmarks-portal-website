@@ -44,7 +44,7 @@ export async function LeadershipPreview() {
       />
 
       {/*
-        Those who serve, shown as equals — one gallery of arched portraits at a
+        Those who serve, shown as equals - one gallery of arched portraits at a
         single size, centred beneath the heading, not a hierarchy with one
         figure enlarged over the rest. The pastor's own word has its section
         further down the page; here the clergy stand together.
@@ -73,7 +73,7 @@ export async function LeadershipPreview() {
 }
 
 /**
- * One member of the clergy — an arched portrait over a centred caption ruled
+ * One member of the clergy - an arched portrait over a centred caption ruled
  * with a gilded line. Every figure is identical in size and treatment, so the
  * gallery reads as a college of equals.
  */

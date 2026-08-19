@@ -2,7 +2,7 @@
 
 The site keeps the Church of South India's liturgical calendar. The season is
 computed from the visitor's own date, on their own machine, and it changes what
-the site looks like — the temperature of the paper, the light falling into each
+the site looks like - the temperature of the paper, the light falling into each
 section, the colour of the cross that heads them, and in Holy Week the
 photography itself.
 
@@ -11,7 +11,7 @@ it down in January, and nobody has to remember that Easter moved.
 
 ---
 
-## Checking it — the preview parameters
+## Checking it - the preview parameters
 
 Both parameters work on **every route**, not just the home page.
 
@@ -34,7 +34,7 @@ http://localhost:3000/about?season=lent
 http://localhost:3000/leadership?season=easter
 ```
 
-An unrecognised value is **ignored**, not honoured — a typo shows the real
+An unrecognised value is **ignored**, not honoured - a typo shows the real
 season rather than silently stripping the site on an ordinary Tuesday.
 
 ### `?snow=`
@@ -51,13 +51,13 @@ http://localhost:3000/?snow=0
 ```
 
 The off switch is the one that matters in December: it is the only way to look
-at a page *without* snow over it — to photograph a hero, or to rule the snow out
+at a page *without* snow over it - to photograph a hero, or to rule the snow out
 when something else looks wrong.
 
 ### The season sticks as you browse
 
 It is resolved **once per page load**. Load `?season=lent` and then click through
-the navigation normally — the whole site stays in Lent, so you can walk every
+the navigation normally - the whole site stays in Lent, so you can walk every
 page in one season without re-adding the parameter. A hard refresh on a clean URL
 returns to the real date.
 
@@ -71,7 +71,7 @@ site quietly snowing in June.
 
 ## What each season actually changes
 
-A season is not a tint over the page — it retints **the palette itself**. Each one
+A season is not a tint over the page - it retints **the palette itself**. Each one
 restates the paper (`--background`, `--surface`, `--surface-muted`, `--border`),
 the season's own colour across the whole accent scale (`--color-accent-200`
 through `700`, which is what every eyebrow, rule, chip, drop cap and card frame
@@ -81,61 +81,61 @@ and the two ink grounds behind the presbyter's letter and the week's verse
 
 | Season | Paper | The season's colour | Cross & buttons | Ink grounds | Extra |
 | --- | --- | --- | --- | --- | --- |
-| **Christmas** (1 Dec – 1 Jan) | Snow — cold, near-white | Red, at full strength | Crimson | Burgundy | ❄ Snow, garland, treeline, frieze, greeting |
-| **Ash Wednesday** | Ash — the greyest paper of the year outside Good Friday | Violet, almost drained out | Deep grey | Violet-black | Ash bowl, thumbed cross, palm fronds |
+| **Christmas** (1 Dec – 1 Jan) | Snow - cold, near-white | Red, at full strength | Crimson | Burgundy | ❄ Snow, garland, treeline, frieze, greeting |
+| **Ash Wednesday** | Ash - the greyest paper of the year outside Good Friday | Violet, almost drained out | Deep grey | Violet-black | Ash bowl, thumbed cross, palm fronds |
 | **Lent** | Ashen violet-grey | Violet, drained of chroma | Deep violet | Violet-black | Bare branches, veils, stones, wilderness frieze |
 | **Holy Week** | Ash, red-leaning | Crimson | Passion crimson | Near-black red | Lent's branches, veils and stones continue |
 | **Good Friday** | Cold stone | **Every scale drained to pure neutral** | Plain ink | Near-black | Calvary, crown of thorns, nails; photography **left in colour** |
 | **Easter** | Brightest, warm ivory | Gold, full strength | Gilded | Lit brown | Everything glows; lilies, rays, empty tomb |
-| **CSI Day** | Warm | Flame | Magenta | Magenta | — |
-| **Ordinary time** | The site as it is | Flame | Crimson & brand | Near-black | — |
+| **CSI Day** | Warm | Flame | Magenta | Magenta | - |
+| **Ordinary time** | The site as it is | Flame | Crimson & brand | Near-black | - |
 
 The light in each section (`--season-light`) moves with them, and on Good Friday
 is `transparent` rather than merely dim.
 
 ### What to look for
 
-- **`lent`** — the clearest of the set after Good Friday. The paper goes
+- **`lent`** - the clearest of the set after Good Friday. The paper goes
   grey-violet, every eyebrow and rule turns from flame to drained violet, and the
   buttons follow. Compare against `ordinary` side by side.
-- **`good-friday`** — the strongest of the set, and deliberately so. Every UI
+- **`good-friday`** - the strongest of the set, and deliberately so. Every UI
   element and icon is black and white; the light is *removed*, not dimmed; and
   Calvary stands at the foot of every section. The photography stays in colour.
-- **`easter`** — the opposite end of the same year, and the only season with
+- **`easter`** - the opposite end of the same year, and the only season with
   *lighting* rather than only colour. Every surface glows, lilies stand where the
   firs and the crosses stood, and light falls from the head of each section.
-- **`christmas`** — red on snow, and the only season that also brings the four
+- **`christmas`** - red on snow, and the only season that also brings the four
   decoration layers below.
 
-The clearest place to judge any of them is a page with several sections — the
+The clearest place to judge any of them is a page with several sections - the
 home page, or `/about`.
 
 ### The Lent decorations
 
 Lent gets the same structure as Christmas and the opposite of its content. The
 season is about subtraction, so the decorations are what is *left* when the room
-is undressed — the same page, the same horizon, everything taken off it.
+is undressed - the same page, the same horizon, everything taken off it.
 
 | Layer | Where | What |
 | --- | --- | --- |
-| **Bare branches** | Every section, along the foot | The Christmas fir with no star, no baubles and no tiers — a trunk and its limbs, drawn to the same box and standing on the same line, so the reader who saw December meets the same horizon stripped. The row is thinned by half. |
-| **Veils** | Every section, from the head | Cloth over a rod, hem scalloped — the covering a church puts over its crosses and images from Passiontide, and the same practice the site already follows by drawing colour out of its photography. Four, against Christmas's eight. |
+| **Bare branches** | Every section, along the foot | The Christmas fir with no star, no baubles and no tiers - a trunk and its limbs, drawn to the same box and standing on the same line, so the reader who saw December meets the same horizon stripped. The row is thinned by half. |
+| **Veils** | Every section, from the head | Cloth over a rod, hem scalloped - the covering a church puts over its crosses and images from Passiontide, and the same practice the site already follows by drawing colour out of its photography. Four, against Christmas's eight. |
 | **Stones** | Every section, on the ground | A wilderness is made of these and little else. |
 | **Wilderness frieze** | Foot of the page | Three bare trees far apart, a scatter of stones, one plain cross on the horizon and a single candle still burning. |
-| **Scripture** | Above the frieze | *Return to me with all your heart* — Joel 2:12, with its reference, in the reader's own language. |
+| **Scripture** | Above the frieze | *Return to me with all your heart* - Joel 2:12, with its reference, in the reader's own language. |
 
 Everything is drawn in the same hand and at the same hairline weight as the
 Christmas set, at roughly **half the strength**, on paper that has itself gone
 ashen. It should be noticed only once the reader stops to look.
 
-Good Friday has its own set — see below. Lent's branches and veils stop at
+Good Friday has its own set - see below. Lent's branches and veils stop at
 Maundy Thursday; nothing carries over.
 
 ### Good Friday
 
 **The interface goes monochrome and the photography does not.**
 
-Every step of every palette — brand, accent, crimson and the warm neutrals — is
+Every step of every palette - brand, accent, crimson and the warm neutrals - is
 redefined as a pure neutral at *exactly* the lightness it had in colour. So a
 button that was `brand-700` becomes the grey that `brand-700` weighed, and every
 contrast ratio the design relies on holds unchanged. It is done by redefining the
@@ -144,27 +144,27 @@ filter would flatten the photography too, cost a full-page composite, and fight
 the browser on every scroll.
 
 The photographs stay in colour deliberately. The congregation should still see
-their own church and their own faces — it is the building that is stripped, not
+their own church and their own faces - it is the building that is stripped, not
 the people in it. What goes black and white is everything the site itself draws:
 type, rules, buttons, icons, chips, marks.
 
 | Layer | Where | What |
 | --- | --- | --- |
-| **Calvary** | Every section, along the foot | Three crosses, the centre one taller and standing clear — drawn to the same box the fir and the bare tree stand in, on the same base line. |
+| **Calvary** | Every section, along the foot | Three crosses, the centre one taller and standing clear - drawn to the same box the fir and the bare tree stand in, on the same base line. |
 | **Crown of thorns** | Every section, from the head | A plaited ring with the thorns struck outward. The only thing this day hangs. |
 | **Calvary frieze** | Foot of the page | The hill, three crosses, the crown, three nails, the spear and the sponge on hyssop, and stones. |
-| **Scripture** | Above the frieze | *It is finished* — John 19:30. |
+| **Scripture** | Above the frieze | *It is finished* - John 19:30. |
 
 **Nothing moves.** The other seasons have snow falling or light breathing behind
-them; every warm wash on the site — the footer's bloom, the verse's halo, the
-CTA band's light, the announcement card's tint — resolves through
+them; every warm wash on the site - the footer's bloom, the verse's halo, the
+CTA band's light, the announcement card's tint - resolves through
 `--season-light-dark`, which is `transparent` on this day. The page is still,
 which is the point of it.
 
 An earlier version of this system gave Good Friday nothing at all, on the
 reasoning that a decoration surviving the day it commemorates would prove the
 calendar was never really being kept. That was wrong in one respect: the altar is
-stripped, but the church is not empty — the cross is brought forward and
+stripped, but the church is not empty - the cross is brought forward and
 venerated, and it is the one day of the year the building is *about* a single
 image. So the page carries that image, and nothing else.
 
@@ -172,25 +172,25 @@ image. So the page carries that image, and nothing else.
 
 **The season changes how the site is *lit*, not just what colour it is.**
 
-Every other season recolours the page. Easter glows — the counterpart, forty-eight
+Every other season recolours the page. Easter glows - the counterpart, forty-eight
 hours later, to the black-and-white of Good Friday.
 
 | Layer | What |
 | --- | --- |
 | **Dawn** | A fixed wash of gold light entering high behind the whole page. |
 | **Buttons** | Lit from within, brighter under the hand. |
-| **Cards & plates** | The shade they cast warms into light — every surface using the site's elevation is lit without knowing about the season. |
+| **Cards & plates** | The shade they cast warms into light - every surface using the site's elevation is lit without knowing about the season. |
 | **The cross** | Haloed at the head of every section: the one place a glow is not decoration but the subject. |
 | **Rules & display type** | Catch the light along their length; headings are lit from behind. |
-| **The Risen Christ** | **One** figure, centred at the foot of every section — in a mandorla, arms open, cruciform nimbus, the wounds marked. Not a row: the fir, the bare branch and the cross repeat because a wood, a wilderness and a hill are each made of many; he is not one of many. |
-| **Rays** | Falling from the head of each section — the decoration *is* the light. |
-| **Light shafts** | Struck down across the hero of every page — seven of them, `mix-blend-screen` so they can only ever *add* light, drifting on a 24–44 second cycle. |
+| **The Risen Christ** | **One** figure, centred at the foot of every section - in a mandorla, arms open, cruciform nimbus, the wounds marked. Not a row: the fir, the bare branch and the cross repeat because a wood, a wilderness and a hill are each made of many; he is not one of many. |
+| **Rays** | Falling from the head of each section - the decoration *is* the light. |
+| **Light shafts** | Struck down across the hero of every page - seven of them, `mix-blend-screen` so they can only ever *add* light, drifting on a 24–44 second cycle. |
 | **The rising sun** | At the foot of the page: the sun coming up behind the hill, the opened tomb with its stone rolled clear, Friday's three crosses standing empty on the far hill, lilies and a butterfly. |
-| **The greeting** | *Christ is risen!* — *He is risen indeed. Halleluyah!* |
+| **The greeting** | *Christ is risen!* - *He is risen indeed. Halleluyah!* |
 
 **On not drawing the figure.** A figure of the Risen Christ was attempted three
-times — line art, a filled silhouette in three pieces, then a single continuous
-outline with a neck and sloping shoulders — and every version read as something
+times - line art, a filled silhouette in three pieces, then a single continuous
+outline with a neck and sloping shoulders - and every version read as something
 other than a person: a totem, a bell with sticks attached, a blank hooded shape.
 The last was geometrically correct, symmetric to the unit and properly closed,
 and still did not work.
@@ -198,7 +198,7 @@ and still did not work.
 The reason is scale, not craft. A human figure is the shape people read most
 precisely and judge most harshly, and a face is available neither at ninety
 pixels nor in a tradition that shows Christ as a sign rather than a portrait.
-Without one, what the eye cannot accept as a person it reads as an object — and
+Without one, what the eye cannot accept as a person it reads as an object - and
 every extra detail made it worse, which is the signal that the premise was wrong
 rather than the drawing.
 
@@ -209,14 +209,14 @@ is stated by the cross being **empty**, which is how it has been stated in glass
 and stone for centuries without drawing a body.
 
 Three rules keep the glow from becoming a neon sign. Every glow is a `box-shadow`
-or `text-shadow` — **additive light around an element, never a change to its fill
-or text colour** — so no contrast ratio moves and the light sits *outside* the
+or `text-shadow` - **additive light around an element, never a change to its fill
+or text colour** - so no contrast ratio moves and the light sits *outside* the
 letterforms. It is warm and it is one colour, the flame of the crest turned to
 gold, so the page reads as one light source. And **nothing pulses**: a glow that
 breathes is a notification.
 
 Under `prefers-reduced-motion` the glows come down to about a third rather than
-off entirely — nothing here moves, but a reader who asks for less motion often
+off entirely - nothing here moves, but a reader who asks for less motion often
 finds heavy visual effects difficult too.
 
 "Halleluyah" carries particular weight in the greeting: the word is put away for
@@ -231,16 +231,16 @@ months:
 
 | Layer | Where | What |
 | --- | --- | --- |
-| **Garland** | Top of every page | Baubles, stars, bells and flakes on threads, with a spray of fir in each upper corner. Absolute, not fixed — it sits over the dark hero every page opens on, and scrolls away with it. |
+| **Garland** | Top of every page | Baubles, stars, bells and flakes on threads, with a spray of fir in each upper corner. Absolute, not fixed - it sits over the dark hero every page opens on, and scrolls away with it. |
 | **String lights** | Swagged across the head of every section | Four arcs with twenty bulbs in four colours, breathing out of step. Wire and bulbs are generated from the *same* curve, so no bulb can float off the string. |
 | **Section decorations** | Every section, along the foot | Twenty-one pieces: dressed firs, plus gifts, candy canes, bells, a wreath, candles and holly. The row shifts per section so no two read alike. Drawn on the `-z-10` layer, **always behind the words**. |
-| **Snow on the cards** | Every plate on the site | A dusting along the top edge, thicker at the corners where snow gathers. A `::before` on the card, so every card gets it — including ones written later. |
+| **Snow on the cards** | Every plate on the site | A dusting along the top edge, thicker at the corners where snow gathers. A `::before` on the card, so every card gets it - including ones written later. |
 | **Frost** | The four corners of the viewport | Fixed, behind everything, forming from the edges inward the way frost actually does. |
 | **Snowfall** | The whole site | 28 flakes, thinned to 16 on phones. |
 | **Frieze** | Foot of the page | A drift with a dressed tree, a snowman, a lantern, a wreath, gifts and firs behind. |
 | **Greeting** | Above the frieze | "Merry Christmas" over "Glory to God in the highest", set in the site's own display serif. |
 
-Two rules hold across all of them. Nothing decorative is ever in front of content —
+Two rules hold across all of them. Nothing decorative is ever in front of content -
 the section pieces sit on the same layer as the section's own light and grain,
 and the garland hangs beneath the masthead's stacking level. And everything is
 line-drawn at a hairline weight, the same weight as the rules and cross marks
@@ -248,20 +248,20 @@ used all year, so the decorations read as the same hand rather than as clip art
 dropped on top.
 
 **The interface itself is dressed, not just the room.** Every control, surface,
-rule and state takes the season's three materials — deep red, gold, frost — while
+rule and state takes the season's three materials - deep red, gold, frost - while
 keeping every shape, size and contrast ratio as it is the rest of the year:
 
 | Component | Christmas |
 | --- | --- |
-| **Buttons** | Deep red fill with a gold hairline and warm shade — a wrapped gift. Hover brightens the *gold*, never the red, so the label keeps its contrast. |
+| **Buttons** | Deep red fill with a gold hairline and warm shade - a wrapped gift. Hover brightens the *gold*, never the red, so the label keeps its contrast. |
 | **Cards** | Gold ribbon frame, red-warmed shade, snow along the top edge. |
-| **Section rules** | Ribbon candy — red and warm white on the diagonal. At 1px it resolves into a fine dashed line, not a novelty. |
+| **Section rules** | Ribbon candy - red and warm white on the diagonal. At 1px it resolves into a fine dashed line, not a novelty. |
 | **Form fields** | Frosted: cold blue frame, white inner highlight. Focus turns **gold**, so it can never be mistaken for the error state, which is red all year. |
 | **Chips over photos** | A cold rim, as if rimed. |
 | **Media wells** | Frost creeping in from the edge of the glass. |
 | **Focus rings** | Gold, unmistakable on both grounds. |
 | **Text selection** | The feast's own red. |
-| **The masthead** | Frosted glass — the one property saying what the glass is made of. Its shape, position and behaviour are untouched. |
+| **The masthead** | Frosted glass - the one property saying what the glass is made of. Its shape, position and behaviour are untouched. |
 
 The entire block is borders, rings, shadows and background *edges*. Nothing
 changes a text colour or a fill that carries type, which is why the season can be
@@ -269,7 +269,7 @@ this emphatic without a single contrast pairing moving.
 
 **Christmas is decorated; Easter is lit.** That difference is deliberate. Easter
 adds one warm light to every surface; Christmas adds *objects* to the room and
-lights only those — the bulbs, the snow caps, the frost. The page itself stays
+lights only those - the bulbs, the snow caps, the frost. The page itself stays
 cold, which is what makes the small warm points read.
 
 On a phone the treeline thins from fifteen firs to seven and the hanging set
@@ -277,14 +277,14 @@ halves, so a small screen gets a treeline rather than a solid band of green.
 
 The greeting is the one piece here that is **real text, not artwork**: it is
 translated (a Tamil reader gets இனிய கிறிஸ்துமஸ்), it is read aloud by a screen
-reader, and it is set in Fraunces at the site's own weight and tracking — because
+reader, and it is set in Fraunces at the site's own weight and tracking - because
 unlike the trees around it, it is a message rather than a decoration.
 
 ### What never changes
 
 Type, contrast ratios, layout, navigation and photography *content*. Nothing is
 harder to read or to use in any season, including Good Friday. A congregation
-walking into their own church in Lent does not find a different building — they
+walking into their own church in Lent does not find a different building - they
 find the same one, barer, and they know at once.
 
 ---
@@ -293,7 +293,7 @@ find the same one, barer, and they know at once.
 
 There is no table of dates anywhere in this system, and there cannot be. The
 church's year hangs on two points: **Christmas**, fixed to the 25th of December,
-and **Easter**, which is fixed to nothing at all — it is the Sunday after the
+and **Easter**, which is fixed to nothing at all - it is the Sunday after the
 first full moon on or after the vernal equinox. That single moveable date drags
 Ash Wednesday, Lent, Holy Week, Good Friday and Pentecost with it, by up to five
 weeks from one year to the next.
@@ -301,7 +301,7 @@ weeks from one year to the next.
 So the site calculates the year the way the church does: find Easter, count
 outward from it, then ask what today is.
 
-### Step 1 — Find Easter
+### Step 1 - Find Easter
 
 `easterSunday(year)` in `src/lib/liturgical-year.ts` implements the **anonymous
 Gregorian computus** (also called Meeus/Jones/Butcher). It is a page of modular
@@ -331,7 +331,7 @@ published dates for 2024–2038 and 2285.
 > calendar**. An Orthodox parish would need the Julian variant, which can place
 > Easter up to five weeks later.
 
-### Step 2 — Count outward from it
+### Step 2 - Count outward from it
 
 Every moveable season is a fixed offset:
 
@@ -346,7 +346,7 @@ Every moveable season is a fixed offset:
 And two are fixed to the calendar, not to Easter: **Christmas** (1 Dec – 1 Jan)
 and **CSI Day** (27 September).
 
-### Step 3 — Compare as whole days
+### Step 3 - Compare as whole days
 
 Dates are converted to an integer **day ordinal** before anything is compared:
 
@@ -357,10 +357,10 @@ Math.floor(Date.UTC(year, month - 1, date) / 86_400_000)
 The year, month and day are taken off the reader's *local* date and then
 compared through UTC, so every comparison is plain integer subtraction. No
 timezone offset and no daylight-saving boundary can turn "46 days before Easter"
-into 45 — which is the classic way a calendar like this goes quietly wrong for
+into 45 - which is the classic way a calendar like this goes quietly wrong for
 one day in a year, in one hemisphere.
 
-### Step 4 — Ask in the right order
+### Step 4 - Ask in the right order
 
 The seasons **nest**: Good Friday is inside Holy Week, which is inside Lent; Ash
 Wednesday is inside Lent too. A day inside a range can only win if it is asked
@@ -391,9 +391,9 @@ Two details in that list are worth pointing at:
   September, which is always ordinary time, so it can never collide with a
   moveable season and never needs to win one.
 
-### Step 5 — Answer on the reader's own clock
+### Step 5 - Answer on the reader's own clock
 
-The season is resolved **in the browser, from the visitor's date** — never on
+The season is resolved **in the browser, from the visitor's date** - never on
 the server. Every page here is statically prerendered, so a season decided at
 build time would be whichever season the site was last deployed in: it would
 arrive with a deploy and leave with one.
@@ -407,13 +407,13 @@ It is resolved twice, deliberately:
 
 The bootstrap exists because of the splash screen. `LiturgicalSeason` sets the
 season from an effect, which cannot run until React has hydrated the whole tree
-— and on the home page that tree includes the cinematic hero. The splash is up
+- and on the home page that tree includes the cinematic hero. The splash is up
 for as little as 1.9 seconds, so the effect was landing exactly as the splash
 was leaving: every seasonal thing about the opening frame was correct, and none
 of it was ever seen.
 
 Both write the same value to `<html data-season="…">`. From there, CSS reads
-`html[data-season="lent"]` and components call `useLiturgicalSeason()` — so the
+`html[data-season="lent"]` and components call `useLiturgicalSeason()` - so the
 snowfall never counts months of its own, and the two can never disagree about
 what day it is.
 
@@ -430,7 +430,7 @@ node scripts/verify-season-script.mjs
 
 That script extracts the *shipped* bootstrap string out of the layout, runs it
 under Node with `document` and `location` stubbed, and compares it against the
-real `getSeason` **on every single day from 2024 to 2044** — 7,671 days. It
+real `getSeason` **on every single day from 2024 to 2044** - 7,671 days. It
 fails on the first disagreement and names the date.
 
 It tests the shipped string rather than a rewritten copy, because testing a
@@ -442,7 +442,7 @@ worst kind: nobody notices until Good Friday.
 
 ## The dates
 
-Christmas is fixed. Easter is not — it is the Sunday after the first full moon on
+Christmas is fixed. Easter is not - it is the Sunday after the first full moon on
 or after the vernal equinox, which is why Lent, Holy Week and Good Friday move by
 up to five weeks from year to year. The site computes it rather than storing it.
 
@@ -458,15 +458,15 @@ Fixed dates: **Christmas** 1 Dec – 1 Jan · **CSI Day** 27 Sep.
 
 ### Season boundaries
 
-- **Ash Wednesday** — Easter − 46. One day, always a Wednesday, dressed for separately.
-- **Lent** — the day *after* Ash Wednesday to the day before Palm Sunday. Forty
+- **Ash Wednesday** - Easter − 46. One day, always a Wednesday, dressed for separately.
+- **Lent** - the day *after* Ash Wednesday to the day before Palm Sunday. Forty
   days plus the six Sundays inside them, which are not counted because a Sunday
   is never a fast.
-- **Holy Week** — Palm Sunday (Easter − 7) through Holy Saturday, with Good
+- **Holy Week** - Palm Sunday (Easter − 7) through Holy Saturday, with Good
   Friday (Easter − 2) taken out of the middle as its own day.
-- **Easter** — Easter Day through the 49th day after it, closing on Pentecost.
-- **Christmas** — **1 December through 1 January**, crossing the new year.
-- **CSI Day** — 27 September. Always ordinary time in the Western calendar, so
+- **Easter** - Easter Day through the 49th day after it, closing on Pentecost.
+- **Christmas** - **1 December through 1 January**, crossing the new year.
+- **CSI Day** - 27 September. Always ordinary time in the Western calendar, so
   it can never collide with a moveable season.
 
 > **Both Christmas boundaries are deliberate departures.** Liturgically,
@@ -474,7 +474,7 @@ Fixed dates: **Christmas** 1 Dec – 1 Jan · **CSI Day** 27 Sep.
 > holding the weeks before it. Advent is not one of the seasons this site dresses
 > for, so Christmas opens on **1 December** and carries the month the
 > congregation actually spends waiting. It closes on **1 January** because that is
-> when decorations come down in practice — the site should not still be hung with
+> when decorations come down in practice - the site should not still be hung with
 > baubles in the week everyone has gone back to work. Recorded here and in
 > `liturgical-year.ts` so neither ever reads as a bug.
 
@@ -482,14 +482,14 @@ Fixed dates: **Christmas** 1 Dec – 1 Jan · **CSI Day** 27 Sep.
 
 ## Why this is the CSI calendar
 
-The CSI is a united church — Anglican, Methodist, Congregational, Presbyterian
-and Reformed traditions joined in 1947 — in full communion with the Anglican
+The CSI is a united church - Anglican, Methodist, Congregational, Presbyterian
+and Reformed traditions joined in 1947 - in full communion with the Anglican
 Communion, and its *Book of Common Worship* keeps the Western calendar and the
 Revised Common Lectionary. That has consequences the code depends on:
 
 - The **Gregorian computus** is the correct one. An Orthodox parish would need
   the Julian variant, which can put Easter five weeks later.
-- **Lent is forty days plus Sundays**, counted back to Ash Wednesday — the
+- **Lent is forty days plus Sundays**, counted back to Ash Wednesday - the
   Western reckoning, not the Eastern Great Lent.
 - **Eastertide closes on Pentecost**, the fiftieth day, and the long green
   stretch after it is ordinary time rather than a numbered Trinity season.
@@ -499,8 +499,8 @@ Revised Common Lectionary. That has consequences the code depends on:
 
 ### The colours
 
-They follow the BCW's own sequence — violet through Lent, red in Holy Week, white
-and gold at Easter, green in ordinary time, and Good Friday bare — and, apart
+They follow the BCW's own sequence - violet through Lent, red in Holy Week, white
+and gold at Easter, green in ordinary time, and Good Friday bare - and, apart
 from Christmas, every one of them is **mixed from the parish crest**, which
 carries a magenta cross and an orange flame and nothing else.
 
@@ -514,7 +514,7 @@ same magenta swung to crimson; Easter is the flame turned to gold. No hue is
 introduced that the church's own arms have no claim to.
 
 Ordinary time is green in the BCW, and green is the one colour the crest does not
-contain. Rather than invent it, the site simply rests — which is also the honest
+contain. Rather than invent it, the site simply rests - which is also the honest
 reading of the season. Ordinary time is not an occasion the building is dressed
 for; it is the building.
 
@@ -522,30 +522,30 @@ for; it is the building.
 
 ## The splash screen
 
-The opening frame changes with the season too — it was the one surface on the
+The opening frame changes with the season too - it was the one surface on the
 site that kept the same colours all year.
 
 | Season | The arch | The bloom behind it |
 | --- | --- | --- |
 | **Ordinary** | The crest's magenta | Warm, magenta into flame |
-| **Christmas** | The feast's red, keystones gilded | **Frost** — colder than the paper |
+| **Christmas** | The feast's red, keystones gilded | **Frost** - colder than the paper |
 | **Lent** | Drained violet on ash | Almost put out |
 | **Holy Week** | Passion crimson | Almost put out |
-| **Good Friday** | Plain ink on stone | **`transparent`** — not dim, absent |
+| **Good Friday** | Plain ink on stone | **`transparent`** - not dim, absent |
 | **Easter** | Gilded, keystones burning | Gold, at full strength |
 | **CSI Day** | Both of the seal's colours | Magenta into flame |
 
-Six properties — the arch stroke, its keystones, the halo's two stops, the
-waiting rule and the rings that open as the crest flies — are on tokens and
+Six properties - the arch stroke, its keystones, the halo's two stops, the
+waiting rule and the rings that open as the crest flies - are on tokens and
 retargeted per season. The ground needed nothing: it is `--surface`, which the
 season blocks already move.
 
 On Good Friday the crest itself is desaturated, and the halo is the one thing on
-that screen whose whole job is to be light — so on the day the church puts its
+that screen whose whole job is to be light - so on the day the church puts its
 lights out, it is simply not there.
 
 > **One timing caveat.** The splash is server-rendered and up before hydration,
-> while `data-season` is written a frame or two later — so the arch begins
+> while `data-season` is written a frame or two later - so the arch begins
 > drawing in the default colours and settles into the season's while it is being
 > struck. Since the arch takes 1.4s to draw, the change lands *inside* the
 > animation rather than after it. Making it exact would mean computing the
@@ -558,11 +558,11 @@ lights out, it is simply not there.
 | --- | --- |
 | `src/lib/liturgical-year.ts` | Dates only. Easter computus and season boundaries. No React, no DOM, no colour. |
 | `src/components/common/liturgical-season.tsx` | Resolves the season (and the `?season=` override) and writes it to `<html data-season>`. |
-| `src/styles/globals.css` | The season blocks. Colour only — the paper, the accent scale, the cross, the buttons and the ink grounds, plus the Holy Week veiling. |
+| `src/styles/globals.css` | The season blocks. Colour only - the paper, the accent scale, the cross, the buttons and the ink grounds, plus the Holy Week veiling. |
 | `src/components/common/snowfall.tsx` | The fall. Reads the same season rather than counting months of its own, so the two can never disagree about what day it is. |
-| `src/components/common/christmas-scene.tsx` | The frieze at the foot of the page — firs, a snowman, a lantern, a wreath and the star. Renders `null` outside Christmas. |
-| `src/components/common/lent-scene.tsx` | Its counterpart — bare trees, stones, a cross on the horizon, one candle, and Joel 2:12. Renders `null` outside Lent and Holy Week. |
-| `src/components/common/good-friday-scene.tsx` | Calvary — three crosses, the crown, the nails, the spear and sponge, and John 19:30. |
+| `src/components/common/christmas-scene.tsx` | The frieze at the foot of the page - firs, a snowman, a lantern, a wreath and the star. Renders `null` outside Christmas. |
+| `src/components/common/lent-scene.tsx` | Its counterpart - bare trees, stones, a cross on the horizon, one candle, and Joel 2:12. Renders `null` outside Lent and Holy Week. |
+| `src/components/common/good-friday-scene.tsx` | Calvary - three crosses, the crown, the nails, the spear and sponge, and John 19:30. |
 | `src/components/common/easter-scene.tsx` | The empty tomb at sunrise, lilies, a butterfly, and the Paschal greeting. |
 | `src/components/common/section-ornaments.tsx` | What every section carries: firs and baubles in December, bare branches, veils and stones in Lent. |
 
@@ -574,7 +574,7 @@ stylesheet knows nothing about dates.
 ## Accessibility
 
 - **`prefers-reduced-motion` outranks the preview switch.** A reader who has
-  asked for less motion never gets the snow, even with `?snow` in the URL — a
+  asked for less motion never gets the snow, even with `?snow` in the URL - a
   permanent fall of thirty moving specks is exactly what that preference exists
   to prevent. There is no still version: snow that does not fall is a scatter of
   dots over the church's photography.
@@ -589,7 +589,7 @@ stylesheet knows nothing about dates.
 
 ## Verification
 
-**Contrast, every season.** Seven pairs are checked per season — body and muted
+**Contrast, every season.** Seven pairs are checked per season - body and muted
 text on paper, eyebrow on paper, body on card, and white on each of the button,
 the presbyter's letter and the week's verse. All seventy pass WCAG AA, most of
 them far above it: the lowest reading anywhere in the year is 8.3:1, against a
@@ -597,9 +597,9 @@ them far above it: the lowest reading anywhere in the year is 8.3:1, against a
 included.
 
 **The calendar.** The computus and every season boundary are checked against
-published dates —
+published dates -
 Easter 2026–2038, the 2026 boundary days on both sides of every season, and every
-day of December resolving to Christmas — plus 1 January in, and 2 January out — for each year from
+day of December resolving to Christmas - plus 1 January in, and 2 January out - for each year from
 2026 to 2035. All checks pass.
 
 If you change anything in `liturgical-year.ts`, re-run that check before

@@ -6,7 +6,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
 /**
  * The ambient layer for Christmas: bokeh, and a star that crosses now and then.
  *
- * Everything the season has so far is *in* the page — lights on the sections,
+ * Everything the season has so far is *in* the page - lights on the sections,
  * snow on the cards, frost at the corners. This is the air of the room: lights
  * far enough out of focus to have no edges, and once in a while something
  * crossing the sky above the hero.
@@ -15,7 +15,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  *
  * `fixed inset-0` with a negative z-index. Body carries the site's background
  * colour, which the browser propagates to the canvas, so a negative layer here
- * paints *above* that canvas and *below* every piece of content — the same
+ * paints *above* that canvas and *below* every piece of content - the same
  * mechanism the frost at the four corners uses. Nothing on this layer can ever
  * come between the reader and a word, at any scroll position.
  *
@@ -29,7 +29,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * indistinguishable.
  *
  * Every animation is `transform` and `opacity` only, all of it very slow, and
- * the blanket reduced-motion rule in `globals.css` stills the lot — leaving the
+ * the blanket reduced-motion rule in `globals.css` stills the lot - leaving the
  * lights simply hanging there, which is what out-of-focus lights do anyway.
  */
 
@@ -88,7 +88,7 @@ export function ChristmasEffects() {
       {/*
         A star, crossing.
 
-        It is visible for about two seconds in every twenty — long enough to be
+        It is visible for about two seconds in every twenty - long enough to be
         seen if you happen to be looking up, short enough that it is never the
         thing you are waiting for. Christmas is the one season on this site that
         can carry it without comment.

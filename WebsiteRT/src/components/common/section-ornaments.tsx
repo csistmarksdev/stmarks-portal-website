@@ -12,14 +12,14 @@ import { cn } from "@/lib/utils";
  * the head.
  *
  * Rendered by `Section` itself, so the whole site is dressed by one change
- * rather than by decorating twenty page files by hand — and so nothing anyone
+ * rather than by decorating twenty page files by hand - and so nothing anyone
  * adds later can forget to join in.
  *
  * ## What replaced what
  *
  * The first attempt put an abstract spray of fir in two corners: boughs as
  * sweeping curves with needles struck along them in pairs. At the size it
- * actually rendered, that reads as scribble rather than as greenery — the eye
+ * actually rendered, that reads as scribble rather than as greenery - the eye
  * needs a silhouette it recognises before it will accept detail. Everything
  * here is a shape you can name from across the room: a triangular fir with a
  * star on top, a round bauble on a thread. Nothing is suggested; it is drawn.
@@ -33,8 +33,8 @@ import { cn } from "@/lib/utils";
  * arithmetic to get wrong, the trees keep their drawn proportions from a 320px
  * phone to an ultrawide monitor, and only their spacing flexes.
  *
- * The tree path is symmetric about its own centre line by construction — every
- * point on the left has its mirror on the right — which is why it reads as a
+ * The tree path is symmetric about its own centre line by construction - every
+ * point on the left has its mirror on the right - which is why it reads as a
  * fir at 40px rather than as a lopsided arrow.
  *
  * ## Layer
@@ -80,7 +80,7 @@ export function Tree({ className, style }: { className?: string; style?: CSSProp
 }
 
 /*
- * The same tree, in Lent: no star, no baubles, no tiers — a trunk and the limbs
+ * The same tree, in Lent: no star, no baubles, no tiers - a trunk and the limbs
  * that fork from it.
  *
  * Drawn to the same 40×62 box as the fir above, and standing on the same line,
@@ -151,7 +151,7 @@ export function Bauble({
   );
 }
 
-/* A star on a thread — the other thing that hangs. */
+/* A star on a thread - the other thing that hangs. */
 export function HangingStar({
   drop,
   className,
@@ -186,7 +186,7 @@ export function HangingStar({
  *
  * The Lenten counterpart to a bauble, and the reason it is a veil rather than
  * a purple ornament: from Passiontide the crosses and images of a church are
- * *covered*, not taken down — the same practice the site already follows by
+ * *covered*, not taken down - the same practice the site already follows by
  * drawing the colour out of its photography through Holy Week. So what hangs
  * here in March is the cloth that hangs in the building.
  *
@@ -279,7 +279,7 @@ const LENT_STONES = [
  * taller and the two beside it shorter and fainter.
  *
  * Drawn to the same 40×62 box the fir and the bare tree stand in, on the same
- * base line — so the reader who saw firs in December and bare branches in March
+ * base line - so the reader who saw firs in December and bare branches in March
  * finds, on this one day, the thing the whole calendar has been walking toward
  * standing in exactly the same place.
  */
@@ -317,7 +317,7 @@ export function Calvary({
 }
 
 /*
- * The crown of thorns, hung at the head of a section — the one thing Good
+ * The crown of thorns, hung at the head of a section - the one thing Good
  * Friday hangs, in place of December's baubles and Lent's veils.
  *
  * A ring with the thorns struck outward at intervals, so it reads as plaited
@@ -368,14 +368,14 @@ const THORNS = [
 /*
  * There was a figure of the Risen Christ here, and it has been taken out.
  *
- * It was attempted three times — line art, then a filled silhouette in three
- * pieces, then a single continuous outline with a neck and sloping shoulders —
+ * It was attempted three times - line art, then a filled silhouette in three
+ * pieces, then a single continuous outline with a neck and sloping shoulders -
  * and every version read as something other than a person: a totem, then a bell
  * with sticks attached, then a blank hooded shape. The last was geometrically
  * correct, symmetric to the unit and properly closed, and it still did not work.
  *
  * The reason is scale, not craft. A human figure is the shape people read most
- * precisely and judge most harshly, and a face is not available here — it
+ * precisely and judge most harshly, and a face is not available here - it
  * caricatures at ninety pixels, and this tradition shows Christ as a sign
  * rather than as a portrait. Without one there is not enough left for the eye to
  * accept a person, and what it cannot accept as a person it reads as an object.
@@ -389,7 +389,7 @@ const THORNS = [
  * for centuries without drawing a body.
  */
 
-/* A butterfly — the oldest emblem of the resurrection there is: the thing that
+/* A butterfly - the oldest emblem of the resurrection there is: the thing that
    comes out of a sealed tomb changed. */
 export function Butterfly({
   className,
@@ -509,8 +509,8 @@ export function Lily({
  *
  * The day has one image and it is not a landscape: a thumb, a smudge of ash,
  * and a cross drawn on a forehead. So these are the things that are *on the
- * table* at the imposition — the bowl the ashes are in, the palm they were
- * burned from, and the mark itself — rather than another set of trees.
+ * table* at the imposition - the bowl the ashes are in, the palm they were
+ * burned from, and the mark itself - rather than another set of trees.
  *
  * They are drawn at the lowest weight of any season's set. The day is the
  * quietest on the calendar that is not Good Friday, and the figures should be
@@ -552,7 +552,7 @@ export function AshBowl({
 }
 
 /*
- * The mark itself — a cross thumbed onto a forehead.
+ * The mark itself - a cross thumbed onto a forehead.
  *
  * Two short strokes, deliberately uneven and slightly rough at the ends,
  * because this one is made with a thumb rather than drawn with a pen. It is the
@@ -584,7 +584,7 @@ export function AshCross({
 }
 
 /*
- * A palm frond — last year's Palm Sunday branches, which are what the ashes are
+ * A palm frond - last year's Palm Sunday branches, which are what the ashes are
  * made of. It is the one figure on this site that belongs to two seasons at
  * once, and the reason the day connects backwards as well as forwards.
  */
@@ -620,7 +620,7 @@ export function PalmFrond({
  * The Easter row, along the foot of every section.
  *
  * Linear and alternating: lilies, with the empty cross standing among them and
- * a butterfly at intervals — the way a chancel is dressed for the season, with
+ * a butterfly at intervals - the way a chancel is dressed for the season, with
  * flowers along the front and the cross among them.
  *
  * Heights vary so it reads as a planting rather than a fence, and `hide` thins
@@ -644,7 +644,7 @@ const EASTER_ROW = [
 ] as const;
 
 /*
- * A ray of light, falling from the head of the section — Easter's counterpart
+ * A ray of light, falling from the head of the section - Easter's counterpart
  * to December's baubles and Lent's veils.
  *
  * The season's decoration is the light itself, so what falls here is not an
@@ -653,7 +653,7 @@ const EASTER_ROW = [
  *
  * Built from a gradient and a `clip-path` rather than an SVG, and that is not
  * a style preference. An SVG beam needs a `linearGradient` with an `id`, and
- * this component renders in *every section on every page* — so the document
+ * this component renders in *every section on every page* - so the document
  * would carry one duplicated id per ray per section, which is invalid HTML and
  * leaves every ray but the first pointing at somebody else's gradient. Two CSS
  * properties have no identity to collide over.
@@ -689,7 +689,7 @@ const RAYS = [
   { left: 89, drop: 100, width: 24, hide: true },
 ] as const;
 
-/* A candy cane — a hooked stripe, the one piece of this set that is pure
+/* A candy cane - a hooked stripe, the one piece of this set that is pure
    childhood rather than liturgy, and the better for being outnumbered. */
 export function CandyCane({
   className,
@@ -802,7 +802,7 @@ export function Wreath({
   );
 }
 
-/* A candle in the window — the light a house leaves burning through the dark
+/* A candle in the window - the light a house leaves burning through the dark
    half of the year. */
 export function Candle({
   className,
@@ -871,7 +871,7 @@ export function Holly({
  * Icicles, hanging from the head of the section.
  *
  * One element per spike. The first version of these was a single
- * `repeating-conic-gradient` across the whole head — no markup, very clever,
+ * `repeating-conic-gradient` across the whole head - no markup, very clever,
  * and it rendered as a solid white band, because a 90° wedge struck from the
  * top of a small tile fills nearly all of it. Twenty tiles of that is a line,
  * which is what appeared on the page.
@@ -954,8 +954,8 @@ function bulbAt(arc: number, i: number) {
   /*
    * The same control points as the wire below, expressed as fractions of the
    * band: the wire is drawn in a 24-unit view box at y=3 and y=21, and the band
-   * is 3.5rem tall. Writing them as the wire's own numbers over 24 — rather
-   * than as eyeballed decimals — is what keeps every bulb on the string when
+   * is 3.5rem tall. Writing them as the wire's own numbers over 24 - rather
+   * than as eyeballed decimals - is what keeps every bulb on the string when
    * either is retuned.
    */
   const y0 = 3 / 24;
@@ -999,7 +999,7 @@ function StringLights() {
         fill="none"
       >
         {/* `vector-effect` keeps the wire a hairline however far it is
-            stretched — without it, a swag across a wide monitor draws as a
+            stretched - without it, a swag across a wide monitor draws as a
             rope. */}
         <path
           d={wire}
@@ -1066,7 +1066,7 @@ const TREELINE = [
  * Falling ash, hung from the head of the section.
  *
  * Ash Wednesday's counterpart to December's baubles, Lent's veils, Good
- * Friday's crown and Easter's light — and the only one of the five that is not
+ * Friday's crown and Easter's light - and the only one of the five that is not
  * an object. Nothing is hung on this day; something falls.
  *
  * A thread that fades in from the top edge and ends in a speck, with a second
@@ -1136,7 +1136,7 @@ export function AshHeap({
 /*
  * Ash Wednesday's row: the table at the imposition rather than a landscape.
  *
- * Sparser than Lent's, which is itself sparser than December's — the fast opens
+ * Sparser than Lent's, which is itself sparser than December's - the fast opens
  * on this day, and the page should be at its emptiest before the six weeks that
  * follow gradually strip it further.
  */
@@ -1202,8 +1202,8 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
 
   /*
    * The row is shifted along by a few positions per section, from the id React
-   * already gave this instance. Identical rows down a page read as wallpaper —
-   * the eye finds the repeat instead of the trees — and a shift is enough to
+   * already gave this instance. Identical rows down a page read as wallpaper -
+   * the eye finds the repeat instead of the trees - and a shift is enough to
    * break that without needing a second drawing. Stable per section, so nothing
    * moves about between renders.
    */
@@ -1236,7 +1236,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           : "text-accent-500/40"
         : /*
            * Good Friday. Named in white and black rather than through the accent
-           * scale — the season's palette has already drained every scale to a
+           * scale - the season's palette has already drained every scale to a
            * neutral, so this would come out grey either way, but saying it in
            * plain monochrome means the one day the site has no colour does not
            * depend on a token to stay that way.
@@ -1256,12 +1256,12 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
         tone,
       )}
     >
-      {/* Ice on the eaves, then the lights below it — Christmas only. */}
+      {/* Ice on the eaves, then the lights below it - Christmas only. */}
       {christmas ? <Icicles onDark={onDark} /> : null}
       {christmas ? <StringLights /> : null}
 
       {/*
-        Hung from the head of the section — Christmas only. Lent hangs nothing:
+        Hung from the head of the section - Christmas only. Lent hangs nothing:
         an ornament on a thread is a thing being celebrated, and this is the
         season of taking them down.
       */}
@@ -1324,7 +1324,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           );
         })}
 
-      {/* The crown of thorns — the only thing Good Friday hangs. */}
+      {/* The crown of thorns - the only thing Good Friday hangs. */}
       {goodFriday &&
         THORNS.map((item, index) => (
           <Thorns
@@ -1338,7 +1338,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           />
         ))}
 
-      {/* Calvary, along the foot — three crosses, three times across the
+      {/* Calvary, along the foot - three crosses, three times across the
           section, and nothing else standing. */}
       {goodFriday &&
         CALVARIES.map((item, index) => (
@@ -1355,7 +1355,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           />
         ))}
 
-      {/* Ash falling from the head — Ash Wednesday only. Nothing is hung on
+      {/* Ash falling from the head - Ash Wednesday only. Nothing is hung on
           this day; something falls. */}
       {ashWednesday &&
         ASH_FALL.map((item, index) => (
@@ -1370,7 +1370,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           />
         ))}
 
-      {/* The imposition table — Ash Wednesday only. */}
+      {/* The imposition table - Ash Wednesday only. */}
       {ashWednesday &&
         ASH_ROW.map((item, index) => {
           const Standing =
@@ -1397,7 +1397,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
           );
         })}
 
-      {/* Veils at the head, through Lent and Holy Week — not Ash Wednesday,
+      {/* Veils at the head, through Lent and Holy Week - not Ash Wednesday,
           which has its own row above. */}
       {lent &&
         LENT_HANGING.map((item, index) => (
@@ -1430,7 +1430,7 @@ export function SectionOrnaments({ onDark = false }: SectionOrnamentsProps) {
 
       {/*
         Standing along the foot: firs in December, the same trees stripped bare
-        in Lent. Lent also thins the row — every other one is dropped at every
+        in Lent. Lent also thins the row - every other one is dropped at every
         width, so the wilderness has space in it.
       */}
       {(christmas || lent) &&

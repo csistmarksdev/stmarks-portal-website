@@ -95,7 +95,7 @@ function payloadOf(record) {
  * return absolute URLs.
  *
  * Pointing the Portal at `http://localhost:3000/frames/…` would "work" and be
- * wrong — the Portal's content would depend on a dev server, and the point of
+ * wrong - the Portal's content would depend on a dev server, and the point of
  * migrating is that the Portal owns this content. So each distinct image is
  * uploaded into the Portal's media library once and the records are rewritten
  * to the returned URL.
@@ -105,7 +105,7 @@ const uploaded = new Map();
 /**
  * The Portal sniffs the upload's MIME type and rejects anything it does not
  * recognise. A `Blob` built from a buffer has no type, so it arrives as
- * `application/octet-stream` and is refused — the type has to be set here.
+ * `application/octet-stream` and is refused - the type has to be set here.
  */
 const MIME_BY_EXTENSION = {
   ".jpg": "image/jpeg",
@@ -212,7 +212,7 @@ async function migrateRecord(resource, record, label, afterCreate) {
     await request("PATCH", `/admin/${resource}/${created.id}`, { slug: record.slug });
   }
 
-  // Anything the create DTO does not accept — album photos, for instance —
+  // Anything the create DTO does not accept - album photos, for instance -
   // has to be attached before the record is published.
   if (afterCreate) await afterCreate(created, record);
 
@@ -226,7 +226,7 @@ async function migrateRecord(resource, record, label, afterCreate) {
 /**
  * Album photos are not part of `POST /admin/gallery`; they have their own
  * endpoint. Because the API validates with `whitelist: true`, a `photos` array
- * sent to create is stripped in silence — the album is created successfully
+ * sent to create is stripped in silence - the album is created successfully
  * and completely empty. So they are appended explicitly, and existing albums
  * that were created before this was understood get repaired rather than
  * skipped.
@@ -249,7 +249,7 @@ async function attachPhotos(album, record) {
 
 /**
  * Fellowships are seeded by the Portal itself, so they always "exist" and were
- * skipped wholesale — which meant their banners, committees and coordinators
+ * skipped wholesale - which meant their banners, committees and coordinators
  * never arrived. Existing records are topped up field by field rather than
  * replaced, so anything already edited in the Portal is left alone.
  */
@@ -275,7 +275,7 @@ function isEmpty(value) {
  * The Portal seeds fellowships with a shared `placeholder.jpg` banner. It is
  * technically "set", so a plain emptiness check leaves every fellowship sharing
  * one grey image. Treat it as unset so the mock's per-fellowship photograph
- * takes its place — but only the placeholder: a banner somebody actually
+ * takes its place - but only the placeholder: a banner somebody actually
  * uploaded through the Portal is real content and is never overwritten.
  */
 function isPlaceholderImage(value) {
@@ -309,7 +309,7 @@ async function repairFellowship(record) {
   if (!admin) return false;
 
   await request("PATCH", `/admin/fellowships/${admin.id}`, patch);
-  log.updated(`${record.slug} — filled ${missing.join(", ")}`);
+  log.updated(`${record.slug} - filled ${missing.join(", ")}`);
   return true;
 }
 
@@ -327,7 +327,7 @@ async function repairAlbum(record) {
   if (!admin) return false;
 
   const added = await attachPhotos(admin, record);
-  if (added > 0) log.updated(`${record.slug} — attached ${added} missing photos`);
+  if (added > 0) log.updated(`${record.slug} - attached ${added} missing photos`);
   return added > 0;
 }
 
@@ -340,7 +340,7 @@ async function migrateCollection({ resource, records, label, slugsPath, afterCre
       const slugs = await request("GET", slugsPath ?? `/${resource}/slugs`);
       existing = new Set(slugs);
     } catch (error) {
-      // A missing slugs endpoint is not fatal — it only costs idempotency.
+      // A missing slugs endpoint is not fatal - it only costs idempotency.
       console.log(`  \x1b[90m?\x1b[0m could not read existing slugs: ${error.message}`);
     }
   }
@@ -349,7 +349,7 @@ async function migrateCollection({ resource, records, label, slugsPath, afterCre
     const name = label(record);
 
     if (existing.has(record.slug)) {
-      // "Exists" is not the same as "complete" — give the resource a chance to
+      // "Exists" is not the same as "complete" - give the resource a chance to
       // fill in anything a previous run created only partially.
       if (!DRY_RUN && repair) {
         try {
@@ -427,20 +427,20 @@ async function main() {
   await migrateCollection({
     resource: "fellowships",
     records: fellowships.FELLOWSHIPS,
-    label: (f) => `${f.slug} — ${f.name.en}`,
+    label: (f) => `${f.slug} - ${f.name.en}`,
     repair: repairFellowship,
   });
 
   await migrateCollection({
     resource: "events",
     records: events.EVENTS,
-    label: (e) => `${e.slug} — ${e.title.en}`,
+    label: (e) => `${e.slug} - ${e.title.en}`,
   });
 
   await migrateCollection({
     resource: "gallery",
     records: gallery.GALLERY_ALBUMS,
-    label: (a) => `${a.slug} — ${a.title.en} (${a.photos?.length ?? 0} photos)`,
+    label: (a) => `${a.slug} - ${a.title.en} (${a.photos?.length ?? 0} photos)`,
     afterCreate: attachPhotos,
     repair: repairAlbum,
   });
@@ -448,13 +448,13 @@ async function main() {
   await migrateCollection({
     resource: "blog",
     records: blog.BLOG_POSTS,
-    label: (p) => `${p.slug} — ${p.title.en}`,
+    label: (p) => `${p.slug} - ${p.title.en}`,
   });
 
   /*
    * Downloads are deliberately not migrated.
    *
-   * Every `fileUrl` in the mock points at a PDF that does not exist — there is
+   * Every `fileUrl` in the mock points at a PDF that does not exist - there is
    * no `public/downloads/` directory, so those links already 404 on this site
    * today. Migrating them would move eight broken links into the Portal and
    * publish them as though they were real documents. The bulletins and forms
@@ -463,7 +463,7 @@ async function main() {
    */
   log.section(`downloads (${downloads.DOWNLOADS.length})`);
   console.log(
-    "  \x1b[33m·\x1b[0m skipped — the mock's PDFs do not exist on disk.\n" +
+    "  \x1b[33m·\x1b[0m skipped - the mock's PDFs do not exist on disk.\n" +
       "    Upload the real files in the Portal → Downloads. Titles for reference:",
   );
   for (const record of downloads.DOWNLOADS) {

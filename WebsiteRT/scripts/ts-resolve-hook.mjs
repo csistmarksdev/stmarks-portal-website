@@ -6,7 +6,7 @@
  * *resolution*: `import { x } from "./media"` has no extension, and Node's ESM
  * resolver requires one. This hook fills that single gap.
  *
- * The `@/*` aliases need no handling — every one of them in `src/data` is an
+ * The `@/*` aliases need no handling - every one of them in `src/data` is an
  * `import type`, which is erased before resolution ever happens.
  *
  * Used by `migrate-to-portal.mjs`:

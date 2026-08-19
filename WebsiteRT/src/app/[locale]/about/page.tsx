@@ -90,7 +90,7 @@ export default async function AboutPage({
             </Reveal>
 
             {/* The intro reads as a standfirst that flows straight into the
-                body — no dead gap between the two. */}
+                body - no dead gap between the two. */}
             <Reveal delay={0.08}>
               <Text
                 size="xl"
@@ -111,7 +111,7 @@ export default async function AboutPage({
 
           {history.image ? (
             <div className="lg:col-span-6">
-              {/* Arched and held in place while the story scrolls past — a
+              {/* Arched and held in place while the story scrolls past - a
                   window onto the sanctuary rather than a floating snapshot. */}
               <figure className="lg:sticky lg:top-28">
                 <div className="lancet-arch relative aspect-[4/5] overflow-hidden bg-sand-200 shadow-card ring-1 ring-[var(--border)]">
@@ -143,7 +143,7 @@ export default async function AboutPage({
           {/*
             A chronicle rather than a row of boxes: the years run down a single
             rail so the eye reads them in sequence. Equal-width cards flattened
-            the chronology — every entry looked simultaneous.
+            the chronology - every entry looked simultaneous.
           */}
           <div className="relative mt-12">
             {/* The rail, fading out at both ends rather than stopping dead. */}
@@ -226,8 +226,8 @@ export default async function AboutPage({
 
           {/*
             A ledger of what the parish holds to, not a row of boxes. Each value
-            opens with a gilded versal — the initial of the value itself, the
-            way an illuminated page marks a passage — and the columns are ruled
+            opens with a gilded versal - the initial of the value itself, the
+            way an illuminated page marks a passage - and the columns are ruled
             off from one another rather than boxed in.
           */}
           <StaggerGroup className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-[var(--border)]/80">
@@ -313,7 +313,7 @@ export default async function AboutPage({
             </Reveal>
 
             {/* The bishop has been in the content all along without ever
-                reaching the page — the one fact a reader is most likely to
+                reaching the page - the one fact a reader is most likely to
                 want from a section about the diocese. */}
             <Reveal delay={0.14}>
               <div className="mt-8 border-t border-[var(--border)] pt-6">

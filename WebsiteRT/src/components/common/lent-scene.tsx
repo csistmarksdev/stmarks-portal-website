@@ -6,17 +6,17 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 import { isLentSeason } from "@/lib/liturgical-year";
 
 /**
- * The Lenten frieze — a wilderness along the foot of the site.
+ * The Lenten frieze - a wilderness along the foot of the site.
  *
  * The counterpart to the Christmas scene, and deliberately its opposite in
  * every decision. Christmas fills the foot of the page: firs in a stand,
  * baubles, a snowman, gifts, a lit lantern, a greeting in the display serif.
  * Lent empties it. Three bare trees, a scatter of stones, one cross on the
- * horizon and a single candle — nothing in leaf, nothing hung, nothing wrapped.
+ * horizon and a single candle - nothing in leaf, nothing hung, nothing wrapped.
  *
  * That is not a smaller Christmas. It is the whole point of the season: forty
  * days in a wilderness, an altar stripped rather than dressed. A Lent decorated
- * *like* Christmas — thorns as ornaments, violet baubles — would be the moment
+ * *like* Christmas - thorns as ornaments, violet baubles - would be the moment
  * the site stopped keeping the calendar and started illustrating it.
  *
  * So the rule here is that everything is drawn in the same hand as the
@@ -26,7 +26,7 @@ import { isLentSeason } from "@/lib/liturgical-year";
  *
  * What stands at the centre is scripture, not a wish: Joel's call at the head
  * of every Ash Wednesday liturgy, with its reference, in the reader's own
- * language. Real text rather than lettering drawn as a path — translated, read
+ * language. Real text rather than lettering drawn as a path - translated, read
  * aloud by a screen reader, and set in the site's own display serif.
  *
  * Never shown on Good Friday. `isLentSeason` covers Lent and Holy Week and
@@ -44,7 +44,7 @@ export function LentScene() {
       <p className="relative z-10 flex flex-col items-center gap-5 px-6 pb-2 text-center">
         <span className="flex items-center gap-4">
           <span aria-hidden className="h-px w-10 rule-section sm:w-16" />
-          {/* An ash cross — the mark made on the forehead on Ash Wednesday, and
+          {/* An ash cross - the mark made on the forehead on Ash Wednesday, and
               the only ornament this season has. Struck, not filled. */}
           <span aria-hidden className="text-accent-200/70">
             <svg
@@ -86,7 +86,7 @@ export function LentScene() {
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          {/* The ground. Flatter and drier than the Christmas drift — one low
+          {/* The ground. Flatter and drier than the Christmas drift - one low
               rise rather than two banks of snow, and no fill worth speaking of. */}
           <path
             d="M0 84Q200 78 400 82T800 80T1200 84V100H0Z"
@@ -102,7 +102,7 @@ export function LentScene() {
           </g>
 
           {/* Two smaller ones, further off and further apart than the firs of
-              December ever are — the spacing is the season. */}
+              December ever are - the spacing is the season. */}
           <g className="stroke-white/25">
             <path d="M120 90V56" strokeWidth="1.4" />
             <path d="M120 70l-12-11M120 70l12-10M120 62l-8-8M120 62l9-7" />
@@ -114,7 +114,7 @@ export function LentScene() {
             <path d="M996 56l-5-2M996 56l0-5M1024 57l5-3M1024 57l0-5" />
           </g>
 
-          {/* The cross on the horizon. Plain, unfixed, standing alone — this is
+          {/* The cross on the horizon. Plain, unfixed, standing alone - this is
               the thing the whole season is walking toward. */}
           <g className="stroke-white/45">
             <path d="M760 88V38" strokeWidth="1.8" />

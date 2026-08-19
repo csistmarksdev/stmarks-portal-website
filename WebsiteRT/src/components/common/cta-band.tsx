@@ -17,7 +17,7 @@ export interface CtaBandProps {
  * The inked invitation that closes a page.
  *
  * It used to be a diagonal gradient with two coloured blooms in opposite
- * corners and six gilded specks drifting over the top — four effects competing
+ * corners and six gilded specks drifting over the top - four effects competing
  * for a panel whose whole job is to say *come and see*. Now it is one deep
  * brand ink, lit from above as if by a high window, with the grain of paper
  * over it. The cross, the invitation, the answer: nothing else, and room around

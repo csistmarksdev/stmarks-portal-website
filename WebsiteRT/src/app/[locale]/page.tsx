@@ -44,8 +44,8 @@ export default async function HomePage({
       <FellowshipCards />
       <RecentGallery />
 
-      {/* A breath before the meditative block — the pastor's word and the
-          week's verse — where the page turns from parish life to worship. */}
+      {/* A breath before the meditative block - the pastor's word and the
+          week's verse - where the page turns from parish life to worship. */}
       <SectionDivider />
 
       <PastorMessageSection />

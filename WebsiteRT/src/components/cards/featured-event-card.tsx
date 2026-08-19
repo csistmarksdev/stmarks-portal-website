@@ -19,7 +19,7 @@ export interface FeaturedEventCardProps {
  * The next gathering, given the weight of a lead article: a wide two-panel band
  * with the photograph on one side and, on the other, the date struck as a
  * tablet, the title in the display serif over a gilded rule, and the essentials
- * beneath. Rectangular by design — the arch belongs to the sanctuary imagery,
+ * beneath. Rectangular by design - the arch belongs to the sanctuary imagery,
  * not to the calendar.
  */
 export async function FeaturedEventCard({
@@ -54,7 +54,7 @@ export async function FeaturedEventCard({
             />
           )}
 
-          {/* Blends the photograph into the dark content panel — up from the
+          {/* Blends the photograph into the dark content panel - up from the
               foot on mobile, across to the panel on desktop. */}
           <div
             aria-hidden

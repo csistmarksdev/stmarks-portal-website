@@ -24,7 +24,7 @@ export interface HeroSceneProps {
 /**
  * One "beat" of the cinematic intro.
  *
- * Scenes overlap slightly so one morphs into the next — as a scene leaves it
+ * Scenes overlap slightly so one morphs into the next - as a scene leaves it
  * drifts up and contracts, while the incoming one rises and settles.
  * `pointerEvents` is driven from the same progress so hidden scenes never
  * swallow clicks meant for the scene on screen.

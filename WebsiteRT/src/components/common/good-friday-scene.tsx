@@ -8,8 +8,8 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * Good Friday, at the foot of the page.
  *
  * Calvary: three crosses on a hill, the centre one taller and standing alone
- * on its rise. Beside them the instruments the day is remembered by — the crown
- * of thorns, three nails, the spear and the sponge on hyssop — and above the
+ * on its rise. Beside them the instruments the day is remembered by - the crown
+ * of thorns, three nails, the spear and the sponge on hyssop - and above the
  * hill the darkness that came over the land at the sixth hour.
  *
  * ## Why this exists at all
@@ -18,7 +18,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * stripped page, on the reasoning that a decoration surviving the day it
  * commemorates would prove the calendar was never really being kept. That
  * reasoning was wrong in one respect, and the correction is worth recording.
- * The altar is stripped on Good Friday, but the church is not empty — the cross
+ * The altar is stripped on Good Friday, but the church is not empty - the cross
  * is brought forward and venerated, and it is the one day of the year the
  * building is *about* a single image. So the page carries that image, and
  * nothing else.
@@ -26,7 +26,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * ## The rules it keeps
  *
  * Everything is drawn in white on the footer's ink, at the same hairline weight
- * as every other mark on this site, and there is **no colour anywhere** — the
+ * as every other mark on this site, and there is **no colour anywhere** - the
  * season's palette blocks in `globals.css` have already drained every scale to
  * a pure neutral, so even a stray accent class would come out grey here.
  *
@@ -47,7 +47,7 @@ export function GoodFridayScene() {
       <p className="relative z-10 flex flex-col items-center gap-5 px-6 pb-2 text-center">
         <span className="flex items-center gap-4">
           <span aria-hidden className="h-px w-10 bg-white/25 sm:w-16" />
-          {/* A plain cross, unadorned — no halo, no gilding, no colour. */}
+          {/* A plain cross, unadorned - no halo, no gilding, no colour. */}
           <span aria-hidden className="text-white/60">
             <svg
               viewBox="0 0 24 24"
@@ -84,7 +84,7 @@ export function GoodFridayScene() {
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          {/* The hill. Bare ground, no drift and no grass — a rise and nothing on
+          {/* The hill. Bare ground, no drift and no grass - a rise and nothing on
               it but what was put there. */}
           <path
             d="M0 96Q180 88 380 92T700 86T980 92T1200 88V110H0Z"

@@ -56,7 +56,7 @@ export default async function EventsPage({
    * next gathering when nothing is marked.
    *
    * Previously it was always `upcoming[0]`, which meant ticking Featured in the
-   * Portal changed nothing on the site — the editor had a switch wired to
+   * Portal changed nothing on the site - the editor had a switch wired to
    * nothing. Sorting rather than filtering keeps every event on the page; only
    * the order changes.
    */

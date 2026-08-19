@@ -12,7 +12,7 @@ export interface ServiceTimingsTableProps {
 /**
  * The week's worship, gathered by day rather than laid out as a spreadsheet.
  *
- * Each day is a band — the day set large in the display serif on the left, its
+ * Each day is a band - the day set large in the display serif on the left, its
  * services ruled off beside it with the hour struck in the brand colour and the
  * place set beneath as a quiet line. It reads as an order of the
  * week, the way a printed bulletin lists the services, and keeps its meaning for

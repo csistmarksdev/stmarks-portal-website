@@ -46,8 +46,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
       ta: "கீர்த்தனைக் குழு புதிய உறுப்பினர்களை வரவேற்கிறது",
     },
     body: {
-      en: "The choir is welcoming new voices ahead of the Christmas season. No audition is required — practice is every Saturday at 5:00 PM in the parish hall.",
-      ta: "கிறிஸ்துமஸ் பருவத்தை முன்னிட்டு கீர்த்தனைக் குழு புதிய குரல்களை வரவேற்கிறது. தேர்வு தேவையில்லை — ஒவ்வொரு சனிக்கிழமையும் மாலை 5:00 மணிக்கு சபை மண்டபத்தில் பயிற்சி.",
+      en: "The choir is welcoming new voices ahead of the Christmas season. No audition is required - practice is every Saturday at 5:00 PM in the parish hall.",
+      ta: "கிறிஸ்துமஸ் பருவத்தை முன்னிட்டு கீர்த்தனைக் குழு புதிய குரல்களை வரவேற்கிறது. தேர்வு தேவையில்லை - ஒவ்வொரு சனிக்கிழமையும் மாலை 5:00 மணிக்கு சபை மண்டபத்தில் பயிற்சி.",
     },
     publishedAt: "2026-07-05",
     pinned: false,

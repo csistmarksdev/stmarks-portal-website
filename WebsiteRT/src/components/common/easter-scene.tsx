@@ -15,12 +15,12 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * ## On not drawing the figure
  *
  * A figure of the Risen Christ stood at the centre of this scene through three
- * attempts and is not here now — see the note in `section-ornaments.tsx`. The
+ * attempts and is not here now - see the note in `section-ornaments.tsx`. The
  * short version: a human figure is the shape people read most precisely, a face
  * is available neither at this size nor in this tradition, and without one the
  * eye reads an object rather than a person. The sun rising behind the hill says
  * the same thing and is understood instantly, because the church has always
- * said it that way — in glass, in stone, and in the orientation of the building
+ * said it that way - in glass, in stone, and in the orientation of the building
  * itself.
  *
  * ## Read against the other two scenes
@@ -28,7 +28,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  * This is the third of a set, and it only works because of what it answers.
  * December fills the ground with firs and gifts. Lent empties it to bare
  * branches and stones. Good Friday puts three crosses on it, occupied. Here the
- * same hill carries the same three crosses — *empty*, and set back — while what
+ * same hill carries the same three crosses - *empty*, and set back - while what
  * stands forward is an opened tomb and things in flower.
  *
  * The rays are struck from behind the figure rather than around it: light
@@ -37,7 +37,7 @@ import { useLiturgicalSeason } from "@/components/common/liturgical-season";
  *
  * ## The words
  *
- * The Paschal greeting, in the reader's own language — the call and the
+ * The Paschal greeting, in the reader's own language - the call and the
  * response, which is how it is actually said, one half by the presbyter and one
  * by everybody else. It is the only greeting on this site set as a dialogue,
  * because it is the only one that is one.
@@ -57,7 +57,7 @@ export function EasterScene() {
       <p className="relative z-10 flex flex-col items-center gap-4 px-6 pb-2 text-center">
         <span className="flex items-center gap-4">
           <span aria-hidden className="h-px w-10 rule-section sm:w-16" />
-          {/* An empty cross, radiant — the Easter reading of the sign that was
+          {/* An empty cross, radiant - the Easter reading of the sign that was
               bare on Friday. */}
           <span aria-hidden className="text-accent-300">
             <svg
@@ -108,8 +108,8 @@ export function EasterScene() {
             behind the horizon with rays struck outward from its own centre.
 
             Two things were left standing here when the figure of the Risen
-            Christ came out, and both had to go with it. The mandorla — the
-            pointed almond a risen Christ is shown within — was drawn *before*
+            Christ came out, and both had to go with it. The mandorla - the
+            pointed almond a risen Christ is shown within - was drawn *before*
             the figure in the source, so removing the figure left the almond
             hanging over the sunrise with nothing inside it, which is exactly
             what it looked like. And the glory rays were struck from the

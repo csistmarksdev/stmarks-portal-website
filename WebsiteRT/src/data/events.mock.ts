@@ -48,12 +48,12 @@ export const EVENTS: ChurchEvent[] = [
     title: { en: "Youth Retreat", ta: "இளைஞர் தியான முகாம்" },
     summary: {
       en: "Two days away for worship, teaching and rest, open to all youth members.",
-      ta: "ஆராதனை, போதனை, ஓய்வுக்காக இரண்டு நாட்கள் — அனைத்து இளைஞர் உறுப்பினர்களுக்கும் திறந்தது.",
+      ta: "ஆராதனை, போதனை, ஓய்வுக்காக இரண்டு நாட்கள் - அனைத்து இளைஞர் உறுப்பினர்களுக்கும் திறந்தது.",
     },
     description: [
       {
         en: "A weekend retreat outside the city with sessions on faith and vocation, small group discussion, games and an evening of worship around the fire.",
-        ta: "நகருக்கு வெளியே ஒரு வார இறுதி முகாம் — விசுவாசம் மற்றும் அழைப்பு குறித்த அமர்வுகள், சிறு குழு கலந்துரையாடல், விளையாட்டுகள், நெருப்பைச் சுற்றி மாலை ஆராதனை.",
+        ta: "நகருக்கு வெளியே ஒரு வார இறுதி முகாம் - விசுவாசம் மற்றும் அழைப்பு குறித்த அமர்வுகள், சிறு குழு கலந்துரையாடல், விளையாட்டுகள், நெருப்பைச் சுற்றி மாலை ஆராதனை.",
       },
     ],
     startDate: "2026-09-05T07:00:00.000+05:30",

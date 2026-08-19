@@ -206,7 +206,7 @@ export default async function FellowshipPage({
         {fellowship.committee.length === 0 ? (
           <EmptyState message={t("empty.committee")} />
         ) : (
-          // Arched portrait medallions, centred so any number sits balanced —
+          // Arched portrait medallions, centred so any number sits balanced -
           // the same arch language as the clergy and church committee. A member
           // with a photograph shows it; the gilded monogram stands in until one
           // is uploaded.
@@ -277,7 +277,7 @@ export default async function FellowshipPage({
         )}
       </Section>
 
-      {/* Reports & reflections — this fellowship's blog posts */}
+      {/* Reports & reflections - this fellowship's blog posts */}
       <Section spacing="lg" tone="muted">
         <SectionHeading index="04" title={t("sections.reports")} />
 
@@ -294,7 +294,7 @@ export default async function FellowshipPage({
         )}
       </Section>
 
-      {/* Gallery — this fellowship's own event albums, plus any shared
+      {/* Gallery - this fellowship's own event albums, plus any shared
           churchwide albums, each opening into its own set of photos. */}
       <Section spacing="lg">
         <SectionHeading index="05" title={t("sections.gallery")} />

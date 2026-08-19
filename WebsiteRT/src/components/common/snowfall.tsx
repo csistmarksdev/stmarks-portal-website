@@ -12,7 +12,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * with nobody having to remember to take it down.
  *
  * Keyed to the church's year rather than to the month, so it covers the whole
- * of December and begins where the church's own year begins — see
+ * of December and begins where the church's own year begins - see
  * `lib/liturgical-year.ts`. Snow that started on the 1st and ignored Advent, or
  * stopped on Christmas night with eleven days of Christmastide still to run,
  * would be a decoration borrowed from a shopping calendar and dropped onto a
@@ -41,7 +41,7 @@ import { isSnowSeason } from "@/lib/liturgical-year";
  * The fall.
  *
  * Authored rather than generated. A random scatter clusters and leaves bald
- * patches — that is what randomness does — and it also means the composition
+ * patches - that is what randomness does - and it also means the composition
  * changes on every mount, so there is no version of it to look at and correct.
  * These twenty-eight are spaced across the width by hand, with the near, larger,
  * faster flakes deliberately outnumbered by distant ones.
@@ -95,7 +95,7 @@ const FLAKES: Flake[] = [
  * How many flakes survive on a small screen.
  *
  * A phone is a fifth of the width of a desktop and the same number of flakes
- * across it is a snowstorm — plus it is the device most likely to be doing this
+ * across it is a snowstorm - plus it is the device most likely to be doing this
  * on a budget GPU while it scrolls. The first sixteen are spread across the full
  * width by construction, so taking the tail is a thinning, not a crop.
  */
@@ -108,7 +108,7 @@ const MOBILE_FLAKES = 16;
  * questions the season cannot: has the reader asked for less motion, and has
  * anyone asked to preview it out of season.
  *
- * Cached in a module-level slot because the result is read during render —
+ * Cached in a module-level slot because the result is read during render -
  * recomputing it would hand React a new answer every pass.
  */
 let override: boolean | null | undefined;
@@ -118,7 +118,7 @@ function snowOverride(): boolean | null {
 
   /*
    * A reader who has asked for less motion has asked for this in particular,
-   * and it outranks the preview switch — a permanent fall of thirty moving
+   * and it outranks the preview switch - a permanent fall of thirty moving
    * specks is exactly what that preference exists to prevent.
    *
    * There is no still version worth showing either: snow that does not fall is
@@ -133,24 +133,24 @@ function snowOverride(): boolean | null {
   }
 
   /*
-   * The preview switch — `?snow` on any page, in any season.
+   * The preview switch - `?snow` on any page, in any season.
    *
    *   ?snow          the fall, now
    *   ?snow=1        …the same; `on` and `true` also work
-   *   ?snow=0        Advent, without it — `off` and `false` also work
+   *   ?snow=0        Advent, without it - `off` and `false` also work
    *
    * Without this the only way to look at the thing is to wind the clock on the
    * machine forward or wait for Advent, which means a seasonal feature is first
    * seen by the congregation rather than by the person responsible for it. The
    * off switch matters just as much: in December it is the only way to check a
-   * page *without* snow over it — to photograph the hero, say, or to rule the
+   * page *without* snow over it - to photograph the hero, say, or to rule the
    * snow out when something else on the page looks wrong.
    *
    * A query parameter and nothing else. No cookie, no stored preference, no
    * build flag: it lives exactly as long as the URL that carries it, so there
    * is no state anywhere that can leave the site quietly snowing in June.
    *
-   * `null` means "no opinion" — fall through to the season.
+   * `null` means "no opinion" - fall through to the season.
    */
   const flag = new URLSearchParams(window.location.search).get("snow");
 
@@ -164,8 +164,8 @@ function snowOverride(): boolean | null {
 
 export function Snowfall() {
   /*
-   * The season is `"ordinary"` on the server and on the first client render —
-   * see `liturgical-season.tsx` — so this renders nothing until the real season
+   * The season is `"ordinary"` on the server and on the first client render -
+   * see `liturgical-season.tsx` - so this renders nothing until the real season
    * arrives a pass later. That is the correct order of importance: the page
    * arrives complete, and the snow starts after it.
    */

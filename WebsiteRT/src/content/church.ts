@@ -8,22 +8,22 @@ import type {
 import { placeholderImage } from "@/data/media";
 
 /**
- * Permanent site content — the church's own identity.
+ * Permanent site content - the church's own identity.
  *
  * Written once and revised years apart, so it lives in the repository rather
  * than in the Portal CMS: routing it through an admin form would have meant
  * maintaining editors nobody opens. Edit these values here and redeploy.
  *
- * Everything that genuinely changes — service timings, the pastor's message,
+ * Everything that genuinely changes - service timings, the pastor's message,
  * the weekly verse, and all the listed content (events, blog, gallery,
- * announcements, downloads, leadership, fellowships) — is CMS-managed and
+ * announcements, downloads, leadership, fellowships) - is CMS-managed and
  * reaches the site through `src/services`.
  */
 
 export const CHURCH_PROFILE: ChurchProfile = {
   name: {
     en: "CSI St. Mark's Church, Madipakkam",
-    ta: "சி.எஸ்.ஐ. புனித மாற்கு ஆலயம், மடிப்பாக்கம்",
+    ta: "சி.எஸ்.ஐ. தூய மாற்கு ஆலயம், மடிப்பாக்கம்",
   },
   address: {
     lines: {
@@ -39,7 +39,7 @@ export const CHURCH_PROFILE: ChurchProfile = {
      * Must be a `/maps/embed` URL, not `/maps?…&output=embed`.
      *
      * The `output=embed` form 301-redirects here anyway, but it serves
-     * `X-Frame-Options: SAMEORIGIN` on the way — so the browser refuses the
+     * `X-Frame-Options: SAMEORIGIN` on the way - so the browser refuses the
      * frame and the map renders as a blank white panel with no console error
      * that points at the cause. `maps.google.com/maps?output=embed` sends the
      * same header. This is the one variant that omits it.
@@ -68,12 +68,12 @@ export const CHURCH_PROFILE: ChurchProfile = {
 export const CHURCH_HISTORY: ChurchHistory = {
   intro: {
     en: "From a humble gathering of six pioneer families in a thatched terrace shed in 1993 to a vibrant sanctuary of over 190 families, the journey of CSI St. Mark's Church, Madipakkam is a testimony of God's grace and guidance.",
-    ta: "1993-இல் ஒரு மொட்டை மாடி ஓலைக் கொட்டகையில் 6 குடும்பங்களின் ஆராதனையுடன் தொடங்கி, இன்று 190-க்கும் மேற்பட்ட குடும்பங்கள் கொண்ட சபையாக வளர்ந்துள்ள சி.எஸ்.ஐ. புனித மாற்கு ஆலயம், தேவனின் கிருபைக்கு சாட்சியாகும்.",
+    ta: "1993-இல் ஒரு மொட்டை மாடி ஓலைக் கொட்டகையில் 6 குடும்பங்களின் ஆராதனையுடன் தொடங்கி, இன்று 190-க்கும் மேற்பட்ட குடும்பங்கள் கொண்ட சபையாக வளர்ந்துள்ள சி.எஸ்.ஐ. தூய மாற்கு ஆலயம், தேவனின் கிருபைக்கு சாட்சியாகும்.",
   },
   body: [
     {
       en: "In early 1993, guided by Bishop Rt. Rev. Dr. Azariah, six pioneer families in Madipakkam gathered for worship in a thatched terrace shed at Mr. Paulkanthan's home. On April 25th, 1993 (St. Mark's Day), the first Holy Eucharist was celebrated, and the congregation was named 'St. Mark's Church'.",
-      ta: "1993-ன் தொடக்கத்தில் ஆயர் மேதகு டாக்டர் அஸரியா அவர்களின் வழிகாட்டுதலின்படி, மடிப்பாக்கத்தில் 6 குடும்பங்கள் திரு. பால்காந்தன் வீட்டின் மொட்டை மாடி ஓலைக் கொட்டகையில் கூடினர். ஏப்ரல் 25, 1993 (புனித மாற்கு தினம்) அன்று முதல் பரிசுத்த நற்கருணை ஆராதனை நடைபெற்று 'புனித மாற்கு ஆலயம்' என பெயரிடப்பட்டது.",
+      ta: "1993-ன் தொடக்கத்தில் ஆயர் மேதகு டாக்டர் அஸரியா அவர்களின் வழிகாட்டுதலின்படி, மடிப்பாக்கத்தில் 6 குடும்பங்கள் திரு. பால்காந்தன் வீட்டின் மொட்டை மாடி ஓலைக் கொட்டகையில் கூடினர். ஏப்ரல் 25, 1993 (தூய மாற்கு தினம்) அன்று முதல் பரிசுத்த நற்கருணை ஆராதனை நடைபெற்று 'தூய மாற்கு ஆலயம்' என பெயரிடப்பட்டது.",
     },
     {
       en: "As the congregation expanded, 5.5 grounds of land was acquired on April 9th, 1995, followed by the dedication of a new sanctuary on February 8th, 1997. The church earned independent Unit Status in 2007 under Rev. D. Mohanraj, with Rev. Raja Freeman taking charge in 2012.",
@@ -91,7 +91,7 @@ export const CHURCH_HISTORY: ChurchHistory = {
       title: { en: "First Service & Naming", ta: "முதல் ஆராதனை & பெயர் சூட்டல்" },
       description: {
         en: "Six pioneer families gather on a terrace shed; named St. Mark's Church on April 25th.",
-        ta: "மொட்டை மாடி கொட்டகையில் 6 குடும்பங்கள் கூடினர்; ஏப்ரல் 25 அன்று புனித மாற்கு ஆலயம் என பெயரிடப்பட்டது.",
+        ta: "மொட்டை மாடி கொட்டகையில் 6 குடும்பங்கள் கூடினர்; ஏப்ரல் 25 அன்று தூய மாற்கு ஆலயம் என பெயரிடப்பட்டது.",
       },
     },
     {
@@ -133,7 +133,7 @@ export const CHURCH_HISTORY: ChurchHistory = {
   ],
   image: placeholderImage(40, {
     en: "CSI St. Mark's Church Sanctuary",
-    ta: "சி.எஸ்.ஐ. புனித மாற்கு ஆலயம்",
+    ta: "சி.எஸ்.ஐ. தூய மாற்கு ஆலயம்",
   }),
 };
 
@@ -192,14 +192,14 @@ export const DIOCESE_INFO: DioceseInfo = {
   /*
    * Figures and dates here are the diocese's own, taken from the public record
    * (the diocese's website was mid-rebuild when this was written). The
-   * congregation and pastorate counts will drift over the years — treat them as
+   * congregation and pastorate counts will drift over the years - treat them as
    * "about", and check them against the diocese before reprinting anywhere it
    * matters.
    */
   description: [
     {
       en: "St. Mark's belongs to the Diocese of Madras, one of twenty-two dioceses of the Church of South India - the united church formed in 1947 that brought together Anglican, Methodist, Congregational, Presbyterian and Reformed traditions.",
-      ta: "புனித மாற்கு ஆலயம், தென்னிந்திய திருச்சபையின் இருபத்திரண்டு மறைமாவட்டங்களில் ஒன்றான சென்னை மறைமாவட்டத்தைச் சேர்ந்தது - ஆங்கிலிக்கன், மெதடிஸ்ட், காங்கிரிகேஷனல், பிரெஸ்பிடீரியன், சீர்திருத்த மரபுகளை ஒன்றிணைத்து 1947 இல் உருவான ஐக்கிய திருச்சபை.",
+      ta: "தூய மாற்கு ஆலயம், தென்னிந்திய திருச்சபையின் இருபத்திரண்டு மறைமாவட்டங்களில் ஒன்றான சென்னை மறைமாவட்டத்தைச் சேர்ந்தது - ஆங்கிலிக்கன், மெதடிஸ்ட், காங்கிரிகேஷனல், பிரெஸ்பிடீரியன், சீர்திருத்த மரபுகளை ஒன்றிணைத்து 1947 இல் உருவான ஐக்கிய திருச்சபை.",
     },
     {
       en: "The diocese is older than that union. It was constituted on 28 October 1835, when Daniel Corrie was consecrated its first bishop at St George's Church in Madras, the building that became St George's Cathedral, and remains the bishop's seat today.",
@@ -207,7 +207,7 @@ export const DIOCESE_INFO: DioceseInfo = {
     },
     {
       en: "It now reaches across Chennai and the districts around it, with some 1,192 congregations gathered into 186 pastorates. St. Mark's shares in that wider communion, and in the diocese's long work in education, healthcare and social service.",
-      ta: "இன்று இது சென்னையையும் அதைச் சுற்றியுள்ள மாவட்டங்களையும் உள்ளடக்கி, 186 போதகப் பணியிடங்களில் ஏறத்தாழ 1,192 சபைகளைக் கொண்டுள்ளது. புனித மாற்கு ஆலயம் அந்தப் பரந்த ஐக்கியத்திலும், கல்வி, சுகாதாரம், சமூக சேவையில் மறைமாவட்டத்தின் நீண்டகாலப் பணியிலும் பங்கு கொள்கிறது.",
+      ta: "இன்று இது சென்னையையும் அதைச் சுற்றியுள்ள மாவட்டங்களையும் உள்ளடக்கி, 186 போதகப் பணியிடங்களில் ஏறத்தாழ 1,192 சபைகளைக் கொண்டுள்ளது. தூய மாற்கு ஆலயம் அந்தப் பரந்த ஐக்கியத்திலும், கல்வி, சுகாதாரம், சமூக சேவையில் மறைமாவட்டத்தின் நீண்டகாலப் பணியிலும் பங்கு கொள்கிறது.",
     },
   ],
   bishop: {
@@ -216,7 +216,7 @@ export const DIOCESE_INFO: DioceseInfo = {
   },
   websiteUrl: "https://csimadrasdiocese.org",
   /**
-   * The diocese's own crest, not a photograph — hence the square dimensions
+   * The diocese's own crest, not a photograph - hence the square dimensions
    * and the `object-contain` treatment on the About page. An emblem cropped to
    * a landscape plate is an emblem defaced.
    */

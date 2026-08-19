@@ -20,7 +20,7 @@ const FADE = 1.4;
 /**
  * Crossfading backdrop for {@link PageHero}, with pager dots.
  *
- * The imagery is decorative — the hero's heading carries the meaning — so the
+ * The imagery is decorative - the hero's heading carries the meaning - so the
  * picture layer is hidden from assistive tech and every image gets an empty
  * alt. The dots are not decorative: they report how many slides exist and let
  * anyone jump between them, so they stay in the accessibility tree.
@@ -40,7 +40,7 @@ export function HeroSlideshow({ images, interval = 6000 }: HeroSlideshowProps) {
    * new full-viewport image and crossfades it over the outgoing one while a
    * seconds-long push-in scales it. That is continuous decode, paint and
    * compositing for a picture nobody is looking at, and it competes with the
-   * scroll for the main thread — felt as stutter far down the page, in the
+   * scroll for the main thread - felt as stutter far down the page, in the
    * sections a reader has actually scrolled to. Parked out of view the timer
    * stops, the running animations finish, and the hero costs nothing until it
    * is scrolled back to.
