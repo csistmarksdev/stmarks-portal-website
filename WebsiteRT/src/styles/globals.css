@@ -3785,3 +3785,631 @@ html[data-splash-lite] .splash-rule::after {
   }
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* Mobile landscape                                                           */
+/*                                                                            */
+/* A phone turned sideways is the one viewport this site had no answer for,    */
+/* and the reason is that it is wide and short at the same time. At 844x390    */
+/* the width clears Tailwind's `sm` breakpoint, so every `sm:` rule fires and  */
+/* the page is served the tablet's type and the tablet's spacing - into 390px  */
+/* of height. The full-bleed heroes were the worst of it: `min-h-svh` with     */
+/* `sm:pt-[calc(header+7rem)]` and `sm:pb-32` spends 312 of those 390 pixels   */
+/* on padding, leaving 78px for a title and a standfirst.                     */
+/*                                                                            */
+/* Keyed on height and orientation rather than on width, because height is     */
+/* the thing that is actually short. Nothing else in this file is touched, so  */
+/* portrait phones, tablets and desktops render exactly as they did before -   */
+/* no viewport that worked can reach these rules. `30rem` (480px) sits above   */
+/* the tallest phone landscape in use (430px on a 16 Pro Max) and well below   */
+/* the shortest tablet one (768px on an iPad).                                */
+/*                                                                            */
+/* The whole of the strategy is: reclaim padding, step the two largest type    */
+/* levels back down to about their phone-portrait size, and tighten the        */
+/* vertical rhythm between blocks. No layout is rearranged and no element      */
+/* moves - a landscape reader gets the same design, set shorter.               */
+/* -------------------------------------------------------------------------- */
+
+@media (orientation: landscape) and (max-height: 30rem) {
+  :root {
+    /*
+     * Back to the phone-portrait bar height. The `sm` step to 4.5rem exists to
+     * give a wide masthead room to breathe; here it is 18% of the viewport.
+     * Safe by construction - this is the value the same bar already uses on
+     * every phone in portrait, and the logo (`sm:size-9`) and the menu button
+     * (`sm:size-10`) both clear 3.75rem with room over.
+     */
+    --header-height: 3.75rem;
+  }
+
+  /*
+   * The cue is a hint, and on a short viewport a 2.5rem hint is a piece of
+   * furniture. Back to under the phone-portrait height; the descent still
+   * reads as a downward movement, which is the whole of its job.
+   */
+  .scroll-cue {
+    --cue-height: 1.5rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Full-bleed heroes                                                      */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * `min-h-svh` stays - the full-bleed photograph is the design, and losing it
+   * in landscape would be the change this is meant to avoid. Only the padding
+   * gives: enough at the top to clear the fixed bar and read as deliberate
+   * space, and enough at the bottom to clear the scroll cue at `bottom-8`.
+   *
+   * Set on both axes at once so the `sm:` variants have nothing left to win
+   * with, whichever of the two hero shapes this lands on: `page-hero.tsx`
+   * carries `sm:pt-[calc(header+7rem)]`, the event and fellowship detail
+   * heroes carry a bare `pt-[calc(header+4rem)]`.
+   */
+  [data-hero-frame] {
+    padding-top: calc(var(--header-height) + 1.75rem);
+    padding-bottom: 3.5rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Type above the fold                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The two largest levels only, and only inside a hero - which is where the
+   * `sm` scale hurts, because a hero heading is the one piece of type that is
+   * competing with the viewport for height rather than for width. A `display`
+   * at `sm:text-5xl` is 48px; two lines of the church's name at that size is
+   * 100px of a 390px screen before anything else is placed.
+   *
+   * These land near the phone-portrait sizes, which are already proven for
+   * this copy. Body copy and the smaller headings are left alone: the problem
+   * scales with the type, and below `h1` there is nothing worth reclaiming.
+   */
+  [data-hero-frame] [data-heading="display"],
+  [data-hero-stage] [data-heading="display"] {
+    font-size: 1.75rem;
+  }
+
+  [data-hero-frame] [data-heading="h1"],
+  [data-hero-stage] [data-heading="h1"] {
+    font-size: 1.5rem;
+  }
+
+  [data-hero-frame] [data-text="xl"],
+  [data-hero-stage] [data-text="xl"] {
+    font-size: 1rem;
+  }
+
+  /*
+   * Tamil, which is stepped to 2.25rem/1.75rem from `sm` upward by the block
+   * far above and would otherwise keep those sizes here - the selectors above
+   * are a class short of outranking it, and deliberately so: this script needs
+   * its own numbers rather than the Latin ones.
+   *
+   * Held at roughly three quarters of the Latin sizes beside them, the ratio
+   * the rest of this file uses wherever the two scripts have to set to the
+   * same optical weight. The leading stays at the 1.35 set above, because the
+   * vowel signs above and below the band still have to clear each other - that
+   * is a property of the script, not of the viewport.
+   */
+  html[lang="ta"] [data-hero-frame] [data-heading="display"],
+  html[lang="ta"] [data-hero-stage] [data-heading="display"] {
+    font-size: 1.375rem;
+  }
+
+  html[lang="ta"] [data-hero-frame] [data-heading="h1"],
+  html[lang="ta"] [data-hero-stage] [data-heading="h1"] {
+    font-size: 1.1875rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Vertical rhythm above the fold                                         */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The gaps between the blocks of a hero - eyebrow to title, title to
+   * standfirst, standfirst to the panel of cards - are set as `mt-*`
+   * utilities on the elements themselves. Addressed by class here, the way
+   * the Tamil block above reaches `[class~="uppercase"]`, because the
+   * alternative is threading a landscape variant through six components for
+   * spacing that is correct in every other viewport.
+   *
+   * Roughly halved. Nothing is closed up to nothing: the hierarchy still
+   * reads, and reclaiming ~80px across a hero is the difference between the
+   * cards fitting under the copy and being cut off by the fold.
+   */
+  [data-hero-frame] [class~="mt-4"],
+  [data-hero-stage] [class~="mt-4"] {
+    margin-top: 0.625rem;
+  }
+
+  [data-hero-frame] [class~="mt-5"],
+  [data-hero-stage] [class~="mt-5"] {
+    margin-top: 0.75rem;
+  }
+
+  [data-hero-frame] [class~="mt-6"],
+  [data-hero-stage] [class~="mt-6"] {
+    margin-top: 0.75rem;
+  }
+
+  [data-hero-frame] [class~="mt-8"],
+  [data-hero-stage] [class~="mt-8"] {
+    margin-top: 1rem;
+  }
+
+  [data-hero-frame] [class~="mt-9"],
+  [data-hero-stage] [class~="mt-9"] {
+    margin-top: 1rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The cinematic stage                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The home hero's five scenes are pinned inside a `100dvh` box with
+   * `overflow-hidden`, so a panel that does not fit is not scrolled to - it is
+   * cut off, silently. The type and rhythm rules above do most of the work;
+   * what is left is the opening scene's own floor, which is set to clear the
+   * scroll cue and at `sm:pb-28` is 112px of a 390px stage.
+   */
+  [data-hero-stage] [class~="pb-24"] {
+    padding-bottom: 3.5rem;
+  }
+
+  /*
+   * The glass cards - four service timings, four values, three events. `p-5`
+   * on a card whose tallest line is 14px is generous at any height and costs
+   * 40px of the stage here; the border, the blur and the radius are what make
+   * these read as glass, and none of them move.
+   */
+  [data-hero-stage] [class~="p-5"] {
+    padding: 0.75rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The mobile drawer                                                      */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The nav is capped so it scrolls inside the island rather than off the
+   * screen. The 6rem of slack under it is breathing room on a phone held
+   * upright; sideways it is a quarter of the drawer, and the cap is already
+   * doing the real work. The menu button is `xl:hidden`, so this drawer is
+   * what a landscape phone gets.
+   */
+  [data-nav-panel] {
+    /*
+     * Measured, not guessed: the drawer hangs from a floating island that sits
+     * ~29px below the bar, so subtracting only the bar's own height put the
+     * foot of the panel 5px past the bottom of the screen - the last row was
+     * being cut by the edge of the display rather than by the scroll
+     * container, which is the thing this cap exists to prevent. 2.5rem covers
+     * the island's offset and leaves a margin under it.
+     */
+    max-height: calc(100svh - var(--header-height) - 2.5rem);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The splash screen                                                      */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The arch is drawn 17rem wide from `sm` upward, which at its viewBox ratio
+   * stands 323px tall and is seated 38% above centre - so on a 390px screen
+   * its springing line falls below the fold and the figure is cut by the
+   * shell's own `overflow-hidden`. Sized so the whole arch stands clear, with
+   * the crest and the waiting rule closed up to match.
+   */
+  .splash-arch {
+    width: 11.5rem;
+  }
+
+  .splash-crest img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .splash-shell {
+    gap: 1.25rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The masthead wordmark, in Tamil                                        */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The two lines of the wordmark are stacked at `leading-[1.15]`, which is
+   * right for Fraunces and wrong for Tamil: this script hangs vowel signs
+   * below the baseline and stacks them above the cap band, so at 1.15 the
+   * descenders of "ஆலயம்" run straight through the ascenders of the line
+   * under it. The phone-portrait block far above already steps these two down
+   * to 0.75rem/0.5625rem, but it is keyed on `max-width: 39.9375rem` - a
+   * landscape phone is 844px wide, so it was being served the `sm` sizes
+   * (0.875rem/0.625rem) at that same 1.15, and the two lines collided.
+   *
+   * The proven portrait sizes, plus the leading the script actually needs.
+   * Set on the stack rather than the lines, because line-height is inherited
+   * and `leading-[1.15]` sits on the wrapper.
+   */
+  html[lang="ta"] [data-wordmark] {
+    font-size: 0.75rem;
+  }
+
+  html[lang="ta"] [data-wordmark-sub] {
+    font-size: 0.5625rem;
+  }
+
+  html[lang="ta"] :has(> [data-wordmark]) {
+    line-height: 1.5;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Clearing the fixed bar                                                 */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The stage's scenes are `absolute inset-0`, so a centred panel centres in
+   * the whole viewport - including the 3.75rem the fixed masthead is sitting
+   * over. In portrait there is enough slack that this never showed; in
+   * landscape the panel is most of the available height, and the eyebrow at
+   * the top of it was disappearing under the bar.
+   *
+   * A top inset the height of the bar. `items-center` then centres in what is
+   * genuinely free, and `items-end` scenes are unaffected because they measure
+   * from the floor. The progress rule keeps the bottom edge to itself.
+    *
+   * The child combinator is load-bearing. As a descendant selector this also
+   * matched the `flex items-center` meta rows inside the event cards and the
+   * `inline-flex items-center` of a Button, handing each of them 60px of
+   * padding-top - 120px per card, which read as huge gaps between the lines.
+   * Only the scenes are direct children of the stage.
+   */
+  [data-hero-stage] > [class~="items-center"],
+  [data-hero-stage] > [class~="items-end"] {
+    padding-top: var(--header-height);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Fitting the panels                                                     */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The Sunday timings are `sm:grid-cols-2 lg:grid-cols-4`. A landscape phone
+   * is wide enough for the four-column row the design uses on a desktop but
+   * lands in the two-column tier, so three cards became two rows - the second
+   * of which was cut off by the stage's `overflow-hidden`, which is why the
+   * third service was missing rather than merely tight.
+   *
+   * Given the wide row it has the width for. This is the `lg` arrangement, not
+   * a new one: the panel reads in landscape the way it reads on a desktop.
+   */
+  [data-hero-stage] [class~="sm:grid-cols-2"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /*
+   * Body copy in the stage, which is where the height actually goes: the
+   * welcome panel's standfirst runs to three lines in Tamil and each one is
+   * costing 1.625 of its own size. 1.5 is still open enough for the vowel
+   * signs to clear - the same reasoning as the wordmark above - and takes a
+   * line's worth of height out of every panel.
+   */
+  [data-hero-stage] [class~="leading-relaxed"] {
+    line-height: 1.5;
+  }
+
+  [data-hero-stage] [data-text="lg"] {
+    font-size: 0.875rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Leading, across the whole stage                                        */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * The single biggest lever on this stage, and the one the earlier pass
+   * missed: `leading-relaxed` was answered, but most of the type on a panel
+   * card carries no leading utility at all and so inherits the 1.75 set on
+   * `body` for Tamil. Four lines of meta on an event card is 84px of leading
+   * alone, and the events panel - three cards, each with a wrapped title and a
+   * wrapped date - is the tallest thing the stage has to seat.
+   *
+   * Set on the stage so it inherits, which reaches the lines no class-based
+   * rule can name without listing every one of them. Headings keep the 1.35
+   * the Tamil block above gives them (more specific, and the vowel signs need
+   * it), and the standfirst keeps the 1.5 below - this is for the small type.
+   */
+  [data-hero-stage] {
+    line-height: 1.4;
+  }
+
+  /*
+   * The gap inside a card - figure to title, title to each line of meta. At
+   * `mt-2` it is doing the same job three times per card and paying full price
+   * each time.
+   */
+  [data-hero-stage] [class~="mt-2"] {
+    margin-top: 0.375rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The footer                                                             */
+  /*                                                                        */
+  /* Not clipped - a footer scrolls, so nothing here was being lost. The     */
+  /* problem is proportion: every one of its gaps is set for a tall viewport */
+  /* and none of them are answered below `lg`, so a landscape phone was      */
+  /* scrolling roughly 1,200px of footer at 355px a screen - three and a     */
+  /* half screens of it, most of that empty. `py-20` alone is 160px, and the */
+  /* band gaps (`gap-12`, `pb-14`, `pt-14`, `gap-y-12`, `mt-16`) add another */
+  /* 270 before a single line of content is placed.                          */
+  /*                                                                        */
+  /* Roughly halved throughout, which is the same move the heroes above got  */
+  /* and for the same reason. Scoped to `footer` - there is exactly one in    */
+  /* the app - so no other section's spacing can be caught by these.          */
+  /* Column counts, order, dividers and rules are all left alone: this is     */
+  /* the same footer, set tighter, not a different one.                       */
+  /* ---------------------------------------------------------------------- */
+
+  footer [class~="py-20"] {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  /* The masthead band: lockup and standfirst over the socials. */
+  footer [class~="gap-12"] {
+    gap: 1.5rem;
+  }
+
+
+
+  footer [class~="pb-14"] {
+    padding-bottom: 1.75rem;
+  }
+
+  footer [class~="mt-7"] {
+    margin-top: 1rem;
+  }
+
+  /* The three link columns below the rule. The count is untouched - at this
+     width they stay in the `sm` two-column arrangement; only the air between
+     the rows gives. */
+  footer [class~="pt-14"] {
+    padding-top: 1.75rem;
+  }
+
+  footer [class~="gap-y-12"] {
+    row-gap: 1.75rem;
+  }
+
+  footer [class~="mt-6"] {
+    margin-top: 0.875rem;
+  }
+
+  footer [class~="mt-5"] {
+    margin-top: 0.75rem;
+  }
+
+  /* The copyright bar. */
+  footer [class~="mt-16"] {
+    margin-top: 2rem;
+  }
+
+  footer [class~="pt-8"] {
+    padding-top: 1.25rem;
+  }
+
+  /*
+   * The lockup's marks. `sm:size-16` is 64px - a fifth of the viewport's
+   * height each, for something decorative here that the masthead already
+   * carries at full size. The phone-portrait 56px, which the wordmark beside
+   * them is proportioned against anyway.
+   *
+   * One rule covers both now that the seal and the shield share a box; the
+   * shield's old `sm:h-16` no longer exists.
+   */
+  footer [class~="sm:size-16"] {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  /*
+   * The footer wordmark, in Tamil - the same defect as the masthead's, from
+   * the same cause. It is set at `leading-[1.08]`, tighter even than the
+   * header's 1.15, which is right for Fraunces sitting between baseline and
+   * cap height and wrong for a script that stacks vowel signs above the cap
+   * band and hangs them below the baseline. At the 2rem this clamp reaches by
+   * 771px, 1.08 gives the line 34.5px for glyphs that need more.
+   *
+   * Leading only. The size is left exactly as the clamp sets it, because the
+   * lockup's three marks are proportioned against each other and this is the
+   * one that must not move.
+   */
+  html[lang="ta"] footer [class~="leading-[1.08]"] {
+    line-height: 1.3;
+  }
+
+
+  /* ---------------------------------------------------------------------- */
+  /* Panel cards, second pass                                               */
+  /* ---------------------------------------------------------------------- */
+
+  /* ---------------------------------------------------------------------- */
+  /* The copyright bar                                                      */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * A real overflow, not merely tight: the bar is `flex-col` with a
+   * `sm:flex-row sm:justify-between`, and in Tamil its two lines are a
+   * 60-character copyright notice and a dedication. Neither can hyphenate and
+   * "பாதுகாக்கப்பட்டவை." is a single unbreakable token, so the row's
+   * min-content width is wider than the container and the dedication was being
+   * carried off the right edge of the screen.
+   *
+   * Held in the column arrangement the same bar uses on a phone in portrait,
+   * where the two lines stack with `gap-3` and both fit. This is the one place
+   * in this block where a `sm:` layout is countermanded rather than merely
+   * tightened - a truncated line is lost content, and no amount of reclaimed
+   * padding fixes it.
+   */
+  footer [class~="sm:flex-row"] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* The navigation drawer                                                  */
+  /* ---------------------------------------------------------------------- */
+
+  /*
+   * Eight rows at `py-2.5` with `text-lg` on Tamil body leading is ~51px each,
+   * or 412px of list - into the ~271px the drawer has. It scrolls, so nothing
+   * was unreachable, but it opened showing five of eight items and cut the
+   * sixth mid-glyph, which reads as broken rather than as scrollable.
+   *
+   * Tightened until the list very nearly fits: 1rem type on 1.4 leading with
+   * half the vertical padding puts the whole of the primary nav within about a
+   * row of the cap. The chevron buttons that open the submenus are left at
+   * `size-9` - they are the touch targets in here, and 36px is already the
+   * floor for one.
+   */
+  [data-nav-panel] {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  [data-nav-panel] [class~="py-2.5"] {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+
+  [data-nav-panel] [class~="text-lg"] {
+    font-size: 1rem;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mobile landscape, short tier                                               */
+/*                                                                            */
+/* The block above is enough for a current phone: measured at 844x390 every    */
+/* scene of the stage clears with 18-174px of headroom. It is not enough for   */
+/* the older and smaller ones, and the reason is width rather than height -    */
+/* a 667px landscape wraps the welcome panel's standfirst and its four value   */
+/* cards onto more lines than a 844px one does, so the shortest viewports are  */
+/* also the ones asking the panels to be tallest. Measured: 333px of content   */
+/* into 315px of room at 667x375, and 3px of slack at 740x360.                 */
+/*                                                                            */
+/* So the last step is spent here rather than in the block above, where it     */
+/* would have cost every modern phone type size it does not need to give up.   */
+/* Leading and padding only - nothing is resized, and no panel is rearranged.  */
+/* -------------------------------------------------------------------------- */
+
+@media (orientation: landscape) and (max-height: 24rem) {
+  /*
+   * From the 1.5 the block above sets. This is the standfirst on every panel
+   * and the description on every value card - four lines apiece on a narrow
+   * landscape, so a 0.15 step is worth more here than anywhere else on the
+   * stage. Still open enough for Tamil's vowel signs to clear.
+   */
+  [data-hero-stage] [class~="leading-relaxed"] {
+    line-height: 1.35;
+  }
+
+  /* The gap between the standfirst and the row of cards. */
+  [data-hero-stage] [class~="mt-8"] {
+    margin-top: 0.75rem;
+  }
+
+  /* The glass cards, from the 0.75rem above. */
+  [data-hero-stage] [class~="p-5"] {
+    padding: 0.625rem;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mobile landscape, wide tier                                                */
+/*                                                                            */
+/* The footer's two bands can take their desktop column counts in landscape -  */
+/* but only where there is width for them. Measured: at 844x390 and 740x360    */
+/* the three link columns sit in one row with nothing overrunning; at 667x375  */
+/* the same rule leaves the links column ~224px, its inner `grid-cols-2`       */
+/* halves that to ~104px, and eight Tamil nav labels overflow their boxes.     */
+/*                                                                            */
+/* So the structural change is gated on width as well as height. Below 46rem   */
+/* the footer keeps the `sm` two-row arrangement it has today, which is        */
+/* correct there - it is only the taller-than-necessary one, and the spacing   */
+/* rules in the block above already answer that.                              */
+/* -------------------------------------------------------------------------- */
+
+@media (orientation: landscape) and (max-height: 30rem) and (min-width: 46rem) {
+
+  /*
+   * The two bands' column counts - the whole of the footer's height problem.
+   *
+   * Measured at 844x390: the masthead band is 349.6px because the lockup
+   * (170.7) sits *above* the socials (125.8) rather than beside them, and the
+   * link band is 435.7px because three columns wrap into two rows of 374px.
+   * Both are single-column fallbacks: the arrangement that fixes them is
+   * `lg:grid-cols-12`, which does not fire until 1024px even though a 844px
+   * landscape has the width for it several times over. Between them they were
+   * ~355px of the footer's ~930.
+   *
+   * So both bands are given the twelfths they already carry `lg:col-span-*`
+   * for, written as `fr` ratios because the spans themselves are `lg:` and
+   * cannot be reached from here. 2fr/1fr is the masthead's 8/4; 4fr/3fr/5fr is
+   * the link band's 4/3/5, which also hands the address - the column with the
+   * most to say - the widest measure, exactly as it has on a desktop.
+   *
+   * This is the one structural change in the whole landscape block. It is not
+   * a new layout: it is the layout this footer was designed with, reached at
+   * the width that can carry it.
+   */
+  footer [class~="gap-12"] {
+    grid-template-columns: 2fr 1fr;
+    align-items: end;
+  }
+
+  footer [class~="gap-y-12"] {
+    /*
+     * 5/3/4, not the `lg` 4/3/5. The desktop proportions give the address the
+     * widest measure because it has the longest strings, and at 1200px the
+     * links column is still 400px so nothing suffers for it. At 844px the same
+     * ratio leaves the links column 238px - which its inner `grid-cols-2`
+     * halves to 111px, and measurement put "அறிவிப்புகள்" at 120px and
+     * "பதிவிறக்கம்" at 114px, so the labels were overrunning their
+     * own boxes.
+     *
+     * The two widest columns swap. Tamil sets wider per character and cannot
+     * hyphenate, so at this width the eight nav labels need the room more than
+     * the address does - the address wraps to another line and reads fine,
+     * whereas a link that overruns its box does not.
+     */
+    grid-template-columns: 5fr 3fr 4fr;
+  }
+
+  /*
+   * And the size, which is a consequence of the column change above. The
+   * wordmark's clamp reaches its 2rem ceiling by 771px, which was right when
+   * the lockup had the full 780px measure to itself; in the ~500px column it
+   * now shares with the socials, 2rem wraps the name and the two marks either
+   * side of it end up looking like punctuation on a paragraph rather than the
+   * ends of one mark.
+   *
+   * 1.25rem is what measurement settled on, and only after the shield was
+   * given a square box to fix the portrait centring - that took 22px off this
+   * column's measure and put the name back onto two lines at the 1.375rem
+   * this rule first used. At 1.25rem the Tamil name sets on one line from
+   * 844px up.
+   *
+   * Below that it still takes two - at 740px the column leaves 298px and the
+   * name wants 334px, and the size that would force one line is too small to
+   * be the footer's masthead. Two balanced lines is the right answer there,
+   * and `text-balance` on the element already makes them even.
+   */
+  footer [class~="leading-[1.08]"] {
+    font-size: 1.25rem;
+  }
+}

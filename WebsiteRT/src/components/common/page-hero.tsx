@@ -34,6 +34,9 @@ export function PageHero({
 
   return (
     <section
+      // Hook for the mobile-landscape block in globals.css, which reclaims the
+      // vertical padding below. Styles nothing in any other viewport.
+      data-hero-frame
       className={cn(
         // `svh` rather than `vh`: on mobile the cue must clear the browser
         // chrome instead of hiding beneath it.

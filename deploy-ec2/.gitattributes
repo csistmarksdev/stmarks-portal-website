@@ -1,0 +1,19 @@
+# Line endings, decided here rather than by whoever cloned this.
+#
+# Everything in this directory is read by Linux: bash runs the scripts, systemd
+# reads the unit, Docker reads the compose file. Checked out with CRLF — which
+# is what git does by default on Windows, where this repository is developed —
+# bash reads the shebang as `/usr/bin/env bash\r`, cannot find it, and reports
+#
+#     /usr/bin/env: 'bash\r': No such file or directory
+#
+# naming an interpreter that is plainly installed. `eol=lf` applies on checkout
+# too, so a Windows working tree gets LF for these whatever `core.autocrlf` is
+# set to locally. Portal-Docker/.gitattributes does the same for its own files.
+
+* text=auto
+
+*.sh       text eol=lf
+*.yml      text eol=lf
+*.service  text eol=lf
+*.example  text eol=lf

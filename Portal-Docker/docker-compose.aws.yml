@@ -1,0 +1,254 @@
+# CSI St. Mark's Portal — AWS EC2 demo, one instance, one container.
+#
+#   cp .env.aws.example .env.aws          # then edit it
+#   docker compose --env-file .env.aws -f docker-compose.aws.yml build
+#   docker compose --env-file .env.aws -f docker-compose.aws.yml up -d
+#   curl http://localhost:8080/v1/health
+#
+# Open http://<EC2_PUBLIC_IP>:8080 once the Security Group allows TCP 8080.
+# See AWS-EC2.md for the full procedure.
+#
+# `--env-file .env.aws` is not decoration. Compose reads `.env` for variable
+# substitution and nothing else, so without the flag every `${...}` below falls
+# back to the default written beside it and the file is ignored in silence. The
+# defaults are all working ones — the Portal comes up correctly with no
+# environment file at all — so the flag is what makes YOUR overrides apply, not
+# what makes it start.
+#
+# One service, and that is the whole point
+# ----------------------------------------
+# The Portal is a workspace of three packages — `shared/`, `backend/` (NestJS
+# API) and `frontend/` (Next.js admin CMS) — but it deploys as ONE image. A
+# router inside the container serves the CMS and proxies the API beneath it:
+#
+#     /v1/*       -> API                /uploads/*  -> uploaded media
+#     /docs*      -> API (Swagger)      everything else -> admin CMS
+#
+# So there is a single origin, no CORS between the two halves, and no reason to
+# split this into a frontend container and a backend container. Splitting it
+# would mean two images, a proxy in front and CORS configuration, to arrive back
+# where this already is.
+#
+# There is no database service here for the same reason: the image carries its
+# own MongoDB and a snapshot of the church's content, media and accounts. It
+# listens on 127.0.0.1:27017 *inside* the container and is not published to the
+# host at all, which is what "do not expose the database" means when the
+# database is in-process. Point `MONGODB_URI` at Atlas or another server and the
+# bundled one is never started — see docker-compose.prod.yml for the variant
+# with a separate `mongo` container.
+#
+# Ports
+# -----
+# The container's real internal HTTP port is 8080. Not an assumption: it is set
+# by `ENV PORT=8080` and declared by `EXPOSE 8080` in Dockerfile.source, and the
+# router binds 0.0.0.0:8080 in docker/entrypoint.mjs. The API (4000) and the CMS
+# (3001) are internal to the container and bind to 127.0.0.1 there, so they are
+# unreachable from the host and from the network — nothing to publish, nothing
+# to firewall. The mapping below is therefore host 8080 -> container 8080, a
+# matched pair rather than a guessed one.
+#
+# Related files:
+#   docker-compose.yml         local build from a prebuilt dist-portal/
+#   docker-compose.deploy.yml  pull the published image, any host
+#   docker-compose.prod.yml    with a separate MongoDB container
+#   AWS-EC2.md                 this deployment, step by step
+
+name: csistmc-portal-aws
+
+services:
+  portal:
+    # Dockerfile.source, not Dockerfile, and that is the difference that makes
+    # this file work on a bare EC2 box. `Dockerfile` compiles nothing: it copies
+    # a `dist-portal/` folder that `scripts/build-production-bundle.mjs` has to
+    # produce on the host first, which means installing Node and a full
+    # node_modules on the instance before Docker is any use.
+    #
+    # Dockerfile.source compiles the workspace inside the builder, so the only
+    # thing EC2 needs is Docker. The cost is the build itself — an `npm ci`
+    # across three packages plus a Next.js build, which wants ~2 GB of RAM and
+    # 10-20 minutes on a 2 vCPU instance. AWS-EC2.md covers adding swap, and the
+    # alternative of pulling the published image instead of building.
+    build:
+      context: .
+      dockerfile: Dockerfile.source
+      args:
+        # The MongoDB series installed into the runtime layer. Pinned rather
+        # than floating, so a rebuild months from now produces the same image.
+        MONGO_MAJOR: "8.0"
+
+    # Pinned to the project's own version, never `latest`: `latest` moves
+    # whenever something is pushed, so an instance that rebuilds or restarts at
+    # the wrong moment silently changes version.
+    #
+    # A LOCAL tag, deliberately not the `stmarksdev/` registry namespace, so a
+    # build here cannot shadow the published image of the same version. To run
+    # the published one instead of building:
+    #
+    #   PORTAL_IMAGE=stmarksdev/csistmarkscmsportal:1.5 \
+    #     docker compose -f docker-compose.aws.yml up -d --no-build
+    #
+    # It is read from the shell rather than from .env.aws because `image:` is
+    # substituted before any env file is consulted. See AWS-EC2.md.
+    image: ${PORTAL_IMAGE:-csistmarkscmsportal:1.5}
+
+    container_name: portal
+
+    # Comes back after a crash, and after an EC2 reboot once Docker's own
+    # systemd unit is enabled (`sudo systemctl enable docker`). Not `always`,
+    # which would also restart a container that was stopped on purpose.
+    restart: unless-stopped
+
+    # Everything here has a working default, so the Portal starts correctly with
+    # no environment file at all. There is deliberately no `env_file:` key: it
+    # would inject variables into the container WITHOUT making them available to
+    # the `${...}` substitutions below, and `environment:` wins over `env_file:`
+    # — so a value set in the file would be overridden by the empty default it
+    # was meant to replace. One mechanism, no ambiguity: `--env-file .env.aws`.
+    environment:
+      # The one public port, inside the container and out. Change it here and in
+      # `ports` together — this demo is fixed at 8080 on both sides.
+      PORT: 8080
+
+      # Turns on the API's startup configuration checks. It lists every unsafe
+      # setting at once and refuses to boot, rather than serving insecurely.
+      NODE_ENV: production
+
+      # The origin browsers actually use, stored inside media URLs. Empty is
+      # safe: the entrypoint detects the address and fills it in before the API
+      # starts, and media URLs are rewritten to the requesting origin on every
+      # response regardless. Set it to http://<EC2_PUBLIC_IP>:8080 anyway, so
+      # the values written into the database are the right ones.
+      PUBLIC_URL: ${PUBLIC_URL:-}
+
+      # Browser origins allowed to call the API. Comma-separated, exact match.
+      # "*" by default, so the Portal answers on whatever address it is reached
+      # at — which is what a demo on a bare IP needs. Narrow it once there is a
+      # domain.
+      #
+      # The `:-*` default also guards against an empty value: the API splits
+      # this on commas and drops the blanks, so CORS_ORIGINS="" would allow no
+      # origin at all rather than falling back to anything.
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+
+      # Session signing keys. Generated on first boot into the portal-data
+      # volume when left empty, and kept across restarts — so an unconfigured
+      # demo is not an insecure one. Set them only to survive a volume reset.
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-}
+
+      # Used ONCE, and only if the database has no administrator. The snapshot
+      # baked into the image already has the church's accounts, so on a normal
+      # boot the password is generated, unused and thrown away.
+      #
+      # The email carries the application's own default rather than an empty
+      # string on purpose: backend/src/seed/initialize.ts reads it with `??`,
+      # which falls back on undefined but NOT on "" — an empty value here would
+      # create an administrator with a blank email on an empty database.
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+
+      # WiredTiger's cache. The entrypoint already pins MongoDB's 0.25 GB floor,
+      # because WiredTiger otherwise sizes its cache from *host* RAM — it reads
+      # the machine, not the container's limit — and gets OOM-killed on a small
+      # instance. Named here so the value is visible, not to change it.
+      MONGO_CACHE_GB: ${MONGO_CACHE_GB:-0.25}
+
+      # MONGODB_URI is deliberately absent rather than defaulted to empty, and
+      # this is not a style choice. The API reads it as
+      # `process.env.MONGODB_URI ?? "mongodb://localhost:27017/..."`, and `??`
+      # does not fall back on an empty string — so passing MONGODB_URI="" hands
+      # mongoose an empty connection string and the container dies on boot. An
+      # absent variable takes the default; an empty one breaks it.
+      #
+      # To use an external database instead of the bundled one, uncomment this
+      # and give it a real value. The bundled `mongod` is then never started.
+      # MONGODB_URI: ${MONGODB_URI}
+
+    ports:
+      # host 8080 -> container 8080. The ONLY published port: MongoDB, the API
+      # and the CMS all listen on loopback inside the container.
+      #
+      # No host IP prefix, so this binds 0.0.0.0 on the instance and the EC2
+      # Security Group is what decides who reaches it. That is the one place the
+      # rule belongs; see AWS-EC2.md.
+      - "8080:8080"
+
+    networks:
+      # A dedicated bridge network rather than the implicit default one, so the
+      # Portal is not sharing a network with whatever else Compose has run on
+      # this instance, and so any service added later addresses it as `portal`
+      # over Compose DNS rather than by container IP.
+      - portal-net
+
+    volumes:
+      # Named volumes, not host bind mounts. Docker owns these paths, so there
+      # is no Ubuntu uid/gid mismatch to fix: a bind mount from /home/ubuntu
+      # would arrive owned by uid 1000 while the container runs as uid 10001.
+      #
+      # The database, and the secrets generated on first boot.
+      - portal-data:/data
+      # Media uploaded through the CMS. The snapshot's media is installed here
+      # on first boot and is then ordinary files.
+      - portal-uploads:/app/backend/uploads
+
+    # The entrypoint stops the API and CMS first and lets `mongod` finish a few
+    # seconds later, so its files close cleanly. Docker's 10-second default cuts
+    # that short and can leave the database needing recovery; 30 lets it finish.
+    stop_grace_period: 30s
+
+    # The API's own health route, which the image already ships a HEALTHCHECK
+    # for; repeated here so `docker compose ps` reports it regardless of which
+    # image tag is running. `start_period` is generous because the first boot
+    # restores the snapshot before anything listens — marking the container
+    # unhealthy while it does exactly what it was told to causes restart loops.
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 5
+
+    # No privileged mode, no host networking, no Docker socket, no added
+    # capabilities. `no-new-privileges` blocks the one remaining escalation
+    # route — a setuid binary gaining privilege on exec.
+    #
+    # Deliberately NOT `cap_drop: ALL`: docker/launch.sh starts as root to fix
+    # ownership of a freshly mounted volume (a volume arrives owned by root
+    # whatever the image built, and `mongod` as uid 10001 then cannot create its
+    # data files), then drops to uid 10001 with gosu before anything serves a
+    # request. That needs CHOWN, SETUID and SETGID from Docker's default set.
+    # Nothing that answers a request runs as root.
+    security_opt:
+      - no-new-privileges:true
+
+    # A ceiling, so a runaway container is killed rather than taking the
+    # instance's SSH daemon with it. The Portal idles well under 1 GiB; this
+    # leaves room on a 4 GiB box. Honoured by Compose v2 outside Swarm.
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+    # Caps the logs at 30 MB total. Without this, json-file logging grows until
+    # the EC2 root volume is full, which on a demo box means the whole instance
+    # stops rather than the container.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  portal-net:
+    driver: bridge
+
+volumes:
+  # Recreating the container — `up -d`, a rebuild, a version change — reuses
+  # these. They are removed only by an explicit `down -v`, which is why no
+  # command in AWS-EC2.md runs that without saying what it destroys.
+  portal-data:
+  portal-uploads:

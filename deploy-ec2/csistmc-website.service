@@ -1,0 +1,77 @@
+# CSI St. Mark's public website — Next.js, on the EC2 host, on :3000.
+#
+#   sudo cp deploy-ec2/csistmc-website.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now csistmc-website
+#
+# systemd rather than pm2 or a screen session: it is already on the instance,
+# it restarts the site after a crash and after a reboot, and its logs go to
+# journalctl with everything else. Nothing to install.
+#
+# This project has no `output: "standalone"` in next.config.ts, so the
+# production start mechanism is `next start` over the `.next` build in the
+# working directory. `npm run build` must have been run there first.
+
+[Unit]
+Description=CSI St. Mark's public website (Next.js)
+Documentation=file:/home/ubuntu/app/deploy-ec2/README.md
+# Wants the network to be genuinely up, not merely configured: the site's
+# server components fetch the Portal API on the first request.
+After=network-online.target
+Wants=network-online.target
+
+# Give up rather than restart-loop forever on a broken build — five failures
+# inside a minute is a configuration problem, not a transient one. These are
+# [Unit] keys, not [Service] ones, on systemd 229 and later.
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+
+# Never root. `next start` serves the public internet on this box.
+User=ubuntu
+Group=ubuntu
+
+WorkingDirectory=/home/ubuntu/app/WebsiteRT
+
+# `next start` loads .env.local from WorkingDirectory itself, so the site's
+# configuration lives there and not in this unit — one file to edit, and the
+# same one the build read.
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+# -H 0.0.0.0 so the listener is reachable from outside the instance rather than
+# bound to loopback; -p 3000 is the demo's published port.
+#
+# The `--` hands the flags to `next start` rather than to npm. Absolute path
+# because systemd has no shell and no PATH lookup of its own — if Node came
+# from nvm rather than NodeSource, point this at that npm instead
+# (`readlink -f "$(which npm)"`).
+ExecStart=/usr/bin/npm run start -- -H 0.0.0.0 -p 3000
+
+# Restart on a crash, and after a reboot via `systemctl enable`. Not
+# `Restart=always`: a unit that exits 0 was stopped on purpose.
+Restart=on-failure
+RestartSec=5
+
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+# Modest hardening. The site reads its own directory and writes nothing outside
+# .next/cache, so the filesystem can stay mostly read-only to it.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=csistmc-website
+
+[Install]
+WantedBy=multi-user.target

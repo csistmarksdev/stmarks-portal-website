@@ -1,0 +1,146 @@
+# CSI St. Mark's — AWS EC2 demo deployment.
+#
+#   cd /home/ubuntu/app/deploy-ec2
+#   cp .env.example .env        # fill it in
+#   docker compose up -d
+#   open http://54.252.189.117:8080
+#
+# One service, one published port. The image carries the API, the admin CMS, a
+# MongoDB server and a snapshot of the church's content, media and accounts, so
+# a bare EC2 instance comes up as a working Portal with no database to
+# provision. That is why there is no `mongo:` service here to add, and no Redis
+# and no queue: nothing in this application asks for them.
+#
+# Nothing is built on the instance. The image is pulled at the pinned tag
+# below. A `next build` in an image builder wants ~2 GB of RAM and minutes of
+# CPU, which on a 2 vCPU / 4 GiB box means swapping — see README.md if you do
+# need to build here instead.
+#
+# The public website is deliberately NOT in this file. It is a plain Next.js
+# process on the host, on :3000, managed by systemd — see
+# ../deploy-ec2/csistmc-website.service.
+
+name: csistmc-demo
+
+services:
+  portal:
+    # Pinned, deliberately. `latest` moves whenever something is pushed, so an
+    # instance that restarts at the wrong moment silently changes version.
+    # Bump this when you intend to upgrade — that is what makes rolling back
+    # one edit. The image is private: `docker login -u stmarksdev` first.
+    image: stmarksdev/csistmarkscmsportal:1.5
+    container_name: portal
+    restart: unless-stopped
+
+    # The only port published to the EC2 host, and so the only one the Security
+    # Group has to allow. MongoDB listens on 127.0.0.1:27017 *inside* the
+    # container and is not published anywhere — see docker/entrypoint.mjs.
+    #
+    # The container serves both halves of the Portal behind this one port:
+    #   /v1/*       -> API          /uploads/*  -> uploaded media
+    #   everything else -> admin CMS
+    ports:
+      - "8080:8080"
+
+    environment:
+      # The one public port, inside and out. Change it here and in `ports`
+      # together — but this demo is fixed at 8080.
+      PORT: 8080
+
+      # Turns on the API's startup safety checks. Leave this set.
+      NODE_ENV: production
+
+      # The origin browsers actually use, stored inside media URLs. Media URLs
+      # are also rewritten to the requesting origin on every response, so this
+      # is a nicety rather than a requirement — but the website reads it, so
+      # set it correctly.
+      PUBLIC_URL: ${PUBLIC_URL:-http://54.252.189.117:8080}
+
+      # Browser origins allowed to call the API: the public website, and the
+      # Portal itself. Comma-separated, exact match.
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://54.252.189.117:3000,http://54.252.189.117:8080}
+
+      # Generated on first boot into the portal-data volume when left empty,
+      # and kept across restarts. Set them to survive a volume reset, or to
+      # share sessions with something else. `openssl rand -base64 48`
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-}
+
+      # Used ONCE, and only if the database has no administrator. The snapshot
+      # in the image already has the church's accounts, so on a normal boot the
+      # password is generated, unused and thrown away. Set both to have a known
+      # login on a reset volume; minimum 12 characters.
+      #
+      # The email carries the application's own default rather than an empty
+      # string on purpose: `initialize.ts` reads it with `??`, which falls back
+      # on undefined but NOT on "" — an empty value here would create an
+      # administrator with a blank email on an empty database.
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+
+      # Lets the CMS refresh the public website the moment something is
+      # published. The website is a host process, not a Compose service, so the
+      # container reaches it through the host gateway below rather than by a
+      # service name. Without these the site picks changes up within ~5 min.
+      WEBSITE_REVALIDATE_URL: ${WEBSITE_REVALIDATE_URL:-http://host.docker.internal:3000/api/revalidate}
+      WEBSITE_REVALIDATE_SECRET: ${WEBSITE_REVALIDATE_SECRET:-}
+
+      # WiredTiger cache. The entrypoint already pins the 0.25 GB floor because
+      # MongoDB otherwise sizes its cache from *host* RAM and gets OOM-killed on
+      # a small instance. Named here so it is visible, not to change it.
+      MONGO_CACHE_GB: ${MONGO_CACHE_GB:-0.25}
+
+    # Resolves `host.docker.internal` to the EC2 host from inside the container,
+    # which is how the CMS calls the website's /api/revalidate on :3000 without
+    # host networking and without hardcoding the instance's address.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    volumes:
+      # The database, the uploaded media and the secrets generated on first
+      # boot. Without these the container still runs and resets to the baked-in
+      # snapshot every time it is recreated.
+      - portal-data:/data
+      - portal-uploads:/app/backend/uploads
+
+    # The entrypoint stops the API and CMS first and lets `mongod` finish a few
+    # seconds later so its files close cleanly. Docker's 10s default cuts that
+    # short; 30 lets it complete.
+    stop_grace_period: 30s
+
+    # The API's own health route. `start_period` is generous because the first
+    # boot restores the snapshot before anything listens — marking the container
+    # unhealthy while it does exactly what it was told to causes restart loops.
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 5
+
+    # 4 GiB total, shared with the Next.js website on the host. A ceiling here
+    # means a runaway container is killed instead of taking the website down
+    # with it. The Portal idles well under 1 GiB.
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+    # Nothing in this image needs to gain privileges after start; the entrypoint
+    # drops to uid 10001 before anything serves a request.
+    security_opt:
+      - no-new-privileges:true
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  portal-data:
+  portal-uploads:

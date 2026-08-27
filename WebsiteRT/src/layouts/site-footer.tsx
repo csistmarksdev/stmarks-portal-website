@@ -106,8 +106,20 @@ export async function SiteFooter() {
                 </span>
               </span>
 
-              {/* Sized by height with a free width - the shield is portrait, so
-                  a square box would shrink it to the round seal's diameter. */}
+              {/*
+                A square box, `object-contain` keeping the shield its own
+                portrait shape inside it - so it is *boxed* like the seal
+                opposite without being *scaled* like it.
+
+                The box, not the drawing, is the point. This lockup is centred
+                (`justify-center` until `lg`), and centring puts the row's
+                midpoint on the page's: with a 56px seal on one side and a 34px
+                shield on the other, the wordmark between them sat 11px right
+                of centre - exactly half the 22px difference - which is what
+                made the footer's mast look subtly off-axis on a phone.
+                Matching the boxes puts the name on the page's centre line and
+                leaves both drawings at the size they were.
+              */}
               <Image
                 src="/Logo2.svg"
                 alt=""
@@ -115,11 +127,26 @@ export async function SiteFooter() {
                 width={523}
                 height={860}
                 unoptimized
-                className="h-14 w-auto shrink-0 object-contain sm:h-16"
+                className="size-14 shrink-0 object-contain sm:size-16"
               />
             </div>
 
-            <p className="mt-7 max-w-md text-center text-sm leading-relaxed text-white/55 lg:text-left">
+            {/*
+              `mx-auto lg:mx-0` is what makes `text-center` mean anything here.
+              The measure is capped at `max-w-md`, and a capped block with no
+              auto margins sits at the left of its column - so below `lg`, where
+              the lockup above is centred, the standfirst was centring its lines
+              inside a 448px box that was itself parked on the left edge. At
+              945px that put the paragraph's midpoint at 256 against the
+              lockup's 472.5, which reads as the mast and the text belonging to
+              two different grids.
+
+              Auto margins centre the box itself, so the two midpoints coincide.
+              Dropped again at `lg`, where the lockup turns to `justify-start`
+              and the standfirst to `text-left`: there the block belongs hard
+              against the column's left edge, and both start at 128.
+            */}
+            <p className="mt-7 mx-auto max-w-md text-center text-sm leading-relaxed text-white/55 lg:mx-0 lg:text-left">
               {tSite("description")}
             </p>
           </div>

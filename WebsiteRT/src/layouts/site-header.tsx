@@ -422,6 +422,7 @@ function MobileMenu({
           running off the bottom of the screen. */}
       <nav
         aria-label={t("primary")}
+        data-nav-panel
         className="max-h-[calc(100svh-var(--header-height)-6rem)] overflow-y-auto px-3 py-4"
       >
         <motion.ul

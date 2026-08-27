@@ -118,7 +118,10 @@ export default async function FellowshipPage({
   return (
     <main id="main">
       {/* Hero banner */}
-      <section className="relative flex min-h-svh items-end overflow-hidden bg-sand-950 pb-28 pt-[calc(var(--header-height)+4rem)] sm:pb-32">
+      <section
+        data-hero-frame
+        className="relative flex min-h-svh items-end overflow-hidden bg-sand-950 pb-28 pt-[calc(var(--header-height)+4rem)] sm:pb-32"
+      >
         <Image
           src={fellowship.banner.url}
           alt={localize(fellowship.banner.alt, locale)}

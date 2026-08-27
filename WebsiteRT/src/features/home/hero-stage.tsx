@@ -39,7 +39,9 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
   const barScale = useTransform(progress, [0, 1], [0, 1]);
 
   return (
-    <div className="relative h-full">
+    // `data-hero-stage`: the mobile-landscape block in globals.css compresses
+    // the panels inside this to fit a 400px-tall viewport. Inert elsewhere.
+    <div data-hero-stage className="relative h-full">
       {/* Legibility scrim over the full frame, since panels sit centred. */}
       <div
         aria-hidden
