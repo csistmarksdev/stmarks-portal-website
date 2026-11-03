@@ -393,6 +393,7 @@
   body {
     margin: 0;
     background-color: var(--background);
+    transition: background-color 500ms;
     color: var(--foreground);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
@@ -415,6 +416,13 @@
    * `font-display` / `font-sans` call site resolves to a Tamil-capable stack
    * with no per-component changes.
    */
+  /* Safari tints its top bar from the page background when nothing else
+     claims it, so under a hero the background goes dark with the photo.
+     Nothing paints it on screen there; the hero covers the page. */
+  html[data-over-hero] body {
+    background-color: var(--color-sand-950);
+  }
+
   html[lang="ta"] {
     /*
      * Tamil now pairs the way the Latin does: a serif for display, a sans for

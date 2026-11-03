@@ -153,6 +153,13 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
   /** The glass surface appears only once the header sits over page content. */
   const showSurface = !isHero;
 
+  /** Darkens the page background under a hero - see the tint strip below. */
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isHero) root.dataset.overHero = "";
+    else delete root.dataset.overHero;
+  }, [isHero]);
+
   /*
    * Which chapter of the single page the reader is in. Null on the contact
    * page, and null at the very top of the home page, where the cinematic hero
@@ -198,6 +205,22 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
         className={cn(
           "pointer-events-none fixed inset-x-0 top-0 h-32 bg-gradient-to-b from-black/45 to-transparent transition-opacity duration-500",
           isHero ? "opacity-100" : "opacity-0",
+        )}
+      />
+
+      {/*
+        Tints the browser's own top bar. iOS Safari 26 ignores `theme-color`
+        and takes the bar's colour from a solid-coloured fixed element at the
+        top edge - otherwise from the page background, which painted a light
+        band above the dark hero. A gradient does not count, hence this strip;
+        one pixel, so it never covers the hero. The page background follows
+        too (`data-over-hero` below) for when Safari falls back to it.
+      */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none fixed inset-x-0 top-0 h-px transition-colors duration-500",
+          isHero ? "bg-sand-950" : "bg-[var(--background)]",
         )}
       />
 

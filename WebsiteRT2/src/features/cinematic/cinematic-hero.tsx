@@ -330,9 +330,15 @@ export function CinematicHero({
       style={{ height: `${scrollLength * 100}svh` }}
       className="relative bg-black"
     >
+      {/*
+        `lvh`, the full screen: iOS Safari's toolbar floats over the page, and a
+        `dvh` panel stopped above it, leaving a black band under the toolbar.
+        The overlay keeps to the visible `dvh` area so the toolbar never covers
+        the copy or the scroll cue.
+      */}
       <div
         ref={stickyRef}
-        className="sticky top-0 h-[100dvh] w-full overflow-hidden"
+        className="sticky top-0 h-[100lvh] w-full overflow-hidden"
       >
         <canvas
           ref={canvasRef}
@@ -344,7 +350,9 @@ export function CinematicHero({
         />
 
         {children ? (
-          <div className="pointer-events-none absolute inset-0">{children}</div>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[100dvh]">
+            {children}
+          </div>
         ) : null}
       </div>
     </div>
