@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -vE \"^\\\\s*\\(\\\\*|//|/\\\\*\\)\" src/constants/site.ts)",
+      "Bash(grep -n \"^#\\\\{1,3\\\\} \" README.md)",
+      "Bash(python -)",
+      "Bash(python \"C:/Users/Jerop/AppData/Local/Temp/claude/d--CSISTMC/90772c73-5971-466f-b4f0-caafd341b4ae/scratchpad/req_current.py\")",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
