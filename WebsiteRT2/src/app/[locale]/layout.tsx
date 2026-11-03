@@ -147,6 +147,17 @@ export async function generateMetadata({
       index: true,
       follow: true,
     },
+    /*
+     * Opened from "Add to Home Screen", the site runs full screen and the hero
+     * runs behind the clock - which Safari itself never allows for a pinned
+     * hero (see the tint strip in `site-header.tsx`). `--safe-top` keeps the
+     * header clear of the status bar there.
+     */
+    appleWebApp: {
+      capable: true,
+      title: t("shortName"),
+      statusBarStyle: "black-translucent",
+    },
   };
 }
 

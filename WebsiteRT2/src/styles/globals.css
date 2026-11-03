@@ -234,6 +234,11 @@
   /* The status bar / notch, once `viewportFit: "cover"` lets the page run
      under it. Zero everywhere else, so every offset below is unchanged there. */
   --safe-top: env(safe-area-inset-top, 0px);
+  /* The home hero's edges as they appear on screen, under its dark overlay,
+     measured from an iPhone. Safari paints its bars these colours, since it
+     will not draw the pinned hero behind them. */
+  --hero-edge-top: #5c5d61;
+  --hero-edge-bottom: #292929;
 }
 
 @media (min-width: 640px) {
@@ -420,7 +425,15 @@
      claims it, so under a hero the background goes dark with the photo.
      Nothing paints it on screen there; the hero covers the page. */
   html[data-over-hero] body {
-    background-color: var(--color-sand-950);
+    background-color: var(--hero-edge-top);
+  }
+
+  /* Launched from the home screen there are no Safari bars to tint, and the
+     strip would be a visible line over the photo behind the clock. */
+  @media (display-mode: standalone) {
+    [data-safari-tint] {
+      display: none;
+    }
   }
 
   html[lang="ta"] {

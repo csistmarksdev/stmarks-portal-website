@@ -338,7 +338,7 @@ export function CinematicHero({
       */}
       <div
         ref={stickyRef}
-        className="sticky top-0 h-[100lvh] w-full overflow-hidden"
+        className="sticky top-0 h-[100lvh] w-full overflow-hidden bg-[var(--hero-edge-bottom)]"
       >
         <canvas
           ref={canvasRef}

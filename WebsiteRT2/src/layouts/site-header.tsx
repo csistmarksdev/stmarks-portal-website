@@ -218,9 +218,10 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
       */}
       <div
         aria-hidden
+        data-safari-tint
         className={cn(
           "pointer-events-none fixed inset-x-0 top-0 h-px transition-colors duration-500",
-          isHero ? "bg-sand-950" : "bg-[var(--background)]",
+          isHero ? "bg-[var(--hero-edge-top)]" : "bg-[var(--background)]",
         )}
       />
 
