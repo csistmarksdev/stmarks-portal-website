@@ -74,7 +74,7 @@ export default async function BlogPostPage({
     <main id="main">
       <article>
         {/* Masthead */}
-        <header className="bg-sand-950 pb-16 pt-[calc(var(--header-height)+4.5rem)] text-white sm:pb-20">
+        <header className="bg-sand-950 pb-16 pt-[calc(var(--header-height)+var(--safe-top)+4.5rem)] text-white sm:pb-20">
           <Container size="md">
             <Reveal>
               <Link

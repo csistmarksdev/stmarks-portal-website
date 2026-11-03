@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Fraunces,
   Inter,
@@ -76,6 +76,16 @@ const notoSerifTamil = Noto_Serif_Tamil({
   subsets: ["tamil"],
   display: "swap",
 });
+
+/**
+ * Edge to edge on notched phones. Without `cover`, iOS Safari stops the page
+ * below the status bar and fills that strip with the light page background,
+ * boxing in the dark hero. The header and the offsets under it add
+ * `--safe-top` to stay clear of the notch.
+ */
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
 
 /** Prerender both locales at build time. */
 export function generateStaticParams() {

@@ -78,7 +78,7 @@ export default async function EventDetailPage({
       {/* Hero */}
       <section
         data-hero-frame
-        className="relative flex min-h-svh items-end overflow-hidden bg-sand-950 pb-28 pt-[calc(var(--header-height)+4rem)] sm:pb-32"
+        className="relative flex min-h-svh items-end overflow-hidden bg-sand-950 pb-28 pt-[calc(var(--header-height)+var(--safe-top)+4rem)] sm:pb-32"
       >
         {event.image ? (
           <>

@@ -40,7 +40,7 @@ export default function Error({
       id="main"
       /* `relative isolate` so the season's ornament layer, which is `-z-10`,
          has this element to anchor to and stays behind the words. */
-      className="relative isolate flex min-h-[80vh] items-center pt-[var(--header-height)]"
+      className="relative isolate flex min-h-[80vh] items-center pt-[calc(var(--header-height)+var(--safe-top))]"
     >
       <SectionOrnaments />
 

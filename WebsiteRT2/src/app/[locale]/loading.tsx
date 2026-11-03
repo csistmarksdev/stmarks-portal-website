@@ -11,7 +11,7 @@ export default function Loading() {
   return (
     <main
       id="main"
-      className="flex min-h-[70vh] items-center justify-center pt-[var(--header-height)]"
+      className="flex min-h-[70vh] items-center justify-center pt-[calc(var(--header-height)+var(--safe-top))]"
       aria-busy="true"
       aria-live="polite"
     >

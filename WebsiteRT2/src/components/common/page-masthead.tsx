@@ -36,7 +36,7 @@ export function PageMasthead({
   className,
 }: PageMastheadProps) {
   return (
-    <div className={cn("pt-[calc(var(--header-height)+2.5rem)]", className)}>
+    <div className={cn("pt-[calc(var(--header-height)+var(--safe-top)+2.5rem)]", className)}>
       <Container>
         <div className="max-w-3xl">
           {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}

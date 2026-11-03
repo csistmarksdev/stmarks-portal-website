@@ -191,7 +191,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
     // `data-site-header` marks this as *the* site header for the splash
     // screen's hand-off animation - the blog article page renders a `<header>`
     // of its own, so the bare element selector would catch that one too.
-    <header data-site-header className="fixed inset-x-0 top-0 z-50 pt-3 sm:pt-5">
+    <header data-site-header className="fixed inset-x-0 top-0 z-50 pt-[calc(var(--safe-top)+0.75rem)] sm:pt-[calc(var(--safe-top)+1.25rem)]">
       {/* Keeps white nav text legible over bright cinematic frames. */}
       <div
         aria-hidden
@@ -529,7 +529,7 @@ function MobileMenu({
       <nav
         aria-label={t("primary")}
         data-nav-panel
-        className="max-h-[calc(100svh-var(--header-height)-6rem)] overflow-y-auto px-3 py-4"
+        className="max-h-[calc(100svh-var(--header-height)-var(--safe-top)-6rem)] overflow-y-auto px-3 py-4"
       >
         <motion.ul
           // Declares its own initial/animate: the panel above animates height,

@@ -501,7 +501,7 @@ export function FellowshipConstellation({
                 clear them.
               */
               pinned
-                ? "top-[calc(var(--header-height)+2rem)] bottom-[6%]"
+                ? "top-[calc(var(--header-height)+var(--safe-top)+2rem)] bottom-[6%]"
                 : "inset-y-0",
             )}
           >

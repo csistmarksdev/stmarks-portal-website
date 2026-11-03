@@ -199,7 +199,7 @@ export function HorizontalScroll({
               // rather than the smallest the viewport ever gets. The padding
               // clears the floating header, which sits over the top of the
               // stage for the whole time it is pinned.
-              "sticky top-0 h-[100dvh] pt-[calc(var(--header-height)+1rem)] pb-8 sm:pb-10"
+              "sticky top-0 h-[100dvh] pt-[calc(var(--header-height)+var(--safe-top)+1rem)] pb-8 sm:pb-10"
             : "py-20 sm:py-24",
         )}
       >

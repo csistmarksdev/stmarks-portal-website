@@ -83,7 +83,7 @@ export function PageHero({
     isSection
       ? "py-20 sm:py-24"
       : // Bottom padding clears the scroll cue rather than colliding with it.
-        "pb-28 pt-[calc(var(--header-height)+5rem)] sm:pb-32 sm:pt-[calc(var(--header-height)+7rem)]",
+        "pb-28 pt-[calc(var(--header-height)+var(--safe-top)+5rem)] sm:pb-32 sm:pt-[calc(var(--header-height)+var(--safe-top)+7rem)]",
     className,
   );
 
