@@ -1,10 +1,23 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { pinnedRange } from "@/lib/scroll-offsets";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +37,35 @@ import { cn } from "@/lib/utils";
  * window onto the same picture has more picture to travel.
  */
 const DWELL = 0.6;
+
+/**
+ * The same budget for the desktop stack, which is a different effect and needs
+ * more of it.
+ *
+ * The reel's 0.6 is priced for travel: on a 16:9 desktop it pushed a full
+ * screen-width of photograph past in 0.6 screens of scroll, which read as the
+ * pictures being flung by. The stack moves each photograph one screen *height*,
+ * once, and the reader is meant to watch it land - so it gets a little over a
+ * screen of scroll per photograph.
+ *
+ * Applied through `--hero-dwell` rather than chosen in script, so the server's
+ * markup already has the right height on a desktop and the page does not
+ * reflow when the media query resolves.
+ */
+const STACK_DWELL = 1.25;
+
+/** Desktop gets the stack; below it, the reel. Mirrors Tailwind's `lg`. */
+const STACK_QUERY = "(min-width: 64rem)";
+
+/**
+ * The share of the lock the cards spend arriving. The rest is a hold on the
+ * last photograph, so it is seen settled before the page moves on.
+ */
+const STACK_TRAVEL_END = 0.9;
+
+/** How far a covered card sinks back, and how much it darkens. */
+const STACK_SCALE = 0.9;
+const STACK_DIM = 0.55;
 
 /**
  * How wide one frame of the reel is: the photograph's own shape, or the
@@ -78,6 +120,92 @@ const FADE_VALUES = [0, 0, 1, 1, 0, 0];
  */
 const easeInOut = (t: number) =>
   t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+/** Decelerates into place, so a card lands rather than stops. */
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+interface StackCardProps {
+  image: string;
+  index: number;
+  count: number;
+  priority: boolean;
+  progress: MotionValue<number>;
+}
+
+/**
+ * One photograph in the desktop stack.
+ *
+ * Card `i` rises over card `i - 1` during the `i`th slice of the lock, its top
+ * corners squaring off as it lands; while the card after it rises in turn, it
+ * sinks back and darkens beneath it. A component of its own because each card
+ * needs its own transforms, and hooks cannot be called in a loop.
+ */
+function StackCard({
+  image,
+  index,
+  count,
+  priority,
+  progress,
+}: StackCardProps) {
+  const slice = STACK_TRAVEL_END / (count - 1);
+  const arriveStart = (index - 1) * slice;
+  const arriveEnd = index * slice;
+  const coverEnd = (index + 1) * slice;
+
+  // The first card is already in place; every other card starts below the
+  // screen. Clamped by `useTransform`, so outside its slice a card holds.
+  const y = useTransform(
+    progress,
+    index === 0 ? [0, 1] : [arriveStart, arriveEnd],
+    index === 0 ? ["0%", "0%"] : ["100%", "0%"],
+    { ease: easeOutCubic },
+  );
+  const radius = useTransform(
+    progress,
+    index === 0 ? [0, 1] : [arriveStart, arriveEnd],
+    index === 0 ? [0, 0] : [28, 0],
+  );
+
+  // The last card is never covered.
+  const covered = index < count - 1;
+  const scale = useTransform(
+    progress,
+    [arriveEnd, coverEnd],
+    covered ? [1, STACK_SCALE] : [1, 1],
+  );
+  const dim = useTransform(
+    progress,
+    [arriveEnd, coverEnd],
+    covered ? [0, STACK_DIM] : [0, 0],
+  );
+
+  return (
+    <motion.div
+      style={{
+        y,
+        scale,
+        borderTopLeftRadius: radius,
+        borderTopRightRadius: radius,
+        zIndex: index,
+        willChange: "transform",
+      }}
+      className="absolute inset-0 overflow-hidden shadow-[0_-24px_60px_rgba(0,0,0,0.45)]"
+    >
+      <Image
+        src={image}
+        alt=""
+        fill
+        priority={priority && index === 0}
+        sizes="100vw"
+        className="object-cover"
+      />
+      <motion.div
+        style={{ opacity: dim }}
+        className="absolute inset-0 bg-black"
+      />
+    </motion.div>
+  );
+}
 
 export interface PinnedHeroProps {
   /** The section's photographs, in folder order. */
@@ -180,6 +308,16 @@ export function PinnedHero({
    */
   const pinned = !shouldReduceMotion && frames.length > 1;
 
+  /*
+   * On a desktop the photographs stack instead of panning: at 16:9 the reel is
+   * a row of full screens, so panning it is the whole screen sliding sideways,
+   * which read as a carousel being thrown rather than a chapter opening.
+   * Evaluated on the first client render (see `useMediaQuery`), and the stack's
+   * opening frame is the reel's - the first photograph, full bleed - so a
+   * desktop never sees the swap.
+   */
+  const stacked = useMediaQuery(STACK_QUERY) && pinned;
+
   useEffect(() => {
     const frame = frameRef.current;
     const track = trackRef.current;
@@ -200,7 +338,8 @@ export function PinnedHero({
     observer.observe(track);
 
     return () => observer.disconnect();
-  }, []);
+    // The track only exists in the reel, so re-measure when the mode changes.
+  }, [stacked]);
 
   /*
    * `start start → end end`: from the moment the tall outer block's top meets
@@ -244,9 +383,26 @@ export function PinnedHero({
     offset: ["start end", "end start"],
   });
 
-  const veil = useTransform(passProgress, FADE_STOPS, FADE_VALUES, {
-    ease: easeInOut,
-  });
+  /*
+   * The stack holds the copy for the whole lock rather than a middle third.
+   *
+   * `FADE_STOPS` are fractions of the pass priced for the reel's budget; at the
+   * stack's longer one the same fractions left the title up for only a short
+   * stretch mid-reel. Measured in screens instead: the pass is the lock plus a
+   * screen either side, so the copy strikes in over the last 0.3 of the hero's
+   * arrival, holds from the moment it locks to the moment it releases, and
+   * clears over the first 0.3 of its exit.
+   */
+  const lock = (frames.length - 1) * STACK_DWELL;
+  const pass = lock + 2;
+  const stackStops = [0, 0.7 / pass, 1 / pass, (lock + 1) / pass, (lock + 1.3) / pass, 1];
+
+  const veil = useTransform(
+    passProgress,
+    stacked ? stackStops : FADE_STOPS,
+    FADE_VALUES,
+    { ease: easeInOut },
+  );
 
   return (
     <div
@@ -271,10 +427,15 @@ export function PinnedHero({
        */
       style={
         pinned
-          ? { height: `calc(100svh + ${(frames.length - 1) * DWELL * 100}svh)` }
+          ? ({
+              "--hero-dwell-reel": DWELL,
+              "--hero-dwell-stack": STACK_DWELL,
+              height: `calc(100svh + ${frames.length - 1} * var(--hero-dwell) * 100svh)`,
+            } as CSSProperties)
           : undefined
       }
-      className="relative"
+      // Picks the reel's or the stack's budget at the same `lg` as STACK_QUERY.
+      className="relative [--hero-dwell:var(--hero-dwell-reel)] lg:[--hero-dwell:var(--hero-dwell-stack)]"
     >
       <section
         // Hook for the mobile-landscape block in globals.css.
@@ -295,15 +456,30 @@ export function PinnedHero({
         <div
           ref={frameRef}
           aria-hidden
-          className="pointer-events-none absolute inset-0 overflow-hidden"
+          // `isolate`: the stack's cards order themselves with `z-index`, and
+          // without a context of their own here they painted over the filter
+          // and the copy that follow.
+          className="pointer-events-none absolute inset-0 isolate overflow-hidden"
         >
-          <motion.div
-            ref={trackRef}
-            style={pinned ? { x, willChange: "transform" } : undefined}
-            className="flex h-full w-max"
-          >
-            {frames.map((image, index) => (
-              /*
+          {stacked ? (
+            frames.map((image, index) => (
+              <StackCard
+                key={image}
+                image={image}
+                index={index}
+                count={frames.length}
+                priority={priority}
+                progress={scrollYProgress}
+              />
+            ))
+          ) : (
+            <motion.div
+              ref={trackRef}
+              style={pinned ? { x, willChange: "transform" } : undefined}
+              className="flex h-full w-max"
+            >
+              {frames.map((image, index) => (
+                /*
                 The reel. Each frame is the photograph at its own shape - full
                 height, 16:9 - rather than the shape of the screen, so on a
                 phone it is nearly four screen-widths across and the viewport
@@ -319,28 +495,29 @@ export function PinnedHero({
                 At 16:9 and wider the frame is simply the screen, which is the
                 full-bleed hero it always was.
               */
-              <div
-                key={image}
-                className={cn("relative h-full shrink-0", TILE_WIDTH)}
-              >
-                <Image
-                  src={image}
-                  alt=""
-                  fill
-                  priority={priority && index === 0}
-                  /*
+                <div
+                  key={image}
+                  className={cn("relative h-full shrink-0", TILE_WIDTH)}
+                >
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    priority={priority && index === 0}
+                    /*
                     Mirrors the `max()` above: past 16:9 the frame is the
                     screen, and below it the frame is taller-derived and wider
                     than the screen. `100vw` alone would have a phone fetch a
                     390px file for a frame four times that wide.
                   */
-                  sizes="(min-aspect-ratio: 16/9) 100vw, 178vh"
-                  // Nothing to crop: the box is the aspect of the photograph.
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </motion.div>
+                    sizes="(min-aspect-ratio: 16/9) 100vw, 178vh"
+                    // Nothing to crop: the box is the aspect of the photograph.
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </motion.div>
+          )}
         </div>
 
         {/*
