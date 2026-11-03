@@ -236,7 +236,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 -z-10 bg-sand-950/50 backdrop-blur-sm xl:hidden"
+            className="fixed inset-0 -z-10 bg-sand-950/50 backdrop-blur-sm nav:hidden"
           />
         ) : null}
       </AnimatePresence>
@@ -247,6 +247,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
         Scrolled past hero: compact floating pill with glass surface and rounded-full shape.
       */}
       <Container
+        data-header-shell
         size={isHero ? "full" : "xl"}
         padded={false}
         className="relative px-5 sm:px-8 lg:px-12 transition-all duration-500"
@@ -278,9 +279,9 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
         >
           {/* Wordmark Logo */}
           {/*
-            Takes the free width of the bar below `xl`, where there is no nav
+            Takes the free width of the bar below `nav`, where there is no nav
             to share it with, and goes back to being intrinsically sized at
-            `xl`, where the nav wants `flex-1` for itself.
+            `nav`, where the nav wants `flex-1` for itself.
 
             It used to be `shrink-0` with a `max-w-[62vw]` cap on the link
             inside, and that cap was the whole of the phone masthead bug: 62vw
@@ -290,7 +291,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             use. The bar has the room - the cap was simply tighter than the
             space, and a fixed vw fraction cannot know that.
           */}
-          <motion.div layout="position" className="min-w-0 flex-1 xl:flex-none">
+          <motion.div layout="position" className="min-w-0 flex-1 nav:flex-none">
             <Link
               href={ROUTES.home}
               className={cn(
@@ -363,7 +364,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             layout="position"
             data-site-nav
             aria-label={t("primary")}
-            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 xl:flex"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 nav:flex"
           >
             {nav.map((item) => {
               const active = isActive(item.href);
@@ -469,7 +470,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
               aria-label={mobileOpen ? tCommon("closeMenu") : tCommon("openMenu")}
               aria-expanded={mobileOpen}
               className={cn(
-                "grid size-9 place-items-center rounded-full border transition-colors sm:size-10 xl:hidden",
+                "grid size-9 place-items-center rounded-full border transition-colors sm:size-10 nav:hidden",
                 lightOnDark
                   ? "border-white/30 text-white hover:bg-white/10"
                   : "border-[var(--border)] text-[var(--foreground)] shadow-[var(--elevation-control-quiet)] hover:bg-sand-100 active:shadow-[var(--elevation-control-pressed)]",
@@ -499,7 +500,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformOrigin: "top center" }}
               className={cn(
-                "mt-2 overflow-hidden rounded-3xl border xl:hidden",
+                "mt-2 overflow-hidden rounded-3xl border nav:hidden",
                 showSurface
                   ? "glass border-[var(--border)] shadow-[var(--elevation-bar)]"
                   : "border-white/15 bg-white/[0.06] backdrop-blur-md",
