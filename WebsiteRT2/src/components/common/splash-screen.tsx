@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
+import { isMotionReduced, skipsSplash } from "@/lib/motion-preference";
+
 import {
   AshBowl,
   AshCross,
@@ -197,6 +199,25 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
   }>({ shown: 0, total: 1, start: 0, hold: 1 });
 
   useEffect(() => {
+    /*
+     * Simple mode skips the opening altogether - and so does the reload that
+     * switching modes causes, in either direction: the reader has seen the
+     * opening already and only asked to change how the site moves.
+     *
+     * The reader asked for a plain, light site, and this screen is the
+     * heaviest thing on it - a montage of every photograph under `public/hero`,
+     * fetched here. CSS already hides it from the first paint (see
+     * `globals.css`); returning before anything below runs means no scroll
+     * lock, no hold on the hero's title (`data-splash-alive` is never set) and
+     * none of those photographs requested. Only Simple mode: the device's
+     * reduced-motion setting still gets the montage, for the reasons given
+     * further down.
+     */
+    if (skipsSplash()) {
+      const timer = window.setTimeout(() => setPhase("gone"), 0);
+      return () => window.clearTimeout(timer);
+    }
+
     const start = performance.now();
     const timers: number[] = [];
 
@@ -242,9 +263,7 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
       delete root.dataset.splashRevealing;
     };
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const prefersReducedMotion = isMotionReduced();
 
     /*
      * The lite tier.

@@ -6,13 +6,13 @@ import {
   useInView,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
@@ -273,6 +273,8 @@ export function PassingFlame({
   return (
     <div
       ref={outerRef}
+      // Hidden altogether in Simple mode - see globals.css.
+      data-motion-scene
       style={pinned ? { height: `calc(100svh + ${HOLD * 100}svh)` } : undefined}
       className="relative"
     >
@@ -299,9 +301,18 @@ export function PassingFlame({
             className="absolute inset-0 size-full"
           >
             <defs>
-              <filter id="flame-soft" x="-200%" y="-200%" width="500%" height="500%">
-                <feGaussianBlur stdDeviation="1.6" />
-              </filter>
+              {/* A candle's glow, as a gradient rather than a blurred disc. It
+                  is the same soft-edged circle to the eye, but a Gaussian blur
+                  is re-rendered on the CPU for every candle on every frame the
+                  flicker moves it - eighty-odd of them - and on a phone that
+                  was most of the frame budget. A gradient costs nothing. */}
+              <radialGradient id="flame-halo">
+                <stop offset="0%" stopColor="var(--color-accent-400)" stopOpacity="1" />
+                <stop offset="35%" stopColor="var(--color-accent-400)" stopOpacity="0.9" />
+                <stop offset="55%" stopColor="var(--color-accent-400)" stopOpacity="0.55" />
+                <stop offset="78%" stopColor="var(--color-accent-400)" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="var(--color-accent-400)" stopOpacity="0" />
+              </radialGradient>
             </defs>
 
             {/* Back ranks first, so a near candle's glow falls in front of a far
@@ -420,10 +431,10 @@ function Candle({
     <g>
       {/* The light it throws. */}
       <motion.circle
-        r={4.9 * size}
+        // The blur this replaced spread the disc by ~3σ (4.8 units).
+        r={4.9 * size + 4.8}
         cy={-height * 0.4}
-        fill="var(--color-accent-400)"
-        filter="url(#flame-soft)"
+        fill="url(#flame-halo)"
         style={{ opacity: halo, transform: haloTransform }}
       />
 

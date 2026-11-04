@@ -1504,6 +1504,11 @@ html[lang="ta"] [data-verse-text="closing"] {
   }
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .scroll-cue-beam {
+  top: calc(50% - 0.15625rem);
+}
+
 /* -------------------------------------------------------------------------- */
 /* The church year                                                            */
 /*                                                                            */
@@ -2051,6 +2056,12 @@ html[data-season="christmas"] [data-ornament="cross"] {
   }
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .christmas-bulb {
+  animation: none;
+  opacity: 1;
+}
+
 /*
  * Bokeh: the lights of the room, out of focus.
  *
@@ -2196,6 +2207,17 @@ html[data-season="christmas"] [data-ornament="cross"] {
   .christmas-star {
     display: none;
   }
+}
+
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .christmas-bokeh,
+:where(html[data-motion="off"]) .christmas-flame {
+  animation: none;
+  opacity: 0.8;
+}
+
+:where(html[data-motion="off"]) .christmas-star {
+  display: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -2927,6 +2949,22 @@ html[data-season="easter"] [data-verse] blockquote p {
   html[data-season="easter"] [data-heading="h1"] {
     text-shadow: none;
   }
+}
+
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+html:where([data-motion="off"])[data-season="easter"] [data-button],
+html:where([data-motion="off"])[data-season="easter"] .shadow-card,
+html:where([data-motion="off"])[data-season="easter"] .shadow-sanctuary,
+html:where([data-motion="off"])[data-season="easter"] .shadow-plate {
+  box-shadow:
+  inset 0 1px 0 oklch(1 0 0 / 0.5),
+  0 6px 20px -14px oklch(0.742 0.145 84 / 0.3);
+}
+
+html:where([data-motion="off"])[data-season="easter"] h1,
+html:where([data-motion="off"])[data-season="easter"] [data-heading="display"],
+html:where([data-motion="off"])[data-season="easter"] [data-heading="h1"] {
+  text-shadow: none;
 }
 
 /*
@@ -4615,6 +4653,19 @@ html[data-splash-lite] .splash-reel {
   }
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .splash-shell[data-phase="leaving"] {
+  animation: splash-exit-fade 320ms ease-out forwards !important;
+}
+
+:where(html[data-motion="off"]) .splash-shell[data-phase="leaving"] :is(.splash-reel, .splash-crest, .splash-count) {
+  animation: none !important;
+}
+
+:where(html[data-motion="off"]) .splash-edge {
+  display: none !important;
+}
+
 @keyframes splash-exit-fade {
   to {
     opacity: 0;
@@ -4770,6 +4821,15 @@ html[data-splash-revealing] [data-hero-reveal] .split-letter {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+html:where([data-motion="off"])[data-splash-alive] [data-hero-reveal] > *,
+html:where([data-motion="off"])[data-splash-revealing] [data-hero-reveal] > *,
+html:where([data-motion="off"])[data-splash-alive] [data-hero-reveal] .split-letter,
+html:where([data-motion="off"])[data-splash-revealing] [data-hero-reveal] .split-letter {
+  opacity: 1;
+  transform: none;
 }
 
 /*
@@ -5095,6 +5155,11 @@ html[data-season="easter"]
   }
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+html:where([data-motion="off"])[data-season="christmas"] .splash-shell::before {
+  display: none;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Frame budget                                                               */
 /* -------------------------------------------------------------------------- */
@@ -5186,6 +5251,24 @@ html[data-splash-lite] .splash-seal {
 
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .splash-shell {
+  animation-delay: 2200ms;
+}
+
+:where(html[data-motion="off"]) .splash-frame {
+  transition-duration: var(--splash-fade, 620ms) !important;
+}
+
+:where(html[data-motion="off"]) .splash-frame[data-active] {
+  animation: none !important;
+  transform: none !important;
+}
+
+:where(html[data-motion="off"]) .splash-shell[data-phase="leaving"] .splash-ground {
+  transition-delay: 0ms;
+}
+
 /* Respect users who ask for reduced motion: disable all transitions/animations. */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -5200,6 +5283,20 @@ html[data-splash-lite] .splash-seal {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+html:where([data-motion="off"]) {
+  scroll-behavior: auto;
+}
+
+:where(html[data-motion="off"]) *,
+:where(html[data-motion="off"]) *::before,
+:where(html[data-motion="off"]) *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 
@@ -6508,6 +6605,12 @@ main [id] {
   }
 }
 
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .nave-mote {
+  animation: none;
+  opacity: 0.6;
+}
+
 .constellation-star {
   opacity: 0.55;
   box-shadow: 0 0 6px 1px color-mix(in oklab, white 45%, transparent);
@@ -6529,5 +6632,351 @@ main [id] {
   .constellation-star {
     animation: none;
     opacity: 0.6;
+  }
+}
+
+/* Simple mode: the same as the block above, for readers who chose it on the site. */
+:where(html[data-motion="off"]) .constellation-star {
+  animation: none;
+  opacity: 0.6;
+}
+
+/*
+ * Touch devices: the blurs that cost a frame.
+ *
+ * Every rule here removes a blur that is recomputed *while something animates
+ * under or inside it*, which is the expensive case - a static blur is drawn
+ * once and cached. Phones were dropping frames on all three.
+ *
+ * - Frosted panels over the cinematic hero. A backdrop blur has to be redone
+ *   every time what is behind it changes, and behind these is a canvas that
+ *   repaints on every scroll frame. A darker translucent fill reads the same
+ *   over that dark footage.
+ * - The gallery wall's receding columns, blurred for depth while they scroll.
+ * - SVG `feGaussianBlur` in the scroll scenes (nave light, falling pages,
+ *   bulletins). SVG filters are rasterised on the CPU, and the whole drawing
+ *   is re-filtered whenever any part of it moves. The edges go crisper; the
+ *   motion stays smooth.
+ *
+ * Unlayered, so it outranks the Tailwind utilities it overrides. Presentation
+ * attributes like `filter="url(#…)"` lose to any author rule, so `none` here
+ * is enough without `!important`.
+ */
+@media (max-width: 47.9375rem), (hover: none) and (pointer: coarse) {
+  [data-hero-overlay] .backdrop-blur-md,
+  [data-hero-overlay] .backdrop-blur-sm {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: color-mix(in oklab, var(--color-sand-950) 48%, transparent);
+  }
+
+  .gallery-wall-column {
+    filter: none !important;
+  }
+
+  main svg [filter] {
+    filter: none;
+  }
+}
+
+/*
+ * Pinned chapter heroes: how much scroll each one is given.
+ *
+ * Below `lg` it is the reel, and the budget is the distance the reel travels
+ * divided by its speed - `--hero-reel-frames` photographs at the width
+ * `TILE_WIDTH` gives them, less the screen already showing the first. That
+ * keeps the sideways pace at `--hero-reel-speed` px per px of scroll at every
+ * screen shape. `svh` rather than the tiles' `dvh`, so the document height does
+ * not change as the address bar collapses.
+ *
+ * From `lg` it is the desktop stack, at a fixed share of a screen per
+ * photograph. Both live here rather than in an inline style so the server's
+ * markup already has the right height at every width.
+ */
+[data-pinned-hero] {
+  height: calc(
+    100svh +
+      (var(--hero-reel-frames) * max(100vw, 177.78svh) - 100vw) /
+      var(--hero-reel-speed)
+  );
+}
+
+@media (min-width: 64rem) {
+  [data-pinned-hero] {
+    height: calc(
+      100svh + (var(--hero-frames) - 1) * var(--hero-dwell-stack) * 100svh
+    );
+  }
+}
+
+/*
+ * The reel, moved by the compositor.
+ *
+ * The block's own pass through the viewport is the timeline, and the
+ * animation spans exactly the stretch where the block covers the screen -
+ * which is the stretch its frame is pinned. The browser then moves the reel
+ * in lockstep with the scroll, on the compositor, with nothing on the main
+ * thread to fall behind a fast swipe. `PinnedHero` adds `.pinned-reel` only
+ * where this is supported and supplies the start and end offsets.
+ */
+@supports (animation-timeline: view()) {
+  [data-pinned-hero] {
+    view-timeline-name: --pinned-hero;
+  }
+
+  .pinned-reel {
+    animation: pinned-reel linear both;
+    animation-timeline: --pinned-hero;
+    animation-range: contain 0% contain 100%;
+    will-change: transform;
+  }
+}
+
+@keyframes pinned-reel {
+  from {
+    transform: translate3d(var(--reel-from, 0px), 0, 0);
+  }
+  to {
+    transform: translate3d(var(--reel-to, 0px), 0, 0);
+  }
+}
+
+/*
+ * The frame sequences, standing still.
+ *
+ * Without motion the cinematic hero and the welcome sequence each show one
+ * still frame - but they kept the scroll length the animation needs, so the
+ * reader scrolled through ~14 screens of two unchanging pictures. Here each is
+ * one ordinary screen that scrolls away like any other section. Keyed on the
+ * attribute the pre-paint script sets, so it is right on the first paint.
+ * `!important` because the animated length is an inline style.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-frame-sequence] {
+    height: 100svh !important;
+  }
+
+  [data-frame-stage] {
+    position: relative;
+    height: 100svh;
+  }
+}
+
+:where(html[data-motion="off"]) [data-frame-sequence] {
+  height: 100svh !important;
+}
+
+:where(html[data-motion="off"]) [data-frame-stage] {
+  position: relative;
+  height: 100svh;
+}
+
+/*
+ * Simple mode: a plain website.
+ *
+ * Beyond standing still, the reader who chose it asked for the site without
+ * its spectacle, so the purely visual parts go entirely:
+ *
+ * - The animated scenes (`data-motion-scene`) - the constellations, the nave
+ *   light, the falling pages, the gallery wall, the candles, the bulletins, the
+ *   opening doors, and the welcome sequence after the hero. Each is decoration
+ *   over content the chapter carries anyway: every leader in the constellation
+ *   has a card further down Leadership, for one.
+ * - The chapter openers' photographs (`data-hero-photos`). The chapter's title
+ *   stays, on the same dark ground, but as a band of its own height rather
+ *   than a full screen of picture.
+ *
+ * `display: none` rather than not rendering: the markup is the same in both
+ * modes, so it is right on the first paint, and hidden images are never
+ * fetched. Only Simple mode - the device's reduced-motion setting keeps the
+ * still versions, which is what it asks for.
+ */
+:where(html[data-motion="off"]) [data-motion-scene],
+:where(html[data-motion="off"]) [data-hero-photos] {
+  display: none;
+}
+
+:where(html[data-motion="off"]) [data-hero-frame] {
+  min-height: 0;
+}
+
+/*
+ * The opening splash, too - in Simple mode, and on the one reload that
+ * switching modes causes (`data-skip-splash`, set before the first paint). See
+ * the note in `splash-screen.tsx`.
+ */
+:where(html[data-motion="off"]) :is(.splash-shell, .splash-edge),
+:where(html[data-skip-splash]) :is(.splash-shell, .splash-edge) {
+  display: none !important;
+}
+
+/*
+ * The committee: a carousel normally, a plain grid in Simple mode. Both are in
+ * the markup (see `leadership-section.tsx`); this picks one.
+ */
+:where(html[data-motion="off"]) [data-motion-carousel] {
+  display: none;
+}
+
+:where(html[data-motion="off"]) [data-motion-grid] {
+  display: block;
+}
+
+/*
+ * Never hidden without motion.
+ *
+ * The server cannot know the reader's motion setting, so it renders the
+ * animated versions: reveals (`data-reveal`) waiting at opacity 0 to fade in,
+ * and chapter titles (`data-hero-veil`) at the opacity of a photograph strip
+ * not yet reached - 0. Script swaps in the still versions after loading, but
+ * on a phone that came late or left framer's opacity behind, and whole chapter
+ * titles stayed invisible in Simple mode. Without motion these are simply
+ * visible, from the first paint, whatever script does.
+ */
+:where(html[data-motion="off"]) :is([data-reveal], [data-hero-veil]) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is([data-reveal], [data-hero-veil]) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/*
+ * "Switching to Simple mode..." - the step between the two versions.
+ *
+ * Switching reloads the page, and without this the reader saw the page vanish
+ * and a different one appear. Instead the message goes up the moment they tap
+ * (`setSimpleMode` sets `data-switching` on the page they are leaving), and
+ * the reloaded page puts it up again before its first paint (the pre-paint
+ * script sets the same attribute from session storage) - so it holds across
+ * the reload - until `MotionProvider` fades it out once the new page is ready.
+ *
+ * A pseudo-element on the root, because it has to exist before any script or
+ * component does. The text is the attribute, already in the reader's
+ * language. It also takes taps, so nothing half-loaded underneath can be hit.
+ */
+html[data-switching]::after {
+  content: attr(data-switching);
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-noto-tamil), var(--font-inter), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  /* Below the icon, which sits centred just above the middle - and a soft
+     glow of the brand colour behind that icon. */
+  padding-top: 8rem;
+  background-image: radial-gradient(
+    circle at 50% calc(50% - 1.75rem),
+    color-mix(in oklab, var(--primary) 16%, transparent) 0,
+    transparent 7rem
+  );
+  opacity: 1;
+  transition: opacity 320ms ease-out;
+}
+
+/*
+ * The switch's own icons (lucide's, path for path, at the button's 2px rounded
+ * stroke), animated so the reader can see the change is under way rather than
+ * stuck: a flashing bolt on the way to Simple mode, a twinkling sparkle on the
+ * way back to the animated site.
+ *
+ * A mask filled with `--primary`, so it takes the brand colour and the
+ * season's, and a pseudo-element of the root like the message, because it has
+ * to exist before any script does. It moves even in Simple mode - the rule
+ * that stills everything reaches only the root's descendants, and a loader
+ * standing still reads as a hang. The device's reduced-motion setting tones it
+ * down to a fade.
+ */
+html[data-switching]::before {
+  content: "";
+  position: fixed;
+  z-index: 401;
+  top: 50%;
+  left: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: -3.5rem 0 0 -1.75rem;
+  background-color: var(--primary);
+  -webkit-mask: var(--switching-icon) center / contain no-repeat;
+  mask: var(--switching-icon) center / contain no-repeat;
+  opacity: 1;
+  transition: opacity 320ms ease-out;
+}
+
+html[data-switching-to="animated"]::before {
+  --switching-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z'/%3E%3Cpath d='M20 2v4'/%3E%3Cpath d='M22 4h-4'/%3E%3Ccircle cx='4' cy='20' r='2'/%3E%3C/svg%3E");
+  animation: motion-switch-twinkle 1.4s ease-in-out infinite;
+}
+
+html[data-switching-to="simple"]::before {
+  --switching-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z'/%3E%3C/svg%3E");
+  animation: motion-switch-flash 1.1s ease-in-out infinite;
+}
+
+html[data-switching-out]::after,
+html[data-switching-out]::before {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The sparkle twinkles: a slow turn either way, swelling as it goes. */
+@keyframes motion-switch-twinkle {
+  0%,
+  100% {
+    transform: rotate(-10deg) scale(0.88);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: rotate(10deg) scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* The bolt flashes: a quick bright strike, then it settles back. */
+@keyframes motion-switch-flash {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.65;
+  }
+
+  18% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+
+  36% {
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
+}
+
+@keyframes motion-switch-fade {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-switching-to]::before {
+    animation: motion-switch-fade 1.6s ease-in-out infinite;
   }
 }

@@ -6,7 +6,6 @@ import {
   useInView,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -14,6 +13,7 @@ import {
 import Image from "next/image";
 import { useMemo, useRef } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
@@ -617,6 +617,8 @@ export function LeadershipConstellation({
   return (
     <div
       ref={outerRef}
+      // Hidden altogether in Simple mode - see globals.css.
+      data-motion-scene
       /*
        * One screen for the stage plus the hold - and the extra height *is* the
        * scroll budget, the way it is everywhere else on this page. There is no

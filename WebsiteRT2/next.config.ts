@@ -134,26 +134,18 @@ const nextConfig: NextConfig = {
    * which is the single biggest repeat-visit win on the home page.
    */
   async headers() {
-    return [
-      {
-        source: "/frames/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/hero/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+    const immutable = [
+      { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
     ];
+
+    // Both frame sequences, in both their desktop and phone sizes.
+    return [
+      "/frames/:path*",
+      "/frames-m/:path*",
+      "/welcome-frames/:path*",
+      "/welcome-frames-m/:path*",
+      "/hero/:path*",
+    ].map((source) => ({ source, headers: immutable }));
   },
 };
 

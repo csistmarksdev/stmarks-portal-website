@@ -2,7 +2,6 @@
 
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -12,31 +11,40 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type ReactNode,
 } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { pinnedRange } from "@/lib/scroll-offsets";
 import { cn } from "@/lib/utils";
 
 /**
- * How much vertical scroll each frame is worth, as a fraction of a screen.
+ * Photographs in the reel below the desktop breakpoint.
  *
- * Priced per photograph, so a chapter opening costs the same on every device:
- * `1 + (frames - 1) * DWELL` screens, 2.8 of them at four frames, whatever the
- * screen is shaped like. The reel is the same reel everywhere - the same
- * photographs, in the same order, at the same cadence - and only the *view* of
- * it differs, which is what a phone being narrower actually means.
- *
- * The consequence is worth stating plainly. A frame is one screen-width on a
- * 16:9 desktop and nearly four on a phone held upright, so the same 0.6 screens
- * of scroll moves the reel four times further sideways there. Per photograph
- * the cadence is identical; per pixel it is not, and cannot be - a narrower
- * window onto the same picture has more picture to travel.
+ * A reel frame is the photograph at its own 16:9 shape, so on a phone held
+ * upright each one is nearly four screen-widths across, and six of them made a
+ * strip of ~8,600px. Squeezed into the ~3 screens of scroll a chapter opener
+ * gets, that slid ~3.4px sideways for every pixel the thumb moved: the
+ * pictures were flung past rather than shown. Three photographs keep the
+ * opener about the same length while letting each one travel at a pace that
+ * can be watched. The desktop stack, which moves each photograph once, keeps
+ * them all.
  */
-const DWELL = 0.6;
+const REEL_FRAMES = 3;
+
+/**
+ * Sideways pixels per pixel of scroll, below the desktop breakpoint.
+ *
+ * The reel's scroll budget is derived from the distance it has to travel
+ * rather than counted per photograph, so the pace is the same at every screen
+ * shape: a gentle drift, a little faster than the thumb, never several times
+ * faster. Lower is slower (and a longer opener).
+ */
+const REEL_SPEED = 1.5;
 
 /**
  * The same budget for the desktop stack, which is a different effect and needs
@@ -48,9 +56,9 @@ const DWELL = 0.6;
  * once, and the reader is meant to watch it land - so it gets a little over a
  * screen of scroll per photograph.
  *
- * Applied through `--hero-dwell` rather than chosen in script, so the server's
- * markup already has the right height on a desktop and the page does not
- * reflow when the media query resolves.
+ * Applied in `globals.css` (`[data-pinned-hero]`) rather than chosen in script,
+ * so the server's markup already has the right height at every width and the
+ * page does not reflow when the media query resolves.
  */
 const STACK_DWELL = 1.25;
 
@@ -123,6 +131,10 @@ const easeInOut = (t: number) =>
 
 /** Decelerates into place, so a card lands rather than stops. */
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+const subscribeNever = () => () => {};
+const supportsScrollTimelines = () =>
+  typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()");
 
 interface StackCardProps {
   image: string;
@@ -318,6 +330,24 @@ export function PinnedHero({
    */
   const stacked = useMediaQuery(STACK_QUERY) && pinned;
 
+  /*
+   * Whether the reel can be left to the compositor.
+   *
+   * With CSS scroll-driven animations (Safari 26, Chrome 115) the reel's
+   * movement is declared in `globals.css` and bound to this block's own pass
+   * through the viewport, so the browser moves it in step with the scroll
+   * itself, off the main thread. Driving it from here instead means reading
+   * the scroll after each event and writing a transform back - which on a
+   * phone trails a fast swipe and judders when the main thread is busy. Older
+   * browsers keep that path. False on the server and during hydration, so the
+   * markup matches; the switch happens on the first client render after.
+   */
+  const compositorReel = useSyncExternalStore(
+    subscribeNever,
+    supportsScrollTimelines,
+    () => false,
+  );
+
   useEffect(() => {
     const frame = frameRef.current;
     const track = trackRef.current;
@@ -428,14 +458,17 @@ export function PinnedHero({
       style={
         pinned
           ? ({
-              "--hero-dwell-reel": DWELL,
+              "--hero-frames": frames.length,
+              "--hero-reel-frames": Math.min(frames.length, REEL_FRAMES),
+              "--hero-reel-speed": REEL_SPEED,
               "--hero-dwell-stack": STACK_DWELL,
-              height: `calc(100svh + ${frames.length - 1} * var(--hero-dwell) * 100svh)`,
             } as CSSProperties)
           : undefined
       }
-      // Picks the reel's or the stack's budget at the same `lg` as STACK_QUERY.
-      className="relative [--hero-dwell:var(--hero-dwell-reel)] lg:[--hero-dwell:var(--hero-dwell-stack)]"
+      // The height itself is in globals.css, which picks the reel's or the
+      // stack's budget at the same `lg` as STACK_QUERY.
+      data-pinned-hero={pinned ? "" : undefined}
+      className="relative"
     >
       <section
         // Hook for the mobile-landscape block in globals.css.
@@ -456,6 +489,8 @@ export function PinnedHero({
         <div
           ref={frameRef}
           aria-hidden
+          // The photographs - hidden in Simple mode, see globals.css.
+          data-hero-photos
           // `isolate`: the stack's cards order themselves with `z-index`, and
           // without a context of their own here they painted over the filter
           // and the copy that follow.
@@ -475,8 +510,22 @@ export function PinnedHero({
           ) : (
             <motion.div
               ref={trackRef}
-              style={pinned ? { x, willChange: "transform" } : undefined}
-              className="flex h-full w-max"
+              style={
+                !pinned
+                  ? undefined
+                  : compositorReel
+                    ? ({
+                        "--reel-from":
+                          direction === "left" ? "0px" : `${-travel}px`,
+                        "--reel-to":
+                          direction === "left" ? `${-travel}px` : "0px",
+                      } as CSSProperties)
+                    : { x, willChange: "transform" }
+              }
+              className={cn(
+                "flex h-full w-max",
+                pinned && compositorReel && "pinned-reel",
+              )}
             >
               {frames.map((image, index) => (
                 /*
@@ -497,7 +546,14 @@ export function PinnedHero({
               */
                 <div
                   key={image}
-                  className={cn("relative h-full shrink-0", TILE_WIDTH)}
+                  className={cn(
+                    "relative h-full shrink-0",
+                    TILE_WIDTH,
+                    // Below the desktop stack the reel is cut to its first
+                    // few - see `REEL_FRAMES`. Hidden rather than not
+                    // rendered, so server and client agree at every width.
+                    index >= REEL_FRAMES && "max-lg:hidden",
+                  )}
                 >
                   <Image
                     src={image}
@@ -531,7 +587,17 @@ export function PinnedHero({
         */}
         <motion.div
           aria-hidden
-          style={pinned ? { opacity: veil } : undefined}
+          /*
+           * `opacity: 1` when not pinned, never `undefined`. framer writes the
+           * veil straight onto the element, and the server renders this pinned
+           * (it cannot know the reader's motion setting) with the veil at 0 for
+           * any chapter not yet reached. Dropping the style prop afterwards
+           * does not reliably take framer's value back off, and on a phone it
+           * left whole chapter titles at opacity 0 in Simple mode. An explicit
+           * 1 always overwrites it. `data-hero-veil` is the CSS safety net.
+           */
+          style={pinned ? { opacity: veil } : { opacity: 1 }}
+          data-hero-veil
           className="pointer-events-none absolute inset-0"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/20" />
@@ -550,7 +616,9 @@ export function PinnedHero({
           bottom of the copy instead of the bottom of the screen.
         */}
         <motion.div
-          style={pinned ? { opacity: veil } : undefined}
+          // See the veil above: explicit 1, never undefined.
+          style={pinned ? { opacity: veil } : { opacity: 1 }}
+          data-hero-veil
           className="w-full"
         >
           {children}

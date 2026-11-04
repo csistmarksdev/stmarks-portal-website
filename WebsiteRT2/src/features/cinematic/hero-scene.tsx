@@ -2,12 +2,12 @@
 
 import {
   motion,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import type { ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 export interface HeroSceneProps {

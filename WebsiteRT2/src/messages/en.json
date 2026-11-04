@@ -33,7 +33,12 @@
     "skipToContent": "Skip to main content",
     "backToTop": "Back to top",
     "changeLanguage": "Change language",
-    "pinned": "Pinned"
+    "pinned": "Pinned",
+    "simpleMode": "Simple mode",
+    "simpleModeHint": "Turn off animations for a lighter, faster page",
+    "simpleModeOn": "On - animations are off. Tap to turn them back on",
+    "switchingToSimple": "Switching to Simple mode…",
+    "switchingToAnimated": "Switching to animated mode…"
   },
   "nav": {
     "primary": "Primary",

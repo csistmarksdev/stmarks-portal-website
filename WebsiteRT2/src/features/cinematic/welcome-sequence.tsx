@@ -1,10 +1,15 @@
 "use client";
 
 import { motionValue } from "framer-motion";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { WelcomeTitle } from "@/features/home/welcome-title";
-import { useMediaQuery } from "@/hooks/use-media-query";
+
+import {
+  useFrameSequence,
+  type DrawFrame,
+  type FrameSet,
+} from "./use-frame-sequence";
 
 const FRAME_COUNT = 240;
 
@@ -26,14 +31,28 @@ const HOLD_FRAME = 131;
  */
 const HOLD_SPAN = 0.24;
 
-/** How many frames must decode before the canvas is shown. */
-const INITIAL_FRAMES = 12;
+const frameName = (index: number) =>
+  `ezgif-frame-${index.toString().padStart(3, "0")}.jpg`;
 
 /** Matches the cinematic hero: 3x is fill rate spent on nothing visible. */
-const MAX_DPR = 2;
+const DESKTOP: FrameSet = {
+  src: (i) => `/welcome-frames/${frameName(i)}`,
+  maxDpr: 2,
+  decodeAhead: 16,
+};
 
-const frameSrc = (index: number) =>
-  `/welcome-frames/ezgif-frame-${index.toString().padStart(3, "0")}.jpg`;
+/**
+ * Narrow screens draw these `contain`, so a phone shows the whole frame at
+ * well under 854px across - the 1280px originals were decoded at more than
+ * twice the pixels anyone saw. See `scripts/generate-mobile-frames.mjs`.
+ */
+const MOBILE: FrameSet = {
+  src: (i) => `/welcome-frames-m/${frameName(i)}`,
+  maxDpr: 2,
+  decodeAhead: 16,
+};
+
+const MOBILE_QUERY = "(max-width: 900px)";
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
@@ -85,12 +104,7 @@ const holdForProgress = (fraction: number) =>
  * pixels means the bars it leaves continue the studio backdrop's own gradient
  * rather than sitting on it as a flat band with a seam.
  */
-const drawImageContain = (
-  ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
-  canvasWidth: number,
-  canvasHeight: number,
-) => {
+const drawImageContain: DrawFrame = (ctx, img, canvasWidth, canvasHeight) => {
   const ratio = Math.min(canvasWidth / img.width, canvasHeight / img.height);
   const width = img.width * ratio;
   const height = img.height * ratio;
@@ -155,13 +169,18 @@ export interface WelcomeSequenceProps {
 export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const frameIndexRef = useRef(0);
-  const [isReady, setIsReady] = useState(false);
   const [isNear, setIsNear] = useState(false);
 
-  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const { canvasRef, isReady, reducedMotion, setFrame } = useFrameSequence({
+    frameCount: FRAME_COUNT,
+    desktop: DESKTOP,
+    mobile: MOBILE,
+    mobileQuery: MOBILE_QUERY,
+    draw: drawImageContain,
+    stillFrame: HOLD_FRAME,
+    enabled: isNear,
+    stillPriority: "low",
+  });
 
   /*
    * Owned here, not shared through `HeroScrollProvider`. That value belongs to
@@ -170,17 +189,6 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
    * treatment is the correct one over it and it registers nothing.
    */
   const hold = useMemo(() => motionValue(0), []);
-
-  /** Paints whatever frame is currently in view, if it has decoded. */
-  const paint = useCallback(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    const image = imagesRef.current[frameIndexRef.current];
-
-    if (!canvas || !ctx || !image?.complete || image.naturalWidth === 0) return;
-
-    drawImageContain(ctx, image, canvas.width, canvas.height);
-  }, []);
 
   /*
    * Only start fetching when the section is roughly a viewport away. The hero
@@ -205,81 +213,6 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Preload frames, in the same shape as the cinematic hero: enough to reveal
-  // the canvas at high priority, the tail at low priority once idle.
-  useEffect(() => {
-    if (!isNear) return;
-
-    const images: HTMLImageElement[] = new Array(FRAME_COUNT);
-    imagesRef.current = images;
-    let initialLoaded = 0;
-    let cancelled = false;
-
-    // Under reduced motion the sequence never scrubs, so only the frame it
-    // rests on is fetched and the other 239 are skipped outright.
-    if (reducedMotion) {
-      const still = new Image();
-      still.decoding = "async";
-      still.setAttribute("fetchpriority", "low");
-      still.onload = () => {
-        if (cancelled) return;
-        setIsReady(true);
-        paint();
-      };
-      still.src = frameSrc(HOLD_FRAME);
-      images[HOLD_FRAME - 1] = still;
-      frameIndexRef.current = HOLD_FRAME - 1;
-
-      return () => {
-        cancelled = true;
-      };
-    }
-
-    const loadFrame = (i: number, priority: "high" | "low") => {
-      const index = i - 1;
-      const img = new Image();
-      img.decoding = "async";
-      img.setAttribute("fetchpriority", priority);
-
-      img.onload = () => {
-        if (cancelled) return;
-
-        if (index < INITIAL_FRAMES) {
-          initialLoaded++;
-          if (initialLoaded === INITIAL_FRAMES) setIsReady(true);
-        }
-
-        if (index === frameIndexRef.current) paint();
-      };
-
-      img.src = frameSrc(i);
-      images[index] = img;
-    };
-
-    for (let i = 1; i <= INITIAL_FRAMES; i++) loadFrame(i, "high");
-
-    const loadRest = () => {
-      for (let i = INITIAL_FRAMES + 1; i <= FRAME_COUNT; i++) {
-        if (cancelled) return;
-        loadFrame(i, "low");
-      }
-    };
-
-    const idleHandle =
-      typeof window.requestIdleCallback === "function"
-        ? window.requestIdleCallback(loadRest, { timeout: 1500 })
-        : window.setTimeout(loadRest, 300);
-
-    return () => {
-      cancelled = true;
-      if (typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idleHandle as number);
-      } else {
-        window.clearTimeout(idleHandle as number);
-      }
-    };
-  }, [isNear, paint, reducedMotion]);
-
   // One scroll listener, one rAF, one layout read per frame - the hero's
   // arrangement, and for its reasons.
   useEffect(() => {
@@ -303,12 +236,7 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
 
       if (reducedMotion) return;
 
-      const nextFrameIndex = frameForProgress(fraction);
-
-      if (nextFrameIndex !== frameIndexRef.current) {
-        frameIndexRef.current = nextFrameIndex;
-        paint();
-      }
+      setFrame(frameForProgress(fraction));
     };
 
     const onScroll = () => {
@@ -325,47 +253,7 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [hold, paint, reducedMotion]);
-
-  // Canvas sizing - see the cinematic hero for why this measures the element's
-  // own box rather than the window, and why the guard on the reallocation is
-  // load-bearing on a phone.
-  useEffect(() => {
-    if (!isReady) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const resizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const { width, height } = canvas.getBoundingClientRect();
-      if (width === 0 || height === 0) return;
-
-      const nextWidth = Math.round(width * dpr);
-      const nextHeight = Math.round(height * dpr);
-
-      if (canvas.width === nextWidth && canvas.height === nextHeight) return;
-
-      canvas.width = nextWidth;
-      canvas.height = nextHeight;
-
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = "medium";
-      }
-
-      paint();
-    };
-
-    resizeCanvas();
-    paint();
-
-    const observer = new ResizeObserver(resizeCanvas);
-    observer.observe(canvas);
-
-    return () => observer.disconnect();
-  }, [isReady, paint]);
+  }, [hold, reducedMotion, setFrame]);
 
   return (
     <div
@@ -376,10 +264,15 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
        * length moves every section below it by hundreds of pixels mid-scroll.
        */
       style={{ height: `${scrollLength * 100}svh` }}
+      // Collapsed to one still screen under reduced motion, and hidden
+      // altogether in Simple mode - see globals.css.
+      data-frame-sequence
+      data-motion-scene
       className="relative bg-[var(--background)]"
     >
       <div
         ref={stickyRef}
+        data-frame-stage
         className="sticky top-0 h-[100dvh] w-full overflow-hidden"
       >
         <canvas

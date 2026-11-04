@@ -13,7 +13,9 @@ const useIsomorphicLayoutEffect =
 import { useHeroScroll, usePastOpening } from "@/providers/hero-scroll-provider";
 
 import { LanguageSwitcher } from "@/components/common/language-switcher";
+import { MotionToggle } from "@/components/common/motion-toggle";
 import { useActiveSection } from "@/hooks/use-active-section";
+import { useReducedMotion, useSimpleMode } from "@/hooks/use-reduced-motion";
 import { Container } from "@/components/ui/container";
 import {
   MAIN_NAV,
@@ -124,6 +126,14 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
    * to float above.
    */
   const { heroUnderHeader } = useHeroScroll();
+  const simpleMode = useSimpleMode();
+  /*
+   * The bar's own layout animations - the pill gliding between its two widths,
+   * the clusters sliding to their new places - are framer `layout` animations,
+   * which `MotionConfig`'s reduced-motion setting does not reach. Turned off
+   * here under reduced motion and Simple mode: the bar snaps to its new shape.
+   */
+  const reduceMotion = useReducedMotion();
 
   /*
    * Does this page open on media at all?
@@ -147,8 +157,17 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
     setOpensOnMedia(Boolean(document.querySelector("[data-hero-frame]")));
   }, [pathname]);
 
+  /*
+   * In Simple mode the chapters open on a short title band rather than a
+   * screen of photograph, so passing one is not "being over media" - and
+   * treating it as such flipped the bar between its two states at every
+   * chapter, 78 times in one scroll of the page, each flip a re-render and a
+   * layout animation. There the bar changes once, leaving the opening, and
+   * stays put.
+   */
   const isHero =
-    overHero ?? (opensOnMedia && (!pastOpening || heroUnderHeader));
+    overHero ??
+    (opensOnMedia && (!pastOpening || (heroUnderHeader && !simpleMode)));
 
   /** The glass surface appears only once the header sits over page content. */
   const showSurface = !isHero;
@@ -254,7 +273,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
       >
         <motion.div
           key={pathname}
-          layout
+          layout={!reduceMotion}
           data-header-pill
           transition={{
             type: "spring",
@@ -263,7 +282,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             mass: 0.8,
           }}
           className={cn(
-            "mx-auto flex h-[var(--header-height)] items-center justify-between gap-3 sm:gap-6 lg:gap-8 rounded-full transition-colors duration-500",
+            "mx-auto flex h-[var(--header-height)] items-center justify-between gap-2 sm:gap-6 lg:gap-8 rounded-full transition-colors duration-500",
             isHero
               ? "w-full bg-transparent border-transparent shadow-none"
               // Only the surface changed here: `--elevation-bar` is the
@@ -291,7 +310,10 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             use. The bar has the room - the cap was simply tighter than the
             space, and a fixed vw fraction cannot know that.
           */}
-          <motion.div layout="position" className="min-w-0 flex-1 nav:flex-none">
+          <motion.div
+            layout={reduceMotion ? false : "position"}
+            className="min-w-0 flex-1 nav:flex-none"
+          >
             <Link
               href={ROUTES.home}
               className={cn(
@@ -300,7 +322,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
                 // they do not, which is where `truncate` takes over. It also
                 // keeps the link off the empty half of the bar, so a tap near
                 // the menu button is not a tap on "home".
-                "group flex w-fit min-w-0 items-center gap-1.5 transition-colors sm:gap-2.5",
+                "group flex w-fit min-w-0 items-center gap-2 transition-colors sm:gap-2.5",
                 lightOnDark ? "text-white" : "text-[var(--foreground)]",
               )}
             >
@@ -323,8 +345,12 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
                 `text-center` rather than `items-center`: the lines stay
                 full-width so `truncate` keeps working, which it would not if
                 each line shrank to its own content width.
+
+                On a phone the bar shows the two crests alone - the name is
+                `sr-only` there rather than removed, so the link home is still
+                announced by name to a screen reader.
               */}
-              <span className="flex min-w-0 flex-col text-center leading-[1.15]">
+              <span className="flex min-w-0 flex-col text-center leading-[1.15] max-sm:sr-only">
                 <span
                   data-wordmark
                   className="truncate font-display text-[0.8rem] font-semibold sm:text-[0.875rem]"
@@ -361,7 +387,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
 
           {/* Desktop navigation */}
           <motion.nav
-            layout="position"
+            layout={reduceMotion ? false : "position"}
             data-site-nav
             aria-label={t("primary")}
             className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 nav:flex"
@@ -457,10 +483,26 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
           </motion.nav>
 
           {/* Right cluster */}
-          <motion.div layout="position" className="flex shrink-0 items-center gap-2.5">
+          <motion.div
+            layout={reduceMotion ? false : "position"}
+            className="flex shrink-0 items-center gap-1.5 sm:gap-2.5"
+          >
             <LanguageSwitcher
               tone={isHero ? "onDark" : "default"}
               className="hidden sm:flex"
+            />
+
+            {/* Simple mode, always on the bar: beside the menu button on a
+                phone - the reader it is for, reachable without opening
+                anything - and beside the language pill above that. 34px on a
+                phone, matching the menu button beside it (both trimmed from
+                36px, with the bar's gaps, so the church's name still fits the
+                pill on a 390px phone); 32px beside the pill. The menu repeats
+                it with a label. */}
+            <MotionToggle
+              variant="icon"
+              tone={isHero ? "onDark" : "default"}
+              className="size-[2.125rem] sm:size-8"
             />
 
             <button
@@ -470,7 +512,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
               aria-label={mobileOpen ? tCommon("closeMenu") : tCommon("openMenu")}
               aria-expanded={mobileOpen}
               className={cn(
-                "grid size-9 place-items-center rounded-full border transition-colors sm:size-10 nav:hidden",
+                "grid size-[2.125rem] place-items-center rounded-full border transition-colors sm:size-10 nav:hidden",
                 lightOnDark
                   ? "border-white/30 text-white hover:bg-white/10"
                   : "border-[var(--border)] text-[var(--foreground)] shadow-[var(--elevation-control-quiet)] hover:bg-sand-100 active:shadow-[var(--elevation-control-pressed)]",
@@ -684,9 +726,20 @@ function MobileMenu({
         </motion.ul>
       </nav>
 
+      {/* Simple mode, labelled - a phone that finds the site heavy is the
+          reader this is for, and the menu is where they will look. */}
       <div
         className={cn(
-          "flex items-center justify-end border-t p-4",
+          "border-t px-2 pt-2",
+          onDark ? "border-white/10" : "border-[var(--border)]",
+        )}
+      >
+        <MotionToggle variant="row" tone={onDark ? "onDark" : "default"} />
+      </div>
+
+      <div
+        className={cn(
+          "flex items-center justify-end p-4",
           onDark ? "border-white/10" : "border-[var(--border)]",
         )}
       >

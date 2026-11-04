@@ -6,13 +6,13 @@ import {
   useInView,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
@@ -273,6 +273,8 @@ export function FallingPages({
   return (
     <div
       ref={outerRef}
+      // Hidden altogether in Simple mode - see globals.css.
+      data-motion-scene
       /*
        * One screen for the stage plus the hold - and the extra height *is* the
        * scroll budget, exactly as it is on the other three stages and on every

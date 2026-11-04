@@ -2,12 +2,12 @@
 
 import {
   motion,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import { useTranslations } from "next-intl";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { CrossMark } from "@/components/common/ornament";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";

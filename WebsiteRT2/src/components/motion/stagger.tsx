@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 const containerVariants: Variants = {
@@ -70,7 +71,12 @@ export function StaggerItem({
   }
 
   return (
-    <motion.div className={cn(className)} variants={itemVariants}>
+    <motion.div
+      className={cn(className)}
+      variants={itemVariants}
+      // Server-rendered hidden; shown by CSS without motion - see globals.css.
+      data-reveal
+    >
       {children}
     </motion.div>
   );

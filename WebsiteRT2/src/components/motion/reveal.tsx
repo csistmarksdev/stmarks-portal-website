@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ElementType, ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
@@ -100,6 +101,8 @@ export function Reveal({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount }}
+      // Server-rendered hidden; shown by CSS without motion - see globals.css.
+      data-reveal
     >
       {children}
     </MotionComp>

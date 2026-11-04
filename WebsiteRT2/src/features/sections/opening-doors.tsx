@@ -6,12 +6,12 @@ import {
   useInView,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
@@ -188,6 +188,8 @@ export function OpeningDoors({
   return (
     <div
       ref={outerRef}
+      // Hidden altogether in Simple mode - see globals.css.
+      data-motion-scene
       style={pinned ? { height: `calc(100svh + ${HOLD * 100}svh)` } : undefined}
       className="relative"
     >

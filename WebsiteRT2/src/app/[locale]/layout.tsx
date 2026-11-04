@@ -14,16 +14,19 @@ import { ChristmasEffects } from "@/components/common/christmas-effects";
 import { ChristmasOrnaments } from "@/components/common/christmas-ornaments";
 import { EasterRays } from "@/components/common/easter-rays";
 import { LiturgicalSeason } from "@/components/common/liturgical-season";
+import { PauseOffscreenAnimations } from "@/components/common/pause-offscreen-animations";
 import { Snowfall } from "@/components/common/snowfall";
 import { SplashScreen } from "@/components/common/splash-screen";
 import { SiteFooter } from "@/layouts/site-footer";
 import { SiteHeader } from "@/layouts/site-header";
 import { HeroScrollProvider } from "@/providers/hero-scroll-provider";
+import { MotionProvider } from "@/providers/motion-provider";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { heroImages } from "@/generated/hero-images";
 import { SITE_CONFIG } from "@/constants/site";
 import { routing, type Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { MOTION_BOOTSTRAP } from "@/lib/motion-preference";
 import { getFellowshipsForNav } from "@/services";
 
 import "@/styles/globals.css";
@@ -37,6 +40,22 @@ import "@/styles/globals.css";
  */
 export const SEASON_BOOTSTRAP =
   '(function(){var v=["christmas","ash-wednesday","lent","holy-week","good-friday","easter","csi-day","ordinary"],q=new URLSearchParams(location.search).get("season"),s;if(q&&v.indexOf(q)>-1){s=q}else{var d=new Date(),y=d.getFullYear(),o=function(Y,M,D){return Math.floor(Date.UTC(Y,M-1,D)/864e5)},a=y%19,b=Math.floor(y/100),c=y%100,D4=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-D4-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),E=o(y,Math.floor((h+l-7*m+114)/31),(h+l-7*m+114)%31+1),t=o(y,d.getMonth()+1,d.getDate());s=t===E-2?"good-friday":t>=E-7&&t<E?"holy-week":t===E-46?"ash-wednesday":t>E-46&&t<E-7?"lent":t>=E&&t<=E+49?"easter":t>=o(y,12,1)||t<=o(y,1,1)?"christmas":t===o(y,9,27)?"csi-day":"ordinary"}document.documentElement.dataset.season=s})()';
+
+/**
+ * Every visit opens at the top of the page, not wherever the last one stopped.
+ *
+ * Browsers restore the previous scroll offset on reload - Safari late, after
+ * the page has loaded - which on a ~100,000px single page meant opening in the
+ * middle of some chapter with the cinematic opening never seen. Turned off
+ * here, before the first paint, because anything later loses the race with
+ * Safari's restore. Fragment links are unaffected: the browser and
+ * `LenisProvider` still take a `#section` to its section.
+ *
+ * Kept apart from `SEASON_BOOTSTRAP`, which the verification script runs in
+ * Node where there is no `history`.
+ */
+const SCROLL_RESTORATION_BOOTSTRAP =
+  'try{history.scrollRestoration="manual"}catch(e){}';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -270,7 +289,7 @@ export default async function LocaleLayout({
           hidden
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `<script>${SEASON_BOOTSTRAP}</script>`,
+            __html: `<script>${SEASON_BOOTSTRAP};${SCROLL_RESTORATION_BOOTSTRAP};${MOTION_BOOTSTRAP}</script>`,
           }}
         />
 
@@ -292,12 +311,14 @@ export default async function LocaleLayout({
           */}
           <SplashScreen reel={heroImages} />
 
+          <MotionProvider>
           <HeroScrollProvider>
             <LenisProvider>
               <SiteHeader fellowships={fellowships} />
               {children}
               <SiteFooter />
               <BackToTop />
+              <PauseOffscreenAnimations />
 
               {/*
                 The church's year, which is the only calendar this site keeps.
@@ -335,6 +356,7 @@ export default async function LocaleLayout({
               <EasterRays />
             </LenisProvider>
           </HeroScrollProvider>
+          </MotionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

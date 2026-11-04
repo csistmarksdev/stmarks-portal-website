@@ -301,30 +301,52 @@ export async function LeadershipSection() {
             <EmptyState message={tCommon("noResults")} />
           </Container>
         ) : (
-          <HorizontalScroll layout="panels" label={t("committee.title")}>
-            {committee.map((leader) => (
-              <div
-                key={leader.id}
-                className="flex w-screen shrink-0 snap-start items-center"
-              >
-                {/*
-                  The slide is a full screen; its *contents* stay on the site's
-                  measure, so a committee member is framed exactly where a
-                  pastor is rather than drifting out to the edges of a wide
-                  monitor.
-                */}
-                <Container>
-                  <LeaderCard
-                    leader={leader}
-                    locale={locale}
-                    variant="feature"
-                    mediaSide="left"
-                    stage
-                  />
-                </Container>
-              </div>
-            ))}
-          </HorizontalScroll>
+          <>
+            {/*
+              Two layouts in the markup, and the stylesheet shows one: the pinned
+              carousel normally, a plain grid in Simple mode (see globals.css).
+              Chosen in CSS rather than here because this is a server component
+              and the choice lives on the reader's device - and so it is right on
+              the first paint. The hidden one's portraits are lazy, so they are
+              never fetched.
+            */}
+            <div data-motion-carousel>
+              <HorizontalScroll layout="panels" label={t("committee.title")}>
+                {committee.map((leader) => (
+                  <div
+                    key={leader.id}
+                    className="flex w-screen shrink-0 snap-start items-center"
+                  >
+                    {/*
+                      The slide is a full screen; its *contents* stay on the site's
+                      measure, so a committee member is framed exactly where a
+                      pastor is rather than drifting out to the edges of a wide
+                      monitor.
+                    */}
+                    <Container>
+                      <LeaderCard
+                        leader={leader}
+                        locale={locale}
+                        variant="feature"
+                        mediaSide="left"
+                        stage
+                      />
+                    </Container>
+                  </div>
+                ))}
+              </HorizontalScroll>
+            </div>
+
+            <Container data-motion-grid className="hidden pb-24 pt-12 sm:pb-32">
+              <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {committee.map((leader) => (
+                  <li key={leader.id}>
+                    <LeaderCard leader={leader} locale={locale} />
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </>
         )}
       </Section>
 

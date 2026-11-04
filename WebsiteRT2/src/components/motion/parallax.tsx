@@ -2,12 +2,12 @@
 
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -36,7 +36,14 @@ export function Parallax({
   const y = useTransform(scrollYProgress, [0, 1], [strength, -strength]);
 
   if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>;
+    // The ref still goes on: `useScroll` above was given it, and an unattached
+    // target makes framer throw "Target ref is defined but not hydrated" for
+    // every reader with reduced motion or Simple mode on.
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
   }
 
   return (

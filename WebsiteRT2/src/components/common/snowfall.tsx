@@ -1,5 +1,6 @@
 "use client";
 
+import { isMotionReduced } from "@/lib/motion-preference";
 import { useLiturgicalSeason } from "@/components/common/liturgical-season";
 import { isSnowSeason } from "@/lib/liturgical-year";
 
@@ -127,7 +128,7 @@ function snowOverride(): boolean | null {
    * animation mid-descent and leave those dots hanging there, which is why the
    * decision is taken here rather than left to CSS.
    */
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (isMotionReduced()) {
     override = false;
     return override;
   }

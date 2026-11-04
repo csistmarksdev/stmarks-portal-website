@@ -3,12 +3,12 @@
 import {
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
 import { Children, useEffect, useRef, useState, type ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { pinnedRange } from "@/lib/scroll-offsets";
 import { cn } from "@/lib/utils";
 
@@ -101,14 +101,19 @@ export function HorizontalScroll({
   const shouldReduceMotion = useReducedMotion();
 
   /*
-   * False on the server and on the first client render - `distance` is 0 until
-   * the track has been measured. So the markup React hydrates is the plain
-   * scroll region and the pinned stage is switched on afterwards. That ordering
-   * is deliberate: the inline height below exists only when pinned, and an
-   * inline style that differs between server and client is a hydration
-   * mismatch.
+   * Panels are pinned from the first paint; cards once they are measured.
+   *
+   * Both used to wait for the measurement, which only exists after hydration.
+   * So the server sent this block at its unpinned height and, a moment after
+   * load, it grew by its whole scroll budget - ~4,600px for the committee on a
+   * phone - shoving every chapter below it down the page mid-read, and leaving
+   * anyone who had opened at `/#events` thousands of pixels short of it. The
+   * panels' budget is counted in slides, not measured, so there is nothing to
+   * wait for. Reduced motion through `useReducedMotion`, which answers `false` on
+   * the server and during hydration, so the markup always matches.
    */
-  const pinned = !shouldReduceMotion && distance > 0;
+  const pinned =
+    !shouldReduceMotion && (panels ? count > 1 : distance > 0);
 
   useEffect(() => {
     const frame = frameRef.current;

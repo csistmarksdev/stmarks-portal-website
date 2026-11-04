@@ -6,7 +6,6 @@ import {
   useInView,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -14,6 +13,7 @@ import {
 import Image from "next/image";
 import { useRef } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import { useHeroUnderHeader } from "@/hooks/use-hero-under-header";
@@ -260,6 +260,8 @@ export function GalleryWall({
   return (
     <div
       ref={outerRef}
+      // Hidden altogether in Simple mode - see globals.css.
+      data-motion-scene
       /*
        * One screen for the stage plus the hold - and the extra height *is* the
        * scroll budget, exactly as it is on the other four stages and on every
@@ -429,7 +431,7 @@ function ColumnTrack({
           opacity: 1 - depth * 0.55,
           filter: depth > 0 ? `blur(${depth * 1.6}px)` : undefined,
         }}
-        className="flex flex-col gap-2 will-change-transform sm:gap-3"
+        className="gallery-wall-column flex flex-col gap-2 will-change-transform sm:gap-3"
       >
         {run.map((frame, position) => (
           <figure
