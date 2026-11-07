@@ -7,16 +7,13 @@ import {
 } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { PageHero } from "@/components/common/page-hero";
 import { CrossMark } from "@/components/common/ornament";
 import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Heading, Text } from "@/components/ui/typography";
-import { OpeningDoors } from "@/features/sections/opening-doors";
-import { SECTION_IDS, heroDirection } from "@/constants/site";
-import { HERO_SLIDES } from "@/content/hero-slides";
+import { SECTION_IDS } from "@/constants/site";
 import { ContactForm } from "@/features/contact/contact-form";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
@@ -89,40 +86,6 @@ export async function ContactSection() {
 
   return (
     <div id={SECTION_IDS.contact}>
-      {/* Every chapter opens with its own full-bleed photograph - it does the
-          work a route change used to do, telling the reader a new subject has
-          started without them having to read a word. */}
-      <PageHero
-        eyebrow={tContact("hero.eyebrow")}
-        title={tContact("hero.title")}
-        subtitle={tContact("hero.subtitle")}
-        images={HERO_SLIDES.contact}
-        variant="section"
-        direction={heroDirection(SECTION_IDS.contact)}
-      />
-
-      {/*
-        The doors, before the form.
-
-        The last picture in the document, and the only one with a job the other
-        seven do not have: to end. Everything above is the parish describing
-        itself; the only thing left to say is come in, and the one honest way to
-        draw that is a door opened from the inside.
-
-        It is also the only stage that changes the room it is in - it begins
-        nearly black and finishes in daylight, which is what hands the reader to
-        the form and the map below rather than leaving them in the dark the
-        stage started in. See the note at the head of `opening-doors.tsx`.
-      */}
-      <Section spacing="none" tone="dark" contained={false} atmosphere={false}>
-        <OpeningDoors
-          eyebrow={tContact("doors.eyebrow")}
-          title={tContact("doors.title")}
-          subtitle={tContact("doors.subtitle")}
-          label={tContact("doors.label")}
-        />
-      </Section>
-
       <Section spacing="lg">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           {/* The invitation, and the register that answers it. */}

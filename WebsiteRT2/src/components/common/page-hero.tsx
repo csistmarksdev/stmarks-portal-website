@@ -6,21 +6,19 @@ import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 /**
- * A page hero holds the reader for less than a chapter hero does.
+ * Every hero shows one photograph: the first in its list.
  *
- * Two frames, where a chapter hero uses everything in its folder: the contact
- * page is somewhere people arrive with something to do, and every frame is a
- * little over half a screen of scroll between them and the address. A chapter
- * opening on the long page can afford to be an occasion; the one page with a
- * form on it cannot.
+ * With a single frame {@link PinnedHero} has nothing to move, so the hero does
+ * not lock and the page scrolls straight past it into the content. The other
+ * files in `public/hero/<section>/` stay in use by the splash montage.
  */
-const PAGE_FRAMES = 2;
+const HERO_FRAMES = 1;
 
 export interface PageHeroProps {
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  /** Backdrop photography, shown one screen at a time. Omit for the plain wash. */
+  /** Backdrop photography; only the first is shown. Omit for the plain wash. */
   images?: string[];
   /**
    * Which way the photography travels while the hero is locked.
@@ -56,10 +54,7 @@ export interface PageHeroProps {
 /**
  * The standard header, for a page or for a chapter of one.
  *
- * A full screen of photography with the copy set into the foot of it. Where
- * there is more than one photograph the hero locks to the viewport and moves
- * them across before releasing the page - see {@link PinnedHero}, which owns
- * that behaviour and the fallbacks for touch and reduced motion.
+ * A full screen of photography with the copy set into the foot of it.
  */
 export function PageHero({
   eyebrow,
@@ -124,7 +119,7 @@ export function PageHero({
         images={slides}
         direction={direction}
         priority={eager}
-        maxFrames={isSection ? undefined : PAGE_FRAMES}
+        maxFrames={HERO_FRAMES}
         variant={variant}
         frameClassName={frameClassName}
       >

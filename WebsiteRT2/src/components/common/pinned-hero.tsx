@@ -523,7 +523,8 @@ export function PinnedHero({
                     : { x, willChange: "transform" }
               }
               className={cn(
-                "flex h-full w-max",
+                "flex h-full",
+                pinned ? "w-max" : "w-full",
                 pinned && compositorReel && "pinned-reel",
               )}
             >
@@ -548,7 +549,9 @@ export function PinnedHero({
                   key={image}
                   className={cn(
                     "relative h-full shrink-0",
-                    TILE_WIDTH,
+                    // Unpinned there is no pan to reveal the rest of a wide
+                    // tile, so the photograph fills the screen, centred.
+                    pinned ? TILE_WIDTH : "w-full",
                     // Below the desktop stack the reel is cut to its first
                     // few - see `REEL_FRAMES`. Hidden rather than not
                     // rendered, so server and client agree at every width.
