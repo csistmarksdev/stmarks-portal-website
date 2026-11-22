@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Heading, Text } from "@/components/ui/typography";
-import { SECTION_IDS } from "@/constants/site";
+import { ROUTES, SECTION_IDS } from "@/constants/site";
 import { ContactForm } from "@/features/contact/contact-form";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
 import { getChurchProfile } from "@/services";
@@ -82,7 +83,7 @@ export async function ContactSection() {
       href: null,
       external: false,
     },
-  ] as const;
+  ].filter((item) => Boolean(item.value));
 
   return (
     <div id={SECTION_IDS.contact}>
@@ -167,6 +168,25 @@ export async function ContactSection() {
                   );
                 })}
               </dl>
+            </Reveal>
+
+            {/*
+              Enquiries about Sunday School, baptism and weddings go to the
+              Hon. Secretary or Hon. Treasurer (church office request,
+              22 Nov 2026). Their direct enquiry contacts are
+              TODO(church-office) in content/church-office.ts; until then the
+              note points to the Leadership section, where both are listed.
+            */}
+            <Reveal delay={0.12}>
+              <p className="mt-8 max-w-md leading-relaxed text-[var(--foreground)]">
+                {t("enquiries")}{" "}
+                <Link
+                  href={ROUTES.leadership}
+                  className="link-underline font-medium text-[var(--primary)]"
+                >
+                  {t("enquiriesLink")}
+                </Link>
+              </p>
             </Reveal>
 
             {/* Directions is the one action that still leaves the page, because

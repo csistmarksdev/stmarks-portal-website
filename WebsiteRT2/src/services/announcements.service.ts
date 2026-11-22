@@ -1,7 +1,11 @@
 import { ANNOUNCEMENTS } from "@/data/announcements.mock";
 import type { Announcement, FellowshipSlug } from "@/types/content";
 
+import { isPublishable } from "./guards";
 import { apiGet } from "./http";
+
+/** F-003: the "Sample"/"மாதிரி" notice and any like it never render. */
+const clean = (items: Announcement[]) => items.filter(isPublishable);
 
 /** Pinned announcements float to the top, then newest first. */
 const byPinnedThenDate = (a: Announcement, b: Announcement) => {
@@ -13,12 +17,12 @@ const TAGS = ["announcements"];
 
 export function getAnnouncements(limit?: number): Promise<Announcement[]> {
   return apiGet<Announcement[]>("/announcements", {
-    params: { limit },
+    params: { limit: limit ? limit + 3 : undefined },
     tags: TAGS,
-    fallback: () => {
-      const sorted = [...ANNOUNCEMENTS].sort(byPinnedThenDate);
-      return limit ? sorted.slice(0, limit) : sorted;
-    },
+    fallback: () => [...ANNOUNCEMENTS].sort(byPinnedThenDate),
+  }).then((items) => {
+    const kept = clean(items);
+    return limit ? kept.slice(0, limit) : kept;
   });
 }
 
@@ -30,7 +34,7 @@ export function getPinnedAnnouncement(): Promise<Announcement | null> {
   return apiGet<Announcement | null>("/announcements/pinned", {
     tags: TAGS,
     fallback: () => ANNOUNCEMENTS.find((a) => a.pinned) ?? null,
-  });
+  }).then((item) => (item && isPublishable(item) ? item : null));
 }
 
 export function getAnnouncementsByFellowship(
@@ -43,5 +47,5 @@ export function getAnnouncementsByFellowship(
       ANNOUNCEMENTS.filter((a) => a.fellowshipSlug === fellowshipSlug).sort(
         byPinnedThenDate,
       ),
-  });
+  }).then(clean);
 }

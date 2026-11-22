@@ -1,32 +1,34 @@
-import { API_BASE_URL } from "@/constants/site";
 import type {
-  ContactFormValues,
+  ContactFormSubmission,
   ContactSubmissionResult,
 } from "@/types/content";
 
-import { apiPost } from "./http";
-
 /**
- * Contact form submission → `POST /contact`.
+ * Contact form submission → `POST /api/contact` on the site's own origin
+ * (F-009). That route forwards to the Portal from the server, so the browser
+ * never talks to the Portal directly - previously it posted to
+ * `http://129.225.110.39/v1/contact` from an HTTPS page, which browsers block
+ * as mixed content, and every message was lost.
  *
- * The API stores the message in the Portal's contact inbox and returns
- * `{ success, messageKey }`; the form surfaces the key as a translated notice.
- *
- * Two failure modes are reported honestly rather than as success:
- *  - no API configured  → `notConnected`, the same notice as before the backend
- *  - the request failed → `error`, so a visitor is never told their message was
- *    delivered when it was not. That includes the 429 from the endpoint's spam
- *    throttle (3 per minute per IP).
+ * Failures are reported honestly: `notConnected` when no backend is
+ * configured, `error` for anything else - a visitor is never told a message
+ * was delivered when it was not.
  */
 export async function submitContactForm(
-  values: ContactFormValues,
+  values: ContactFormSubmission,
 ): Promise<ContactSubmissionResult> {
-  if (!API_BASE_URL) {
-    return { success: false, messageKey: "notConnected" };
-  }
-
   try {
-    return await apiPost<ContactSubmissionResult>("/contact", values);
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(values),
+      cache: "no-store",
+    });
+    const result = (await response
+      .json()
+      .catch(() => null)) as ContactSubmissionResult | null;
+    if (!result) return { success: false, messageKey: "error" };
+    return { success: response.ok && result.success, messageKey: result.messageKey };
   } catch {
     return { success: false, messageKey: "error" };
   }

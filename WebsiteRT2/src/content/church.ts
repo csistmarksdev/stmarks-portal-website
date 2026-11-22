@@ -7,6 +7,8 @@ import type {
 
 import { placeholderImage } from "@/data/media";
 
+import { CHURCH_OFFICE } from "./church-office";
+
 /**
  * Permanent site content - the church's own identity.
  *
@@ -51,12 +53,11 @@ export const CHURCH_PROFILE: ChurchProfile = {
     latitude: 12.9612,
     longitude: 80.1986,
   },
-  phone: ["+91 44 2242 0000"],
-  email: ["office@csistmarksmadipakkam.org"],
-  officeHours: {
-    en: "Monday to Saturday, 9:00 AM – 5:00 PM",
-    ta: "திங்கள் முதல் சனி வரை, காலை 9:00 – மாலை 5:00",
-  },
+  // F-007: placeholder phone and dead-domain email removed; the real ones are
+  // TODO(church-office) in ./church-office.ts.
+  phone: [...CHURCH_OFFICE.officePhones],
+  email: [...CHURCH_OFFICE.officeEmails],
+  officeHours: CHURCH_OFFICE.officeHours,
   socials: [
     { platform: "facebook", url: "https://www.facebook.com/csistmarks/" },
     { platform: "instagram", url: "https://instagram.com" },
@@ -72,12 +73,12 @@ export const CHURCH_HISTORY: ChurchHistory = {
   },
   body: [
     {
-      en: "In early 1993, guided by Bishop Rt. Rev. Dr. Azariah, six pioneer families in Madipakkam gathered for worship in a thatched terrace shed at Mr. Paulkanthan's home. On April 25th, 1993 (St. Mark's Day), the first Holy Eucharist was celebrated, and the congregation was named 'St. Mark's Church'.",
-      ta: "1993-ன் தொடக்கத்தில் ஆயர் மேதகு டாக்டர் அஸரியா அவர்களின் வழிகாட்டுதலின்படி, மடிப்பாக்கத்தில் 6 குடும்பங்கள் திரு. பால்காந்தன் வீட்டின் மொட்டை மாடி ஓலைக் கொட்டகையில் கூடினர். ஏப்ரல் 25, 1993 (தூய மாற்கு தினம்) அன்று முதல் பரிசுத்த நற்கருணை ஆராதனை நடைபெற்று 'தூய மாற்கு ஆலயம்' என பெயரிடப்பட்டது.",
+      en: "In early 1993, with the encouragement of the Rt. Rev. Dr. M. Azariah, Bishop in Madras, six families began meeting for worship in a thatched shed on the terrace of Mr. Paulkanthan's home. On St. Mark's Day, 25 April 1993, the first Holy Communion service was held and the congregation was named St. Mark's Church.",
+      ta: "1993-இன் தொடக்கத்தில், சென்னைப் பேராயர் பேரருள்திரு. முனைவர் எம். அசரியா அவர்களின் வழிகாட்டுதலோடு, மடிப்பாக்கத்தைச் சேர்ந்த ஆறு குடும்பங்கள் திரு. பால்காந்தன் அவர்களின் வீட்டு மொட்டை மாடியில் அமைந்த ஓலைக் கொட்டகையில் ஆராதிக்கக் கூடினர். 1993 ஏப்ரல் 25 அன்று (தூய மாற்கு திருநாள்) முதல் திருவிருந்து ஆராதனை நடைபெற்று, சபைக்கு 'தூய மாற்கு ஆலயம்' எனப் பெயரிடப்பட்டது.",
     },
     {
-      en: "As the congregation expanded, 5.5 grounds of land was acquired on April 9th, 1995, followed by the dedication of a new sanctuary on February 8th, 1997. The church earned independent Unit Status in 2007 under Rev. D. Mohanraj, with Rev. Raja Freeman taking charge in 2012.",
-      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு, 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் ரெவ். டி. மோகன்ராஜ் தலைமையில் 'யூனிட் தகுதி' பெற்ற ஆலயம், 2012 முதல் ரெவ். ராஜா பிரீமேன் தலைமையில் வழிநடத்தப்படுகிறது.",
+      en: "As the congregation grew, 5.5 grounds of land were acquired on 9 April 1995, and a new sanctuary was dedicated on 8 February 1997. The church became a Unit in 2007 under Rev. D. Mohan Raj; in 2012 Rev. J. Raja Freeman took charge and expanded the fellowships.",
+      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டது; 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் அருள்திரு. டி. மோகன் ராஜ் அவர்களின் காலத்தில் இச்சபை யூனிட் தகுதி பெற்றது; 2012-இல் அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
     },
     {
       en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
@@ -99,8 +100,8 @@ export const CHURCH_HISTORY: ChurchHistory = {
       year: "1995–1997",
       title: { en: "Land & Sanctuary Dedicated", ta: "நிலம் & ஆலயம் அர்ப்பணிப்பு" },
       description: {
-        en: "Purchased 5.5 grounds of land; new sanctuary dedicated on Feb 8, 1997 by Bishop Dr. Azariah.",
-        ta: "5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு 1997 பிப்ரவரி 8 அன்று ஆயர் டாக்டர் அஸரியாவால் ஆலயம் பிரதிஷ்டை செய்யப்பட்டது.",
+        en: "Purchased 5.5 grounds of land; new sanctuary dedicated on Feb 8, 1997 by the Rt. Rev. Dr. M. Azariah, Bishop in Madras.",
+        ta: "5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு 1997 பிப்ரவரி 8 அன்று சென்னைப் பேராயர் பேரருள்திரு. முனைவர் எம். அசரியா அவர்களால் ஆலயம் பிரதிஷ்டை செய்யப்பட்டது.",
       },
     },
     {
@@ -108,17 +109,17 @@ export const CHURCH_HISTORY: ChurchHistory = {
       year: "2007",
       title: { en: "Independent Unit Status", ta: "சுயாதீன யூனிட் தகுதி" },
       description: {
-        en: "Awarded independent Unit Status under Rev. D. Mohanraj; adjacent 1.5 grounds acquired.",
-        ta: "ரெவ். டி. மோகன்ராஜ் தலைமையில் யூனிட் தகுதி பெற்றது; 1.5 கிரவுண்ட் நிலம் கூடுதலாக வாங்கப்பட்டது.",
+        en: "Awarded independent Unit Status under Rev. D. Mohan Raj; adjacent 1.5 grounds acquired.",
+        ta: "அருள்திரு. டி. மோகன் ராஜ் அவர்களின் காலத்தில் யூனிட் தகுதி பெற்றது; 1.5 கிரவுண்ட் நிலம் கூடுதலாக வாங்கப்பட்டது.",
       },
     },
     {
       id: "ms-4",
       year: "2012",
-      title: { en: "Rev. Raja Freeman Takes Charge", ta: "ரெவ். ராஜா பிரீமேன் பொறுப்பேற்பு" },
+      title: { en: "Rev. J. Raja Freeman Takes Charge", ta: "அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்பு" },
       description: {
-        en: "Rev. Raja Freeman assumes leadership, expanding fellowship ministries and outreach.",
-        ta: "ரெவ். ராஜா பிரீமேன் குருவானவராகப் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
+        en: "Rev. J. Raja Freeman takes charge, expanding fellowship ministries and outreach.",
+        ta: "அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்று ஐக்கியங்களையும் சமூகப் பணிகளையும் விரிவுபடுத்தினார்.",
       },
     },
     {
@@ -187,7 +188,8 @@ export const VISION_MISSION: VisionMission = {
 export const DIOCESE_INFO: DioceseInfo = {
   name: {
     en: "CSI Diocese of Madras",
-    ta: "சி.எஸ்.ஐ. சென்னை மறைமாவட்டம்",
+    // F-047: CSI usage - பேராயம் (diocese), not the Catholic மறைமாவட்டம்.
+    ta: "சி.எஸ்.ஐ. சென்னைப் பேராயம்",
   },
   /*
    * Figures and dates here are the diocese's own, taken from the public record
@@ -198,33 +200,36 @@ export const DIOCESE_INFO: DioceseInfo = {
    */
   description: [
     {
-      en: "St. Mark's belongs to the Diocese of Madras, one of twenty-two dioceses of the Church of South India - the united church formed in 1947 that brought together Anglican, Methodist, Congregational, Presbyterian and Reformed traditions.",
-      ta: "தூய மாற்கு ஆலயம், தென்னிந்திய திருச்சபையின் இருபத்திரண்டு மறைமாவட்டங்களில் ஒன்றான சென்னை மறைமாவட்டத்தைச் சேர்ந்தது - ஆங்கிலிக்கன், மெதடிஸ்ட், காங்கிரிகேஷனல், பிரெஸ்பிடீரியன், சீர்திருத்த மரபுகளை ஒன்றிணைத்து 1947 இல் உருவான ஐக்கிய திருச்சபை.",
+      en: "St. Mark's belongs to the Diocese of Madras of the Church of South India, the united church formed in 1947 from the Anglican, Methodist, Congregational, Presbyterian and Reformed traditions.",
+      ta: "தூய மாற்கு ஆலயம், தென்னிந்தியத் திருச்சபையின் சென்னைப் பேராயத்தைச் சேர்ந்தது. ஆங்கிலிக்கன், மெதடிஸ்ட், சபைக்கூட்டு (காங்கிரிகேஷனல்), பிரெஸ்பிடேரியன், சீர்திருத்த மரபுகள் ஒன்றிணைந்து 1947-இல் உருவான ஐக்கியத் திருச்சபை இது.",
     },
     {
       en: "The diocese is older than that union. It was constituted on 28 October 1835, when Daniel Corrie was consecrated its first bishop at St George's Church in Madras, the building that became St George's Cathedral, and remains the bishop's seat today.",
-      ta: "மறைமாவட்டம் அந்த ஐக்கியத்தை விடப் பழமையானது. 1835 அக்டோபர் 28 அன்று, சென்னையின் புனித ஜார்ஜ் ஆலயத்தில் டேனியல் கோரி அதன் முதல் ஆயராக அபிஷேகம் செய்யப்பட்டபோது இது நிறுவப்பட்டது. அந்தக் கட்டிடமே புனித ஜார்ஜ் பேராலயமாக மாறி, இன்றும் ஆயரின் இருக்கையாக விளங்குகிறது.",
+      ta: "பேராயம் அந்த ஐக்கியத்தை விடப் பழமையானது. 1835 அக்டோபர் 28 அன்று, சென்னையின் புனித ஜார்ஜ் ஆலயத்தில் டேனியல் கோரி அதன் முதல் பேராயராக அபிஷேகம் செய்யப்பட்டபோது இது நிறுவப்பட்டது. அந்தக் கட்டிடமே புனித ஜார்ஜ் பேராலயமாக மாறி, இன்றும் பேராயரின் இருக்கையாக விளங்குகிறது.",
     },
     {
       en: "It now reaches across Chennai and the districts around it, with some 1,192 congregations gathered into 186 pastorates. St. Mark's shares in that wider communion, and in the diocese's long work in education, healthcare and social service.",
-      ta: "இன்று இது சென்னையையும் அதைச் சுற்றியுள்ள மாவட்டங்களையும் உள்ளடக்கி, 186 போதகப் பணியிடங்களில் ஏறத்தாழ 1,192 சபைகளைக் கொண்டுள்ளது. தூய மாற்கு ஆலயம் அந்தப் பரந்த ஐக்கியத்திலும், கல்வி, சுகாதாரம், சமூக சேவையில் மறைமாவட்டத்தின் நீண்டகாலப் பணியிலும் பங்கு கொள்கிறது.",
+      ta: "இன்று இது சென்னையையும் அதைச் சுற்றியுள்ள மாவட்டங்களையும் உள்ளடக்கி, 186 சேகரங்களில் ஏறத்தாழ 1,192 சபைகளைக் கொண்டுள்ளது. தூய மாற்கு ஆலயம் அந்தப் பரந்த ஐக்கியத்திலும், கல்வி, சுகாதாரம், சமூக சேவையில் பேராயத்தின் நீண்டகாலப் பணியிலும் பங்கு கொள்கிறது.",
     },
   ],
   bishop: {
     en: "The Rt. Rev. Paul Francis Ravichandran",
-    ta: "மேதகு பவுல் பிரான்சிஸ் ரவிச்சந்திரன்",
+    // TODO(church-office): confirm the bishop's initial before adding it (F-047).
+    ta: "பேரருள்திரு. பவுல் பிரான்சிஸ் ரவிச்சந்திரன்",
   },
   websiteUrl: "https://csimadrasdiocese.org",
   /**
-   * The diocese's own crest, not a photograph - hence the square dimensions
+   * The CSI emblem (F-024: not the diocese's crest), not a photograph - hence the square dimensions
    * and the `object-contain` treatment on the About page. An emblem cropped to
    * a landscape plate is an emblem defaced.
    */
   image: {
     url: "/diocese.svg",
     alt: {
-      en: "Crest of the CSI Diocese of Madras",
-      ta: "சி.எஸ்.ஐ. சென்னை மறைமாவட்டத்தின் இலச்சினை",
+      // F-024: this file is the CSI Synod emblem, not the diocese's crest.
+      // TODO(church-office): the official Diocese of Madras crest, with permission.
+      en: "Emblem of the Church of South India",
+      ta: "தென்னிந்திய திருச்சபையின் இலச்சினை",
     },
     width: 200,
     height: 200,

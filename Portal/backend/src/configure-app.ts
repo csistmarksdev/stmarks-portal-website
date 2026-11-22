@@ -4,7 +4,7 @@ import compression from "compression";
 import helmet from "helmet";
 
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
-import { corsOriginChecker } from "./common/utils/cors";
+import { corsOptionsDelegate } from "./common/utils/cors";
 
 /**
  * Everything that turns a bare Nest app into *this* API: route prefix,
@@ -49,13 +49,19 @@ export function configureApp(app: INestApplication): void {
   // rather than dying mid-request when the container is replaced.
   app.enableShutdownHooks();
 
-  app.enableCors({
-    origin: corsOriginChecker({
+  /*
+   * F-068: public reads may be open to any origin; writes, sign-in and the
+   * admin API only ever answer the configured origins. See `cors.ts`.
+   */
+  app.enableCors(
+    corsOptionsDelegate({
+      apiPrefix: config.get<string>("apiPrefix", "v1"),
       allowed: config.get<string[]>("corsOrigins", []),
       allowPrivateNetwork: config.get<boolean>("corsAllowPrivateNetwork", true),
+      publicReadAnyOrigin: config.get<boolean>("corsPublicReadAnyOrigin", false),
+      production: process.env.NODE_ENV === "production",
     }),
-    credentials: true,
-  });
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({

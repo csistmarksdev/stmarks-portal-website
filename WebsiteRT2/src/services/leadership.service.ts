@@ -1,4 +1,5 @@
-import { LEADERS } from "@/content/leadership";
+import { CHURCH_OFFICE } from "@/content/church-office";
+import { LEADERS as ALL_LEADERS } from "@/content/leadership";
 import type { Leader, LeaderRole } from "@/types/content";
 
 import { mockResponse } from "./http";
@@ -15,6 +16,15 @@ import { mockResponse } from "./http";
  */
 
 const byOrder = (a: Leader, b: Leader) => a.order - b.order;
+
+/**
+ * F-027: personal mobiles are published only while the church office's consent
+ * switch is on (`CHURCH_OFFICE.publishPersonalPhones`). One flag, so every
+ * card, list and tel: link follows it.
+ */
+const LEADERS: Leader[] = CHURCH_OFFICE.publishPersonalPhones
+  ? ALL_LEADERS
+  : ALL_LEADERS.map((leader) => ({ ...leader, phone: undefined }));
 
 export function getLeadership(): Promise<Leader[]> {
   return mockResponse([...LEADERS].sort(byOrder));

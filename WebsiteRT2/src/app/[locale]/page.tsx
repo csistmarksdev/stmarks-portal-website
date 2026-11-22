@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
 import { SectionDivider } from "@/components/common/section-divider";
@@ -10,6 +11,7 @@ import {
 } from "@/features/home/hero-panels";
 import { HeroStage } from "@/features/home/hero-stage";
 import { PastorMessageSection } from "@/features/home/pastor-message";
+import { ThisSundayStrip } from "@/features/home/this-sunday-strip";
 import { VerseOfWeek } from "@/features/home/verse-of-week";
 import { AboutSection } from "@/features/sections/about-section";
 import { AnnouncementsSection } from "@/features/sections/announcements-section";
@@ -20,6 +22,10 @@ import { EventsSection } from "@/features/sections/events-section";
 import { FellowshipsSection } from "@/features/sections/fellowships-section";
 import { GallerySection } from "@/features/sections/gallery-section";
 import { LeadershipSection } from "@/features/sections/leadership-section";
+import { ROUTES } from "@/constants/site";
+import type { Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
+import { churchJsonLd, JsonLd } from "@/components/seo/json-ld";
 
 /**
  * The site.
@@ -45,6 +51,16 @@ import { LeadershipSection } from "@/features/sections/leadership-section";
  * the work a route change used to do: it tells the reader a new subject has
  * started without them having to read a word.
  */
+/** Self-referencing canonical and hreflang for the home page (F-002). */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata({ locale: locale as Locale, path: ROUTES.home });
+}
+
 export default async function HomePage({
   params,
 }: {
@@ -55,18 +71,22 @@ export default async function HomePage({
 
   return (
     <main id="main">
+      <JsonLd data={churchJsonLd(locale as Locale)} />
       {/*
         Welcome, service timings and upcoming events play out *inside* the
         cinematic sequence as pinned scenes. The longer scroll length gives
         each scene room to morph into the next.
       */}
-      <CinematicHero scrollLength={8}>
-        <HeroStage
-          welcome={<HeroWelcomePanel />}
-          timings={<HeroTimingsPanel />}
-          events={<HeroEventsPanel />}
-        />
-      </CinematicHero>
+      <div className="relative">
+        <CinematicHero scrollLength={8}>
+          <HeroStage
+            welcome={<HeroWelcomePanel />}
+            timings={<HeroTimingsPanel />}
+            events={<HeroEventsPanel />}
+            sunday={<ThisSundayStrip />}
+          />
+        </CinematicHero>
+      </div>
 
       {/*
         The sequence continues. Where the hero's 300 frames end inside the

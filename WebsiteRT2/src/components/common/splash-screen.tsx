@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
+import { usePathname } from "@/i18n/navigation";
+
 import { isMotionReduced, skipsSplash } from "@/lib/motion-preference";
 
 import {
@@ -29,6 +31,7 @@ import {
 } from "@/components/common/section-ornaments";
 import {
   CINEMATIC,
+  type MontageProfile,
   GENTLE,
   createMontage,
   planMontage,
@@ -86,7 +89,7 @@ import {
  * the montage is over before the arch has finished being drawn, which happens
  * when `public/hero` holds a handful of photographs rather than fifty.
  */
-const MIN_VISIBLE_MS = 1900;
+const MIN_VISIBLE_MS = 1100;
 
 /**
  * Hard ceiling. Whatever we are waiting for, the site is server-rendered and
@@ -97,7 +100,21 @@ const MIN_VISIBLE_MS = 1900;
  * computed from the montage's own length, since the splash now waits for the
  * sequence to finish. See `maxHold` in the effect.
  */
-const MAX_VISIBLE_MS = 3600;
+/*
+ * F-017: hard ceiling. The audit measured this splash holding every page for
+ * 2-4 s; it now plays on the home page only, once per visit, and never holds
+ * longer than this whatever the montage would like - measured from the start
+ * of navigation, not from hydration, so slow JS does not stretch it. The exit
+ * fade (EXIT_MS) runs after it: gone by about 1.8 s.
+ */
+const MAX_VISIBLE_MS = 1100;
+
+/**
+ * However late the JavaScript arrives (a slow phone, the dev server), the
+ * splash gets this long once it starts, so the counter runs to 100 instead of
+ * stopping part-way and fading.
+ */
+const MIN_PLAY_AFTER_HYDRATION_MS = 1000;
 
 /** The least the montage is allowed to overrun by before the ceiling fires. */
 const MAX_OVERRUN_MS = 900;
@@ -139,7 +156,7 @@ const UNMOUNT_MS = EXIT_MS + 80;
  * eighteen photographs a second, and the eye needs longer to settle on a still
  * frame after that than it did after the gentler ending it used to have.
  */
-const FINAL_HOLD_MS = 550;
+const FINAL_HOLD_MS = 250;
 
 /**
  * How far ahead of the cut the montage re-checks that the coming frames have
@@ -163,10 +180,14 @@ export interface SplashScreenProps {
   reel?: string[];
 }
 
-export function SplashScreen({ reel = [] }: SplashScreenProps) {
+function CinematicSplash({ reel = [] }: SplashScreenProps) {
   const t = useTranslations("common");
 
   const [phase, setPhase] = useState<"visible" | "leaving" | "gone">("visible");
+
+  useEffect(() => {
+    if (phase === "gone") splashPlayed = true;
+  }, [phase]);
   const crestRef = useRef<HTMLImageElement>(null);
   const groundRef = useRef<HTMLSpanElement>(null);
   const reelRef = useRef<HTMLSpanElement>(null);
@@ -213,7 +234,7 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
      * reduced-motion setting still gets the montage, for the reasons given
      * further down.
      */
-    if (skipsSplash()) {
+    if (skipsSplash() || !consumeFirstVisit()) {
       const timer = window.setTimeout(() => setPhase("gone"), 0);
       return () => window.clearTimeout(timer);
     }
@@ -337,7 +358,7 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
      * at `show` below and is entirely about layers.
      */
     const order = shuffleOrder(count);
-    const beats = planMontage(count, gentle ? GENTLE : CINEMATIC);
+    const beats = planMontage(count, gentle ? SHORT_GENTLE : SHORT_CINEMATIC);
 
     const montageDuration = beats.reduce((total, beat) => total + beat.hold, 0);
 
@@ -350,9 +371,9 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
      * still being struck until 1840ms. Leaving on the montage's schedule there
      * would cut the drawing off half-made.
      */
-    const minHold = Math.max(
-      MIN_VISIBLE_MS,
-      Math.round(montageDuration) + FINAL_HOLD_MS,
+    const minHold = Math.min(
+      MAX_VISIBLE_MS,
+      Math.max(MIN_VISIBLE_MS, Math.round(montageDuration) + FINAL_HOLD_MS),
     );
 
     /*
@@ -368,7 +389,8 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
      * It is still a ceiling. Beyond it something is wrong enough that the
      * reader is better served by the site than by the introduction to it.
      */
-    const maxHold = Math.max(
+    // F-017: capped - see MAX_VISIBLE_MS.
+    const maxHold = Math.min(
       MAX_VISIBLE_MS,
       minHold + Math.max(MAX_OVERRUN_MS, Math.round(montageDuration)),
     );
@@ -932,7 +954,19 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
      * because `dismiss` only opens a gate - and the whole point of this timer is
      * the case where the other gate is never going to open.
      */
-    timers.push(window.setTimeout(leave, maxHold));
+    // From navigation start (`start` is already ms since then), not from now.
+    // ...but never sooner than MIN_PLAY_AFTER_HYDRATION_MS from now.
+    timers.push(
+      window.setTimeout(
+        leave,
+        Math.max(
+          MIN_PLAY_AFTER_HYDRATION_MS,
+          // The reel is never cut off: it plays through, then the finale.
+          Math.round(montageDuration) + FINAL_HOLD_MS + 250,
+          maxHold - start,
+        ),
+      ),
+    );
 
     return () => {
       timers.forEach(window.clearTimeout);
@@ -1411,6 +1445,121 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
           <Stone className="h-[8%] w-auto" />
         </span>
       </div>
+    </>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* F-017: home page only, once per visit, a short reel                        */
+/* -------------------------------------------------------------------------- */
+
+const SEEN_KEY = "home-splash-seen";
+
+/**
+ * Runs before the splash paints. First home-page load in this tab: mark it
+ * (`data-splash-first`) and remember it. Any later load: `data-skip-splash`,
+ * which `globals.css` already uses to hide the splash from the first paint.
+ */
+const ONCE_SCRIPT = `try{var r=document.documentElement,k=${JSON.stringify(SEEN_KEY)};if(sessionStorage.getItem(k)){r.dataset.skipSplash=""}else{sessionStorage.setItem(k,"1");r.dataset.splashFirst=""}}catch(e){}`;
+
+/**
+ * True exactly once: on the document load the script above marked. Consumed,
+ * so a later remount (switching language re-renders the layout) does not play
+ * the splash again.
+ */
+let firstVisit: boolean | null = null;
+let splashPlayed = false;
+
+/*
+ * Decided once per document and cached, not re-read: React runs effects twice
+ * in development, and a mark consumed by the first run made the second run
+ * skip the splash. `splashPlayed` (set when the splash finishes) is what stops
+ * a later remount - switching language - from playing it again.
+ */
+function consumeFirstVisit(): boolean {
+  if (firstVisit === null) {
+    const root = document.documentElement;
+    firstVisit = "splashFirst" in root.dataset;
+    delete root.dataset.splashFirst;
+  }
+  return firstVisit && !splashPlayed;
+}
+
+/**
+ * The same two montage characters, compressed to fit the capped window: six
+ * photographs in about 0.6 s, so the counter reaches 100 before the exit
+ * rather than being cut off part-way.
+ */
+const SHORT_CINEMATIC: MontageProfile = {
+  ...CINEMATIC,
+  /*
+   * A quick, even flipbook rather than the accelerating ramp: every photograph
+   * held the same ~95 ms with a hard cut, so each one appears whole. The ramp
+   * squeezed into this window gave the middle photographs a few dozen
+   * milliseconds of cross-fade each - they never appeared at full strength.
+   */
+  floor: 85,
+  ceiling: 110,
+  curve: 1,
+  base: 0,
+  perImage: 95,
+  min: 900,
+  max: 1300,
+  endFactor: 1,
+  fadeRatio: 0.1,
+  fadeMin: 0,
+  fadeMax: 20,
+  jitter: 0,
+};
+
+/** Reduced motion: the same photographs, slower and dissolving. */
+const SHORT_GENTLE: MontageProfile = {
+  ...GENTLE,
+  floor: 150,
+  ceiling: 220,
+  curve: 1,
+  base: 0,
+  perImage: 170,
+  min: 1600,
+  max: 2200,
+  endFactor: 1,
+  jitter: 0,
+};
+
+/** How many photographs the reel shows - was all 54 (~2.7 MB); ~600 KB now. */
+const REEL_LENGTH = 12;
+
+/**
+ * The first photograph of every chapter, then the second, up to `REEL_LENGTH`,
+ * so consecutive frames come from different chapters.
+ */
+function shortReel(reel: string[]): string[] {
+  const firsts = reel.filter((src) => /\/01\.[a-z]+$/i.test(src));
+  const seconds = reel.filter((src) => /\/02\.[a-z]+$/i.test(src));
+  const picked = [...firsts, ...seconds];
+  return (picked.length ? picked : reel).slice(0, REEL_LENGTH);
+}
+
+export function SplashScreen({ reel = [] }: SplashScreenProps) {
+  const pathname = usePathname();
+
+  /*
+   * Decided on the first render and kept. The layout stays mounted across
+   * client-side navigation, so reading the *current* path would start the
+   * splash when a reader clicks through to the home page from an inner one.
+   * Only a document that *opens* on the home page gets it.
+   */
+  const [opensOnHome] = useState(pathname === "/");
+  if (!opensOnHome) return null;
+
+  return (
+    <>
+      <div
+        hidden
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: `<script>${ONCE_SCRIPT}</script>` }}
+      />
+      <CinematicSplash reel={shortReel(reel)} />
     </>
   );
 }

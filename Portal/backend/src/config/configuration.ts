@@ -6,6 +6,8 @@ export interface AppConfig {
   publicUrl: string;
   corsOrigins: string[];
   corsAllowPrivateNetwork: boolean;
+  /** F-068: answer public GET/HEAD with `Access-Control-Allow-Origin: *`. */
+  corsPublicReadAnyOrigin: boolean;
   /** Express `trust proxy` setting. `false` disables forwarded headers. */
   trustProxy: boolean | string | number;
   mongodbUri: string;
@@ -68,6 +70,13 @@ export default (): AppConfig => ({
     process.env.CORS_ALLOW_PRIVATE_NETWORK !== undefined
       ? process.env.CORS_ALLOW_PRIVATE_NETWORK !== "false"
       : process.env.NODE_ENV !== "production",
+  /*
+   * F-068. Public content reads (GET/HEAD outside /auth and /admin) answered
+   * with a literal `*`, uncredentialed — harmless for published content and
+   * cache-friendly. Writes, sign-in and admin routes are never covered by it.
+   * Also implied by a `*` in CORS_ORIGINS.
+   */
+  corsPublicReadAnyOrigin: process.env.CORS_PUBLIC_READ_ANY_ORIGIN === "true",
   /*
    * Whether to believe `X-Forwarded-For`.
    *

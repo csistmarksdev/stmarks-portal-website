@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { LocalizedField } from "@/components/admin/localized-field";
 import { MediaLibraryDialog } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
+import { ApprovalLockNotice, StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,8 @@ export function DownloadForm({ id }: { id?: string }) {
     "/admin/downloads",
     id,
   );
+  // Approval rule: an editor cannot change a published or archived record.
+  const { locked } = useApprovalLock(data?.status, isEdit);
   const { create, update } = useResourceMutations("/admin/downloads", "Download");
 
   const [title, setTitle] = useState<LocalizedText>({ en: "", ta: "" });
@@ -103,6 +106,11 @@ export function DownloadForm({ id }: { id?: string }) {
           </Button>
         }
       />
+      {locked && data?.status ? (
+        <div className="mb-4">
+          <ApprovalLockNotice status={data.status} />
+        </div>
+      ) : null}
       <Card>
         <CardContent className="space-y-5 pt-5">
           <LocalizedField label="Title" value={title} onChange={setTitle} required />
@@ -196,14 +204,7 @@ export function DownloadForm({ id }: { id?: string }) {
             </div>
             <div className="space-y-1.5">
               <Label>Status</Label>
-              <Select
-                value={status}
-                onChange={(event) => setStatus(event.target.value as PublishStatus)}
-              >
-                <option value="draft">draft</option>
-                <option value="published">published</option>
-                <option value="archived">archived</option>
-              </Select>
+              <StatusSelect value={status} onChange={setStatus} isNew={!isEdit} />
             </div>
           </div>
 
@@ -214,7 +215,7 @@ export function DownloadForm({ id }: { id?: string }) {
             <Button
               className="w-full sm:w-auto"
               onClick={() => void submit()}
-              disabled={busy}
+              disabled={busy || locked}
             >
               {busy ? "Saving…" : isEdit ? "Save changes" : "Create download"}
             </Button>

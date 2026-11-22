@@ -6,10 +6,12 @@ import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/input";
+import { CHURCH_OFFICE, privacyNoticeReady } from "@/content/church-office";
+import { Link } from "@/i18n/navigation";
 import { submitContactForm } from "@/services";
-import type { ContactFormValues } from "@/types/content";
+import type { ContactFormSubmission } from "@/types/content";
 
-type FieldErrors = Partial<Record<keyof ContactFormValues, string>>;
+type FieldErrors = Partial<Record<keyof ContactFormSubmission, string>>;
 
 type Status =
   | { state: "idle" }
@@ -21,19 +23,20 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function ContactForm() {
   const t = useTranslations("contact.form");
 
-  const [values, setValues] = useState<ContactFormValues>({
+  const [values, setValues] = useState<ContactFormSubmission>({
     name: "",
     email: "",
     phone: "",
     subject: "",
     message: "",
+    website: "",
   });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>({ state: "idle" });
 
-  function update<K extends keyof ContactFormValues>(
+  function update<K extends keyof ContactFormSubmission>(
     field: K,
-    value: ContactFormValues[K],
+    value: ContactFormSubmission[K],
   ) {
     setValues((current) => ({ ...current, [field]: value }));
     // Clear the error as soon as the user starts correcting the field.
@@ -70,14 +73,21 @@ export function ContactForm() {
     });
 
     if (result.success) {
-      setValues({ name: "", email: "", phone: "", subject: "", message: "" });
+      setValues({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+        website: "",
+      });
     }
   }
 
   const isSubmitting = status.state === "submitting";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field
           id="contact-name"
@@ -85,6 +95,7 @@ export function ContactForm() {
           label={t("name")}
           required
           autoComplete="name"
+          maxLength={120}
           value={values.name}
           onChange={(e) => update("name", e.target.value)}
           error={errors.name}
@@ -97,6 +108,7 @@ export function ContactForm() {
           label={t("email")}
           required
           autoComplete="email"
+          maxLength={254}
           value={values.email}
           onChange={(e) => update("email", e.target.value)}
           error={errors.email}
@@ -110,6 +122,7 @@ export function ContactForm() {
           type="tel"
           label={t("phone")}
           autoComplete="tel"
+          maxLength={32}
           value={values.phone}
           onChange={(e) => update("phone", e.target.value)}
         />
@@ -119,6 +132,7 @@ export function ContactForm() {
           name="subject"
           label={t("subject")}
           required
+          maxLength={200}
           value={values.subject}
           onChange={(e) => update("subject", e.target.value)}
           error={errors.subject}
@@ -132,10 +146,25 @@ export function ContactForm() {
         required
         multiline
         rows={6}
+        maxLength={5000}
         value={values.message}
         onChange={(e) => update("message", e.target.value)}
         error={errors.message}
       />
+
+      {/* Honeypot (F-068): off-screen and out of the tab order, so only bots fill it. */}
+      <div aria-hidden className="absolute -left-[10000px] h-px w-px overflow-hidden">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.website}
+          onChange={(e) => update("website", e.target.value)}
+        />
+      </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" size="lg" disabled={isSubmitting}>
@@ -145,6 +174,17 @@ export function ContactForm() {
 
         <p className="text-sm text-[var(--muted-foreground)]">{t("subtitle")}</p>
       </div>
+
+      {/* F-036: notice at the point of collection, once the office has
+          supplied the retention period and Grievance Officer. */}
+      {privacyNoticeReady() ? (
+        <p className="text-sm text-[var(--muted-foreground)]">
+          {t("consent", { months: CHURCH_OFFICE.privacy.retentionMonths ?? 0 })}{" "}
+          <Link href="/privacy" className="link-underline text-[var(--primary)]">
+            {t("consentLink")}
+          </Link>
+        </p>
+      ) : null}
 
       {status.state === "done" ? (
         <div

@@ -288,6 +288,64 @@ async function main() {
     assert.equal(direct.status, 200);
   });
 
+  await check("F-068: production CORS keeps writes/auth/admin to listed origins", async () => {
+    const { corsOptionsDelegate } = require("../dist/common/utils/cors");
+    const delegate = corsOptionsDelegate({
+      apiPrefix: "v1",
+      allowed: ["*", "https://cms.example.org"],
+      allowPrivateNetwork: false,
+      publicReadAnyOrigin: false,
+      production: true,
+    });
+    const optionsFor = (method, url, headers = {}) =>
+      new Promise((resolve) => delegate({ method, url, headers }, (_e, o) => resolve(o)));
+    const admits = (options, origin) =>
+      typeof options.origin === "string"
+        ? options.origin === "*"
+        : new Promise((resolve) => options.origin(origin, (_e, ok) => resolve(ok)));
+
+    // Public reads: an open, uncredentialed wildcard.
+    const read = await optionsFor("GET", "/v1/events?page=1");
+    assert.equal(read.origin, "*");
+    assert.equal(read.credentials, false);
+
+    // Writes, sign-in and admin reads: only the listed origin, even with "*".
+    for (const [method, url, headers] of [
+      ["POST", "/v1/auth/login"],
+      ["GET", "/v1/admin/events"],
+      ["PATCH", "/v1/admin/events/1"],
+      ["POST", "/v1/contact"],
+      ["OPTIONS", "/v1/admin/blog", { "access-control-request-method": "DELETE" }],
+      ["OPTIONS", "/v1/events", { "access-control-request-method": "POST" }],
+    ]) {
+      const options = await optionsFor(method, url, headers);
+      assert.equal(options.credentials, true, `${method} ${url} must be credentialed`);
+      assert.equal(await admits(options, "https://evil.example.com"), false,
+        `${method} ${url} admitted an unlisted origin`);
+      assert.equal(await admits(options, "https://cms.example.org"), true,
+        `${method} ${url} refused the listed origin`);
+    }
+
+    // A preflight for a public GET gets the open policy too.
+    const preflight = await optionsFor("OPTIONS", "/v1/blog", {
+      "access-control-request-method": "GET",
+    });
+    assert.equal(preflight.origin, "*");
+  });
+
+  await check("F-068: running app never answers a write with a wildcard", async () => {
+    const res = await fetch(`${BASE}/auth/login`, {
+      method: "OPTIONS",
+      headers: {
+        Origin: "http://evil.example.com",
+        "Access-Control-Request-Method": "POST",
+      },
+    });
+    const allow = res.headers.get("access-control-allow-origin");
+    assert.notEqual(allow, "*");
+    assert.notEqual(allow, "http://evil.example.com");
+  });
+
   console.log("Auth + admin flow:");
   let tokens;
   await check("POST /auth/login", async () => {
@@ -616,6 +674,140 @@ async function main() {
     assert.equal(res.status, 403, `viewer create → ${res.status}`);
   });
 
+  /*
+   * Approval rule (church request, 22 Nov 2026): an editor's content goes live
+   * only when an admin or super admin approves it; admins publish directly.
+   */
+  await check("Approval: editor submits, cannot publish; admin approves", async () => {
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Fellowship Editor",
+        email: "editor@example.org",
+        password: "Password@123",
+        role: "editor",
+      }),
+    });
+    const editorLogin = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "editor@example.org", password: "Password@123" }),
+      }),
+    );
+    const asEditor = {
+      Authorization: `Bearer ${editorLogin.accessToken}`,
+      "Content-Type": "application/json",
+    };
+    const notice = (title, status) =>
+      JSON.stringify({
+        title: { en: title, ta: "அறிவிப்பு" },
+        body: { en: "Choir practice moves to the parish hall.", ta: "…" },
+        publishedAt: "2026-11-20",
+        ...(status ? { status } : {}),
+      });
+
+    // 1. An editor cannot publish on create...
+    const direct = await fetch(`${BASE}/admin/announcements`, {
+      method: "POST",
+      headers: asEditor,
+      body: notice("Editor tries to publish", "published"),
+    });
+    assert.equal(direct.status, 403, `editor create published → ${direct.status}`);
+
+    // 2. ...but can submit for approval, which is not public.
+    const submitted = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: asEditor,
+        body: notice("Choir practice venue", "pending"),
+      }),
+    );
+    assert.equal(submitted.status, "pending", "editor submission should be pending");
+    const publicBefore = await json(await fetch(`${BASE}/announcements`));
+    assert(
+      !publicBefore.some((a) => a.id === submitted.id),
+      "a pending announcement must not be public",
+    );
+
+    // 3. The editor cannot approve it (status endpoint) or publish via edit.
+    const selfApprove = await fetch(`${BASE}/admin/announcements/${submitted.id}/status`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(selfApprove.status, 403, `editor approve → ${selfApprove.status}`);
+    const viaEdit = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(viaEdit.status, 403, `editor publish via edit → ${viaEdit.status}`);
+
+    // 4. An admin approves it; now it is public.
+    const approved = await fetch(`${BASE}/admin/announcements/${submitted.id}/status`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(approved.status, 200, `admin approve → ${approved.status}`);
+    const publicAfter = await json(await fetch(`${BASE}/announcements`));
+    assert(
+      publicAfter.some((a) => a.id === submitted.id),
+      "an approved announcement must be public",
+    );
+
+    // 5. Once live, the editor cannot change it.
+    const editLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ title: { en: "Changed after approval", ta: "…" } }),
+    });
+    assert.equal(editLive.status, 403, `editor edit published → ${editLive.status}`);
+
+    // 6. An editor's create with no status starts as a draft, even for a type
+    //    whose default is "published" (fellowships use the same rule).
+    const noStatus = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: asEditor,
+        body: notice("Draft by default"),
+      }),
+    );
+    assert.equal(noStatus.status, "draft", "editor default status should be draft");
+
+    // 7. Church settings have no draft state, so editors cannot save them.
+    const verse = await fetch(`${BASE}/admin/church/weekly-verse`, {
+      method: "PUT",
+      headers: asEditor,
+      body: JSON.stringify({
+        reference: { en: "Psalm 23:1", ta: "சங்கீதம் 23:1" },
+        text: { en: "The Lord is my shepherd.", ta: "கர்த்தர் என் மேய்ப்பராயிருக்கிறார்." },
+        weekOf: "2026-11-22",
+      }),
+    });
+    assert.equal(verse.status, 403, `editor save weekly verse → ${verse.status}`);
+
+    // 7b. Pinning unpins the live pinned notice, so editors cannot pin.
+    const pinAttempt = await fetch(`${BASE}/admin/announcements`, {
+      method: "POST",
+      headers: asEditor,
+      body: JSON.stringify({ ...JSON.parse(notice("Pinned draft")), pinned: true }),
+    });
+    assert.equal(pinAttempt.status, 403, `editor create pinned → ${pinAttempt.status}`);
+
+    // 8. An admin can still create and publish in one step.
+    const adminDirect = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: auth(),
+        body: notice("Admin publishes directly", "published"),
+      }),
+    );
+    assert.equal(adminDirect.status, "published", "admin should publish directly");
+  });
+
   await check("PATCH null removes an optional field instead of ignoring it", async () => {
     const created = await json(
       await fetch(`${BASE}/admin/blog`, {
@@ -709,6 +901,282 @@ async function main() {
     });
     assert.equal(res.status, 200, `metacharacter search → ${res.status}`);
     assert.equal((await json(res)).total, 0, "a literal 'a(b' matches nothing");
+  });
+
+  console.log("\nPublish schedule (F-049):");
+
+  const HOUR = 3600 * 1000;
+  const future = () => new Date(Date.now() + 48 * HOUR).toISOString();
+  const past = () => new Date(Date.now() - 48 * HOUR).toISOString();
+  const post = async (path, body) => {
+    const res = await fetch(`${BASE}${path}`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify(body),
+    });
+    return { status: res.status, body: await json(res) };
+  };
+  const patch = async (path, body) => {
+    const res = await fetch(`${BASE}${path}`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify(body),
+    });
+    return { status: res.status, body: await json(res) };
+  };
+  const publicSlugsOf = async (path) =>
+    (await json(await fetch(`${BASE}${path}`))).map((item) => item.slug);
+
+  await check("announcement: future publishAt hidden, expired hidden, admin sees both", async () => {
+    const scheduled = await post("/admin/announcements", {
+      title: { en: "Advent Retreat Registration", ta: "திருவருகை தியானம் பதிவு" },
+      body: { en: "Registration opens soon.", ta: "பதிவு விரைவில்." },
+      publishedAt: "2026-11-20",
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(scheduled.status, 201, JSON.stringify(scheduled.body));
+    assert(scheduled.body.publishAt, "admin response carries publishAt");
+
+    const expired = await post("/admin/announcements", {
+      title: { en: "July Parish Picnic", ta: "ஜூலை பங்கு சுற்றுலா" },
+      body: { en: "Buses leave at 7.", ta: "பேருந்து 7 மணிக்கு." },
+      publishedAt: "2026-07-01",
+      status: "published",
+      expiresAt: past(),
+    });
+    assert.equal(expired.status, 201, JSON.stringify(expired.body));
+
+    const live = await post("/admin/announcements", {
+      title: { en: "Carol Practice Times", ta: "கீர்த்தனை பயிற்சி நேரம்" },
+      body: { en: "Every Friday.", ta: "ஒவ்வொரு வெள்ளி." },
+      publishedAt: "2026-11-21",
+      status: "published",
+      publishAt: past(),
+      expiresAt: future(),
+    });
+    assert.equal(live.status, 201, JSON.stringify(live.body));
+
+    const list = await json(await fetch(`${BASE}/announcements`));
+    const slugs = list.map((a) => a.slug);
+    assert(!slugs.includes(scheduled.body.slug), "scheduled announcement leaked early");
+    assert(!slugs.includes(expired.body.slug), "expired announcement still public");
+    assert(slugs.includes(live.body.slug), "in-window announcement missing");
+    for (const item of list) {
+      for (const key of ["status", "publishAt", "expiresAt"]) {
+        assert.equal(item[key], undefined, `public announcement exposes ${key}`);
+      }
+    }
+
+    const admin = await json(
+      await fetch(`${BASE}/admin/announcements?pageSize=100`, { headers: auth() }),
+    );
+    const adminSlugs = admin.items.map((a) => a.slug);
+    assert(adminSlugs.includes(scheduled.body.slug) && adminSlugs.includes(expired.body.slug),
+      "admin must still see scheduled and expired records");
+
+    // Clearing the expiry (null) brings it back.
+    const cleared = await patch(`/admin/announcements/${expired.body.id}`, { expiresAt: null });
+    assert.equal(cleared.status, 200, JSON.stringify(cleared.body));
+    assert.equal(cleared.body.expiresAt, undefined, "null must remove expiresAt");
+    assert((await publicSlugsOf("/announcements")).includes(expired.body.slug),
+      "clearing expiresAt should make it public again");
+  });
+
+  await check("a pinned announcement that is scheduled or expired is not /pinned", async () => {
+    const pinned = await post("/admin/announcements", {
+      title: { en: "Harvest Thanksgiving Notice", ta: "அறுவடை நன்றி அறிவிப்பு" },
+      body: { en: "Bring your offerings.", ta: "காணிக்கை கொண்டு வரவும்." },
+      publishedAt: "2026-11-01",
+      status: "published",
+      pinned: true,
+      expiresAt: past(),
+    });
+    assert.equal(pinned.status, 201, JSON.stringify(pinned.body));
+    const body = await json(await fetch(`${BASE}/announcements/pinned`));
+    assert(body === null || body.slug !== pinned.body.slug, "expired pinned leaked");
+  });
+
+  await check("expiresAt before publishAt is refused", async () => {
+    const res = await post("/admin/announcements", {
+      title: { en: "Backwards Window", ta: "தலைகீழ்" },
+      body: { en: "x", ta: "x" },
+      publishedAt: "2026-11-01",
+      publishAt: future(),
+      expiresAt: past(),
+    });
+    assert.equal(res.status, 400);
+  });
+
+  await check("blog, events and gallery honour publishAt on every public read", async () => {
+    const image = {
+      url: `${BASE.replace("/v1", "")}/uploads/images/x.jpg`,
+      alt: { en: "Poster", ta: "போஸ்டர்" },
+      width: 1600,
+      height: 900,
+    };
+    const blog = await post("/admin/blog", {
+      title: { en: "Advent Week One Reflection", ta: "திருவருகை முதல் வாரம்" },
+      excerpt: { en: "Hope.", ta: "நம்பிக்கை." },
+      body: [{ en: "Paragraph.", ta: "பத்தி." }],
+      publishedAt: "2026-11-29",
+      author: { en: "Church Office", ta: "அலுவலகம்" },
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(blog.status, 201, JSON.stringify(blog.body));
+    const event = await post("/admin/events", {
+      title: { en: "Christmas Eve Service", ta: "கிறிஸ்துமஸ் முன்தின ஆராதனை" },
+      summary: { en: "Candlelight.", ta: "மெழுகுவர்த்தி." },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      startDate: "2026-12-24T13:30:00.000Z",
+      location: { en: "Church", ta: "ஆலயம்" },
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(event.status, 201, JSON.stringify(event.body));
+    const album = await post("/admin/gallery", {
+      title: { en: "Advent Wreath Lighting", ta: "திருவருகை மாலை" },
+      date: "2026-11-29",
+      cover: image,
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(album.status, 201, JSON.stringify(album.body));
+
+    const blogSlugs = await json(await fetch(`${BASE}/blog/slugs`));
+    assert(!blogSlugs.includes(blog.body.slug), "/blog/slugs leaked a scheduled post");
+    assert(!(await publicSlugsOf("/blog")).includes(blog.body.slug), "/blog leaked");
+    assert.equal((await fetch(`${BASE}/blog/${blog.body.slug}`)).status, 404);
+
+    const eventSlugs = await json(await fetch(`${BASE}/events/slugs`));
+    assert(!eventSlugs.includes(event.body.slug), "/events/slugs leaked");
+    assert(!(await publicSlugsOf("/events?status=upcoming")).includes(event.body.slug),
+      "upcoming events leaked a scheduled event");
+    assert.equal((await fetch(`${BASE}/events/${event.body.slug}`)).status, 404);
+
+    const gallerySlugs = await json(await fetch(`${BASE}/gallery/slugs`));
+    assert(!gallerySlugs.includes(album.body.slug), "/gallery/slugs leaked");
+    assert.equal((await fetch(`${BASE}/gallery/${album.body.slug}`)).status, 404);
+
+    // Moving publishAt into the past publishes it, with no other change.
+    const now = await patch(`/admin/blog/${blog.body.id}`, { publishAt: past() });
+    assert.equal(now.status, 200, JSON.stringify(now.body));
+    const shown = await json(await fetch(`${BASE}/blog/${blog.body.slug}`));
+    assert.equal(shown.slug, blog.body.slug);
+    assert.equal(shown.publishAt, undefined, "public blog post exposes publishAt");
+  });
+
+  console.log("\nPlaceholder content (F-003):");
+
+  await check("placeholder titles cannot be published, drafts may keep them", async () => {
+    const base = {
+      body: { en: "Body", ta: "உடல்" },
+      publishedAt: "2026-11-20",
+    };
+    for (const title of [
+      { en: "Sample", ta: "மாதிரி" },
+      { en: "Choir notice", ta: "மாதிரி அறிவிப்பு" },
+      { en: "DEMO - replace with the carol video", ta: "கீர்த்தனை" },
+      { en: "Lorem ipsum", ta: "x" },
+      { en: "test", ta: "x" },
+    ]) {
+      const res = await post("/admin/announcements", { ...base, title, status: "published" });
+      assert.equal(res.status, 400, `${title.en} was published: ${JSON.stringify(res.body)}`);
+      assert(/placeholder/i.test(JSON.stringify(res.body)), "error must say why");
+    }
+
+    // Whole words only: these are real notices.
+    const fine = await post("/admin/announcements", {
+      ...base,
+      title: { en: "Testimony Sunday and Youth Contest", ta: "சாட்சி ஞாயிறு" },
+      status: "published",
+    });
+    assert.equal(fine.status, 201, JSON.stringify(fine.body));
+
+    // A draft may hold placeholder text…
+    const draft = await post("/admin/announcements", {
+      ...base,
+      title: { en: "Sample", ta: "மாதிரி" },
+    });
+    assert.equal(draft.status, 201, JSON.stringify(draft.body));
+    // …but cannot be published through either route until it is fixed.
+    assert.equal(
+      (await patch(`/admin/announcements/${draft.body.id}/status`, { status: "published" })).status,
+      400,
+    );
+    assert.equal(
+      (await patch(`/admin/announcements/${draft.body.id}`, { status: "published" })).status,
+      400,
+    );
+    const renamed = await patch(`/admin/announcements/${draft.body.id}`, {
+      title: { en: "Women's Fellowship Retreat", ta: "மகளிர் ஐக்கிய தியானம்" },
+      slug: "womens-fellowship-retreat",
+      status: "published",
+    });
+    assert.equal(renamed.status, 200, JSON.stringify(renamed.body));
+  });
+
+  await check("a published album refuses a DEMO caption", async () => {
+    const image = {
+      url: `${BASE.replace("/v1", "")}/uploads/images/x.jpg`,
+      alt: { en: "Poster", ta: "போஸ்டர்" },
+      width: 1600,
+      height: 900,
+    };
+    const album = await post("/admin/gallery", {
+      title: { en: "Carol Service", ta: "கீர்த்தனை ஆராதனை" },
+      date: "2026-12-20",
+      cover: image,
+      status: "published",
+    });
+    assert.equal(album.status, 201, JSON.stringify(album.body));
+    const res = await post(`/admin/gallery/${album.body.id}/photos`, {
+      photos: [
+        {
+          image,
+          caption: { en: "DEMO — replace with the carol service recording" },
+          video: { url: "https://youtu.be/dQw4w9WgXcQ" },
+        },
+      ],
+    });
+    assert.equal(res.status, 400, JSON.stringify(res.body));
+  });
+
+  console.log("\nEvent slug year (F-005):");
+
+  await check("an event whose slug year differs from its start date is refused", async () => {
+    const base = {
+      summary: { en: "Summary", ta: "சுருக்கம்" },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      location: { en: "Hall", ta: "மண்டபம்" },
+    };
+    const wrong = await post("/admin/events", {
+      ...base,
+      title: { en: "Womens Fellowship Day 2026", ta: "மகளிர் ஐக்கிய தினம் 2026" },
+      startDate: "2027-10-11T04:30:00.000Z",
+    });
+    assert.equal(wrong.status, 400, JSON.stringify(wrong.body));
+    assert(/2026/.test(wrong.body.message) && /2027/.test(wrong.body.message), "message names both years");
+
+    // 31 Dec 2026 19:00 UTC is already 1 Jan 2027 in India.
+    const edge = await post("/admin/events", {
+      ...base,
+      title: { en: "Watch Night 2027", ta: "இரவு ஜெபம் 2027" },
+      startDate: "2026-12-31T19:00:00.000Z",
+    });
+    assert.equal(edge.status, 201, JSON.stringify(edge.body));
+
+    const right = await post("/admin/events", {
+      ...base,
+      title: { en: "Womens Fellowship Day 2026", ta: "மகளிர் ஐக்கிய தினம் 2026" },
+      startDate: "2026-10-11T04:30:00.000Z",
+    });
+    assert.equal(right.status, 201, JSON.stringify(right.body));
+    const moved = await patch(`/admin/events/${right.body.id}`, {
+      startDate: "2027-10-11T04:30:00.000Z",
+    });
+    assert.equal(moved.status, 400, "moving the date out of the slug's year is refused");
   });
 
   /*

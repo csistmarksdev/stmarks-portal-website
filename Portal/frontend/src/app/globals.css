@@ -364,9 +364,18 @@
   to { transform: translateY(0); }
 }
 
+/*
+ * No centring in here. The dialog is centred by Tailwind's
+ * `-translate-x-1/2 -translate-y-1/2`, which in v4 set the separate CSS
+ * `translate` property - and `translate` and `transform` add up. A keyframe
+ * that also moved the box by translate(-50%, -50%) put it a further half its
+ * size up and to the left for the length of the animation, then snapped it to
+ * the centre: the dialog appeared in the wrong place every time it opened.
+ * The animation now only fades, lifts and scales; the classes do the centring.
+ */
 @keyframes dialog-in {
-  from { opacity: 0; transform: translate(-50%, -46%) scale(0.97); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  from { opacity: 0; transform: translateY(1rem) scale(0.97); }
+  to { opacity: 1; transform: none; }
 }
 
 .animate-overlay[data-state="open"] {

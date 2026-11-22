@@ -10,16 +10,45 @@ import type { LocalizedText } from "./common";
 /* Publish workflow                                                           */
 /* -------------------------------------------------------------------------- */
 
-export type PublishStatus = "draft" | "published" | "archived";
+/**
+ * `pending` = submitted for approval. Editors can only save drafts and submit;
+ * an admin or super admin approves (publishes). See
+ * `backend/src/common/utils/approval.ts`. Only `published` is ever public.
+ */
+export type PublishStatus = "draft" | "pending" | "published" | "archived";
 
 export const PUBLISH_STATUSES: readonly PublishStatus[] = [
   "draft",
+  "pending",
   "published",
   "archived",
 ] as const;
 
 /** Admin list/detail responses add workflow fields on top of the public shape. */
 export type WithStatus<T> = T & { status: PublishStatus };
+
+/**
+ * Scheduling, on top of `status` (F-049).
+ *
+ * A published record is public only while `publishAt <= now` (or unset) and,
+ * where expiry applies, `now < expiresAt` (or unset). Both are ISO datetimes.
+ * Records written before these fields existed have neither, which means
+ * "no schedule, no expiry" — exactly how they behaved before.
+ *
+ * Admin-only: public responses never carry these keys.
+ */
+export interface PublishSchedule {
+  /** Not public before this instant. */
+  publishAt?: string;
+  /** Not public from this instant on (announcements only). */
+  expiresAt?: string;
+}
+
+/** Admin shape for content that has the publish schedule. */
+export type WithSchedule<T> = WithStatus<T> & PublishSchedule;
+
+/** Fields stripped from every public response of a scheduled entity. */
+export const ADMIN_ONLY_FIELDS: readonly string[] = ["status", "publishAt", "expiresAt"];
 
 /* -------------------------------------------------------------------------- */
 /* RBAC                                                                       */
@@ -95,10 +124,11 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
     "settings.write",
     "contact.read",
   ],
+  // No "content.publish": an editor's work goes live only when an admin or
+  // super admin approves it (church request, 22 Nov 2026).
   editor: [
     "content.read",
     "content.write",
-    "content.publish",
     "media.read",
     "media.write",
     "contact.read",

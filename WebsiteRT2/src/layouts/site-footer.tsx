@@ -14,6 +14,7 @@ import {
 } from "@/components/common/social-icons";
 import { Container } from "@/components/ui/container";
 import { FOOTER_QUICK_LINKS } from "@/constants/navigation";
+import { privacyNoticeReady } from "@/content/church-office";
 import { Link } from "@/i18n/navigation";
 import { localize } from "@/lib/localize";
 import { GRAIN } from "@/lib/textures";
@@ -32,10 +33,11 @@ function ColumnHead({ children }: { children: React.ReactNode }) {
 }
 
 export async function SiteFooter() {
-  const [t, tNav, tSite, profile, timings] = await Promise.all([
+  const [t, tNav, tSite, tPrivacy, profile, timings] = await Promise.all([
     getTranslations("footer"),
     getTranslations("nav"),
     getTranslations("site"),
+    getTranslations("privacy"),
     getChurchProfile(),
     getServiceTimings(),
   ]);
@@ -80,11 +82,11 @@ export async function SiteFooter() {
             */}
             <div className="flex items-center justify-center gap-4 sm:gap-5 lg:justify-start">
               <Image
-                src="/Logo1.svg"
+                src="/brand/csi-emblem-192-v2.webp"
                 alt=""
                 aria-hidden
-                width={940}
-                height={940}
+                width={192}
+                height={192}
                 unoptimized
                 className="size-14 shrink-0 object-contain sm:size-16"
               />
@@ -122,11 +124,11 @@ export async function SiteFooter() {
                 leaves both drawings at the size they were.
               */}
               <Image
-                src="/Logo2.svg"
+                src="/brand/arms-192-v2.webp"
                 alt=""
                 aria-hidden
-                width={523}
-                height={860}
+                width={117}
+                height={192}
                 unoptimized
                 className="size-14 shrink-0 object-contain sm:size-16"
               />
@@ -316,6 +318,15 @@ export async function SiteFooter() {
         >
           <p className="text-xs text-white/40">
             {t("copyright", { year, name: tSite("name") })}
+            {/* F-036: shown once the office has supplied the notice facts. */}
+            {privacyNoticeReady() ? (
+              <>
+                {" · "}
+                <Link href="/privacy" className="underline underline-offset-2 hover:text-white">
+                  {tPrivacy("footerLink")}
+                </Link>
+              </>
+            ) : null}
           </p>
           <p className="text-xs text-white/40">{t("builtWith")}</p>
         </div>

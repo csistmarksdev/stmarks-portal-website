@@ -23,6 +23,8 @@ import { Eyebrow, Heading, Prose, Text } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { localize, localizeAll } from "@/lib/localize";
 import {
   getAlbumsByFellowship,
@@ -67,15 +69,13 @@ export async function generateMetadata({
   const title = localize(fellowship.name, locale as Locale);
   const description = localize(fellowship.tagline, locale as Locale);
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.fellowship(slug),
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: [{ url: fellowship.banner.url }],
-    },
-  };
+    image: fellowship.banner.url,
+  });
 }
 
 export default async function FellowshipPage({
@@ -111,17 +111,53 @@ export default async function FellowshipPage({
 
   // At-a-glance ledger. Member count leads when known; otherwise the photo
   // count stands in so the ledger keeps its four columns.
+  //
+  // F-042: zero counts are left out - "0 events" beside an empty page read as
+  // a template, not a fellowship.
   const glance = [
     fellowship.memberCount
-      ? { value: String(fellowship.memberCount), label: t("stats.members") }
-      : { value: String(photoCount), label: t("stats.photos") },
-    { value: String(fellowship.committee.length), label: t("stats.committee") },
-    { value: String(events.length), label: t("stats.events") },
-    { value: String(posts.length), label: t("stats.reports") },
+      ? { value: fellowship.memberCount, label: t("stats.members") }
+      : { value: photoCount, label: t("stats.photos") },
+    { value: fellowship.committee.length, label: t("stats.committee") },
+    { value: events.length, label: t("stats.events") },
+    { value: posts.length, label: t("stats.reports") },
+  ]
+    .filter((item) => item.value > 0)
+    .map((item) => ({ ...item, value: String(item.value) }));
+
+  /*
+   * F-042: empty blocks are hidden rather than announced, and the sections that
+   * remain are numbered in the order they appear.
+   */
+  const shown = {
+    committee: fellowship.committee.length > 0,
+    events: events.length > 0,
+    reports: posts.length > 0,
+    gallery: albums.length > 0,
+    announcements: announcements.length > 0,
+    documents: documents.length > 0,
+  };
+  const order = [
+    "about",
+    ...(["committee", "events", "reports", "gallery", "announcements", "documents"] as const).filter(
+      (key) => shown[key],
+    ),
+    "contact",
   ];
+  const sectionIndex = (key: string) =>
+    String(order.indexOf(key) + 1).padStart(2, "0");
 
   return (
     <main id="main">
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            [tNav("home"), ROUTES.home],
+            [localize(fellowship.name, locale), ROUTES.fellowship(slug)],
+          ],
+          locale,
+        )}
+      />
       {/* Hero banner */}
       <section
         data-hero-frame
@@ -186,7 +222,7 @@ export default async function FellowshipPage({
       <Section spacing="lg">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-7">
-            <SectionHeading index="01" title={t("sections.about")} />
+            <SectionHeading index={sectionIndex("about")} title={t("sections.about")} />
             <Reveal>
               <Prose paragraphs={localizeAll(fellowship.about, locale)} lead />
             </Reveal>
@@ -208,155 +244,167 @@ export default async function FellowshipPage({
       </Section>
 
       {/* Committee */}
-      <Section spacing="lg" tone="muted">
-        <SectionHeading index="02" title={t("sections.committee")} />
+      {shown.committee ? (
+        <Section spacing="lg" tone="muted">
+          <SectionHeading index={sectionIndex("committee")} title={t("sections.committee")} />
 
-        {fellowship.committee.length === 0 ? (
-          <EmptyState message={t("empty.committee")} />
-        ) : (
-          // Arched portrait medallions, centred so any number sits balanced -
-          // the same arch language as the clergy and church committee. A member
-          // with a photograph shows it; the gilded monogram stands in until one
-          // is uploaded.
-          <StaggerGroup
-            className="flex flex-wrap justify-center gap-x-8 gap-y-10"
-            amount={0.15}
-          >
-            {fellowship.committee.map((member) => {
-              const memberName = localize(member.name, locale);
+          {fellowship.committee.length === 0 ? (
+            <EmptyState message={t("empty.committee")} />
+          ) : (
+            // Arched portrait medallions, centred so any number sits balanced -
+            // the same arch language as the clergy and church committee. A member
+            // with a photograph shows it; the gilded monogram stands in until one
+            // is uploaded.
+            <StaggerGroup
+              className="flex flex-wrap justify-center gap-x-8 gap-y-10"
+              amount={0.15}
+            >
+              {fellowship.committee.map((member) => {
+                const memberName = localize(member.name, locale);
 
-              return (
-                <StaggerItem key={member.id} className="w-full max-w-[13rem]">
-                  <figure className="group text-center">
-                    <div className="window-arch relative mx-auto aspect-[4/5] w-full overflow-hidden bg-brand-800 shadow-card ring-1 ring-[var(--border)]">
-                      {member.image ? (
-                        <Image
-                          src={member.image.url}
-                          alt={localize(member.image.alt, locale)}
-                          fill
-                          sizes="(max-width: 640px) 60vw, 13rem"
-                          className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"
+                return (
+                  <StaggerItem key={member.id} className="w-full max-w-[13rem]">
+                    <figure className="group text-center">
+                      <div className="window-arch relative mx-auto aspect-[4/5] w-full overflow-hidden bg-brand-800 shadow-card ring-1 ring-[var(--border)]">
+                        {member.image ? (
+                          <Image
+                            src={member.image.url}
+                            alt={localize(member.image.alt, locale)}
+                            fill
+                            sizes="(max-width: 640px) 60vw, 13rem"
+                            className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"
+                          />
+                        ) : (
+                          <span className="grid size-full place-items-center font-display text-4xl font-semibold text-white/85">
+                            {initials(memberName)}
+                          </span>
+                        )}
+                        <div
+                          aria-hidden
+                          className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-sand-950/40 to-transparent"
                         />
-                      ) : (
-                        <span className="grid size-full place-items-center font-display text-4xl font-semibold text-white/85">
-                          {initials(memberName)}
-                        </span>
-                      )}
-                      <div
-                        aria-hidden
-                        className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-sand-950/40 to-transparent"
-                      />
-                    </div>
+                      </div>
 
-                    <figcaption className="mt-4">
-                      <p className="font-display text-base font-semibold">
-                        {memberName}
-                      </p>
-                      <span
-                        aria-hidden
-                        className="mx-auto mt-2 block h-px w-8 rule-section"
-                      />
-                      <p className="label mt-2 text-[var(--muted-foreground)]">
-                        {localize(member.designation, locale)}
-                      </p>
-                    </figcaption>
-                  </figure>
-                </StaggerItem>
-              );
-            })}
-          </StaggerGroup>
-        )}
-      </Section>
+                      <figcaption className="mt-4">
+                        <p className="font-display text-base font-semibold">
+                          {memberName}
+                        </p>
+                        <span
+                          aria-hidden
+                          className="mx-auto mt-2 block h-px w-8 rule-section"
+                        />
+                        <p className="label mt-2 text-[var(--muted-foreground)]">
+                          {localize(member.designation, locale)}
+                        </p>
+                      </figcaption>
+                    </figure>
+                  </StaggerItem>
+                );
+              })}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Events */}
-      <Section spacing="lg">
-        <SectionHeading index="03" title={t("sections.events")} />
+      {shown.events ? (
+        <Section spacing="lg">
+          <SectionHeading index={sectionIndex("events")} title={t("sections.events")} />
 
-        {events.length === 0 ? (
-          <EmptyState message={t("empty.events")} />
-        ) : (
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {events.map((event) => (
-              <StaggerItem key={event.id} className="h-full">
-                <EventCard event={event} locale={locale} />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
-      </Section>
+          {events.length === 0 ? (
+            <EmptyState message={t("empty.events")} />
+          ) : (
+            <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              {events.map((event) => (
+                <StaggerItem key={event.id} className="h-full">
+                  <EventCard event={event} locale={locale} />
+                </StaggerItem>
+              ))}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Reports & reflections - this fellowship's blog posts */}
-      <Section spacing="lg" tone="muted">
-        <SectionHeading index="04" title={t("sections.reports")} />
+      {shown.reports ? (
+        <Section spacing="lg" tone="muted">
+          <SectionHeading index={sectionIndex("reports")} title={t("sections.reports")} />
 
-        {posts.length === 0 ? (
-          <EmptyState message={t("empty.reports")} />
-        ) : (
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {posts.map((post) => (
-              <StaggerItem key={post.id} className="h-full">
-                <BlogCard post={post} locale={locale} className="h-full" />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
-      </Section>
+          {posts.length === 0 ? (
+            <EmptyState message={t("empty.reports")} />
+          ) : (
+            <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              {posts.map((post) => (
+                <StaggerItem key={post.id} className="h-full">
+                  <BlogCard post={post} locale={locale} className="h-full" />
+                </StaggerItem>
+              ))}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Gallery - this fellowship's own event albums, plus any shared
           churchwide albums, each opening into its own set of photos. */}
-      <Section spacing="lg">
-        <SectionHeading index="05" title={t("sections.gallery")} />
+      {shown.gallery ? (
+        <Section spacing="lg">
+          <SectionHeading index={sectionIndex("gallery")} title={t("sections.gallery")} />
 
-        {albums.length === 0 ? (
-          <EmptyState message={t("empty.gallery")} />
-        ) : (
-          <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((album) => (
-              <StaggerItem key={album.id}>
-                <GalleryCard album={album} locale={locale} />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
-      </Section>
+          {albums.length === 0 ? (
+            <EmptyState message={t("empty.gallery")} />
+          ) : (
+            <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {albums.map((album) => (
+                <StaggerItem key={album.id}>
+                  <GalleryCard album={album} locale={locale} />
+                </StaggerItem>
+              ))}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Announcements */}
-      <Section spacing="lg" tone="muted">
-        <SectionHeading index="06" title={t("sections.announcements")} />
+      {shown.announcements ? (
+        <Section spacing="lg" tone="muted">
+          <SectionHeading index={sectionIndex("announcements")} title={t("sections.announcements")} />
 
-        {announcements.length === 0 ? (
-          <EmptyState message={t("empty.announcements")} />
-        ) : (
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:gap-8">
-            {announcements.map((announcement) => (
-              <StaggerItem key={announcement.id}>
-                <AnnouncementCard announcement={announcement} locale={locale} />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
-      </Section>
+          {announcements.length === 0 ? (
+            <EmptyState message={t("empty.announcements")} />
+          ) : (
+            <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:gap-8">
+              {announcements.map((announcement) => (
+                <StaggerItem key={announcement.id}>
+                  <AnnouncementCard announcement={announcement} locale={locale} />
+                </StaggerItem>
+              ))}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Documents */}
-      <Section spacing="lg">
-        <SectionHeading index="07" title={t("sections.documents")} />
+      {shown.documents ? (
+        <Section spacing="lg">
+          <SectionHeading index={sectionIndex("documents")} title={t("sections.documents")} />
 
-        {documents.length === 0 ? (
-          <EmptyState message={t("empty.documents")} />
-        ) : (
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:gap-8">
-            {documents.map((file) => (
-              <StaggerItem key={file.id}>
-                <DownloadCard file={file} locale={locale} />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        )}
-      </Section>
+          {documents.length === 0 ? (
+            <EmptyState message={t("empty.documents")} />
+          ) : (
+            <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:gap-8">
+              {documents.map((file) => (
+                <StaggerItem key={file.id}>
+                  <DownloadCard file={file} locale={locale} />
+                </StaggerItem>
+              ))}
+            </StaggerGroup>
+          )}
+        </Section>
+      ) : null}
 
       {/* Contact */}
       <Section spacing="lg" tone="muted" containerSize="md">
-        <SectionHeading index="08" title={t("sections.contact")} align="center" />
+        <SectionHeading index={sectionIndex("contact")} title={t("sections.contact")} align="center" />
 
         <Reveal>
           <Card variant="solid" padded="lg" className="text-center">
@@ -366,6 +414,7 @@ export default async function FellowshipPage({
               {localize(fellowship.coordinator.name, locale)}
             </p>
 
+            {fellowship.coordinator.email || fellowship.coordinator.phone ? (
             <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
               {fellowship.coordinator.email ? (
                 <a
@@ -387,6 +436,7 @@ export default async function FellowshipPage({
                 </a>
               ) : null}
             </div>
+            ) : null}
           </Card>
         </Reveal>
 

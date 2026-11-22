@@ -86,6 +86,95 @@ function opensWithHero(target: Element): boolean {
   return false;
 }
 
+/** Where the window has to be for `target` to sit at its landing position. */
+function landingTop(target: Element): number {
+  const offset = opensWithHero(target) ? 0 : -headerOffset();
+  return target.getBoundingClientRect().top + window.scrollY + offset;
+}
+
+/**
+ * Whether the page is on `target` now: its top within 2px of where it should
+ * land, or as close as the page can bring it (a target too near the end of the
+ * document to reach the aim is as far as it goes with the page at the bottom).
+ */
+function isOnTarget(target: Element): boolean {
+  const aim = opensWithHero(target) ? 0 : headerOffset();
+  const top = target.getBoundingClientRect().top;
+  const atBottom =
+    window.scrollY >=
+    document.documentElement.scrollHeight - window.innerHeight - 2;
+
+  return Math.abs(top - aim) <= 2 || (atBottom && top > aim);
+}
+
+/** Frames a corrected landing has to hold before the correction stops. */
+const HOLD_FRAMES = 6;
+/** Ceiling on one correction, in frames - about two seconds. */
+const HOLD_MAX_FRAMES = 120;
+
+/**
+ * Keeps the page on `target` for a moment after a scroll to it has finished,
+ * correcting with instant jumps while the layout is still moving (F-020).
+ *
+ * The aim of a smooth anchor scroll is taken once, before the scroll starts,
+ * and the page does not hold still while it runs: pinned chapters change
+ * height as they pass through the viewport, and lazily laid-out blocks above
+ * the target take their real height only when they are scrolled past. So the
+ * scroll arrived exactly where it had been told to go and the section had
+ * moved on - `#service-timings` was being reached 871px short. This measures
+ * again once the scroll is done and every frame after, until the target has
+ * stayed put for a few frames. Any input from the reader ends it at once.
+ *
+ * Returns the cancel.
+ */
+function holdOnTarget(target: Element): () => void {
+  let frame = 0;
+  let frames = 0;
+  let stable = 0;
+  let cancelled = false;
+
+  const opts = { passive: true } as const;
+
+  const cancel = () => {
+    if (cancelled) return;
+    cancelled = true;
+    cancelAnimationFrame(frame);
+    window.removeEventListener("wheel", cancel);
+    window.removeEventListener("touchstart", cancel);
+    window.removeEventListener("keydown", cancel);
+  };
+
+  const tick = () => {
+    if (cancelled || !target.isConnected) return cancel();
+
+    if (isOnTarget(target)) {
+      if (++stable >= HOLD_FRAMES) return cancel();
+    } else {
+      stable = 0;
+      window.scrollTo({ top: landingTop(target), behavior: "instant" });
+    }
+
+    if (++frames > HOLD_MAX_FRAMES) return cancel();
+    frame = requestAnimationFrame(tick);
+  };
+
+  window.addEventListener("wheel", cancel, opts);
+  window.addEventListener("touchstart", cancel, opts);
+  window.addEventListener("keydown", cancel, opts);
+  frame = requestAnimationFrame(tick);
+
+  return cancel;
+}
+
+/**
+ * How many times a smooth scroll is re-aimed at a target that moved while it
+ * ran, before the rest is left to `holdOnTarget`'s instant corrections. One
+ * re-aim covers the usual case (the page grew once, above the target) with an
+ * animation rather than a jump; the cap stops a page that keeps growing from
+ * chaining smooth scrolls indefinitely.
+ */
+const SMOOTH_REAIMS = 2;
+
 /**
  * Smooth scrolling, and the site's anchor navigation.
  *
@@ -110,6 +199,9 @@ export function LenisProvider({ children }: { children: ReactNode }) {
   // Null whenever Lenis is not driving - before mount, and for the whole
   // session under reduced motion.
   const lenisRef = useRef<Lenis | null>(null);
+
+  /** Cancels the landing correction of the previous anchor scroll, if any. */
+  const cancelLandingRef = useRef<() => void>(() => {});
 
   const scrollToHash = useCallback(
     (hash: string, options?: { immediate?: boolean }) => {
@@ -165,8 +257,21 @@ export function LenisProvider({ children }: { children: ReactNode }) {
        * page stuck thousands of pixels short. Lenis follows native scrolling
        * by itself, so a plain instant jump keeps it in step.
        */
+      // A new anchor scroll supersedes whatever the last one was correcting.
+      cancelLandingRef.current();
+
       if (options?.immediate || !lenis) {
         window.scrollTo({ top, behavior: "instant" });
+
+        /*
+         * `immediate` is the arrival settle loop below, which does its own
+         * re-measuring every frame. Anything else - a menu tap on a touch
+         * device, where Lenis is off - lands once and is then held on the
+         * target while the page settles around it (F-020).
+         */
+        if (!options?.immediate) {
+          cancelLandingRef.current = holdOnTarget(target);
+        }
         return true;
       }
 
@@ -187,7 +292,39 @@ export function LenisProvider({ children }: { children: ReactNode }) {
        * the target reachable.
        */
       lenis.resize();
-      lenis.scrollTo(top);
+
+      /*
+       * And measure again when it arrives (F-020). The target can move while
+       * the animation runs, so on completion this checks the page really is on
+       * it: if not, re-aim smoothly from where it is (a short second leg
+       * rather than a jump), and once that budget is spent, or the landing is
+       * right, hand over to `holdOnTarget` for the final few pixels and for
+       * any growth that is still to come.
+       */
+      let reaims = 0;
+      let superseded = false;
+      cancelLandingRef.current = () => {
+        superseded = true;
+      };
+
+      const aim = (to: number) => {
+        lenis.scrollTo(to, {
+          onComplete: () => {
+            if (superseded || !target.isConnected) return;
+
+            if (!isOnTarget(target) && reaims < SMOOTH_REAIMS) {
+              reaims += 1;
+              lenis.resize();
+              aim(landingTop(target));
+              return;
+            }
+
+            cancelLandingRef.current = holdOnTarget(target);
+          },
+        });
+      };
+
+      aim(top);
 
       return true;
     },
@@ -425,6 +562,9 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
   }, [scrollToHash]);
+
+  // A landing correction must not outlive the provider.
+  useEffect(() => () => cancelLandingRef.current(), []);
 
   /* Back and forward between sections, which move the fragment without a
      click and so never reach the handler above. */

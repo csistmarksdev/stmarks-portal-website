@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Announcement, WithStatus } from "@portal/shared";
+import type { Announcement, WithSchedule } from "@portal/shared";
 import { PinIcon, PinOffIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ export default function AnnouncementsPage() {
   });
 
   return (
-    <ResourceListPage<WithStatus<Announcement>>
+    <ResourceListPage<WithSchedule<Announcement>>
       title="Announcements"
       eyebrow="Notices"
       description="Parish notices, in the order the congregation sees them — the pinned one leads, then newest first. Only one can be pinned at a time."
@@ -51,6 +51,11 @@ export default function AnnouncementsPage() {
           key: "publishedAt",
           header: "Published",
           render: (item) => formatDate(item.publishedAt),
+        },
+        {
+          key: "expiresAt",
+          header: "Expires",
+          render: (item) => (item.expiresAt ? formatDate(item.expiresAt) : "—"),
         },
       ]}
       extraRowActions={(item) =>

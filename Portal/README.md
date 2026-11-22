@@ -56,8 +56,16 @@ The backend prints its LAN address on boot. Three things make this work:
 
 - **CORS** admits any private-network origin — `localhost`, `10.x`, `192.168.x`,
   `172.16–31.x`, `*.local` — on any port. Public origins still need an explicit
-  entry in `CORS_ORIGINS` (or `*` to allow everything). Set
-  `CORS_ALLOW_PRIVATE_NETWORK=false` to turn the LAN allowance off.
+  entry in `CORS_ORIGINS`. Set `CORS_ALLOW_PRIVATE_NETWORK=false` to turn the
+  LAN allowance off.
+
+### CORS in production (F-068)
+
+| Variable | Meaning |
+| --- | --- |
+| `CORS_ORIGINS` | Comma-separated exact origins (the CMS and the website). The **only** browser origins accepted for writes (POST/PATCH/PUT/DELETE, including `/contact`), `/auth/*` and `/admin/*`. With `NODE_ENV=production` a `*` in this list is ignored for those routes, and a boot warning says so. |
+| `CORS_PUBLIC_READ_ANY_ORIGIN` | `true` answers public reads (GET/HEAD outside `/auth` and `/admin`) with an uncredentialed, cacheable `Access-Control-Allow-Origin: *`. Default `false`; also implied by a `*` in `CORS_ORIGINS`. |
+| `CORS_ALLOW_PRIVATE_NETWORK` | LAN origins on any port. Default on in development, off (and refused) in production. |
 - **The CMS resolves the API from the address you opened it on**, so
   `192.168.1.5:3001` calls `192.168.1.5:4000`. Leave `NEXT_PUBLIC_API_URL`
   unset for this; setting it pins every device to one address.
@@ -65,6 +73,21 @@ The backend prints its LAN address on boot. Three things make this work:
   *inside* content records, so a `localhost` default would write addresses no
   other device could load. Set it explicitly to the canonical origin in
   production.
+
+### Approval before publishing
+
+Only an **admin** or **super admin** can put content on the public website.
+
+| Role | Can do |
+|---|---|
+| Super admin, Admin | Create, edit, publish, approve, archive, delete. They can publish in one step. |
+| Editor | Create and edit **drafts**, and **submit them for approval** (status `pending`, shown as "Awaiting approval"). |
+| Viewer | Read only. |
+
+- **Approving:** an admin uses **Approve** on the item's list card, or the Workflow menu → *Approve & publish*. Only `published` content is ever public.
+- **Live content:** an editor cannot change anything already published or archived. They ask an admin, who can edit it or move it back to draft.
+- **Church settings:** service timings, the pastor's message and the weekly verse have no draft state (a save is live at once), so only admins and super admins can save them.
+- **Enforcement:** the rule lives in the API (`backend/src/common/utils/approval.ts`), not only in the screens. The smoke test "Approval: editor submits, cannot publish; admin approves" covers it.
 
 ### Docker
 

@@ -11,6 +11,8 @@ import { Heading, Prose } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getBlogPostBySlug, getBlogSlugs, getEventBySlug } from "@/services";
@@ -36,18 +38,16 @@ export async function generateMetadata({
   const title = localize(post.title, locale as Locale);
   const description = localize(post.excerpt, locale as Locale);
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.blogPost(slug),
     title,
     description,
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      publishedTime: post.publishedAt,
-      authors: [localize(post.author, locale as Locale)],
-      images: post.coverImage ? [{ url: post.coverImage.url }] : undefined,
-    },
-  };
+    image: post.coverImage?.url,
+    type: "article",
+    publishedTime: post.publishedAt,
+    authors: [localize(post.author, locale as Locale)],
+  });
 }
 
 export default async function BlogPostPage({
@@ -64,6 +64,7 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const t = await getTranslations("blog");
+  const tNav = await getTranslations("nav");
 
   // Posts may report on an event; link back to it when they do.
   const relatedEvent = post.eventSlug
@@ -72,6 +73,19 @@ export default async function BlogPostPage({
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          articleJsonLd(post, locale, ROUTES.blogPost(slug)),
+          breadcrumbJsonLd(
+            [
+              [tNav("home"), ROUTES.home],
+              [tNav("eventsItems.blog"), ROUTES.blogArchive],
+              [localize(post.title, locale), ROUTES.blogPost(slug)],
+            ],
+            locale,
+          ),
+        ]}
+      />
       <article>
         {/* Masthead */}
         <header className="bg-sand-950 pb-16 pt-[calc(var(--header-height)+var(--safe-top)+4.5rem)] text-white sm:pb-20">

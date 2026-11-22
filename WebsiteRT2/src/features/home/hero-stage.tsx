@@ -20,6 +20,12 @@ export interface HeroStageProps {
   welcome: ReactNode;
   timings: ReactNode;
   events: ReactNode;
+  /**
+   * "This Sunday" (F-048): service times, place and directions, set under the
+   * tagline so it arrives and leaves with the title instead of sitting over the
+   * scroll cue at the foot of the screen.
+   */
+  sunday?: ReactNode;
 }
 
 /**
@@ -30,7 +36,7 @@ export interface HeroStageProps {
  * panels themselves are server components passed in as children, so they
  * still read their data through the service layer.
  */
-export function HeroStage({ welcome, timings, events }: HeroStageProps) {
+export function HeroStage({ welcome, timings, events, sunday }: HeroStageProps) {
   const t = useTranslations("home.hero");
   const tSite = useTranslations("site");
 
@@ -100,6 +106,8 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
               <SplitText>{tSite("tagline")}</SplitText>
             </Text>
           </div>
+
+          {sunday ? <div className="mt-7 sm:mt-8">{sunday}</div> : null}
         </Container>
       </HeroScene>
 

@@ -1,7 +1,12 @@
 import { GALLERY_ALBUMS } from "@/data/gallery.mock";
 import type { FellowshipSlug, GalleryAlbum } from "@/types/content";
 
+import { cleanAlbum, isPlaceholderSlug } from "./guards";
 import { apiGet, apiGetOrNull } from "./http";
+
+/** F-003/F-004: drop seed albums and demo media before anything renders them. */
+const clean = (albums: GalleryAlbum[]) =>
+  albums.map(cleanAlbum).filter((a): a is GalleryAlbum => a !== null);
 
 const newestFirst = (a: GalleryAlbum, b: GalleryAlbum) =>
   new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -10,12 +15,15 @@ const TAGS = ["gallery"];
 
 export function getGallery(limit?: number): Promise<GalleryAlbum[]> {
   return apiGet<GalleryAlbum[]>("/gallery", {
-    params: { limit },
+    params: { limit: limit ? limit + 3 : undefined },
     tags: TAGS,
     fallback: () => {
       const albums = [...GALLERY_ALBUMS].sort(newestFirst);
-      return limit ? albums.slice(0, limit) : albums;
+      return albums;
     },
+  }).then((albums) => {
+    const kept = clean(albums);
+    return limit ? kept.slice(0, limit) : kept;
   });
 }
 
@@ -23,7 +31,7 @@ export function getAlbumBySlug(slug: string): Promise<GalleryAlbum | null> {
   return apiGetOrNull<GalleryAlbum>(`/gallery/${slug}`, {
     tags: TAGS,
     fallback: () => GALLERY_ALBUMS.find((a) => a.slug === slug) ?? null,
-  });
+  }).then((album) => (album ? cleanAlbum(album) : null));
 }
 
 export function getAlbumsByFellowship(
@@ -39,7 +47,7 @@ export function getAlbumsByFellowship(
       GALLERY_ALBUMS.filter(
         (a) => a.fellowshipSlug === fellowshipSlug || a.shared,
       ).sort(newestFirst),
-  });
+  }).then(clean);
 }
 
 /** Slugs for `generateStaticParams`. */
@@ -47,5 +55,5 @@ export function getAlbumSlugs(): Promise<string[]> {
   return apiGet<string[]>("/gallery/slugs", {
     tags: TAGS,
     fallback: () => GALLERY_ALBUMS.map((a) => a.slug),
-  });
+  }).then((slugs) => slugs.filter((slug) => !isPlaceholderSlug(slug)));
 }
