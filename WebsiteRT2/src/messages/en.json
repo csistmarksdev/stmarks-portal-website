@@ -38,7 +38,9 @@
     "simpleModeHint": "Turn off animations for a lighter, faster page",
     "simpleModeOn": "On - animations are off. Tap to turn them back on",
     "switchingToSimple": "Switching to Simple mode…",
-    "switchingToAnimated": "Switching to animated mode…"
+    "switchingToAnimated": "Switching to animated mode…",
+    "switchToLanguage": "Read this page in {language}",
+    "menuDialog": "Site menu"
   },
   "nav": {
     "primary": "Primary",
@@ -78,7 +80,8 @@
       "men": "Men's Fellowship",
       "prayer": "Prayer Fellowship",
       "other": "Other Fellowships"
-    }
+    },
+    "serviceTimes": "Service Times"
   },
   "header": {
     "planVisit": "Plan your visit"
