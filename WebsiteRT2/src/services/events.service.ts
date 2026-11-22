@@ -2,7 +2,16 @@ import { EVENTS } from "@/data/events.mock";
 import { getEventStatus } from "@/lib/date";
 import type { ChurchEvent, FellowshipSlug } from "@/types/content";
 
+import { isPlaceholderSlug, isPublishableEvent } from "./guards";
 import { apiGet, apiGetOrNull } from "./http";
+
+/** F-003/F-005: seed events and slug/date mismatches never render. */
+const clean = (events: ChurchEvent[]) => events.filter(isPublishableEvent);
+
+const take = (events: ChurchEvent[], limit?: number) => {
+  const kept = clean(events);
+  return limit ? kept.slice(0, limit) : kept;
+};
 
 const ascending = (a: ChurchEvent, b: ChurchEvent) =>
   new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
@@ -16,7 +25,7 @@ export function getEvents(): Promise<ChurchEvent[]> {
   return apiGet<ChurchEvent[]>("/events", {
     tags: TAGS,
     fallback: () => [...EVENTS].sort(descending),
-  });
+  }).then(clean);
 }
 
 /**
@@ -29,15 +38,11 @@ export function getUpcomingEvents(
   now: Date = new Date(),
 ): Promise<ChurchEvent[]> {
   return apiGet<ChurchEvent[]>("/events", {
-    params: { status: "upcoming", limit },
+    params: { status: "upcoming", limit: limit ? limit + 3 : undefined },
     tags: TAGS,
-    fallback: () => {
-      const upcoming = EVENTS.filter(
-        (e) => getEventStatus(e, now) !== "past",
-      ).sort(ascending);
-      return limit ? upcoming.slice(0, limit) : upcoming;
-    },
-  });
+    fallback: () =>
+      EVENTS.filter((e) => getEventStatus(e, now) !== "past").sort(ascending),
+  }).then((events) => take(events, limit));
 }
 
 export function getPastEvents(
@@ -45,22 +50,18 @@ export function getPastEvents(
   now: Date = new Date(),
 ): Promise<ChurchEvent[]> {
   return apiGet<ChurchEvent[]>("/events", {
-    params: { status: "past", limit },
+    params: { status: "past", limit: limit ? limit + 3 : undefined },
     tags: TAGS,
-    fallback: () => {
-      const past = EVENTS.filter((e) => getEventStatus(e, now) === "past").sort(
-        descending,
-      );
-      return limit ? past.slice(0, limit) : past;
-    },
-  });
+    fallback: () =>
+      EVENTS.filter((e) => getEventStatus(e, now) === "past").sort(descending),
+  }).then((events) => take(events, limit));
 }
 
 export function getEventBySlug(slug: string): Promise<ChurchEvent | null> {
   return apiGetOrNull<ChurchEvent>(`/events/${slug}`, {
     tags: TAGS,
     fallback: () => EVENTS.find((e) => e.slug === slug) ?? null,
-  });
+  }).then((event) => (event && isPublishableEvent(event) ? event : null));
 }
 
 export function getEventsByFellowship(
@@ -71,13 +72,23 @@ export function getEventsByFellowship(
     tags: TAGS,
     fallback: () =>
       EVENTS.filter((e) => e.fellowshipSlug === fellowshipSlug).sort(ascending),
-  });
+  }).then(clean);
 }
 
-/** Slugs for `generateStaticParams`. */
-export function getEventSlugs(): Promise<string[]> {
-  return apiGet<string[]>("/events/slugs", {
-    tags: TAGS,
-    fallback: () => EVENTS.map((e) => e.slug),
-  });
+/**
+ * Slugs for `generateStaticParams` and the sitemap - only those of events the
+ * site will actually render, so a hidden record is neither built nor listed.
+ */
+export async function getEventSlugs(): Promise<string[]> {
+  const [slugs, events] = await Promise.all([
+    apiGet<string[]>("/events/slugs", {
+      tags: TAGS,
+      fallback: () => EVENTS.map((e) => e.slug),
+    }),
+    apiGet<ChurchEvent[]>("/events", { tags: TAGS, fallback: () => EVENTS }),
+  ]);
+  const hidden = new Set(
+    events.filter((e) => !isPublishableEvent(e)).map((e) => e.slug),
+  );
+  return slugs.filter((slug) => !hidden.has(slug) && !isPlaceholderSlug(slug));
 }
