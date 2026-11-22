@@ -9,9 +9,9 @@ import { Field } from "@/components/ui/input";
 import { CHURCH_OFFICE, privacyNoticeReady } from "@/content/church-office";
 import { Link } from "@/i18n/navigation";
 import { submitContactForm } from "@/services";
-import type { ContactFormValues } from "@/types/content";
+import type { ContactFormSubmission } from "@/types/content";
 
-type FieldErrors = Partial<Record<keyof ContactFormValues, string>>;
+type FieldErrors = Partial<Record<keyof ContactFormSubmission, string>>;
 
 type Status =
   | { state: "idle" }
@@ -23,7 +23,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function ContactForm() {
   const t = useTranslations("contact.form");
 
-  const [values, setValues] = useState<ContactFormValues>({
+  const [values, setValues] = useState<ContactFormSubmission>({
     name: "",
     email: "",
     phone: "",
@@ -34,9 +34,9 @@ export function ContactForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>({ state: "idle" });
 
-  function update<K extends keyof ContactFormValues>(
+  function update<K extends keyof ContactFormSubmission>(
     field: K,
-    value: ContactFormValues[K],
+    value: ContactFormSubmission[K],
   ) {
     setValues((current) => ({ ...current, [field]: value }));
     // Clear the error as soon as the user starts correcting the field.

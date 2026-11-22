@@ -91,3 +91,24 @@ It is registered at GoDaddy until 2027-09-15, with nameservers `ns1/ns2.pgsoftwa
 ## 7. Backups (F-100)
 
 Run a nightly `mongodump` of the Portal DB plus a copy of `/uploads` to off-VM storage, keep 30 days, and test one restore.
+
+## 8. Deploy the Portal (CMS) changes (F-049, F-003, F-005, F-068)
+
+The Portal code on `fix/audit-2026-11` now has these changes; they reach the church only when the Portal VM is redeployed:
+- publish-at and expiry dates
+- refusal to publish "Sample"/"DEMO"/"மாதிரி" records
+- the event slug-year check
+- per-route CORS
+
+1. **Check which folder you deploy from.** The changes are in `Portal/`. The sibling folder `Portal-Docker/` (last commit "CMS deploy commit") has its own copy of the backend and sends `Access-Control-Allow-Origin: *` when `CORS_ORIGINS=*`. That copy is most likely what is running now. Deploy from `Portal/` (`docker-compose.prod.yml`, `docker/BUNDLE-README.md`), or port the changes into `Portal-Docker/` first.
+2. **Set the environment** in the backend `.env` on the VM before restarting:
+   - `CORS_ORIGINS`: the exact origin of the admin portal (e.g. `https://admin.<domain>`, or for now the address editors use). In production a `*` here is ignored for writes, login and admin routes, so the admin portal will refuse requests until its origin is listed.
+   - The website's contact form is not affected. It posts server-to-server from Vercel (`/api/contact`), where CORS does not apply.
+   - `CORS_PUBLIC_READ_ANY_ORIGIN`: leave `false` unless something else reads the public API from a browser.
+   - `TRUST_PROXY`: see step 1.4.
+3. **Data:** no migration is needed. Existing records have no dates, so nothing that is public now disappears.
+4. **After deploy:**
+   - The `womens-fellowship-day-2026` event cannot be saved until its date is corrected (F-005).
+   - The "Sample" announcement cannot be saved as published (F-003). Delete it, or move it to draft.
+   - Log in to the admin portal and confirm that saving and publishing still work.
+5. **Admin portal lint:** `npm run lint` in `Portal/` fails because `eslint` is not installed in the frontend workspace. This predates the audit. Install it when convenient.

@@ -1,5 +1,5 @@
 import type {
-  ContactFormValues,
+  ContactFormSubmission,
   ContactSubmissionResult,
 } from "@/types/content";
 
@@ -15,7 +15,7 @@ import type {
  * was delivered when it was not.
  */
 export async function submitContactForm(
-  values: ContactFormValues,
+  values: ContactFormSubmission,
 ): Promise<ContactSubmissionResult> {
   try {
     const response = await fetch("/api/contact", {

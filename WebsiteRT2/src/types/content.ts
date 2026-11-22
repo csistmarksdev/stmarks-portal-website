@@ -297,7 +297,15 @@ export interface ContactFormValues {
   phone?: string;
   subject: string;
   message: string;
-  /** Honeypot - hidden from people, filled only by bots (F-068). */
+}
+
+/**
+ * What the contact form posts to the site's own /api/contact: the Portal's
+ * contract plus a honeypot field (F-068) that the route strips before
+ * forwarding. Kept apart so the public contract stays identical to the
+ * Portal's (checked by Portal/scripts/check-contract-parity.mjs).
+ */
+export interface ContactFormSubmission extends ContactFormValues {
   website?: string;
 }
 
