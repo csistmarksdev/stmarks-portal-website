@@ -136,7 +136,7 @@
    "sprint": 1,
    "owner": "Dev",
    "status": "fixed",
-   "note": "Splash only on / and /en, ≤600 ms, once per session, skipped for reduced motion / Simple mode; 0 hero JPEG requests (browser-verified)."
+   "note": "Original splash look restored at the church's request (22 Nov), limited: home page only, once per browser tab, 6 photos instead of 54, counter completes 0→100 and splash is gone by ~1.9 s from navigation (was 2–4 s on every page). Skipped for Simple mode; never on inner pages or client-side navigation. No-JS failsafe 1.6 s."
   },
   {
    "id": "F-018",

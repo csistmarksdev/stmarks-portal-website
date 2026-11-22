@@ -3469,7 +3469,7 @@ html[data-season="good-friday"] .splash-crest img {
    * would be this overlay, and CSS lifts it without help. The dismissal effect
    * normally beats this by three seconds or more.
    */
-  animation: splash-failsafe 700ms var(--ease-in-out-soft) 5200ms forwards;
+  animation: splash-failsafe 700ms var(--ease-in-out-soft) 1600ms forwards;
 }
 
 /*
@@ -3962,7 +3962,7 @@ html[data-splash-lite] .splash-reel {
    */
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: splash-arch-draw 1400ms var(--ease-out-expo) 120ms forwards;
+  animation: splash-arch-draw 800ms var(--ease-out-expo) 80ms forwards;
 }
 
 /*
@@ -4222,7 +4222,7 @@ html[data-splash-lite] .splash-reel {
   text-shadow: 0 2px 16px oklch(0 0 0 / 0.7);
   /* Behind the arch's own drawing, so the two do not arrive together and
      argue about which is the subject. */
-  animation: splash-count-in 700ms var(--ease-out-expo) 1250ms both;
+  animation: splash-count-in 500ms var(--ease-out-expo) 300ms both;
 }
 
 @keyframes splash-count-in {
