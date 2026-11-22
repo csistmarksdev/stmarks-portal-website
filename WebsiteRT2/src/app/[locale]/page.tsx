@@ -24,6 +24,7 @@ import { LeadershipSection } from "@/features/sections/leadership-section";
 import { ROUTES } from "@/constants/site";
 import type { Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo";
+import { churchJsonLd, JsonLd } from "@/components/seo/json-ld";
 
 /**
  * The site.
@@ -69,6 +70,7 @@ export default async function HomePage({
 
   return (
     <main id="main">
+      <JsonLd data={churchJsonLd(locale as Locale)} />
       {/*
         Welcome, service timings and upcoming events play out *inside* the
         cinematic sequence as pinned scenes. The longer scroll length gives

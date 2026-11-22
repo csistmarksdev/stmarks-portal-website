@@ -15,6 +15,7 @@ import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, eventJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { formatDateTime, getEventStatus } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getEventBySlug, getEventSlugs } from "@/services";
@@ -73,6 +74,19 @@ export default async function EventDetailPage({
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          eventJsonLd(event, locale, ROUTES.event(slug)),
+          breadcrumbJsonLd(
+            [
+              [tNav("home"), ROUTES.home],
+              [tNav("events"), ROUTES.eventArchive],
+              [localize(event.title, locale), ROUTES.event(slug)],
+            ],
+            locale,
+          ),
+        ]}
+      />
       {/* Hero */}
       <section
         data-hero-frame

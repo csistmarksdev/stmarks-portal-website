@@ -12,6 +12,7 @@ import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getBlogPostBySlug, getBlogSlugs, getEventBySlug } from "@/services";
@@ -63,6 +64,7 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const t = await getTranslations("blog");
+  const tNav = await getTranslations("nav");
 
   // Posts may report on an event; link back to it when they do.
   const relatedEvent = post.eventSlug
@@ -71,6 +73,19 @@ export default async function BlogPostPage({
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          articleJsonLd(post, locale, ROUTES.blogPost(slug)),
+          breadcrumbJsonLd(
+            [
+              [tNav("home"), ROUTES.home],
+              [tNav("eventsItems.blog"), ROUTES.blogArchive],
+              [localize(post.title, locale), ROUTES.blogPost(slug)],
+            ],
+            locale,
+          ),
+        ]}
+      />
       <article>
         {/* Masthead */}
         <header className="bg-sand-950 pb-16 pt-[calc(var(--header-height)+var(--safe-top)+4.5rem)] text-white sm:pb-20">

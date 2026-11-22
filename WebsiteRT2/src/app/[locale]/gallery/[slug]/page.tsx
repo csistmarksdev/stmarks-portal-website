@@ -11,6 +11,7 @@ import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize } from "@/lib/localize";
 import { getAlbumBySlug, getAlbumSlugs } from "@/services";
@@ -67,6 +68,16 @@ export default async function AlbumPage({
 
   return (
     <main id="main">
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            [tNav("home"), ROUTES.home],
+            [tNav("gallery"), ROUTES.albumArchive],
+            [localize(album.title, locale), ROUTES.album(slug)],
+          ],
+          locale,
+        )}
+      />
       <PageHero
         eyebrow={formatDate(album.date, locale)}
         title={localize(album.title, locale)}

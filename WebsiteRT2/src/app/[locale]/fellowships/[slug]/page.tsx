@@ -24,6 +24,7 @@ import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
 import { localize, localizeAll } from "@/lib/localize";
 import {
   getAlbumsByFellowship,
@@ -121,6 +122,15 @@ export default async function FellowshipPage({
 
   return (
     <main id="main">
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            [tNav("home"), ROUTES.home],
+            [localize(fellowship.name, locale), ROUTES.fellowship(slug)],
+          ],
+          locale,
+        )}
+      />
       {/* Hero banner */}
       <section
         data-hero-frame
