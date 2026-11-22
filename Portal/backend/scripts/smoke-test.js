@@ -789,6 +789,14 @@ async function main() {
     });
     assert.equal(verse.status, 403, `editor save weekly verse → ${verse.status}`);
 
+    // 7b. Pinning unpins the live pinned notice, so editors cannot pin.
+    const pinAttempt = await fetch(`${BASE}/admin/announcements`, {
+      method: "POST",
+      headers: asEditor,
+      body: JSON.stringify({ ...JSON.parse(notice("Pinned draft")), pinned: true }),
+    });
+    assert.equal(pinAttempt.status, 403, `editor create pinned → ${pinAttempt.status}`);
+
     // 8. An admin can still create and publish in one step.
     const adminDirect = await json(
       await fetch(`${BASE}/admin/announcements`, {

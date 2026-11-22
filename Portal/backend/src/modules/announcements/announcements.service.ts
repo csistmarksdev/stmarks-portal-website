@@ -34,7 +34,7 @@ import {
   AnnouncementEntity,
   type AnnouncementDocument,
 } from "./schemas/announcement.schema";
-import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
+import { assertMayPin, assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "announcements";
 
@@ -151,6 +151,7 @@ export class AnnouncementsService {
     const publishAt = scheduleValue(dto.publishAt);
     const expiresAt = scheduleValue(dto.expiresAt);
     assertScheduleOrder(publishAt, expiresAt);
+    assertMayPin(actor, dto.pinned || undefined);
     if (dto.pinned) await this.unpinAll();
     if ((dto.status ?? "draft") === "published") {
       this.assertPublishable({ slug, title: dto.title });
@@ -196,6 +197,9 @@ export class AnnouncementsService {
       expiresAt === undefined ? existing.expiresAt : expiresAt,
     );
 
+    if (dto.pinned !== undefined && Boolean(dto.pinned) !== Boolean(existing.pinned)) {
+      assertMayPin(actor, dto.pinned);
+    }
     if (dto.pinned) await this.unpinAll(id);
     if ((dto.status ?? existing.status) === "published") {
       this.assertPublishable({

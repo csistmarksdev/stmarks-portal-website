@@ -68,3 +68,15 @@ export function assertMayWrite(
     );
   }
 }
+
+/**
+ * Pinning an announcement unpins whatever is pinned now - a change to the live
+ * site even when the new item is only a draft - so it is an approver's
+ * action, like publishing.
+ */
+export function assertMayPin(actor: AuthenticatedUser, pinned: boolean | undefined): void {
+  if (pinned === undefined || canPublish(actor)) return;
+  throw new ForbiddenException(
+    "Only an admin or super admin can pin or unpin an announcement.",
+  );
+}
