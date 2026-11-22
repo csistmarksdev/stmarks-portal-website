@@ -951,6 +951,42 @@ async function main() {
     assert.equal(res.status, 400, JSON.stringify(res.body));
   });
 
+  console.log("\nEvent slug year (F-005):");
+
+  await check("an event whose slug year differs from its start date is refused", async () => {
+    const base = {
+      summary: { en: "Summary", ta: "சுருக்கம்" },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      location: { en: "Hall", ta: "மண்டபம்" },
+    };
+    const wrong = await post("/admin/events", {
+      ...base,
+      title: { en: "Womens Fellowship Day 2026", ta: "மகளிர் ஐக்கிய தினம் 2026" },
+      startDate: "2027-10-11T04:30:00.000Z",
+    });
+    assert.equal(wrong.status, 400, JSON.stringify(wrong.body));
+    assert(/2026/.test(wrong.body.message) && /2027/.test(wrong.body.message), "message names both years");
+
+    // 31 Dec 2026 19:00 UTC is already 1 Jan 2027 in India.
+    const edge = await post("/admin/events", {
+      ...base,
+      title: { en: "Watch Night 2027", ta: "இரவு ஜெபம் 2027" },
+      startDate: "2026-12-31T19:00:00.000Z",
+    });
+    assert.equal(edge.status, 201, JSON.stringify(edge.body));
+
+    const right = await post("/admin/events", {
+      ...base,
+      title: { en: "Womens Fellowship Day 2026", ta: "மகளிர் ஐக்கிய தினம் 2026" },
+      startDate: "2026-10-11T04:30:00.000Z",
+    });
+    assert.equal(right.status, 201, JSON.stringify(right.body));
+    const moved = await patch(`/admin/events/${right.body.id}`, {
+      startDate: "2027-10-11T04:30:00.000Z",
+    });
+    assert.equal(moved.status, 400, "moving the date out of the slug's year is refused");
+  });
+
   /*
    * Backup and restore is the one place in the CMS where a mistake destroys
    * data, so it is exercised end to end rather than endpoint by endpoint: take

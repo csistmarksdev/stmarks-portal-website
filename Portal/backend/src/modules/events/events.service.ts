@@ -16,7 +16,10 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
-import { assertNoPlaceholderContent } from "../../common/utils/content-guards";
+import {
+  assertNoPlaceholderContent,
+  assertSlugYearMatchesDate,
+} from "../../common/utils/content-guards";
 import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
@@ -159,6 +162,9 @@ export class EventsService {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
+    // F-005: "…-2026" must not be stored as a 2027 date. Drafts included —
+    // the date is what decides upcoming/past once it is published.
+    assertSlugYearMatchesDate(slug, new Date(dto.startDate));
     if ((dto.status ?? "draft") === "published") {
       this.assertPublishable({ slug, title: dto.title });
     }
@@ -195,6 +201,10 @@ export class EventsService {
       );
     }
 
+    assertSlugYearMatchesDate(
+      slug,
+      dto.startDate ? new Date(dto.startDate) : existing.startDate,
+    );
     if ((dto.status ?? existing.status) === "published") {
       this.assertPublishable({
         slug,
