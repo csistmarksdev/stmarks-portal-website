@@ -7,6 +7,8 @@ import type {
 
 import { placeholderImage } from "@/data/media";
 
+import { CHURCH_OFFICE } from "./church-office";
+
 /**
  * Permanent site content - the church's own identity.
  *
@@ -51,12 +53,11 @@ export const CHURCH_PROFILE: ChurchProfile = {
     latitude: 12.9612,
     longitude: 80.1986,
   },
-  phone: ["+91 44 2242 0000"],
-  email: ["office@csistmarksmadipakkam.org"],
-  officeHours: {
-    en: "Monday to Saturday, 9:00 AM – 5:00 PM",
-    ta: "திங்கள் முதல் சனி வரை, காலை 9:00 – மாலை 5:00",
-  },
+  // F-007: placeholder phone and dead-domain email removed; the real ones are
+  // TODO(church-office) in ./church-office.ts.
+  phone: [...CHURCH_OFFICE.officePhones],
+  email: [...CHURCH_OFFICE.officeEmails],
+  officeHours: CHURCH_OFFICE.officeHours,
   socials: [
     { platform: "facebook", url: "https://www.facebook.com/csistmarks/" },
     { platform: "instagram", url: "https://instagram.com" },
@@ -72,12 +73,12 @@ export const CHURCH_HISTORY: ChurchHistory = {
   },
   body: [
     {
-      en: "In early 1993, guided by Bishop Rt. Rev. Dr. Azariah, six pioneer families in Madipakkam gathered for worship in a thatched terrace shed at Mr. Paulkanthan's home. On April 25th, 1993 (St. Mark's Day), the first Holy Eucharist was celebrated, and the congregation was named 'St. Mark's Church'.",
-      ta: "1993-ன் தொடக்கத்தில் ஆயர் மேதகு டாக்டர் அஸரியா அவர்களின் வழிகாட்டுதலின்படி, மடிப்பாக்கத்தில் 6 குடும்பங்கள் திரு. பால்காந்தன் வீட்டின் மொட்டை மாடி ஓலைக் கொட்டகையில் கூடினர். ஏப்ரல் 25, 1993 (தூய மாற்கு தினம்) அன்று முதல் பரிசுத்த நற்கருணை ஆராதனை நடைபெற்று 'தூய மாற்கு ஆலயம்' என பெயரிடப்பட்டது.",
+      en: "In early 1993, with the encouragement of the Rt. Rev. Dr. M. Azariah, Bishop in Madras, six families began meeting for worship in a thatched shed on the terrace of Mr. Paulkanthan's home. On St. Mark's Day, 25 April 1993, the first Holy Communion service was held and the congregation was named St. Mark's Church.",
+      ta: "1993-இன் தொடக்கத்தில், சென்னைப் பேராயர் பேரருள்திரு. முனைவர் எம். அசரியா அவர்களின் வழிகாட்டுதலோடு, மடிப்பாக்கத்தைச் சேர்ந்த ஆறு குடும்பங்கள் திரு. பால்காந்தன் அவர்களின் வீட்டு மொட்டை மாடியில் அமைந்த ஓலைக் கொட்டகையில் ஆராதிக்கக் கூடினர். 1993 ஏப்ரல் 25 அன்று (தூய மாற்கு திருநாள்) முதல் திருவிருந்து ஆராதனை நடைபெற்று, சபைக்கு 'தூய மாற்கு ஆலயம்' எனப் பெயரிடப்பட்டது.",
     },
     {
-      en: "As the congregation expanded, 5.5 grounds of land was acquired on April 9th, 1995, followed by the dedication of a new sanctuary on February 8th, 1997. The church earned independent Unit Status in 2007 under Rev. D. Mohanraj, with Rev. Raja Freeman taking charge in 2012.",
-      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டு, 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் ரெவ். டி. மோகன்ராஜ் தலைமையில் 'யூனிட் தகுதி' பெற்ற ஆலயம், 2012 முதல் ரெவ். ராஜா பிரீமேன் தலைமையில் வழிநடத்தப்படுகிறது.",
+      en: "As the congregation grew, 5.5 grounds of land were acquired on 9 April 1995, and a new sanctuary was dedicated on 8 February 1997. The church became a Unit in 2007 under Rev. D. Mohan Raj; in 2012 Rev. J. Raja Freeman took charge and expanded the fellowships.",
+      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டது; 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் அருள்திரு. டி. மோகன் ராஜ் அவர்களின் காலத்தில் இச்சபை யூனிட் தகுதி பெற்றது; 2012-இல் அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
     },
     {
       en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
@@ -216,15 +217,17 @@ export const DIOCESE_INFO: DioceseInfo = {
   },
   websiteUrl: "https://csimadrasdiocese.org",
   /**
-   * The diocese's own crest, not a photograph - hence the square dimensions
+   * The CSI emblem (F-024: not the diocese's crest), not a photograph - hence the square dimensions
    * and the `object-contain` treatment on the About page. An emblem cropped to
    * a landscape plate is an emblem defaced.
    */
   image: {
     url: "/diocese.svg",
     alt: {
-      en: "Crest of the CSI Diocese of Madras",
-      ta: "சி.எஸ்.ஐ. சென்னை மறைமாவட்டத்தின் இலச்சினை",
+      // F-024: this file is the CSI Synod emblem, not the diocese's crest.
+      // TODO(church-office): the official Diocese of Madras crest, with permission.
+      en: "Emblem of the Church of South India",
+      ta: "தென்னிந்திய திருச்சபையின் இலச்சினை",
     },
     width: 200,
     height: 200,

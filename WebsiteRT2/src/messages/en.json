@@ -183,7 +183,9 @@
       "title": "We would love to meet you",
       "subtitle": "Reach out with a question, a prayer request, or simply to say hello.",
       "cta": "Contact the church",
-      "directions": "Get directions"
+      "directions": "Get directions",
+      "enquiries": "For Sunday School enrolment, baptism or a wedding, please contact the Hon. Secretary or the Hon. Treasurer.",
+      "enquiriesLink": "Their details are under Leadership."
     }
   },
   "about": {
@@ -254,7 +256,8 @@
     "presbyters": {
       "title": "List of Presbyters",
       "subtitle": "The succession of ministers who have served this congregation, from its years under Moovarasampet and Adambakkam to the Madipakkam Unit.",
-      "term": "{from} – {to}"
+      "term": "{from} – {to}",
+      "termCurrent": "{from} – present"
     },
     "card": {
       "since": "Serving since {year}",
