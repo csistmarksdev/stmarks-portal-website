@@ -1,13 +1,13 @@
 "use client";
 
-import type { GalleryAlbum, WithStatus } from "@portal/shared";
+import type { GalleryAlbum, WithSchedule } from "@portal/shared";
 
 import { ResourceListPage } from "@/components/admin/resource-list-page";
 import { formatDate } from "@/lib/utils";
 
 export default function GalleryPage() {
   return (
-    <ResourceListPage<WithStatus<GalleryAlbum>>
+    <ResourceListPage<WithSchedule<GalleryAlbum>>
       title="Gallery"
       eyebrow="Photo archive"
       description="Albums from services, festivals and fellowship gatherings. Open an album to add, remove or reorder its photos."

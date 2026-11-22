@@ -10,6 +10,28 @@ export const fellowshipOptions = FELLOWSHIP_SLUGS.map((slug) => ({
     .join(" "),
 }));
 
+
+/*
+ * F-049 publish schedule. Shared by every scheduled type so the wording and
+ * behaviour match; blank means "no schedule", which is how every record
+ * created before these fields existed behaves.
+ */
+export const PUBLISH_AT_FIELD: FieldDef = {
+  kind: "date",
+  name: "publishAt",
+  label: "Publish at",
+  withTime: true,
+  help: "Optional. A published record stays off the website until this time. Leave blank to show it as soon as it is published.",
+};
+
+export const EXPIRES_AT_FIELD: FieldDef = {
+  kind: "date",
+  name: "expiresAt",
+  label: "Expires at",
+  withTime: true,
+  help: "Optional. The notice is taken off the website at this time. Leave blank to keep it up until it is unpublished.",
+};
+
 export const EVENT_FIELDS: FieldDef[] = [
   { kind: "localized", name: "title", label: "Title", required: true },
   { kind: "localized", name: "summary", label: "Summary", multiline: true, required: true },
@@ -26,6 +48,7 @@ export const EVENT_FIELDS: FieldDef[] = [
     label: "Featured event",
     help: "Featured events are highlighted on the website home page",
   },
+  PUBLISH_AT_FIELD,
 ];
 
 /*
@@ -40,6 +63,8 @@ export const ANNOUNCEMENT_FIELDS: FieldDef[] = [
   { kind: "date", name: "publishedAt", label: "Published on", required: true },
   { kind: "checkbox", name: "pinned", label: "Pinned", help: "Only one announcement can be pinned — pinning this unpins the rest" },
   { kind: "select", name: "fellowshipSlug", label: "Fellowship", options: fellowshipOptions },
+  PUBLISH_AT_FIELD,
+  EXPIRES_AT_FIELD,
 ];
 
 export const ALBUM_FIELDS: FieldDef[] = [
@@ -59,4 +84,5 @@ export const ALBUM_FIELDS: FieldDef[] = [
     label: "Churchwide album",
     help: "Shows in every fellowship's gallery — for occasions like Christmas or the harvest festival. Leave the fellowship above unset.",
   },
+  PUBLISH_AT_FIELD,
 ];

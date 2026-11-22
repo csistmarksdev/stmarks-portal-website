@@ -44,6 +44,9 @@ export interface ColumnDef<T> {
 interface WithIdStatus {
   id: string;
   status: PublishStatus;
+  /** F-049 schedule, on the content types that have one. */
+  publishAt?: string;
+  expiresAt?: string;
 }
 
 /**
@@ -261,7 +264,11 @@ export function ResourceListPage<T extends WithIdStatus>({
                         primary.render(item)
                       )}
                     </div>
-                    <StatusBadge status={item.status} />
+                    <StatusBadge
+                      status={item.status}
+                      publishAt={item.publishAt}
+                      expiresAt={item.expiresAt}
+                    />
                   </div>
 
                   {meta.length > 0 && (
