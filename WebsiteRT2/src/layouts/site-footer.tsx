@@ -80,11 +80,11 @@ export async function SiteFooter() {
             */}
             <div className="flex items-center justify-center gap-4 sm:gap-5 lg:justify-start">
               <Image
-                src="/Logo1.svg"
+                src="/brand/csi-emblem-192.webp"
                 alt=""
                 aria-hidden
-                width={940}
-                height={940}
+                width={192}
+                height={192}
                 unoptimized
                 className="size-14 shrink-0 object-contain sm:size-16"
               />
@@ -122,11 +122,11 @@ export async function SiteFooter() {
                 leaves both drawings at the size they were.
               */}
               <Image
-                src="/Logo2.svg"
+                src="/brand/arms-192.webp"
                 alt=""
                 aria-hidden
-                width={523}
-                height={860}
+                width={117}
+                height={192}
                 unoptimized
                 className="size-14 shrink-0 object-contain sm:size-16"
               />
