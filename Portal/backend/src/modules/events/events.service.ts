@@ -16,6 +16,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { assertNoPlaceholderContent } from "../../common/utils/content-guards";
 import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
@@ -39,6 +40,21 @@ export class EventsService {
 
   private toAdmin(doc: ChurchEventDocument): WithSchedule<ChurchEvent> {
     return serializeDoc<WithSchedule<ChurchEvent>>(doc);
+  }
+
+  /**
+   * F-003: a record cannot be *published* while its slug, title (either
+   * language) still reads as placeholder text. Drafts are exempt.
+   */
+  private assertPublishable(record: {
+    slug: string;
+    title: { en?: string; ta?: string };
+  }): void {
+    assertNoPlaceholderContent({
+      kind: "event",
+      slug: record.slug,
+      title: record.title,
+    });
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -143,6 +159,9 @@ export class EventsService {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
+    if ((dto.status ?? "draft") === "published") {
+      this.assertPublishable({ slug, title: dto.title });
+    }
     const doc = await this.repo.create({
       ...dto,
       startDate: new Date(dto.startDate),
@@ -176,6 +195,13 @@ export class EventsService {
       );
     }
 
+    if ((dto.status ?? existing.status) === "published") {
+      this.assertPublishable({
+        slug,
+        title: dto.title ?? existing.title,
+      });
+    }
+
     const doc = await this.repo.updateById(id, {
       ...dto,
       slug,
@@ -195,6 +221,9 @@ export class EventsService {
     status: PublishStatus,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<ChurchEvent>> {
+    if (status === "published") {
+      this.assertPublishable(await this.repo.findByIdOrThrow(id));
+    }
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";

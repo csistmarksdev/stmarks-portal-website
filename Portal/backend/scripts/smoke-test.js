@@ -875,6 +875,82 @@ async function main() {
     assert.equal(shown.publishAt, undefined, "public blog post exposes publishAt");
   });
 
+  console.log("\nPlaceholder content (F-003):");
+
+  await check("placeholder titles cannot be published, drafts may keep them", async () => {
+    const base = {
+      body: { en: "Body", ta: "உடல்" },
+      publishedAt: "2026-11-20",
+    };
+    for (const title of [
+      { en: "Sample", ta: "மாதிரி" },
+      { en: "Choir notice", ta: "மாதிரி அறிவிப்பு" },
+      { en: "DEMO - replace with the carol video", ta: "கீர்த்தனை" },
+      { en: "Lorem ipsum", ta: "x" },
+      { en: "test", ta: "x" },
+    ]) {
+      const res = await post("/admin/announcements", { ...base, title, status: "published" });
+      assert.equal(res.status, 400, `${title.en} was published: ${JSON.stringify(res.body)}`);
+      assert(/placeholder/i.test(JSON.stringify(res.body)), "error must say why");
+    }
+
+    // Whole words only: these are real notices.
+    const fine = await post("/admin/announcements", {
+      ...base,
+      title: { en: "Testimony Sunday and Youth Contest", ta: "சாட்சி ஞாயிறு" },
+      status: "published",
+    });
+    assert.equal(fine.status, 201, JSON.stringify(fine.body));
+
+    // A draft may hold placeholder text…
+    const draft = await post("/admin/announcements", {
+      ...base,
+      title: { en: "Sample", ta: "மாதிரி" },
+    });
+    assert.equal(draft.status, 201, JSON.stringify(draft.body));
+    // …but cannot be published through either route until it is fixed.
+    assert.equal(
+      (await patch(`/admin/announcements/${draft.body.id}/status`, { status: "published" })).status,
+      400,
+    );
+    assert.equal(
+      (await patch(`/admin/announcements/${draft.body.id}`, { status: "published" })).status,
+      400,
+    );
+    const renamed = await patch(`/admin/announcements/${draft.body.id}`, {
+      title: { en: "Women's Fellowship Retreat", ta: "மகளிர் ஐக்கிய தியானம்" },
+      slug: "womens-fellowship-retreat",
+      status: "published",
+    });
+    assert.equal(renamed.status, 200, JSON.stringify(renamed.body));
+  });
+
+  await check("a published album refuses a DEMO caption", async () => {
+    const image = {
+      url: `${BASE.replace("/v1", "")}/uploads/images/x.jpg`,
+      alt: { en: "Poster", ta: "போஸ்டர்" },
+      width: 1600,
+      height: 900,
+    };
+    const album = await post("/admin/gallery", {
+      title: { en: "Carol Service", ta: "கீர்த்தனை ஆராதனை" },
+      date: "2026-12-20",
+      cover: image,
+      status: "published",
+    });
+    assert.equal(album.status, 201, JSON.stringify(album.body));
+    const res = await post(`/admin/gallery/${album.body.id}/photos`, {
+      photos: [
+        {
+          image,
+          caption: { en: "DEMO — replace with the carol service recording" },
+          video: { url: "https://youtu.be/dQw4w9WgXcQ" },
+        },
+      ],
+    });
+    assert.equal(res.status, 400, JSON.stringify(res.body));
+  });
+
   /*
    * Backup and restore is the one place in the CMS where a mistake destroys
    * data, so it is exercised end to end rather than endpoint by endpoint: take

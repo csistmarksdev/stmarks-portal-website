@@ -23,6 +23,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { assertNoPlaceholderContent } from "../../common/utils/content-guards";
 import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import {
   describeVideoProblem,
@@ -63,6 +64,26 @@ export class GalleryService {
 
   private toAdmin(doc: GalleryAlbumDocument): WithSchedule<GalleryAlbum> {
     return serializeDoc<WithSchedule<GalleryAlbum>>(doc);
+  }
+
+  /**
+   * F-003: a record cannot be *published* while its slug, title (either
+   * language) or an item caption still reads as placeholder text. Drafts are exempt.
+   */
+  private assertPublishable(record: {
+    slug: string;
+    title: { en?: string; ta?: string };
+    photos?: Array<{ caption?: { en?: string; ta?: string } }>;
+  }): void {
+    assertNoPlaceholderContent({
+      kind: "album",
+      slug: record.slug,
+      title: record.title,
+      extra: (record.photos ?? []).map((photo, index) => ({
+        label: `item ${index + 1} caption`,
+        value: photo.caption,
+      })),
+    });
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -141,6 +162,9 @@ export class GalleryService {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
+    if ((dto.status ?? "draft") === "published") {
+      this.assertPublishable({ slug, title: dto.title });
+    }
     const doc = await this.repo.create({
       ...dto,
       date: new Date(dto.date),
@@ -173,6 +197,14 @@ export class GalleryService {
       );
     }
 
+    if ((dto.status ?? existing.status) === "published") {
+      this.assertPublishable({
+        slug,
+        title: dto.title ?? existing.title,
+        photos: existing.photos,
+      });
+    }
+
     const doc = await this.repo.updateById(id, {
       ...dto,
       slug,
@@ -189,6 +221,9 @@ export class GalleryService {
     status: PublishStatus,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<GalleryAlbum>> {
+    if (status === "published") {
+      this.assertPublishable(await this.repo.findByIdOrThrow(id));
+    }
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";
@@ -229,6 +264,10 @@ export class GalleryService {
         video: { url: photo.video.url, provider },
       };
     });
+    const album = await this.repo.findByIdOrThrow(id);
+    if (album.status === "published") {
+      this.assertPublishable({ slug: album.slug, title: album.title, photos: additions });
+    }
     const doc = await this.repo.updateById(id, {
       $push: { photos: { $each: additions } },
     });
