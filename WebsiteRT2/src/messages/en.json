@@ -40,7 +40,13 @@
     "switchingToSimple": "Switching to Simple mode…",
     "switchingToAnimated": "Switching to animated mode…",
     "switchToLanguage": "Read this page in {language}",
-    "menuDialog": "Site menu"
+    "menuDialog": "Site menu",
+    "heroPhotos": "Photographs",
+    "heroPhoto": "Photo {index} of {count}",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "pauseSlideshow": "Pause slideshow",
+    "playSlideshow": "Play slideshow"
   },
   "nav": {
     "primary": "Primary",

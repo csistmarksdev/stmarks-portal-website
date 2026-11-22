@@ -40,7 +40,13 @@
     "switchingToSimple": "எளிய முறைக்கு மாறுகிறது…",
     "switchingToAnimated": "அசைவூட்ட முறைக்கு மாறுகிறது…",
     "switchToLanguage": "இந்தப் பக்கத்தை {language} மொழியில் படிக்க",
-    "menuDialog": "தளப் பட்டியல்"
+    "menuDialog": "தளப் பட்டியல்",
+    "heroPhotos": "படங்கள்",
+    "heroPhoto": "படம் {index} / {count}",
+    "previousPhoto": "முந்தைய படம்",
+    "nextPhoto": "அடுத்த படம்",
+    "pauseSlideshow": "படக்காட்சியை நிறுத்து",
+    "playSlideshow": "படக்காட்சியைத் தொடங்கு"
   },
   "nav": {
     "primary": "முதன்மை",

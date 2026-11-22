@@ -6,13 +6,10 @@ import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 /**
- * Every hero shows one photograph: the first in its list.
- *
- * With a single frame {@link PinnedHero} has nothing to move, so the hero does
- * not lock and the page scrolls straight past it into the content. The other
- * files in `public/hero/<section>/` stay in use by the splash montage.
+ * Every chapter hero is a slideshow of up to this many photographs from its
+ * folder, with pagination dots - see {@link PinnedHero}.
  */
-const HERO_FRAMES = 1;
+const HERO_FRAMES = 6;
 
 export interface PageHeroProps {
   eyebrow?: string;
