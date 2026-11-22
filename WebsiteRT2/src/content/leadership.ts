@@ -165,7 +165,10 @@ export interface PresbyterTerm {
   /** Qualifier shown after the name, e.g. an additional-charge appointment. */
   note?: LocalizedText;
   from: string;
+  /** Empty for the term still running - see `current`. */
   to: string;
+  /** The presbyter serving now; rendered as "{from} – present" in each language. */
+  current?: boolean;
 }
 
 /**
@@ -237,7 +240,13 @@ export const PRESBYTER_ERAS: PresbyterEra[] = [
       { no: 4, name: "Rev. M. John Christopher", from: "June 2018", to: "May 2023" },
       { no: 5, name: "Rev. D. Paul William", from: "June 2023", to: "May 2024" },
       { no: 6, name: "Rev. D. Y. Dinakaran", from: "June 2024", to: "May 2025" },
+      // TODO(church-office): reconfirm Rev. Y. John Bunyan's entry - the diocese
+      // directory lists him at Madipakkam Unit now, as Associate Presbyter (F-012).
       { no: 7, name: "Rev. Y. John Bunyan", from: "June 2025", to: "May 2026" },
+      // F-012: the current Presbyter-in-charge was missing from the roll.
+      // Text from the audit handoff (FC-14).
+      // TODO(church-office): confirm the start date "June 2026".
+      { no: 8, name: "Rev. V. Pavun Sangeetha", from: "June 2026", to: "", current: true },
     ],
   },
 ];

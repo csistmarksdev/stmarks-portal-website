@@ -458,7 +458,9 @@ export async function LeadershipSection() {
                         lines mid-dash.
                       */}
                       <p className="numeric whitespace-nowrap pl-8 text-sm font-semibold text-accent-700 sm:pl-0 sm:text-base">
-                        {t("presbyters.term", { from: term.from, to: term.to })}
+                        {term.current
+                          ? t("presbyters.termCurrent", { from: term.from })
+                          : t("presbyters.term", { from: term.from, to: term.to })}
                       </p>
                     </div>
                   </li>
