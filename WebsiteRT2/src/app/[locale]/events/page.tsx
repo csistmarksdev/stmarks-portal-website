@@ -13,6 +13,7 @@ import { Section, SectionHeading } from "@/components/ui/section";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { getPastEvents, getUpcomingEvents } from "@/services";
 
 export function generateStaticParams() {
@@ -27,11 +28,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "events.meta" });
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.eventArchive,
     title: t("title"),
     description: t("description"),
-    openGraph: { title: t("title"), description: t("description") },
-  };
+  });
 }
 
 /**

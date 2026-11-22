@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
 import { SectionDivider } from "@/components/common/section-divider";
@@ -20,6 +21,9 @@ import { EventsSection } from "@/features/sections/events-section";
 import { FellowshipsSection } from "@/features/sections/fellowships-section";
 import { GallerySection } from "@/features/sections/gallery-section";
 import { LeadershipSection } from "@/features/sections/leadership-section";
+import { ROUTES } from "@/constants/site";
+import type { Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 
 /**
  * The site.
@@ -45,6 +49,16 @@ import { LeadershipSection } from "@/features/sections/leadership-section";
  * the work a route change used to do: it tells the reader a new subject has
  * started without them having to read a word.
  */
+/** Self-referencing canonical and hreflang for the home page (F-002). */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata({ locale: locale as Locale, path: ROUTES.home });
+}
+
 export default async function HomePage({
   params,
 }: {

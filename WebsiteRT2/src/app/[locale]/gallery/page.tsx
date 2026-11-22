@@ -11,6 +11,7 @@ import { Section } from "@/components/ui/section";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { getGallery } from "@/services";
 
 export function generateStaticParams() {
@@ -25,11 +26,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "gallery.meta" });
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.albumArchive,
     title: t("title"),
     description: t("description"),
-    openGraph: { title: t("title"), description: t("description") },
-  };
+  });
 }
 
 /**

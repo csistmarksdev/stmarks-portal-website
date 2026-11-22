@@ -11,6 +11,7 @@ import { Heading, Prose } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getBlogPostBySlug, getBlogSlugs, getEventBySlug } from "@/services";
@@ -36,18 +37,16 @@ export async function generateMetadata({
   const title = localize(post.title, locale as Locale);
   const description = localize(post.excerpt, locale as Locale);
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.blogPost(slug),
     title,
     description,
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      publishedTime: post.publishedAt,
-      authors: [localize(post.author, locale as Locale)],
-      images: post.coverImage ? [{ url: post.coverImage.url }] : undefined,
-    },
-  };
+    image: post.coverImage?.url,
+    type: "article",
+    publishedTime: post.publishedAt,
+    authors: [localize(post.author, locale as Locale)],
+  });
 }
 
 export default async function BlogPostPage({

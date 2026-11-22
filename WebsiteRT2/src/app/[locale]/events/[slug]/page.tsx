@@ -14,6 +14,7 @@ import { Heading, Prose, Text } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { formatDateTime, getEventStatus } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getEventBySlug, getEventSlugs } from "@/services";
@@ -39,16 +40,13 @@ export async function generateMetadata({
   const title = localize(event.title, locale as Locale);
   const description = localize(event.summary, locale as Locale);
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.event(slug),
     title,
     description,
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      images: event.image ? [{ url: event.image.url }] : undefined,
-    },
-  };
+    image: event.image?.url,
+  });
 }
 
 export default async function EventDetailPage({

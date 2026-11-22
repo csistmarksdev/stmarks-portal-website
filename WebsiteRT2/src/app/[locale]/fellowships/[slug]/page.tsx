@@ -23,6 +23,7 @@ import { Eyebrow, Heading, Prose, Text } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { localize, localizeAll } from "@/lib/localize";
 import {
   getAlbumsByFellowship,
@@ -67,15 +68,13 @@ export async function generateMetadata({
   const title = localize(fellowship.name, locale as Locale);
   const description = localize(fellowship.tagline, locale as Locale);
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.fellowship(slug),
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: [{ url: fellowship.banner.url }],
-    },
-  };
+    image: fellowship.banner.url,
+  });
 }
 
 export default async function FellowshipPage({

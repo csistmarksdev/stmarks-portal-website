@@ -130,25 +130,13 @@ export async function generateMetadata({
       template: `%s · ${t("shortName")}`,
     },
     description,
-    alternates: {
-      canonical: locale === routing.defaultLocale ? "/" : `/${locale}`,
-      /*
-       * Derived, not written out.
-       *
-       * This was `{ en: "/", ta: "/ta" }`, which silently encoded English as
-       * the language served from the root. The moment Tamil became the default
-       * that map was wrong in the one place nobody looks - hreflang - and it
-       * would have told search engines the Tamil homepage was the English one.
-       * Built from `routing` instead, so it can only ever agree with the
-       * router.
-       */
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [
-          l,
-          l === routing.defaultLocale ? "/" : `/${l}`,
-        ]),
-      ),
-    },
+    /*
+     * No `alternates` here (F-002). Metadata merges shallowly, so whatever the
+     * layout declares is inherited by every page that does not override it -
+     * which is how ~60 inner URLs, and every 404, came to declare the home page
+     * as their canonical. Each route sets its own through `pageMetadata()` in
+     * `src/lib/seo.ts`; a page that sets none (a 404) declares none.
+     */
     openGraph: {
       type: "website",
       siteName: name,

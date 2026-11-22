@@ -10,6 +10,7 @@ import { PhotoGrid } from "@/features/gallery/photo-grid";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/date";
 import { localize } from "@/lib/localize";
 import { getAlbumBySlug, getAlbumSlugs } from "@/services";
@@ -37,15 +38,13 @@ export async function generateMetadata({
     ? localize(album.description, locale as Locale)
     : undefined;
 
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: ROUTES.album(slug),
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: [{ url: album.cover.url }],
-    },
-  };
+    image: album.cover.url,
+  });
 }
 
 export default async function AlbumPage({
