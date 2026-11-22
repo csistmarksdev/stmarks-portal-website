@@ -78,7 +78,62 @@ export function isPublishablePhoto(photo: GalleryPhoto): boolean {
   return !looksLikePlaceholder(photo.image.alt, photo.caption);
 }
 
+/** "Scene2.png", "IMG_1234", "DSC0042.jpg" - a file name, not a description. */
+const FILENAME_ALT =
+  /\.(png|jpe?g|webp|gif|avif|heic)$|^(img|dsc|dscn|scene|photo|image)[\s_-]?\d+$/i;
+
+/**
+ * F-046: alt text that tells a screen-reader user nothing. A file name becomes
+ * "<album> - photo 2 of 3"; an alt repeated across an album gets the photo's
+ * number, so eight identical "Easter service moment"s become eight
+ * distinguishable items. Describing what is actually in each photograph is
+ * for whoever uploads it, in the Portal.
+ */
+function fixAlts(album: GalleryAlbum, photos: GalleryPhoto[]): GalleryPhoto[] {
+  const count = photos.length;
+  const seen = new Map<string, number>();
+  for (const photo of photos) {
+    const key = photo.image.alt.en;
+    seen.set(key, (seen.get(key) ?? 0) + 1);
+  }
+
+  return photos.map((photo, i) => {
+    const n = i + 1;
+    const alt = photo.image.alt;
+    const numbered = {
+      en: `photo ${n} of ${count}`,
+      ta: `படம் ${n} / ${count}`,
+    };
+
+    if (FILENAME_ALT.test(alt.en.trim()) || FILENAME_ALT.test(alt.ta.trim())) {
+      return {
+        ...photo,
+        image: {
+          ...photo.image,
+          alt: {
+            en: `${album.title.en} - ${numbered.en}`,
+            ta: `${album.title.ta} - ${numbered.ta}`,
+          },
+        },
+      };
+    }
+
+    if ((seen.get(alt.en) ?? 0) > 1) {
+      return {
+        ...photo,
+        image: {
+          ...photo.image,
+          alt: { en: `${alt.en} - ${numbered.en}`, ta: `${alt.ta} - ${numbered.ta}` },
+        },
+      };
+    }
+
+    return photo;
+  });
+}
+
 export function cleanAlbum(album: GalleryAlbum): GalleryAlbum | null {
   if (!isPublishable(album)) return null;
-  return { ...album, photos: album.photos.filter(isPublishablePhoto) };
+  const photos = album.photos.filter(isPublishablePhoto);
+  return { ...album, photos: fixAlts(album, photos) };
 }
