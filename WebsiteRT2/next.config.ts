@@ -26,18 +26,76 @@ function portalApiUrl(): URL | null {
   }
 }
 
+/**
+ * Hosts `next/image` may optimise: the Portal API host, plus any media hosts
+ * listed in `MEDIA_HOSTS` (comma-separated https origins - e.g. the object
+ * storage bucket uploads move to, F-031). Extra media hosts are https-only.
+ */
 function portalMediaPatterns() {
   const api = portalApiUrl();
-  if (!api) return [];
+  const patterns: {
+    protocol: "http" | "https";
+    hostname: string;
+    port: string;
+    pathname: string;
+  }[] = [];
 
-  return [
-    {
+  if (api) {
+    patterns.push({
       protocol: api.protocol.replace(":", "") as "http" | "https",
       hostname: api.hostname,
       port: api.port,
       pathname: "/uploads/**",
-    },
-  ];
+    });
+  }
+
+  for (const origin of (process.env.MEDIA_HOSTS ?? "").split(",")) {
+    const trimmed = origin.trim();
+    if (!trimmed) continue;
+    try {
+      const url = new URL(trimmed);
+      if (url.protocol !== "https:") continue;
+      patterns.push({
+        protocol: "https",
+        hostname: url.hostname,
+        port: url.port,
+        pathname: "/**",
+      });
+    } catch {
+      // A malformed entry should not take the build down.
+    }
+  }
+
+  return patterns;
+}
+
+/**
+ * F-008 / F-031: the Portal is still plain HTTP on a bare IP. Once ops have put
+ * it behind HTTPS on a named host (team/build/ops-steps.md), set
+ * `REQUIRE_HTTPS_API=1` and the build refuses an `http:` API base instead of
+ * quietly shipping one. Until then it only warns, so the preview keeps working.
+ */
+function assertHttpsApi(): void {
+  const api = portalApiUrl();
+  if (!api || api.protocol === "https:" || apiIsOnPrivateNetwork()) return;
+  const message = `NEXT_PUBLIC_API_URL is ${api.origin} (plain HTTP). Move the Portal behind HTTPS - see team/build/ops-steps.md.`;
+  if (process.env.REQUIRE_HTTPS_API === "1") throw new Error(message);
+  console.warn(`[security] ${message}`);
+}
+
+/**
+ * The production host - the only one search engines should index (F-015).
+ * Every other host (csistmarks.vercel.app, preview deployments) answers with
+ * `X-Robots-Tag: noindex`, so the preview cannot compete with the real domain.
+ */
+function productionHost(): string {
+  try {
+    return new URL(
+      process.env.NEXT_PUBLIC_SITE_URL ?? "https://csistmarksmadipakkam.org",
+    ).host;
+  } catch {
+    return "csistmarksmadipakkam.org";
+  }
 }
 
 /**
@@ -68,6 +126,8 @@ function apiIsOnPrivateNetwork(): boolean {
     /^172\.(1[6-9]|2\d|3[01])\./.test(host)
   );
 }
+
+assertHttpsApi();
 
 const nextConfig: NextConfig = {
   // Let other devices on the LAN load dev-only assets (/_next/*, HMR socket).
@@ -138,14 +198,31 @@ const nextConfig: NextConfig = {
       { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
     ];
 
-    // Both frame sequences, in both their desktop and phone sizes.
-    return [
+    // Both frame sequences, in both their desktop and phone sizes, plus the
+    // small header/footer marks and the share image (F-018).
+    const cached = [
       "/frames/:path*",
       "/frames-m/:path*",
       "/welcome-frames/:path*",
       "/welcome-frames-m/:path*",
       "/hero/:path*",
+      "/brand/:path*",
+      "/og/:path*",
     ].map((source) => ({ source, headers: immutable }));
+
+    // F-015: noindex on every host that is not the production one.
+    const noindexElsewhere = {
+      source: "/:path*",
+      missing: [
+        {
+          type: "host" as const,
+          value: productionHost().replace(/\./g, "\\."),
+        },
+      ],
+      headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+    };
+
+    return [...cached, noindexElsewhere];
   },
 };
 
