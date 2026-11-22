@@ -1,9 +1,11 @@
 /**
  * The splash montage's arithmetic and running order, apart from the DOM.
  *
- * This lives outside `components/common/splash-screen.tsx` for one reason: it
- * is the part that can be wrong in ways nobody sees. The component's job is
- * layers and attributes, which either look right or do not; this file decides
+ * Not used by the site at present: the splash (`components/common/splash-screen.tsx`)
+ * is now a short title card on the home page and plays no montage (F-017). Kept,
+ * with `scripts/verify-splash-montage.mjs`, in case a montage returns.
+ *
+ * It was kept apart from the component because this file decides
  * *how many photographs are shown*, in what order and for how long, and a
  * mistake here is a montage that runs beautifully and quietly drops two thirds
  * of the parish. That happened - a reduced-motion branch capped the sequence at
