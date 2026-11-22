@@ -11,6 +11,7 @@ import {
 } from "@/features/home/hero-panels";
 import { HeroStage } from "@/features/home/hero-stage";
 import { PastorMessageSection } from "@/features/home/pastor-message";
+import { ThisSundayStrip } from "@/features/home/this-sunday-strip";
 import { VerseOfWeek } from "@/features/home/verse-of-week";
 import { AboutSection } from "@/features/sections/about-section";
 import { AnnouncementsSection } from "@/features/sections/announcements-section";
@@ -76,13 +77,22 @@ export default async function HomePage({
         cinematic sequence as pinned scenes. The longer scroll length gives
         each scene room to morph into the next.
       */}
-      <CinematicHero scrollLength={8}>
-        <HeroStage
-          welcome={<HeroWelcomePanel />}
-          timings={<HeroTimingsPanel />}
-          events={<HeroEventsPanel />}
-        />
-      </CinematicHero>
+      <div className="relative">
+        <CinematicHero scrollLength={8}>
+          <HeroStage
+            welcome={<HeroWelcomePanel />}
+            timings={<HeroTimingsPanel />}
+            events={<HeroEventsPanel />}
+          />
+        </CinematicHero>
+
+        {/*
+          F-048: service times, place and directions on the first screen. Laid
+          over the bottom of the first viewport rather than inside the pinned
+          stage, so it scrolls away with the page while the hero holds.
+        */}
+        <ThisSundayStrip className="absolute inset-x-0 top-[calc(100svh-6.75rem)] z-20 sm:top-[calc(100svh-5.5rem)]" />
+      </div>
 
       {/*
         The sequence continues. Where the hero's 300 frames end inside the

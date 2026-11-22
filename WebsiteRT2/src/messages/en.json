@@ -193,6 +193,11 @@
       "directions": "Get directions",
       "enquiries": "For Sunday School enrolment, baptism or a wedding, please contact the Hon. Secretary or the Hon. Treasurer.",
       "enquiriesLink": "Their details are under Leadership."
+    },
+    "thisSunday": {
+      "label": "Sunday services",
+      "directions": "Get directions",
+      "newTab": "opens in a new tab"
     }
   },
   "about": {

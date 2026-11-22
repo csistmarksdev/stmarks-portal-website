@@ -53,7 +53,8 @@ export function HeroStage({ welcome, timings, events }: HeroStageProps) {
         progress={progress}
         start={0}
         end={0.13}
-        className="items-end pb-24 sm:pb-28"
+        // pb-32 on phones clears the "This Sunday" strip (F-048) under the title.
+        className="items-end pb-32 sm:pb-28"
       >
         <Container>
           {/*
