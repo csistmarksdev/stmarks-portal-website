@@ -83,15 +83,9 @@ export default async function HomePage({
             welcome={<HeroWelcomePanel />}
             timings={<HeroTimingsPanel />}
             events={<HeroEventsPanel />}
+            sunday={<ThisSundayStrip />}
           />
         </CinematicHero>
-
-        {/*
-          F-048: service times, place and directions on the first screen. Laid
-          over the bottom of the first viewport rather than inside the pinned
-          stage, so it scrolls away with the page while the hero holds.
-        */}
-        <ThisSundayStrip className="absolute inset-x-0 top-[calc(100svh-6.75rem)] z-20 sm:top-[calc(100svh-5.5rem)]" />
       </div>
 
       {/*

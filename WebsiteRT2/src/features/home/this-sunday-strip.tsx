@@ -16,8 +16,9 @@ import { getChurchProfile, getServiceTimings } from "@/services";
  * them in the Portal fixes this strip too. No call button until a real office
  * phone exists (F-007).
  *
- * Placed by the home page at the bottom of the first screen, outside the
- * cinematic hero, so it scrolls away with the page while the hero stays pinned.
+ * Rendered inside the hero's opening scene, under the tagline, so it arrives
+ * and fades with the title and leaves the scroll cue at the foot of the screen
+ * clear.
  */
 export async function ThisSundayStrip({ className }: { className?: string }) {
   const [t, timings, profile] = await Promise.all([
@@ -46,17 +47,16 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
     <aside
       aria-label={t("label")}
       className={cn(
-        "pointer-events-none flex justify-center px-2 pb-2 sm:px-6 sm:pb-5",
+        "flex",
         className,
       )}
     >
-      <div className="pointer-events-auto flex w-full max-w-5xl flex-col gap-1.5 rounded-2xl border border-white/15 bg-black/55 px-3.5 py-2.5 text-white shadow-lg backdrop-blur-md sm:flex-row sm:items-center sm:gap-5 sm:px-6 sm:py-3">
+      <div className="flex w-full max-w-3xl flex-col gap-1.5 rounded-2xl border border-white/15 bg-black/45 px-3.5 py-2.5 text-white shadow-lg backdrop-blur-md sm:flex-row sm:items-center sm:gap-5 sm:px-5 sm:py-3">
         <p className="min-w-0 text-[0.9375rem] leading-snug sm:flex-1 sm:text-base">
           <span className="font-semibold">{t("label")}:</span>{" "}
-          <span className="numeric">{compact}</span>
-          <span className="hidden text-sm text-white/75 md:inline">
-            {" "}
-            ({sunday.map((timing) => localize(timing.service, locale)).join(", ")})
+          <span className="numeric whitespace-nowrap">{compact}</span>
+          <span className="mt-0.5 hidden text-sm text-white/75 md:block">
+            {sunday.map((timing) => localize(timing.service, locale)).join(" · ")}
           </span>
         </p>
 
