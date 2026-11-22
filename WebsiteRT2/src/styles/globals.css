@@ -5950,7 +5950,13 @@ html:where([data-motion="off"]) {
  * little generous - the pill has padding above it that the custom property
  * does not describe.
  */
-main [id] {
+/*
+ * Widened from `main [id]` (F-020): a section given an id outside `main`, and
+ * the footer's own targets, are fragment destinations too. `:where()` keeps
+ * the specificity low, so any component that sets its own margin still wins.
+ */
+:where(main, footer) [id],
+section:where([id]) {
   scroll-margin-top: calc(var(--header-height) + var(--safe-top) + 2.5rem);
 }
 
