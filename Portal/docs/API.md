@@ -10,6 +10,7 @@ A ready-to-import **Postman collection + environment** lives in [`docs/postman/`
 - All responses are JSON. Localized fields always contain both `en` and `ta`. Dates are ISO 8601 strings.
 - Public list endpoints return a **plain array**; adding `?page=` or `?pageSize=` switches the response to `Paginated<T>` = `{ items, total, page, pageSize, hasMore }`.
 - Public endpoints serve **published** records only and omit the internal `status` field. Admin responses include `status`.
+- **Publish schedule (F-049)** — events, blog posts, gallery albums and announcements also take an optional `publishAt` (ISO datetime), and announcements an optional `expiresAt`. Every public read of those types (list, `/:slug`, `/slugs`, `/announcements/pinned`, and the `fellowship`/`event`/`status` filters) returns only records with `status: published`, `publishAt` absent or `<= now`, and (announcements) `expiresAt` absent or `> now`. Both fields are admin-only and never appear in public responses, so the public shapes are unchanged. Absent = no schedule / no expiry, which is how every record created before these fields existed behaves. Note the website is not pinged for revalidation at the scheduled instant; it picks the change up on its normal refresh.
 - Errors use the envelope `{ statusCode, error, message, path, timestamp }`.
 
 ## Public endpoints (the Website contract — §5 of Website/README.md)
@@ -56,6 +57,12 @@ Standard CRUD shape for each content collection `X ∈ events, blog, gallery, an
 - `GET /admin/X` — paginated, `search`, `status` filters (+ resource-specific filters)
 - `GET /admin/X/:id` · `POST /admin/X` · `PATCH /admin/X/:id` · `DELETE /admin/X/:id`
 - `PATCH /admin/X/:id/status` — `{ status: draft|published|archived }`
+- `publishAt` / `expiresAt` on create/PATCH of events, blog, gallery and announcements (`expiresAt` announcements only); `null` in a PATCH clears either. An `expiresAt` not later than `publishAt` → **400**.
+
+Save-time checks (all **400** with a message the CMS shows as the save error):
+
+- **Placeholder content (F-003)** — publishing (create/PATCH with `status: published`, or `PATCH …/status`) an event, blog post, album or announcement is refused when its slug or either language of its title contains `sample`, `demo`, `test`, `lorem`, `ipsum`, `placeholder` or `dummy` as a whole word (case-insensitive), or contains `மாதிரி`. Albums also check item captions, including items added to an album that is already published. Drafts are exempt.
+- **Event slug year (F-005)** — when an event slug has a `19xx`/`20xx` token (e.g. `womens-fellowship-day-2026`), the start date must fall in that year in Asia/Kolkata. Checked on create and every update, drafts included.
 
 Extras:
 
