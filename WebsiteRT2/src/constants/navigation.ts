@@ -96,6 +96,9 @@ export function fellowshipNavChildren(
   }));
 }
 
+/** The home page's service-timings block, reached from two places in the menu. */
+const SERVICE_TIMES_HREF = sectionHref("service-timings");
+
 export const MAIN_NAV: NavItem[] = [
   // No "Home" item - the wordmark links home, so it would be redundant.
   //
@@ -115,13 +118,17 @@ export const MAIN_NAV: NavItem[] = [
       { labelKey: "aboutItems.diocese", href: sectionHref("diocese") },
       {
         labelKey: "aboutItems.serviceTimings",
-        href: sectionHref("service-timings"),
+        href: SERVICE_TIMES_HREF,
       },
-      // The one entry that still leaves the page, because Contact is still a
-      // page. It used to point at the about page's own closing call to action.
-      { labelKey: "aboutItems.contact", href: ROUTES.contact },
+      // Contact used to be repeated here as well as at the top level. It is a
+      // page of its own and the top-level item already reaches it, so the
+      // duplicate went (F-019).
     ],
   },
+  // The question most visitors arrive with - "when is the service?" - one tap
+  // from the bar rather than two levels down under About (F-019). The same
+  // anchor the About submenu uses, so there is one target to keep correct.
+  { labelKey: "serviceTimes", href: SERVICE_TIMES_HREF },
   {
     labelKey: "leadership",
     href: ROUTES.leadership,
