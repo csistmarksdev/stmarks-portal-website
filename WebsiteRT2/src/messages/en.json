@@ -521,7 +521,9 @@
         "email": "Please enter a valid email address.",
         "subject": "Please enter a subject.",
         "message": "Please enter a message of at least 10 characters."
-      }
+      },
+      "consent": "By sending this message you agree that the church office may use your name, email and phone only to reply to you. We keep messages for {months} months.",
+      "consentLink": "Read our Privacy Notice."
     }
   },
   "serviceTimings": {
@@ -605,5 +607,17 @@
       "greeting": "Remember that you are dust, and to dust you shall return",
       "reference": "Genesis 3:19"
     }
+  },
+  "privacy": {
+    "title": "Privacy Notice",
+    "intro": "CSI St. Mark's Church, Madipakkam.",
+    "collect": "We collect only what you choose to give us (name, email, phone, message) to reply to you.",
+    "noSale": "We do not sell or share it.",
+    "retention": "We keep messages for {months} months, then delete them.",
+    "rights": "To see, correct or delete your data, or to withdraw consent, write to our Grievance Officer at",
+    "response": "We reply within 30 days (legal maximum 90).",
+    "board": "You may also complain to the Data Protection Board of India.",
+    "officer": "Grievance Officer (personal data): {officer}, CSI St. Mark's Church, Madipakkam —",
+    "footerLink": "Privacy Notice"
   }
 }

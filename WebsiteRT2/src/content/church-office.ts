@@ -49,4 +49,26 @@ export const CHURCH_OFFICE = {
    * are supplied, the enquiry note points readers to the Leadership section.
    */
   enquiryContacts: [] as { role: LocalizedText; phone?: string; email?: string }[],
+
+  /**
+   * TODO(church-office): the three facts the Privacy Notice needs (F-036).
+   * While any is missing, /privacy answers 404 and the contact form shows no
+   * consent line - a notice with blanks in it would be worse than none.
+   *  - retentionMonths: how long contact-form messages are kept (audit
+   *    suggests 12)
+   *  - grievanceOfficer: who handles data requests (audit suggests the
+   *    Hon. Secretary)
+   *  - grievanceEmail: a working address (not on an unregistered domain)
+   */
+  privacy: {
+    retentionMonths: null as number | null,
+    grievanceOfficer: null as LocalizedText | null,
+    grievanceEmail: null as string | null,
+  },
 } as const;
+
+/** True once the office has supplied everything the Privacy Notice states. */
+export function privacyNoticeReady(): boolean {
+  const p = CHURCH_OFFICE.privacy;
+  return Boolean(p.retentionMonths && p.grievanceOfficer && p.grievanceEmail);
+}

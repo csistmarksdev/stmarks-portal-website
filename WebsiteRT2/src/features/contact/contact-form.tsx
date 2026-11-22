@@ -6,6 +6,8 @@ import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/input";
+import { CHURCH_OFFICE, privacyNoticeReady } from "@/content/church-office";
+import { Link } from "@/i18n/navigation";
 import { submitContactForm } from "@/services";
 import type { ContactFormValues } from "@/types/content";
 
@@ -172,6 +174,17 @@ export function ContactForm() {
 
         <p className="text-sm text-[var(--muted-foreground)]">{t("subtitle")}</p>
       </div>
+
+      {/* F-036: notice at the point of collection, once the office has
+          supplied the retention period and Grievance Officer. */}
+      {privacyNoticeReady() ? (
+        <p className="text-sm text-[var(--muted-foreground)]">
+          {t("consent", { months: CHURCH_OFFICE.privacy.retentionMonths ?? 0 })}{" "}
+          <Link href="/privacy" className="link-underline text-[var(--primary)]">
+            {t("consentLink")}
+          </Link>
+        </p>
+      ) : null}
 
       {status.state === "done" ? (
         <div
