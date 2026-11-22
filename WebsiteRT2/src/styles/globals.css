@@ -5992,6 +5992,34 @@ html:where([data-motion="off"]) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Desktop bar: room for Service Times and the labelled language links        */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * The desktop row gained a ninth item (Service Times, F-019) and a language
+ * control with full names on 44px targets in place of "EN" / "த" on 24px ones
+ * (F-021) - together roughly 160px, against the ~30px the row had spare at
+ * 1280. Rather than shrink the type (0.72rem is already the floor for Tamil)
+ * or let the row collide, the church's name steps out of the bar between the
+ * nav breakpoint and 96rem, leaving the two crests - the same treatment the
+ * bar already gives it on a phone. It is hidden visually only: the link home
+ * is still announced by name.
+ */
+@media (min-width: 75rem) and (max-width: 95.9375rem) {
+  [data-header-pill] :has(> [data-wordmark]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /* Anchor targets                                                             */
 /* -------------------------------------------------------------------------- */
 
