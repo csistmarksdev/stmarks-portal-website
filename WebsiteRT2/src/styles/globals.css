@@ -6037,7 +6037,13 @@ html:where([data-motion="off"]) {
  * bar already gives it on a phone. It is hidden visually only: the link home
  * is still announced by name.
  */
-@media (min-width: 75rem) and (max-width: 95.9375rem) {
+/*
+ * Extended to every desktop width (was 75-96rem): the bar is capped in width,
+ * so above 96rem the name came back and the row overflowed - by 93px in Tamil
+ * even after the bar went from nine items to seven. The crests stay, the hero
+ * beneath carries the name at display size, and screen readers still hear it.
+ */
+@media (min-width: 75rem) {
   [data-header-pill] :has(> [data-wordmark]) {
     position: absolute;
     width: 1px;

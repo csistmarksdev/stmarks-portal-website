@@ -123,6 +123,10 @@ export const MAIN_NAV: NavItem[] = [
       // Contact used to be repeated here as well as at the top level. It is a
       // page of its own and the top-level item already reaches it, so the
       // duplicate went (F-019).
+      //
+      // Downloads lives here rather than on the bar: its categories are empty
+      // today (F-060), and nine top-level items did not fit the bar in Tamil.
+      { labelKey: "downloads", href: ROUTES.downloads },
     ],
   },
   // The question most visitors arrive with - "when is the service?" - one tap
@@ -163,11 +167,12 @@ export const MAIN_NAV: NavItem[] = [
       { labelKey: "eventsItems.upcoming", href: sectionHref("upcoming") },
       { labelKey: "eventsItems.past", href: sectionHref("past") },
       { labelKey: "eventsItems.blog", href: ROUTES.blog },
+      // Notices sit with the events they mostly announce - one item fewer on
+      // a bar that overflowed in Tamil.
+      { labelKey: "announcements", href: ROUTES.announcements },
     ],
   },
   { labelKey: "gallery", href: ROUTES.gallery },
-  { labelKey: "announcements", href: ROUTES.announcements },
-  { labelKey: "downloads", href: ROUTES.downloads },
   { labelKey: "contact", href: ROUTES.contact },
 ];
 
