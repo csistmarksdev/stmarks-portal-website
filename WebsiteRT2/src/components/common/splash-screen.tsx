@@ -156,7 +156,7 @@ const UNMOUNT_MS = EXIT_MS + 80;
  * eighteen photographs a second, and the eye needs longer to settle on a still
  * frame after that than it did after the gentler ending it used to have.
  */
-const FINAL_HOLD_MS = 550;
+const FINAL_HOLD_MS = 250;
 
 /**
  * How far ahead of the cut the montage re-checks that the coming frames have
@@ -959,7 +959,12 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
     timers.push(
       window.setTimeout(
         leave,
-        Math.max(MIN_PLAY_AFTER_HYDRATION_MS, maxHold - start),
+        Math.max(
+          MIN_PLAY_AFTER_HYDRATION_MS,
+          // The reel is never cut off: it plays through, then the finale.
+          Math.round(montageDuration) + FINAL_HOLD_MS + 250,
+          maxHold - start,
+        ),
       ),
     );
 
@@ -1487,31 +1492,52 @@ function consumeFirstVisit(): boolean {
  */
 const SHORT_CINEMATIC: MontageProfile = {
   ...CINEMATIC,
-  ceiling: 240,
-  base: 240,
-  perImage: 60,
-  min: 520,
-  max: 640,
-  fadeMax: 160,
+  /*
+   * A quick, even flipbook rather than the accelerating ramp: every photograph
+   * held the same ~95 ms with a hard cut, so each one appears whole. The ramp
+   * squeezed into this window gave the middle photographs a few dozen
+   * milliseconds of cross-fade each - they never appeared at full strength.
+   */
+  floor: 85,
+  ceiling: 110,
+  curve: 1,
+  base: 0,
+  perImage: 95,
+  min: 900,
+  max: 1300,
+  endFactor: 1,
+  fadeRatio: 0.1,
+  fadeMin: 0,
+  fadeMax: 20,
+  jitter: 0,
 };
 
+/** Reduced motion: the same photographs, slower and dissolving. */
 const SHORT_GENTLE: MontageProfile = {
   ...GENTLE,
-  ceiling: 260,
-  base: 260,
-  perImage: 60,
-  min: 560,
-  max: 680,
-  fadeMax: 200,
+  floor: 150,
+  ceiling: 220,
+  curve: 1,
+  base: 0,
+  perImage: 170,
+  min: 1600,
+  max: 2200,
+  endFactor: 1,
+  jitter: 0,
 };
 
-/** How many photographs the reel shows - was all 54 (~2.7 MB). */
-const REEL_LENGTH = 6;
+/** How many photographs the reel shows - was all 54 (~2.7 MB); ~600 KB now. */
+const REEL_LENGTH = 12;
 
-/** The first photograph of each chapter, up to `REEL_LENGTH`. */
+/**
+ * The first photograph of every chapter, then the second, up to `REEL_LENGTH`,
+ * so consecutive frames come from different chapters.
+ */
 function shortReel(reel: string[]): string[] {
   const firsts = reel.filter((src) => /\/01\.[a-z]+$/i.test(src));
-  return (firsts.length ? firsts : reel).slice(0, REEL_LENGTH);
+  const seconds = reel.filter((src) => /\/02\.[a-z]+$/i.test(src));
+  const picked = [...firsts, ...seconds];
+  return (picked.length ? picked : reel).slice(0, REEL_LENGTH);
 }
 
 export function SplashScreen({ reel = [] }: SplashScreenProps) {

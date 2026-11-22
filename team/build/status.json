@@ -136,7 +136,7 @@
    "sprint": 1,
    "owner": "Dev",
    "status": "fixed",
-   "note": "Original splash look restored at the church’s request (22 Nov), limited: home page only, once per browser tab, 6 photos instead of 54; counter runs 0→100 by ~1.5 s and the splash is gone by ~2.1 s (production build), never less than 1 s of play after hydration so slow phones still see it complete. Never on inner pages or client-side navigation; skipped in Simple mode."
+   "note": "Original splash look restored at the church’s request (22 Nov), limited: home page only, once per browser tab, 12 photos (~600 KB) instead of 54 (~2.7 MB), shown as a quick flipbook (each ~85-120 ms, hard cuts, full strength). Splash fully gone ~2.6 s at 50 Mbps, ~3.3 s at 9 Mbps (production build, 390px). Never on inner pages or client-side navigation; skipped in Simple mode. This is longer than the audit’s ~600 ms target by the church’s choice."
   },
   {
    "id": "F-018",
