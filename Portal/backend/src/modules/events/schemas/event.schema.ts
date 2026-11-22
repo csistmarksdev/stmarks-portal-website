@@ -53,6 +53,10 @@ export class ChurchEventEntity {
 
   @Prop({ default: false, index: true })
   featured: boolean;
+
+  /** F-049: not public before this instant. Unset = no schedule. */
+  @Prop({ type: Date, index: true })
+  publishAt?: Date;
 }
 
 export const ChurchEventSchema =

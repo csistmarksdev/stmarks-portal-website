@@ -51,6 +51,10 @@ export class BlogPostEntity {
   /** Computed server-side from `body` on every write (contract §5.2). */
   @Prop()
   readingMinutes?: number;
+
+  /** F-049: not public before this instant. Unset = no schedule. */
+  @Prop({ type: Date, index: true })
+  publishAt?: Date;
 }
 
 export const BlogPostSchema = SchemaFactory.createForClass(BlogPostEntity);

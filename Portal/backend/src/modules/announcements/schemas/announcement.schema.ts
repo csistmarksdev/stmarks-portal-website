@@ -34,6 +34,14 @@ export class AnnouncementEntity {
 
   @Prop({ enum: FELLOWSHIP_SLUGS, index: true })
   fellowshipSlug?: FellowshipSlug;
+
+  /** F-049: not public before this instant. Unset = no schedule. */
+  @Prop({ type: Date, index: true })
+  publishAt?: Date;
+
+  /** F-049: not public from this instant on. Unset = never expires. */
+  @Prop({ type: Date, index: true })
+  expiresAt?: Date;
 }
 
 export const AnnouncementSchema =

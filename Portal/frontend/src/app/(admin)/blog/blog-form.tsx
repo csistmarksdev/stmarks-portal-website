@@ -35,7 +35,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { fellowshipOptions } from "@/config/fields";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
 import { renderInline } from "@/lib/rich-text";
-import { cn, toDateInput } from "@/lib/utils";
+import { cn, toDateInput, toDatetimeLocal } from "@/lib/utils";
 
 const EMPTY_TEXT: LocalizedText = { en: "", ta: "" };
 
@@ -49,6 +49,7 @@ interface BlogRecord {
   eventSlug?: string;
   fellowshipSlug?: string;
   status?: PublishStatus;
+  publishAt?: string;
 }
 
 /**
@@ -65,6 +66,8 @@ interface Draft {
   coverImage?: ImageAsset;
   eventSlug: string;
   fellowshipSlug: string;
+  /** F-049: datetime-local value; blank = no schedule. */
+  publishAt: string;
 }
 
 const BLANK: Draft = {
@@ -76,6 +79,7 @@ const BLANK: Draft = {
   publishedAt: toDateInput(new Date().toISOString()),
   eventSlug: "",
   fellowshipSlug: "",
+  publishAt: "",
 };
 
 /* -------------------------------------------------------------------------- */
@@ -221,6 +225,7 @@ export function BlogForm({ id }: { id?: string }) {
       coverImage: data.coverImage,
       eventSlug: data.eventSlug ?? "",
       fellowshipSlug: data.fellowshipSlug ?? "",
+      publishAt: toDatetimeLocal(data.publishAt),
     });
     setStatus(data.status ?? "draft");
     // An existing post is already past every gate.
@@ -293,6 +298,7 @@ export function BlogForm({ id }: { id?: string }) {
       coverImage: draft.coverImage ?? null,
       eventSlug: draft.eventSlug.trim() || null,
       fellowshipSlug: draft.fellowshipSlug.trim() || null,
+      publishAt: draft.publishAt ? new Date(draft.publishAt).toISOString() : null,
     };
 
     if (isEdit && id) {
@@ -569,6 +575,18 @@ export function BlogForm({ id }: { id?: string }) {
                 <option value="published">Published — live on the website</option>
                 <option value="archived">Archived — hidden, kept on file</option>
               </Select>
+              <div className="space-y-1.5 pt-3">
+                <Label>Publish at</Label>
+                <Input
+                  type="datetime-local"
+                  value={draft.publishAt}
+                  onChange={(event) => patch({ publishAt: event.target.value })}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Optional. A published post stays off the website until this
+                  time. Leave blank to show it as soon as it is published.
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>

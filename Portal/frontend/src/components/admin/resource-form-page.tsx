@@ -31,7 +31,14 @@ export type FieldDef =
   | { kind: "text"; name: string; label: string; required?: boolean; placeholder?: string }
   | { kind: "email"; name: string; label: string; required?: boolean }
   | { kind: "number"; name: string; label: string; required?: boolean }
-  | { kind: "date"; name: string; label: string; required?: boolean; withTime?: boolean }
+  | {
+      kind: "date";
+      name: string;
+      label: string;
+      required?: boolean;
+      withTime?: boolean;
+      help?: string;
+    }
   | { kind: "checkbox"; name: string; label: string; help?: string }
   | {
       kind: "select";
@@ -242,6 +249,9 @@ function FieldControl({
             value={(value as string) ?? ""}
             onChange={(event) => onChange(event.target.value)}
           />
+          {field.help && (
+            <p className="text-xs text-muted-foreground">{field.help}</p>
+          )}
         </div>
       );
     case "number":
@@ -406,7 +416,10 @@ export function ResourceFormPage({
                 ))}
               </Select>
               <p className="text-xs text-muted-foreground">
-                Only published records appear on the public website.
+                Only published records appear on the public website
+                {fields.some((field) => field.name === "publishAt")
+                  ? " — and only once their publish time has passed."
+                  : "."}
               </p>
             </div>
           )}

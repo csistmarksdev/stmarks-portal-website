@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChurchEvent, WithStatus } from "@portal/shared";
+import type { ChurchEvent, WithSchedule } from "@portal/shared";
 import { StarIcon } from "lucide-react";
 
 import { ResourceListPage } from "@/components/admin/resource-list-page";
@@ -9,7 +9,7 @@ import { formatDateTime } from "@/lib/utils";
 
 export default function EventsPage() {
   return (
-    <ResourceListPage<WithStatus<ChurchEvent>>
+    <ResourceListPage<WithSchedule<ChurchEvent>>
       title="Events"
       eyebrow="What's on"
       description="Services, festivals and gatherings. Published events appear on the website's events page; featured ones are highlighted on the home page."
