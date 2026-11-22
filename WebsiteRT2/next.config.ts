@@ -83,20 +83,6 @@ function assertHttpsApi(): void {
   console.warn(`[security] ${message}`);
 }
 
-/**
- * The production host - the only one search engines should index (F-015).
- * Every other host (csistmarks.vercel.app, preview deployments) answers with
- * `X-Robots-Tag: noindex`, so the preview cannot compete with the real domain.
- */
-function productionHost(): string {
-  try {
-    return new URL(
-      process.env.NEXT_PUBLIC_SITE_URL ?? "https://csistmarksmadipakkam.org",
-    ).host;
-  } catch {
-    return "csistmarksmadipakkam.org";
-  }
-}
 
 /**
  * Next 16 refuses to optimise images whose host resolves to a private or
@@ -210,15 +196,16 @@ const nextConfig: NextConfig = {
       "/og/:path*",
     ].map((source) => ({ source, headers: immutable }));
 
-    // F-015: noindex on every host that is not the production one.
+    /*
+     * F-015: never index a *.vercel.app host - the preview link, deployment
+     * URLs, branch previews. Matched on the host rather than on "not the
+     * production domain", so the preview can set NEXT_PUBLIC_SITE_URL to itself
+     * (working share previews, self-consistent canonicals) and still stay out
+     * of search results. The church's own domain is never matched.
+     */
     const noindexElsewhere = {
       source: "/:path*",
-      missing: [
-        {
-          type: "host" as const,
-          value: productionHost().replace(/\./g, "\\."),
-        },
-      ],
+      has: [{ type: "host" as const, value: ".*\\.vercel\\.app" }],
       headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
     };
 

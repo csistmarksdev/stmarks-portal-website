@@ -80,15 +80,25 @@ async function decode(svg) {
   };
 
   const alpha = await sharp(maskPng).toColourspace("b-w").raw().toBuffer();
+  const rgb = await sharp(colourPng).removeAlpha().raw().toBuffer();
 
-  const masked = await sharp(colourPng)
-    .removeAlpha()
-    .joinChannel(alpha, { raw: { width, height, channels: 1 } })
+  /*
+   * Interleaved by hand. `joinChannel` produced a 4-band image whose fourth
+   * band sharp did not treat as alpha, so the WebP came out RGB on black.
+   */
+  const rgba = Buffer.alloc(width * height * 4);
+  for (let i = 0, j = 0; i < width * height; i++, j += 4) {
+    rgba[j] = rgb[i * 3];
+    rgba[j + 1] = rgb[i * 3 + 1];
+    rgba[j + 2] = rgb[i * 3 + 2];
+    rgba[j + 3] = alpha[i];
+  }
+
+  const masked = await sharp(rgba, { raw: { width, height, channels: 4 } })
     .png()
     .toBuffer();
 
-  // A separate pipeline: sharp runs `extract` ahead of `joinChannel` when both
-  // are on one, and the crop is silently lost.
+  // A separate pipeline, so the crop applies to the masked image.
   return sharp(masked).extract(crop).png().toBuffer();
 }
 
