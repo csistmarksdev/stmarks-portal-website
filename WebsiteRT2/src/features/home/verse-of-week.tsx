@@ -20,6 +20,15 @@ import { getWeeklyVerse } from "@/services";
  * and a vignette that closes the edges - and the scripture is centred and
  * struck between gilded rules like the head of an illuminated page.
  */
+const VERSE_MAX_AGE_DAYS = 10;
+
+function isCurrentVerse(weekOf: string, now: Date = new Date()): boolean {
+  const dated = new Date(weekOf).getTime();
+  if (Number.isNaN(dated)) return false;
+  const ageDays = (now.getTime() - dated) / 86_400_000;
+  return ageDays <= VERSE_MAX_AGE_DAYS;
+}
+
 export async function VerseOfWeek() {
   const [t, verse] = await Promise.all([
     getTranslations("home.verse"),
@@ -27,6 +36,16 @@ export async function VerseOfWeek() {
   ]);
 
   const locale = (await getLocale()) as Locale;
+
+  /*
+   * F-025 / F-006: a "verse of the week" from four months ago tells every
+   * visitor the site is unattended - and the July verse in the Portal also
+   * carried a garbled Tamil John 3:16. Show the block only while the verse is
+   * current (dated within the last ten days); the page revalidates every five
+   * minutes, so it disappears on its own when the office stops updating it and
+   * comes back as soon as a new verse is published.
+   */
+  if (!isCurrentVerse(verse.weekOf)) return null;
 
   return (
     <section
