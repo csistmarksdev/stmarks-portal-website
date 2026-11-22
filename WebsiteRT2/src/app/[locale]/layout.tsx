@@ -6,7 +6,7 @@ import {
   Noto_Serif_Tamil,
 } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { BackToTop } from "@/components/common/back-to-top";
@@ -25,6 +25,7 @@ import { LenisProvider } from "@/providers/lenis-provider";
 import { heroImages } from "@/generated/hero-images";
 import { SITE_CONFIG } from "@/constants/site";
 import { routing, type Locale } from "@/i18n/routing";
+import { CLIENT_NAMESPACES, pickMessages } from "@/lib/client-messages";
 import { localize } from "@/lib/localize";
 import { MOTION_BOOTSTRAP } from "@/lib/motion-preference";
 import { getFellowshipsForNav } from "@/services";
@@ -191,10 +192,12 @@ export default async function LocaleLayout({
    * `ForNav` variant degrades instead of throwing, because this runs in the root
    * layout where an error would take every page down with it.
    */
-  const [t, fellowshipEntries] = await Promise.all([
+  const [t, fellowshipEntries, messages] = await Promise.all([
     getTranslations("common"),
     getFellowshipsForNav(),
+    getMessages(),
   ]);
+  const clientMessages = pickMessages(messages, CLIENT_NAMESPACES);
 
   /*
    * The menu is a client component and cannot reach for a record, so the names
@@ -288,7 +291,7 @@ export default async function LocaleLayout({
           {t("skipToContent")}
         </a>
 
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={clientMessages}>
           {/*
             First inside the provider, and so early in the body: the crest is
             what the reader should be looking at while the rest of this arrives,
