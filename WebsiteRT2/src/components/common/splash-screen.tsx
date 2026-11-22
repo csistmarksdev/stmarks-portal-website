@@ -109,6 +109,13 @@ const MIN_VISIBLE_MS = 1100;
  */
 const MAX_VISIBLE_MS = 1100;
 
+/**
+ * However late the JavaScript arrives (a slow phone, the dev server), the
+ * splash gets this long once it starts, so the counter runs to 100 instead of
+ * stopping part-way and fading.
+ */
+const MIN_PLAY_AFTER_HYDRATION_MS = 1000;
+
 /** The least the montage is allowed to overrun by before the ceiling fires. */
 const MAX_OVERRUN_MS = 900;
 
@@ -177,6 +184,10 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
   const t = useTranslations("common");
 
   const [phase, setPhase] = useState<"visible" | "leaving" | "gone">("visible");
+
+  useEffect(() => {
+    if (phase === "gone") splashPlayed = true;
+  }, [phase]);
   const crestRef = useRef<HTMLImageElement>(null);
   const groundRef = useRef<HTMLSpanElement>(null);
   const reelRef = useRef<HTMLSpanElement>(null);
@@ -944,7 +955,13 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
      * the case where the other gate is never going to open.
      */
     // From navigation start (`start` is already ms since then), not from now.
-    timers.push(window.setTimeout(leave, Math.max(0, maxHold - start)));
+    // ...but never sooner than MIN_PLAY_AFTER_HYDRATION_MS from now.
+    timers.push(
+      window.setTimeout(
+        leave,
+        Math.max(MIN_PLAY_AFTER_HYDRATION_MS, maxHold - start),
+      ),
+    );
 
     return () => {
       timers.forEach(window.clearTimeout);
@@ -1445,11 +1462,22 @@ const ONCE_SCRIPT = `try{var r=document.documentElement,k=${JSON.stringify(SEEN_
  * so a later remount (switching language re-renders the layout) does not play
  * the splash again.
  */
+let firstVisit: boolean | null = null;
+let splashPlayed = false;
+
+/*
+ * Decided once per document and cached, not re-read: React runs effects twice
+ * in development, and a mark consumed by the first run made the second run
+ * skip the splash. `splashPlayed` (set when the splash finishes) is what stops
+ * a later remount - switching language - from playing it again.
+ */
 function consumeFirstVisit(): boolean {
-  const root = document.documentElement;
-  if (!("splashFirst" in root.dataset)) return false;
-  delete root.dataset.splashFirst;
-  return true;
+  if (firstVisit === null) {
+    const root = document.documentElement;
+    firstVisit = "splashFirst" in root.dataset;
+    delete root.dataset.splashFirst;
+  }
+  return firstVisit && !splashPlayed;
 }
 
 /**
