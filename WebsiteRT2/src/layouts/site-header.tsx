@@ -487,9 +487,12 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             layout={reduceMotion ? false : "position"}
             className="flex shrink-0 items-center gap-1.5 sm:gap-2.5"
           >
+            {/* On the bar at every width now, phones included (F-021): a reader
+                who lands on the wrong language should not have to find it at
+                the bottom of the menu. */}
             <LanguageSwitcher
               tone={isHero ? "onDark" : "default"}
-              className="hidden sm:flex"
+              className="shrink-0"
             />
 
             {/* Simple mode, always on the bar: beside the menu button on a
