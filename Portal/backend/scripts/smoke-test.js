@@ -288,6 +288,64 @@ async function main() {
     assert.equal(direct.status, 200);
   });
 
+  await check("F-068: production CORS keeps writes/auth/admin to listed origins", async () => {
+    const { corsOptionsDelegate } = require("../dist/common/utils/cors");
+    const delegate = corsOptionsDelegate({
+      apiPrefix: "v1",
+      allowed: ["*", "https://cms.example.org"],
+      allowPrivateNetwork: false,
+      publicReadAnyOrigin: false,
+      production: true,
+    });
+    const optionsFor = (method, url, headers = {}) =>
+      new Promise((resolve) => delegate({ method, url, headers }, (_e, o) => resolve(o)));
+    const admits = (options, origin) =>
+      typeof options.origin === "string"
+        ? options.origin === "*"
+        : new Promise((resolve) => options.origin(origin, (_e, ok) => resolve(ok)));
+
+    // Public reads: an open, uncredentialed wildcard.
+    const read = await optionsFor("GET", "/v1/events?page=1");
+    assert.equal(read.origin, "*");
+    assert.equal(read.credentials, false);
+
+    // Writes, sign-in and admin reads: only the listed origin, even with "*".
+    for (const [method, url, headers] of [
+      ["POST", "/v1/auth/login"],
+      ["GET", "/v1/admin/events"],
+      ["PATCH", "/v1/admin/events/1"],
+      ["POST", "/v1/contact"],
+      ["OPTIONS", "/v1/admin/blog", { "access-control-request-method": "DELETE" }],
+      ["OPTIONS", "/v1/events", { "access-control-request-method": "POST" }],
+    ]) {
+      const options = await optionsFor(method, url, headers);
+      assert.equal(options.credentials, true, `${method} ${url} must be credentialed`);
+      assert.equal(await admits(options, "https://evil.example.com"), false,
+        `${method} ${url} admitted an unlisted origin`);
+      assert.equal(await admits(options, "https://cms.example.org"), true,
+        `${method} ${url} refused the listed origin`);
+    }
+
+    // A preflight for a public GET gets the open policy too.
+    const preflight = await optionsFor("OPTIONS", "/v1/blog", {
+      "access-control-request-method": "GET",
+    });
+    assert.equal(preflight.origin, "*");
+  });
+
+  await check("F-068: running app never answers a write with a wildcard", async () => {
+    const res = await fetch(`${BASE}/auth/login`, {
+      method: "OPTIONS",
+      headers: {
+        Origin: "http://evil.example.com",
+        "Access-Control-Request-Method": "POST",
+      },
+    });
+    const allow = res.headers.get("access-control-allow-origin");
+    assert.notEqual(allow, "*");
+    assert.notEqual(allow, "http://evil.example.com");
+  });
+
   console.log("Auth + admin flow:");
   let tokens;
   await check("POST /auth/login", async () => {
