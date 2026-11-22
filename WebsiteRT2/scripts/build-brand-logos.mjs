@@ -35,6 +35,15 @@ const SOURCES = [
 
 const HEIGHTS = [96, 192];
 
+/**
+ * Part of every output filename. /brand/* is served with a one-year immutable
+ * cache, so a changed image under an unchanged name is never refetched - which
+ * is how the first (black-background) build stayed on screens after the fix.
+ * Bump this whenever the output changes, and update the references in
+ * site-header.tsx, site-footer.tsx and splash-screen.tsx.
+ */
+const VERSION = "v2";
+
 const number = String.raw`(-?[\d.]+)`;
 
 /**
@@ -109,7 +118,7 @@ for (const { file, name } of SOURCES) {
   const rgba = await decode(readFileSync(source, "utf8"));
 
   for (const height of HEIGHTS) {
-    const output = path.join(outDir, `${name}-${height}.webp`);
+    const output = path.join(outDir, `${name}-${height}-${VERSION}.webp`);
     const { data, info } = await sharp(rgba)
       .resize({ height, kernel: "lanczos3" })
       .webp({ quality: 85, alphaQuality: 90, effort: 6 })

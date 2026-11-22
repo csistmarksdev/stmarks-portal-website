@@ -80,7 +80,7 @@ export async function SiteFooter() {
             */}
             <div className="flex items-center justify-center gap-4 sm:gap-5 lg:justify-start">
               <Image
-                src="/brand/csi-emblem-192.webp"
+                src="/brand/csi-emblem-192-v2.webp"
                 alt=""
                 aria-hidden
                 width={192}
@@ -122,7 +122,7 @@ export async function SiteFooter() {
                 leaves both drawings at the size they were.
               */}
               <Image
-                src="/brand/arms-192.webp"
+                src="/brand/arms-192-v2.webp"
                 alt=""
                 aria-hidden
                 width={117}

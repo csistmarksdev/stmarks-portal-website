@@ -423,7 +423,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
               {/* 96px raster in place of the 1.5 MB SVG, and no `priority`:
                   a 36px crest is not worth a preload ahead of the hero (F-018). */}
               <Image
-                src="/brand/csi-emblem-96.webp"
+                src="/brand/csi-emblem-96-v2.webp"
                 alt=""
                 aria-hidden
                 data-header-crest
@@ -465,7 +465,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
 
               {/* The diocese arms, balancing the parish crest across the name. */}
               <Image
-                src="/brand/arms-96.webp"
+                src="/brand/arms-96-v2.webp"
                 alt=""
                 aria-hidden
                 data-header-arms

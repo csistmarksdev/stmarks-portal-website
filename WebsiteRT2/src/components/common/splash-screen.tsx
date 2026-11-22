@@ -113,7 +113,7 @@ export const SplashScreen: (props: SplashScreenProps) => ReactNode =
         <div id={SPLASH_ID} ref={cardRef} aria-hidden>
           {/* eslint-disable-next-line @next/next/no-img-element -- in the server HTML before hydration; no optimiser round-trip */}
           <img
-            src="/brand/csi-emblem-192.webp"
+            src="/brand/csi-emblem-192-v2.webp"
             alt=""
             width={192}
             height={192}
