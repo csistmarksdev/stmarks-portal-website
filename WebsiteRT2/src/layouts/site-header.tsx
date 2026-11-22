@@ -328,14 +328,15 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             >
               {/* The parish crest. Drop-shadow lifts the silver shield edge off
                   both the dark hero and the light glass surface below it. */}
+              {/* 96px raster in place of the 1.5 MB SVG, and no `priority`:
+                  a 36px crest is not worth a preload ahead of the hero (F-018). */}
               <Image
-                src="/Logo1.svg"
+                src="/brand/csi-emblem-96.webp"
                 alt=""
                 aria-hidden
                 data-header-crest
-                width={940}
-                height={940}
-                priority
+                width={96}
+                height={96}
                 unoptimized
                 className="size-8 shrink-0 object-contain drop-shadow-sm sm:size-9"
               />
@@ -372,13 +373,12 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
 
               {/* The diocese arms, balancing the parish crest across the name. */}
               <Image
-                src="/Logo2.svg"
+                src="/brand/arms-96.webp"
                 alt=""
                 aria-hidden
                 data-header-arms
-                width={523}
-                height={860}
-                priority
+                width={58}
+                height={96}
                 unoptimized
                 className="h-8 w-auto shrink-0 object-contain drop-shadow-sm sm:h-9"
               />
