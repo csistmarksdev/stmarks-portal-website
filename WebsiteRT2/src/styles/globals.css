@@ -725,6 +725,38 @@ html[lang="ta"] :lang(ta)::after {
 }
 
 /*
+ * F-045: Tamil labels, eyebrows, dates and meta were 9-12px - too small for an
+ * elderly, phone-first congregation, and Tamil needs more size than Latin at
+ * the same nominal value. Under Tamil every label and every sub-14px size
+ * utility is raised to 14px (0.875rem); `text-sm` too, which a Tamil
+ * scale-down otherwise takes to 13px. Unlayered, so it beats the utilities
+ * and their responsive variants. The 8px file-format badge ("PDF") is Latin
+ * and left alone. The header's locality line is a separate case: it sits under
+ * the wordmark and is raised to 12px.
+ */
+html[lang="ta"] :is(
+    .label,
+    .text-xs,
+    .text-sm,
+    [class*="text-[0.575rem]"],
+    [class*="text-[0.625rem]"],
+    [class*="text-[0.65rem]"],
+    [class*="text-[0.6875rem]"],
+    [class*="text-[0.7rem]"],
+    [class*="text-[0.75rem]"],
+    [class*="text-[0.78rem]"],
+    [class*="text-[0.8rem]"],
+    [class*="text-[0.8125rem]"]
+  ):lang(ta):not([class*="text-[0.5rem]"]) {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+html[lang="ta"] [data-wordmark-sub] {
+  font-size: 0.75rem;
+}
+
+/*
  * Leading. Body text is 1.75 from `body`, but any element carrying a tight
  * Latin leading utility - `leading-[1.05]` and `[1.08]` on display type,
  * `tight`/`snug` on card titles - overrode that with a value tuned for

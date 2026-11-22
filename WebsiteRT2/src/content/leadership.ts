@@ -28,7 +28,7 @@ export const LEADERS: Leader[] = [
     ...timestamps,
     id: "ld-1",
     slug: "pavun-sangeetha",
-    name: { en: "Rev. V. Pavun Sangeetha", ta: "பணி. வி. பவுன் சங்கீதா" },
+    name: { en: "Rev. V. Pavun Sangeetha", ta: "அருள்திரு வி. பவுன் சங்கீதா" },
     role: "pastor",
     designation: {
       en: "Chairperson & Presbyter-in-charge",
@@ -41,7 +41,7 @@ export const LEADERS: Leader[] = [
     ...timestamps,
     id: "ld-2",
     slug: "john-bunyan",
-    name: { en: "Rev. Y. John Bunyan", ta: "பணி. ஒய். ஜான் பன்யன்" },
+    name: { en: "Rev. Y. John Bunyan", ta: "அருள்திரு ஒய். ஜான் பன்யன்" },
     role: "assistant-pastor",
     designation: { en: "Associate Presbyter", ta: "இணை போதகர்" },
     phone: "+91 89397 69268",
@@ -197,7 +197,7 @@ export const PRESBYTER_ERAS: PresbyterEra[] = [
     id: "moovarasampet",
     title: {
       en: "With Moovarasampet Pastorate",
-      ta: "மூவரசம்பேட்டை பாஸ்டரேட்டுடன்",
+      ta: "மூவரசம்பேட்டை சேகரத்துடன்",
     },
     terms: [
       { no: 1, name: "Rev. Sekaran Esakiyel", from: "April 1993", to: "May 1995" },
@@ -211,7 +211,7 @@ export const PRESBYTER_ERAS: PresbyterEra[] = [
     id: "adambakkam",
     title: {
       en: "With Adambakkam Pastorate",
-      ta: "ஆதம்பாக்கம் பாஸ்டரேட்டுடன்",
+      ta: "ஆதம்பாக்கம் சேகரத்துடன்",
     },
     terms: [
       { no: 1, name: "Rev. S. P. Paul Prabakaran", from: "June 1999", to: "May 2001" },
