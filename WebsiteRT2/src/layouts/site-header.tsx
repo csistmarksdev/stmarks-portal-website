@@ -773,13 +773,9 @@ function MobileMenu({
                         Not the bare section name: that is the link beside it,
                         and two controls announced identically ("About Church",
                         "About Church") cannot be told apart in a screen
-                        reader's list of controls (F-112). Composed from
-                        existing keys for now.
-                        TODO(F-112): replace with a dedicated key, e.g.
-                        `nav.showSubmenu`: "Show {section} pages" /
-                        "{section} பக்கங்களைக் காட்டு".
+                        reader's list of controls (F-112).
                       */
-                      aria-label={`${t(item.labelKey)}: ${tCommon("viewAll")}`}
+                      aria-label={t("showSubmenu", { section: t(item.labelKey) })}
                       className={cn(
                         "grid size-9 shrink-0 place-items-center rounded-full transition-colors",
                         onDark

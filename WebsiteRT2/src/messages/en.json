@@ -81,7 +81,8 @@
       "prayer": "Prayer Fellowship",
       "other": "Other Fellowships"
     },
-    "serviceTimes": "Service Times"
+    "serviceTimes": "Service Times",
+    "showSubmenu": "Show sub-menu: {section}"
   },
   "header": {
     "planVisit": "Plan your visit"
