@@ -1,0 +1,966 @@
+{
+ "generated": "2026-11-22",
+ "branch": "fix/audit-2026-11",
+ "findings": [
+  {
+   "id": "F-001",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Domain must be registered by the church; code is env-driven (NEXT_PUBLIC_SITE_URL). ops-steps §3."
+  },
+  {
+   "id": "F-002",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "pageMetadata(): self canonical + ta/en/x-default on every route; layout sets none. Verified by curl on 6 routes."
+  },
+  {
+   "id": "F-003",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "partial",
+   "note": "Site hides sample/demo/மாதிரி records and slugs (incl. sitemap; sample event 404). Records must still be deleted in the Portal; publish-time block not added to the Portal yet."
+  },
+  {
+   "id": "F-004",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "partial",
+   "note": "Big Buck Bunny/DEMO items dropped from 3 albums. Repeated steeple photos need real media (church office)."
+  },
+  {
+   "id": "F-005",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Event with slug/date-year mismatch hidden (404, not in sitemap). Correct date needed from office."
+  },
+  {
+   "id": "F-006",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "partial",
+   "note": "Stale verse (with garbled Tamil) hidden; BSI O.V. text given to office in church-office-todo.md. CMS text unchanged."
+  },
+  {
+   "id": "F-007",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Placeholder phone and dead-domain email removed; empty rows hidden. Real phone/email TODO(church-office)."
+  },
+  {
+   "id": "F-008",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "blocked(ops)",
+   "note": "Code: REQUIRE_HTTPS_API=1 build guard + warning. Firewall/TLS/password rotation in ops-steps §1."
+  },
+  {
+   "id": "F-009",
+   "severity": "Critical",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "Form posts to same-origin /api/contact, forwarded server-side. Hop to Portal is HTTP until ops-steps §1; not submitted against the live Portal (would create a real inbox entry)."
+  },
+  {
+   "id": "F-010",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Service timings come from the Portal; awaiting signed-off timetable."
+  },
+  {
+   "id": "F-011",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Fellowship times come from the Portal; awaiting real times."
+  },
+  {
+   "id": "F-012",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "partial",
+   "note": "Rev. V. Pavun Sangeetha added (June 2026 – present / இன்று) per handoff; start date and Bunyan entry to reconfirm."
+  },
+  {
+   "id": "F-013",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "fixed",
+   "note": "Tamil history paras 2–3 replaced with CT-08/CT-16 text; English counterparts updated."
+  },
+  {
+   "id": "F-014",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "fixed",
+   "note": "மடிப்பாக்கத்தில் in ta site.description (meta, og, manifest). 0 occurrences of மாடிப்பாக்க left."
+  },
+  {
+   "id": "F-015",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "X-Robots-Tag: noindex, nofollow on every *.vercel.app host (verified with Host header); church domain not matched. 308 to domain is ops-steps §3."
+  },
+  {
+   "id": "F-016",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "public/og/default.jpg 1200x630 (Tamil + English name); og:url, og:locale, og:locale:alternate on every page; CMS images via HTTPS /_next/image. Preview must set NEXT_PUBLIC_SITE_URL (ops-steps §0)."
+  },
+  {
+   "id": "F-017",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "Splash only on / and /en, ≤600 ms, once per session, skipped for reduced motion / Simple mode; 0 hero JPEG requests (browser-verified)."
+  },
+  {
+   "id": "F-018",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Design",
+   "status": "fixed",
+   "note": "Header 96px WebP (4.9 KB, 4.0 KB), footer 192px; no preload; /brand immutable cache."
+  },
+  {
+   "id": "F-019",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Design",
+   "status": "fixed",
+   "note": "Top-level Service Times item; duplicate Contact removed from About."
+  },
+  {
+   "id": "F-020",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "Anchor lands 88 px (390) / 108 px (1440) from top, under the header (browser-verified)."
+  },
+  {
+   "id": "F-021",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Design",
+   "status": "fixed",
+   "note": "<a hreflang lang> links, hash kept (/en#service-timings → /#service-timings), visible on mobile bar, 44 px hit area."
+  },
+  {
+   "id": "F-022",
+   "severity": "Medium",
+   "sprint": 1,
+   "owner": "Design",
+   "status": "fixed",
+   "note": "Tamil letter-spacing normal, leading floors 1.35/1.5. Full visual pass of Tamil components still advisable."
+  },
+  {
+   "id": "F-023",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "Mobile menu: dialog, aria-modal, inert background, focus trap (0 escapes in 40 Tabs), Esc returns focus."
+  },
+  {
+   "id": "F-024",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "partial",
+   "note": "Relabelled as the CSI emblem in both languages; official diocese crest needs church office."
+  },
+  {
+   "id": "F-025",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Content",
+   "status": "partial",
+   "note": "Verse hidden when >10 days old. Announcement expiry needs a CMS field (F-049); stale notices must be unpinned in the Portal."
+  },
+  {
+   "id": "F-026",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Advent–New Year schedule needed."
+  },
+  {
+   "id": "F-027",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Consent switch CHURCH_OFFICE.publishPersonalPhones added; numbers still shown pending consent."
+  },
+  {
+   "id": "F-028",
+   "severity": "High",
+   "sprint": 1,
+   "owner": "Church office/Client",
+   "status": "blocked(church-office)",
+   "note": "Blog authors and office-bearers to confirm."
+  },
+  {
+   "id": "F-029",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-030",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-031",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-032",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-033",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-034",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-035",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-036",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-037",
+   "severity": "Medium",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-038",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-039",
+   "severity": "Medium",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-040",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-041",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-042",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Content",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-043",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-044",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-045",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Design",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-046",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Content",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-047",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Content",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-048",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Design",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-049",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-050",
+   "severity": "High",
+   "sprint": 2,
+   "owner": "Dev",
+   "status": "pending (sprint 2)",
+   "note": ""
+  },
+  {
+   "id": "F-051",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-052",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-053",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-054",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-055",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-056",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-057",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-058",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-059",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-060",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-061",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-062",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-063",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-064",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-065",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-066",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-067",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-068",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "partial",
+   "note": "Honeypot, maxLength and per-visitor rate limit added with F-009; CORS and Turnstile pending."
+  },
+  {
+   "id": "F-069",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-070",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-071",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-072",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-073",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-074",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-075",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-076",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-077",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-078",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-079",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-080",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-081",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-082",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-083",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-084",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-085",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-086",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-087",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-088",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-089",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-090",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-091",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-092",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-093",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "wontfix (deferred by church, 22 Nov 2026)",
+   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+  },
+  {
+   "id": "F-094",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-095",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-096",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-097",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-098",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-099",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-100",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-101",
+   "severity": "Medium",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-102",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-103",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-104",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-105",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-106",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-107",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-108",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-109",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-110",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-111",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-112",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "fixed",
+   "note": "Toggles named 'Show sub-menu: {section}' / 'துணைப் பட்டியலைக் காட்டு: {section}'."
+  },
+  {
+   "id": "F-113",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-114",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-115",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Church office/Client",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-116",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-117",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-118",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Design",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-119",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Content",
+   "status": "pending (sprint 3)",
+   "note": ""
+  },
+  {
+   "id": "F-120",
+   "severity": "Low",
+   "sprint": 3,
+   "owner": "Dev",
+   "status": "pending (sprint 3)",
+   "note": ""
+  }
+ ]
+}
