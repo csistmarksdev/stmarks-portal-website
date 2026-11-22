@@ -27,6 +27,7 @@ export function ContactForm() {
     phone: "",
     subject: "",
     message: "",
+    website: "",
   });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>({ state: "idle" });
@@ -70,14 +71,21 @@ export function ContactForm() {
     });
 
     if (result.success) {
-      setValues({ name: "", email: "", phone: "", subject: "", message: "" });
+      setValues({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+        website: "",
+      });
     }
   }
 
   const isSubmitting = status.state === "submitting";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="relative space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field
           id="contact-name"
@@ -85,6 +93,7 @@ export function ContactForm() {
           label={t("name")}
           required
           autoComplete="name"
+          maxLength={120}
           value={values.name}
           onChange={(e) => update("name", e.target.value)}
           error={errors.name}
@@ -97,6 +106,7 @@ export function ContactForm() {
           label={t("email")}
           required
           autoComplete="email"
+          maxLength={254}
           value={values.email}
           onChange={(e) => update("email", e.target.value)}
           error={errors.email}
@@ -110,6 +120,7 @@ export function ContactForm() {
           type="tel"
           label={t("phone")}
           autoComplete="tel"
+          maxLength={32}
           value={values.phone}
           onChange={(e) => update("phone", e.target.value)}
         />
@@ -119,6 +130,7 @@ export function ContactForm() {
           name="subject"
           label={t("subject")}
           required
+          maxLength={200}
           value={values.subject}
           onChange={(e) => update("subject", e.target.value)}
           error={errors.subject}
@@ -132,10 +144,25 @@ export function ContactForm() {
         required
         multiline
         rows={6}
+        maxLength={5000}
         value={values.message}
         onChange={(e) => update("message", e.target.value)}
         error={errors.message}
       />
+
+      {/* Honeypot (F-068): off-screen and out of the tab order, so only bots fill it. */}
+      <div aria-hidden className="absolute -left-[10000px] h-px w-px overflow-hidden">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.website}
+          onChange={(e) => update("website", e.target.value)}
+        />
+      </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" size="lg" disabled={isSubmitting}>

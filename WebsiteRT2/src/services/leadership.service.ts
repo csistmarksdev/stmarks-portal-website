@@ -24,7 +24,7 @@ const byOrder = (a: Leader, b: Leader) => a.order - b.order;
  */
 const LEADERS: Leader[] = CHURCH_OFFICE.publishPersonalPhones
   ? ALL_LEADERS
-  : ALL_LEADERS.map(({ phone: _phone, ...leader }) => leader);
+  : ALL_LEADERS.map((leader) => ({ ...leader, phone: undefined }));
 
 export function getLeadership(): Promise<Leader[]> {
   return mockResponse([...LEADERS].sort(byOrder));

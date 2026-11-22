@@ -297,6 +297,8 @@ export interface ContactFormValues {
   phone?: string;
   subject: string;
   message: string;
+  /** Honeypot - hidden from people, filled only by bots (F-068). */
+  website?: string;
 }
 
 export interface ContactSubmissionResult {

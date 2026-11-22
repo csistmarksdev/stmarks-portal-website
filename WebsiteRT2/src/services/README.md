@@ -30,7 +30,7 @@ export function getEvents(): Promise<ChurchEvent[]> {
 |---|---|
 | `apiGet<T>` | List and singleton reads; supports `params`, `tags`, `revalidate`, `fallback` |
 | `apiGetOrNull<T>` | The `*BySlug` reads. Translates the API's 404 into `null` - a missing album is an empty state, not an error. Only 404 is swallowed. |
-| `apiPost<T>` | The contact form. No fallback: pretending a message was delivered would be a lie. |
+| `apiPost<T>` | Unused by the browser since F-009: the contact form posts to the same-origin `/api/contact` route, which forwards to the Portal server-side. |
 
 List endpoints return a **bare array** unless `page`/`pageSize` is passed, and
 they honour `limit` - which is why the service signatures did not change.
