@@ -54,7 +54,9 @@ The website now **hides** these records. They are still in the Portal, so please
 
 - **Domain:** whether the church approves registering csistmarksmadipakkam.org in the church's name, and who will hold the login (F-001). The domain will be connected only after approval.
 - **The image beside the diocese text:** it is the CSI Synod emblem, now labelled as such. If you want the official Diocese of Madras crest instead, please get it, with permission, from the diocese office (F-024). We also need to know where the second coat of arms in the header comes from and whether we have permission to use it (F-087).
-- **Privacy notice details:** the legal name of the church entity, who handles data-protection requests (the "Grievance Officer"), and how long messages are kept (F-036, F-108).
+- **Privacy notice details (the notice is built and waiting):** how long contact-form messages are kept (the audit suggests 12 months), who handles data-protection requests (the "Grievance Officer"; the audit suggests the Hon. Secretary), and a working email address for those requests. Enter all three in `content/church-office.ts` → `privacy`. The Privacy Notice page, the consent line on the contact form and the footer link then appear automatically (F-036). The church's legal name and registration number are also needed for the footer (F-108).
+- **Tamil review:** a Tamil editor should check the Tamil Privacy Notice text before it goes live. The handoff only supplied the short consent line in Tamil; the rest is our translation (F-036).
+- **Bishop's initial:** the bishop is now written "பேரருள்திரு. பவுல் பிரான்சிஸ் ரவிச்சந்திரன்". Please confirm his initial (the audit suggests "ஏ.") (F-047).
 - **Children's photos:** a photo-consent policy for Sunday School pictures (F-037).
 - **English Bible translation:** which one the site should use (KJV or ESV) for its English verses. Please also confirm that Tamil verses use BSI O.V. (F-065).
 - **Directions:** a landmark near the church and parking information (F-115).

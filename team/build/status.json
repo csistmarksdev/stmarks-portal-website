@@ -231,48 +231,48 @@
    "severity": "High",
    "sprint": 2,
    "owner": "Church office/Client",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(church-office)",
+   "note": "Old domain csistmarks.com: registrar/DNS access needed (ops-steps §6)."
   },
   {
    "id": "F-030",
    "severity": "High",
    "sprint": 2,
    "owner": "Church office/Client",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(church-office)",
+   "note": "Google Business Profile / Justdial / Facebook ownership with the office."
   },
   {
    "id": "F-031",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(ops)",
+   "note": "Code ready: MEDIA_HOSTS (https-only) for images.remotePatterns; REQUIRE_HTTPS_API=1 refuses a plain-HTTP API. Moving uploads and TLS is ops-steps §1, §5."
   },
   {
    "id": "F-032",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": "Partial mitigation (22 Nov): frames load coarse-to-fine (every 6th frame first, immediately). At 9 Mbps on a 390px phone the worst jump while scrolling fell from 41 frames to 4. Replacing the sequences (the actual finding) is still Sprint 2."
+   "status": "partial",
+   "note": "Church chose to keep the scroll sequences in Sprint 2. Mitigated: coarse-to-fine frame loading (worst jump 41 -> 4 frames at 9 Mbps)."
   },
   {
    "id": "F-033",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "Umbrella metric. Lighthouse mobile (local build) EN 61 -> 94, TA 52 -> 69; transfer 15.7 -> 11.7 MB. The remaining weight is the frame sequences the church chose to keep and the restored splash."
   },
   {
    "id": "F-034",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "Client messages trimmed to 10 namespaces (-29 KB raw Tamil per page). Home HTML still ~0.9-1 MB: gallery wall columns, inline SVG and the chapters on one page; changing them alters the design."
   },
   {
    "id": "F-035",
@@ -287,16 +287,16 @@
    "severity": "High",
    "sprint": 2,
    "owner": "Church office/Client",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(church-office)",
+   "note": "Built: /privacy (ta+en, LEGAL-01/03 text), form consent line (LEGAL-02), footer link. Switched on automatically once retention period, Grievance Officer and contact email are set in content/church-office.ts; until then 404 and not linked. Tamil translation of the full notice needs review."
   },
   {
    "id": "F-037",
    "severity": "Medium",
    "sprint": 2,
    "owner": "Church office/Client",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(church-office)",
+   "note": "Needs a photo-consent policy and a working contact address (the suggested text uses the dead-domain email)."
   },
   {
    "id": "F-038",
@@ -304,7 +304,7 @@
    "sprint": 2,
    "owner": "Church office/Client",
    "status": "wontfix (deferred by church, 22 Nov 2026)",
-   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+   "note": "Giving page not built now."
   },
   {
    "id": "F-039",
@@ -312,7 +312,7 @@
    "sprint": 2,
    "owner": "Church office/Client",
    "status": "wontfix (deferred by church, 22 Nov 2026)",
-   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+   "note": "Live stream / watch page not built now."
   },
   {
    "id": "F-040",
@@ -320,7 +320,7 @@
    "sprint": 2,
    "owner": "Church office/Client",
    "status": "wontfix (deferred by church, 22 Nov 2026)",
-   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+   "note": "Sacraments hub not built; short Sunday School / baptism / wedding note added instead."
   },
   {
    "id": "F-041",
@@ -328,23 +328,23 @@
    "sprint": 2,
    "owner": "Church office/Client",
    "status": "wontfix (deferred by church, 22 Nov 2026)",
-   "note": "Extra page not built now; short Sunday School/baptism/wedding note added instead."
+   "note": "Covered for now by the enquiry note; details from the office."
   },
   {
    "id": "F-042",
    "severity": "High",
    "sprint": 2,
    "owner": "Content",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "Empty blocks and zero counts hidden, sections renumbered, empty contact row removed. Per-fellowship copy and contacts need the office."
   },
   {
    "id": "F-043",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "fixed",
+   "note": "Church (home), Event, Article, BreadcrumbList JSON-LD; parsed on 6 page types. telephone and opening hours omitted until F-007/F-010 are confirmed."
   },
   {
    "id": "F-044",
@@ -359,32 +359,32 @@
    "severity": "High",
    "sprint": 2,
    "owner": "Design",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "fixed",
+   "note": "Tamil labels and sub-14px utilities (incl. text-sm scaled to 13px) at 14px; header locality 12px. Visible Tamil text under 14px on home: 158 -> 0 (375px, measured)."
   },
   {
    "id": "F-046",
    "severity": "High",
    "sprint": 2,
    "owner": "Content",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "File-name alts replaced with '<album> - photo n of N'; duplicate alts numbered. Real descriptions are a Portal content task."
   },
   {
    "id": "F-047",
    "severity": "High",
    "sprint": 2,
    "owner": "Content",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "CSI glossary applied to all repo strings (diocese block, milestones, clergy names, presbyter roll, UI). Portal content (blog bylines, committees) still uses ரெவ்./பணி.; bishop's initial to confirm."
   },
   {
    "id": "F-048",
    "severity": "High",
    "sprint": 2,
    "owner": "Design",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "partial",
+   "note": "'This Sunday' strip on the first screen (times from the Portal, address, directions), both languages, 390/1440 checked. Standalone /visit, /about, /contact pages not built; times await F-010 sign-off."
   },
   {
    "id": "F-049",
@@ -392,15 +392,15 @@
    "sprint": 2,
    "owner": "Dev",
    "status": "pending (sprint 2)",
-   "note": ""
+   "note": "In progress in the Portal (CMS) codebase on branch audit/portal; paused by a usage limit."
   },
   {
    "id": "F-050",
    "severity": "High",
    "sprint": 2,
    "owner": "Dev",
-   "status": "pending (sprint 2)",
-   "note": ""
+   "status": "blocked(ops)",
+   "note": "Moving leadership and timings into the CMS is a Portal schema + editor change; deferred until the CMS publish workflow (F-049) is deployed."
   },
   {
    "id": "F-051",
@@ -855,8 +855,8 @@
    "severity": "Low",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "Next.js 16.4.4 -> 16.4.6 (security advisories), versions pinned; npm audit 0 vulnerabilities. poweredByHeader and security.txt are Sprint 3."
   },
   {
    "id": "F-108",
