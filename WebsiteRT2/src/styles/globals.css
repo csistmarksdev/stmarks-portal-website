@@ -679,14 +679,16 @@ html[lang="ta"] body {
  */
 html[lang="ta"] [class~="uppercase"] {
   text-transform: none;
-  letter-spacing: 0.04em;
+  letter-spacing: normal;
 }
 
 /* The tracking is set alongside `uppercase` as a bracket value, so it lands in
-   the utilities layer and outranks the base rule above. Unset it there too. */
+   the utilities layer and outranks the base rule above. Unset it there too.
+   `normal`, not the 0.04em these once kept: any added tracking pulls Tamil's
+   grapheme clusters apart (F-022). */
 @layer utilities {
   html[lang="ta"] [class~="uppercase"] {
-    letter-spacing: 0.04em;
+    letter-spacing: normal;
   }
 }
 
@@ -699,6 +701,62 @@ html[lang="ta"] [class~="uppercase"] {
  */
 html[lang="ta"] :is(h1, h2, h3, h4, [data-heading]) {
   line-height: 1.35;
+}
+
+/*
+ * Tamil: no tracking anywhere, and no leading tighter than the script needs
+ * (F-022).
+ *
+ * The rules above unwound tracking one component at a time - headings, the
+ * uppercase eyebrows, `.label`, the verse - and every component that set its
+ * own `tracking-*` utility, or a split-letter span, or an inline style, was
+ * still pulling Tamil grapheme clusters apart. Tamil has no case and no
+ * small-caps tradition, so there is no Tamil text on the site that tracking is
+ * right for. One rule, for every element in Tamil, `!important` because it has
+ * to beat inline styles and per-component unlayered rules alike. Scoped by
+ * `:lang(ta)` rather than the root alone, so an English name inside a Tamil
+ * page (the language switcher's "English") keeps the Latin metrics it was
+ * set in.
+ */
+html[lang="ta"] :lang(ta),
+html[lang="ta"] :lang(ta)::before,
+html[lang="ta"] :lang(ta)::after {
+  letter-spacing: normal !important;
+}
+
+/*
+ * Leading. Body text is 1.75 from `body`, but any element carrying a tight
+ * Latin leading utility - `leading-[1.05]` and `[1.08]` on display type,
+ * `tight`/`snug` on card titles - overrode that with a value tuned for
+ * Fraunces, and Tamil's vowel signs above and below the band collided between
+ * lines. Unlayered, so these beat the utilities they answer; `*=` so that
+ * responsive variants (`sm:leading-tight`) are caught as well.
+ *
+ * Display and title type gets 1.35 (the heading value above, >= 1.3); running
+ * text that was handed a tight utility gets 1.5. `leading-none` is left alone:
+ * it is on icons, numerals and single-line badges, not on Tamil runs.
+ */
+html[lang="ta"]
+  :is(
+    [class*="leading-[1.0"],
+    [class*="leading-[1.1"],
+    [class*="leading-[1.2"],
+    [class*="leading-tight"],
+    [class*="leading-snug"]
+  ) {
+  line-height: 1.35;
+}
+
+html[lang="ta"]
+  :is(p, li, dd, blockquote, figcaption):is(
+    [class*="leading-[1.0"],
+    [class*="leading-[1.1"],
+    [class*="leading-[1.2"],
+    [class*="leading-[1.3"],
+    [class*="leading-tight"],
+    [class*="leading-snug"]
+  ) {
+  line-height: 1.5;
 }
 
 /*
@@ -965,9 +1023,10 @@ html[lang="ta"] [data-verse-text="closing"] {
   }
 
   html[lang="ta"] .label {
-    /* Tamil has no capital forms; spacing alone carries the emphasis. */
+    /* Tamil has no capital forms, and tracking splits its clusters; weight
+       and size carry the emphasis instead (F-022). */
     text-transform: none;
-    letter-spacing: 0.06em;
+    letter-spacing: normal;
   }
 
   /* Glass surface used by the sticky header once it leaves the hero. */
@@ -5933,6 +5992,34 @@ html:where([data-motion="off"]) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Desktop bar: room for Service Times and the labelled language links        */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * The desktop row gained a ninth item (Service Times, F-019) and a language
+ * control with full names on 44px targets in place of "EN" / "த" on 24px ones
+ * (F-021) - together roughly 160px, against the ~30px the row had spare at
+ * 1280. Rather than shrink the type (0.72rem is already the floor for Tamil)
+ * or let the row collide, the church's name steps out of the bar between the
+ * nav breakpoint and 96rem, leaving the two crests - the same treatment the
+ * bar already gives it on a phone. It is hidden visually only: the link home
+ * is still announced by name.
+ */
+@media (min-width: 75rem) and (max-width: 95.9375rem) {
+  [data-header-pill] :has(> [data-wordmark]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /* Anchor targets                                                             */
 /* -------------------------------------------------------------------------- */
 
@@ -5950,7 +6037,13 @@ html:where([data-motion="off"]) {
  * little generous - the pill has padding above it that the custom property
  * does not describe.
  */
-main [id] {
+/*
+ * Widened from `main [id]` (F-020): a section given an id outside `main`, and
+ * the footer's own targets, are fragment destinations too. `:where()` keeps
+ * the specificity low, so any component that sets its own margin still wins.
+ */
+:where(main, footer) [id],
+section:where([id]) {
   scroll-margin-top: calc(var(--header-height) + var(--safe-top) + 2.5rem);
 }
 

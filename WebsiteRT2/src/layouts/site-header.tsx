@@ -4,7 +4,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 /** `useLayoutEffect` warns when it runs on the server; this is the usual dodge. */
 const useIsomorphicLayoutEffect =
@@ -97,16 +104,97 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
     };
   }, [mobileOpen]);
 
+  /*
+   * The open menu is a modal dialog (F-023).
+   *
+   * It covered the page visually and nothing else: Tab walked straight out of
+   * it into the links of the page underneath, which a keyboard reader could
+   * not see, and a screen reader read the whole page behind it as though the
+   * menu were not there. Hand-rolled rather than Radix's Dialog, because the
+   * panel is not a portal - it is part of the header, below the bar, and its
+   * open/close is a framer `AnimatePresence` that Radix's own mount handling
+   * would fight.
+   *
+   * While open: everything outside the panel, the backdrop and the menu button
+   * is `inert` (the main content, the footer, the rest of the bar); focus moves
+   * to the first item; Tab and Shift+Tab cycle through the menu button and the
+   * panel; Esc closes. On close, focus goes back to the menu button. The menu
+   * button stays reachable because it is where a sighted reader expects to
+   * close the menu from - it is the X.
+   */
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+
   useEffect(() => {
     if (!mobileOpen) return;
 
+    const dialog = dialogRef.current;
+    const toggle = toggleRef.current;
+    if (!dialog) return;
+
+    const restoreInert = makeOutsideInert(
+      [dialog, toggle, backdropRef.current].filter(
+        (el): el is NonNullable<typeof el> => el !== null,
+      ),
+    );
+
+    focusablesIn(dialog)[0]?.focus({ preventScroll: true });
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const cycle = [
+        ...(toggle && isFocusable(toggle) ? [toggle] : []),
+        ...focusablesIn(dialog),
+      ];
+      if (!cycle.length) return;
+
+      const first = cycle[0];
+      const last = cycle[cycle.length - 1];
+      const current = document.activeElement;
+      const inside = cycle.includes(current as HTMLElement);
+
+      if (event.shiftKey && (current === first || !inside)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (current === last || !inside)) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      restoreInert();
+      if (toggle?.isConnected) toggle.focus({ preventScroll: true });
+    };
   }, [mobileOpen]);
+
+  /*
+   * The panel is `nav:hidden`, so a window widened past the breakpoint with
+   * the menu open would leave the page inert behind an invisible dialog.
+   * Closing on the way across avoids that. 75rem is `--breakpoint-nav` in
+   * `globals.css`.
+   */
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 75rem)");
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setMobileOpen(false);
+    };
+
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
+  }, []);
 
   /**
    * Whether the bar is floating over dark full-bleed media or sitting over page
@@ -247,9 +335,13 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
       {/* Dims the page behind the open menu and closes it on an outside tap. */}
       <AnimatePresence>
         {mobileOpen ? (
+          // A pointer target only: out of the tab order and hidden from
+          // assistive technology, which have the menu button and Esc.
           <motion.button
+            ref={backdropRef}
             type="button"
-            aria-label={tCommon("closeMenu")}
+            tabIndex={-1}
+            aria-hidden
             onClick={() => setMobileOpen(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -328,14 +420,15 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             >
               {/* The parish crest. Drop-shadow lifts the silver shield edge off
                   both the dark hero and the light glass surface below it. */}
+              {/* 96px raster in place of the 1.5 MB SVG, and no `priority`:
+                  a 36px crest is not worth a preload ahead of the hero (F-018). */}
               <Image
-                src="/Logo1.svg"
+                src="/brand/csi-emblem-96.webp"
                 alt=""
                 aria-hidden
                 data-header-crest
-                width={940}
-                height={940}
-                priority
+                width={96}
+                height={96}
                 unoptimized
                 className="size-8 shrink-0 object-contain drop-shadow-sm sm:size-9"
               />
@@ -372,13 +465,12 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
 
               {/* The diocese arms, balancing the parish crest across the name. */}
               <Image
-                src="/Logo2.svg"
+                src="/brand/arms-96.webp"
                 alt=""
                 aria-hidden
                 data-header-arms
-                width={523}
-                height={860}
-                priority
+                width={58}
+                height={96}
                 unoptimized
                 className="h-8 w-auto shrink-0 object-contain drop-shadow-sm sm:h-9"
               />
@@ -487,9 +579,12 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             layout={reduceMotion ? false : "position"}
             className="flex shrink-0 items-center gap-1.5 sm:gap-2.5"
           >
+            {/* On the bar at every width now, phones included (F-021): a reader
+                who lands on the wrong language should not have to find it at
+                the bottom of the menu. */}
             <LanguageSwitcher
               tone={isHero ? "onDark" : "default"}
-              className="hidden sm:flex"
+              className="shrink-0"
             />
 
             {/* Simple mode, always on the bar: beside the menu button on a
@@ -506,11 +601,14 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             />
 
             <button
+              ref={toggleRef}
               type="button"
               data-nav-toggle
               onClick={() => setMobileOpen((open) => !open)}
               aria-label={mobileOpen ? tCommon("closeMenu") : tCommon("openMenu")}
               aria-expanded={mobileOpen}
+              aria-haspopup="dialog"
+              aria-controls={mobileOpen ? menuId : undefined}
               className={cn(
                 "grid size-[2.125rem] place-items-center rounded-full border transition-colors sm:size-10 nav:hidden",
                 lightOnDark
@@ -536,6 +634,11 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
         <AnimatePresence initial={false}>
           {mobileOpen ? (
             <motion.div
+              ref={dialogRef}
+              id={menuId}
+              role="dialog"
+              aria-modal="true"
+              aria-label={tCommon("menuDialog")}
               initial={{ opacity: 0, y: -10, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.97 }}
@@ -587,6 +690,7 @@ function MobileMenu({
   onDark: boolean;
 }) {
   const t = useTranslations("nav");
+  const tCommon = useTranslations("common");
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
@@ -665,7 +769,17 @@ function MobileMenu({
                       type="button"
                       onClick={() => setExpanded(isExpanded ? null : item.href)}
                       aria-expanded={isExpanded}
-                      aria-label={t(item.labelKey)}
+                      /*
+                        Not the bare section name: that is the link beside it,
+                        and two controls announced identically ("About Church",
+                        "About Church") cannot be told apart in a screen
+                        reader's list of controls (F-112). Composed from
+                        existing keys for now.
+                        TODO(F-112): replace with a dedicated key, e.g.
+                        `nav.showSubmenu`: "Show {section} pages" /
+                        "{section} பக்கங்களைக் காட்டு".
+                      */
+                      aria-label={`${t(item.labelKey)}: ${tCommon("viewAll")}`}
                       className={cn(
                         "grid size-9 shrink-0 place-items-center rounded-full transition-colors",
                         onDark
@@ -758,6 +872,96 @@ function MobileMenu({
         */}
         <LanguageSwitcher tone={onDark ? "onDark" : "default"} />
       </div>
+
+      {/*
+        A close control inside the dialog. `aria-modal` hides the menu button
+        in the bar from a screen reader's virtual cursor, so without this the
+        only way out for that reader is Esc. Visually hidden until focused,
+        because sighted readers have the X directly above.
+      */}
+      <button
+        type="button"
+        onClick={onClose}
+        className={cn(
+          "sr-only focus-visible:not-sr-only focus-visible:mx-4 focus-visible:mb-4 focus-visible:flex focus-visible:min-h-11 focus-visible:items-center focus-visible:justify-center focus-visible:rounded-full focus-visible:border focus-visible:px-4 focus-visible:text-sm",
+          onDark
+            ? "focus-visible:border-white/25 focus-visible:text-white"
+            : "focus-visible:border-[var(--border)] focus-visible:text-[var(--foreground)]",
+        )}
+      >
+        {tCommon("closeMenu")}
+      </button>
     </div>
   );
+}
+
+const FOCUSABLE = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  '[tabindex]:not([tabindex="-1"])',
+].join(",");
+
+/** Rendered, reachable by Tab, and not inside something inert. */
+function isFocusable(el: HTMLElement): boolean {
+  return (
+    el.getClientRects().length > 0 &&
+    el.tabIndex >= 0 &&
+    !el.closest("[inert]")
+  );
+}
+
+function focusablesIn(root: HTMLElement): HTMLElement[] {
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+    isFocusable,
+  );
+}
+
+/**
+ * Makes everything in the document `inert` except `keep` and their ancestors,
+ * and returns the undo.
+ *
+ * Walks down from `<body>` along the ancestor chains of the kept elements
+ * only, marking each sibling off that chain - so `main`, `footer` and the
+ * parts of the header bar beside the menu button are inerted as whole
+ * subtrees, in a handful of steps. Elements that were already inert are left
+ * alone and not restored, so this never un-inerts something it did not set.
+ */
+function makeOutsideInert(keep: HTMLElement[]): () => void {
+  const changed: HTMLElement[] = [];
+  const onChain = (el: Element) => keep.some((k) => el.contains(k));
+
+  const visit = (parent: Element) => {
+    for (const child of Array.from(parent.children)) {
+      if (!(child instanceof HTMLElement)) continue;
+      if (keep.includes(child)) continue;
+
+      if (onChain(child)) {
+        visit(child);
+        continue;
+      }
+
+      // Non-rendering elements, and Next's route announcer, which has to keep
+      // announcing the navigation that closes the menu.
+      if (
+        child.inert ||
+        /^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT|NEXT-ROUTE-ANNOUNCER)$/.test(
+          child.tagName,
+        )
+      ) {
+        continue;
+      }
+
+      child.inert = true;
+      changed.push(child);
+    }
+  };
+
+  visit(document.body);
+
+  return () => {
+    for (const el of changed) el.inert = false;
+  };
 }
