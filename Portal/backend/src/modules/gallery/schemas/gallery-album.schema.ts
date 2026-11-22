@@ -70,6 +70,10 @@ export class GalleryAlbumEntity {
    */
   @Prop({ default: false, index: true })
   shared?: boolean;
+
+  /** F-049: not public before this instant. Unset = no schedule. */
+  @Prop({ type: Date, index: true })
+  publishAt?: Date;
 }
 
 export const GalleryAlbumSchema =

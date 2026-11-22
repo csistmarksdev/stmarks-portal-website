@@ -4,8 +4,9 @@ import type {
   FellowshipSlug,
   Paginated,
   PublishStatus,
-  WithStatus,
+  WithSchedule,
 } from "@portal/shared";
+import { ADMIN_ONLY_FIELDS } from "@portal/shared";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
@@ -18,6 +19,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateBlogPostDto, UpdateBlogPostDto } from "./dto/create-blog-post.dto";
@@ -40,11 +42,11 @@ export class BlogService {
   }
 
   private toPublic(doc: BlogPostDocument): BlogPost {
-    return serializeDoc<BlogPost>(doc, ["status"]);
+    return serializeDoc<BlogPost>(doc, [...ADMIN_ONLY_FIELDS]);
   }
 
-  private toAdmin(doc: BlogPostDocument): WithStatus<BlogPost> {
-    return serializeDoc<WithStatus<BlogPost>>(doc);
+  private toAdmin(doc: BlogPostDocument): WithSchedule<BlogPost> {
+    return serializeDoc<WithSchedule<BlogPost>>(doc);
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -55,7 +57,7 @@ export class BlogService {
     eventSlug?: string,
     fellowship?: FellowshipSlug,
   ): Promise<BlogPost[] | Paginated<BlogPost>> {
-    const filter: FilterQuery<BlogPostEntity> = { status: "published" };
+    const filter: FilterQuery<BlogPostEntity> = publiclyVisible<BlogPostEntity>();
     if (eventSlug) filter.eventSlug = eventSlug;
     if (fellowship) filter.fellowshipSlug = fellowship;
 
@@ -70,12 +72,12 @@ export class BlogService {
   }
 
   async publicSlugs(): Promise<string[]> {
-    const docs = await this.repo.find({ status: "published" }, { publishedAt: -1 });
+    const docs = await this.repo.find(publiclyVisible<BlogPostEntity>(), { publishedAt: -1 });
     return docs.map((doc) => doc.slug);
   }
 
   async getPublicBySlug(slug: string): Promise<BlogPost> {
-    const doc = await this.repo.findOne({ slug, status: "published" });
+    const doc = await this.repo.findOne({ ...publiclyVisible<BlogPostEntity>(), slug });
     if (!doc) throw new NotFoundException(`Blog post "${slug}" was not found`);
     return this.toPublic(doc);
   }
@@ -87,7 +89,7 @@ export class BlogService {
     pageSize: number,
     search?: string,
     status?: PublishStatus,
-  ): Promise<Paginated<WithStatus<BlogPost>>> {
+  ): Promise<Paginated<WithSchedule<BlogPost>>> {
     const filter: FilterQuery<BlogPostEntity> = {};
     if (status) filter.status = status;
     if (search) {
@@ -110,20 +112,21 @@ export class BlogService {
     };
   }
 
-  async getAdminById(id: string): Promise<WithStatus<BlogPost>> {
+  async getAdminById(id: string): Promise<WithSchedule<BlogPost>> {
     return this.toAdmin(await this.repo.findByIdOrThrow(id));
   }
 
   async create(
     dto: CreateBlogPostDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<BlogPost>> {
+  ): Promise<WithSchedule<BlogPost>> {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
     const doc = await this.repo.create({
       ...dto,
       publishedAt: new Date(dto.publishedAt),
+      publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
       status: dto.status ?? "draft",
       readingMinutes: readingMinutes(dto.body),
@@ -137,7 +140,7 @@ export class BlogService {
     id: string,
     dto: UpdateBlogPostDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<BlogPost>> {
+  ): Promise<WithSchedule<BlogPost>> {
     const existing = await this.repo.findByIdOrThrow(id);
 
     let slug = existing.slug;
@@ -155,6 +158,7 @@ export class BlogService {
     const doc = await this.repo.updateById(id, {
       ...dto,
       slug,
+      ...(dto.publishAt !== undefined ? { publishAt: scheduleValue(dto.publishAt) } : {}),
       ...(dto.publishedAt ? { publishedAt: new Date(dto.publishedAt) } : {}),
       ...(dto.body ? { readingMinutes: readingMinutes(dto.body) } : {}),
     });
@@ -167,7 +171,7 @@ export class BlogService {
     id: string,
     status: PublishStatus,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<BlogPost>> {
+  ): Promise<WithSchedule<BlogPost>> {
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";

@@ -5,8 +5,9 @@ import type {
   FellowshipSlug,
   Paginated,
   PublishStatus,
-  WithStatus,
+  WithSchedule,
 } from "@portal/shared";
+import { ADMIN_ONLY_FIELDS } from "@portal/shared";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
 
@@ -17,6 +18,11 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import {
+  assertScheduleOrder,
+  publiclyVisible,
+  scheduleValue,
+} from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import {
@@ -48,11 +54,11 @@ export class AnnouncementsService {
   }
 
   private toPublic(doc: AnnouncementDocument): Announcement {
-    return serializeDoc<Announcement>(doc, ["status"]);
+    return serializeDoc<Announcement>(doc, [...ADMIN_ONLY_FIELDS]);
   }
 
-  private toAdmin(doc: AnnouncementDocument): WithStatus<Announcement> {
-    return serializeDoc<WithStatus<Announcement>>(doc);
+  private toAdmin(doc: AnnouncementDocument): WithSchedule<Announcement> {
+    return serializeDoc<WithSchedule<Announcement>>(doc);
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -61,7 +67,8 @@ export class AnnouncementsService {
     query: PaginationQueryDto,
     fellowship?: FellowshipSlug,
   ): Promise<Announcement[] | Paginated<Announcement>> {
-    const filter: FilterQuery<AnnouncementEntity> = { status: "published" };
+    // F-049: published, past its publishAt and not yet expired.
+    const filter: FilterQuery<AnnouncementEntity> = publiclyVisible({ expiry: true });
     if (fellowship) filter.fellowshipSlug = fellowship;
 
     return resolveList(
@@ -76,7 +83,10 @@ export class AnnouncementsService {
 
   /** GET /announcements/pinned → Announcement | null (JSON null body). */
   async getPinned(): Promise<Announcement | null> {
-    const doc = await this.repo.findOne({ status: "published", pinned: true });
+    const doc = await this.repo.findOne({
+      ...publiclyVisible<AnnouncementEntity>({ expiry: true }),
+      pinned: true,
+    });
     return doc ? this.toPublic(doc) : null;
   }
 
@@ -87,7 +97,7 @@ export class AnnouncementsService {
     pageSize: number,
     search?: string,
     status?: PublishStatus,
-  ): Promise<Paginated<WithStatus<Announcement>>> {
+  ): Promise<Paginated<WithSchedule<Announcement>>> {
     const filter: FilterQuery<AnnouncementEntity> = {};
     if (status) filter.status = status;
     if (search) {
@@ -109,20 +119,25 @@ export class AnnouncementsService {
     };
   }
 
-  async getAdminById(id: string): Promise<WithStatus<Announcement>> {
+  async getAdminById(id: string): Promise<WithSchedule<Announcement>> {
     return this.toAdmin(await this.repo.findByIdOrThrow(id));
   }
 
   async create(
     dto: CreateAnnouncementDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<Announcement>> {
+  ): Promise<WithSchedule<Announcement>> {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
+    const publishAt = scheduleValue(dto.publishAt);
+    const expiresAt = scheduleValue(dto.expiresAt);
+    assertScheduleOrder(publishAt, expiresAt);
     if (dto.pinned) await this.unpinAll();
     const doc = await this.repo.create({
       ...dto,
+      publishAt: publishAt ?? undefined,
+      expiresAt: expiresAt ?? undefined,
       publishedAt: new Date(dto.publishedAt),
       slug,
       status: dto.status ?? "draft",
@@ -137,7 +152,7 @@ export class AnnouncementsService {
     id: string,
     dto: UpdateAnnouncementDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<Announcement>> {
+  ): Promise<WithSchedule<Announcement>> {
     const existing = await this.repo.findByIdOrThrow(id);
 
     let slug = existing.slug;
@@ -152,9 +167,18 @@ export class AnnouncementsService {
       );
     }
 
+    const publishAt = scheduleValue(dto.publishAt);
+    const expiresAt = scheduleValue(dto.expiresAt);
+    assertScheduleOrder(
+      publishAt === undefined ? existing.publishAt : publishAt,
+      expiresAt === undefined ? existing.expiresAt : expiresAt,
+    );
+
     if (dto.pinned) await this.unpinAll(id);
     const doc = await this.repo.updateById(id, {
       ...dto,
+      ...(publishAt !== undefined ? { publishAt } : {}),
+      ...(expiresAt !== undefined ? { expiresAt } : {}),
       slug,
       ...(dto.publishedAt ? { publishedAt: new Date(dto.publishedAt) } : {}),
     });
@@ -168,7 +192,7 @@ export class AnnouncementsService {
     id: string,
     pinned: boolean,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<Announcement>> {
+  ): Promise<WithSchedule<Announcement>> {
     if (pinned) await this.unpinAll(id);
     const doc = await this.repo.updateById(id, { pinned });
     await this.audit.log(
@@ -186,7 +210,7 @@ export class AnnouncementsService {
     id: string,
     status: PublishStatus,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<Announcement>> {
+  ): Promise<WithSchedule<Announcement>> {
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";

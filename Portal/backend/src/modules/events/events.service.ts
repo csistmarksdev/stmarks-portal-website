@@ -5,8 +5,9 @@ import type {
   FellowshipSlug,
   Paginated,
   PublishStatus,
-  WithStatus,
+  WithSchedule,
 } from "@portal/shared";
+import { ADMIN_ONLY_FIELDS } from "@portal/shared";
 import type { FilterQuery, SortOrder } from "mongoose";
 
 import type { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
@@ -15,6 +16,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateEventDto, UpdateEventDto } from "./dto/create-event.dto";
@@ -32,11 +34,11 @@ export class EventsService {
   ) {}
 
   private toPublic(doc: ChurchEventDocument): ChurchEvent {
-    return serializeDoc<ChurchEvent>(doc, ["status"]);
+    return serializeDoc<ChurchEvent>(doc, [...ADMIN_ONLY_FIELDS]);
   }
 
-  private toAdmin(doc: ChurchEventDocument): WithStatus<ChurchEvent> {
-    return serializeDoc<WithStatus<ChurchEvent>>(doc);
+  private toAdmin(doc: ChurchEventDocument): WithSchedule<ChurchEvent> {
+    return serializeDoc<WithSchedule<ChurchEvent>>(doc);
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -53,7 +55,7 @@ export class EventsService {
     featured?: boolean,
   ): Promise<ChurchEvent[] | Paginated<ChurchEvent>> {
     const now = new Date();
-    const filter: FilterQuery<ChurchEventEntity> = { status: "published" };
+    const filter: FilterQuery<ChurchEventEntity> = publiclyVisible<ChurchEventEntity>();
     let sort: Record<string, SortOrder> = { startDate: -1 };
 
     if (status === "upcoming") {
@@ -89,13 +91,13 @@ export class EventsService {
 
   /** GET /events/slugs — cheap, for generateStaticParams + sitemap. */
   async publicSlugs(): Promise<string[]> {
-    const docs = await this.repo.find({ status: "published" }, { startDate: -1 });
+    const docs = await this.repo.find(publiclyVisible<ChurchEventEntity>(), { startDate: -1 });
     return docs.map((doc) => doc.slug);
   }
 
   /** GET /events/:slug — 404 when missing or unpublished. */
   async getPublicBySlug(slug: string): Promise<ChurchEvent> {
-    const doc = await this.repo.findOne({ slug, status: "published" });
+    const doc = await this.repo.findOne({ ...publiclyVisible<ChurchEventEntity>(), slug });
     if (!doc) throw new NotFoundException(`Event "${slug}" was not found`);
     return this.toPublic(doc);
   }
@@ -107,7 +109,7 @@ export class EventsService {
     pageSize: number,
     search?: string,
     status?: PublishStatus,
-  ): Promise<Paginated<WithStatus<ChurchEvent>>> {
+  ): Promise<Paginated<WithSchedule<ChurchEvent>>> {
     const filter: FilterQuery<ChurchEventEntity> = {};
     if (status) filter.status = status;
     if (search) {
@@ -130,14 +132,14 @@ export class EventsService {
     };
   }
 
-  async getAdminById(id: string): Promise<WithStatus<ChurchEvent>> {
+  async getAdminById(id: string): Promise<WithSchedule<ChurchEvent>> {
     return this.toAdmin(await this.repo.findByIdOrThrow(id));
   }
 
   async create(
     dto: CreateEventDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<ChurchEvent>> {
+  ): Promise<WithSchedule<ChurchEvent>> {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -145,6 +147,7 @@ export class EventsService {
       ...dto,
       startDate: new Date(dto.startDate),
       endDate: dto.endDate ? new Date(dto.endDate) : undefined,
+      publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
       status: dto.status ?? "draft",
       featured: dto.featured ?? false,
@@ -158,7 +161,7 @@ export class EventsService {
     id: string,
     dto: UpdateEventDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<ChurchEvent>> {
+  ): Promise<WithSchedule<ChurchEvent>> {
     const existing = await this.repo.findByIdOrThrow(id);
 
     let slug = existing.slug;
@@ -176,6 +179,7 @@ export class EventsService {
     const doc = await this.repo.updateById(id, {
       ...dto,
       slug,
+      ...(dto.publishAt !== undefined ? { publishAt: scheduleValue(dto.publishAt) } : {}),
       ...(dto.startDate ? { startDate: new Date(dto.startDate) } : {}),
       ...(dto.endDate !== undefined
         ? { endDate: dto.endDate ? new Date(dto.endDate) : undefined }
@@ -190,7 +194,7 @@ export class EventsService {
     id: string,
     status: PublishStatus,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<ChurchEvent>> {
+  ): Promise<WithSchedule<ChurchEvent>> {
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";

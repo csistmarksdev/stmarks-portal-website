@@ -9,8 +9,9 @@ import type {
   GalleryAlbum,
   Paginated,
   PublishStatus,
-  WithStatus,
+  WithSchedule,
 } from "@portal/shared";
+import { ADMIN_ONLY_FIELDS } from "@portal/shared";
 import { randomUUID } from "node:crypto";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
@@ -22,6 +23,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import {
   describeVideoProblem,
   inferVideoProvider,
@@ -56,11 +58,11 @@ export class GalleryService {
   }
 
   private toPublic(doc: GalleryAlbumDocument): GalleryAlbum {
-    return serializeDoc<GalleryAlbum>(doc, ["status"]);
+    return serializeDoc<GalleryAlbum>(doc, [...ADMIN_ONLY_FIELDS]);
   }
 
-  private toAdmin(doc: GalleryAlbumDocument): WithStatus<GalleryAlbum> {
-    return serializeDoc<WithStatus<GalleryAlbum>>(doc);
+  private toAdmin(doc: GalleryAlbumDocument): WithSchedule<GalleryAlbum> {
+    return serializeDoc<WithSchedule<GalleryAlbum>>(doc);
   }
 
   /* ------------------------------- Public API ------------------------------ */
@@ -70,7 +72,7 @@ export class GalleryService {
     query: PaginationQueryDto,
     fellowship?: FellowshipSlug,
   ): Promise<GalleryAlbum[] | Paginated<GalleryAlbum>> {
-    const filter: FilterQuery<GalleryAlbumEntity> = { status: "published" };
+    const filter: FilterQuery<GalleryAlbumEntity> = publiclyVisible<GalleryAlbumEntity>();
     if (fellowship) {
       // A fellowship's gallery holds its own event albums *plus* any shared,
       // churchwide albums the admin has marked as common (contract §5.3).
@@ -88,12 +90,12 @@ export class GalleryService {
   }
 
   async publicSlugs(): Promise<string[]> {
-    const docs = await this.repo.find({ status: "published" }, { date: -1 });
+    const docs = await this.repo.find(publiclyVisible<GalleryAlbumEntity>(), { date: -1 });
     return docs.map((doc) => doc.slug);
   }
 
   async getPublicBySlug(slug: string): Promise<GalleryAlbum> {
-    const doc = await this.repo.findOne({ slug, status: "published" });
+    const doc = await this.repo.findOne({ ...publiclyVisible<GalleryAlbumEntity>(), slug });
     if (!doc) throw new NotFoundException(`Album "${slug}" was not found`);
     return this.toPublic(doc);
   }
@@ -105,7 +107,7 @@ export class GalleryService {
     pageSize: number,
     search?: string,
     status?: PublishStatus,
-  ): Promise<Paginated<WithStatus<GalleryAlbum>>> {
+  ): Promise<Paginated<WithSchedule<GalleryAlbum>>> {
     const filter: FilterQuery<GalleryAlbumEntity> = {};
     if (status) filter.status = status;
     if (search) {
@@ -128,20 +130,21 @@ export class GalleryService {
     };
   }
 
-  async getAdminById(id: string): Promise<WithStatus<GalleryAlbum>> {
+  async getAdminById(id: string): Promise<WithSchedule<GalleryAlbum>> {
     return this.toAdmin(await this.repo.findByIdOrThrow(id));
   }
 
   async create(
     dto: CreateAlbumDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
     const doc = await this.repo.create({
       ...dto,
       date: new Date(dto.date),
+      publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
       status: dto.status ?? "draft",
       photos: [],
@@ -155,7 +158,7 @@ export class GalleryService {
     id: string,
     dto: UpdateAlbumDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const existing = await this.repo.findByIdOrThrow(id);
 
     let slug = existing.slug;
@@ -173,6 +176,7 @@ export class GalleryService {
     const doc = await this.repo.updateById(id, {
       ...dto,
       slug,
+      ...(dto.publishAt !== undefined ? { publishAt: scheduleValue(dto.publishAt) } : {}),
       ...(dto.date ? { date: new Date(dto.date) } : {}),
     });
     await this.audit.log(actor, "update", TAG, id, `Updated album "${doc.title.en}"`);
@@ -184,7 +188,7 @@ export class GalleryService {
     id: string,
     status: PublishStatus,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";
@@ -205,7 +209,7 @@ export class GalleryService {
     id: string,
     dto: AddPhotosDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const additions = dto.photos.map((photo) => {
       if (!photo.video) {
         return { id: randomUUID(), image: photo.image, caption: photo.caption };
@@ -243,7 +247,7 @@ export class GalleryService {
     id: string,
     photoId: string,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const doc = await this.repo.updateById(id, {
       $pull: { photos: { id: photoId } },
     });
@@ -256,7 +260,7 @@ export class GalleryService {
     id: string,
     dto: ReorderPhotosDto,
     actor: AuthenticatedUser,
-  ): Promise<WithStatus<GalleryAlbum>> {
+  ): Promise<WithSchedule<GalleryAlbum>> {
     const existing = await this.repo.findByIdOrThrow(id);
     const byId = new Map(existing.photos.map((photo) => [photo.id, photo]));
     if (

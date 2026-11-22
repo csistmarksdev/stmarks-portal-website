@@ -711,6 +711,170 @@ async function main() {
     assert.equal((await json(res)).total, 0, "a literal 'a(b' matches nothing");
   });
 
+  console.log("\nPublish schedule (F-049):");
+
+  const HOUR = 3600 * 1000;
+  const future = () => new Date(Date.now() + 48 * HOUR).toISOString();
+  const past = () => new Date(Date.now() - 48 * HOUR).toISOString();
+  const post = async (path, body) => {
+    const res = await fetch(`${BASE}${path}`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify(body),
+    });
+    return { status: res.status, body: await json(res) };
+  };
+  const patch = async (path, body) => {
+    const res = await fetch(`${BASE}${path}`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify(body),
+    });
+    return { status: res.status, body: await json(res) };
+  };
+  const publicSlugsOf = async (path) =>
+    (await json(await fetch(`${BASE}${path}`))).map((item) => item.slug);
+
+  await check("announcement: future publishAt hidden, expired hidden, admin sees both", async () => {
+    const scheduled = await post("/admin/announcements", {
+      title: { en: "Advent Retreat Registration", ta: "திருவருகை தியானம் பதிவு" },
+      body: { en: "Registration opens soon.", ta: "பதிவு விரைவில்." },
+      publishedAt: "2026-11-20",
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(scheduled.status, 201, JSON.stringify(scheduled.body));
+    assert(scheduled.body.publishAt, "admin response carries publishAt");
+
+    const expired = await post("/admin/announcements", {
+      title: { en: "July Parish Picnic", ta: "ஜூலை பங்கு சுற்றுலா" },
+      body: { en: "Buses leave at 7.", ta: "பேருந்து 7 மணிக்கு." },
+      publishedAt: "2026-07-01",
+      status: "published",
+      expiresAt: past(),
+    });
+    assert.equal(expired.status, 201, JSON.stringify(expired.body));
+
+    const live = await post("/admin/announcements", {
+      title: { en: "Carol Practice Times", ta: "கீர்த்தனை பயிற்சி நேரம்" },
+      body: { en: "Every Friday.", ta: "ஒவ்வொரு வெள்ளி." },
+      publishedAt: "2026-11-21",
+      status: "published",
+      publishAt: past(),
+      expiresAt: future(),
+    });
+    assert.equal(live.status, 201, JSON.stringify(live.body));
+
+    const list = await json(await fetch(`${BASE}/announcements`));
+    const slugs = list.map((a) => a.slug);
+    assert(!slugs.includes(scheduled.body.slug), "scheduled announcement leaked early");
+    assert(!slugs.includes(expired.body.slug), "expired announcement still public");
+    assert(slugs.includes(live.body.slug), "in-window announcement missing");
+    for (const item of list) {
+      for (const key of ["status", "publishAt", "expiresAt"]) {
+        assert.equal(item[key], undefined, `public announcement exposes ${key}`);
+      }
+    }
+
+    const admin = await json(
+      await fetch(`${BASE}/admin/announcements?pageSize=100`, { headers: auth() }),
+    );
+    const adminSlugs = admin.items.map((a) => a.slug);
+    assert(adminSlugs.includes(scheduled.body.slug) && adminSlugs.includes(expired.body.slug),
+      "admin must still see scheduled and expired records");
+
+    // Clearing the expiry (null) brings it back.
+    const cleared = await patch(`/admin/announcements/${expired.body.id}`, { expiresAt: null });
+    assert.equal(cleared.status, 200, JSON.stringify(cleared.body));
+    assert.equal(cleared.body.expiresAt, undefined, "null must remove expiresAt");
+    assert((await publicSlugsOf("/announcements")).includes(expired.body.slug),
+      "clearing expiresAt should make it public again");
+  });
+
+  await check("a pinned announcement that is scheduled or expired is not /pinned", async () => {
+    const pinned = await post("/admin/announcements", {
+      title: { en: "Harvest Thanksgiving Notice", ta: "அறுவடை நன்றி அறிவிப்பு" },
+      body: { en: "Bring your offerings.", ta: "காணிக்கை கொண்டு வரவும்." },
+      publishedAt: "2026-11-01",
+      status: "published",
+      pinned: true,
+      expiresAt: past(),
+    });
+    assert.equal(pinned.status, 201, JSON.stringify(pinned.body));
+    const body = await json(await fetch(`${BASE}/announcements/pinned`));
+    assert(body === null || body.slug !== pinned.body.slug, "expired pinned leaked");
+  });
+
+  await check("expiresAt before publishAt is refused", async () => {
+    const res = await post("/admin/announcements", {
+      title: { en: "Backwards Window", ta: "தலைகீழ்" },
+      body: { en: "x", ta: "x" },
+      publishedAt: "2026-11-01",
+      publishAt: future(),
+      expiresAt: past(),
+    });
+    assert.equal(res.status, 400);
+  });
+
+  await check("blog, events and gallery honour publishAt on every public read", async () => {
+    const image = {
+      url: `${BASE.replace("/v1", "")}/uploads/images/x.jpg`,
+      alt: { en: "Poster", ta: "போஸ்டர்" },
+      width: 1600,
+      height: 900,
+    };
+    const blog = await post("/admin/blog", {
+      title: { en: "Advent Week One Reflection", ta: "திருவருகை முதல் வாரம்" },
+      excerpt: { en: "Hope.", ta: "நம்பிக்கை." },
+      body: [{ en: "Paragraph.", ta: "பத்தி." }],
+      publishedAt: "2026-11-29",
+      author: { en: "Church Office", ta: "அலுவலகம்" },
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(blog.status, 201, JSON.stringify(blog.body));
+    const event = await post("/admin/events", {
+      title: { en: "Christmas Eve Service", ta: "கிறிஸ்துமஸ் முன்தின ஆராதனை" },
+      summary: { en: "Candlelight.", ta: "மெழுகுவர்த்தி." },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      startDate: "2026-12-24T13:30:00.000Z",
+      location: { en: "Church", ta: "ஆலயம்" },
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(event.status, 201, JSON.stringify(event.body));
+    const album = await post("/admin/gallery", {
+      title: { en: "Advent Wreath Lighting", ta: "திருவருகை மாலை" },
+      date: "2026-11-29",
+      cover: image,
+      status: "published",
+      publishAt: future(),
+    });
+    assert.equal(album.status, 201, JSON.stringify(album.body));
+
+    const blogSlugs = await json(await fetch(`${BASE}/blog/slugs`));
+    assert(!blogSlugs.includes(blog.body.slug), "/blog/slugs leaked a scheduled post");
+    assert(!(await publicSlugsOf("/blog")).includes(blog.body.slug), "/blog leaked");
+    assert.equal((await fetch(`${BASE}/blog/${blog.body.slug}`)).status, 404);
+
+    const eventSlugs = await json(await fetch(`${BASE}/events/slugs`));
+    assert(!eventSlugs.includes(event.body.slug), "/events/slugs leaked");
+    assert(!(await publicSlugsOf("/events?status=upcoming")).includes(event.body.slug),
+      "upcoming events leaked a scheduled event");
+    assert.equal((await fetch(`${BASE}/events/${event.body.slug}`)).status, 404);
+
+    const gallerySlugs = await json(await fetch(`${BASE}/gallery/slugs`));
+    assert(!gallerySlugs.includes(album.body.slug), "/gallery/slugs leaked");
+    assert.equal((await fetch(`${BASE}/gallery/${album.body.slug}`)).status, 404);
+
+    // Moving publishAt into the past publishes it, with no other change.
+    const now = await patch(`/admin/blog/${blog.body.id}`, { publishAt: past() });
+    assert.equal(now.status, 200, JSON.stringify(now.body));
+    const shown = await json(await fetch(`${BASE}/blog/${blog.body.slug}`));
+    assert.equal(shown.slug, blog.body.slug);
+    assert.equal(shown.publishAt, undefined, "public blog post exposes publishAt");
+  });
+
   /*
    * Backup and restore is the one place in the CMS where a mistake destroys
    * data, so it is exercised end to end rather than endpoint by endpoint: take

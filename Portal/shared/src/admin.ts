@@ -21,6 +21,29 @@ export const PUBLISH_STATUSES: readonly PublishStatus[] = [
 /** Admin list/detail responses add workflow fields on top of the public shape. */
 export type WithStatus<T> = T & { status: PublishStatus };
 
+/**
+ * Scheduling, on top of `status` (F-049).
+ *
+ * A published record is public only while `publishAt <= now` (or unset) and,
+ * where expiry applies, `now < expiresAt` (or unset). Both are ISO datetimes.
+ * Records written before these fields existed have neither, which means
+ * "no schedule, no expiry" — exactly how they behaved before.
+ *
+ * Admin-only: public responses never carry these keys.
+ */
+export interface PublishSchedule {
+  /** Not public before this instant. */
+  publishAt?: string;
+  /** Not public from this instant on (announcements only). */
+  expiresAt?: string;
+}
+
+/** Admin shape for content that has the publish schedule. */
+export type WithSchedule<T> = WithStatus<T> & PublishSchedule;
+
+/** Fields stripped from every public response of a scheduled entity. */
+export const ADMIN_ONLY_FIELDS: readonly string[] = ["status", "publishAt", "expiresAt"];
+
 /* -------------------------------------------------------------------------- */
 /* RBAC                                                                       */
 /* -------------------------------------------------------------------------- */
