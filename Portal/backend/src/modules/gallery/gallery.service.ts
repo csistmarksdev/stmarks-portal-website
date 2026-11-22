@@ -41,6 +41,7 @@ import {
   GalleryAlbumEntity,
   type GalleryAlbumDocument,
 } from "./schemas/gallery-album.schema";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "gallery";
 
@@ -159,6 +160,7 @@ export class GalleryService {
     dto: CreateAlbumDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<GalleryAlbum>> {
+    assertMayWrite(actor, dto.status);
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -170,7 +172,7 @@ export class GalleryService {
       date: new Date(dto.date),
       publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
-      status: dto.status ?? "draft",
+      status: dto.status ?? defaultStatusFor(actor, "draft"),
       photos: [],
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created album "${dto.title.en}"`);
@@ -184,10 +186,11 @@ export class GalleryService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<GalleryAlbum>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
     if (dto.slug && dto.slug !== existing.slug) {
-      if (existing.status !== "draft") {
+      if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
           "Slugs are immutable after publish — they are part of public URLs",
         );
@@ -265,6 +268,7 @@ export class GalleryService {
       };
     });
     const album = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, undefined, album.status);
     if (album.status === "published") {
       this.assertPublishable({ slug: album.slug, title: album.title, photos: additions });
     }
@@ -287,6 +291,8 @@ export class GalleryService {
     photoId: string,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<GalleryAlbum>> {
+    const album = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, undefined, album.status);
     const doc = await this.repo.updateById(id, {
       $pull: { photos: { id: photoId } },
     });
@@ -301,6 +307,7 @@ export class GalleryService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<GalleryAlbum>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, undefined, existing.status);
     const byId = new Map(existing.photos.map((photo) => [photo.id, photo]));
     if (
       dto.photoIds.length !== existing.photos.length ||

@@ -9,6 +9,7 @@ import {
   MoreHorizontalIcon,
   PencilIcon,
   PlusIcon,
+  SendIcon,
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -113,7 +114,7 @@ export function ResourceListPage<T extends WithIdStatus>({
       search: debouncedSearch || undefined,
       status: status || undefined,
     });
-  const { remove, setStatus: mutateStatus } = useResourceMutations(apiPath, label);
+  const { remove, update, setStatus: mutateStatus } = useResourceMutations(apiPath, label);
 
   const filtering = Boolean(search || status);
   const [primary, ...meta] = columns;
@@ -168,7 +169,7 @@ export function ResourceListPage<T extends WithIdStatus>({
           <option value="">All statuses</option>
           {PUBLISH_STATUSES.map((value) => (
             <option key={value} value={value}>
-              {value}
+              {value === "pending" ? "awaiting approval" : value}
             </option>
           ))}
         </Select>
@@ -301,6 +302,34 @@ export function ResourceListPage<T extends WithIdStatus>({
                     <span />
                   )}
                   <div className="flex items-center gap-0.5">
+                    {/*
+                      Approval rule: an editor submits a draft; an admin or
+                      super admin approves it, which publishes it.
+                    */}
+                    {can("content.publish") && item.status === "pending" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          mutateStatus.mutate({ id: item.id, status: "published" })
+                        }
+                      >
+                        <CheckCircle2Icon /> Approve
+                      </Button>
+                    )}
+                    {!can("content.publish") &&
+                      can("content.write") &&
+                      item.status === "draft" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() =>
+                            update.mutate({ id: item.id, body: { status: "pending" } })
+                          }
+                        >
+                          <SendIcon /> Submit for approval
+                        </Button>
+                      )}
                     {extraRowActions?.(item)}
                     {can("content.publish") && (
                       <DropdownMenu>
@@ -316,7 +345,8 @@ export function ResourceListPage<T extends WithIdStatus>({
                                 mutateStatus.mutate({ id: item.id, status: "published" })
                               }
                             >
-                              <CheckCircle2Icon /> Publish
+                              <CheckCircle2Icon />{" "}
+                              {item.status === "pending" ? "Approve & publish" : "Publish"}
                             </DropdownMenuItem>
                           )}
                           {item.status !== "draft" && (

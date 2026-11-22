@@ -34,6 +34,7 @@ import {
   AnnouncementEntity,
   type AnnouncementDocument,
 } from "./schemas/announcement.schema";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "announcements";
 
@@ -143,6 +144,7 @@ export class AnnouncementsService {
     dto: CreateAnnouncementDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<Announcement>> {
+    assertMayWrite(actor, dto.status);
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -159,7 +161,7 @@ export class AnnouncementsService {
       expiresAt: expiresAt ?? undefined,
       publishedAt: new Date(dto.publishedAt),
       slug,
-      status: dto.status ?? "draft",
+      status: dto.status ?? defaultStatusFor(actor, "draft"),
       pinned: dto.pinned ?? false,
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created announcement "${dto.title.en}"`);
@@ -173,10 +175,11 @@ export class AnnouncementsService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<Announcement>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
     if (dto.slug && dto.slug !== existing.slug) {
-      if (existing.status !== "draft") {
+      if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
           "Slugs are immutable after publish — they are part of public URLs",
         );

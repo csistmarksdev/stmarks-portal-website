@@ -2,10 +2,16 @@ import type { PublishStatus } from "@portal/shared";
 
 import { Badge } from "@/components/ui/badge";
 
-const VARIANTS: Record<PublishStatus, "success" | "warning" | "muted"> = {
+const VARIANTS: Record<PublishStatus, "success" | "warning" | "muted" | "default"> = {
   published: "success",
   draft: "warning",
+  pending: "default",
   archived: "muted",
+};
+
+/** "pending" is shown as what it means to an admin scanning the list. */
+const LABELS: Partial<Record<PublishStatus, string>> = {
+  pending: "awaiting approval",
 };
 
 /**
@@ -37,5 +43,5 @@ export function StatusBadge({
       </Badge>
     );
   }
-  return <Badge variant={VARIANTS[status]}>{status}</Badge>;
+  return <Badge variant={VARIANTS[status]}>{LABELS[status] ?? status}</Badge>;
 }

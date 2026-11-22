@@ -23,6 +23,7 @@ import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateDownloadDto, UpdateDownloadDto } from "./dto/download.dto";
 import { DownloadEntity, type DownloadDocument } from "./schemas/download.schema";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "downloads";
 
@@ -120,6 +121,7 @@ export class DownloadsService {
     dto: CreateDownloadDto,
     actor: AuthenticatedUser,
   ): Promise<WithStatus<DownloadFile>> {
+    assertMayWrite(actor, dto.status);
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -127,7 +129,7 @@ export class DownloadsService {
       ...dto,
       publishedAt: new Date(dto.publishedAt),
       slug,
-      status: dto.status ?? "draft",
+      status: dto.status ?? defaultStatusFor(actor, "draft"),
       format: dto.format.toUpperCase(),
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created download "${dto.title.en}"`);
@@ -141,10 +143,11 @@ export class DownloadsService {
     actor: AuthenticatedUser,
   ): Promise<WithStatus<DownloadFile>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
     if (dto.slug && dto.slug !== existing.slug) {
-      if (existing.status !== "draft") {
+      if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
           "Slugs are immutable after publish — they are part of public URLs",
         );

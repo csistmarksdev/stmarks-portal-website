@@ -19,6 +19,7 @@ import { LocalizedField } from "@/components/admin/localized-field";
 import { ImagePicker } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
 import { ParagraphsField } from "@/components/admin/paragraphs-field";
+import { ApprovalLockNotice, StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -43,6 +44,8 @@ export function FellowshipForm({ id }: { id?: string }) {
     "/admin/fellowships",
     id,
   );
+  // Approval rule: an editor cannot change a published or archived record.
+  const { locked } = useApprovalLock(data?.status, isEdit);
   const { create, update } = useResourceMutations("/admin/fellowships", "Fellowship");
 
   const [slug, setSlug] = useState<string>(FELLOWSHIP_SLUGS[0]);
@@ -136,6 +139,11 @@ export function FellowshipForm({ id }: { id?: string }) {
           </Button>
         }
       />
+      {locked && data?.status ? (
+        <div className="mb-4">
+          <ApprovalLockNotice status={data.status} />
+        </div>
+      ) : null}
 
       <Card>
         <CardHeader>
@@ -279,14 +287,7 @@ export function FellowshipForm({ id }: { id?: string }) {
 
       <div className="space-y-2 sm:flex sm:items-center sm:justify-end sm:gap-2 sm:space-y-0">
         <div className="sm:mr-auto sm:w-40">
-          <Select
-            value={status}
-            onChange={(event) => setStatus(event.target.value as PublishStatus)}
-          >
-            <option value="draft">draft</option>
-            <option value="published">published</option>
-            <option value="archived">archived</option>
-          </Select>
+          <StatusSelect value={status} onChange={setStatus} isNew={!isEdit} />
         </div>
         <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-2">
           <Button variant="outline" className="w-full sm:w-auto" asChild>
@@ -295,7 +296,7 @@ export function FellowshipForm({ id }: { id?: string }) {
           <Button
             className="w-full sm:w-auto"
             onClick={() => void submit()}
-            disabled={busy}
+            disabled={busy || locked}
           >
             {busy ? "Saving…" : isEdit ? "Save changes" : "Create fellowship"}
           </Button>

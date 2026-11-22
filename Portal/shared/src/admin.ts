@@ -10,10 +10,16 @@ import type { LocalizedText } from "./common";
 /* Publish workflow                                                           */
 /* -------------------------------------------------------------------------- */
 
-export type PublishStatus = "draft" | "published" | "archived";
+/**
+ * `pending` = submitted for approval. Editors can only save drafts and submit;
+ * an admin or super admin approves (publishes). See
+ * `backend/src/common/utils/approval.ts`. Only `published` is ever public.
+ */
+export type PublishStatus = "draft" | "pending" | "published" | "archived";
 
 export const PUBLISH_STATUSES: readonly PublishStatus[] = [
   "draft",
+  "pending",
   "published",
   "archived",
 ] as const;
@@ -118,10 +124,11 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
     "settings.write",
     "contact.read",
   ],
+  // No "content.publish": an editor's work goes live only when an admin or
+  // super admin approves it (church request, 22 Nov 2026).
   editor: [
     "content.read",
     "content.write",
-    "content.publish",
     "media.read",
     "media.write",
     "contact.read",

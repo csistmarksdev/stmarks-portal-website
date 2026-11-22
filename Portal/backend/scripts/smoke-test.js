@@ -674,6 +674,132 @@ async function main() {
     assert.equal(res.status, 403, `viewer create → ${res.status}`);
   });
 
+  /*
+   * Approval rule (church request, 22 Nov 2026): an editor's content goes live
+   * only when an admin or super admin approves it; admins publish directly.
+   */
+  await check("Approval: editor submits, cannot publish; admin approves", async () => {
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Fellowship Editor",
+        email: "editor@example.org",
+        password: "Password@123",
+        role: "editor",
+      }),
+    });
+    const editorLogin = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "editor@example.org", password: "Password@123" }),
+      }),
+    );
+    const asEditor = {
+      Authorization: `Bearer ${editorLogin.accessToken}`,
+      "Content-Type": "application/json",
+    };
+    const notice = (title, status) =>
+      JSON.stringify({
+        title: { en: title, ta: "அறிவிப்பு" },
+        body: { en: "Choir practice moves to the parish hall.", ta: "…" },
+        publishedAt: "2026-11-20",
+        ...(status ? { status } : {}),
+      });
+
+    // 1. An editor cannot publish on create...
+    const direct = await fetch(`${BASE}/admin/announcements`, {
+      method: "POST",
+      headers: asEditor,
+      body: notice("Editor tries to publish", "published"),
+    });
+    assert.equal(direct.status, 403, `editor create published → ${direct.status}`);
+
+    // 2. ...but can submit for approval, which is not public.
+    const submitted = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: asEditor,
+        body: notice("Choir practice venue", "pending"),
+      }),
+    );
+    assert.equal(submitted.status, "pending", "editor submission should be pending");
+    const publicBefore = await json(await fetch(`${BASE}/announcements`));
+    assert(
+      !publicBefore.some((a) => a.id === submitted.id),
+      "a pending announcement must not be public",
+    );
+
+    // 3. The editor cannot approve it (status endpoint) or publish via edit.
+    const selfApprove = await fetch(`${BASE}/admin/announcements/${submitted.id}/status`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(selfApprove.status, 403, `editor approve → ${selfApprove.status}`);
+    const viaEdit = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(viaEdit.status, 403, `editor publish via edit → ${viaEdit.status}`);
+
+    // 4. An admin approves it; now it is public.
+    const approved = await fetch(`${BASE}/admin/announcements/${submitted.id}/status`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify({ status: "published" }),
+    });
+    assert.equal(approved.status, 200, `admin approve → ${approved.status}`);
+    const publicAfter = await json(await fetch(`${BASE}/announcements`));
+    assert(
+      publicAfter.some((a) => a.id === submitted.id),
+      "an approved announcement must be public",
+    );
+
+    // 5. Once live, the editor cannot change it.
+    const editLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ title: { en: "Changed after approval", ta: "…" } }),
+    });
+    assert.equal(editLive.status, 403, `editor edit published → ${editLive.status}`);
+
+    // 6. An editor's create with no status starts as a draft, even for a type
+    //    whose default is "published" (fellowships use the same rule).
+    const noStatus = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: asEditor,
+        body: notice("Draft by default"),
+      }),
+    );
+    assert.equal(noStatus.status, "draft", "editor default status should be draft");
+
+    // 7. Church settings have no draft state, so editors cannot save them.
+    const verse = await fetch(`${BASE}/admin/church/weekly-verse`, {
+      method: "PUT",
+      headers: asEditor,
+      body: JSON.stringify({
+        reference: { en: "Psalm 23:1", ta: "சங்கீதம் 23:1" },
+        text: { en: "The Lord is my shepherd.", ta: "கர்த்தர் என் மேய்ப்பராயிருக்கிறார்." },
+        weekOf: "2026-11-22",
+      }),
+    });
+    assert.equal(verse.status, 403, `editor save weekly verse → ${verse.status}`);
+
+    // 8. An admin can still create and publish in one step.
+    const adminDirect = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: auth(),
+        body: notice("Admin publishes directly", "published"),
+      }),
+    );
+    assert.equal(adminDirect.status, "published", "admin should publish directly");
+  });
+
   await check("PATCH null removes an optional field instead of ignoring it", async () => {
     const created = await json(
       await fetch(`${BASE}/admin/blog`, {

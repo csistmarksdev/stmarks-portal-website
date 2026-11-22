@@ -1,7 +1,6 @@
 "use client";
 
 import type { ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
-import { PUBLISH_STATUSES } from "@portal/shared";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +12,7 @@ import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
 import { ParagraphsField } from "@/components/admin/paragraphs-field";
 import { ImagePicker } from "@/components/admin/media-picker";
+import { ApprovalLockNotice, StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -328,6 +328,7 @@ export function ResourceFormPage({
   }, [data]);
 
   const busy = create.isPending || update.isPending;
+  const { locked } = useApprovalLock(data?.status as PublishStatus | undefined, isEdit);
 
   const submit = async () => {
     const error = validate(fields, values);
@@ -391,6 +392,7 @@ export function ResourceFormPage({
       />
       <Card>
         <CardContent className="space-y-5 pt-5">
+          {locked ? <ApprovalLockNotice status={data?.status as PublishStatus} /> : null}
           {fields.map((field) => (
             <FieldControl
               key={field.name}
@@ -405,16 +407,7 @@ export function ResourceFormPage({
           {withStatusField && (
             <div className="space-y-1.5">
               <Label>Status</Label>
-              <Select
-                value={status}
-                onChange={(event) => setStatus(event.target.value as PublishStatus)}
-              >
-                {PUBLISH_STATUSES.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Select>
+              <StatusSelect value={status} onChange={setStatus} isNew={!isEdit} />
               <p className="text-xs text-muted-foreground">
                 Only published records appear on the public website
                 {fields.some((field) => field.name === "publishAt")
@@ -432,7 +425,7 @@ export function ResourceFormPage({
             <Button
               className="w-full sm:w-auto"
               onClick={() => void submit()}
-              disabled={busy}
+              disabled={busy || locked}
             >
               {busy ? "Saving…" : isEdit ? "Save changes" : `Create ${label.toLowerCase()}`}
             </Button>

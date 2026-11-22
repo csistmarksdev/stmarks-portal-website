@@ -18,7 +18,13 @@ import { ChurchService } from "./church.service";
  */
 @ApiTags("Admin — Church")
 @ApiBearerAuth()
-@RequirePermissions("content.write")
+/*
+ * Service timings, the pastor's message and the weekly verse have no draft
+ * state - a save is live at once - so changing them needs `content.publish`
+ * (admin / super admin) under the approval rule (church request,
+ * 22 Nov 2026). The GETs below stay readable to every role.
+ */
+@RequirePermissions("content.publish")
 @Controller("admin/church")
 export class ChurchAdminController {
   constructor(private readonly church: ChurchService) {}

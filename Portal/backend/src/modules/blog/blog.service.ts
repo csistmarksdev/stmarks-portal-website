@@ -25,6 +25,7 @@ import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateBlogPostDto, UpdateBlogPostDto } from "./dto/create-blog-post.dto";
 import { BlogPostEntity, type BlogPostDocument } from "./schemas/blog-post.schema";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "blog";
 
@@ -136,6 +137,7 @@ export class BlogService {
     dto: CreateBlogPostDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<BlogPost>> {
+    assertMayWrite(actor, dto.status);
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -147,7 +149,7 @@ export class BlogService {
       publishedAt: new Date(dto.publishedAt),
       publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
-      status: dto.status ?? "draft",
+      status: dto.status ?? defaultStatusFor(actor, "draft"),
       readingMinutes: readingMinutes(dto.body),
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created blog post "${dto.title.en}"`);
@@ -161,10 +163,11 @@ export class BlogService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<BlogPost>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
     if (dto.slug && dto.slug !== existing.slug) {
-      if (existing.status !== "draft") {
+      if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
           "Slugs are immutable after publish — they are part of public URLs",
         );

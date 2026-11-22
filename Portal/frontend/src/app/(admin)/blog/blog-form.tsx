@@ -26,6 +26,7 @@ import { ErrorState } from "@/components/admin/error-state";
 import { LocalizedField } from "@/components/admin/localized-field";
 import { ImagePicker } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
+import { ApprovalLockNotice, StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -196,6 +197,8 @@ export function BlogForm({ id }: { id?: string }) {
 
   const { data, isLoading, isError, error, refetch, isFetching } =
     useResourceItem<BlogRecord>("/admin/blog", id);
+  // Approval rule: an editor cannot change a published or archived record.
+  const { locked } = useApprovalLock(data?.status, isEdit);
   const { create, update } = useResourceMutations("/admin/blog", "Post");
 
   const [draft, setDraft] = useState<Draft>(BLANK);
@@ -363,6 +366,11 @@ export function BlogForm({ id }: { id?: string }) {
           </Button>
         }
       />
+      {locked && data?.status ? (
+        <div className="mb-4">
+          <ApprovalLockNotice status={data.status} />
+        </div>
+      ) : null}
 
       <Stepper current={step} furthest={furthest} onJump={goTo} />
 
@@ -564,17 +572,14 @@ export function BlogForm({ id }: { id?: string }) {
           <Card>
             <CardContent className="space-y-1.5">
               <Label>Status</Label>
-              <Select
+              <StatusSelect
                 value={status}
-                onChange={(event) => {
-                  setStatus(event.target.value as PublishStatus);
+                onChange={(next) => {
+                  setStatus(next);
                   setDirty(true);
                 }}
-              >
-                <option value="draft">Draft — not on the website</option>
-                <option value="published">Published — live on the website</option>
-                <option value="archived">Archived — hidden, kept on file</option>
-              </Select>
+                isNew={!isEdit}
+              />
               <div className="space-y-1.5 pt-3">
                 <Label>Publish at</Label>
                 <Input
@@ -622,7 +627,7 @@ export function BlogForm({ id }: { id?: string }) {
           </span>
 
           <div className="ml-auto flex items-center gap-2 sm:ml-2">
-            <Button variant="outline" onClick={save} disabled={busy}>
+            <Button variant="outline" onClick={save} disabled={busy || locked}>
               <SaveIcon className="size-4" />
               {busy ? "Saving…" : isEdit ? "Save" : "Save draft"}
             </Button>

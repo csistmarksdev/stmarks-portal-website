@@ -26,6 +26,7 @@ import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateEventDto, UpdateEventDto } from "./dto/create-event.dto";
 import type { ChurchEventDocument, ChurchEventEntity } from "./schemas/event.schema";
 import { EventsRepository } from "./events.repository";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "events";
 
@@ -159,6 +160,7 @@ export class EventsService {
     dto: CreateEventDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<ChurchEvent>> {
+    assertMayWrite(actor, dto.status);
     const slug = await uniqueSlug(dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
@@ -174,7 +176,7 @@ export class EventsService {
       endDate: dto.endDate ? new Date(dto.endDate) : undefined,
       publishAt: scheduleValue(dto.publishAt) ?? undefined,
       slug,
-      status: dto.status ?? "draft",
+      status: dto.status ?? defaultStatusFor(actor, "draft"),
       featured: dto.featured ?? false,
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created event "${dto.title.en}"`);
@@ -188,10 +190,11 @@ export class EventsService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<ChurchEvent>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
     if (dto.slug && dto.slug !== existing.slug) {
-      if (existing.status !== "draft") {
+      if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
           "Slugs are immutable after publish — they are part of public URLs",
         );

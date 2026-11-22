@@ -74,6 +74,21 @@ The backend prints its LAN address on boot. Three things make this work:
   other device could load. Set it explicitly to the canonical origin in
   production.
 
+### Approval before publishing
+
+Only an **admin** or **super admin** can put content on the public website.
+
+| Role | Can do |
+|---|---|
+| Super admin, Admin | Create, edit, publish, approve, archive, delete. They can publish in one step. |
+| Editor | Create and edit **drafts**, and **submit them for approval** (status `pending`, shown as "Awaiting approval"). |
+| Viewer | Read only. |
+
+- **Approving:** an admin uses **Approve** on the item's list card, or the Workflow menu → *Approve & publish*. Only `published` content is ever public.
+- **Live content:** an editor cannot change anything already published or archived. They ask an admin, who can edit it or move it back to draft.
+- **Church settings:** service timings, the pastor's message and the weekly verse have no draft state (a save is live at once), so only admins and super admins can save them.
+- **Enforcement:** the rule lives in the API (`backend/src/common/utils/approval.ts`), not only in the screens. The smoke test "Approval: editor submits, cannot publish; admin approves" covers it.
+
 ### Docker
 
 ```bash

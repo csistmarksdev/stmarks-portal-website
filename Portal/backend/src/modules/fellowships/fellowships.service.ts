@@ -28,6 +28,7 @@ import {
   FellowshipEntity,
   type FellowshipDocument,
 } from "./schemas/fellowship.schema";
+import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
 
 const TAG = "fellowships";
 
@@ -100,13 +101,14 @@ export class FellowshipsService {
     dto: CreateFellowshipDto,
     actor: AuthenticatedUser,
   ): Promise<WithStatus<Fellowship>> {
+    assertMayWrite(actor, dto.status);
     if (await this.repo.exists({ slug: dto.slug })) {
       throw new ConflictException(`Fellowship "${dto.slug}" already exists`);
     }
     const doc = await this.repo.create({
       ...dto,
       committee: this.withMemberIds(dto.committee) ?? [],
-      status: dto.status ?? "published",
+      status: dto.status ?? defaultStatusFor(actor, "published"),
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created fellowship "${dto.name.en}"`);
     this.revalidate.trigger(TAG);
@@ -118,6 +120,8 @@ export class FellowshipsService {
     dto: UpdateFellowshipDto,
     actor: AuthenticatedUser,
   ): Promise<WithStatus<Fellowship>> {
+    const existing = await this.repo.findByIdOrThrow(id);
+    assertMayWrite(actor, dto.status, existing.status);
     const doc = await this.repo.updateById(id, {
       ...dto,
       ...(dto.committee ? { committee: this.withMemberIds(dto.committee) } : {}),
