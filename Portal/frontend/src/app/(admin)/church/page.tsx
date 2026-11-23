@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 
 import { PageHeader } from "@/components/admin/page-header";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 const ITEMS: Array<{
   href: string;
@@ -39,37 +39,35 @@ const ITEMS: Array<{
 
 export default function ChurchIndexPage() {
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="max-w-6xl">
       <PageHeader
         eyebrow="The church itself"
         title="Church content"
         description="Single documents rather than lists — each one is edited in place and served straight to the website."
       />
 
-      <Card>
-        <CardContent className="divide-y divide-border/70 p-0">
-          {ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="group flex items-center gap-4 px-4 py-4 transition-colors first:rounded-t-3xl last:rounded-b-3xl hover:bg-hover-tint sm:px-5"
-            >
-              <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-secondary text-primary ring-1 ring-border">
+      {/* One card per document, across the width rather than a narrow list. */}
+      <div className="grid gap-4 md:grid-cols-3">
+        {ITEMS.map((item) => (
+          <Link key={item.href} href={item.href} className="group">
+            <Card className="flex h-full flex-col gap-4 p-5 transition-colors group-hover:ring-border-strong">
+              <span className="grid size-10 place-items-center rounded-2xl bg-secondary text-primary ring-1 ring-border">
                 <item.icon className="size-4.5" />
               </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-medium text-foreground">
-                  {item.label}
-                </span>
-                <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">
+              <span className="flex-1">
+                <span className="block text-[15px] font-medium text-foreground">{item.label}</span>
+                <span className="mt-1 block text-[13px] leading-snug text-muted-foreground">
                   {item.description}
                 </span>
               </span>
-              <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
-            </Link>
-          ))}
-        </CardContent>
-      </Card>
+              <span className="flex items-center gap-1.5 text-[13px] font-medium text-primary">
+                Edit
+                <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Card>
+          </Link>
+        ))}
+      </div>
 
       <p className="mt-4 rounded-2xl border border-dashed border-border-strong px-4 py-3 text-[13px] leading-relaxed text-muted-foreground">
         The church profile, history, vision &amp; mission, diocese details,

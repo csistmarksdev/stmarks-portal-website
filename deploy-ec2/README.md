@@ -6,7 +6,9 @@ CSI St. Mark's, on one Ubuntu instance at **54.252.189.117**.
 AWS EC2  (Ubuntu, 2 vCPU / 4 GiB, x86_64)
 54.252.189.117
       |
-      +-- :3000  Next.js website        host process, systemd, `next start`
+      +-- :3000  maintenance gate       host process, systemd (passes through,
+      |      |                           or shows the maintenance notice)
+      |      +-- 127.0.0.1:3001  Next.js website   systemd, `next start`
       |
       +-- :8080  Portal application     Docker Compose, one container
                      |-- admin CMS       /
@@ -359,6 +361,26 @@ The next `up -d` restores the snapshot baked into the image, so the demo comes
 back — as it shipped, without anything added since.
 
 ---
+
+## Maintenance mode
+
+The website sits behind a small **maintenance gate** on :3000; the site itself
+listens privately on 127.0.0.1:3001. When a super admin turns on Maintenance
+mode in the Portal, visitors see a bilingual maintenance notice instead of the
+site; turning it off brings the site back within seconds. No change to the
+website is involved. If the Portal is down, the gate serves the website as
+normal.
+
+Install once (after `csistmc-website.service`):
+
+```bash
+sudo cp deploy-ec2/csistmc-website.service deploy-ec2/csistmc-maintenance-gate.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl restart csistmc-website
+sudo systemctl enable --now csistmc-maintenance-gate
+```
+
+Details, the preview bypass and health check: `maintenance-gate/README.md`.
 
 ## Updating
 

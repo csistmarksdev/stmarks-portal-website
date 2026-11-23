@@ -4,6 +4,7 @@ import type { LocalizedText, ServiceTiming } from "@portal/shared";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { LanguageBar } from "@/components/admin/language-toggle";
 import { LocalizedField } from "@/components/admin/localized-field";
 import { SingletonShell } from "@/components/admin/singleton-shell";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ const EMPTY: LocalizedText = { en: "", ta: "" };
 type TimingDraft = Omit<ServiceTiming, "id"> & { id?: string };
 
 export default function ServiceTimingsPage() {
-  const { data, isLoading, save } = useSingleton<ServiceTiming[]>("service-timings");
+  const { data, isLoading, save, pending, reject } = useSingleton<ServiceTiming[]>("service-timings");
   const [items, setItems] = useState<TimingDraft[]>([]);
 
   useEffect(() => {
@@ -32,9 +33,13 @@ export default function ServiceTimingsPage() {
       title="Service timings"
       description="The weekly services table on the About pages."
       loading={isLoading}
-      saving={save.isPending}
+      saving={save.isPending || reject.isPending}
+      pending={pending}
+      onReject={() => reject.mutateAsync().catch(() => undefined)}
       onSave={() => save.mutate({ items })}
     >
+      {/* Placed here: the first field (Day) is a half-width column. */}
+      <LanguageBar />
       <div className="flex justify-end">
         <Button
           type="button"
@@ -51,12 +56,12 @@ export default function ServiceTimingsPage() {
         </Button>
       </div>
       {items.length === 0 && (
-        <p className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
+        <p className="rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
           No services yet.
         </p>
       )}
       {items.map((item, index) => (
-        <div key={item.id ?? index} className="space-y-3 rounded-md border p-3">
+        <div key={item.id ?? index} className="space-y-4 rounded-2xl border border-border/70 p-4">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-muted-foreground">
               Service {index + 1}

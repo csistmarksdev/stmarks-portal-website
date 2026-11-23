@@ -1,0 +1,63 @@
+# CSI St. Mark's — maintenance gate in front of the public website, on :3000.
+#
+#   sudo cp deploy-ec2/csistmc-maintenance-gate.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now csistmc-maintenance-gate
+#
+# Visitors reach the website through this gate. When the super admin turns on
+# maintenance mode in the Portal (System → Maintenance mode), the gate shows
+# the maintenance notice instead of the site; otherwise it passes every request
+# straight through. The website itself is unchanged and listens only on
+# 127.0.0.1:3001 (see csistmc-website.service).
+#
+# If the Portal cannot be reached the gate serves the website (fails open), so
+# a Portal outage never takes the public site down.
+
+[Unit]
+Description=CSI St. Mark's maintenance gate (public website front door)
+Documentation=file:/home/ubuntu/app/deploy-ec2/maintenance-gate/README.md
+After=network-online.target csistmc-website.service
+Wants=network-online.target
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/app/deploy-ec2/maintenance-gate
+
+# Public port 3000 — the one the Security Group already allows.
+Environment=GATE_HOST=0.0.0.0
+Environment=GATE_PORT=3000
+# The website, private on this host.
+Environment=UPSTREAM_URL=http://127.0.0.1:3001
+# The Portal's public status endpoint, on the same host.
+Environment=STATUS_URL=http://127.0.0.1:8080/v1/site/status
+# Optional settings (GATE_BYPASS_TOKEN for previewing the site during
+# maintenance, SITE_NAME, …) go in this file; it may be absent.
+EnvironmentFile=-/home/ubuntu/app/deploy-ec2/maintenance-gate/gate.env
+
+# Absolute path: systemd does no PATH lookup. NodeSource installs Node here;
+# point at `readlink -f "$(which node)"` if yours lives elsewhere.
+ExecStart=/usr/bin/node gate.mjs
+
+Restart=on-failure
+RestartSec=3
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=csistmc-maintenance-gate
+
+[Install]
+WantedBy=multi-user.target

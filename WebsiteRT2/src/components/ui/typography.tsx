@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps, ElementType } from "react";
 
-import { renderInline } from "@/lib/rich-text";
+import { parseBlock, renderInline } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------- */
@@ -189,10 +189,29 @@ export function Prose({
    */
   lead?: boolean;
 }) {
+  const blocks = paragraphs.map(parseBlock);
+  // The drop cap belongs to the first real paragraph, even under a heading.
+  const leadIndex = lead ? blocks.findIndex((block) => block.kind === "paragraph") : -1;
+  const headingTone = tone === "onDark" ? "onDark" : "default";
+
   return (
     <div className={cn("space-y-5", className)}>
-      {paragraphs.map((paragraph, index) =>
-        lead && index === 0 ? (
+      {blocks.map((block, index) => {
+        if (block.kind === "title") {
+          return (
+            <Heading key={index} as="h2" level="h3" tone={headingTone} className="!mt-10 first:!mt-0">
+              {renderInline(block.text)}
+            </Heading>
+          );
+        }
+        if (block.kind === "subtitle") {
+          return (
+            <Heading key={index} as="h3" level="h4" tone={headingTone} className="!mt-8 first:!mt-0">
+              {renderInline(block.text)}
+            </Heading>
+          );
+        }
+        return index === leadIndex ? (
           <p
             key={index}
             className={cn(
@@ -200,14 +219,14 @@ export function Prose({
               tone === "onDark" ? "text-white/85" : "text-[var(--foreground)]",
             )}
           >
-            {renderInline(paragraph)}
+            {renderInline(block.text)}
           </p>
         ) : (
           <Text key={index} size={size} tone={tone}>
-            {renderInline(paragraph)}
+            {renderInline(block.text)}
           </Text>
-        ),
-      )}
+        );
+      })}
     </div>
   );
 }

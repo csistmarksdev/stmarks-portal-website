@@ -491,6 +491,132 @@ async function main() {
     },
   );
 
+  /*
+   * A new album can be created with its photos and videos in one request, so
+   * the CMS no longer makes people create an empty album and come back.
+   */
+  await check("Gallery: album created with its photos in one step", async () => {
+    const image = {
+      url: `${BASE.replace("/v1", "")}/uploads/images/x.jpg`,
+      alt: { en: "Poster", ta: "போஸ்டர்" },
+      width: 1600,
+      height: 900,
+    };
+    const created = await fetch(`${BASE}/admin/gallery`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        title: { en: "Harvest 2026", ta: "அறுவடை 2026" },
+        date: "2026-09-01",
+        cover: image,
+        status: "published",
+        photos: [{ image }, { image, video: { url: "https://youtu.be/dQw4w9WgXcQ" } }, { image }],
+      }),
+    });
+    assert.equal(created.status, 201, `create with photos → ${created.status}`);
+    const album = await json(created);
+    assert.equal(album.photos.length, 3, "photos sent with the album must be stored");
+    assert(album.photos.every((photo) => photo.id), "each item needs an id");
+    assert.equal(album.photos[1].video.provider, "youtube", "order kept, provider inferred");
+
+    const publicAlbum = await json(await fetch(`${BASE}/gallery/${album.slug}`));
+    assert.equal(publicAlbum.photos.length, 3, "public album shows the photos");
+
+    // An unplayable link refuses the whole create — no half-made album.
+    const before = (await json(await fetch(`${BASE}/admin/gallery?pageSize=100`, { headers: auth() }))).total;
+    const bad = await fetch(`${BASE}/admin/gallery`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        title: { en: "Bad Video", ta: "தவறு" },
+        date: "2026-09-02",
+        cover: image,
+        photos: [{ image, video: { url: "https://www.youtube.com/results?q=x" } }],
+      }),
+    });
+    assert.equal(bad.status, 400, `bad video on create → ${bad.status}`);
+    const after = (await json(await fetch(`${BASE}/admin/gallery?pageSize=100`, { headers: auth() }))).total;
+    assert.equal(after, before, "a refused create must not leave an album behind");
+
+    // Tamil can be filled in later: an English-only album saves as a draft.
+    const englishOnly = await fetch(`${BASE}/admin/gallery`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        title: { en: "English Only", ta: "" },
+        date: "2026-09-03",
+        cover: image,
+        photos: [{ image }],
+      }),
+    });
+    assert.equal(englishOnly.status, 201, `English-only album → ${englishOnly.status}`);
+
+    // An image nobody has described yet is still usable (the CMS warns).
+    const noAlt = { ...image, alt: { en: "", ta: "" } };
+    const undescribed = await fetch(`${BASE}/admin/gallery`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        title: { en: "No Alt Yet", ta: "" },
+        date: "2026-09-04",
+        cover: noAlt,
+        photos: [{ image: noAlt }],
+      }),
+    });
+    assert.equal(undescribed.status, 201, `album with undescribed images → ${undescribed.status}`);
+
+    // An editor's photo changes to a live album travel in their submission;
+    // the approver's save applies them, keeping existing items' ids.
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ name: "Album Editor", email: "albumed@example.org", password: "Password@123", role: "editor" }),
+    });
+    const albumEd = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.90" },
+        body: JSON.stringify({ email: "albumed@example.org", password: "Password@123" }),
+      }),
+    );
+    const edHeaders = { Authorization: `Bearer ${albumEd.accessToken}`, "Content-Type": "application/json" };
+    const reordered = [album.photos[2], album.photos[0], { image }];
+    const held = await json(
+      await fetch(`${BASE}/admin/gallery/${album.id}`, {
+        method: "PATCH",
+        headers: edHeaders,
+        body: JSON.stringify({ photos: reordered }),
+      }),
+    );
+    assert.equal(held.photos.length, 3, "live album untouched while the change waits");
+    assert.equal(held.revision.changes.photos.length, 3, "photos held in the submission");
+    const applied = await json(
+      await fetch(`${BASE}/admin/gallery/${album.id}`, {
+        method: "PATCH",
+        headers: auth(),
+        body: JSON.stringify({ photos: reordered, status: "published" }),
+      }),
+    );
+    assert.deepEqual(
+      applied.photos.slice(0, 2).map((p) => p.id),
+      [album.photos[2].id, album.photos[0].id],
+      "approval applies the photo order and keeps ids",
+    );
+    assert(applied.photos[2].id, "a new item gets an id");
+    assert.equal(applied.revision, undefined);
+    album.photos = applied.photos;
+
+    // Outside that approval flow an update cannot replace the photo stream:
+    // `photos` sent by an approver with no waiting change is ignored.
+    await fetch(`${BASE}/admin/gallery/${album.id}`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify({ photos: [] }),
+    });
+    const unchanged = await json(await fetch(`${BASE}/gallery/${album.slug}`));
+    assert.equal(unchanged.photos.length, 3, "photos untouched by an ordinary update");
+  });
+
   await check(
     "POST /admin/media/video-poster fetches a YouTube thumbnail (needs network)",
     async () => {
@@ -758,13 +884,67 @@ async function main() {
       "an approved announcement must be public",
     );
 
-    // 5. Once live, the editor cannot change it.
+    // 5. Once live, the editor's edits are held for approval (church request,
+    //    23 Nov 2026) — the website keeps the live version meanwhile.
+    const liveTitle = publicAfter.find((a) => a.id === submitted.id).title.en;
     const editLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
       method: "PATCH",
       headers: asEditor,
-      body: JSON.stringify({ title: { en: "Changed after approval", ta: "…" } }),
+      body: JSON.stringify({
+        title: { en: "Changed after approval", ta: "மாற்றப்பட்டது" },
+        status: "published",
+      }),
     });
-    assert.equal(editLive.status, 403, `editor edit published → ${editLive.status}`);
+    assert.equal(editLive.status, 200, `editor edit published → ${editLive.status}`);
+    const heldBody = await json(editLive);
+    assert.equal(heldBody.status, "published", "the live record stays live");
+    assert.equal(heldBody.title.en, liveTitle, "the live record is unchanged");
+    assert.equal(heldBody.revision.changes.title.en, "Changed after approval", "the edit is held");
+    assert.equal(heldBody.revision.changes.status, undefined, "an editor never sets a live status");
+    const publicHeld = (await json(await fetch(`${BASE}/announcements`))).find((a) => a.id === submitted.id);
+    assert.equal(publicHeld.title.en, liveTitle, "website keeps the live version");
+    assert.equal(publicHeld.revision, undefined, "a waiting change never reaches the public API");
+
+    const counts = await json(await fetch(`${BASE}/admin/dashboard/stats`, { headers: auth() }));
+    assert.equal(counts.approvals.announcements.changes, 1, "dashboard counts the waiting change");
+
+    // Reject: the change goes, the live record stays.
+    const selfRejectRev = await fetch(`${BASE}/admin/announcements/${submitted.id}/revision/reject`, {
+      method: "POST",
+      headers: asEditor,
+    });
+    assert.equal(selfRejectRev.status, 403, `editor rejecting → ${selfRejectRev.status}`);
+    const rejectedRev = await json(
+      await fetch(`${BASE}/admin/announcements/${submitted.id}/revision/reject`, { method: "POST", headers: auth() }),
+    );
+    assert.equal(rejectedRev.revision, undefined, "rejected change is gone");
+    assert.equal(rejectedRev.title.en, liveTitle);
+
+    // Resubmit, then approve: the approver's save applies it and clears it.
+    await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "PATCH",
+      headers: asEditor,
+      body: JSON.stringify({ title: { en: "Approved change", ta: "அங்கீகரிக்கப்பட்டது" } }),
+    });
+    const approvedRev = await json(
+      await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+        method: "PATCH",
+        headers: auth(),
+        body: JSON.stringify({ title: { en: "Approved change", ta: "அங்கீகரிக்கப்பட்டது" }, status: "published" }),
+      }),
+    );
+    assert.equal(approvedRev.title.en, "Approved change");
+    assert.equal(approvedRev.revision, undefined, "approval clears the waiting change");
+    const publicApproved = (await json(await fetch(`${BASE}/announcements`))).find((a) => a.id === submitted.id);
+    assert.equal(publicApproved.title.en, "Approved change", "approved change is public");
+
+    // An editor cannot delete a live item (they lack content.delete, and the
+    // service refuses regardless — see the custom-role check below).
+    const delLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
+      method: "DELETE",
+      headers: asEditor,
+    });
+    assert.equal(delLive.status, 403, `editor delete live → ${delLive.status}`);
 
     // 6. An editor's create with no status starts as a draft, even for a type
     //    whose default is "published" (fellowships use the same rule).
@@ -777,17 +957,53 @@ async function main() {
     );
     assert.equal(noStatus.status, "draft", "editor default status should be draft");
 
-    // 7. Church settings have no draft state, so editors cannot save them.
+    // 7. Church pages: an editor's save is held for approval (church request,
+    //    23 Nov 2026) — the website keeps the live version until an admin
+    //    approves (saves) it or rejects it.
+    const liveBefore = await json(await fetch(`${BASE}/church/weekly-verse`));
+    const psalm = {
+      reference: { en: "Psalm 23:1", ta: "சங்கீதம் 23:1" },
+      text: { en: "The Lord is my shepherd.", ta: "கர்த்தர் என் மேய்ப்பராயிருக்கிறார்." },
+      weekOf: "2026-11-22",
+    };
     const verse = await fetch(`${BASE}/admin/church/weekly-verse`, {
       method: "PUT",
       headers: asEditor,
-      body: JSON.stringify({
-        reference: { en: "Psalm 23:1", ta: "சங்கீதம் 23:1" },
-        text: { en: "The Lord is my shepherd.", ta: "கர்த்தர் என் மேய்ப்பராயிருக்கிறார்." },
-        weekOf: "2026-11-22",
-      }),
+      body: JSON.stringify(psalm),
     });
-    assert.equal(verse.status, 403, `editor save weekly verse → ${verse.status}`);
+    assert.equal(verse.status, 200, `editor submit weekly verse → ${verse.status}`);
+    assert.equal((await json(verse)).status, "pending", "an editor's save is a submission");
+    const stillLive = await json(await fetch(`${BASE}/church/weekly-verse`));
+    assert.equal(stillLive.reference.en, liveBefore.reference.en, "the website is unchanged until approval");
+    const waiting = await json(await fetch(`${BASE}/admin/church/weekly-verse/pending`, { headers: auth() }));
+    assert.equal(waiting.pending.data.reference.en, "Psalm 23:1");
+    assert.equal(waiting.pending.submittedBy.name, editorLogin.user.name);
+
+    // The editor cannot reject (or approve) their own submission.
+    const selfReject = await fetch(`${BASE}/admin/church/weekly-verse/reject`, {
+      method: "POST",
+      headers: asEditor,
+    });
+    assert.equal(selfReject.status, 403, `editor reject → ${selfReject.status}`);
+
+    // Reject: the submission goes, the live verse stays.
+    const rejected = await fetch(`${BASE}/admin/church/weekly-verse/reject`, { method: "POST", headers: auth() });
+    assert.equal(rejected.status, 204, `admin reject → ${rejected.status}`);
+    const none = await json(await fetch(`${BASE}/admin/church/weekly-verse/pending`, { headers: auth() }));
+    assert.equal(none.pending, null, "rejected submission is gone");
+
+    // Resubmit and approve: the admin's save publishes it and clears the slot.
+    await fetch(`${BASE}/admin/church/weekly-verse`, { method: "PUT", headers: asEditor, body: JSON.stringify(psalm) });
+    const verseApproved = await fetch(`${BASE}/admin/church/weekly-verse`, {
+      method: "PUT",
+      headers: auth(),
+      body: JSON.stringify(psalm),
+    });
+    assert.equal((await json(verseApproved)).status, "published");
+    const live = await json(await fetch(`${BASE}/church/weekly-verse`));
+    assert.equal(live.reference.en, "Psalm 23:1", "approval puts it live");
+    const cleared = await json(await fetch(`${BASE}/admin/church/weekly-verse/pending`, { headers: auth() }));
+    assert.equal(cleared.pending, null, "approval clears the submission");
 
     // 7b. Pinning unpins the live pinned notice, so editors cannot pin.
     const pinAttempt = await fetch(`${BASE}/admin/announcements`, {
@@ -1303,6 +1519,466 @@ async function main() {
       body: form,
     });
     assert.equal(res.status, 400, `expected 400, got ${res.status}`);
+  });
+
+  /*
+   * Custom roles (church request, 23 Nov 2026): admins define roles with
+   * exactly the access they choose, and nobody can define or hand out more
+   * access than they hold.
+   */
+  await check("Custom roles: create, assign, enforce, no escalation", async () => {
+    const login = async (email) =>
+      json(
+        await fetch(`${BASE}/auth/login`, {
+          method: "POST",
+          // A sign-in bucket of its own, so these don't starve later checks.
+          headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.42" },
+          body: JSON.stringify({ email, password: "Password@123" }),
+        }),
+      );
+    const as = (token) => ({ Authorization: `Bearer ${token}`, "Content-Type": "application/json" });
+
+    // An admin manages roles.
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Role Admin",
+        email: "roleadmin@example.org",
+        password: "Password@123",
+        role: "admin",
+      }),
+    });
+    const admin = await login("roleadmin@example.org");
+
+    // ...but cannot create a role holding access admins lack.
+    const escalate = await fetch(`${BASE}/admin/roles`, {
+      method: "POST",
+      headers: as(admin.accessToken),
+      body: JSON.stringify({ name: "Sneaky", permissions: ["content.read", "backup.read"] }),
+    });
+    assert.equal(escalate.status, 403, `admin role with backup.read → ${escalate.status}`);
+
+    const created = await fetch(`${BASE}/admin/roles`, {
+      method: "POST",
+      headers: as(admin.accessToken),
+      body: JSON.stringify({
+        name: "Inbox Reader",
+        description: "Answers the contact form",
+        permissions: ["content.read", "contact.read"],
+      }),
+    });
+    assert.equal(created.status, 201, `create role → ${created.status}`);
+    const role = await json(created);
+    assert.equal(role.key, "inbox-reader");
+
+    const builtInName = await fetch(`${BASE}/admin/roles`, {
+      method: "POST",
+      headers: as(admin.accessToken),
+      body: JSON.stringify({ name: "Editor", permissions: ["content.read"] }),
+    });
+    assert.equal(builtInName.status, 409, `duplicate built-in name → ${builtInName.status}`);
+
+    // Assign it (user management is super-admin territory).
+    const assigned = await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Inbox Person",
+        email: "inbox@example.org",
+        password: "Password@123",
+        role: role.key,
+      }),
+    });
+    assert.equal(assigned.status, 201, `assign custom role → ${assigned.status}`);
+    const bogus = await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({
+        name: "Nobody",
+        email: "nobody@example.org",
+        password: "Password@123",
+        role: "no-such-role",
+      }),
+    });
+    assert.equal(bogus.status, 400, `unknown role → ${bogus.status}`);
+
+    const person = await login("inbox@example.org");
+    assert.deepEqual(person.user.permissions, ["content.read", "contact.read"]);
+    assert.equal(person.user.roleName, "Inbox Reader");
+    const inbox = await fetch(`${BASE}/admin/contact-messages`, { headers: as(person.accessToken) });
+    assert.equal(inbox.status, 200, `custom role reads inbox → ${inbox.status}`);
+    const write = await fetch(`${BASE}/admin/events`, {
+      method: "POST",
+      headers: as(person.accessToken),
+      body: JSON.stringify({}),
+    });
+    assert.equal(write.status, 403, `custom role writes content → ${write.status}`);
+
+    // Editing the role applies on the very next request.
+    const edited = await fetch(`${BASE}/admin/roles/${role.key}`, {
+      method: "PATCH",
+      headers: as(admin.accessToken),
+      body: JSON.stringify({ permissions: ["content.read"] }),
+    });
+    assert.equal(edited.status, 200, `edit role → ${edited.status}`);
+    const after = await fetch(`${BASE}/admin/contact-messages`, { headers: as(person.accessToken) });
+    assert.equal(after.status, 403, `inbox after permission removed → ${after.status}`);
+
+    // A role in use cannot be deleted; built-ins cannot be edited.
+    const busy = await fetch(`${BASE}/admin/roles/${role.key}`, {
+      method: "DELETE",
+      headers: as(admin.accessToken),
+    });
+    assert.equal(busy.status, 409, `delete held role → ${busy.status}`);
+    const builtIn = await fetch(`${BASE}/admin/roles/editor`, {
+      method: "PATCH",
+      headers: as(admin.accessToken),
+      body: JSON.stringify({ permissions: ["content.read"] }),
+    });
+    assert.equal(builtIn.status, 400, `edit built-in → ${builtIn.status}`);
+
+    // Deleting live content needs publish rights even with content.delete.
+    const deleter = await json(
+      await fetch(`${BASE}/admin/roles`, {
+        method: "POST",
+        headers: as(admin.accessToken),
+        body: JSON.stringify({ name: "Tidy Up", permissions: ["content.read", "content.write", "content.delete"] }),
+      }),
+    );
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ name: "Tidy Person", email: "tidy@example.org", password: "Password@123", role: deleter.key }),
+    });
+    const tidy = await login("tidy@example.org");
+    const liveEvent = (await json(await fetch(`${BASE}/events`)))[0];
+    const delLive = await fetch(`${BASE}/admin/events/${liveEvent.id}`, {
+      method: "DELETE",
+      headers: as(tidy.accessToken),
+    });
+    assert.equal(delLive.status, 403, `delete live without publish → ${delLive.status}`);
+    const draft = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: as(tidy.accessToken),
+        body: JSON.stringify({
+          title: { en: "Tidy draft", ta: "வரைவு" },
+          body: { en: "Draft body", ta: "வரைவு" },
+          publishedAt: "2026-11-20",
+        }),
+      }),
+    );
+    const delDraft = await fetch(`${BASE}/admin/announcements/${draft.id}`, {
+      method: "DELETE",
+      headers: as(tidy.accessToken),
+    });
+    assert.equal(delDraft.status, 204, `delete own draft → ${delDraft.status}`);
+  });
+
+  /*
+   * Direct messages between accounts (church request, 23 Nov 2026). Any
+   * signed-in account can message any other; a conversation is readable by
+   * its two participants only — not even a super admin can open someone
+   * else's.
+   */
+  await check("Messages: send, unread, read, and private to the pair", async () => {
+    const signIn = async (email) =>
+      json(
+        await fetch(`${BASE}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.77" },
+          body: JSON.stringify({ email, password: "Password@123" }),
+        }),
+      );
+    const as = (token) => ({ Authorization: `Bearer ${token}`, "Content-Type": "application/json" });
+    for (const [name, email, role] of [
+      ["Chat Anna", "anna@example.org", "editor"],
+      ["Chat Ben", "ben@example.org", "viewer"],
+    ]) {
+      await fetch(`${BASE}/admin/users`, {
+        method: "POST",
+        headers: auth(),
+        body: JSON.stringify({ name, email, password: "Password@123", role }),
+      });
+    }
+    const anna = await signIn("anna@example.org");
+    const ben = await signIn("ben@example.org");
+
+    // A viewer — the least-privileged role — can still see who to message.
+    const contacts = await json(await fetch(`${BASE}/admin/chat/contacts`, { headers: as(ben.accessToken) }));
+    assert(contacts.some((c) => c.id === anna.user.id), "contacts should list other accounts");
+    assert(!contacts.some((c) => c.id === ben.user.id), "contacts must not include yourself");
+    assert(contacts.every((c) => !("email" in c)), "contacts expose names, not email addresses");
+
+    const self = await fetch(`${BASE}/admin/chat/conversations`, {
+      method: "POST",
+      headers: as(anna.accessToken),
+      body: JSON.stringify({ userId: anna.user.id }),
+    });
+    assert.equal(self.status, 400, `message yourself → ${self.status}`);
+
+    const conv = await json(
+      await fetch(`${BASE}/admin/chat/conversations`, {
+        method: "POST",
+        headers: as(anna.accessToken),
+        body: JSON.stringify({ userId: ben.user.id }),
+      }),
+    );
+    assert.equal(conv.with.id, ben.user.id);
+
+    // Opening it from the other side finds the same conversation.
+    const same = await json(
+      await fetch(`${BASE}/admin/chat/conversations`, {
+        method: "POST",
+        headers: as(ben.accessToken),
+        body: JSON.stringify({ userId: anna.user.id }),
+      }),
+    );
+    assert.equal(same.id, conv.id, "one conversation per pair");
+
+    const empty = await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, {
+      method: "POST",
+      headers: as(anna.accessToken),
+      body: JSON.stringify({ body: "   " }),
+    });
+    assert.equal(empty.status, 400, `blank message → ${empty.status}`);
+
+    for (const body of ["Hello Ben", "Are you coming on Sunday?"]) {
+      const sent = await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, {
+        method: "POST",
+        headers: as(anna.accessToken),
+        body: JSON.stringify({ body }),
+      });
+      assert.equal(sent.status, 201, `send → ${sent.status}`);
+    }
+
+    const benUnread = await json(await fetch(`${BASE}/admin/chat/unread`, { headers: as(ben.accessToken) }));
+    assert.equal(benUnread.total, 2, "recipient sees two unread");
+    const annaUnread = await json(await fetch(`${BASE}/admin/chat/unread`, { headers: as(anna.accessToken) }));
+    assert.equal(annaUnread.total, 0, "your own messages are never unread");
+
+    const list = await json(await fetch(`${BASE}/admin/chat/conversations`, { headers: as(ben.accessToken) }));
+    assert.equal(list[0].id, conv.id);
+    assert.equal(list[0].lastMessage.body, "Are you coming on Sunday?");
+    assert.equal(list[0].unread, 2);
+
+    const thread = await json(
+      await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, { headers: as(ben.accessToken) }),
+    );
+    assert.deepEqual(thread.map((m) => m.body), ["Hello Ben", "Are you coming on Sunday?"], "oldest first");
+    const newer = await json(
+      await fetch(
+        `${BASE}/admin/chat/conversations/${conv.id}/messages?after=${encodeURIComponent(thread[0].createdAt)}`,
+        { headers: as(ben.accessToken) },
+      ),
+    );
+    assert.deepEqual(newer.map((m) => m.body), ["Are you coming on Sunday?"], "after= returns only newer");
+
+    await fetch(`${BASE}/admin/chat/conversations/${conv.id}/read`, { method: "POST", headers: as(ben.accessToken) });
+    const afterRead = await json(await fetch(`${BASE}/admin/chat/unread`, { headers: as(ben.accessToken) }));
+    assert.equal(afterRead.total, 0, "reading clears unread");
+
+    // Auto-deletion after 30 days: TTL indexes do the deleting; until the
+    // monitor's next sweep, anything past the cut-off is already hidden.
+    const { MongoClient } = require("mongodb");
+    const client = await MongoClient.connect(mongo.getUri());
+    try {
+      const db = client.db("csistmc-portal");
+      const ttl = (await db.collection("chat_messages").indexes()).find(
+        (index) => index.key.createdAt === 1 && index.expireAfterSeconds,
+      );
+      assert.equal(ttl?.expireAfterSeconds, 30 * 86_400, "messages expire after 30 days");
+      const convTtl = (await db.collection("chat_conversations").indexes()).find(
+        (index) => index.key["lastMessage.createdAt"] === 1 && index.expireAfterSeconds,
+      );
+      assert.equal(convTtl?.expireAfterSeconds, 30 * 86_400, "conversations expire with their last message");
+
+      await db.collection("chat_messages").insertOne({
+        conversationId: conv.id,
+        senderId: anna.user.id,
+        body: "An old message",
+        createdAt: new Date(Date.now() - 31 * 86_400_000),
+      });
+    } finally {
+      await client.close();
+    }
+    const withOld = await json(
+      await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, { headers: as(ben.accessToken) }),
+    );
+    assert(!withOld.some((m) => m.body === "An old message"), "a 31-day-old message is never shown");
+    const stillRead = await json(await fetch(`${BASE}/admin/chat/unread`, { headers: as(ben.accessToken) }));
+    assert.equal(stillRead.total, 0, "an expired message is never counted unread");
+
+    // Private: the super admin is not in the conversation and cannot open it.
+    const snoop = await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, { headers: auth() });
+    assert.equal(snoop.status, 404, `outsider reading a conversation → ${snoop.status}`);
+    const snoopSend = await fetch(`${BASE}/admin/chat/conversations/${conv.id}/messages`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ body: "hi" }),
+    });
+    assert.equal(snoopSend.status, 404, `outsider writing → ${snoopSend.status}`);
+  });
+
+  /*
+   * Notifications for the approval workflow (church request, 23 Nov 2026):
+   * approvers hear about submissions, writers hear the outcome.
+   */
+  await check("Notifications: submitted, approved, changes, rejected", async () => {
+    await fetch(`${BASE}/admin/users`, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ name: "Noti Editor", email: "noti@example.org", password: "Password@123", role: "editor" }),
+    });
+    const ed = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.120" },
+        body: JSON.stringify({ email: "noti@example.org", password: "Password@123" }),
+      }),
+    );
+    const asEd = { Authorization: `Bearer ${ed.accessToken}`, "Content-Type": "application/json" };
+    const mine = async (headers) => json(await fetch(`${BASE}/admin/notifications`, { headers }));
+    const unread = async (headers) =>
+      (await json(await fetch(`${BASE}/admin/notifications/unread`, { headers }))).total;
+    const adminBefore = await unread(auth());
+
+    // 1. Editor submits a new item → approvers are told.
+    const item = await json(
+      await fetch(`${BASE}/admin/announcements`, {
+        method: "POST",
+        headers: asEd,
+        body: JSON.stringify({
+          title: { en: "Choir practice moved", ta: "பாடகர் பயிற்சி மாற்றம்" },
+          body: { en: "Practice is on Friday this week.", ta: "இந்த வாரம் வெள்ளிக்கிழமை." },
+          publishedAt: "2026-11-22",
+          status: "pending",
+        }),
+      }),
+    );
+    assert.equal(await unread(auth()), adminBefore + 1, "approver notified of a submission");
+    const [submitted] = await mine(auth());
+    assert.equal(submitted.kind, "submitted");
+    assert.equal(submitted.link, `/announcements/${item.id}`);
+    assert(submitted.title.includes("Noti Editor"), submitted.title);
+    assert.equal(await unread(asEd), 0, "no one is notified of their own action");
+
+    // 2. Admin approves → the writer is told.
+    await fetch(`${BASE}/admin/announcements/${item.id}/status`, {
+      method: "PATCH",
+      headers: auth(),
+      body: JSON.stringify({ status: "published" }),
+    });
+    const [approved] = await mine(asEd);
+    assert.equal(approved.kind, "approved", "writer told it was approved");
+
+    // 3. Writer changes the live item → approvers told; 4. rejected → writer told.
+    await fetch(`${BASE}/admin/announcements/${item.id}`, {
+      method: "PATCH",
+      headers: asEd,
+      body: JSON.stringify({ title: { en: "Choir practice moved to Friday", ta: "வெள்ளிக்கிழமை" } }),
+    });
+    assert.equal((await mine(auth()))[0].kind, "changes-submitted", "approver told of changes");
+    await fetch(`${BASE}/admin/announcements/${item.id}/revision/reject`, { method: "POST", headers: auth() });
+    const [rejected] = await mine(asEd);
+    assert.equal(rejected.kind, "rejected", "writer told the changes were rejected");
+    assert.equal(await unread(asEd), 2);
+
+    // Reading: one, then all; nobody can touch another person's.
+    const forbidden = await fetch(`${BASE}/admin/notifications/${rejected.id}/read`, {
+      method: "POST",
+      headers: auth(),
+    });
+    assert.equal(forbidden.status, 404, `marking someone else's → ${forbidden.status}`);
+    await fetch(`${BASE}/admin/notifications/${rejected.id}/read`, { method: "POST", headers: asEd });
+    assert.equal(await unread(asEd), 1);
+    await fetch(`${BASE}/admin/notifications/read-all`, { method: "POST", headers: asEd });
+    assert.equal(await unread(asEd), 0, "read-all clears the count");
+
+    // Church pages too.
+    await fetch(`${BASE}/admin/church/weekly-verse`, {
+      method: "PUT",
+      headers: asEd,
+      body: JSON.stringify({
+        reference: { en: "Psalm 46:10", ta: "சங்கீதம் 46:10" },
+        text: { en: "Be still, and know that I am God.", ta: "அமர்ந்திருங்கள்." },
+        weekOf: "2026-12-07",
+      }),
+    });
+    const [churchNote] = await mine(auth());
+    assert.equal(churchNote.kind, "changes-submitted");
+    assert.equal(churchNote.link, "/church/weekly-verse");
+    await fetch(`${BASE}/admin/church/weekly-verse/reject`, { method: "POST", headers: auth() });
+    assert.equal((await mine(asEd))[0].kind, "rejected", "church rejection notifies the writer");
+  });
+
+  /*
+   * Maintenance mode (church request, 23 Nov 2026): the Portal stores the
+   * switch and serves it publicly; the Website will read it once deployed.
+   */
+  await check("Maintenance mode: public status, permission, switch on and off", async () => {
+    const initial = await json(await fetch(`${BASE}/site/status`));
+    assert.equal(initial.maintenance.enabled, false, "off by default");
+    assert(initial.maintenance.message.en, "a default message is provided");
+
+    const editorLogin = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.140" },
+        body: JSON.stringify({ email: "editor@example.org", password: "Password@123" }),
+      }),
+    );
+    const body = {
+      enabled: true,
+      message: { en: "Back after the Sunday service.", ta: "ஞாயிறு ஆராதனைக்குப் பின் திரும்பும்." },
+      until: "2026-12-01T06:00:00.000Z",
+    };
+    const denied = await fetch(`${BASE}/admin/site/maintenance`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${editorLogin.accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    assert.equal(denied.status, 403, `editor switching maintenance → ${denied.status}`);
+
+    // Super-admin only: an ordinary admin is refused too.
+    const adminLogin = await json(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Forwarded-For": "203.0.113.141" },
+        body: JSON.stringify({ email: "roleadmin@example.org", password: "Password@123" }),
+      }),
+    );
+    assert.equal(adminLogin.user.role, "admin");
+    const adminDenied = await fetch(`${BASE}/admin/site/maintenance`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${adminLogin.accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    assert.equal(adminDenied.status, 403, `admin switching maintenance → ${adminDenied.status}`);
+
+    const on = await fetch(`${BASE}/admin/site/maintenance`, {
+      method: "PUT",
+      headers: auth(),
+      body: JSON.stringify(body),
+    });
+    assert.equal(on.status, 200, `admin switching on → ${on.status}`);
+    const status = await fetch(`${BASE}/site/status`);
+    assert.equal(status.headers.get("cache-control"), "no-store", "status must never be cached");
+    const live = await json(status);
+    assert.equal(live.maintenance.enabled, true);
+    assert.equal(live.maintenance.message.en, "Back after the Sunday service.");
+    assert.equal(live.maintenance.until, "2026-12-01T06:00:00.000Z");
+    assert.equal(live.maintenance.updatedBy, undefined, "who switched it is not public");
+
+    await fetch(`${BASE}/admin/site/maintenance`, {
+      method: "PUT",
+      headers: auth(),
+      body: JSON.stringify({ ...body, enabled: false, until: null }),
+    });
+    const off = await json(await fetch(`${BASE}/site/status`));
+    assert.equal(off.maintenance.enabled, false, "switched off again");
+    assert.equal(off.maintenance.until, undefined, "until cleared");
   });
 
   await check("RBAC: not even an admin may back up or restore", async () => {

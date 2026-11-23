@@ -5,12 +5,15 @@ import {
   Injectable,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { roleHasPermission, type Permission } from "@portal/shared";
+import type { Permission } from "@portal/shared";
 
 import { PERMISSIONS_KEY } from "../decorators/permissions.decorator";
 import type { AuthenticatedUser } from "../interfaces/authenticated-user";
 
-/** RBAC guard — checks @RequirePermissions() against the static role matrix. */
+/**
+ * RBAC guard — checks @RequirePermissions() against the permissions the JWT
+ * strategy resolved for the user's role (built-in or custom).
+ */
 @Injectable()
 export class PermissionsGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
@@ -28,7 +31,7 @@ export class PermissionsGuard implements CanActivate {
     if (!user) throw new ForbiddenException("Not authenticated");
 
     const missing = required.filter(
-      (permission) => !roleHasPermission(user.role, permission),
+      (permission) => !user.permissions?.includes(permission),
     );
     if (missing.length > 0) {
       throw new ForbiddenException(

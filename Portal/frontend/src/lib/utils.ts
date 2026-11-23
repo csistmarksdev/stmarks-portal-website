@@ -38,3 +38,13 @@ export function toDateInput(iso?: string): string {
   if (!iso) return "";
   return new Date(iso).toISOString().slice(0, 10);
 }
+
+/** Last path segment of a URL, decoded for display — never throws. */
+export function fileNameOf(url: string): string {
+  const last = url.split(/[?#]/)[0].split("/").pop() || url;
+  try {
+    return decodeURIComponent(last);
+  } catch {
+    return last;
+  }
+}

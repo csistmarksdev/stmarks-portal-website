@@ -26,13 +26,18 @@ const LABELS: Record<PublishStatus, string> = {
   archived: "Archived — hidden, kept on file",
 };
 
-/** Whether the signed-in user is locked out of editing a record in `status`. */
+/**
+ * How the approval rule applies to editing a record in `status`.
+ *
+ * Nobody is locked out any more (church request, 23 Nov 2026): someone who
+ * cannot publish may edit a live record too, and `holds` says their save is
+ * held as a change for an admin to approve rather than applied.
+ */
 export function useApprovalLock(status: PublishStatus | undefined, isEdit: boolean) {
   const { can } = useAuth();
   const canPublish = can("content.publish");
-  const locked =
-    isEdit && !canPublish && (status === "published" || status === "archived");
-  return { canPublish, locked };
+  const holds = isEdit && !canPublish && (status === "published" || status === "archived");
+  return { canPublish, holds, locked: false };
 }
 
 export function StatusSelect({
@@ -76,7 +81,7 @@ export function StatusSelect({
 /** Shown on a form an editor cannot save because the record is live. */
 export function ApprovalLockNotice({ status }: { status: PublishStatus }) {
   return (
-    <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+    <div className="flex items-start gap-2.5 rounded-2xl bg-accent-fg/10 px-4 py-3 text-sm text-accent-fg ring-1 ring-accent-fg/20">
       <InfoIcon className="mt-0.5 size-4 shrink-0" aria-hidden />
       <p>
         This item is {status}. Only an admin or super admin can change it. Ask

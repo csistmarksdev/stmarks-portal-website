@@ -13,7 +13,7 @@ import { toDateInput } from "@/lib/utils";
 const EMPTY: LocalizedText = { en: "", ta: "" };
 
 export default function WeeklyVersePage() {
-  const { data, isLoading, save } = useSingleton<WeeklyVerse>("weekly-verse");
+  const { data, isLoading, save, pending, reject } = useSingleton<WeeklyVerse>("weekly-verse");
 
   const [reference, setReference] = useState(EMPTY);
   const [text, setText] = useState(EMPTY);
@@ -31,7 +31,9 @@ export default function WeeklyVersePage() {
       title="Weekly verse"
       description="The verse of the week on the website home page."
       loading={isLoading}
-      saving={save.isPending}
+      saving={save.isPending || reject.isPending}
+      pending={pending}
+      onReject={() => reject.mutateAsync().catch(() => undefined)}
       onSave={() =>
         save.mutate({
           reference,
@@ -44,7 +46,7 @@ export default function WeeklyVersePage() {
       <LocalizedField label="Verse text" value={text} onChange={setText} multiline required />
       <div className="space-y-1.5">
         <Label>Week of</Label>
-        <Input type="date" value={weekOf} onChange={(event) => setWeekOf(event.target.value)} />
+        <Input type="date" className="sm:max-w-xs" value={weekOf} onChange={(event) => setWeekOf(event.target.value)} />
       </div>
     </SingletonShell>
   );

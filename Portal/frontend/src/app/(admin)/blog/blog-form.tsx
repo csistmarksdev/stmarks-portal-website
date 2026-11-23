@@ -1,6 +1,6 @@
 "use client";
 
-import type { ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
+import type { ContentRevision, ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -11,7 +11,6 @@ import {
   SaveIcon,
   TypeIcon,
 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -26,7 +25,13 @@ import { ErrorState } from "@/components/admin/error-state";
 import { LocalizedField } from "@/components/admin/localized-field";
 import { ImagePicker } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
-import { ApprovalLockNotice, StatusSelect, useApprovalLock } from "@/components/admin/status-select";
+import {
+  ApprovalNotice,
+  FormActions,
+  MobileApprovalActions,
+  saveLabelFor,
+} from "@/components/admin/form-actions";
+import { StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -35,7 +40,7 @@ import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fellowshipOptions } from "@/config/fields";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
-import { renderInline } from "@/lib/rich-text";
+import { parseBlock, renderInline } from "@/lib/rich-text";
 import { cn, toDateInput, toDatetimeLocal } from "@/lib/utils";
 
 const EMPTY_TEXT: LocalizedText = { en: "", ta: "" };
@@ -119,7 +124,9 @@ function Stepper({
   onJump: (step: number) => void;
 }) {
   return (
-    <ol className="mb-6 flex flex-wrap items-center gap-x-1 gap-y-2">
+    // One line at every width: on a phone the steps not in hand show only
+    // their number, so the row no longer breaks into two ragged lines.
+    <ol className="mb-6 flex items-center gap-x-1">
       {STEPS.map((step, index) => {
         const done = index < current;
         const active = index === current;
@@ -134,7 +141,8 @@ function Stepper({
               disabled={!reachable}
               onClick={() => onJump(index)}
               className={cn(
-                "flex items-center gap-2 rounded-full py-1.5 pl-1.5 pr-3.5 text-sm font-medium transition-colors",
+                "flex items-center gap-2 rounded-full py-1.5 pl-1.5 text-sm font-medium transition-colors",
+                active ? "pr-3.5" : "pr-1.5 sm:pr-3.5",
                 active && "bg-primary text-primary-foreground shadow-sm",
                 !active && reachable && "text-muted-foreground hover:bg-hover-tint",
                 !reachable && "cursor-not-allowed text-muted-foreground/50",
@@ -150,7 +158,7 @@ function Stepper({
               >
                 {done ? <CheckIcon className="size-3.5" /> : index + 1}
               </span>
-              {step.title}
+              <span className={cn(!active && "sr-only sm:not-sr-only")}>{step.title}</span>
             </button>
             {index < STEPS.length - 1 && (
               <span aria-hidden className="mx-0.5 h-px w-3 bg-border sm:w-5" />
@@ -197,9 +205,10 @@ export function BlogForm({ id }: { id?: string }) {
 
   const { data, isLoading, isError, error, refetch, isFetching } =
     useResourceItem<BlogRecord>("/admin/blog", id);
-  // Approval rule: an editor cannot change a published or archived record.
-  const { locked } = useApprovalLock(data?.status, isEdit);
-  const { create, update } = useResourceMutations("/admin/blog", "Post");
+  // Approval rule: an editor's changes to a live post are held for an admin.
+  const { locked, holds, canPublish } = useApprovalLock(data?.status, isEdit);
+  const revision = (data as { revision?: ContentRevision } | undefined)?.revision ?? null;
+  const { create, update, rejectRevision } = useResourceMutations("/admin/blog", "Post");
 
   const [draft, setDraft] = useState<Draft>(BLANK);
   const [status, setStatus] = useState<PublishStatus>("draft");
@@ -218,17 +227,22 @@ export function BlogForm({ id }: { id?: string }) {
    */
   useEffect(() => {
     if (!data || !id || hydratedId === id) return;
+    // A change waiting for approval is what the form edits.
+    const record = {
+      ...data,
+      ...((data as { revision?: ContentRevision }).revision?.changes ?? {}),
+    } as typeof data;
     setDraft({
-      title: data.title ?? EMPTY_TEXT,
-      excerpt: data.excerpt ?? EMPTY_TEXT,
-      author: data.author ?? EMPTY_TEXT,
-      bodyEn: paragraphsToText(data.body, "en"),
-      bodyTa: paragraphsToText(data.body, "ta"),
-      publishedAt: toDateInput(data.publishedAt),
-      coverImage: data.coverImage,
-      eventSlug: data.eventSlug ?? "",
-      fellowshipSlug: data.fellowshipSlug ?? "",
-      publishAt: toDatetimeLocal(data.publishAt),
+      title: record.title ?? EMPTY_TEXT,
+      excerpt: record.excerpt ?? EMPTY_TEXT,
+      author: record.author ?? EMPTY_TEXT,
+      bodyEn: paragraphsToText(record.body, "en"),
+      bodyTa: paragraphsToText(record.body, "ta"),
+      publishedAt: toDateInput(record.publishedAt),
+      coverImage: record.coverImage,
+      eventSlug: record.eventSlug ?? "",
+      fellowshipSlug: record.fellowshipSlug ?? "",
+      publishAt: toDatetimeLocal(record.publishAt),
     });
     setStatus(data.status ?? "draft");
     // An existing post is already past every gate.
@@ -272,7 +286,12 @@ export function BlogForm({ id }: { id?: string }) {
     goTo(step + 1);
   };
 
-  const save = async () => {
+  /** Rejecting a change discards it; rejecting a new post returns it to draft. */
+  const rejectThis = () =>
+    revision && id ? rejectRevision.mutateAsync(id).catch(() => undefined) : save("draft");
+
+  /** Saves; `asStatus` overrides the chosen status (Approve publishes). */
+  const save = async (asStatus?: PublishStatus) => {
     // Every gate, not just this step's — Save is reachable from anywhere.
     const blocking = [0, 1].flatMap((index) => problemsIn(index, draft));
     if (blocking.length > 0) {
@@ -286,7 +305,7 @@ export function BlogForm({ id }: { id?: string }) {
       author: draft.author,
       body: textToParagraphs(draft.bodyEn, draft.bodyTa),
       publishedAt: new Date(draft.publishedAt).toISOString(),
-      status,
+      status: asStatus ?? status,
     };
 
     /*
@@ -306,6 +325,7 @@ export function BlogForm({ id }: { id?: string }) {
 
     if (isEdit && id) {
       await update.mutateAsync({ id, body: { ...required, ...optional } });
+      if (asStatus) setStatus(asStatus);
       setDirty(false);
     } else {
       // Nothing to remove on a new post; a null here would only store one.
@@ -353,22 +373,41 @@ export function BlogForm({ id }: { id?: string }) {
      * bar — enough that the end of a long article can be scrolled fully clear
      * of it rather than stopping just underneath.
      */
-    <div className="mx-auto max-w-5xl pb-32">
+    <div className="max-w-6xl">
       <PageHeader
         eyebrow={isEdit ? "Editing" : "New post"}
         title={isEdit ? "Edit blog post" : "Write a blog post"}
         description={STEPS[step].blurb}
         actions={
-          <Button variant="outline" asChild>
-            <Link href="/blog">
-              <ArrowLeftIcon className="size-4" /> Back
-            </Link>
-          </Button>
+          <FormActions
+            backHref="/blog"
+            savedStatus={revision ? "pending" : (data?.status as PublishStatus | undefined)}
+            onSave={() => void save()}
+            onApprove={() => void save("published")}
+            onReject={rejectThis}
+            saveLabel={saveLabelFor({
+              isEdit,
+              holds,
+              hasRevision: !!revision,
+              canPublish,
+              createLabel: "Save draft",
+              editLabel: "Save",
+            })}
+            busy={busy || rejectRevision.isPending}
+            disabled={locked}
+          />
         }
       />
-      {locked && data?.status ? (
-        <div className="mb-4">
-          <ApprovalLockNotice status={data.status} />
+      {isEdit && data ? (
+        <div className="mb-4 empty:hidden">
+          <ApprovalNotice status={data.status} revision={revision} isEdit={isEdit} />
+          <MobileApprovalActions
+            savedStatus={revision ? "pending" : data.status}
+            onApprove={() => void save("published")}
+            onReject={rejectThis}
+            busy={busy || rejectRevision.isPending}
+            disabled={locked}
+          />
         </div>
       ) : null}
 
@@ -545,23 +584,13 @@ export function BlogForm({ id }: { id?: string }) {
                 </p>
                 <div className="space-y-4">
                   {splitParagraphs(draft.bodyEn).map((paragraph, index) => (
-                    <p
-                      key={index}
-                      className="text-[15px] leading-[1.85] text-foreground"
-                    >
-                      {renderInline(paragraph)}
-                    </p>
+                    <PreviewBlock key={index} text={paragraph} />
                   ))}
                 </div>
                 {splitParagraphs(draft.bodyTa).length > 0 && (
                   <div className="mt-5 space-y-4 border-t border-border/70 pt-5">
                     {splitParagraphs(draft.bodyTa).map((paragraph, index) => (
-                      <p
-                        key={index}
-                        className="text-[15px] leading-[1.85] text-foreground"
-                      >
-                        {renderInline(paragraph)}
-                      </p>
+                      <PreviewBlock key={index} text={paragraph} />
                     ))}
                   </div>
                 )}
@@ -599,19 +628,18 @@ export function BlogForm({ id }: { id?: string }) {
 
       {/* ------------------------------------------------------ Actions */}
       {/*
-        A floating bar rather than a full-bleed slab, to match the rail and the
-        mobile dock. The wrapper repeats the admin layout's own gutters
-        (`px-4 lg:px-6`) and max width so the pill lines up with the content
-        column above it instead of drifting inwards.
-      */}
-      {/*
+        Sticky, not fixed: it sits straight under the step's card when the step
+        is short, and pins to the bottom of the screen only while there is more
+        above it to scroll through. Fixed, it always sat at the window's foot,
+        leaving a band of empty page between a short step and its buttons.
+
         The offset is spelled out rather than using the `.bottom-dock` utility:
         that is a plain class in globals.css and outranks `lg:bottom-*` in the
-        cascade, so the desktop override would silently never apply. Below lg
-        the bar clears the floating dock; above it, the dock is gone.
+        cascade. Below lg the bar clears the floating dock; above it, the dock
+        is gone.
       */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] z-30 px-4 lg:bottom-6 lg:left-[17rem] lg:px-6">
-        <div className="pointer-events-auto mx-auto flex max-w-5xl items-center gap-2 rounded-3xl border border-border/70 bg-card/85 p-2 shadow-lg backdrop-blur-xl">
+      <div className="sticky bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] z-30 mt-5 lg:bottom-6">
+        <div className="flex items-center gap-2 rounded-3xl border border-border/70 bg-card/85 p-2 shadow-lg backdrop-blur-xl">
           <Button
             variant="ghost"
             onClick={() => goTo(step - 1)}
@@ -627,9 +655,18 @@ export function BlogForm({ id }: { id?: string }) {
           </span>
 
           <div className="ml-auto flex items-center gap-2 sm:ml-2">
-            <Button variant="outline" onClick={save} disabled={busy || locked}>
+            <Button variant="outline" onClick={() => void save()} disabled={busy || locked}>
               <SaveIcon className="size-4" />
-              {busy ? "Saving…" : isEdit ? "Save" : "Save draft"}
+              {busy
+                ? "Saving…"
+                : saveLabelFor({
+                    isEdit,
+                    holds,
+                    hasRevision: !!revision,
+                    canPublish,
+                    createLabel: "Save draft",
+                    editLabel: "Save",
+                  })}
             </Button>
 
             {!isLast && (
@@ -642,4 +679,24 @@ export function BlogForm({ id }: { id?: string }) {
       </div>
     </div>
   );
+}
+
+/** One paragraph of the review preview — headings as the website shows them. */
+function PreviewBlock({ text }: { text: string }) {
+  const block = parseBlock(text);
+  if (block.kind === "title") {
+    return (
+      <h2 className="pt-3 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight text-foreground">
+        {renderInline(block.text)}
+      </h2>
+    );
+  }
+  if (block.kind === "subtitle") {
+    return (
+      <h3 className="pt-2 font-[family-name:var(--font-display)] text-lg font-semibold leading-snug text-foreground">
+        {renderInline(block.text)}
+      </h3>
+    );
+  }
+  return <p className="text-[15px] leading-[1.85] text-foreground">{renderInline(block.text)}</p>;
 }

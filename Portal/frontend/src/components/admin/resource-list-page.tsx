@@ -20,6 +20,7 @@ import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -265,11 +266,19 @@ export function ResourceListPage<T extends WithIdStatus>({
                         primary.render(item)
                       )}
                     </div>
-                    <StatusBadge
-                      status={item.status}
-                      publishAt={item.publishAt}
-                      expiresAt={item.expiresAt}
-                    />
+                    <div className="flex shrink-0 flex-col items-end gap-1">
+                      <StatusBadge
+                        status={item.status}
+                        publishAt={item.publishAt}
+                        expiresAt={item.expiresAt}
+                      />
+                      {/* A live item with an editor's changes waiting for approval. */}
+                      {(item as { revision?: unknown }).revision ? (
+                        <Badge variant="warning" title="Changes waiting for approval">
+                          changes waiting
+                        </Badge>
+                      ) : null}
+                    </div>
                   </div>
 
                   {meta.length > 0 && (
@@ -304,19 +313,10 @@ export function ResourceListPage<T extends WithIdStatus>({
                   <div className="flex items-center gap-0.5">
                     {/*
                       Approval rule: an editor submits a draft; an admin or
-                      super admin approves it, which publishes it.
+                      super admin approves it. Approving happens in the editor
+                      (Approve & publish / Reject in its header), after the
+                      submission has been read — not from the card.
                     */}
-                    {can("content.publish") && item.status === "pending" && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          mutateStatus.mutate({ id: item.id, status: "published" })
-                        }
-                      >
-                        <CheckCircle2Icon /> Approve
-                      </Button>
-                    )}
                     {!can("content.publish") &&
                       can("content.write") &&
                       item.status === "draft" && (
@@ -339,14 +339,13 @@ export function ResourceListPage<T extends WithIdStatus>({
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {item.status !== "published" && (
+                          {item.status !== "published" && item.status !== "pending" && (
                             <DropdownMenuItem
                               onSelect={() =>
                                 mutateStatus.mutate({ id: item.id, status: "published" })
                               }
                             >
-                              <CheckCircle2Icon />{" "}
-                              {item.status === "pending" ? "Approve & publish" : "Publish"}
+                              <CheckCircle2Icon /> Publish
                             </DropdownMenuItem>
                           )}
                           {item.status !== "draft" && (

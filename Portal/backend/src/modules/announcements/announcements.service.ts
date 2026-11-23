@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import type {
   Announcement,
@@ -34,7 +38,20 @@ import {
   AnnouncementEntity,
   type AnnouncementDocument,
 } from "./schemas/announcement.schema";
-import { assertMayPin, assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
+import {
+  assertMayDelete,
+  assertMayPin,
+  assertMayWrite,
+  canPublish,
+  defaultStatusFor,
+  holdsForApproval,
+  revisionFrom,
+} from "../../common/utils/approval";
+import {
+  contentSubject,
+  NotificationsService,
+  notifyTransition,
+} from "../notifications/notifications.service";
 
 const TAG = "announcements";
 
@@ -51,6 +68,7 @@ export class AnnouncementsService {
     @InjectModel(AnnouncementEntity.name) model: Model<AnnouncementEntity>,
     private readonly audit: AuditService,
     private readonly revalidate: RevalidateService,
+    private readonly notifier: NotificationsService,
   ) {
     this.repo = new AnnouncementsRepository(model);
   }
@@ -157,6 +175,8 @@ export class AnnouncementsService {
       this.assertPublishable({ slug, title: dto.title });
     }
     const doc = await this.repo.create({
+      // Remembered so the writer can be told what became of it.
+      ...(canPublish(actor) ? {} : { submittedBy: { userId: actor.userId, name: actor.name } }),
       ...dto,
       publishAt: publishAt ?? undefined,
       expiresAt: expiresAt ?? undefined,
@@ -167,6 +187,9 @@ export class AnnouncementsService {
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created announcement "${dto.title.en}"`);
     if (doc.status === "published") this.revalidate.trigger(TAG);
+    if (doc.status === "pending") {
+      await this.notifier.submitted(actor, contentSubject("announcements", doc.id, doc.title.en));
+    }
     return this.toAdmin(doc);
   }
 
@@ -176,6 +199,22 @@ export class AnnouncementsService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<Announcement>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    // Approval rule: an editor's change to a live record is held for an
+    // admin; the website keeps the current version until it is approved.
+    if (holdsForApproval(actor, existing.status)) {
+      const held = await this.repo.updateById(id, {
+        $set: { revision: revisionFrom(dto, actor) },
+      });
+      await this.audit.log(
+        actor,
+        "update",
+        TAG,
+        id,
+        `Submitted changes to announcement "${held.title.en}" for approval`,
+      );
+      await this.notifier.changesSubmitted(actor, contentSubject("announcements", id, held.title.en));
+      return this.toAdmin(held);
+    }
     assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
@@ -209,6 +248,11 @@ export class AnnouncementsService {
     }
 
     const doc = await this.repo.updateById(id, {
+      // Saving by an approver (or an edit to a draft) settles any waiting change.
+      $unset: { revision: 1 },
+      ...(!canPublish(actor) && (dto.status ?? existing.status) === "pending"
+        ? { submittedBy: { userId: actor.userId, name: actor.name } }
+        : {}),
       ...dto,
       ...(publishAt !== undefined ? { publishAt } : {}),
       ...(expiresAt !== undefined ? { expiresAt } : {}),
@@ -217,6 +261,14 @@ export class AnnouncementsService {
     });
     await this.audit.log(actor, "update", TAG, id, `Updated announcement "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
+    await notifyTransition(
+      this.notifier,
+      actor,
+      canPublish(actor),
+      existing,
+      doc.status,
+      contentSubject("announcements", id, doc.title.en),
+    );
     return this.toAdmin(doc);
   }
 
@@ -244,6 +296,7 @@ export class AnnouncementsService {
     status: PublishStatus,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<Announcement>> {
+    const before = await this.repo.findByIdOrThrow(id);
     if (status === "published") {
       this.assertPublishable(await this.repo.findByIdOrThrow(id));
     }
@@ -252,10 +305,13 @@ export class AnnouncementsService {
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";
     await this.audit.log(actor, action, TAG, id, `${action} announcement "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
+    await notifyTransition(this.notifier, actor, true, before, status, contentSubject("announcements", id, doc.title.en));
     return this.toAdmin(doc);
   }
 
   async remove(id: string, actor: AuthenticatedUser): Promise<void> {
+    const current = await this.repo.findByIdOrThrow(id);
+    assertMayDelete(actor, current.status);
     const doc = await this.repo.deleteById(id);
     await this.audit.log(actor, "delete", TAG, id, `Deleted announcement "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
@@ -265,5 +321,29 @@ export class AnnouncementsService {
     const filter: FilterQuery<AnnouncementEntity> = { pinned: true };
     if (exceptId) filter._id = { $ne: exceptId };
     await this.repo.updateMany(filter, { pinned: false });
+  }
+
+  /** Discards a change waiting for approval; the live record is untouched. */
+  async rejectRevision(id: string, actor: AuthenticatedUser) {
+    const existing = await this.repo.findByIdOrThrow(id);
+    if (!existing.revision) {
+      throw new NotFoundException("There is no change waiting for approval");
+    }
+    const who = existing.revision.submittedBy.name;
+    const doc = await this.repo.updateById(id, { $unset: { revision: 1 } });
+    await this.audit.log(
+      actor,
+      "update",
+      TAG,
+      id,
+      `Rejected ${who}'s changes to announcement "${doc.title.en}"`,
+    );
+    await this.notifier.rejected(
+      actor,
+      existing.revision.submittedBy,
+      contentSubject("announcements", id, doc.title.en),
+      true,
+    );
+    return this.toAdmin(doc);
   }
 }

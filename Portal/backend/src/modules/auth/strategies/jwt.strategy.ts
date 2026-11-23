@@ -1,17 +1,18 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
-import type { UserRole } from "@portal/shared";
+import type { RoleKey } from "@portal/shared";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
 import type { AuthenticatedUser } from "../../../common/interfaces/authenticated-user";
+import { RolesService } from "../../roles/roles.service";
 import { UsersRepository } from "../../users/users.repository";
 
 export interface JwtPayload {
   sub: string;
   email: string;
   name: string;
-  role: UserRole;
+  role: RoleKey;
 }
 
 @Injectable()
@@ -19,6 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
   constructor(
     config: ConfigService,
     private readonly users: UsersRepository,
+    private readonly roles: RolesService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -38,6 +40,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
       email: user.email,
       name: user.name,
       role: user.role,
+      permissions: await this.roles.permissionsFor(user.role),
     };
   }
 }

@@ -1,9 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { USER_ROLES, type UserRole } from "@portal/shared";
+import type { RoleKey } from "@portal/shared";
 import {
   IsBoolean,
   IsEmail,
-  IsIn,
   IsOptional,
   IsString,
   MaxLength,
@@ -35,9 +34,11 @@ export class CreateUserDto {
   @MaxLength(200)
   password: string;
 
-  @ApiProperty({ enum: USER_ROLES })
-  @IsIn(USER_ROLES as readonly string[])
-  role: UserRole;
+  /** A built-in role or a custom role's key; the service checks it exists. */
+  @ApiProperty({ example: "editor" })
+  @IsString()
+  @MaxLength(64)
+  role: RoleKey;
 
   @ApiProperty({ required: false, default: true })
   @IsOptional()

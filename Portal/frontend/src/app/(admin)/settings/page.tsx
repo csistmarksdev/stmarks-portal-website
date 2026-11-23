@@ -1,6 +1,6 @@
 "use client";
 
-import { ROLE_PERMISSIONS } from "@portal/shared";
+import { PERMISSION_CATALOG } from "@portal/shared";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -28,48 +28,57 @@ export default function SettingsPage() {
   const { user, refreshUser, logout } = useAuth();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="max-w-6xl">
       <PageHeader
         eyebrow="Housekeeping"
         title="Settings"
         description="Your account, and what it's allowed to do."
       />
 
-      <ProfileCard
-        name={user?.name ?? ""}
-        email={user?.email ?? ""}
-        onSaved={refreshUser}
-      />
+      {/* Side by side on a wide screen; Access spans both below. */}
+      <div className="grid items-start gap-6 xl:grid-cols-2">
+        <ProfileCard
+          name={user?.name ?? ""}
+          email={user?.email ?? ""}
+          onSaved={refreshUser}
+        />
 
-      <PasswordCard onChanged={logout} />
+        <PasswordCard onChanged={logout} />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Access</CardTitle>
-          <CardDescription>
-            Your role decides what you can do. Only an administrator can change
-            it, on the Users page.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <p className="flex items-center gap-2">
-            <span className="text-muted-foreground">Role: </span>
-            {user && <Badge>{user.role}</Badge>}
-          </p>
-          <p>
-            <span className="text-muted-foreground">Last sign-in: </span>
-            {formatDateTime(user?.lastLoginAt)}
-          </p>
-          <div className="flex flex-wrap gap-1 pt-1">
-            {user &&
-              ROLE_PERMISSIONS[user.role].map((permission) => (
-                <Badge key={permission} variant="muted">
-                  {permission}
-                </Badge>
-              ))}
-          </div>
-        </CardContent>
-      </Card>
+        <Card className="xl:col-span-2">
+          <CardHeader>
+            <CardTitle>Access</CardTitle>
+            <CardDescription>
+              Your role decides what you can do. Only an administrator can
+              change it, on the Users page.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm">
+            <p className="flex items-center gap-2">
+              <span className="text-muted-foreground">Role: </span>
+              {user && <Badge>{user.roleName}</Badge>}
+            </p>
+            <p>
+              <span className="text-muted-foreground">Last sign-in: </span>
+              {formatDateTime(user?.lastLoginAt)}
+            </p>
+            <div className="flex flex-wrap gap-1 pt-1">
+              {user &&
+                PERMISSION_CATALOG.filter((entry) =>
+                  user.permissions.includes(entry.permission),
+                ).map((entry) => (
+                  <Badge
+                    key={entry.permission}
+                    variant="muted"
+                    title={entry.description}
+                  >
+                    {entry.label}
+                  </Badge>
+                ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

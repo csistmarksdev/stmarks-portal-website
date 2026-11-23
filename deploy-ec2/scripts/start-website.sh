@@ -62,9 +62,20 @@ if [ "${DO_START}" = true ]; then
   if website_unit_installed; then
     say "Restarting ${WEBSITE_SERVICE}"
     sudo systemctl restart "${WEBSITE_SERVICE}"
-    if ! wait_for_http "http://127.0.0.1:${WEBSITE_PORT}/" "the website" 90; then
+    if ! wait_for_http "http://127.0.0.1:${WEBSITE_INTERNAL_PORT}/" "the website" 90; then
       sudo journalctl -u "${WEBSITE_SERVICE}" -n 50 --no-pager || true
-      die "the website did not answer on :${WEBSITE_PORT} within 90s. Logs above."
+      die "the website did not answer on :${WEBSITE_INTERNAL_PORT} within 90s. Logs above."
+    fi
+
+    # The public port belongs to the maintenance gate in front of the site.
+    if gate_unit_installed; then
+      say "Restarting ${GATE_SERVICE}"
+      sudo systemctl restart "${GATE_SERVICE}"
+      wait_for_http "http://127.0.0.1:${WEBSITE_PORT}/__gate/health" "the maintenance gate" 30 \
+        || { sudo journalctl -u "${GATE_SERVICE}" -n 30 --no-pager || true; die "the gate did not answer on :${WEBSITE_PORT}."; }
+    else
+      warn "${GATE_SERVICE}.service is not installed — the site is running on 127.0.0.1:${WEBSITE_INTERNAL_PORT} only and is NOT reachable publicly."
+      warn "Install it:  sudo cp ${DEPLOY_DIR}/${GATE_SERVICE}.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now ${GATE_SERVICE}"
     fi
   else
     # The unit is the intended way to run this. Without it nothing restarts the

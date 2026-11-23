@@ -75,4 +75,12 @@ export class FellowshipsAdminController {
   async remove(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
     await this.fellowships.remove(id, actor);
   }
+
+  @Post(":id/revision/reject")
+  @RequirePermissions("content.publish")
+  @HttpCode(200)
+  @ApiOperation({ summary: "Discard the change waiting for approval on a live fellowship" })
+  rejectRevision(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
+    return this.fellowships.rejectRevision(id, actor);
+  }
 }

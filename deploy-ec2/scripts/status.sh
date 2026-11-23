@@ -30,17 +30,28 @@ else
   info "${WEBSITE_SERVICE}.service is not installed"
 fi
 
+say "Maintenance gate (:${WEBSITE_PORT} → :${WEBSITE_INTERNAL_PORT})"
+if gate_unit_installed; then
+  systemctl is-active "${GATE_SERVICE}" >/dev/null 2>&1 \
+    && info "${GATE_SERVICE}: active" \
+    || info "${GATE_SERVICE}: NOT active"
+  info "gate says: $(curl -fsS --max-time 3 "http://127.0.0.1:${WEBSITE_PORT}/__gate/health" 2>/dev/null || echo 'no answer')"
+else
+  info "${GATE_SERVICE}.service is not installed"
+fi
+
 # ----------------------------------------------------------------- ports ---
 
 say "Listening sockets"
 # `ss` is on Ubuntu by default; `netstat` is not. Process names need root, so
 # this is run under sudo when it is available without a password prompt.
 if command -v ss >/dev/null 2>&1; then
-  ss -tlnp 2>/dev/null | grep -E "LISTEN|:${WEBSITE_PORT}\b|:${PORTAL_PORT}\b" \
-    | grep -E ":${WEBSITE_PORT}\b|:${PORTAL_PORT}\b" \
-    || info "nothing listening on :${WEBSITE_PORT} or :${PORTAL_PORT}"
+  ss -tlnp 2>/dev/null | grep -E "LISTEN|:${WEBSITE_PORT}\b|:${WEBSITE_INTERNAL_PORT}\b|:${PORTAL_PORT}\b" \
+    | grep -E ":${WEBSITE_PORT}\b|:${WEBSITE_INTERNAL_PORT}\b|:${PORTAL_PORT}\b" \
+    || info "nothing listening on :${WEBSITE_PORT}, :${WEBSITE_INTERNAL_PORT} or :${PORTAL_PORT}"
   info ""
-  info "Expect 0.0.0.0:${WEBSITE_PORT} (next start) and 0.0.0.0:${PORTAL_PORT} (docker-proxy)."
+  info "Expect 0.0.0.0:${WEBSITE_PORT} (maintenance gate), 127.0.0.1:${WEBSITE_INTERNAL_PORT} (next start)"
+  info "and 0.0.0.0:${PORTAL_PORT} (docker-proxy)."
   info "MongoDB is on 127.0.0.1:27017 INSIDE the container and must not appear here."
 else
   info "ss not available"
@@ -59,7 +70,8 @@ check() {
 }
 check "http://127.0.0.1:${PORTAL_PORT}/v1/health" "Portal API health"
 check "http://127.0.0.1:${PORTAL_PORT}/"          "Portal admin CMS "
-check "http://127.0.0.1:${WEBSITE_PORT}/"         "Website          "
+check "http://127.0.0.1:${WEBSITE_INTERNAL_PORT}/" "Website (direct) "
+check "http://127.0.0.1:${WEBSITE_PORT}/"         "Website via gate "
 
 say "Public URLs"
 info "Website : http://${PUBLIC_IP}:${WEBSITE_PORT}"

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { USER_ROLES, type UserRole } from "@portal/shared";
+import type { RoleKey } from "@portal/shared";
 import { HydratedDocument } from "mongoose";
 
 export type UserDocument = HydratedDocument<User>;
@@ -15,8 +15,9 @@ export class User {
   @Prop({ required: true, select: false })
   passwordHash: string;
 
-  @Prop({ required: true, enum: USER_ROLES, default: "editor" })
-  role: UserRole;
+  /** Built-in role or a custom role's key — checked against `roles` on write. */
+  @Prop({ required: true, trim: true, default: "editor" })
+  role: RoleKey;
 
   @Prop({ default: true })
   active: boolean;

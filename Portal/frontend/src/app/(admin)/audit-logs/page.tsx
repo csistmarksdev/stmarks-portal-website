@@ -81,7 +81,7 @@ export default function AuditLogsPage() {
         title="Audit logs"
         description="A running record of who did what — sign-ins, edits, publishes, uploads. Entries cannot be edited, and clearing them is itself recorded."
       />
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         <Select className="min-w-0 flex-1 sm:w-40 sm:flex-none" value={action} onChange={(e) => { setAction(e.target.value); setPage(1); }}>
           <option value="">All actions</option>
           {ACTIONS.map((value) => (
@@ -98,9 +98,10 @@ export default function AuditLogsPage() {
         {/* Only a super-admin holds `audit.delete`, so this is absent for
             everyone else rather than present and failing on click. */}
         {can("audit.delete") && (
-          <div className="ml-auto flex gap-2">
+          // Its own full-width row on a phone, so the filters keep their room.
+          <div className="flex w-full gap-2 sm:ml-auto sm:w-auto">
             <Select
-              className="w-44"
+              className="min-w-0 flex-1 sm:w-auto sm:min-w-56 sm:flex-none"
               value={String(retention)}
               onChange={(e) => setRetention(Number(e.target.value))}
               aria-label="How much history to clear"

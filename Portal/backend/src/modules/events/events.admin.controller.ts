@@ -80,4 +80,12 @@ export class EventsAdminController {
   async remove(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
     await this.events.remove(id, actor);
   }
+
+  @Post(":id/revision/reject")
+  @RequirePermissions("content.publish")
+  @HttpCode(200)
+  @ApiOperation({ summary: "Discard the change waiting for approval on a live event" })
+  rejectRevision(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
+    return this.events.rejectRevision(id, actor);
+  }
 }

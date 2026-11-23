@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { ADMIN_ONLY_FIELDS } from "@portal/shared";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import type {
   DownloadCategory,
@@ -23,7 +28,19 @@ import { AuditService } from "../audit/audit.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { CreateDownloadDto, UpdateDownloadDto } from "./dto/download.dto";
 import { DownloadEntity, type DownloadDocument } from "./schemas/download.schema";
-import { assertMayWrite, defaultStatusFor } from "../../common/utils/approval";
+import {
+  assertMayDelete,
+  assertMayWrite,
+  canPublish,
+  defaultStatusFor,
+  holdsForApproval,
+  revisionFrom,
+} from "../../common/utils/approval";
+import {
+  contentSubject,
+  NotificationsService,
+  notifyTransition,
+} from "../notifications/notifications.service";
 
 const TAG = "downloads";
 
@@ -37,12 +54,13 @@ export class DownloadsService {
     @InjectModel(DownloadEntity.name) model: Model<DownloadEntity>,
     private readonly audit: AuditService,
     private readonly revalidate: RevalidateService,
+    private readonly notifier: NotificationsService,
   ) {
     this.repo = new DownloadsRepository(model);
   }
 
   private toPublic(doc: DownloadDocument): DownloadFile {
-    return serializeDoc<DownloadFile>(doc, ["status"]);
+    return serializeDoc<DownloadFile>(doc, [...ADMIN_ONLY_FIELDS]);
   }
 
   private toAdmin(doc: DownloadDocument): WithStatus<DownloadFile> {
@@ -126,6 +144,8 @@ export class DownloadsService {
       this.repo.exists({ slug: candidate }),
     );
     const doc = await this.repo.create({
+      // Remembered so the writer can be told what became of it.
+      ...(canPublish(actor) ? {} : { submittedBy: { userId: actor.userId, name: actor.name } }),
       ...dto,
       publishedAt: new Date(dto.publishedAt),
       slug,
@@ -134,6 +154,9 @@ export class DownloadsService {
     });
     await this.audit.log(actor, "create", TAG, doc.id, `Created download "${dto.title.en}"`);
     if (doc.status === "published") this.revalidate.trigger(TAG);
+    if (doc.status === "pending") {
+      await this.notifier.submitted(actor, contentSubject("downloads", doc.id, doc.title.en));
+    }
     return this.toAdmin(doc);
   }
 
@@ -143,6 +166,22 @@ export class DownloadsService {
     actor: AuthenticatedUser,
   ): Promise<WithStatus<DownloadFile>> {
     const existing = await this.repo.findByIdOrThrow(id);
+    // Approval rule: an editor's change to a live record is held for an
+    // admin; the website keeps the current version until it is approved.
+    if (holdsForApproval(actor, existing.status)) {
+      const held = await this.repo.updateById(id, {
+        $set: { revision: revisionFrom(dto, actor) },
+      });
+      await this.audit.log(
+        actor,
+        "update",
+        TAG,
+        id,
+        `Submitted changes to download "${held.title.en}" for approval`,
+      );
+      await this.notifier.changesSubmitted(actor, contentSubject("downloads", id, held.title.en));
+      return this.toAdmin(held);
+    }
     assertMayWrite(actor, dto.status, existing.status);
 
     let slug = existing.slug;
@@ -158,6 +197,11 @@ export class DownloadsService {
     }
 
     const doc = await this.repo.updateById(id, {
+      // Saving by an approver (or an edit to a draft) settles any waiting change.
+      $unset: { revision: 1 },
+      ...(!canPublish(actor) && (dto.status ?? existing.status) === "pending"
+        ? { submittedBy: { userId: actor.userId, name: actor.name } }
+        : {}),
       ...dto,
       slug,
       ...(dto.publishedAt ? { publishedAt: new Date(dto.publishedAt) } : {}),
@@ -165,6 +209,14 @@ export class DownloadsService {
     });
     await this.audit.log(actor, "update", TAG, id, `Updated download "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
+    await notifyTransition(
+      this.notifier,
+      actor,
+      canPublish(actor),
+      existing,
+      doc.status,
+      contentSubject("downloads", id, doc.title.en),
+    );
     return this.toAdmin(doc);
   }
 
@@ -173,17 +225,45 @@ export class DownloadsService {
     status: PublishStatus,
     actor: AuthenticatedUser,
   ): Promise<WithStatus<DownloadFile>> {
+    const before = await this.repo.findByIdOrThrow(id);
     const doc = await this.repo.updateById(id, { status });
     const action =
       status === "published" ? "publish" : status === "archived" ? "archive" : "unpublish";
     await this.audit.log(actor, action, TAG, id, `${action} download "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
+    await notifyTransition(this.notifier, actor, true, before, status, contentSubject("downloads", id, doc.title.en));
     return this.toAdmin(doc);
   }
 
   async remove(id: string, actor: AuthenticatedUser): Promise<void> {
+    const current = await this.repo.findByIdOrThrow(id);
+    assertMayDelete(actor, current.status);
     const doc = await this.repo.deleteById(id);
     await this.audit.log(actor, "delete", TAG, id, `Deleted download "${doc.title.en}"`);
     this.revalidate.trigger(TAG);
+  }
+
+  /** Discards a change waiting for approval; the live record is untouched. */
+  async rejectRevision(id: string, actor: AuthenticatedUser) {
+    const existing = await this.repo.findByIdOrThrow(id);
+    if (!existing.revision) {
+      throw new NotFoundException("There is no change waiting for approval");
+    }
+    const who = existing.revision.submittedBy.name;
+    const doc = await this.repo.updateById(id, { $unset: { revision: 1 } });
+    await this.audit.log(
+      actor,
+      "update",
+      TAG,
+      id,
+      `Rejected ${who}'s changes to download "${doc.title.en}"`,
+    );
+    await this.notifier.rejected(
+      actor,
+      existing.revision.submittedBy,
+      contentSubject("downloads", id, doc.title.en),
+      true,
+    );
+    return this.toAdmin(doc);
   }
 }

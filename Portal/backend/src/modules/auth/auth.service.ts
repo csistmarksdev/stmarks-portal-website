@@ -28,6 +28,7 @@ const DECOY_HASH = "$2b$12$Ku7QoQ9CxLcOaGCzHhFP4.zL1aVXlLqLZ6WHV2ZzY6cq9m0nJqk6y
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { AuditService } from "../audit/audit.service";
 import type { UserDocument } from "../users/schemas/user.schema";
+import { RolesService } from "../roles/roles.service";
 import { UsersRepository } from "../users/users.repository";
 import { UsersService } from "../users/users.service";
 import type { JwtPayload } from "./strategies/jwt.strategy";
@@ -40,6 +41,7 @@ export class AuthService {
     private readonly jwt: JwtService,
     private readonly config: ConfigService,
     private readonly audit: AuditService,
+    private readonly roles: RolesService,
   ) {}
 
   async login(email: string, password: string, ip?: string): Promise<LoginResponse> {
@@ -67,7 +69,13 @@ export class AuthService {
     await user.save();
 
     await this.audit.log(
-      { userId: user.id, email: user.email, name: user.name, role: user.role },
+      {
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        permissions: await this.roles.permissionsFor(user.role),
+      },
       "login",
       "auth",
       user.id,
@@ -75,7 +83,7 @@ export class AuthService {
       ip,
     );
 
-    return { ...tokens, user: this.usersService.toAdminUser(user) };
+    return { ...tokens, user: await this.usersService.toAdminUser(user) };
   }
 
   async refresh(refreshToken: string): Promise<LoginResponse> {
@@ -99,7 +107,7 @@ export class AuthService {
     }
 
     const tokens = await this.issueTokens(user);
-    return { ...tokens, user: this.usersService.toAdminUser(user) };
+    return { ...tokens, user: await this.usersService.toAdminUser(user) };
   }
 
   async logout(actor: AuthenticatedUser, ip?: string): Promise<void> {

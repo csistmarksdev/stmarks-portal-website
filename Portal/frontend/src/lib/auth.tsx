@@ -1,7 +1,6 @@
 "use client";
 
 import type { AdminUser, LoginResponse, Permission } from "@portal/shared";
-import { roleHasPermission } from "@portal/shared";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -91,7 +90,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const can = useCallback(
     (permission: Permission) =>
-      user ? roleHasPermission(user.role, permission) : false,
+      // Resolved by the server for built-in and custom roles alike.
+      user?.permissions?.includes(permission) ?? false,
     [user],
   );
 

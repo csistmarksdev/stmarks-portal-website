@@ -89,9 +89,37 @@ export function renderInline(text: string): ReactNode {
   return nodes.length === 1 ? nodes[0] : nodes;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Block kinds                                                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A paragraph may open with a heading marker, Markdown-style:
+ *
+ *     # Title          ## Subtitle
+ *
+ * It is still one entry in `body`, so headings pair across languages by index
+ * like any other paragraph and the stored shape is unchanged.
+ */
+export type BlockKind = "title" | "subtitle" | "paragraph";
+
+export const TITLE_PREFIX = "# ";
+export const SUBTITLE_PREFIX = "## ";
+
+export function parseBlock(text: string): { kind: BlockKind; text: string } {
+  if (text.startsWith(SUBTITLE_PREFIX)) {
+    return { kind: "subtitle", text: text.slice(SUBTITLE_PREFIX.length).trim() };
+  }
+  if (text.startsWith(TITLE_PREFIX)) {
+    return { kind: "title", text: text.slice(TITLE_PREFIX.length).trim() };
+  }
+  return { kind: "paragraph", text };
+}
+
 /** Strips markers - for previews, meta descriptions and other plain-text uses. */
 export function stripMarkers(text: string): string {
   return text
+    .replace(/^#{1,2} /gm, "")
     .replace(/\*\*([\s\S]+?)\*\*(?!\*)/g, "$1")
     .replace(/__([\s\S]+?)__(?!_)/g, "$1")
     .replace(/\*([\s\S]+?)\*/g, "$1");

@@ -12,9 +12,12 @@ WEBSITE_DIR="${REPO_ROOT}/WebsiteRT"
 
 COMPOSE_FILE="${DEPLOY_DIR}/docker-compose.yml"
 WEBSITE_SERVICE="csistmc-website"
+GATE_SERVICE="csistmc-maintenance-gate"
 
 PUBLIC_IP="${PUBLIC_IP:-54.252.189.117}"
+# Public: the maintenance gate. Private: the Next.js site behind it.
 WEBSITE_PORT=3000
+WEBSITE_INTERNAL_PORT=3001
 PORTAL_PORT=8080
 
 say()  { printf '\n\033[1m==> %s\033[0m\n' "$*"; }
@@ -49,6 +52,11 @@ website_unit_installed() {
   command -v systemctl >/dev/null 2>&1 \
     && systemctl list-unit-files "${WEBSITE_SERVICE}.service" >/dev/null 2>&1 \
     && systemctl cat "${WEBSITE_SERVICE}.service" >/dev/null 2>&1
+}
+
+gate_unit_installed() {
+  command -v systemctl >/dev/null 2>&1 \
+    && systemctl cat "${GATE_SERVICE}.service" >/dev/null 2>&1
 }
 
 # Poll a URL until it answers, rather than sleeping a fixed amount and hoping.

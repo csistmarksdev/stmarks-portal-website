@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param, ParseEnumPipe, Post, Put } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
@@ -10,6 +10,9 @@ import {
   WeeklyVerseDto,
 } from "./dto/church.dto";
 import { ChurchService } from "./church.service";
+import { SINGLETON_KEYS, type SingletonKey } from "./schemas/singleton.schema";
+
+const KEY_ENUM = Object.fromEntries(SINGLETON_KEYS.map((key) => [key, key]));
 
 /**
  * Editors for the three church singletons that actually change. The profile,
@@ -19,12 +22,11 @@ import { ChurchService } from "./church.service";
 @ApiTags("Admin — Church")
 @ApiBearerAuth()
 /*
- * Service timings, the pastor's message and the weekly verse have no draft
- * state - a save is live at once - so changing them needs `content.publish`
- * (admin / super admin) under the approval rule (church request,
- * 22 Nov 2026). The GETs below stay readable to every role.
+ * Saving needs `content.write`. Under the approval rule an approver's save
+ * (`content.publish`) goes live at once; anyone else's is held as a
+ * submission until an admin approves it (by saving) or rejects it.
  */
-@RequirePermissions("content.publish")
+@RequirePermissions("content.write")
 @Controller("admin/church")
 export class ChurchAdminController {
   constructor(private readonly church: ChurchService) {}
@@ -72,5 +74,23 @@ export class ChurchAdminController {
     @CurrentUser() actor: AuthenticatedUser,
   ) {
     return this.church.set("weekly-verse", dto, actor);
+  }
+
+  @Get(":key/pending")
+  @RequirePermissions("content.read")
+  @ApiOperation({ summary: "The change waiting for approval, or null" })
+  getPending(@Param("key", new ParseEnumPipe(KEY_ENUM)) key: SingletonKey) {
+    return this.church.pending(key);
+  }
+
+  @Post(":key/reject")
+  @RequirePermissions("content.publish")
+  @HttpCode(204)
+  @ApiOperation({ summary: "Discard the change waiting for approval" })
+  async reject(
+    @Param("key", new ParseEnumPipe(KEY_ENUM)) key: SingletonKey,
+    @CurrentUser() actor: AuthenticatedUser,
+  ) {
+    await this.church.reject(key, actor);
   }
 }

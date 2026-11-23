@@ -79,4 +79,12 @@ export class BlogAdminController {
   async remove(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
     await this.blog.remove(id, actor);
   }
+
+  @Post(":id/revision/reject")
+  @RequirePermissions("content.publish")
+  @HttpCode(200)
+  @ApiOperation({ summary: "Discard the change waiting for approval on a live blog post" })
+  rejectRevision(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
+    return this.blog.rejectRevision(id, actor);
+  }
 }

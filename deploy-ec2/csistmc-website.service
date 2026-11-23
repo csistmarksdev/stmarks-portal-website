@@ -42,14 +42,16 @@ Environment=NODE_ENV=production
 Environment=NEXT_TELEMETRY_DISABLED=1
 Environment=PATH=/usr/local/bin:/usr/bin:/bin
 
-# -H 0.0.0.0 so the listener is reachable from outside the instance rather than
-# bound to loopback; -p 3000 is the demo's published port.
+# Private: 127.0.0.1:3001. Visitors reach the site through the maintenance
+# gate on the public port 3000 (csistmc-maintenance-gate.service), which
+# passes everything through unless the Portal has maintenance mode on. Binding
+# to loopback means nobody can go around the gate.
 #
 # The `--` hands the flags to `next start` rather than to npm. Absolute path
 # because systemd has no shell and no PATH lookup of its own — if Node came
 # from nvm rather than NodeSource, point this at that npm instead
 # (`readlink -f "$(which npm)"`).
-ExecStart=/usr/bin/npm run start -- -H 0.0.0.0 -p 3000
+ExecStart=/usr/bin/npm run start -- -H 127.0.0.1 -p 3001
 
 # Restart on a crash, and after a reboot via `systemctl enable`. Not
 # `Restart=always`: a unit that exits 0 was stopped on purpose.

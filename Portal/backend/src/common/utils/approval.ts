@@ -1,5 +1,5 @@
 import { ForbiddenException } from "@nestjs/common";
-import { roleHasPermission, type PublishStatus } from "@portal/shared";
+import type { PublishStatus } from "@portal/shared";
 
 import type { AuthenticatedUser } from "../interfaces/authenticated-user";
 
@@ -22,7 +22,7 @@ import type { AuthenticatedUser } from "../interfaces/authenticated-user";
 const SUBMITTER_STATUSES: readonly PublishStatus[] = ["draft", "pending"];
 
 export function canPublish(actor: AuthenticatedUser): boolean {
-  return roleHasPermission(actor.role, "content.publish");
+  return actor.permissions.includes("content.publish");
 }
 
 /**
@@ -78,5 +78,38 @@ export function assertMayPin(actor: AuthenticatedUser, pinned: boolean | undefin
   if (pinned === undefined || canPublish(actor)) return;
   throw new ForbiddenException(
     "Only an admin or super admin can pin or unpin an announcement.",
+  );
+}
+
+/**
+ * Whether `actor`'s edit to a record in `current` status is held as a revision
+ * for approval rather than applied: they cannot publish, and the record is on
+ * (or has been on) the website. Drafts and submissions they edit directly.
+ */
+export function holdsForApproval(actor: AuthenticatedUser, current: PublishStatus): boolean {
+  return !canPublish(actor) && !SUBMITTER_STATUSES.includes(current);
+}
+
+/** The revision to store for an edit `holdsForApproval` says to hold. */
+export function revisionFrom(changes: object, actor: AuthenticatedUser) {
+  // A submitter never chooses the status of a live record.
+  const { status: _status, ...rest } = changes as Record<string, unknown>;
+  void _status;
+  return {
+    changes: rest,
+    submittedBy: { userId: actor.userId, name: actor.name },
+    submittedAt: new Date(),
+  };
+}
+
+/**
+ * Deleting a live or archived record changes the website, so — like
+ * publishing — it needs an approver. A custom role may hold `content.delete`
+ * without `content.publish`; this keeps that from bypassing approval.
+ */
+export function assertMayDelete(actor: AuthenticatedUser, current: PublishStatus): void {
+  if (canPublish(actor) || SUBMITTER_STATUSES.includes(current)) return;
+  throw new ForbiddenException(
+    "This item is on the website. Only an admin or super admin can delete it.",
   );
 }
