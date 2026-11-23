@@ -1,8 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { AdminUser, Paginated, UserRole } from "@portal/shared";
-import { USER_ROLES } from "@portal/shared";
+import type { AdminUser, Paginated, RoleDefinition, RoleKey } from "@portal/shared";
 import { KeyRoundIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -34,7 +33,7 @@ interface UserDraft {
   name: string;
   email: string;
   password: string;
-  role: UserRole;
+  role: RoleKey;
   active: boolean;
 }
 
@@ -58,7 +57,24 @@ export default function UsersPage() {
     queryFn: () => api.get<Paginated<AdminUser>>("/admin/users", { pageSize: 50 }),
   });
 
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ["users"] });
+  const { data: roles } = useQuery({
+    queryKey: ["roles"],
+    queryFn: () => api.get<RoleDefinition[]>("/admin/roles"),
+  });
+
+  /*
+   * Only roles that do nothing beyond your own access are offered — the server
+   * refuses the rest anyway (no one can promote someone past themselves).
+   */
+  const assignable = (roles ?? []).filter((role) =>
+    role.permissions.every((permission) => me?.permissions.includes(permission)),
+  );
+
+  const invalidate = () => {
+    void queryClient.invalidateQueries({ queryKey: ["users"] });
+    // Role cards show how many people hold each role.
+    void queryClient.invalidateQueries({ queryKey: ["roles"] });
+  };
 
   const saveUser = useMutation({
     mutationFn: async (user: UserDraft) => {
@@ -157,7 +173,7 @@ export default function UsersPage() {
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap items-center gap-1.5">
-                  <Badge>{user.role}</Badge>
+                  <Badge>{user.roleName}</Badge>
                   <Badge variant={user.active ? "success" : "muted"}>
                     {user.active ? "active" : "disabled"}
                   </Badge>
@@ -255,16 +271,44 @@ export default function UsersPage() {
                 <Label>Role</Label>
                 <Select
                   value={draft.role}
-                  onChange={(event) => setDraft({ ...draft, role: event.target.value as UserRole })}
+                  onChange={(event) => setDraft({ ...draft, role: event.target.value })}
                 >
-                  {USER_ROLES.map((role) => (
-                    <option key={role} value={role}>
-                      {role}
+                  {/* Keep the current role selectable even if it is not one
+                      you could hand out, so opening the dialog changes nothing. */}
+                  {!assignable.some((role) => role.key === draft.role) && (
+                    <option value={draft.role}>
+                      {roles?.find((role) => role.key === draft.role)?.name ?? draft.role}
                     </option>
-                  ))}
+                  )}
+                  {assignable.some((role) => role.builtIn) && (
+                    <optgroup label="Built-in">
+                      {assignable
+                        .filter((role) => role.builtIn)
+                        .map((role) => (
+                          <option key={role.key} value={role.key}>
+                            {role.name}
+                          </option>
+                        ))}
+                    </optgroup>
+                  )}
+                  {assignable.some((role) => !role.builtIn) && (
+                    <optgroup label="Custom">
+                      {assignable
+                        .filter((role) => !role.builtIn)
+                        .map((role) => (
+                          <option key={role.key} value={role.key}>
+                            {role.name}
+                          </option>
+                        ))}
+                    </optgroup>
+                  )}
                 </Select>
+                <p className="text-xs text-muted-foreground">
+                  {roles?.find((role) => role.key === draft.role)?.description ??
+                    "Define new roles under Roles & permissions."}
+                </p>
               </div>
-              <div className="flex items-center justify-between rounded-md border p-3">
+              <div className="flex items-center justify-between gap-4 rounded-2xl border border-border/70 p-4">
                 <Label>Active</Label>
                 <Switch
                   checked={draft.active}

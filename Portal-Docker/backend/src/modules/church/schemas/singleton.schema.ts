@@ -27,6 +27,25 @@ export class SingletonEntity {
 
   @Prop({ type: MongooseSchema.Types.Mixed, required: true })
   data: unknown;
+
+  /**
+   * A change submitted by someone who cannot publish, waiting for an admin.
+   * `data` above stays what the website shows until it is approved; there is
+   * at most one submission per document — a newer one replaces it.
+   */
+  @Prop({
+    type: {
+      data: MongooseSchema.Types.Mixed,
+      submittedBy: { userId: String, name: String },
+      submittedAt: Date,
+    },
+    _id: false,
+  })
+  pending?: {
+    data: unknown;
+    submittedBy: { userId: string; name: string };
+    submittedAt: Date;
+  };
 }
 
 export const SingletonSchema = SchemaFactory.createForClass(SingletonEntity);

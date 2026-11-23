@@ -1,5 +1,6 @@
 "use client";
 
+import { DOWNLOAD_CATEGORY_LABELS } from "@portal/shared";
 import type { DownloadFile, WithStatus } from "@portal/shared";
 
 import { ResourceListPage } from "@/components/admin/resource-list-page";
@@ -27,7 +28,7 @@ export default function DownloadsPage() {
         {
           key: "category",
           header: "Category",
-          render: (file) => <Badge variant="secondary">{file.category}</Badge>,
+          render: (file) => <Badge variant="secondary">{DOWNLOAD_CATEGORY_LABELS[file.category] ?? file.category}</Badge>,
         },
         {
           key: "format",

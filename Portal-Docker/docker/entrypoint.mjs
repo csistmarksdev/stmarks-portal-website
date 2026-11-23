@@ -37,6 +37,7 @@
  */
 import { spawn, spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
+import { totalmem } from "node:os";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer, request as httpRequest } from "node:http";
 import { createConnection } from "node:net";
@@ -584,13 +585,25 @@ async function main() {
   // The API reads `PORT` for its own listen port, so it is given the internal
   // one explicitly — `PORT` belongs to the public router.
   log(`starting API on ${BIND}:${API_PORT}`);
+  // On a 1 GiB host the two V8 heaps share memory with WiredTiger and
+  // native image processing. Respect both the host and the container limit.
+  const memory = Math.min(totalmem(), process.constrainedMemory?.() || Infinity);
+  const smallHost = memory <= 1024 ** 3;
+  const workerEnv = smallHost ? {
+    UV_THREADPOOL_SIZE: process.env.UV_THREADPOOL_SIZE ?? "2",
+    VIPS_CONCURRENCY: process.env.VIPS_CONCURRENCY ?? "1",
+  } : {};
   start("api", ["dist/main"], join(ROOT, "backend"), {
+    ...workerEnv,
+    ...(smallHost && !process.env.NODE_OPTIONS && { NODE_OPTIONS: "--max-old-space-size=160" }),
     PORT: String(API_PORT),
     HOST: BIND,
   });
 
   log(`starting CMS on ${BIND}:${CMS_PORT}`);
   start("cms", ["server.js"], join(ROOT, "frontend"), {
+    ...workerEnv,
+    ...(smallHost && !process.env.NODE_OPTIONS && { NODE_OPTIONS: "--max-old-space-size=128" }),
     PORT: String(CMS_PORT),
     HOSTNAME: BIND,
   });

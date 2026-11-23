@@ -102,7 +102,7 @@ ARG MONGO_MAJOR=8.0
 ARG WITH_MONGODB=true
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates curl gnupg xz-utils; \
+    apt-get install -y --no-install-recommends ca-certificates curl gnupg xz-utils libatomic1; \
     \
     if [ "${WITH_MONGODB}" = "true" ]; then \
         curl -fsSL "https://pgp.mongodb.com/server-${MONGO_MAJOR}.asc" \

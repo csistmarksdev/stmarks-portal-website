@@ -56,9 +56,24 @@ export function useResourceMutations(path: string, label: string) {
 
   const update = useMutation({
     mutationFn: ({ id, body }: { id: string; body: unknown }) =>
-      api.patch<{ id: string }>(`${path}/${id}`, body),
+      api.patch<{ id: string; revision?: unknown }>(`${path}/${id}`, body),
+    onSuccess: (result) => {
+      // An editor's change to a live item comes back held, not applied.
+      toast.success(
+        result?.revision
+          ? "Changes submitted — an admin will review them before they go on the website"
+          : `${label} updated`,
+      );
+      void invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+  /** Discards the change waiting for approval on a live item. */
+  const rejectRevision = useMutation({
+    mutationFn: (id: string) => api.post(`${path}/${id}/revision/reject`),
     onSuccess: () => {
-      toast.success(`${label} updated`);
+      toast.success("Changes rejected — the website keeps the current version");
       void invalidate();
     },
     onError: (error: Error) => toast.error(error.message),
@@ -114,5 +129,5 @@ export function useResourceMutations(path: string, label: string) {
     onSettled: () => void invalidate(),
   });
 
-  return { create, update, remove, setStatus, invalidate };
+  return { create, update, remove, setStatus, invalidate, rejectRevision };
 }

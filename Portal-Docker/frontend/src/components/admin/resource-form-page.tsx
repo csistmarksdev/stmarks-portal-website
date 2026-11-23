@@ -1,11 +1,8 @@
 "use client";
 
-import type { ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
-import { PUBLISH_STATUSES } from "@portal/shared";
-import { ArrowLeftIcon } from "lucide-react";
-import Link from "next/link";
+import type { ContentRevision, ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { LocalizedField } from "@/components/admin/localized-field";
@@ -13,15 +10,21 @@ import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
 import { ParagraphsField } from "@/components/admin/paragraphs-field";
 import { ImagePicker } from "@/components/admin/media-picker";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { StatusSelect, useApprovalLock } from "@/components/admin/status-select";
+import {
+  ApprovalNotice,
+  FormActions,
+  FormFooterActions,
+  saveLabelFor,
+} from "@/components/admin/form-actions";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
-import { toDateInput, toDatetimeLocal } from "@/lib/utils";
+import { cn, toDateInput, toDatetimeLocal } from "@/lib/utils";
 
 /* ---------------------------- Field definitions ---------------------------- */
 
@@ -31,7 +34,14 @@ export type FieldDef =
   | { kind: "text"; name: string; label: string; required?: boolean; placeholder?: string }
   | { kind: "email"; name: string; label: string; required?: boolean }
   | { kind: "number"; name: string; label: string; required?: boolean }
-  | { kind: "date"; name: string; label: string; required?: boolean; withTime?: boolean }
+  | {
+      kind: "date";
+      name: string;
+      label: string;
+      required?: boolean;
+      withTime?: boolean;
+      help?: string;
+    }
   | { kind: "checkbox"; name: string; label: string; help?: string }
   | {
       kind: "select";
@@ -200,14 +210,14 @@ function FieldControl({
       );
     case "checkbox":
       return (
-        <div className="flex items-center justify-between rounded-md border p-3">
-          <div>
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-border/70 p-4">
+          <div className="space-y-1">
             <Label>{field.label}</Label>
             {field.help && (
-              <p className="text-xs text-muted-foreground">{field.help}</p>
+              <p className="text-xs leading-relaxed text-muted-foreground">{field.help}</p>
             )}
           </div>
-          <Switch checked={Boolean(value)} onCheckedChange={onChange} />
+          <Switch checked={Boolean(value)} onCheckedChange={onChange} className="shrink-0" />
         </div>
       );
     case "select":
@@ -242,6 +252,9 @@ function FieldControl({
             value={(value as string) ?? ""}
             onChange={(event) => onChange(event.target.value)}
           />
+          {field.help && (
+            <p className="text-xs leading-relaxed text-muted-foreground">{field.help}</p>
+          )}
         </div>
       );
     case "number":
@@ -275,6 +288,22 @@ function FieldControl({
   }
 }
 
+/**
+ * Runs of consecutive date fields share a two-column row (Starts / Ends side by
+ * side); a lone one takes half the width. A native date input stretched across
+ * the whole form leaves its calendar icon stranded mid-box and reads as a
+ * text field.
+ */
+function groupFields(fields: FieldDef[]): FieldDef[][] {
+  const groups: FieldDef[][] = [];
+  for (const field of fields) {
+    const last = groups[groups.length - 1];
+    if (field.kind === "date" && last?.[0].kind === "date" && last.length < 2) last.push(field);
+    else groups.push([field]);
+  }
+  return groups;
+}
+
 /* ------------------------------- Page shell -------------------------------- */
 
 /**
@@ -291,6 +320,9 @@ export function ResourceFormPage({
   id,
   defaults = {},
   withStatusField = true,
+  belowWriting,
+  createExtras,
+  updateExtras,
 }: {
   title: string;
   apiPath: string;
@@ -300,38 +332,64 @@ export function ResourceFormPage({
   id?: string;
   defaults?: FormValues;
   withStatusField?: boolean;
+  /**
+   * Extra sections for the main column, under the writing — the album's
+   * photo stream. Placed here rather than after the page, so they line up
+   * with the form instead of trailing below both columns.
+   */
+  belowWriting?: ReactNode;
+  /**
+   * Extra fields sent with a create — a new album's photos, chosen before the
+   * album exists, so it is created whole in one request.
+   */
+  createExtras?: () => FormValues;
+  /**
+   * Extra fields sent with an update — an album's photos when they travel
+   * with a change for approval (see the album editor).
+   */
+  updateExtras?: () => FormValues | undefined;
 }) {
   const router = useRouter();
   const isEdit = Boolean(id);
   const { data, isLoading, isError, error, refetch, isFetching } =
     useResourceItem<FormValues>(apiPath, id);
-  const { create, update } = useResourceMutations(apiPath, label);
+  const { create, update, rejectRevision } = useResourceMutations(apiPath, label);
   const [values, setValues] = useState<FormValues>(defaults);
   const [status, setStatus] = useState<PublishStatus>("draft");
 
   useEffect(() => {
     if (data) {
-      setValues(toFormValues(fields, data));
+      // A change waiting for approval is what the form edits: the writer
+      // keeps working on it; the approver reviews exactly what was sent.
+      const revision = data.revision as ContentRevision | undefined;
+      setValues(toFormValues(fields, { ...data, ...(revision?.changes ?? {}) }));
       setStatus((data.status as PublishStatus) ?? "draft");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const busy = create.isPending || update.isPending;
+  const { locked, holds, canPublish } = useApprovalLock(
+    data?.status as PublishStatus | undefined,
+    isEdit,
+  );
+  const revision = (data?.revision as ContentRevision | undefined) ?? null;
 
-  const submit = async () => {
+  /** Saves; `asStatus` overrides the chosen status (Approve publishes). */
+  const submit = async (asStatus?: PublishStatus) => {
     const error = validate(fields, values);
     if (error) {
       toast.error(error);
       return;
     }
     const payload = toPayload(fields, values);
-    if (withStatusField) payload.status = status;
+    if (withStatusField) payload.status = asStatus ?? status;
 
     if (isEdit && id) {
-      await update.mutateAsync({ id, body: payload });
+      await update.mutateAsync({ id, body: { ...payload, ...updateExtras?.() } });
+      if (asStatus) setStatus(asStatus);
     } else {
-      await create.mutateAsync(withoutRemovals(payload));
+      await create.mutateAsync({ ...withoutRemovals(payload), ...createExtras?.() });
       router.push(routeBase);
     }
   };
@@ -351,7 +409,7 @@ export function ResourceFormPage({
    */
   if (isEdit && isError) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="max-w-3xl">
         <PageHeader title={title} />
         <ErrorState
           title="Couldn't load this record"
@@ -367,65 +425,107 @@ export function ResourceFormPage({
     );
   }
 
+  const renderGroups = (subset: FieldDef[], dateColumns: string) =>
+    groupFields(subset).map((group) => {
+      const controls = group.map((field) => (
+        <FieldControl
+          key={field.name}
+          field={field}
+          value={values[field.name]}
+          onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
+        />
+      ));
+      return group[0].kind === "date" ? (
+        <div key={group[0].name} className={cn("grid items-start gap-5", dateColumns)}>
+          {controls}
+        </div>
+      ) : (
+        controls
+      );
+    });
+
+  /*
+   * Two columns on a wide screen, the way a writing tool is laid out: the
+   * words in a wide main column, everything about them — dates, image,
+   * fellowship, status, save — in a details column beside them. One
+   * narrow column left most of a desktop screen empty beside the form.
+   */
+  const savedStatus = data?.status as PublishStatus | undefined;
+  const actionProps = {
+    backHref: routeBase,
+    // Changes waiting on a live item are reviewed just like a new submission.
+    savedStatus: revision ? ("pending" as const) : savedStatus,
+    onSave: () => void submit(),
+    // Approving: the approver's save applies the form (and publishes it).
+    onApprove: withStatusField ? () => void submit("published") : undefined,
+    // Rejecting a change discards it; rejecting a new item returns it to draft.
+    onReject: withStatusField
+      ? () =>
+          revision && id
+            ? rejectRevision.mutateAsync(id).catch(() => undefined)
+            : submit("draft")
+      : undefined,
+    saveLabel: saveLabelFor({
+      isEdit,
+      holds,
+      hasRevision: !!revision,
+      canPublish,
+      createLabel: `Create ${label.toLowerCase()}`,
+    }),
+    busy: busy || rejectRevision.isPending,
+    disabled: locked,
+  };
+
+  const isWriting = (field: FieldDef) => field.kind === "localized" || field.kind === "paragraphs";
+  const writing = fields.filter(isWriting);
+  const details = fields.filter((field) => !isWriting(field));
+
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="max-w-6xl">
       <PageHeader
+        eyebrow={isEdit ? "Editing" : "Creating"}
         title={title}
-        actions={
-          <Button variant="outline" className="hidden lg:inline-flex" asChild>
-            <Link href={routeBase}>
-              <ArrowLeftIcon /> Back
-            </Link>
-          </Button>
-        }
+        actions={<FormActions {...actionProps} />}
       />
-      <Card>
-        <CardContent className="space-y-5 pt-5">
-          {fields.map((field) => (
-            <FieldControl
-              key={field.name}
-              field={field}
-              value={values[field.name]}
-              onChange={(next) =>
-                setValues((current) => ({ ...current, [field.name]: next }))
-              }
-            />
-          ))}
+      {isEdit && (savedStatus === "pending" || holds || revision) ? (
+        <div className="mb-5 empty:hidden">
+          <ApprovalNotice status={savedStatus} revision={revision} isEdit={isEdit} />
+        </div>
+      ) : null}
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="min-w-0 space-y-5">
+          <Card>
+            <CardContent className="space-y-6">{renderGroups(writing, "sm:grid-cols-2")}</CardContent>
+          </Card>
+          {belowWriting}
+        </div>
 
-          {withStatusField && (
-            <div className="space-y-1.5">
-              <Label>Status</Label>
-              <Select
-                value={status}
-                onChange={(event) => setStatus(event.target.value as PublishStatus)}
-              >
-                {PUBLISH_STATUSES.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Select>
-              <p className="text-xs text-muted-foreground">
-                Only published records appear on the public website.
-              </p>
-            </div>
-          )}
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-base">Details</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-5">
+            {/* Paired side by side while the column is wide; stacked in the
+                narrow details column, where two date pickers do not fit. */}
+            {renderGroups(details, "sm:grid-cols-2 xl:grid-cols-1")}
 
-          {/* Full-width side-by-side on a phone so both are easy thumb targets. */}
-          <div className="grid grid-cols-2 gap-2 border-t pt-4 sm:flex sm:justify-end">
-            <Button variant="outline" className="w-full sm:w-auto" asChild>
-              <Link href={routeBase}>Cancel</Link>
-            </Button>
-            <Button
-              className="w-full sm:w-auto"
-              onClick={() => void submit()}
-              disabled={busy}
-            >
-              {busy ? "Saving…" : isEdit ? "Save changes" : `Create ${label.toLowerCase()}`}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            {withStatusField && (
+              <div className="space-y-1.5">
+                <Label>Status</Label>
+                <StatusSelect value={status} onChange={setStatus} isNew={!isEdit} />
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Only published records appear on the public website
+                  {fields.some((field) => field.name === "publishAt")
+                    ? " — and only once their publish time has passed."
+                    : "."}
+                </p>
+              </div>
+            )}
+
+            <FormFooterActions {...actionProps} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

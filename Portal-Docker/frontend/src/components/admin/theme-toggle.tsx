@@ -54,3 +54,28 @@ export function ThemeToggle({ className }: { className?: string }) {
     </div>
   );
 }
+
+/**
+ * One button for the collapsed sidebar: shows the current choice and moves
+ * to the next (Light → Dark → Auto) on each press.
+ */
+export function ThemeCycleButton({ className }: { className?: string }) {
+  const { preference, setPreference } = useTheme();
+  const index = OPTIONS.findIndex((option) => option.value === preference);
+  const current = OPTIONS[index] ?? OPTIONS[0];
+  const next = OPTIONS[(index + 1) % OPTIONS.length];
+  return (
+    <button
+      type="button"
+      onClick={() => setPreference(next.value)}
+      title={`Theme: ${current.label} — switch to ${next.label}`}
+      aria-label={`Theme: ${current.label}. Switch to ${next.label}`}
+      className={
+        "grid size-10 place-items-center rounded-2xl text-muted-foreground ring-1 ring-border/70 transition-colors hover:bg-muted hover:text-foreground " +
+        (className ?? "")
+      }
+    >
+      <current.icon className="size-4" />
+    </button>
+  );
+}

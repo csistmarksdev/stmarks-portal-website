@@ -41,6 +41,29 @@ export class DashboardService {
     @InjectModel(ContactMessageEntity.name) private readonly contact: Model<ContactMessageEntity>,
   ) {}
 
+  /** New submissions and changes to live items, per type, awaiting an approver. */
+  private async approvals(): Promise<DashboardStats["approvals"]> {
+    const models = {
+      events: this.events,
+      blog: this.blog,
+      gallery: this.gallery,
+      announcements: this.announcements,
+      downloads: this.downloads,
+      fellowships: this.fellowships,
+    } as const;
+    const entries = await Promise.all(
+      Object.entries(models).map(async ([type, model]) => {
+        const m = model as unknown as Model<{ status: string; revision?: unknown }>;
+        const [submissions, changes] = await Promise.all([
+          m.countDocuments({ status: "pending" }).exec(),
+          m.countDocuments({ revision: { $exists: true } }).exec(),
+        ]);
+        return [type, { submissions, changes }] as const;
+      }),
+    );
+    return Object.fromEntries(entries) as DashboardStats["approvals"];
+  }
+
   async stats(): Promise<DashboardStats> {
     const now = new Date();
     const [
@@ -97,6 +120,7 @@ export class DashboardService {
       media: { total: mediaTotal },
       users: { total: usersTotal },
       contact: { total: contactTotal, unread: contactUnread },
+      approvals: await this.approvals(),
     };
   }
 }

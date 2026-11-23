@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { MediaItem, MediaKind, Paginated } from "@portal/shared";
-import { FileIcon, PlayIcon, Trash2Icon, UploadIcon } from "lucide-react";
+import { FileIcon, ImageIcon, PlayIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -204,11 +204,12 @@ export default function MediaPage() {
             ))}
           </div>
           {data && data.items.length === 0 && (
-            <div className="mx-auto max-w-sm py-16 text-center">
+            <div className="rounded-3xl border border-dashed border-border-strong px-6 py-16 text-center">
+              <ImageIcon className="mx-auto mb-3 size-6 text-muted-foreground" />
               <p className="font-[family-name:var(--font-display)] text-base font-semibold">
                 {search || kind ? "Nothing matches" : "The library is empty"}
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
                 {search || kind
                   ? "Try a different name or file type."
                   : "Photos from the last festival would be a good start — drag several files onto the upload button at once."}

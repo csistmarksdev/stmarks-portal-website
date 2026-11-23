@@ -140,6 +140,16 @@ export function collectProductionConfigReport(
     );
   }
 
+  // F-068: a wildcard no longer opens writes/sign-in/admin in production.
+  if (config.corsOrigins.includes("*")) {
+    const explicit = config.corsOrigins.filter((origin) => origin !== "*");
+    warnings.push(
+      explicit.length > 0
+        ? `CORS_ORIGINS contains "*". Public reads stay open to every origin, but sign-in, admin and other write routes only accept: ${explicit.join(", ")}.`
+        : 'CORS_ORIGINS is "*". Public reads stay open, but sign-in, admin and other write routes now accept NO browser origin — the CMS and the website’s contact form will be refused. List their exact origins in CORS_ORIGINS.',
+    );
+  }
+
   const localOrigins = config.corsOrigins.filter((origin) =>
     LOCAL_ADDRESS.test(origin),
   );

@@ -31,6 +31,8 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  renameSync,
+  writeFileSync,
   statSync,
 } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -122,7 +124,9 @@ function restoreUploads() {
     const target = join(UPLOAD_DIR, rel);
     if (existsSync(target)) continue;
     mkdirSync(dirname(target), { recursive: true });
-    copyFileSync(join(SNAPSHOT_UPLOADS, rel), target);
+    const temporary = target + ".restore-part";
+    copyFileSync(join(SNAPSHOT_UPLOADS, rel), temporary);
+    renameSync(temporary, target);
     copied += 1;
   }
 
@@ -135,6 +139,11 @@ function restoreUploads() {
 async function main() {
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error("MONGODB_URI is not set");
+
+  if (process.env.PORTAL_RESTORE_ONCE === "1") {
+    await restoreFirstBoot(uri);
+    return;
+  }
 
   restoreUploads();
 
@@ -191,6 +200,62 @@ async function main() {
         ? `· Database already populated (${skipped} collection(s) left untouched)`
         : `✓ Restored ${restored} collection(s); ${skipped} already had data`,
     );
+  } finally {
+    await client.close();
+  }
+}
+
+async function restoreFirstBoot(uri) {
+  const state = process.env.STATE_DIR ?? "/data";
+  const pending = join(state, ".portal-import-pending");
+  const complete = join(state, ".portal-import-complete");
+  if (existsSync(complete)) return;
+
+  const client = await MongoClient.connect(uri);
+  try {
+    const db = client.db();
+    if (!existsSync(pending)) {
+      for (const { name } of await db.listCollections().toArray()) {
+        if (await db.collection(name).findOne({}, { projection: { _id: 1 } })) {
+          console.log("Existing database detected. Keeping its records and uploads.");
+          writeFileSync(complete, "existing installation\n");
+          return;
+        }
+      }
+      if (walk(UPLOAD_DIR).length) throw new Error("Found uploads without a database. Check the two volume mounts before importing.");
+    }
+
+    const manifest = JSON.parse(readFileSync(join(SNAPSHOT_DB, "_manifest.json"), "utf8"));
+    const files = walk(SNAPSHOT_UPLOADS);
+    const bytes = files.reduce((sum, file) => sum + statSync(join(SNAPSHOT_UPLOADS, file)).size, 0);
+    if (files.length !== manifest.uploads.files || bytes !== manifest.uploads.bytes) {
+      throw new Error("Backup upload count or size differs from its manifest.");
+    }
+    const collections = Object.entries(manifest.collections).map(([name, count]) => {
+      const docs = EJSON.parse(readFileSync(join(SNAPSHOT_DB, name + ".json"), "utf8"), { relaxed: false });
+      if (!Array.isArray(docs) || docs.length !== count || docs.some(doc => !doc._id)) {
+        throw new Error("Incomplete backup collection: " + name);
+      }
+      return [name, docs];
+    });
+    if (!manifest.collections.users || collections.reduce((n, [, docs]) => n + docs.length, 0) !== manifest.documents) {
+      throw new Error("Backup accounts or document counts differ from the manifest.");
+    }
+    const backupId = manifest.capturedAt;
+    if (existsSync(pending) && readFileSync(pending, "utf8") !== backupId) {
+      throw new Error("Resume the interrupted import with the original backup.");
+    }
+    writeFileSync(pending, backupId);
+    restoreUploads();
+    const base = mediaBase();
+    for (const [name, docs] of collections) {
+      if (!docs.length) continue;
+      await db.collection(name).bulkWrite(docs.map(doc => ({
+        replaceOne: { filter: { _id: doc._id }, replacement: resolveTokens(doc, base), upsert: true },
+      })));
+    }
+    renameSync(pending, complete);
+    console.log(`Imported ${manifest.documents} documents and ${files.length} uploads into persistent storage.`);
   } finally {
     await client.close();
   }

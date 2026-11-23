@@ -14,6 +14,8 @@ import { AuditModule } from "./modules/audit/audit.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { BackupModule } from "./modules/backup/backup.module";
 import { BlogModule } from "./modules/blog/blog.module";
+import { ChatModule } from "./modules/chat/chat.module";
+import { NotificationsModule } from "./modules/notifications/notifications.module";
 import { ChurchModule } from "./modules/church/church.module";
 import { ContactModule } from "./modules/contact/contact.module";
 import { DashboardModule } from "./modules/dashboard/dashboard.module";
@@ -24,6 +26,8 @@ import { FellowshipsModule } from "./modules/fellowships/fellowships.module";
 import { GalleryModule } from "./modules/gallery/gallery.module";
 import { MediaModule } from "./modules/media/media.module";
 import { RevalidateModule } from "./modules/revalidate/revalidate.module";
+import { RolesModule } from "./modules/roles/roles.module";
+import { SiteModule } from "./modules/site/site.module";
 import { UsersModule } from "./modules/users/users.module";
 
 @Module({
@@ -53,6 +57,7 @@ import { UsersModule } from "./modules/users/users.module";
     AuditModule,
     AuthModule,
     UsersModule,
+    RolesModule,
     MediaModule,
     EventsModule,
     BlogModule,
@@ -64,6 +69,9 @@ import { UsersModule } from "./modules/users/users.module";
     ContactModule,
     DashboardModule,
     BackupModule,
+    ChatModule,
+    NotificationsModule,
+    SiteModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

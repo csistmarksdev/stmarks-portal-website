@@ -223,6 +223,7 @@ forged administrator logins.
 | `SEED_ADMIN_NAME` | `Portal Administrator` | Display name |
 | `WEBSITE_REVALIDATE_URL` | — | `https://<website>/api/revalidate`. Without it, publishing in the CMS does not refresh the website for up to 5 minutes |
 | `WEBSITE_REVALIDATE_SECRET` | — | Shared secret. **Must be identical** to `REVALIDATE_SECRET` on the website |
+| `CORS_PUBLIC_READ_ANY_ORIGIN` | `false` | `true` answers public GETs with `Access-Control-Allow-Origin: *` (no credentials). Sign-in, admin and every write — including the contact form — still need an exact `CORS_ORIGINS` entry; a `*` there no longer covers them in production |
 | `CORS_ALLOW_PRIVATE_NETWORK` | `false` in production | Leave off. `true` admits any private-network origin with credentials |
 
 ### Optional

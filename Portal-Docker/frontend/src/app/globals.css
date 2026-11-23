@@ -187,33 +187,34 @@
  */
 [data-theme="dark"] {
   /*
-   * The ground sits at L 0.125 — effectively black, with the faintest warmth
-   * from the seal rather than a blue cast. Any lighter and it stops reading as
-   * black; any less saturated and the tint is gone entirely.
+   * The ground sits at L 0.185 — a deep warm charcoal rather than black.
+   * It was L 0.125, near-black, and cards, borders and inputs barely
+   * separated from it; each surface now sits a clear step above the one
+   * beneath, so shapes read at a glance (church request, 23 Nov 2026).
    */
-  --background: oklch(0.125 0.014 359);
+  --background: oklch(0.185 0.014 359);
   --foreground: oklch(0.95 0.004 359);
-  --card: oklch(0.175 0.017 359);
+  --card: oklch(0.245 0.018 359);
   --card-foreground: oklch(0.95 0.004 359);
-  --card-wash: oklch(0.152 0.016 359);
-  --muted: oklch(0.215 0.02 359);
-  --muted-foreground: oklch(0.72 0.012 359);
-  --border: oklch(0.27 0.023 359);
-  --border-strong: oklch(0.35 0.027 359);
-  --input: oklch(0.29 0.025 359);
+  --card-wash: oklch(0.225 0.017 359);
+  --muted: oklch(0.3 0.02 359);
+  --muted-foreground: oklch(0.77 0.012 359);
+  --border: oklch(0.36 0.023 359);
+  --border-strong: oklch(0.45 0.027 359);
+  --input: oklch(0.4 0.025 359);
   --primary: var(--color-brand-400);
-  --primary-foreground: oklch(0.125 0.014 359);
-  --secondary: oklch(0.26 0.045 359);
+  --primary-foreground: oklch(0.15 0.014 359);
+  --secondary: oklch(0.32 0.045 359);
   --secondary-foreground: var(--color-brand-200);
   --destructive: var(--color-crimson-400);
-  --destructive-foreground: oklch(0.125 0.014 359);
+  --destructive-foreground: oklch(0.15 0.014 359);
   --ring: var(--color-brand-400);
   --success: oklch(0.72 0.14 155);
-  --success-soft: oklch(0.3 0.06 155);
-  --hover-tint: oklch(0.225 0.03 359);
+  --success-soft: oklch(0.34 0.06 155);
+  --hover-tint: oklch(0.3 0.03 359);
   /* Hover *lightens* on a dark ground; darkening would read as disabled. */
   --primary-hover: var(--color-brand-300);
-  --secondary-hover: oklch(0.34 0.05 359);
+  --secondary-hover: oklch(0.39 0.05 359);
   --accent-fg: var(--color-accent-300);
 
   /*
@@ -364,9 +365,18 @@
   to { transform: translateY(0); }
 }
 
+/*
+ * No centring in here. The dialog is centred by Tailwind's
+ * `-translate-x-1/2 -translate-y-1/2`, which in v4 set the separate CSS
+ * `translate` property - and `translate` and `transform` add up. A keyframe
+ * that also moved the box by translate(-50%, -50%) put it a further half its
+ * size up and to the left for the length of the animation, then snapped it to
+ * the centre: the dialog appeared in the wrong place every time it opened.
+ * The animation now only fades, lifts and scales; the classes do the centring.
+ */
 @keyframes dialog-in {
-  from { opacity: 0; transform: translate(-50%, -46%) scale(0.97); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  from { opacity: 0; transform: translateY(1rem) scale(0.97); }
+  to { opacity: 1; transform: none; }
 }
 
 .animate-overlay[data-state="open"] {
@@ -433,6 +443,9 @@
 
   /** Small-caps label — section kickers, table headers, metadata. */
   .label {
+    /* Always the sans: on an <h2> it otherwise inherits the display serif,
+       so section kickers changed typeface depending on their tag. */
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.16em;

@@ -4,6 +4,46 @@ Copy-paste commands for the Linux VM. Run them in order.
 
 Image name: **`csistmarkscmsportal`**
 
+### Public release 1.7
+
+Build the production bundle, then use the public packaging command on the Linux
+VM. It stages the application in a fresh Docker build context, leaving out the
+database snapshot, uploaded media and demo seed data before layers are created.
+
+```bash
+node scripts/build-production-bundle.mjs
+bash scripts/build-public-image.sh stmarksdev/csistmarkscmsportal:1.7
+docker tag stmarksdev/csistmarkscmsportal:1.7 stmarksdev/csistmarkscmsportal:latest
+docker push stmarksdev/csistmarkscmsportal:1.7
+docker push stmarksdev/csistmarkscmsportal:latest
+```
+
+A fresh deployment with the 1.5 backup uses the original administrator, audit
+history, contact inbox and media. Put the private backup directory containing
+`db/` and `uploads/` beside `docker-compose.deploy.yml` as `snapshot/`, or
+set `PORTAL_BACKUP_DIR` to its absolute path. Give container UID 10001 read
+access to the files and traversal access to the directories. Then run:
+
+```bash
+docker compose -f docker-compose.deploy.yml pull portal
+docker compose -f docker-compose.deploy.yml up -d --wait portal
+```
+
+The backup mounts read-only. On an empty installation, the import completes
+before the API starts. A completion marker in the data volume prevents later
+boots from reimporting deleted content. Keep the database and upload volumes
+together. An existing populated database takes precedence even on its first
+1.7 boot and can start with an empty backup directory. Empty volumes require
+the complete backup.
+Running the image directly without a backup creates a fresh administrator.
+For an upgrade
+from 1.5, stop the old container and start 1.7 with the same mounts at `/data`
+and `/app/backend/uploads`, keeping any custom database URI, upload path and
+secrets. With Compose, keep the same project name and volumes. The database
+and uploads belong to that installation and persist across image changes.
+
+### Private snapshot builds
+
 > **Private registry only.** The image contains the church's real database —
 > including the administrator's password hash, 425 audit-log entries and a
 > contact message from a real person. Treat it as a database backup.

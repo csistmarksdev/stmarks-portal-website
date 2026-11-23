@@ -196,6 +196,12 @@ export const DOWNLOAD_CATEGORIES: readonly DownloadCategory[] = [
   "document",
 ] as const;
 
+export const DOWNLOAD_CATEGORY_LABELS: Record<DownloadCategory, string> = {
+  bulletin: "Bulletin",
+  form: "Form",
+  document: "Document",
+};
+
 export interface DownloadFile extends BaseEntity {
   title: LocalizedText;
   description?: LocalizedText;

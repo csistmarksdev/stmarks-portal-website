@@ -46,6 +46,24 @@ export class CreateAnnouncementDto {
   @IsOptional()
   @IsIn(PUBLISH_STATUSES as readonly string[])
   status?: PublishStatus;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: "2026-12-01T00:00:00.000Z",
+    description: "Not public before this instant. null clears it.",
+  })
+  @IsOptional()
+  @IsISO8601()
+  publishAt?: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    example: "2026-12-31T18:30:00.000Z",
+    description: "Not public from this instant on. null clears it.",
+  })
+  @IsOptional()
+  @IsISO8601()
+  expiresAt?: string | null;
 }
 
 export class UpdateAnnouncementDto extends PartialType(CreateAnnouncementDto) {

@@ -31,7 +31,7 @@ const PORTAL = join(root, "shared", "src", "content.ts");
  * websites drifting from each other, since both are compared to the same
  * Portal source.
  */
-const WEBSITE_DIRS = ["WebsiteRT", "Website"]
+const WEBSITE_DIRS = ["WebsiteRT2", "WebsiteRT", "Website"]
   .map((name) => ({
     name,
     path: join(root, "..", name, "src", "types", "content.ts"),
@@ -107,6 +107,21 @@ for (const site of WEBSITE_DIRS) {
       problems.push(
         `${name} differs\n    ${site.name}: ${a}\n    Portal:  ${b}`,
       );
+    }
+  }
+}
+
+/*
+ * Admin-only workflow fields (F-049). The API strips them from public
+ * responses; declaring one on a public shape would mean the contract had
+ * started promising something the website must never rely on.
+ */
+const ADMIN_ONLY_FIELDS = ["status", "publishAt", "expiresAt"];
+for (const name of SHARED_SHAPES) {
+  const list = (fields(portal, name) ?? "").split(", ");
+  for (const field of ADMIN_ONLY_FIELDS) {
+    if (list.includes(field)) {
+      problems.push(`${name} declares admin-only field "${field}" — keep it in shared/src/admin.ts`);
     }
   }
 }

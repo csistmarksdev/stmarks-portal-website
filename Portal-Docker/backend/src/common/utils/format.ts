@@ -20,6 +20,7 @@ export function readingMinutes(body: LocalizedText[]): number {
     .map((paragraph) => paragraph.en)
     .join(" ")
     .split(/\s+/)
-    .filter(Boolean).length;
+    // `#` / `##` open a heading paragraph; they are markup, not words.
+    .filter((word) => word && !/^#{1,2}$/.test(word)).length;
   return Math.max(1, Math.round(words / 200));
 }

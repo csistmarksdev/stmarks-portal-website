@@ -81,9 +81,37 @@ export function renderInline(text: string): ReactNode {
   return nodes.length === 1 ? nodes[0] : nodes;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Block kinds                                                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A paragraph may open with a heading marker, Markdown-style:
+ *
+ *     # Title          ## Subtitle
+ *
+ * It is still one entry in `body`, so headings pair across languages by index
+ * like any other paragraph and the stored shape is unchanged.
+ */
+export type BlockKind = "title" | "subtitle" | "paragraph";
+
+export const TITLE_PREFIX = "# ";
+export const SUBTITLE_PREFIX = "## ";
+
+export function parseBlock(text: string): { kind: BlockKind; text: string } {
+  if (text.startsWith(SUBTITLE_PREFIX)) {
+    return { kind: "subtitle", text: text.slice(SUBTITLE_PREFIX.length).trim() };
+  }
+  if (text.startsWith(TITLE_PREFIX)) {
+    return { kind: "title", text: text.slice(TITLE_PREFIX.length).trim() };
+  }
+  return { kind: "paragraph", text };
+}
+
 /** Strips markers — for word counts and other plain-text uses. */
 export function stripMarkers(text: string): string {
   return text
+    .replace(/^#{1,2} /gm, "")
     .replace(/\*\*([\s\S]+?)\*\*(?!\*)/g, "$1")
     .replace(/__([\s\S]+?)__(?!_)/g, "$1")
     .replace(/\*([\s\S]+?)\*/g, "$1");
@@ -121,6 +149,22 @@ function inlineToHtml(text: string): string {
     .replace(/\*([\s\S]+?)\*/g, "<em>$1</em>");
 }
 
+const BLOCK_TAG: Record<BlockKind, string> = {
+  title: "h2",
+  subtitle: "h3",
+  paragraph: "p",
+};
+
+/** Heading tags pasted or typed in from elsewhere fold onto the two levels. */
+const PREFIX_FOR_TAG: Record<string, string> = {
+  H1: TITLE_PREFIX,
+  H2: TITLE_PREFIX,
+  H3: SUBTITLE_PREFIX,
+  H4: SUBTITLE_PREFIX,
+  H5: SUBTITLE_PREFIX,
+  H6: SUBTITLE_PREFIX,
+};
+
 /** Blank-line-separated marked text → the paragraphs the editor renders. */
 export function markupToHtml(text: string): string {
   const paragraphs = text
@@ -130,7 +174,13 @@ export function markupToHtml(text: string): string {
 
   // An empty editor still needs one block, or the caret has nowhere to land.
   if (paragraphs.length === 0) return "<p><br></p>";
-  return paragraphs.map((paragraph) => `<p>${inlineToHtml(paragraph)}</p>`).join("");
+  return paragraphs
+    .map((paragraph) => {
+      const block = parseBlock(paragraph);
+      const tag = BLOCK_TAG[block.kind];
+      return `<${tag}>${inlineToHtml(block.text)}</${tag}>`;
+    })
+    .join("");
 }
 
 const MARKER_FOR_TAG: Record<string, string> = {
@@ -164,10 +214,13 @@ export function htmlToMarkup(root: HTMLElement): string {
   for (const child of Array.from(root.childNodes)) {
     const isBlock =
       child.nodeType === Node.ELEMENT_NODE &&
-      ["P", "DIV"].includes((child as HTMLElement).tagName);
+      ["P", "DIV", ...Object.keys(PREFIX_FOR_TAG)].includes((child as HTMLElement).tagName);
 
     if (isBlock) {
-      blocks.push(serializeInline(child));
+      const prefix = PREFIX_FOR_TAG[(child as HTMLElement).tagName] ?? "";
+      const text = serializeInline(child).replace(NON_BREAKING_SPACE, " ").trim();
+      // A heading left empty is dropped, not stored as a bare "# ".
+      blocks.push(text ? prefix + text : "");
     } else {
       // Loose text or inline nodes at the top level belong to one paragraph.
       const text = serializeInline(child);

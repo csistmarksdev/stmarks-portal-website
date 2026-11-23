@@ -14,6 +14,14 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { randomUUID } from "node:crypto";
+import { mkdirSync } from "node:fs";
+import { rm } from "node:fs/promises";
+import { resolve } from "node:path";
+import { diskStorage } from "multer";
+import type { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
+import type { Request } from "express";
+import { catchError } from "rxjs";
 import {
   ApiBearerAuth,
   ApiBody,
@@ -41,6 +49,46 @@ import { MediaService } from "./media.service";
  */
 const HARD_UPLOAD_CEILING =
   Number(process.env.MAX_VIDEO_UPLOAD_MB ?? 200) * 1024 * 1024;
+
+/**
+ * Uploads stream to disk, not to memory.
+ *
+ * Multer's default keeps the whole file in a Buffer until the handler runs, so
+ * a 200 MB video meant 200 MB+ of resident memory in the API for the length of
+ * the request — on a 1 GB host, beside MongoDB and the CMS, that is the request
+ * that gets the container OOM-killed. Written to `<uploads>/.incoming/` instead,
+ * the API holds a few kilobytes per upload whatever its size, and the service
+ * then *renames* the file into place: same volume, so no second copy is made.
+ *
+ * Resolved per request rather than at import, because decorators run before
+ * the config module has loaded `.env` into the environment. A dot-directory, so
+ * the static `/uploads` route never serves a half-written file (dotfiles are
+ * ignored) and backups never archive one.
+ */
+const incomingStorage = diskStorage({
+  destination: (_request, _file, callback) => {
+    const dir = resolve(process.cwd(), process.env.UPLOAD_DIR ?? "uploads", ".incoming");
+    try {
+      mkdirSync(dir, { recursive: true });
+      callback(null, dir);
+    } catch (error) {
+      callback(error as Error, dir);
+    }
+  },
+  // The client's filename never names anything on disk.
+  filename: (_request, _file, callback) => callback(null, `${randomUUID()}.part`),
+});
+
+// Validation pipes can reject the multipart body before MediaService runs.
+class CleanRejectedUpload implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler) {
+    const request = context.switchToHttp().getRequest<Request>();
+    return next.handle().pipe(catchError(async (error: unknown) => {
+      if (request.file?.path) await rm(request.file.path, { force: true });
+      throw error;
+    }));
+  }
+}
 
 export class UploadMediaDto {
   @ApiProperty({ type: "string", format: "binary" })
@@ -81,7 +129,13 @@ export class MediaController {
 
   @Post()
   @RequirePermissions("media.write")
-  @UseInterceptors(FileInterceptor("file"))
+  @UseInterceptors(
+    CleanRejectedUpload,
+    FileInterceptor("file", {
+      storage: incomingStorage,
+      limits: { fileSize: HARD_UPLOAD_CEILING, files: 1 },
+    }),
+  )
   @ApiConsumes("multipart/form-data")
   @ApiBody({ type: UploadMediaDto })
   @ApiOperation({

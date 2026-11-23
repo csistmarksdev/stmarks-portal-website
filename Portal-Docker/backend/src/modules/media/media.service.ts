@@ -9,7 +9,7 @@ import { ConfigService } from "@nestjs/config";
 import { InjectModel } from "@nestjs/mongoose";
 import type { MediaItem, MediaKind, Paginated } from "@portal/shared";
 import { randomUUID } from "node:crypto";
-import { mkdir, unlink, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, rename, unlink, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
@@ -165,7 +165,42 @@ export class MediaService {
     alt: { en?: string; ta?: string } | undefined,
     actor: AuthenticatedUser,
   ): Promise<MediaItem> {
+    try {
+      return await this.store(file, alt, actor);
+    } finally {
+      // A streamed upload's temporary file: moved into place on success, and
+      // removed here on every path that refused it.
+      if (file.path) await unlink(file.path).catch(() => undefined);
+    }
+  }
+
+  /**
+   * Puts the upload at `target`: a rename when multer streamed it to disk (the
+   * same volume, so nothing is copied and nothing is held in memory), a write
+   * when it arrived as a buffer (a fetched video poster).
+   */
+  private async place(file: Express.Multer.File, target: string): Promise<void> {
+    if (!file.path) {
+      await writeFile(target, file.buffer);
+      return;
+    }
+    try {
+      await rename(file.path, target);
+    } catch (error) {
+      // EXDEV: `UPLOAD_DIR` and the incoming directory on different mounts.
+      if ((error as NodeJS.ErrnoException).code !== "EXDEV") throw error;
+      await copyFile(file.path, target);
+    }
+  }
+
+  private async store(
+    file: Express.Multer.File,
+    alt: { en?: string; ta?: string } | undefined,
+    actor: AuthenticatedUser,
+  ): Promise<MediaItem> {
     const kind = this.kindOf(file.mimetype);
+    /** sharp reads a path or a Buffer alike; a path keeps big images off the heap. */
+    const source: string | Buffer = file.path ?? file.buffer;
 
     const limit = this.limitFor(kind);
     if (file.size > limit) {
@@ -187,7 +222,7 @@ export class MediaService {
      * image, and the name it is stored under is not the caller's to choose.
      */
     if (kind === "image") {
-      const probe = await sharp(file.buffer)
+      const probe = await sharp(source)
         .metadata()
         .catch(() => null);
       if (!probe?.width || !probe.height) {
@@ -209,7 +244,7 @@ export class MediaService {
     const dir = kind === "image" ? "images" : kind === "video" ? "videos" : "files";
     const path = `${dir}/${id}${ext}`;
     await mkdir(join(this.uploadRoot, dir), { recursive: true });
-    await writeFile(join(this.uploadRoot, path), file.buffer);
+    const stored = join(this.uploadRoot, path);
 
     let width: number | undefined;
     let height: number | undefined;
@@ -220,19 +255,19 @@ export class MediaService {
       // Already known to decode (checked above); this pass derives the
       // thumbnail and blur preview, and a failure here is cosmetic.
       try {
-        const image = sharp(file.buffer, { failOn: "none" });
+        const image = sharp(source, { failOn: "none" });
         const metadata = await image.metadata();
         width = metadata.width;
         height = metadata.height;
 
         await mkdir(join(this.uploadRoot, "thumbs"), { recursive: true });
         thumbnailPath = `thumbs/${id}.webp`;
-        await sharp(file.buffer)
+        await sharp(source)
           .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
           .webp({ quality: 78 })
           .toFile(join(this.uploadRoot, thumbnailPath));
 
-        const blurBuffer = await sharp(file.buffer)
+        const blurBuffer = await sharp(source)
           .resize({ width: BLUR_WIDTH })
           .jpeg({ quality: 45 })
           .toBuffer();
@@ -243,6 +278,10 @@ export class MediaService {
         );
       }
     }
+
+    // After the derivatives, which read from the incoming file: moving it
+    // first would leave `source` pointing at nothing.
+    await this.place(file, stored);
 
     const doc = await this.model.create({
       kind,

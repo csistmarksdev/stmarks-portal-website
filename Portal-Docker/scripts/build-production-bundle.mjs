@@ -405,7 +405,7 @@ if (!sharpVersion) {
 
     // Drop binaries for the build machine, keep architecture-neutral packages.
     for (const entry of readdirSync(img)) {
-      if (/win32|darwin|linux|linuxmusl/.test(entry) && !entry.includes(TARGET_OS)) {
+      if (/win32|darwin|linux/.test(entry) && !entry.endsWith(`-${TARGET_OS}-${TARGET_CPU}`)) {
         rmSync(join(img, entry), { recursive: true, force: true });
       }
     }

@@ -1,16 +1,11 @@
 # CSI St. Mark's Portal — deploy the published image.
 #
-#   docker login -u stmarksdev          # the image is private
+#   Place the private 1.5 backup (db/ and uploads/) in ./snapshot/.
 #   docker compose -f docker-compose.deploy.yml up -d
 #   open http://localhost:8080
 #
-# This file pulls a finished image rather than building one, so it is the only
-# thing a target machine needs — no source, no Node, no MongoDB. Copy it to a
-# server, paste it into Portainer, or point ZimaOS at it.
-#
-# Everything below has a working default. The image carries its own database and
-# a snapshot of the church's content, media and accounts, so an empty machine
-# comes up as a working portal with nothing configured.
+# The public image imports the separately supplied backup on first boot.
+# The database and uploads persist in the two named volumes.
 #
 # Related files:
 #   docker-compose.yml        build from source instead of pulling
@@ -23,7 +18,7 @@ services:
     # Pinned, deliberately. `latest` moves whenever something is pushed, so a
     # host that restarts at the wrong moment silently changes version. Bump this
     # when you intend to upgrade — that is what makes rolling back one edit.
-    image: stmarksdev/csistmarkscmsportal:1.5
+    image: stmarksdev/csistmarkscmsportal:1.7
     container_name: portal
     restart: unless-stopped
 
@@ -36,8 +31,17 @@ services:
       # Media uploaded through the CMS. The bundled media is installed here on
       # first boot and is then ordinary files the church can replace.
       - portal-uploads:/app/backend/uploads
+      - type: bind
+        source: ${PORTAL_BACKUP_DIR:-./snapshot}
+        target: /app/snapshot
+        read_only: true
+        bind:
+          # Existing installations can boot with an empty backup directory.
+          # A fresh import requires db/_manifest.json and the matching uploads.
+          create_host_path: true
 
     environment:
+      PORTAL_RESTORE_ONCE: "1"
       # ---- everything here is optional --------------------------------------
       #
       # The canonical public origin. Leave unset and the container detects it
@@ -125,7 +129,7 @@ services:
   #   docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs
   #   docker exec portal node /app/check-website-api.mjs http://127.0.0.1:8080
   verify:
-    image: stmarksdev/csistmarkscmsportal:1.5
+    image: stmarksdev/csistmarkscmsportal:1.7
     profiles: ["verify"]
     depends_on:
       portal:

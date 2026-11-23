@@ -1,15 +1,15 @@
 "use client";
 
 import type {
+  ContentRevision,
   DownloadCategory,
   DownloadFile,
   LocalizedText,
   PublishStatus,
   WithStatus,
 } from "@portal/shared";
-import { DOWNLOAD_CATEGORIES } from "@portal/shared";
-import { ArrowLeftIcon, FileIcon } from "lucide-react";
-import Link from "next/link";
+import { DOWNLOAD_CATEGORIES, DOWNLOAD_CATEGORY_LABELS } from "@portal/shared";
+import { FileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -17,15 +17,22 @@ import { toast } from "sonner";
 import { LocalizedField } from "@/components/admin/localized-field";
 import { MediaLibraryDialog } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
+import {
+  ApprovalNotice,
+  FormActions,
+  FormFooterActions,
+  saveLabelFor,
+} from "@/components/admin/form-actions";
+import { StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
 import { fellowshipOptions } from "@/config/fields";
-import { toDateInput } from "@/lib/utils";
+import { toDateInput, fileNameOf } from "@/lib/utils";
 
 interface FileRef {
   fileUrl: string;
@@ -40,7 +47,10 @@ export function DownloadForm({ id }: { id?: string }) {
     "/admin/downloads",
     id,
   );
-  const { create, update } = useResourceMutations("/admin/downloads", "Download");
+  // Approval rule: an editor cannot change a published or archived record.
+  const { locked, holds, canPublish } = useApprovalLock(data?.status, isEdit);
+  const revision = (data as { revision?: ContentRevision } | undefined)?.revision ?? null;
+  const { create, update, rejectRevision } = useResourceMutations("/admin/downloads", "Download");
 
   const [title, setTitle] = useState<LocalizedText>({ en: "", ta: "" });
   const [description, setDescription] = useState<LocalizedText>({ en: "", ta: "" });
@@ -53,18 +63,24 @@ export function DownloadForm({ id }: { id?: string }) {
 
   useEffect(() => {
     if (!data) return;
-    setTitle(data.title);
-    setDescription(data.description ?? { en: "", ta: "" });
-    setCategory(data.category);
-    setPublishedAt(toDateInput(data.publishedAt));
-    setFellowshipSlug(data.fellowshipSlug ?? "");
-    setStatus(data.status);
-    setFile({ fileUrl: data.fileUrl, format: data.format, size: data.size });
+    // A change waiting for approval is what the form edits.
+    const record = {
+      ...data,
+      ...((data as { revision?: ContentRevision }).revision?.changes ?? {}),
+    } as typeof data;
+    setTitle(record.title);
+    setDescription(record.description ?? { en: "", ta: "" });
+    setCategory(record.category);
+    setPublishedAt(toDateInput(record.publishedAt));
+    setFellowshipSlug(record.fellowshipSlug ?? "");
+    setStatus(record.status);
+    setFile({ fileUrl: record.fileUrl, format: record.format, size: record.size });
   }, [data]);
 
   const busy = create.isPending || update.isPending;
 
-  const submit = async () => {
+  /** Saves; `asStatus` overrides the chosen status (Approve publishes). */
+  const submit = async (asStatus?: PublishStatus) => {
     if (!title.en.trim()) return toast.error("Title (English) is required");
     if (!file) return toast.error("Pick a file from the media library");
     if (!publishedAt) return toast.error("Published date is required");
@@ -76,11 +92,12 @@ export function DownloadForm({ id }: { id?: string }) {
       ...file,
       publishedAt: new Date(publishedAt).toISOString(),
       fellowshipSlug: fellowshipSlug || undefined,
-      status,
+      status: asStatus ?? status,
     };
 
     if (isEdit && id) {
       await update.mutateAsync({ id, body: payload });
+      if (asStatus) setStatus(asStatus);
     } else {
       await create.mutateAsync(payload);
       router.push("/downloads");
@@ -91,136 +108,162 @@ export function DownloadForm({ id }: { id?: string }) {
     return <Skeleton className="h-96 w-full" />;
   }
 
+
+  const actionProps = {
+    backHref: "/downloads",
+    // Changes waiting on a live item are reviewed like a new submission.
+    savedStatus: revision ? ("pending" as const) : (data?.status as PublishStatus | undefined),
+    onSave: () => void submit(),
+    onApprove: () => void submit("published"),
+    // Rejecting a change discards it; rejecting a new item returns it to draft.
+    onReject: () =>
+      revision && id ? rejectRevision.mutateAsync(id).catch(() => undefined) : submit("draft"),
+    saveLabel: saveLabelFor({
+      isEdit,
+      holds,
+      hasRevision: !!revision,
+      canPublish,
+      createLabel: "Create download",
+    }),
+    busy: busy || rejectRevision.isPending,
+    disabled: locked,
+  };
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="max-w-6xl">
       <PageHeader
+        eyebrow={isEdit ? "Editing" : "Creating"}
         title={isEdit ? "Edit download" : "New download"}
-        actions={
-          <Button variant="outline" className="hidden lg:inline-flex" asChild>
-            <Link href="/downloads">
-              <ArrowLeftIcon /> Back
-            </Link>
-          </Button>
-        }
+        actions={<FormActions {...actionProps} />}
       />
-      <Card>
-        <CardContent className="space-y-5 pt-5">
-          <LocalizedField label="Title" value={title} onChange={setTitle} required />
-          <LocalizedField
-            label="Description"
-            value={description}
-            onChange={setDescription}
-            multiline
+      {isEdit && data ? (
+        <div className="mb-4 empty:hidden">
+          <ApprovalNotice
+            status={data.status}
+            revision={revision}
+            isEdit={isEdit}
           />
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label>
-                Category <span className="text-destructive">*</span>
-              </Label>
-              <Select
-                value={category}
-                onChange={(event) => setCategory(event.target.value as DownloadCategory)}
-              >
-                {DOWNLOAD_CATEGORIES.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label>
-                Published on <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                type="date"
-                value={publishedAt}
-                onChange={(event) => setPublishedAt(event.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label>
-              File <span className="text-destructive">*</span>
-            </Label>
-            {file ? (
-              <div className="flex items-center gap-3 rounded-md border p-3">
-                <FileIcon className="size-6 shrink-0 text-muted-foreground" />
-                <div className="min-w-0 flex-1 text-sm">
-                  <p className="truncate">{file.fileUrl}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {file.format} · {file.size}
-                  </p>
-                </div>
-                <Button type="button" variant="outline" size="sm" onClick={() => setPickerOpen(true)}>
-                  Change
-                </Button>
-              </div>
-            ) : (
-              <Button type="button" variant="outline" onClick={() => setPickerOpen(true)}>
-                Choose file…
-              </Button>
-            )}
-            <MediaLibraryDialog
-              open={pickerOpen}
-              onOpenChange={setPickerOpen}
-              kind="pdf"
-              onSelect={(items) => {
-                const item = items[0];
-                if (item) {
-                  setFile({ fileUrl: item.url, format: item.format, size: item.size });
-                }
-              }}
+        </div>
+      ) : null}
+      {/* Writing in the main column, everything else in a details column
+          beside it — the same layout as the other content forms. */}
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <Card>
+          <CardContent className="space-y-6">
+            <LocalizedField label="Title" value={title} onChange={setTitle} required />
+            <LocalizedField
+              label="Description"
+              value={description}
+              onChange={setDescription}
+              multiline
             />
-            <p className="text-xs text-muted-foreground">
-              Format and size are computed automatically at upload time.
-            </p>
-          </div>
+          </CardContent>
+        </Card>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-base">Details</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-5">
             <div className="space-y-1.5">
-              <Label>Fellowship</Label>
-              <Select
-                value={fellowshipSlug}
-                onChange={(event) => setFellowshipSlug(event.target.value)}
-              >
-                <option value="">—</option>
-                {fellowshipOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Select>
+              <Label>
+                File <span className="text-destructive">*</span>
+              </Label>
+              {file ? (
+                <div className="flex items-center gap-3 rounded-2xl border border-border/70 p-4">
+                  <FileIcon className="size-6 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1 text-sm">
+                    <p className="truncate font-medium" title={file.fileUrl}>
+                      {fileNameOf(file.fileUrl)}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {file.format} · {file.size}
+                    </p>
+                  </div>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setPickerOpen(true)}>
+                    Change
+                  </Button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setPickerOpen(true)}
+                  className="flex w-full items-center gap-3 rounded-2xl border border-dashed border-border px-4 py-4 text-left transition-colors hover:border-ring hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-muted text-muted-foreground">
+                    <FileIcon className="size-5" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-medium text-foreground">Choose a file</span>
+                    <span className="block text-xs text-muted-foreground">
+                      A PDF from the media library, or upload a new one
+                    </span>
+                  </span>
+                </button>
+              )}
+              <MediaLibraryDialog
+                open={pickerOpen}
+                onOpenChange={setPickerOpen}
+                kind="pdf"
+                onSelect={(items) => {
+                  const item = items[0];
+                  if (item) {
+                    setFile({ fileUrl: item.url, format: item.format, size: item.size });
+                  }
+                }}
+              />
+              <p className="text-xs text-muted-foreground">
+                Format and size are computed automatically at upload time.
+              </p>
             </div>
-            <div className="space-y-1.5">
-              <Label>Status</Label>
-              <Select
-                value={status}
-                onChange={(event) => setStatus(event.target.value as PublishStatus)}
-              >
-                <option value="draft">draft</option>
-                <option value="published">published</option>
-                <option value="archived">archived</option>
-              </Select>
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-1">
+              <div className="space-y-1.5">
+                <Label>
+                  Category <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  value={category}
+                  onChange={(event) => setCategory(event.target.value as DownloadCategory)}
+                >
+                  {DOWNLOAD_CATEGORIES.map((value) => (
+                    <option key={value} value={value}>
+                      {DOWNLOAD_CATEGORY_LABELS[value]}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label>
+                  Published on <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  type="date"
+                  value={publishedAt}
+                  onChange={(event) => setPublishedAt(event.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Fellowship</Label>
+                <Select
+                  value={fellowshipSlug}
+                  onChange={(event) => setFellowshipSlug(event.target.value)}
+                >
+                  <option value="">—</option>
+                  {fellowshipOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label>Status</Label>
+                <StatusSelect value={status} onChange={setStatus} isNew={!isEdit} />
+              </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 border-t pt-4 sm:flex sm:justify-end">
-            <Button variant="outline" className="w-full sm:w-auto" asChild>
-              <Link href="/downloads">Cancel</Link>
-            </Button>
-            <Button
-              className="w-full sm:w-auto"
-              onClick={() => void submit()}
-              disabled={busy}
-            >
-              {busy ? "Saving…" : isEdit ? "Save changes" : "Create download"}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+              <FormFooterActions {...actionProps} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

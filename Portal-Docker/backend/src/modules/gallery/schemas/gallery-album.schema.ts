@@ -15,6 +15,11 @@ import {
   LocalizedTextOptionalSchema,
   LocalizedTextSchema,
 } from "../../../common/schemas/sub-schemas";
+import {
+  REVISION_PROP,
+  SUBMITTER_PROP,
+  type StoredRevision,
+} from "../../../common/schemas/revision.schema";
 
 export type GalleryAlbumDocument = HydratedDocument<GalleryAlbumEntity>;
 
@@ -46,6 +51,14 @@ export class GalleryAlbumEntity {
   @Prop({ required: true, enum: PUBLISH_STATUSES, default: "draft", index: true })
   status: PublishStatus;
 
+  /** A change to this live record waiting for approval. */
+  @Prop(REVISION_PROP)
+  revision?: StoredRevision;
+
+  /** Who last sent this for approval, to be told the outcome. */
+  @Prop(SUBMITTER_PROP)
+  submittedBy?: { userId: string; name: string };
+
   @Prop({ type: LocalizedTextSchema, required: true })
   title: LocalizedText;
 
@@ -70,6 +83,10 @@ export class GalleryAlbumEntity {
    */
   @Prop({ default: false, index: true })
   shared?: boolean;
+
+  /** F-049: not public before this instant. Unset = no schedule. */
+  @Prop({ type: Date, index: true })
+  publishAt?: Date;
 }
 
 export const GalleryAlbumSchema =

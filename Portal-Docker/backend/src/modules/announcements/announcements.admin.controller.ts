@@ -103,4 +103,12 @@ export class AnnouncementsAdminController {
   async remove(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
     await this.announcements.remove(id, actor);
   }
+
+  @Post(":id/revision/reject")
+  @RequirePermissions("content.publish")
+  @HttpCode(200)
+  @ApiOperation({ summary: "Discard the change waiting for approval on a live announcement" })
+  rejectRevision(@Param("id") id: string, @CurrentUser() actor: AuthenticatedUser) {
+    return this.announcements.rejectRevision(id, actor);
+  }
 }

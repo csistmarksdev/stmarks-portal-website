@@ -9,6 +9,7 @@ import {
   MoreHorizontalIcon,
   PencilIcon,
   PlusIcon,
+  SendIcon,
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -19,6 +20,7 @@ import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -44,6 +46,9 @@ export interface ColumnDef<T> {
 interface WithIdStatus {
   id: string;
   status: PublishStatus;
+  /** F-049 schedule, on the content types that have one. */
+  publishAt?: string;
+  expiresAt?: string;
 }
 
 /**
@@ -110,7 +115,7 @@ export function ResourceListPage<T extends WithIdStatus>({
       search: debouncedSearch || undefined,
       status: status || undefined,
     });
-  const { remove, setStatus: mutateStatus } = useResourceMutations(apiPath, label);
+  const { remove, update, setStatus: mutateStatus } = useResourceMutations(apiPath, label);
 
   const filtering = Boolean(search || status);
   const [primary, ...meta] = columns;
@@ -165,7 +170,7 @@ export function ResourceListPage<T extends WithIdStatus>({
           <option value="">All statuses</option>
           {PUBLISH_STATUSES.map((value) => (
             <option key={value} value={value}>
-              {value}
+              {value === "pending" ? "awaiting approval" : value}
             </option>
           ))}
         </Select>
@@ -261,7 +266,19 @@ export function ResourceListPage<T extends WithIdStatus>({
                         primary.render(item)
                       )}
                     </div>
-                    <StatusBadge status={item.status} />
+                    <div className="flex shrink-0 flex-col items-end gap-1">
+                      <StatusBadge
+                        status={item.status}
+                        publishAt={item.publishAt}
+                        expiresAt={item.expiresAt}
+                      />
+                      {/* A live item with an editor's changes waiting for approval. */}
+                      {(item as { revision?: unknown }).revision ? (
+                        <Badge variant="warning" title="Changes waiting for approval">
+                          changes waiting
+                        </Badge>
+                      ) : null}
+                    </div>
                   </div>
 
                   {meta.length > 0 && (
@@ -294,6 +311,25 @@ export function ResourceListPage<T extends WithIdStatus>({
                     <span />
                   )}
                   <div className="flex items-center gap-0.5">
+                    {/*
+                      Approval rule: an editor submits a draft; an admin or
+                      super admin approves it. Approving happens in the editor
+                      (Approve & publish / Reject in its header), after the
+                      submission has been read — not from the card.
+                    */}
+                    {!can("content.publish") &&
+                      can("content.write") &&
+                      item.status === "draft" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() =>
+                            update.mutate({ id: item.id, body: { status: "pending" } })
+                          }
+                        >
+                          <SendIcon /> Submit for approval
+                        </Button>
+                      )}
                     {extraRowActions?.(item)}
                     {can("content.publish") && (
                       <DropdownMenu>
@@ -303,7 +339,7 @@ export function ResourceListPage<T extends WithIdStatus>({
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {item.status !== "published" && (
+                          {item.status !== "published" && item.status !== "pending" && (
                             <DropdownMenuItem
                               onSelect={() =>
                                 mutateStatus.mutate({ id: item.id, status: "published" })

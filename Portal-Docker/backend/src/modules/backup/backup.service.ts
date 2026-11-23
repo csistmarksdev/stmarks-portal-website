@@ -208,6 +208,9 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     const visit = async (current: string): Promise<void> => {
       const entries = await readdir(current, { withFileTypes: true }).catch(() => []);
       for (const entry of entries) {
+        // Dot-entries are working files (`.incoming/` holds uploads still in
+        // flight), never media; an archive must not carry half a video.
+        if (entry.name.startsWith(".")) continue;
         const full = join(current, entry.name);
         if (entry.isDirectory()) await visit(full);
         else if (entry.isFile()) found.push(relative(dir, full).split("\\").join("/"));

@@ -16,11 +16,13 @@ import {
 import { ThemeToggle } from "@/components/admin/theme-toggle";
 import {
   MOBILE_TABS,
-  NAV_SECTIONS,
   currentNavLabel,
   isActive,
+  navSectionsFor,
 } from "@/config/navigation";
 import { useAuth } from "@/lib/auth";
+import { useChatUnread } from "@/lib/chat";
+import { useNotificationsUnread } from "@/lib/notifications";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,6 +36,13 @@ export function MobileNav() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const chatUnread = useChatUnread();
+  const notificationsUnread = useNotificationsUnread();
+  const badges: Record<string, number> = {
+    "/messages": chatUnread,
+    "/notifications": notificationsUnread,
+  };
+  const unread = chatUnread + notificationsUnread;
 
   // Navigating from inside the sheet should close it.
   useEffect(() => {
@@ -93,7 +102,7 @@ export function MobileNav() {
                     href={tab.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex h-full w-[3.4rem] flex-col items-center justify-center gap-1 rounded-full text-[9px] leading-none transition-colors",
+                      "flex h-full w-[3.4rem] flex-col items-center justify-center gap-1 rounded-full text-[10px] leading-none transition-colors",
                       active
                         ? "font-semibold text-primary"
                         : "font-medium text-muted-foreground active:text-foreground",
@@ -111,13 +120,23 @@ export function MobileNav() {
                 onClick={() => setMenuOpen(true)}
                 aria-label="More sections"
                 className={cn(
-                  "flex h-full w-[3.4rem] flex-col items-center justify-center gap-1 rounded-full text-[9px] leading-none transition-colors",
+                  "flex h-full w-[3.4rem] flex-col items-center justify-center gap-1 rounded-full text-[10px] leading-none transition-colors",
                   !onPrimaryTab
                     ? "font-semibold text-primary"
                     : "font-medium text-muted-foreground active:text-foreground",
                 )}
               >
-                <MenuIcon className="size-[19px]" />
+                <span className="relative">
+                  <MenuIcon className="size-[19px]" />
+                  {/* Messages and notifications live behind More on a phone;
+                      flag anything new on it. */}
+                  {unread > 0 && (
+                    <span
+                      aria-label={`${unread} unread`}
+                      className="absolute -right-1.5 -top-1 size-2.5 rounded-full bg-primary ring-2 ring-card"
+                    />
+                  )}
+                </span>
                 More
               </button>
             </li>
@@ -144,9 +163,9 @@ export function MobileNav() {
           </SheetDescription>
 
           <div className="space-y-5 px-4 pb-4">
-            {NAV_SECTIONS.map((section) => (
+            {navSectionsFor(user?.permissions).map((section) => (
               <div key={section.label}>
-                <p className="label px-2 pb-1.5 text-[9px] tracking-[0.2em] text-muted-foreground">
+                <p className="label px-2 pb-1.5 text-[10px] tracking-[0.18em] text-muted-foreground">
                   {section.label}
                 </p>
                 <ul className="grid grid-cols-2 gap-1.5">
@@ -169,7 +188,12 @@ export function MobileNav() {
                               active ? "text-primary" : "text-muted-foreground",
                             )}
                           />
-                          <span className="truncate">{item.label}</span>
+                          <span className="flex-1 truncate">{item.label}</span>
+                          {(badges[item.href] ?? 0) > 0 && (
+                            <span className="numeric grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground">
+                              {badges[item.href] > 99 ? "99+" : badges[item.href]}
+                            </span>
+                          )}
                         </Link>
                       </li>
                     );
@@ -188,7 +212,7 @@ export function MobileNav() {
                 <div className="min-w-0 flex-1 leading-tight">
                   <p className="truncate text-[13px] font-medium">{user.name}</p>
                   <p className="truncate text-[11px] text-muted-foreground">
-                    {user.role}
+                    {user.roleName}
                   </p>
                 </div>
                 <button

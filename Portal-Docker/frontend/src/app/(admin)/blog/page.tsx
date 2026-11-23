@@ -1,6 +1,6 @@
 "use client";
 
-import type { BlogPost, WithStatus } from "@portal/shared";
+import type { BlogPost, WithSchedule } from "@portal/shared";
 
 import { ResourceListPage } from "@/components/admin/resource-list-page";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/utils";
 
 export default function BlogPage() {
   return (
-    <ResourceListPage<WithStatus<BlogPost>>
+    <ResourceListPage<WithSchedule<BlogPost>>
       title="Blog"
       eyebrow="Stories & reports"
       description="Reports on events, reflections and testimonies from church life. Reading time is worked out automatically from the text."

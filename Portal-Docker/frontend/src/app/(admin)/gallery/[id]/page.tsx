@@ -1,18 +1,14 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { GalleryAlbum, WithStatus } from "@portal/shared";
-import { ArrowLeftIcon, ArrowRightIcon, PlayIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { use, useState } from "react";
+import type { ContentRevision, GalleryAlbum, WithStatus } from "@portal/shared";
+import { use, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import {
-  AddGalleryItemsDialog,
-  type NewGalleryItem,
-} from "@/components/admin/add-gallery-items-dialog";
+import type { NewGalleryItem } from "@/components/admin/add-gallery-items-dialog";
+import { AlbumItemsEditor } from "@/components/admin/album-items-editor";
 import { ResourceFormPage } from "@/components/admin/resource-form-page";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useApprovalLock } from "@/components/admin/status-select";
 import { useResourceItem } from "@/hooks/use-resource";
 import { ALBUM_FIELDS } from "@/config/fields";
 import { api } from "@/lib/api";
@@ -20,7 +16,6 @@ import { api } from "@/lib/api";
 function PhotosManager({ albumId }: { albumId: string }) {
   const apiPath = "/admin/gallery";
   const { data: album } = useResourceItem<WithStatus<GalleryAlbum>>(apiPath, albumId);
-  const [pickerOpen, setPickerOpen] = useState(false);
   const queryClient = useQueryClient();
   const invalidate = () => queryClient.invalidateQueries({ queryKey: [apiPath] });
 
@@ -68,101 +63,28 @@ function PhotosManager({ albumId }: { albumId: string }) {
   };
 
   return (
-    <Card className="mx-auto mt-6 max-w-3xl">
-      <CardHeader className="flex-row items-center justify-between space-y-0">
-        <div>
-          <CardTitle>Photos &amp; videos ({album?.photos.length ?? 0})</CardTitle>
-          <CardDescription>
-            One ordered stream — the website&apos;s lightbox pages through it in
-            this order.
-          </CardDescription>
-        </div>
-        {/* One button — photos and video links live behind the same dialog. */}
-        <Button type="button" size="sm" className="shrink-0" onClick={() => setPickerOpen(true)}>
-          <PlusIcon /> Add
-        </Button>
-      </CardHeader>
-      <CardContent>
-        {album && album.photos.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-border-strong p-8 text-center">
-            <p className="text-sm text-muted-foreground">
-              Nothing in this album yet.
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="mt-3"
-              onClick={() => setPickerOpen(true)}
-            >
-              <PlusIcon /> Add photos or a video
-            </Button>
-          </div>
-        )}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {album?.photos.map((photo, index) => (
-            <div key={photo.id} className="group relative overflow-hidden rounded-md border">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photo.image.url}
-                alt={photo.image.alt?.en ?? ""}
-                className="aspect-square w-full object-cover"
-              />
-              {photo.video && (
-                <span
-                  className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-sand-950/75 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm"
-                  title={photo.video.url}
-                >
-                  <PlayIcon className="size-2.5 fill-current" />
-                  {photo.video.provider ?? "video"}
-                </span>
-              )}
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-black/60 p-1 transition-opacity lg:opacity-0 lg:group-hover:opacity-100">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-7 text-white hover:bg-white/20"
-                  disabled={index === 0}
-                  onClick={() => movePhoto(index, -1)}
-                >
-                  <ArrowLeftIcon />
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-7 text-white hover:bg-white/20"
-                  onClick={() => removePhoto.mutate(photo.id)}
-                >
-                  <Trash2Icon />
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-7 text-white hover:bg-white/20"
-                  disabled={!album || index === album.photos.length - 1}
-                  onClick={() => movePhoto(index, 1)}
-                >
-                  <ArrowRightIcon />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <AddGalleryItemsDialog
-          open={pickerOpen}
-          onOpenChange={setPickerOpen}
-          busy={addPhoto.isPending}
-          onAdd={(items) =>
-            addPhoto.mutate(items, { onSuccess: () => setPickerOpen(false) })
-          }
-        />
-      </CardContent>
-    </Card>
+    <AlbumItemsEditor
+      items={(album?.photos ?? []).map((photo) => ({ key: photo.id, ...photo }))}
+      busy={addPhoto.isPending || removePhoto.isPending || reorder.isPending}
+      onAdd={(items) =>
+        addPhoto
+          .mutateAsync(items)
+          .then(() => true)
+          .catch(() => false)
+      }
+      onRemove={(index) => album && removePhoto.mutate(album.photos[index].id)}
+      onMove={movePhoto}
+    />
   );
 }
+
+type LocalItem = {
+  key: string;
+  id?: string;
+  image: GalleryAlbum["photos"][number]["image"];
+  caption?: GalleryAlbum["photos"][number]["caption"];
+  video?: { url: string; provider?: string };
+};
 
 export default function EditAlbumPage({
   params,
@@ -170,17 +92,83 @@ export default function EditAlbumPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const { data: album } = useResourceItem<
+    WithStatus<GalleryAlbum> & { revision?: ContentRevision<GalleryAlbum> }
+  >("/admin/gallery", id);
+  const { holds } = useApprovalLock(album?.status, true);
+
+  /*
+   * Under the approval rule an editor's changes to a live album — photos
+   * included — are submitted, not applied. So the photo grid works locally
+   * in that case, and when an approver reviews a change that touched the
+   * photos; the stream then travels with the save. Otherwise every add,
+   * remove and reorder is saved straight away, as before.
+   */
+  const revisedPhotos = album?.revision?.changes?.photos;
+  const local = holds || revisedPhotos !== undefined;
+  const [items, setItems] = useState<LocalItem[] | null>(null);
+  const nextKey = useRef(0);
+
+  useEffect(() => {
+    if (!album || !local) {
+      setItems(null);
+      return;
+    }
+    setItems(
+      (revisedPhotos ?? album.photos).map((photo) => ({
+        ...photo,
+        key: photo.id ?? `new-${nextKey.current++}`,
+      })),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [album, local]);
+
+  const move = (index: number, delta: number) =>
+    setItems((current) => {
+      if (!current) return current;
+      const target = index + delta;
+      if (target < 0 || target >= current.length) return current;
+      const next = [...current];
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
+
   return (
-    <div>
-      <ResourceFormPage
-        title="Edit album"
-        apiPath="/admin/gallery"
-        routeBase="/gallery"
-        label="Album"
-        fields={ALBUM_FIELDS}
-        id={id}
-      />
-      <PhotosManager albumId={id} />
-    </div>
+    <ResourceFormPage
+      title="Edit album"
+      apiPath="/admin/gallery"
+      routeBase="/gallery"
+      label="Album"
+      fields={ALBUM_FIELDS}
+      id={id}
+      updateExtras={() =>
+        local && items ? { photos: items.map(({ key: _key, ...item }) => item) } : undefined
+      }
+      belowWriting={
+        local && items ? (
+          <AlbumItemsEditor
+            items={items}
+            hint={
+              holds
+                ? "Photo changes are sent with your changes for approval."
+                : "These are the submitted photos — approving applies them."
+            }
+            onAdd={(added) => {
+              setItems((current) => [
+                ...(current ?? []),
+                ...added.map((item) => ({ ...item, key: `new-${nextKey.current++}` })),
+              ]);
+              return true;
+            }}
+            onRemove={(index) =>
+              setItems((current) => (current ?? []).filter((_, i) => i !== index))
+            }
+            onMove={move}
+          />
+        ) : (
+          <PhotosManager albumId={id} />
+        )
+      }
+    />
   );
 }

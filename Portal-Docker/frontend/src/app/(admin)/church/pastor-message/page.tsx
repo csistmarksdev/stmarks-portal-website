@@ -12,7 +12,7 @@ import { useSingleton } from "@/hooks/use-singleton";
 const EMPTY: LocalizedText = { en: "", ta: "" };
 
 export default function PastorMessagePage() {
-  const { data, isLoading, save } = useSingleton<PastorMessage>("pastor-message");
+  const { data, isLoading, save, pending, reject } = useSingleton<PastorMessage>("pastor-message");
 
   const [authorName, setAuthorName] = useState(EMPTY);
   const [authorRole, setAuthorRole] = useState(EMPTY);
@@ -34,7 +34,9 @@ export default function PastorMessagePage() {
       title="Pastor's message"
       description="Shown on the website home page."
       loading={isLoading}
-      saving={save.isPending}
+      saving={save.isPending || reject.isPending}
+      pending={pending}
+      onReject={() => reject.mutateAsync().catch(() => undefined)}
       onSave={() => save.mutate({ authorName, authorRole, authorImage, excerpt, body })}
     >
       <LocalizedField label="Author name" value={authorName} onChange={setAuthorName} required />

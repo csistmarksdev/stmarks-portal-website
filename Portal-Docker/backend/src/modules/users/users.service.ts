@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
 } from "@nestjs/common";
 import type { AdminUser, Paginated } from "@portal/shared";
@@ -11,6 +12,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { AuditService } from "../audit/audit.service";
+import { RolesService } from "../roles/roles.service";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -23,10 +25,45 @@ export class UsersService {
   constructor(
     private readonly repo: UsersRepository,
     private readonly audit: AuditService,
+    private readonly roles: RolesService,
   ) {}
 
-  toAdminUser(doc: UserDocument): AdminUser {
-    return serializeDoc<AdminUser>(doc, ["passwordHash", "refreshTokenHash"]);
+  async toAdminUser(doc: UserDocument): Promise<AdminUser> {
+    const user = serializeDoc<Omit<AdminUser, "roleName" | "permissions">>(doc, [
+      "passwordHash",
+      "refreshTokenHash",
+    ]);
+    const [roleName, permissions] = await Promise.all([
+      this.roles.nameOf(user.role),
+      this.roles.permissionsFor(user.role),
+    ]);
+    return { ...user, roleName, permissions };
+  }
+
+  /**
+   * The role being handed out must exist, and must not allow anything the
+   * actor cannot do themselves — otherwise anyone who can manage users could
+   * promote a friend, or a second account of their own, past themselves.
+   */
+  private async assertAssignable(role: string, actor: AuthenticatedUser): Promise<void> {
+    if (!(await this.roles.exists(role))) {
+      throw new BadRequestException(`There is no role "${role}"`);
+    }
+    this.roles.assertWithin(actor, await this.roles.permissionsFor(role), "That role");
+  }
+
+  /** Nobody manages an account that can do more than they can. */
+  private async assertManageable(id: string, actor: AuthenticatedUser): Promise<UserDocument> {
+    const doc = await this.repo.findByIdOrThrow(id);
+    if (id !== actor.userId) {
+      const theirs = await this.roles.permissionsFor(doc.role);
+      if (theirs.some((permission) => !actor.permissions.includes(permission))) {
+        throw new ForbiddenException(
+          "This account's role can do things yours cannot, so you cannot change it.",
+        );
+      }
+    }
+    return doc;
   }
 
   async list(
@@ -47,7 +84,7 @@ export class UsersService {
       this.repo.count(filter),
     ]);
     return {
-      items: docs.map((doc) => this.toAdminUser(doc)),
+      items: await Promise.all(docs.map((doc) => this.toAdminUser(doc))),
       total,
       page,
       pageSize,
@@ -63,6 +100,7 @@ export class UsersService {
     if (await this.repo.exists({ email: dto.email.toLowerCase() })) {
       throw new ConflictException(`A user with email ${dto.email} already exists`);
     }
+    await this.assertAssignable(dto.role, actor);
     const doc = await this.repo.create({
       name: dto.name,
       email: dto.email.toLowerCase(),
@@ -85,6 +123,8 @@ export class UsersService {
     if (id === actor.userId && dto.active === false) {
       throw new BadRequestException("You cannot deactivate your own account");
     }
+    await this.assertManageable(id, actor);
+    if (dto.role) await this.assertAssignable(dto.role, actor);
     if (dto.email) {
       const existing = await this.repo.findOne({ email: dto.email.toLowerCase() });
       if (existing && existing.id !== id) {
@@ -119,6 +159,7 @@ export class UsersService {
     password: string,
     actor: AuthenticatedUser,
   ): Promise<void> {
+    await this.assertManageable(id, actor);
     await this.repo.updateById(id, {
       $set: { passwordHash: await bcrypt.hash(password, SALT_ROUNDS) },
       // Force re-login everywhere.
@@ -131,6 +172,7 @@ export class UsersService {
     if (id === actor.userId) {
       throw new BadRequestException("You cannot delete your own account");
     }
+    await this.assertManageable(id, actor);
     const doc = await this.repo.deleteById(id);
     await this.audit.log(actor, "delete", "users", id, `Deleted user "${doc.email}"`);
   }

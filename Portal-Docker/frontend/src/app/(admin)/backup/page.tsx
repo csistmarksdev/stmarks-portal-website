@@ -53,35 +53,44 @@ function humanBytes(bytes: number): string {
 /** The word an admin has to type before a replace restore will run. */
 const CONFIRM_PHRASE = "RESTORE";
 
+/** `church_singletons` → "Church singletons": database names, read as words. */
+function collectionLabel(name: string): string {
+  const words = name.replace(/[_-]+/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 export default function BackupPage() {
   const { can } = useAuth();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="max-w-6xl">
       <PageHeader
         eyebrow="Safekeeping"
         title="Backup & restore"
         description="A backup is one zip file holding everything: all content, the media library, admin accounts and the activity history. Keep a copy somewhere that is not this server."
       />
 
-      {can("backup.read") ? (
-        <BackupCard />
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle>Not available to your role</CardTitle>
-            <CardDescription>
-              A backup contains every record in the Portal, including admin
-              accounts and their passwords. Only a super-admin can download or
-              restore one.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      )}
+      {/* Download and restore side by side on a wide screen. */}
+      <div className="grid items-start gap-6 xl:grid-cols-2">
+        {can("backup.read") ? (
+          <BackupCard />
+        ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>Not available to your role</CardTitle>
+              <CardDescription>
+                A backup contains every record in the Portal, including admin
+                accounts and their passwords. Only a super-admin can download or
+                restore one.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        )}
 
-      {/* Restoring is super-admin only, so for everyone else the card is
+        {/* Restoring is super-admin only, so for everyone else the card is
           absent rather than present and failing on click. */}
-      {can("backup.restore") && <RestoreCard />}
+        {can("backup.restore") && <RestoreCard />}
+      </div>
     </div>
   );
 }
@@ -112,7 +121,9 @@ function BackupCard() {
       window.location.href = `${apiUrl()}${created.downloadPath}`;
       toast.success(`Backup ready — ${created.size}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not build the backup");
+      toast.error(
+        error instanceof Error ? error.message : "Could not build the backup",
+      );
     } finally {
       setBuilding(false);
     }
@@ -139,14 +150,20 @@ function BackupCard() {
         ) : preview ? (
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-3 text-sm">
-              <Figure value={preview.documents.toLocaleString("en-IN")} label="records" />
-              <Figure value={preview.uploads.files.toLocaleString("en-IN")} label="media files" />
+              <Figure
+                value={preview.documents.toLocaleString("en-IN")}
+                label="records"
+              />
+              <Figure
+                value={preview.uploads.files.toLocaleString("en-IN")}
+                label="media files"
+              />
               <Figure value={preview.estimatedSize} label="approximate size" />
             </div>
             <div className="flex flex-wrap gap-1">
               {collections.map(([name, count]) => (
                 <Badge key={name} variant="muted">
-                  {name} {count}
+                  {collectionLabel(name)} · {count}
                 </Badge>
               ))}
             </div>
@@ -216,10 +233,16 @@ function RestoreCard() {
       const form = new FormData();
       form.append("file", file);
       setStaged(
-        await uploadWithProgress<StagedRestore>("/admin/backup/restore", form, setProgress),
+        await uploadWithProgress<StagedRestore>(
+          "/admin/backup/restore",
+          form,
+          setProgress,
+        ),
       );
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not read that archive");
+      toast.error(
+        error instanceof Error ? error.message : "Could not read that archive",
+      );
     } finally {
       setProgress(null);
       // Clear the input so choosing the same file again still fires `change`.
@@ -230,10 +253,13 @@ function RestoreCard() {
   async function apply() {
     if (!staged) return;
     try {
-      const applied = await api.post<RestoreResult>(`/admin/backup/restore/${staged.id}`, {
-        mode,
-        safetyBackup,
-      });
+      const applied = await api.post<RestoreResult>(
+        `/admin/backup/restore/${staged.id}`,
+        {
+          mode,
+          safetyBackup,
+        },
+      );
       setResult(applied);
       setStaged(null);
       /*
@@ -243,9 +269,13 @@ function RestoreCard() {
        * is no part of the app whose data this did not change.
        */
       await queryClient.invalidateQueries();
-      toast.success(`Restored ${applied.documents.toLocaleString("en-IN")} record(s)`);
+      toast.success(
+        `Restored ${applied.documents.toLocaleString("en-IN")} record(s)`,
+      );
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "The restore failed");
+      toast.error(
+        error instanceof Error ? error.message : "The restore failed",
+      );
     }
   }
 
@@ -306,7 +336,9 @@ function RestoreCard() {
           />
         )}
 
-        {result && <RestoreSummary result={result} onDone={() => setResult(null)} />}
+        {result && (
+          <RestoreSummary result={result} onDone={() => setResult(null)} />
+        )}
       </CardContent>
     </Card>
   );
@@ -330,7 +362,9 @@ function StagedReview({
   onCancel: () => void;
 }) {
   const { manifest } = staged;
-  const collections = Object.entries(manifest.collections).filter(([, count]) => count > 0);
+  const collections = Object.entries(manifest.collections).filter(
+    ([, count]) => count > 0,
+  );
 
   return (
     <div className="space-y-5 rounded-lg border border-border p-4">
@@ -349,7 +383,7 @@ function StagedReview({
       <div className="flex flex-wrap gap-1">
         {collections.map(([name, count]) => (
           <Badge key={name} variant="muted">
-            {name} {count}
+            {collectionLabel(name)} · {count}
           </Badge>
         ))}
       </div>
@@ -417,7 +451,9 @@ function StagedReview({
               Restore this backup
             </Button>
           }
-          title={mode === "replace" ? "Replace everything?" : "Merge this backup in?"}
+          title={
+            mode === "replace" ? "Replace everything?" : "Merge this backup in?"
+          }
           description={
             mode === "replace"
               ? `This clears every collection in the backup and puts back the data as it stood on ${formatDateTime(
@@ -463,8 +499,12 @@ function ModeOption({
         className="mt-1 size-4 shrink-0 accent-[var(--color-primary)]"
       />
       <span>
-        <span className="block text-sm font-medium text-foreground">{title}</span>
-        <span className="block text-[13px] text-muted-foreground">{description}</span>
+        <span className="block text-sm font-medium text-foreground">
+          {title}
+        </span>
+        <span className="block text-[13px] text-muted-foreground">
+          {description}
+        </span>
       </span>
     </label>
   );
@@ -482,8 +522,8 @@ function RestoreSummary({
       <p className="flex items-center gap-2 text-sm font-medium text-foreground">
         <CheckCircle2Icon className="size-4 text-success" />
         Restored {result.documents.toLocaleString("en-IN")} records across{" "}
-        {result.collections.length} collections, and {result.uploads.written} media
-        file{result.uploads.written === 1 ? "" : "s"}.
+        {result.collections.length} collections, and {result.uploads.written}{" "}
+        media file{result.uploads.written === 1 ? "" : "s"}.
       </p>
 
       <div className="flex flex-wrap gap-1">

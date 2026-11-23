@@ -19,7 +19,13 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />;
+  return (
+    <div
+      data-slot="card-header"
+      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      {...props}
+    />
+  );
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
@@ -36,7 +42,16 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("p-6 pt-0", className)} {...props} />;
+  // Full padding on its own; tucked up under a header when one precedes it.
+  // It was always `pt-0`, which left header-less cards with their first field
+  // pressed against the top edge.
+  return (
+    <div
+      data-slot="card-content"
+      className={cn("p-6 [[data-slot=card-header]+&]:pt-0", className)}
+      {...props}
+    />
+  );
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {

@@ -15,6 +15,7 @@ import {
   CalendarIcon,
   CalendarPlusIcon,
   CircleCheckIcon,
+  ClockIcon,
   ImagesIcon,
   InboxIcon,
   NewspaperIcon,
@@ -100,6 +101,22 @@ function collapseRuns(
   return out;
 }
 
+const APPROVAL_NOUNS = {
+  events: ["event", "events"],
+  blog: ["blog post", "blog posts"],
+  gallery: ["album", "albums"],
+  announcements: ["announcement", "announcements"],
+  downloads: ["download", "downloads"],
+  fellowships: ["fellowship", "fellowships"],
+} as const;
+
+/** The church pages that can carry a change waiting for approval. */
+const CHURCH_PAGES = [
+  { key: "weekly-verse", label: "weekly verse" },
+  { key: "service-timings", label: "service timings" },
+  { key: "pastor-message", label: "pastor's message" },
+] as const;
+
 export default function DashboardPage() {
   const { user, can } = useAuth();
 
@@ -133,10 +150,58 @@ export default function DashboardPage() {
     queryFn: () => api.get<ChurchEvent[]>("/events", { status: "upcoming", limit: 4 }),
   });
 
+  /*
+   * Church pages changed by someone who cannot publish wait here for an
+   * approver; they have no list page of their own, so the dashboard is where
+   * an admin learns of them.
+   */
+  const { data: churchWaiting } = useQuery({
+    queryKey: ["church", "pending-all"],
+    enabled: can("content.publish"),
+    refetchInterval: 60_000,
+    queryFn: async () => {
+      const results = await Promise.all(
+        CHURCH_PAGES.map(async (page) => {
+          const { pending } = await api.get<{
+            pending: { submittedBy: { name: string } } | null;
+          }>(`/admin/church/${page.key}/pending`);
+          return pending ? { ...page, by: pending.submittedBy.name } : null;
+        }),
+      );
+      return results.filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+    },
+  });
+
   const eventDrafts = stats ? stats.events.total - stats.events.published : 0;
   const blogDrafts = stats ? stats.blog.total - stats.blog.published : 0;
 
   const attention: Array<{ href: string; icon: React.ElementType; text: string }> = [];
+  // Submissions and changes to live items, per type — approvers only.
+  if (stats?.approvals && can("content.publish")) {
+    for (const [type, { submissions, changes }] of Object.entries(stats.approvals)) {
+      const total = submissions + changes;
+      if (total === 0) continue;
+      const noun = APPROVAL_NOUNS[type as keyof typeof APPROVAL_NOUNS];
+      attention.push({
+        href: `/${type}`,
+        icon: ClockIcon,
+        text: `${total} ${total === 1 ? noun[0] : noun[1]} waiting for your approval${
+          changes > 0 && submissions > 0
+            ? ` (${submissions} new, ${changes} changed)`
+            : changes > 0
+              ? " (changes to live items)"
+              : ""
+        }`,
+      });
+    }
+  }
+  for (const page of churchWaiting ?? []) {
+    attention.push({
+      href: `/church/${page.key}`,
+      icon: ClockIcon,
+      text: `${page.by} changed the ${page.label} — waiting for your approval`,
+    });
+  }
   if (stats) {
     if (stats.contact.unread > 0) {
       attention.push({
@@ -178,7 +243,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="max-w-6xl">
       {/* ------------------------------ Greeting ----------------------------- */}
       <div className="mb-5">
         <p className="label text-accent-fg">{TODAY}</p>
@@ -231,14 +296,16 @@ export default function DashboardPage() {
               label={stats.gallery.albums === 1 ? "album" : "albums"}
               note={`${stats.gallery.photos} photographs`}
             />
-            <StatTile
-              href="/contact-messages"
-              icon={InboxIcon}
-              value={stats.contact.unread}
-              label="unread"
-              note={`${stats.contact.total} received in total`}
-              highlight={stats.contact.unread > 0}
-            />
+            {can("contact.read") && (
+              <StatTile
+                href="/contact-messages"
+                icon={InboxIcon}
+                value={stats.contact.unread}
+                label="unread"
+                note={`${stats.contact.total} received in total`}
+                highlight={stats.contact.unread > 0}
+              />
+            )}
           </>
         ) : (
           Array.from({ length: 4 }).map((_, i) => (
@@ -483,11 +550,13 @@ export default function DashboardPage() {
                     <PenLineIcon /> Blog post
                   </Link>
                 </Button>
-                <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
-                  <Link href="/media">
-                    <UploadIcon /> Upload media
-                  </Link>
-                </Button>
+                {can("media.delete") && (
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
+                    <Link href="/media">
+                      <UploadIcon /> Upload media
+                    </Link>
+                  </Button>
+                )}
               </div>
             </section>
           )}

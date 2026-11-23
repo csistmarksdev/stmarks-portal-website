@@ -6,6 +6,7 @@ import {
   AlertTriangleIcon,
   CheckIcon,
   FileIcon,
+  ImageIcon,
   UploadIcon,
   XIcon,
 } from "lucide-react";
@@ -24,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn, fileNameOf } from "@/lib/utils";
 
 /**
  * Converts a stored media item to the contract's ImageAsset shape.
@@ -315,14 +316,16 @@ export function ImagePicker({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="space-y-1.5">
+    // A column, so the label always sits above the control. Label and Button
+    // are both inline elements; in a plain block they shared one line.
+    <div className="flex flex-col gap-1.5">
       <Label>
         {label}
         {required && <span className="text-destructive"> *</span>}
       </Label>
       {value ? (
-        <div className="flex items-center gap-3 rounded-md border p-2">
-          <div className="relative size-16 shrink-0 overflow-hidden rounded bg-muted">
+        <div className="flex items-center gap-3 rounded-2xl border border-border/70 p-2.5">
+          <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted">
             <Image
               src={value.url}
               alt={value.alt?.en ?? ""}
@@ -333,8 +336,11 @@ export function ImagePicker({
             />
           </div>
           <div className="min-w-0 flex-1 text-xs text-muted-foreground">
-            <p className="truncate">{value.url}</p>
-            <p>
+            {/* The file's name, not the server address it happens to live at. */}
+            <p className="truncate text-sm font-medium text-foreground" title={value.url}>
+              {fileNameOf(value.url)}
+            </p>
+            <p className="numeric">
               {value.width} × {value.height}
             </p>
             {/*
@@ -365,9 +371,21 @@ export function ImagePicker({
           )}
         </div>
       ) : (
-        <Button type="button" variant="outline" onClick={() => setOpen(true)}>
-          Choose image…
-        </Button>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex w-full items-center gap-3 rounded-2xl border border-dashed border-border px-4 py-4 text-left transition-colors hover:border-ring hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-muted text-muted-foreground">
+            <ImageIcon className="size-5" />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-sm font-medium text-foreground">Choose an image</span>
+            <span className="block text-xs text-muted-foreground">
+              From the media library, or upload a new one
+            </span>
+          </span>
+        </button>
       )}
       <MediaLibraryDialog
         open={open}
