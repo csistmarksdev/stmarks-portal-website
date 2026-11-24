@@ -60,6 +60,8 @@ export function ChristmasEffects() {
   return (
     <div
       aria-hidden
+      // Kept off the screen edges on iOS Safari 26+ - see globals.css.
+      data-glass-inset
       className="pointer-events-none fixed inset-0 -z-10 select-none overflow-hidden"
     >
       {BOKEH.map((orb, index) => (

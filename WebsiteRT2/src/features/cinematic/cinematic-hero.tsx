@@ -60,7 +60,106 @@ const drawImageCover: DrawFrame = (ctx, img, canvasWidth, canvasHeight) => {
     newWidth,
     newHeight,
   );
+
+  scheduleEdgeSample(img, canvasWidth / ratio, canvasHeight / ratio);
 };
+
+/*
+ * The browser bars, kept in step with the photograph.
+ *
+ * iOS Safari 26+ draws the photograph itself behind its bars (see
+ * `html[data-ios-glass]` in globals.css). Older Safari, and Safari 26 wherever
+ * something fixed still claims an edge, paints its bars a flat colour taken
+ * from the page background instead - so while over the hero that background
+ * is the photograph's own top edge, `--hero-edge-top`, with the foot in
+ * `--hero-edge-bottom` for the sticky stage's background.
+ *
+ * Measured once the scroll comes to rest, never during it: a colour that
+ * changes mid-scroll is a full repaint of the page background on every
+ * change, and the bars only need to agree with the frame the reader stops on.
+ * And measured off the source image, on an 8x8 scratch canvas - never by
+ * reading back the hero canvas, which on iOS stalls the GPU and can push the
+ * canvas off acceleration altogether.
+ *
+ * Darkened by exactly what lies over each edge on screen: the stage's scrim
+ * (`hero-stage.tsx`: black 30% at the top, 80% at the foot) and, at the top,
+ * the header's legibility gradient (black 45%).
+ */
+const TOP_LIGHT = (1 - 0.3) * (1 - 0.45);
+const BOTTOM_LIGHT = 1 - 0.8;
+const SAMPLE_AFTER_MS = 180;
+const SAMPLE_SIZE = 8;
+
+let sampleTimer: number | undefined;
+let sampleCanvas: HTMLCanvasElement | undefined;
+
+function scheduleEdgeSample(
+  img: CanvasImageSource & { width: number; height: number },
+  visibleWidth: number,
+  visibleHeight: number,
+): void {
+  if (typeof window === "undefined") return;
+  window.clearTimeout(sampleTimer);
+  sampleTimer = window.setTimeout(
+    () => sampleEdges(img, visibleWidth, visibleHeight),
+    SAMPLE_AFTER_MS,
+  );
+}
+
+function sampleEdges(
+  img: CanvasImageSource & { width: number; height: number },
+  visibleWidth: number,
+  visibleHeight: number,
+): void {
+  sampleCanvas ??= document.createElement("canvas");
+  sampleCanvas.width = SAMPLE_SIZE;
+  sampleCanvas.height = SAMPLE_SIZE;
+  const ctx = sampleCanvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+  try {
+    // The part of the frame actually on screen (cover crop), squeezed to 8x8.
+    ctx.drawImage(
+      img,
+      (img.width - visibleWidth) / 2,
+      (img.height - visibleHeight) / 2,
+      visibleWidth,
+      visibleHeight,
+      0,
+      0,
+      SAMPLE_SIZE,
+      SAMPLE_SIZE,
+    );
+    const top = rowColour(ctx, 0, TOP_LIGHT);
+    const bottom = rowColour(ctx, SAMPLE_SIZE - 1, BOTTOM_LIGHT);
+    const root = document.documentElement.style;
+    if (top) root.setProperty("--hero-edge-top", top);
+    if (bottom) root.setProperty("--hero-edge-bottom", bottom);
+  } catch {
+    // A tainted or unavailable image: keep the colours already set.
+  }
+}
+
+function rowColour(
+  ctx: CanvasRenderingContext2D,
+  y: number,
+  light: number,
+): string | null {
+  const { data } = ctx.getImageData(0, y, SAMPLE_SIZE, 1);
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  let n = 0;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] < 8) continue;
+    r += data[i];
+    g += data[i + 1];
+    b += data[i + 2];
+    n++;
+  }
+  if (!n) return null;
+  const c = (v: number) => Math.round((v / n) * light);
+  return `rgb(${c(r)} ${c(g)} ${c(b)})`;
+}
 
 export interface CinematicHeroProps {
   /** Overlay content rendered above the canvas (title, scroll cue). */
@@ -202,17 +301,29 @@ export function CinematicHero({
       style={{ height: `${scrollLength * 100}svh` }}
       // Collapsed to one still screen in Simple mode - see globals.css.
       data-frame-sequence
-      className="relative bg-black"
+      // Pinned without `sticky` on iOS Safari 26+ - see globals.css.
+      data-hero-pin
+      className="relative bg-[var(--hero-edge-bottom)]"
     >
       {/*
         `lvh`, the full screen: iOS Safari's toolbar floats over the page, and a
         `dvh` panel stopped above it, leaving a black band under the toolbar.
         The overlay keeps to the visible `dvh` area so the toolbar never covers
         the copy or the scroll cue.
+
+        On iOS Safari 26+ it is not sticky at all: it is pinned by a
+        scroll-driven animation (`data-glass-pin`, see `GlassPins`), so Safari draws the
+        photograph behind its status bar and tab bar instead of painting them
+        flat. Everywhere else it is sticky, with the photograph's own foot as
+        its background (`--hero-edge-bottom`, sampled live - see `sampleEdges`
+        above) for older Safari, which tints its bars from it. It must be
+        exactly the screen's height - taller, and WebKit lets a sticky panel
+        scroll partly away, leaving the section showing through below it.
       */}
       <div
         ref={stickyRef}
         data-frame-stage
+        data-glass-pin
         className="sticky top-0 h-[100lvh] w-full overflow-hidden bg-[var(--hero-edge-bottom)]"
       >
         <canvas

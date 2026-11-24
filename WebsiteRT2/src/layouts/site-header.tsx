@@ -302,36 +302,28 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
   const lightOnDark = isHero;
 
   return (
-    // `data-site-header` marks this as *the* site header for the splash
-    // screen's hand-off animation - the blog article page renders a `<header>`
-    // of its own, so the bare element selector would catch that one too.
-    <header data-site-header className="fixed inset-x-0 top-0 z-50 pt-[calc(var(--safe-top)+0.75rem)] sm:pt-[calc(var(--safe-top)+1.25rem)]">
-      {/* Keeps white nav text legible over bright cinematic frames. */}
+    <>
+      {/*
+        Keeps white nav text legible over bright cinematic frames. Beside the
+        header rather than inside it, and under it (same layer, earlier in the
+        document): on iOS Safari 26+ it must not be fixed at all - see
+        `[data-header-scrim]` in globals.css.
+      */}
       <div
         aria-hidden
+        data-header-scrim
         className={cn(
-          "pointer-events-none fixed inset-x-0 top-0 h-32 bg-gradient-to-b from-black/45 to-transparent transition-opacity duration-500",
+          "pointer-events-none fixed inset-x-0 top-0 z-50 h-32 bg-gradient-to-b from-black/45 to-transparent transition-opacity duration-500",
           isHero ? "opacity-100" : "opacity-0",
         )}
       />
 
-      {/*
-        Tints the browser's own top bar. iOS Safari 26 ignores `theme-color`
-        and takes the bar's colour from a solid-coloured fixed element at the
-        top edge - otherwise from the page background, which painted a light
-        band above the dark hero. A gradient does not count, hence this strip;
-        one pixel, so it never covers the hero. The page background follows
-        too (`data-over-hero` below) for when Safari falls back to it.
-      */}
-      <div
-        aria-hidden
-        data-safari-tint
-        className={cn(
-          "pointer-events-none fixed inset-x-0 top-0 h-px transition-colors duration-500",
-          isHero ? "bg-[var(--hero-edge-top)]" : "bg-[var(--background)]",
-        )}
-      />
-
+    {/*
+      `data-site-header` marks this as *the* site header for the splash
+      screen's hand-off animation - the blog article page renders a `<header>`
+      of its own, so the bare element selector would catch that one too.
+    */}
+    <header data-site-header className="fixed inset-x-0 top-0 z-50 pt-[calc(var(--safe-top)+0.75rem)] sm:pt-[calc(var(--safe-top)+1.25rem)]">
       {/* Dims the page behind the open menu and closes it on an outside tap. */}
       <AnimatePresence>
         {mobileOpen ? (
@@ -671,6 +663,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
         </AnimatePresence>
       </Container>
     </header>
+    </>
   );
 }
 

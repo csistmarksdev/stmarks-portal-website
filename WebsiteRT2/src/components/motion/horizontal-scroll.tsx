@@ -197,6 +197,8 @@ export function HorizontalScroll({
       className={cn("relative", className)}
     >
       <div
+        // Pinned without `sticky` on iOS Safari 26+ - see GlassPins.
+        data-glass-pin={pinned ? "" : undefined}
         className={cn(
           "flex flex-col",
           pinned

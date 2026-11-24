@@ -636,6 +636,8 @@ export function LeadershipConstellation({
       <div
         role="group"
         aria-label={label}
+        // Pinned without `sticky` on iOS Safari 26+ - see GlassPins.
+        data-glass-pin={pinned ? "" : undefined}
         className={cn(
           "flex flex-col",
           pinned

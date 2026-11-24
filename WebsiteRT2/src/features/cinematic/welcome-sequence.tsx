@@ -273,6 +273,7 @@ export function WelcomeSequence({ scrollLength = 6 }: WelcomeSequenceProps) {
       <div
         ref={stickyRef}
         data-frame-stage
+        data-glass-pin
         className="sticky top-0 h-[100dvh] w-full overflow-hidden"
       >
         <canvas

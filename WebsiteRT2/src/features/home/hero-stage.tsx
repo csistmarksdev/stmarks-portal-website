@@ -48,10 +48,15 @@ export function HeroStage({ welcome, timings, events, sunday }: HeroStageProps) 
     // `data-hero-stage`: the mobile-landscape block in globals.css compresses
     // the panels inside this to fit a 400px-tall viewport. Inert elsewhere.
     <div data-hero-stage className="relative h-full">
-      {/* Legibility scrim over the full frame, since panels sit centred. */}
+      {/*
+        Legibility scrim over the full frame, since panels sit centred. The
+        full screen (`lvh`), not just this overlay's visible `dvh` area: on iOS
+        Safari the photograph runs on behind the floating tab bar, and a scrim
+        stopping above the bar left a bright, undimmed band of photo under it.
+      */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/30"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[100lvh] bg-gradient-to-t from-black/80 via-black/45 to-black/30"
       />
 
       {/* 1 - identity */}

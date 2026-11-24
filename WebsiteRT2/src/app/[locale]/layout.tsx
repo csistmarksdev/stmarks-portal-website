@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { BackToTop } from "@/components/common/back-to-top";
 import { ChristmasEffects } from "@/components/common/christmas-effects";
 import { LanguageTransitionWatcher } from "@/components/common/language-transition-watcher";
+import { GlassPins } from "@/components/common/glass-pins";
 import { ChristmasOrnaments } from "@/components/common/christmas-ornaments";
 import { EasterRays } from "@/components/common/easter-rays";
 import { LiturgicalSeason } from "@/components/common/liturgical-season";
@@ -25,6 +26,7 @@ import { fontVariables } from "@/lib/fonts";
 import { routing, type Locale } from "@/i18n/routing";
 import { CLIENT_NAMESPACES, pickMessages } from "@/lib/client-messages";
 import { localize } from "@/lib/localize";
+import { IOS_GLASS_BOOTSTRAP } from "@/lib/ios-glass";
 import { MOTION_BOOTSTRAP } from "@/lib/motion-preference";
 import { getFellowshipsForNav } from "@/services";
 
@@ -239,7 +241,7 @@ export default async function LocaleLayout({
           hidden
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `<script>${SEASON_BOOTSTRAP};${SCROLL_RESTORATION_BOOTSTRAP};${MOTION_BOOTSTRAP}</script>`,
+            __html: `<script>${SEASON_BOOTSTRAP};${SCROLL_RESTORATION_BOOTSTRAP};${MOTION_BOOTSTRAP};${IOS_GLASS_BOOTSTRAP}</script>`,
           }}
         />
 
@@ -267,6 +269,7 @@ export default async function LocaleLayout({
           <MotionProvider>
           <HeroScrollProvider>
             <LenisProvider>
+              <GlassPins />
               <SiteHeader fellowships={fellowships} />
               {children}
               <SiteFooter />

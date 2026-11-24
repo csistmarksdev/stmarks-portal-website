@@ -243,9 +243,10 @@
   /* The status bar / notch, once `viewportFit: "cover"` lets the page run
      under it. Zero everywhere else, so every offset below is unchanged there. */
   --safe-top: env(safe-area-inset-top, 0px);
-  /* The home hero's edges as they appear on screen, under its dark overlay,
-     measured from an iPhone. Safari paints its bars these colours, since it
-     will not draw the pinned hero behind them. */
+  /* The home hero's edges as they appear on screen, under its overlays -
+     what Safari paints its status bar and tab bar while the hero is up. These
+     are only the starting values: `cinematic-hero.tsx` samples the actual
+     edges after every frame it draws and overwrites them on <html>. */
   --hero-edge-top: #5c5d61;
   --hero-edge-bottom: #292929;
 }
@@ -430,20 +431,20 @@
    * `font-display` / `font-sans` call site resolves to a Tamil-capable stack
    * with no per-component changes.
    */
-  /* Safari tints its top bar from the page background when nothing else
-     claims it, so under a hero the background goes dark with the photo.
-     Nothing paints it on screen there; the hero covers the page. */
+  /* Older Safari tints its bars from the page background, so under the hero
+     the background is the photograph's own sky (sampled live, see
+     cinematic-hero.tsx). Nothing paints it on screen there; the hero covers
+     the page. Set on <html> as well as <body> so no browser ever falls back
+     to a default black or white. */
+  html {
+    background-color: var(--background);
+  }
+
+  html[data-over-hero],
   html[data-over-hero] body {
     background-color: var(--hero-edge-top);
   }
 
-  /* Launched from the home screen there are no Safari bars to tint, and the
-     strip would be a visible line over the photo behind the clock. */
-  @media (display-mode: standalone) {
-    [data-safari-tint] {
-      display: none;
-    }
-  }
 
   html[lang="ta"] {
     /*
@@ -7260,5 +7261,158 @@ html[data-motion="off"] #lang-transition .lt-rule {
   }
   #lang-transition .lt-rule {
     width: min(11rem, 50vw);
+  }
+}
+
+
+/*
+ * iOS / iPadOS Safari 26+: Safari's own frosted edges, top and bottom.
+ *
+ * That Safari draws the page behind its floating status bar and tab bar and
+ * fades it softly into them - unless a fixed or sticky element spans the
+ * screen at that edge, in which case it fills the bar flat with that
+ * element's colour (or the page's, if it is transparent). So on that Safari
+ * nothing full-width may be fixed or sticky at either edge.
+ * `html[data-ios-glass]` is set before first paint by `lib/ios-glass.ts`.
+ *
+ * 1. Pinned stages (`data-glass-pin`: the hero, the welcome sequence, every
+ *    chapter scene) are not sticky here. A scroll-driven animation on the
+ *    root scroller moves each down by exactly the distance scrolled between
+ *    where sticky would catch it and where it would let it go (`--pin-*`,
+ *    measured by `GlassPins`), so it sits still on screen as before - on the
+ *    compositor, frame-locked to the scroll - while being ordinary content.
+ *    The full screen tall (`lvh`): the tab bar floats over the page, and a
+ *    stage ending above it would leave its section's background showing
+ *    through underneath.
+ * 2. The header and its legibility scrim start clear of the status bar (see
+ *    below); the header's content is where it was.
+ * 3. The seasonal full-screen layers stop a few pixels short of both edges,
+ *    under Safari's own bars where the gap cannot be seen.
+ *
+ * Reduced motion and Simple mode keep their unpinned layouts, which already
+ * scroll like ordinary content.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-ios-glass]:not([data-motion="off"]) [data-hero-pin] {
+    background-color: transparent;
+  }
+
+  html[data-ios-glass]:not([data-motion="off"]) [data-glass-pin] {
+    position: relative;
+    height: 100lvh;
+    animation: glass-pin linear both;
+    animation-timeline: scroll(root block);
+    animation-range: var(--pin-start, 0px) var(--pin-end, 0px);
+  }
+
+  html[data-ios-glass]:not([data-motion="off"]) [data-hero-pin] > [data-glass-pin] {
+    background-color: transparent;
+  }
+}
+
+@keyframes glass-pin {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--pin-len, 0px), 0);
+  }
+}
+
+html[data-ios-glass] :is(.snowfall, [data-glass-inset]),
+html[data-ios-glass]:is([data-season="christmas"], [data-season="easter"]) body::before {
+  top: max(8px, var(--safe-top));
+  bottom: 8px;
+}
+
+/*
+ * Safari looks for a fixed bar just under its status bar, not at the very top
+ * of the glass, so starting the header there (`--safe-top`) was still caught.
+ * Its box now starts a little lower, with the padding trimmed to match so the
+ * bar itself is exactly where it was, and the strip of padding that remains
+ * lets touches - and Safari's probe, which finds elements the way a touch
+ * does - fall through to the page. Everything in the header still takes taps.
+ */
+html[data-ios-glass] [data-site-header] {
+  top: calc(var(--safe-top) + 8px);
+  padding-top: calc(0.75rem - 8px);
+  pointer-events: none;
+}
+
+html[data-ios-glass] [data-site-header] > :not([data-header-scrim]) {
+  pointer-events: auto;
+}
+
+@media (min-width: 40rem) {
+  html[data-ios-glass] [data-site-header] {
+    padding-top: calc(1.25rem - 8px);
+  }
+}
+
+/*
+ * The header's legibility scrim has to darken the photograph right up to the
+ * top of the screen, behind the clock - and Safari counts any full-width
+ * layer fixed there, even one that takes no touches or hangs from the header,
+ * and goes flat. So on this Safari it is not fixed: it sits at the top of the
+ * document and a scroll-driven animation carries it down exactly as far as the
+ * page scrolls (`--doc-scroll`, the whole scroll range, kept by `GlassPins`).
+ * On screen it never moves; to Safari it is page content, which it frosts.
+ */
+html[data-ios-glass] [data-header-scrim] {
+  position: absolute;
+  animation: glass-follow linear both;
+  animation-timeline: scroll(root block);
+}
+
+@keyframes glass-follow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--doc-scroll, 0px), 0);
+  }
+}
+
+/* The page background follows the photograph while over the hero; easing
+   each of those changes over 1.2s kept the whole root repainting through the
+   scroll. The season's slow change of light still applies everywhere else. */
+html[data-over-hero] {
+  transition: none;
+}
+
+
+/*
+ * The cinematic hero's scenes on a phone held upright.
+ *
+ * Each scene is a full screen of copy over the film, and on a phone that
+ * screen is shared with the header above and Safari's tab bar below. So:
+ *
+ * - every scene lays out in the room between the two - the top padding clears
+ *   the status bar and the header, the bottom clears the home indicator - and
+ *   the centred ones centre in that room rather than in the whole screen;
+ * - the standfirst follows the screen's height as well as its width (`svh`),
+ *   so a short phone sets it a step smaller instead of running out of room;
+ *   Tamil a little smaller again, since the same sentence runs longer in it.
+ *
+ * Whatever still does not fit - a long welcome from the Portal on the
+ * smallest phones - is scaled to fit by `HeroScene`.
+ */
+@media (max-width: 39.9375rem) and (orientation: portrait) {
+  [data-hero-stage] > [data-hero-scene] {
+    padding-top: calc(var(--safe-top) + var(--header-height) + 1.75rem);
+  }
+
+  [data-hero-stage] > [data-hero-scene][class~="items-center"] {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  }
+
+  [data-hero-stage] [data-text="lg"] {
+    font-size: clamp(0.875rem, 1.85svh + 0.1rem, 1.0625rem);
+    line-height: 1.6;
+  }
+
+  html[lang="ta"] [data-hero-stage] [data-text="lg"] {
+    font-size: clamp(0.8125rem, 1.6svh + 0.1rem, 0.96875rem);
+    line-height: 1.65;
   }
 }

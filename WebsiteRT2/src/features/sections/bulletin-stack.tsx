@@ -219,6 +219,8 @@ export function BulletinStack({
       <div
         role="img"
         aria-label={label}
+        // Pinned without `sticky` on iOS Safari 26+ - see GlassPins.
+        data-glass-pin={pinned ? "" : undefined}
         className={cn(
           "relative overflow-hidden bg-sand-950",
           pinned ? "sticky top-0 h-[100dvh]" : "h-[80svh] min-h-[30rem]",

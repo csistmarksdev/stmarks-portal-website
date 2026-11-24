@@ -21,7 +21,7 @@ import {
  */
 
 const GLASS =
-  "rounded-2xl border border-white/15 bg-white/[0.07] p-5 backdrop-blur-md";
+  "rounded-2xl border border-white/15 bg-white/[0.07] p-4 backdrop-blur-md sm:p-5";
 
 export async function HeroWelcomePanel() {
   const [t, vision] = await Promise.all([
@@ -44,7 +44,7 @@ export async function HeroWelcomePanel() {
           {t("body")}
         </Text>
 
-        <ul className="mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+        <ul className="mt-6 grid max-w-3xl grid-cols-2 gap-2.5 sm:mt-8 sm:grid-cols-4 sm:gap-3">
           {vision.values.map((value) => (
             <li key={value.id} className={GLASS}>
               <p className="font-display text-sm font-semibold text-white">
@@ -85,7 +85,7 @@ export async function HeroTimingsPanel() {
           {t("subtitle")}
         </Text>
 
-        <ul className="mt-8 grid max-w-3xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-6 grid max-w-3xl gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
           {sunday.map((timing) => (
             <li key={timing.id} className={GLASS}>
               <p className="font-display text-2xl font-semibold text-white">
@@ -122,7 +122,7 @@ export async function HeroEventsPanel() {
           {t("title")}
         </Heading>
 
-        <ul className="mt-8 grid max-w-3xl gap-3 sm:grid-cols-3">
+        <ul className="mt-6 grid max-w-3xl gap-2.5 sm:mt-8 sm:grid-cols-3 sm:gap-3">
           {events.map((event) => {
             const { day, month } = getDateParts(event.startDate, locale);
 

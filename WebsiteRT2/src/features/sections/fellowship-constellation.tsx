@@ -401,6 +401,8 @@ export function FellowshipConstellation({
       <div
         role="group"
         aria-label={label}
+        // Pinned without `sticky` on iOS Safari 26+ - see GlassPins.
+        data-glass-pin={pinned ? "" : undefined}
         className={cn(
           "flex flex-col overflow-hidden bg-sand-950",
           pinned ? "sticky top-0 h-[100dvh]" : "py-20 sm:py-24",

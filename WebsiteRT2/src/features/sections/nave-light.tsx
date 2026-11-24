@@ -381,6 +381,8 @@ export function NaveLight({ eyebrow, title, subtitle, label }: NaveLightProps) {
       <div
         role="img"
         aria-label={label}
+        // Pinned without `sticky` on iOS Safari 26+ - see GlassPins.
+        data-glass-pin={pinned ? "" : undefined}
         className={cn(
           "relative overflow-hidden bg-[var(--surface-muted)]",
           pinned ? "sticky top-0 h-[100dvh]" : "h-[86svh] min-h-[34rem]",
