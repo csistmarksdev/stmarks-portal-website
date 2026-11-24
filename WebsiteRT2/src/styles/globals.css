@@ -7111,3 +7111,154 @@ html[data-switching-out]::before {
     animation: motion-switch-fade 1.6s ease-in-out infinite;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* The language-change curtain                                                */
+/* -------------------------------------------------------------------------- */
+/*
+ * Raised by the language switch and lowered once the page has rendered in the
+ * new language (lib/language-transition.ts). The opening splash's vocabulary:
+ * the site's white field, the parish crest, a gilded rule - and the language
+ * being turned to, set large in its own script. Just under the splash
+ * (z 200), over everything else, and it takes the pointer while it is up so a
+ * second click cannot land on a page that is mid-change.
+ */
+#lang-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  color: var(--foreground);
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 320ms var(--ease-out-expo);
+}
+
+#lang-transition[data-phase="shown"] {
+  opacity: 1;
+}
+
+#lang-transition[data-phase="leaving"] {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 450ms var(--ease-in-out-soft);
+}
+
+#lang-transition .lt-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+#lang-transition .lt-crest {
+  width: 4.25rem;
+  height: 4.25rem;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.08));
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 360ms var(--ease-out-expo),
+    transform 700ms var(--ease-out-expo);
+}
+
+#lang-transition .lt-name {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2.25rem, 3.2vw + 1.25rem, 3.5rem);
+  line-height: 1.1;
+  font-weight: 500;
+  color: var(--primary);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 420ms var(--ease-out-expo) 90ms,
+    transform 700ms var(--ease-out-expo) 90ms;
+}
+
+#lang-transition .lt-name[lang="en"] {
+  font-family: var(--font-fraunces), "Georgia", serif;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+}
+
+#lang-transition .lt-name[lang="ta"] {
+  font-family: var(--font-noto-serif-tamil), "Latha", serif;
+}
+
+#lang-transition .lt-rule {
+  display: block;
+  height: 1px;
+  width: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-accent-600) 45%, transparent) 22%,
+    color-mix(in oklab, var(--color-accent-600) 70%, transparent) 50%,
+    color-mix(in oklab, var(--color-accent-600) 45%, transparent) 78%,
+    transparent
+  );
+  transition: width 800ms var(--ease-out-expo) 160ms;
+}
+
+#lang-transition .lt-note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out-expo) 240ms;
+}
+
+#lang-transition .lt-note[lang="en"] {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+#lang-transition .lt-note[lang="ta"] {
+  font-family: var(--font-noto-tamil), "Latha", sans-serif;
+  font-size: 0.8125rem;
+}
+
+#lang-transition[data-phase="shown"] .lt-crest {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#lang-transition[data-phase="shown"] .lt-name {
+  opacity: 1;
+  transform: none;
+}
+
+#lang-transition[data-phase="shown"] .lt-rule {
+  width: min(11rem, 50vw);
+}
+
+#lang-transition[data-phase="shown"] .lt-note {
+  opacity: 1;
+}
+
+/* Reduced motion - the site's own switch or the system's: a quiet fade, no
+   movement, no drawing. The curtain still covers the change. */
+html[data-motion="off"] #lang-transition :is(.lt-crest, .lt-name, .lt-rule, .lt-note) {
+  transition: none;
+  transform: none;
+}
+html[data-motion="off"] #lang-transition .lt-rule {
+  width: min(11rem, 50vw);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #lang-transition :is(.lt-crest, .lt-name, .lt-rule, .lt-note) {
+    transition: none;
+    transform: none;
+  }
+  #lang-transition .lt-rule {
+    width: min(11rem, 50vw);
+  }
+}

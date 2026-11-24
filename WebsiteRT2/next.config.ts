@@ -179,6 +179,26 @@ const nextConfig: NextConfig = {
    * the ~16 MB frame set is fetched once and served from cache thereafter,
    * which is the single biggest repeat-visit win on the home page.
    */
+  /*
+   * The Portal's uploads, on this site's own domain.
+   *
+   * `/uploads/images/prayer-meeting.jpg` here is fetched from the Portal and
+   * served as if it were ours - so the sitemap, share images and structured
+   * data can name every photograph at https://<this site>/uploads/… rather
+   * than at the Portal's own address (a bare IP over plain HTTP today, a
+   * subdomain later). Search engines and link previews then see the church's
+   * domain, over HTTPS, with the readable file name intact, and none of those
+   * addresses has to change when the Portal moves.
+   *
+   * A renamed file's old address answers 301 from the Portal with a relative
+   * `/uploads/…` location, which resolves back through this same rewrite.
+   */
+  async rewrites() {
+    const api = portalApiUrl();
+    if (!api) return [];
+    return [{ source: "/uploads/:path*", destination: `${api.origin}/uploads/:path*` }];
+  },
+
   async headers() {
     const immutable = [
       { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
@@ -209,7 +229,27 @@ const nextConfig: NextConfig = {
       headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
     };
 
-    return [...cached, noindexElsewhere];
+    /*
+     * The proxied uploads: a file's name is never handed out twice, so a copy
+     * stays good - a day in the browser, a week at the edge - while a deleted
+     * photograph still drops out within the week.
+     *
+     * Where the host lets an external rewrite's own response headers win, the
+     * Portal's `Cache-Control` decides instead (it sends `max-age=0` today, so
+     * every view is fetched from it). The lasting fix is for the Portal's
+     * /uploads to send caching headers of its own.
+     */
+    const uploads = {
+      source: "/uploads/:path*",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
+        },
+      ],
+    };
+
+    return [...cached, uploads, noindexElsewhere];
   },
 };
 

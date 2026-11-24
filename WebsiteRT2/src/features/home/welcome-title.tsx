@@ -5,10 +5,10 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { CrossMark } from "@/components/common/ornament";
 import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 
@@ -57,6 +57,7 @@ export interface WelcomeTitleProps {
  */
 export function WelcomeTitle({ hold }: WelcomeTitleProps) {
   const t = useTranslations("home.welcomeSequence");
+  const tSite = useTranslations("site");
   const shouldReduceMotion = useReducedMotion();
 
   // Stops at 0.82, not at opaque. The cross and the Bible stay faintly visible
@@ -98,10 +99,53 @@ export function WelcomeTitle({ hold }: WelcomeTitleProps) {
 
   const content = (
     <Container>
-      <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-        <motion.div style={{ opacity: markOpacity, y: markY }}>
-          <CrossMark size="lg" tone="gold" />
+      <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+        {/*
+          The parish lockup - crest, name over the unit, diocese arms - as the
+          header opens the page with and the footer closes it on, so the
+          welcome is said in the church's own name. Drawn for this light
+          ground: the name in the page's ink rather than the footer's white,
+          the two marks boxed alike so the name sits on the centre line.
+          Decorative to assistive technology: the name is announced by the
+          header, and here it would only be read twice.
+        */}
+        <motion.div
+          aria-hidden
+          style={{ opacity: markOpacity, y: markY }}
+          className="flex items-center justify-center gap-3 sm:gap-6"
+        >
+          <Image
+            src="/brand/csi-emblem-192-v2.webp"
+            alt=""
+            width={192}
+            height={192}
+            unoptimized
+            className="size-14 shrink-0 object-contain drop-shadow-sm sm:size-20 lg:size-24"
+          />
+          <span className="flex min-w-0 flex-col text-center">
+            <span className="font-display text-[clamp(1.5rem,3.2vw+0.75rem,3.5rem)] font-[550] leading-[1.08] text-[var(--foreground)] text-balance [html[lang=en]_&]:tracking-[-0.02em]">
+              {tSite("wordmark.line1")}
+            </span>
+            <span className="mt-2 text-xs uppercase tracking-[0.18em] text-[var(--muted-foreground)] sm:mt-3 sm:text-sm">
+              {tSite("wordmark.line2")}
+            </span>
+          </span>
+          <Image
+            src="/brand/arms-192-v2.webp"
+            alt=""
+            width={117}
+            height={192}
+            unoptimized
+            className="size-14 shrink-0 object-contain drop-shadow-sm sm:size-20 lg:size-24"
+          />
         </motion.div>
+
+        {/* A gilded rule under the mark, then the greeting itself. */}
+        <motion.span
+          aria-hidden
+          style={{ opacity: markOpacity }}
+          className="rule-gild mt-6 h-px w-40 sm:w-56"
+        />
 
         <motion.div
           style={{ opacity: eyebrowOpacity, y: eyebrowY }}
@@ -119,15 +163,12 @@ export function WelcomeTitle({ hold }: WelcomeTitleProps) {
             hero above. This is the same greeting said a second way, not a new
             top-level heading.
 
-            `whitespace-pre-line` so the newline in the message is the break the
-            reader sees. The greeting and the name are two separate lines of a
-            display lockup, and where a display line breaks is a typographic
-            decision, not something to leave to whatever width the viewport
-            happens to be. Wrapping still works underneath it, so a narrow phone
-            can break the second line again if it has to.
+            Set small and on one line (the message's line break is joined): the
+            lockup above carries the church's name at display size now, so the
+            greeting is said under it rather than announced over it.
           */}
-          <Heading as="p" level="display" className="whitespace-pre-line">
-            {t("title")}
+          <Heading as="p" level="h3" className="text-[var(--foreground)]">
+            {t("title").replace(/\s*\n\s*/g, " ")}
           </Heading>
         </motion.div>
 

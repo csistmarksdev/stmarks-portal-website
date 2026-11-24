@@ -2,6 +2,7 @@ import { CHURCH_PROFILE } from "@/content/church";
 import { SITE_CONFIG } from "@/constants/site";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { siteMediaUrl } from "@/lib/media-url";
 import { localePath, shareImageUrl, videoSources } from "@/lib/seo";
 import type { SeoMeta } from "@/types/common";
 import type { BlogPost, ChurchEvent, GalleryAlbum } from "@/types/content";
@@ -158,7 +159,7 @@ export function albumJsonLd(album: GalleryAlbum, locale: Locale, path: string): 
   // name is part of what image search reads, and a proxy URL hides it in a
   // query string.
   const images = [album.cover, ...(album.photos ?? []).map((photo) => photo.image)]
-    .map((asset) => (asset?.url ? abs(asset.url) : undefined))
+    .map((asset) => siteMediaUrl(asset?.url))
     .filter((url): url is string => !!url)
     .filter((url, i, all) => all.indexOf(url) === i);
   return {

@@ -402,9 +402,17 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             use. The bar has the room - the cap was simply tighter than the
             space, and a fixed vw fraction cannot know that.
           */}
+          {/*
+            From `nav` up the wordmark and the right cluster take equal shares
+            of the row (`flex-1 basis-0` each) and the nav sits between them at
+            its own width - so the nav is centred on the header itself, not on
+            whatever the two unequal ends happened to leave over. The cluster
+            cannot be squeezed below its controls; the wordmark gives way first
+            (its name truncates), exactly as before.
+          */}
           <motion.div
             layout={reduceMotion ? false : "position"}
-            className="min-w-0 flex-1 nav:flex-none"
+            className="min-w-0 flex-1 nav:basis-0"
           >
             <Link
               href={ROUTES.home}
@@ -482,7 +490,7 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
             layout={reduceMotion ? false : "position"}
             data-site-nav
             aria-label={t("primary")}
-            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 nav:flex"
+            className="hidden min-w-0 flex-none items-center justify-center gap-0.5 px-4 sm:px-6 lg:px-8 nav:flex"
           >
             {nav.map((item) => {
               const active = isActive(item.href);
@@ -577,13 +585,14 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
           {/* Right cluster */}
           <motion.div
             layout={reduceMotion ? false : "position"}
-            className="flex shrink-0 items-center gap-1.5 sm:gap-2.5"
+            className="flex shrink-0 items-center justify-end gap-1.5 sm:gap-2.5 nav:flex-1 nav:basis-0"
           >
             {/* On the bar at every width now, phones included (F-021): a reader
                 who lands on the wrong language should not have to find it at
                 the bottom of the menu. */}
             <LanguageSwitcher
               tone={isHero ? "onDark" : "default"}
+              labels="short"
               className="shrink-0"
             />
 

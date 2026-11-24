@@ -1540,6 +1540,18 @@ function shortReel(reel: string[]): string[] {
   return (picked.length ? picked : reel).slice(0, REEL_LENGTH);
 }
 
+/**
+ * Set once the splash has mounted in this document, whatever it then decided.
+ *
+ * Switching language re-renders the root layout under the new locale, which
+ * mounts this component a second time. That mount used to render the splash
+ * markup in its "visible" phase and only discover in an effect - a frame
+ * later - that it had nothing to play, so the opening screen flashed up over
+ * the page (and over the language curtain) on every switch. A later mount now
+ * renders nothing from its very first frame.
+ */
+let mountedInDocument = false;
+
 export function SplashScreen({ reel = [] }: SplashScreenProps) {
   const pathname = usePathname();
 
@@ -1550,7 +1562,15 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
    * Only a document that *opens* on the home page gets it.
    */
   const [opensOnHome] = useState(pathname === "/");
-  if (!opensOnHome) return null;
+
+  // False on the server and on the document's first (hydrating) mount, so the
+  // markup still matches; true on any remount after that.
+  const [isRemount] = useState(() => typeof window !== "undefined" && mountedInDocument);
+  useEffect(() => {
+    mountedInDocument = true;
+  }, []);
+
+  if (!opensOnHome || isRemount) return null;
 
   return (
     <>

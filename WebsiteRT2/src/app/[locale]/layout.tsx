@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import { BackToTop } from "@/components/common/back-to-top";
 import { ChristmasEffects } from "@/components/common/christmas-effects";
+import { LanguageTransitionWatcher } from "@/components/common/language-transition-watcher";
 import { ChristmasOrnaments } from "@/components/common/christmas-ornaments";
 import { EasterRays } from "@/components/common/easter-rays";
 import { LiturgicalSeason } from "@/components/common/liturgical-season";
@@ -250,6 +251,9 @@ export default async function LocaleLayout({
         </a>
 
         <NextIntlClientProvider messages={clientMessages}>
+          {/* Lifts the language-change curtain once this page has rendered
+              in the new language (see lib/language-transition.ts). */}
+          <LanguageTransitionWatcher />
           {/*
             First inside the provider, and so early in the body: the crest is
             what the reader should be looking at while the rest of this arrives,

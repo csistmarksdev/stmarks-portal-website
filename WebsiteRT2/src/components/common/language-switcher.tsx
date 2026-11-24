@@ -10,9 +10,11 @@ import { getPathname, usePathname } from "@/i18n/navigation";
 import {
   defaultLocale,
   localeLabels,
+  localeShortLabels,
   locales,
   type Locale,
 } from "@/i18n/routing";
+import { beginLanguageTransition } from "@/lib/language-transition";
 import { cn } from "@/lib/utils";
 
 /**
@@ -57,9 +59,17 @@ const ORDERED_LOCALES: readonly Locale[] = [
 export function LanguageSwitcher({
   className,
   tone = "default",
+  labels = "full",
 }: {
   className?: string;
   tone?: "default" | "onDark";
+  /**
+   * `short` draws each option as its abbreviation - த / EN - for the header
+   * bar, where the full names crowd the row; the full name is still what a
+   * screen reader announces and what the tooltip says. `full` spells them
+   * out, for the menu, where there is room.
+   */
+  labels?: "full" | "short";
 }) {
   const t = useTranslations("common");
   const locale = useLocale() as Locale;
@@ -95,6 +105,8 @@ export function LanguageSwitcher({
     }
 
     event.preventDefault();
+    // The curtain goes up first, so the page under it can change in one go.
+    beginLanguageTransition(next);
     startTransition(() => {
       router.push(href);
     });
@@ -111,17 +123,22 @@ export function LanguageSwitcher({
       role="group"
       aria-label={t("changeLanguage")}
     >
-      <Globe
-        aria-hidden
-        className={cn(
-          "ml-1 hidden size-3 shrink-0 sm:block",
-          onDark ? "text-white/70" : "text-[var(--muted-foreground)]",
-        )}
-      />
+      {/* The short pill speaks for itself - த / EN is the language control -
+          so the globe is kept for the spelled-out one only. */}
+      {labels === "full" ? (
+        <Globe
+          aria-hidden
+          className={cn(
+            "ml-1 hidden size-3 shrink-0 sm:block",
+            onDark ? "text-white/70" : "text-[var(--muted-foreground)]",
+          )}
+        />
+      ) : null}
 
       {ORDERED_LOCALES.map((code) => {
         const isActive = code === locale;
         const label = localeLabels[code];
+        const short = labels === "short";
 
         return (
           <NextLink
@@ -133,13 +150,19 @@ export function LanguageSwitcher({
             onClick={(event) => onSwitch(event, code)}
             aria-current={isActive ? "true" : undefined}
             title={
-              isActive ? undefined : t("switchToLanguage", { language: label })
+              isActive
+                ? short
+                  ? label
+                  : undefined
+                : t("switchToLanguage", { language: label })
             }
             className={cn(
               // A 28px pill with a 44px-tall hit area centred on it: the
               // `after:` box is part of the link, so it takes the clicks.
               // `min-w-11` keeps the width at 44px for a short label.
-              "relative inline-flex h-7 min-w-11 items-center justify-center rounded-full px-2.5 text-xs font-medium leading-none transition-[color,background-color,box-shadow] duration-200",
+              "relative inline-flex h-7 items-center justify-center rounded-full text-xs font-medium leading-none transition-[color,background-color,box-shadow] duration-200",
+              // Short: a fixed 32px button per language. Full: room for the name.
+              short ? "w-8" : "min-w-11 px-2.5",
               "after:absolute after:inset-x-0 after:top-1/2 after:h-11 after:-translate-y-1/2 after:content-['']",
               isActive
                 ? onDark
@@ -150,7 +173,23 @@ export function LanguageSwitcher({
                   : "text-[var(--muted-foreground)] hover:bg-sand-100 hover:text-[var(--foreground)]",
             )}
           >
-            <span lang={code}>{label}</span>
+            {short ? (
+              <span lang={code}>
+                {/* Each abbreviation in its own script's face: on a Tamil page
+                    "EN" otherwise came from Noto Sans Tamil's Latin, which sits
+                    higher than Inter's and visibly off the த beside it. */}
+                <span
+                  aria-hidden
+                  className="block leading-none"
+                  style={{ fontFamily: code === "ta" ? "var(--font-noto-tamil)" : "var(--font-inter)" }}
+                >
+                  {localeShortLabels[code]}
+                </span>
+                <span className="sr-only">{label}</span>
+              </span>
+            ) : (
+              <span lang={code}>{label}</span>
+            )}
           </NextLink>
         );
       })}

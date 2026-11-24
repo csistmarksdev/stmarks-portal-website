@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { ROUTES, SITE_CONFIG } from "@/constants/site";
 import { defaultLocale, locales, type Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { siteMediaUrl } from "@/lib/media-url";
 import { videoSources } from "@/lib/seo";
 import {
   getAlbumSlugs,
@@ -23,10 +24,12 @@ function url(path: string, locale: string): string {
   return `${SITE_CONFIG.url}${prefix}${suffix}`;
 }
 
-/** An image's own address — the Portal's readable file name, which image search reads. */
+/**
+ * An image's own address - the Portal's readable file name, which image search
+ * reads - on this site's domain (see the `/uploads` rewrite in next.config).
+ */
 function imageUrl(image: ImageAsset | undefined): string | undefined {
-  if (!image?.url) return undefined;
-  return image.url.startsWith("/") ? `${SITE_CONFIG.url}${image.url}` : image.url;
+  return siteMediaUrl(image?.url);
 }
 
 const unique = (urls: (string | undefined)[]) =>

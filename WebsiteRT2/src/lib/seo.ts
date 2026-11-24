@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { SITE_CONFIG } from "@/constants/site";
 import { defaultLocale, locales, type Locale } from "@/i18n/routing";
+import { siteMediaUrl, uploadPath } from "@/lib/media-url";
 import type { SeoMeta } from "@/types/common";
 
 /**
@@ -36,13 +37,17 @@ export function languageAlternates(path: string): Record<string, string> {
 /**
  * A share-safe image URL.
  *
- * Site-relative files (`/og/default.jpg`) are used as they are. Absolute URLs on
- * another host - the Portal's `/uploads/**` - go through `/_next/image`, which
- * serves them over the site's own HTTPS origin.
+ * Site-relative files (`/og/default.jpg`) are used as they are. A Portal upload
+ * is named at this site's own `/uploads/…` path (served through the rewrite in
+ * `next.config.ts`): the church's domain, over HTTPS, with the file's readable
+ * name intact. Anything else on another host still goes through
+ * `/_next/image`, which serves it over the site's own origin.
  */
 export function shareImageUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
   if (url.startsWith("/")) return url;
+  const upload = uploadPath(url);
+  if (upload) return upload;
   try {
     const parsed = new URL(url);
     if (parsed.origin === new URL(SITE_CONFIG.url).origin) return parsed.pathname;
@@ -94,7 +99,8 @@ export function videoSources(video: SeoMeta["video"]):
   }
   const vimeo = video.url.match(VIMEO_ID)?.[1];
   if (vimeo) return { embedUrl: `https://player.vimeo.com/video/${vimeo}` };
-  return { contentUrl: video.url };
+  // A video file uploaded to the Portal is named on this site's domain too.
+  return { contentUrl: siteMediaUrl(video.url) };
 }
 
 /**
