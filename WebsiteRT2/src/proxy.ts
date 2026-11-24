@@ -2,7 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { routing } from "@/i18n/routing";
-import { maintenancePage, maintenanceState } from "@/lib/maintenance";
+import { maintenanceState, writeMaintenanceHeader } from "@/lib/maintenance";
 
 /**
  * Next.js 16 renamed Middleware to Proxy. next-intl still ships its handler
@@ -23,16 +23,30 @@ const intl = createMiddleware(routing);
  */
 export async function proxy(request: NextRequest) {
   const state = await maintenanceState();
-  if (!state.enabled) return intl(request);
+  if (!state.enabled) {
+    // The notice has no business being visited while the site is up — a
+    // bookmark or a shared link to it goes home instead.
+    const notice = request.nextUrl.pathname.match(/^\/(?:(en|ta)\/)?maintenance\/?$/);
+    if (notice) {
+      return NextResponse.redirect(new URL(notice[1] === "en" ? "/en" : "/", request.url), 307);
+    }
+    return intl(request);
+  }
 
   const locale = /^\/en(?:\/|$)/.test(request.nextUrl.pathname) ? "en" : "ta";
   const backIn = state.until ? Math.ceil((Date.parse(state.until) - Date.now()) / 1000) : NaN;
   const retryAfter = Number.isFinite(backIn) && backIn > 0 ? Math.min(backIn, 86_400) : 300;
 
-  return new NextResponse(request.method === "HEAD" ? null : maintenancePage(state, locale), {
+  // The notice is a page of the site (app/maintenance), drawn in its own
+  // design; it is told the state and the language rather than asking again.
+  const forwarded = new Headers(request.headers);
+  forwarded.set("x-maintenance-state", writeMaintenanceHeader(state));
+  forwarded.set("x-maintenance-locale", locale);
+
+  return NextResponse.rewrite(new URL("/maintenance", request.url), {
     status: 503,
+    request: { headers: forwarded },
     headers: {
-      "content-type": "text/html; charset=utf-8",
       "cache-control": "no-store, max-age=0",
       "retry-after": String(retryAfter),
       "x-robots-tag": "noindex",

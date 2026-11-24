@@ -14,6 +14,9 @@
  *    Portal outage must never lock visitors out of the website;
  *  - the notice is sent `no-store`, so no browser or CDN keeps it, and it
  *    reloads itself every 30 seconds, bringing visitors back on its own.
+ *
+ * The notice itself is a page of the site (`app/maintenance`), drawn in the
+ * site's own design; the proxy rewrites to it.
  */
 
 export interface MaintenanceState {
@@ -77,86 +80,28 @@ export async function maintenanceState(): Promise<MaintenanceState> {
   return pending;
 }
 
-const escapeHtml = (text: string) =>
-  text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-
-const FALLBACK = {
-  en: "The website is being updated and will be back shortly. Thank you for your patience.",
-  ta: "இணையதளம் புதுப்பிக்கப்படுகிறது, விரைவில் மீண்டும் கிடைக்கும். உங்கள் பொறுமைக்கு நன்றி.",
-};
-
-function backBy(until: string | undefined, locale: "en" | "ta"): string | null {
-  if (!until) return null;
-  const date = new Date(until);
-  if (Number.isNaN(date.getTime()) || date.getTime() < Date.now()) return null;
-  const when = new Intl.DateTimeFormat(locale === "ta" ? "ta-IN" : "en-IN", {
-    timeZone: "Asia/Kolkata",
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
-  return locale === "ta" ? `எதிர்பார்க்கப்படும் நேரம்: ${when}` : `Expected back: ${when}`;
+/**
+ * Hands the state from the proxy to the notice page in a request header.
+ * Header values are bytes, not text, so the bilingual message travels
+ * URL-encoded.
+ */
+export function writeMaintenanceHeader(state: MaintenanceState): string {
+  return encodeURIComponent(JSON.stringify(state));
 }
 
-/**
- * The notice itself: one self-contained page (no app code, no scripts beyond
- * a reload) so it works even while the rest of the site is being changed.
- * Both languages are shown; the one the visitor asked for comes first.
- */
-export function maintenancePage(state: MaintenanceState, locale: "en" | "ta"): string {
-  const message = {
-    en: state.message.en.trim() || FALLBACK.en,
-    ta: state.message.ta.trim() || FALLBACK.ta,
-  };
-  const order: ("en" | "ta")[] = locale === "ta" ? ["ta", "en"] : ["en", "ta"];
-  const heading = { en: "We'll be back soon", ta: "விரைவில் மீண்டும் வருகிறோம்" };
-  const blocks = order
-    .map((lang) => {
-      const back = backBy(state.until, lang);
-      return `<section lang="${lang}">
-        <h2>${escapeHtml(heading[lang])}</h2>
-        <p>${escapeHtml(message[lang])}</p>
-        ${back ? `<p class="back">${escapeHtml(back)}</p>` : ""}
-      </section>`;
-    })
-    .join('<hr aria-hidden="true">');
-
-  return `<!doctype html>
-<html lang="${locale}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="30">
-<title>${locale === "ta" ? "பராமரிப்பு · தூய மாற்கு ஆலயம்" : "Maintenance · CSI St. Mark's Church"}</title>
-<style>
-  :root { color-scheme: light dark; --brand: oklch(0.542 0.19 359); --ink: #231f26; --muted: #6b6470; --bg: #fbf8f9; --card: #fff; --line: #ece6ea; }
-  @media (prefers-color-scheme: dark) { :root { --brand: oklch(0.714 0.158 355); --ink: #f3eef2; --muted: #b3aab3; --bg: #151218; --card: #1e1a21; --line: #2e2832; } }
-  * { box-sizing: border-box; }
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px;
-         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", "Noto Sans Tamil", Roboto, sans-serif;
-         color: var(--ink); background: var(--bg); }
-  main { width: 100%; max-width: 560px; background: var(--card); border: 1px solid var(--line);
-         border-radius: 20px; padding: 36px 32px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.06); }
-  img { width: 84px; height: 84px; object-fit: contain; margin-bottom: 12px; }
-  h1 { margin: 0 0 24px; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
-  h2 { margin: 0 0 8px; font-size: 24px; line-height: 1.3; }
-  p { margin: 0; color: var(--muted); }
-  .back { margin-top: 10px; font-size: 14px; color: var(--ink); }
-  hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
-  footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
-</style>
-</head>
-<body>
-<main>
-  <img src="/Logo1.svg" alt="" width="84" height="84">
-  <h1>CSI St. Mark's Church, Madipakkam</h1>
-  ${blocks}
-  <footer>${locale === "ta" ? "இந்தப் பக்கம் தானாகவே புதுப்பிக்கப்படும்." : "This page refreshes by itself."}</footer>
-</main>
-</body>
-</html>`;
+/** The page's side of {@link writeMaintenanceHeader}; anything unreadable is the default notice. */
+export function readMaintenanceHeader(value: string | null): MaintenanceState {
+  try {
+    const parsed = JSON.parse(decodeURIComponent(value ?? "")) as Partial<MaintenanceState>;
+    return {
+      enabled: true,
+      message: {
+        en: typeof parsed.message?.en === "string" ? parsed.message.en : "",
+        ta: typeof parsed.message?.ta === "string" ? parsed.message.ta : "",
+      },
+      ...(typeof parsed.until === "string" ? { until: parsed.until } : {}),
+    };
+  } catch {
+    return { enabled: true, message: { en: "", ta: "" } };
+  }
 }
