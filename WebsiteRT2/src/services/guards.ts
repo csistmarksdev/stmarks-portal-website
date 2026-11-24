@@ -22,8 +22,13 @@ import type {
 const PLACEHOLDER =
   /\b(sample|demo|test|lorem|ipsum|placeholder|dummy)\b|மாதிரி|big buck bunny/i;
 
-/** The Blender open-movie used as the demo clip (youtube id aqz-KE-bpKQ). */
-const DEMO_VIDEO = /aqz-KE-bpKQ|bigbuckbunny|big_buck_bunny/i;
+/**
+ * Demo clips: the Blender open-movie (youtube id aqz-KE-bpKQ), and Google's
+ * public sample videos (gtv-videos-bucket/sample — "ForBiggerJoyrides.mp4" and
+ * friends), which were used to fill albums before real recordings existed.
+ */
+const DEMO_VIDEO =
+  /aqz-KE-bpKQ|bigbuckbunny|big_buck_bunny|gtv-videos-bucket\/sample\//i;
 
 type Text = LocalizedText | LocalizedTextOptional | undefined;
 

@@ -11,7 +11,13 @@ import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { pageMetadata, recordSeo } from "@/lib/seo";
-import { breadcrumbJsonLd, JsonLd, pageVideoJsonLd } from "@/components/seo/json-ld";
+import {
+  albumJsonLd,
+  albumVideosJsonLd,
+  breadcrumbJsonLd,
+  JsonLd,
+  pageVideoJsonLd,
+} from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize } from "@/lib/localize";
 import { getAlbumBySlug, getAlbumSlugs } from "@/services";
@@ -40,10 +46,15 @@ export async function generateMetadata({
     image: album.cover.url,
   });
 
+  // No share video chosen: the album's own first video is what a shared
+  // link should play.
+  const firstVideo = album.photos.find((photo) => photo.video?.url)?.video;
+
   return pageMetadata({
     locale: locale as Locale,
     path: ROUTES.album(album.slug),
     ...seo,
+    video: seo.video ?? firstVideo,
   });
 }
 
@@ -77,12 +88,17 @@ export default async function AlbumPage({
             ],
             locale,
           ),
-          ...pageVideoJsonLd(album.seo, {
-            title: localize(album.title, locale),
-            description: album.description ? localize(album.description, locale) : undefined,
-            image: album.seo?.image?.url ?? album.cover.url,
-            uploadDate: album.date,
-          }, locale, ROUTES.album(album.slug)),
+          albumJsonLd(album, locale, ROUTES.album(album.slug)),
+          ...albumVideosJsonLd(album, locale, ROUTES.album(album.slug)),
+          // A share video that is not one of the album's own.
+          ...(album.photos.some((photo) => photo.video?.url === album.seo?.video?.url)
+            ? []
+            : pageVideoJsonLd(album.seo, {
+                title: localize(album.title, locale),
+                description: album.description ? localize(album.description, locale) : undefined,
+                image: album.seo?.image?.url ?? album.cover.url,
+                uploadDate: album.date,
+              }, locale, ROUTES.album(album.slug))),
         ]}
       />
       <PageHero

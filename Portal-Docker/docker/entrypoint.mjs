@@ -456,20 +456,42 @@ function startRouter() {
      * hostname with our own internal one, which is precisely what media URLs
      * are derived from.
      */
-    const headers = {
-      ...req.headers,
-      "x-forwarded-for": req.headers["x-forwarded-for"] ?? req.socket.remoteAddress,
-      "x-forwarded-proto": req.headers["x-forwarded-proto"] ?? "http",
-      "x-forwarded-host": req.headers["x-forwarded-host"] ?? req.headers.host,
-    };
-
-    const upstream = httpRequest(
-      { host: "127.0.0.1", port, path: req.url, method: req.method, headers },
-      (upstreamRes) => {
-        res.writeHead(upstreamRes.statusCode ?? 502, upstreamRes.headers);
-        upstreamRes.pipe(res);
-      },
+    /*
+     * Headers the client did not send are left out, never set to `undefined`.
+     * A request without a Host header (HTTP/1.0, some scanners) used to give
+     * `x-forwarded-host: undefined`, which `http.request` rejects by throwing
+     * synchronously — uncaught, inside the server callback, so the whole
+     * process exited and the container restarted. One stray request took the
+     * site down.
+     */
+    const headers = Object.fromEntries(
+      Object.entries({
+        ...req.headers,
+        "x-forwarded-for": req.headers["x-forwarded-for"] ?? req.socket.remoteAddress,
+        "x-forwarded-proto": req.headers["x-forwarded-proto"] ?? "http",
+        "x-forwarded-host": req.headers["x-forwarded-host"] ?? req.headers.host,
+      }).filter(([, value]) => value !== undefined),
     );
+
+    let upstream;
+    try {
+      upstream = httpRequest(
+        { host: "127.0.0.1", port, path: req.url, method: req.method, headers },
+        (upstreamRes) => {
+          res.writeHead(upstreamRes.statusCode ?? 502, upstreamRes.headers);
+          upstreamRes.pipe(res);
+        },
+      );
+    } catch (error) {
+      // Anything else malformed in the request: refuse it, keep serving.
+      if (!res.headersSent) {
+        res.writeHead(400, { "content-type": "application/json" });
+        res.end(JSON.stringify({ statusCode: 400, message: "Bad request", detail: error.message }));
+      } else {
+        res.destroy();
+      }
+      return;
+    }
 
     upstream.on("error", (error) => {
       if (res.headersSent) return res.destroy();
@@ -483,9 +505,19 @@ function startRouter() {
       );
     });
 
+    // A client that disconnects mid-request must not leave the upstream open.
+    req.on("error", () => upstream.destroy());
+
     // Streamed, not buffered: uploads and media downloads pass straight
     // through without being held in memory.
     req.pipe(upstream);
+  });
+
+  // A malformed request line or header is answered and closed; it must never
+  // reach the handler above, let alone the process.
+  server.on("clientError", (_error, socket) => {
+    if (socket.writable) socket.end("HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n");
+    else socket.destroy();
   });
 
   // Next's dev socket is not used in production, but a stray upgrade request

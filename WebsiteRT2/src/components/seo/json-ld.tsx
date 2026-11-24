@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
 import { localePath, shareImageUrl, videoSources } from "@/lib/seo";
 import type { SeoMeta } from "@/types/common";
-import type { BlogPost, ChurchEvent } from "@/types/content";
+import type { BlogPost, ChurchEvent, GalleryAlbum } from "@/types/content";
 
 /**
  * Structured data (F-043): Church on the home page, Event on event pages,
@@ -147,6 +147,56 @@ export function videoJsonLd(
     url: abs(localePath(path, locale)),
     inLanguage: locale === "ta" ? "ta-IN" : "en-IN",
   };
+}
+
+/**
+ * An album as an ImageGallery: its photographs (under their own, readable
+ * file names) are what image search can index, with the album as context.
+ */
+export function albumJsonLd(album: GalleryAlbum, locale: Locale, path: string): Json {
+  // The files' own addresses, not the share-image proxy: the readable file
+  // name is part of what image search reads, and a proxy URL hides it in a
+  // query string.
+  const images = [album.cover, ...(album.photos ?? []).map((photo) => photo.image)]
+    .map((asset) => (asset?.url ? abs(asset.url) : undefined))
+    .filter((url): url is string => !!url)
+    .filter((url, i, all) => all.indexOf(url) === i);
+  return {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: localize(album.title, locale),
+    ...(album.description ? { description: localize(album.description, locale) } : {}),
+    url: abs(localePath(path, locale)),
+    ...(album.date ? { dateCreated: album.date } : {}),
+    image: images,
+    inLanguage: locale === "ta" ? "ta-IN" : "en-IN",
+  };
+}
+
+/**
+ * A VideoObject for every video in an album (demo clips are already dropped
+ * by the gallery service), each with its poster as the thumbnail.
+ */
+export function albumVideosJsonLd(album: GalleryAlbum, locale: Locale, path: string): Json[] {
+  const title = localize(album.title, locale);
+  const videos = (album.photos ?? []).filter((photo) => photo.video?.url);
+  return videos
+    .map((photo, i) =>
+      videoJsonLd(
+        photo.video,
+        {
+          title: videos.length > 1 ? `${title} — ${i + 1}` : title,
+          description:
+            photo.caption?.[locale] ||
+            (album.description ? localize(album.description, locale) : title),
+          image: photo.image?.url,
+          uploadDate: album.date ?? album.updatedAt,
+        },
+        locale,
+        path,
+      ),
+    )
+    .filter((json): json is Json => !!json);
 }
 
 /** `videoJsonLd` as a list — empty when there is no video — for spreading. */
