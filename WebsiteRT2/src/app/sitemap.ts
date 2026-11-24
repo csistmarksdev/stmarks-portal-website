@@ -23,15 +23,6 @@ function url(path: string, locale: string): string {
   return `${SITE_CONFIG.url}${prefix}${suffix}`;
 }
 
-/** Alternate-language links for a path, as required for hreflang. */
-function alternates(path: string) {
-  return {
-    languages: Object.fromEntries(
-      locales.map((locale) => [locale, url(path, locale)]),
-    ),
-  };
-}
-
 /** An image's own address — the Portal's readable file name, which image search reads. */
 function imageUrl(image: ImageAsset | undefined): string | undefined {
   if (!image?.url) return undefined;
@@ -77,6 +68,16 @@ const latest = (dates: (string | undefined)[]): Date | undefined => {
   return times.length ? new Date(Math.max(...times)) : undefined;
 };
 
+/**
+ * Every page of the site, in both languages, with the images and videos on it.
+ *
+ * Language alternates (hreflang) are deliberately not repeated here: every
+ * page already declares its English, Tamil and x-default versions in its own
+ * <head> (see `pageMetadata`), which search engines treat the same. Listing
+ * them here as well needs the XHTML namespace, and Chrome renders any XML
+ * that uses it as a run-together page of text instead of its XML tree — the
+ * sitemap became unreadable for no gain.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [
     fellowshipSlugs,
@@ -248,7 +249,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: lastModified ?? builtAt,
         changeFrequency: freq,
         priority,
-        alternates: alternates(path),
       })),
     ),
     ...pages.flatMap((page) =>
@@ -259,7 +259,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: page.lastModified ?? builtAt,
           changeFrequency: "monthly" as const,
           priority: 0.6,
-          alternates: alternates(page.path),
           ...(page.images?.length ? { images: page.images } : {}),
           ...(videos.length ? { videos } : {}),
         };
