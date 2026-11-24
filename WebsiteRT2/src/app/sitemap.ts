@@ -68,6 +68,18 @@ const latest = (dates: (string | undefined)[]): Date | undefined => {
   return times.length ? new Date(Math.max(...times)) : undefined;
 };
 
+/*
+ * Generated from the live Portal data, never frozen at build time:
+ *  - on demand: when the Portal publishes, it calls /api/revalidate with the
+ *    content tags (events, blog, gallery, …); the fetches below carry those
+ *    tags, so the sitemap is rebuilt with the change;
+ *  - on a timer: at most every five minutes as well, as a safety net for a
+ *    missed or failed revalidation call.
+ * Stated here rather than left to be inferred from the fetches, so a change
+ * elsewhere cannot quietly turn it into a build-time snapshot.
+ */
+export const revalidate = 300;
+
 /**
  * Every page of the site, in both languages, with the images and videos on it.
  *
