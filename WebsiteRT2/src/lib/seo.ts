@@ -77,6 +77,11 @@ export interface PageMetadataInput {
    * gets from the layout's title template.
    */
   titleIsCustom?: boolean;
+  /**
+   * The share image's pixel size. WhatsApp and Facebook render the large
+   * preview more reliably when `og:image:width`/`height` are present.
+   */
+  imageSize?: ImageSize;
 }
 
 const YOUTUBE_ID = /(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/;
@@ -108,16 +113,37 @@ export function videoSources(video: SeoMeta["video"]):
  * under "Search engines" in the Portal, in this page's language, else the
  * record's own title and summary.
  */
+export interface ImageSize {
+  width: number;
+  height: number;
+}
+
+/** An image's recorded pixel size, if it has a usable one. */
+export function sizeOf(
+  asset: { width?: number; height?: number } | undefined | null,
+): ImageSize | undefined {
+  const width = Number(asset?.width);
+  const height = Number(asset?.height);
+  return width > 0 && height > 0 ? { width, height } : undefined;
+}
+
 export function recordSeo(
   seo: SeoMeta | undefined,
   locale: Locale,
-  fallback: { title: string; description?: string; image?: string },
+  fallback: {
+    title: string;
+    description?: string;
+    image?: string;
+    /** The fallback image's pixel size, when the Portal recorded it. */
+    imageSize?: ImageSize;
+  },
 ): {
   title: string;
   titleIsCustom: boolean;
   description?: string;
   keywords?: string[];
   image?: string;
+  imageSize?: ImageSize;
   video?: SeoMeta["video"];
 } {
   const custom = seo?.title?.[locale]?.trim();
@@ -127,12 +153,18 @@ export function recordSeo(
   // A chosen share image wins; then the record's own; then a YouTube still.
   const image =
     seo?.image?.url ?? fallback.image ?? videoSources(seo?.video)?.thumbnailUrl;
+  const imageSize = seo?.image?.url
+    ? sizeOf(seo.image)
+    : fallback.image
+      ? fallback.imageSize
+      : undefined;
   return {
     title,
     titleIsCustom: !!custom,
     description,
     ...(keywords?.length ? { keywords } : {}),
     ...(image ? { image } : {}),
+    ...(imageSize ? { imageSize } : {}),
     ...(seo?.video?.url ? { video: seo.video } : {}),
   };
 }
@@ -149,6 +181,7 @@ export async function pageMetadata({
   keywords,
   video,
   titleIsCustom = false,
+  imageSize,
 }: PageMetadataInput): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "site" });
   const siteName = t("name");
@@ -163,10 +196,25 @@ export async function pageMetadata({
       ? { url: sources.contentUrl, width: 1280, height: 720 }
       : undefined;
   const imageUrl = shareImageUrl(image) ?? SITE_CONFIG.ogImage;
+  // The type from the file's extension, so a preview never has to sniff it.
+  const ext = imageUrl.split("?")[0].split(".").pop()?.toLowerCase();
+  const imageType =
+    ext === "jpg" || ext === "jpeg"
+      ? "image/jpeg"
+      : ext === "png"
+        ? "image/png"
+        : ext === "webp"
+          ? "image/webp"
+          : undefined;
   const images = [
     imageUrl === SITE_CONFIG.ogImage
-      ? { url: imageUrl, width: 1200, height: 630, alt: siteName }
-      : { url: imageUrl, alt: ogTitle },
+      ? { url: imageUrl, width: 1200, height: 630, alt: siteName, type: "image/jpeg" }
+      : {
+          url: imageUrl,
+          alt: ogTitle,
+          ...(imageSize ? { width: imageSize.width, height: imageSize.height } : {}),
+          ...(imageType ? { type: imageType } : {}),
+        },
   ];
 
   return {

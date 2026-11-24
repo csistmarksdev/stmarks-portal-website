@@ -14,7 +14,7 @@ import { Heading, Prose, Text } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { getPathname, Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { pageMetadata, recordSeo } from "@/lib/seo";
+import { pageMetadata, recordSeo, sizeOf } from "@/lib/seo";
 import {
   breadcrumbJsonLd,
   eventJsonLd,
@@ -47,6 +47,7 @@ export async function generateMetadata({
     title: localize(event.title, locale as Locale),
     description: localize(event.summary, locale as Locale),
     image: event.image?.url,
+    imageSize: sizeOf(event.image),
   });
 
   return pageMetadata({

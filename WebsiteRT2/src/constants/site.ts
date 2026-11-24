@@ -5,8 +5,14 @@
  * layer; this file holds build-time constants only (URLs, analytics ids).
  */
 export const SITE_CONFIG = {
-  /** Canonical origin - override per environment via NEXT_PUBLIC_SITE_URL. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://csistmarksmadipakkam.org",
+  /**
+   * The public origin every canonical, sitemap entry and link-preview image is
+   * written against. Resolved once at build time in `next.config.ts`
+   * (`SITE_ORIGIN`): `NEXT_PUBLIC_SITE_URL` when set, else the domain Vercel
+   * serves production from. It must be an address that actually answers -
+   * WhatsApp and every other link preview fetch the image from it.
+   */
+  url: process.env.SITE_ORIGIN ?? "https://www.csistmarks.com",
   ogImage: "/og/default.jpg",
   locale: {
     en: "en_IN",

@@ -10,7 +10,7 @@ import { PhotoGrid } from "@/features/gallery/photo-grid";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { pageMetadata, recordSeo } from "@/lib/seo";
+import { pageMetadata, recordSeo, sizeOf } from "@/lib/seo";
 import {
   albumJsonLd,
   albumVideosJsonLd,
@@ -44,6 +44,7 @@ export async function generateMetadata({
     title: localize(album.title, locale as Locale),
     description: album.description ? localize(album.description, locale as Locale) : undefined,
     image: album.cover.url,
+    imageSize: sizeOf(album.cover),
   });
 
   // No share video chosen: the album's own first video is what a shared

@@ -115,7 +115,35 @@ function apiIsOnPrivateNetwork(): boolean {
 
 assertHttpsApi();
 
+/**
+ * The site's public origin, decided once per build.
+ *
+ * 1. `NEXT_PUBLIC_SITE_URL`, when set - the church's own domain once it is
+ *    pointed at this site.
+ * 2. Otherwise the domain Vercel serves production from
+ *    (`VERCEL_PROJECT_PRODUCTION_URL`): the *.vercel.app address today, and
+ *    the custom domain by itself the moment one is attached to the project.
+ * 3. Otherwise (a local build) the church's intended domain.
+ *
+ * Link previews are why this matters: WhatsApp, Facebook and the rest fetch
+ * `og:image` from the address written here, so it has to be one that answers.
+ * The old fallback, csistmarksmadipakkam.org, does not resolve at all - every
+ * shared link went out with an image no one could load.
+ *
+ * Inlined through `env` so server and browser read the identical value.
+ */
+function siteOrigin(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) return explicit.replace(/\/+$/, "");
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/^https?:\/\//, "").replace(/\/+$/, "")}`;
+  return "https://www.csistmarks.com";
+}
+
 const nextConfig: NextConfig = {
+  env: {
+    SITE_ORIGIN: siteOrigin(),
+  },
   // Let other devices on the LAN load dev-only assets (/_next/*, HMR socket).
   // Next blocks cross-origin dev requests by default; these cover the private
   // IPv4 ranges plus mDNS hostnames. A bare "*" is rejected by Next.
