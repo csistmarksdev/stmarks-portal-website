@@ -54,3 +54,23 @@ export const ImageAssetSchema = new Schema<ImageAsset>(
   },
   { _id: false },
 );
+
+const SeoVideoSchema = new Schema(
+  {
+    url: { type: String, required: true },
+    provider: { type: String, enum: ["file", "youtube", "vimeo"] },
+  },
+  { _id: false },
+);
+
+/** Search-engine title, description, keywords and share media (see `SeoMeta`). */
+export const SeoSchema = new Schema(
+  {
+    title: { type: LocalizedTextOptionalSchema },
+    description: { type: LocalizedTextOptionalSchema },
+    keywords: { type: [String], default: undefined },
+    image: { type: ImageAssetSchema },
+    video: { type: SeoVideoSchema },
+  },
+  { _id: false },
+);

@@ -8,6 +8,7 @@ import {
   AddGalleryItemsDialog,
   type NewGalleryItem,
 } from "@/components/admin/add-gallery-items-dialog";
+import { MediaViewerDialog } from "@/components/admin/media-viewer-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -33,6 +34,7 @@ export function AlbumItemsEditor({
   onMove,
   busy = false,
   hint,
+  nameHint,
 }: {
   items: AlbumItemView[];
   /** Resolve true to close the dialog. */
@@ -42,8 +44,14 @@ export function AlbumItemsEditor({
   busy?: boolean;
   /** Extra line under the description, e.g. that nothing is saved yet. */
   hint?: string;
+  /**
+   * Names files uploaded here when their own name says nothing (IMG_2041.jpg)
+   * — the album title, so the stored file reads `harvest-festival-…jpg`.
+   */
+  nameHint?: string;
 }) {
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [viewing, setViewing] = useState<number | null>(null);
 
   return (
     <Card>
@@ -81,12 +89,26 @@ export function AlbumItemsEditor({
               key={item.key}
               className="group relative overflow-hidden rounded-xl border border-border/70"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.image.url}
-                alt={item.image.alt?.en ?? ""}
-                className="aspect-square w-full object-cover"
-              />
+              <button
+                type="button"
+                className="block w-full cursor-zoom-in"
+                aria-label={`View ${item.video ? "video" : "photo"} ${index + 1}`}
+                onClick={() => setViewing(index)}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.image.url}
+                  alt={item.image.alt?.en ?? ""}
+                  className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                />
+                {item.video && (
+                  <span className="pointer-events-none absolute inset-0 grid place-items-center">
+                    <span className="grid size-11 place-items-center rounded-full bg-black/55 text-white">
+                      <PlayIcon className="size-5 fill-current" />
+                    </span>
+                  </span>
+                )}
+              </button>
               {item.video && (
                 <span
                   className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-sand-950/75 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm"
@@ -134,10 +156,17 @@ export function AlbumItemsEditor({
             </div>
           ))}
         </div>
+        <MediaViewerDialog
+          items={items}
+          index={viewing}
+          onIndexChange={setViewing}
+          onClose={() => setViewing(null)}
+        />
         <AddGalleryItemsDialog
           open={pickerOpen}
           onOpenChange={setPickerOpen}
           busy={busy}
+          nameHint={nameHint}
           onAdd={async (added) => {
             if (await onAdd(added)) setPickerOpen(false);
           }}

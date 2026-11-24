@@ -32,6 +32,29 @@ export const EXPIRES_AT_FIELD: FieldDef = {
   help: "Optional. The notice is taken off the website at this time. Leave blank to keep it up until it is unpublished.",
 };
 
+/** SEO slug for records with a public page; `urlPrefix` is that page's path. */
+export const slugField = (urlPrefix: string, help?: string): FieldDef => ({
+  kind: "slug",
+  name: "slug",
+  label: "URL slug",
+  urlPrefix,
+  help,
+});
+
+/** Search-engine title, description and keywords for a record's public page. */
+export const seoField = (
+  urlPrefix: string,
+  fallbackDescription?: string,
+  fallbackImage?: string,
+): FieldDef => ({
+  kind: "seo",
+  name: "seo",
+  label: "Search engines",
+  urlPrefix,
+  fallbackDescription,
+  fallbackImage,
+});
+
 export const EVENT_FIELDS: FieldDef[] = [
   { kind: "localized", name: "title", label: "Title", required: true },
   { kind: "localized", name: "summary", label: "Summary", multiline: true, required: true },
@@ -49,6 +72,11 @@ export const EVENT_FIELDS: FieldDef[] = [
     help: "Featured events are highlighted on the website home page",
   },
   PUBLISH_AT_FIELD,
+  slugField(
+    "/events/",
+    "A year in the slug follows the start date: moving the event to another year updates it, and the old address keeps working.",
+  ),
+  seoField("/events/", "summary", "image"),
 ];
 
 /*
@@ -85,4 +113,6 @@ export const ALBUM_FIELDS: FieldDef[] = [
     help: "Shows in every fellowship's gallery — for occasions like Christmas or the harvest festival. Leave the fellowship above unset.",
   },
   PUBLISH_AT_FIELD,
+  slugField("/gallery/"),
+  seoField("/gallery/", "description", "cover"),
 ];

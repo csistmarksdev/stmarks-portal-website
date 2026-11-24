@@ -663,6 +663,25 @@ async function main() {
     // And it must be reachable, since the album stores this URL as video.url.
     const fetched = await fetch(item.url);
     assert.equal(fetched.status, 200, `uploaded video not served: ${fetched.status}`);
+
+    // Stored under a readable name (for search engines) — no id in it.
+    assert(/\/videos\/carols(?:-\d+)?\.mp4$/.test(item.url), `readable file name: ${item.url}`);
+
+    // A camera name says nothing, so the hint (an album title) names it.
+    const hinted = new FormData();
+    hinted.append("file", new Blob([mp4], { type: "video/mp4" }), "VID_20261224_1830.mp4");
+    hinted.append("nameHint", "Christmas Eve Service 2026");
+    const named = await json(
+      await fetch(`${BASE}/admin/media`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${tokens.accessToken}` },
+        body: hinted,
+      }),
+    );
+    assert(
+      /\/videos\/christmas-eve-service-2026(?:-\d+)?\.mp4$/.test(named.url),
+      `named from the hint: ${named.url}`,
+    );
   });
 
   await check("Upload cannot smuggle HTML in under an image content-type", async () => {
@@ -1389,10 +1408,141 @@ async function main() {
       startDate: "2026-10-11T04:30:00.000Z",
     });
     assert.equal(right.status, 201, JSON.stringify(right.body));
-    const moved = await patch(`/admin/events/${right.body.id}`, {
+    assert.equal(right.body.slug, "womens-fellowship-day-2026");
+
+    // Typing a slug whose year disagrees with the date is still refused.
+    const typedWrong = await patch(`/admin/events/${right.body.id}`, {
+      slug: "womens-fellowship-day-2025",
+    });
+    assert.equal(typedWrong.status, 400, JSON.stringify(typedWrong.body));
+  });
+
+  await check("moving a published event to another year moves its slug and keeps the old URL", async () => {
+    const created = await post("/admin/events", {
+      title: { en: "Harvest Thanksgiving 2026", ta: "அறுவடை நன்றி 2026" },
+      summary: { en: "Summary", ta: "சுருக்கம்" },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      location: { en: "Hall", ta: "மண்டபம்" },
+      startDate: "2026-10-11T04:30:00.000Z",
+      status: "published",
+    });
+    assert.equal(created.status, 201, JSON.stringify(created.body));
+    assert.equal(created.body.slug, "harvest-thanksgiving-2026");
+
+    const moved = await patch(`/admin/events/${created.body.id}`, {
       startDate: "2027-10-11T04:30:00.000Z",
     });
-    assert.equal(moved.status, 400, "moving the date out of the slug's year is refused");
+    assert.equal(moved.status, 200, JSON.stringify(moved.body));
+    assert.equal(moved.body.slug, "harvest-thanksgiving-2027");
+
+    const current = await fetch(`${BASE}/events/harvest-thanksgiving-2027`);
+    assert.equal(current.status, 200);
+    const old = await json(await fetch(`${BASE}/events/harvest-thanksgiving-2026`));
+    assert.equal(old.slug, "harvest-thanksgiving-2027", "the old URL resolves to the moved event");
+    assert(!("previousSlugs" in old), "aliases stay admin-side");
+  });
+
+  console.log("\nSlugs & SEO:");
+
+  await check("a typed slug is used on create, and SEO metadata reaches the public API", async () => {
+    const created = await post("/admin/events", {
+      title: { en: "Carol Service", ta: "கீத ஆராதனை" },
+      summary: { en: "Summary", ta: "சுருக்கம்" },
+      description: [{ en: "Para", ta: "பத்தி" }],
+      location: { en: "Hall", ta: "மண்டபம்" },
+      startDate: "2026-12-20T13:00:00.000Z",
+      status: "published",
+      slug: "Christmas Carols at St Mark's",
+      seo: {
+        title: { en: "Christmas Carol Service | CSI St Mark's" },
+        description: { en: "Join us for carols by candlelight.", ta: "" },
+        keywords: [" Christmas ", "christmas", "Carol   Service", ""],
+      },
+    });
+    assert.equal(created.status, 201, JSON.stringify(created.body));
+    assert.equal(created.body.slug, "christmas-carols-at-st-marks");
+    assert.deepEqual(created.body.seo.keywords, ["christmas", "carol service"]);
+
+    const pub = await json(await fetch(`${BASE}/events/christmas-carols-at-st-marks`));
+    assert.equal(pub.seo.title.en, "Christmas Carol Service | CSI St Mark's");
+    assert.deepEqual(pub.seo.keywords, ["christmas", "carol service"]);
+
+    const media = await patch(`/admin/events/${created.body.id}`, {
+      seo: {
+        ...pub.seo,
+        image: {
+          url: "https://example.org/share.jpg",
+          alt: { en: "Carols", ta: "" },
+          width: 1200,
+          height: 630,
+        },
+        video: { url: "https://youtu.be/dQw4w9WgXcQ" },
+      },
+    });
+    assert.equal(media.status, 200, JSON.stringify(media.body));
+    const withMedia = await json(await fetch(`${BASE}/events/christmas-carols-at-st-marks`));
+    assert.equal(withMedia.seo.image.url, "https://example.org/share.jpg");
+    assert.deepEqual(withMedia.seo.video, { url: "https://youtu.be/dQw4w9WgXcQ", provider: "youtube" });
+
+    const badVideo = await patch(`/admin/events/${created.body.id}`, {
+      seo: { video: { url: "https://www.youtube.com/watch?nothing=here" } },
+    });
+    assert.equal(badVideo.status, 400, "a YouTube link with no video id is refused");
+
+    const tooMany = await patch(`/admin/events/${created.body.id}`, {
+      seo: { keywords: Array.from({ length: 21 }, (_, i) => `k${i}`) },
+    });
+    assert.equal(tooMany.status, 400, "more than 20 keywords is refused");
+
+    const cleared = await patch(`/admin/events/${created.body.id}`, { seo: null });
+    assert.equal(cleared.status, 200, JSON.stringify(cleared.body));
+    assert(!cleared.body.seo, "null clears the SEO block");
+  });
+
+  await check("id-named uploads get readable names; references and old links follow", async () => {
+    // Uploaded the old way: a camera name, no alt text, no hint — an id-only name.
+    const form = new FormData();
+    form.append("file", new Blob([await sharpPixel()], { type: "image/png" }), "IMG_2041.png");
+    const uploaded = await json(
+      await fetch(`${BASE}/admin/media`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${tokens.accessToken}` },
+        body: form,
+      }),
+    );
+    const oldPath = uploaded.url.split("/uploads/")[1];
+    assert(/^images\/[0-9a-f-]{36}\.png$/.test(oldPath), `id-only name: ${oldPath}`);
+
+    const album = await post("/admin/gallery", {
+      title: { en: "Harvest Festival 2026", ta: "அறுவடை விழா 2026" },
+      date: "2026-09-20",
+      cover: { url: uploaded.url, alt: { en: "", ta: "" }, width: 1, height: 1 },
+      status: "published",
+    });
+    assert.equal(album.status, 201, JSON.stringify(album.body));
+
+    const preview = await json(
+      await fetch(`${BASE}/admin/media/seo-names/preview`, { headers: auth() }),
+    );
+    const planned = preview.find((item) => item.from === oldPath);
+    assert(planned, "the id-named file is in the preview");
+    assert(
+      /^images\/harvest-festival-2026(?:-\d+)?\.png$/.test(planned.to),
+      `named from the album that shows it: ${planned.to}`,
+    );
+
+    const applied = await json(
+      await fetch(`${BASE}/admin/media/seo-names/apply`, { method: "POST", headers: auth() }),
+    );
+    assert(applied.renamed >= 1 && applied.recordsUpdated >= 1, JSON.stringify(applied));
+
+    const after = await json(await fetch(`${BASE}/admin/gallery/${album.body.id}`, { headers: auth() }));
+    assert(after.cover.url.endsWith(planned.to), `album cover follows: ${after.cover.url}`);
+    assert.equal((await fetch(after.cover.url)).status, 200, "new name is served");
+
+    const old = await fetch(`${BASE.replace(/\/v1$/, "")}/uploads/${oldPath}`, { redirect: "manual" });
+    assert.equal(old.status, 301, "old link redirects");
+    assert(old.headers.get("location").endsWith(`/uploads/${planned.to}`), old.headers.get("location"));
   });
 
   /*

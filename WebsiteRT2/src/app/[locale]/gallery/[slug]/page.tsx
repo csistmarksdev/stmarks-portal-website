@@ -10,8 +10,8 @@ import { PhotoGrid } from "@/features/gallery/photo-grid";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { pageMetadata } from "@/lib/seo";
-import { breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, recordSeo } from "@/lib/seo";
+import { breadcrumbJsonLd, JsonLd, pageVideoJsonLd } from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize } from "@/lib/localize";
 import { getAlbumBySlug, getAlbumSlugs } from "@/services";
@@ -34,17 +34,16 @@ export async function generateMetadata({
 
   if (!album) return {};
 
-  const title = localize(album.title, locale as Locale);
-  const description = album.description
-    ? localize(album.description, locale as Locale)
-    : undefined;
+  const seo = recordSeo(album.seo, locale as Locale, {
+    title: localize(album.title, locale as Locale),
+    description: album.description ? localize(album.description, locale as Locale) : undefined,
+    image: album.cover.url,
+  });
 
   return pageMetadata({
     locale: locale as Locale,
-    path: ROUTES.album(slug),
-    title,
-    description,
-    image: album.cover.url,
+    path: ROUTES.album(album.slug),
+    ...seo,
   });
 }
 
@@ -69,14 +68,22 @@ export default async function AlbumPage({
   return (
     <main id="main">
       <JsonLd
-        data={breadcrumbJsonLd(
-          [
-            [tNav("home"), ROUTES.home],
-            [tNav("gallery"), ROUTES.albumArchive],
-            [localize(album.title, locale), ROUTES.album(slug)],
-          ],
-          locale,
-        )}
+        data={[
+          breadcrumbJsonLd(
+            [
+              [tNav("home"), ROUTES.home],
+              [tNav("gallery"), ROUTES.albumArchive],
+              [localize(album.title, locale), ROUTES.album(slug)],
+            ],
+            locale,
+          ),
+          ...pageVideoJsonLd(album.seo, {
+            title: localize(album.title, locale),
+            description: album.description ? localize(album.description, locale) : undefined,
+            image: album.seo?.image?.url ?? album.cover.url,
+            uploadDate: album.date,
+          }, locale, ROUTES.album(album.slug)),
+        ]}
       />
       <PageHero
         eyebrow={formatDate(album.date, locale)}

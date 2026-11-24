@@ -1,6 +1,12 @@
 "use client";
 
-import type { ContentRevision, ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
+import type {
+  ContentRevision,
+  ImageAsset,
+  LocalizedText,
+  PublishStatus,
+  SeoMeta,
+} from "@portal/shared";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -23,6 +29,7 @@ import {
 } from "@/components/admin/bilingual-editor";
 import { ErrorState } from "@/components/admin/error-state";
 import { LocalizedField } from "@/components/admin/localized-field";
+import { SeoFields, seoPayload } from "@/components/admin/seo-fields";
 import { ImagePicker } from "@/components/admin/media-picker";
 import { PageHeader } from "@/components/admin/page-header";
 import {
@@ -38,6 +45,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { slugEditable, slugify } from "@/lib/slug";
 import { fellowshipOptions } from "@/config/fields";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
 import { parseBlock, renderInline } from "@/lib/rich-text";
@@ -52,6 +60,8 @@ interface BlogRecord {
   body?: LocalizedText[];
   publishedAt?: string;
   coverImage?: ImageAsset;
+  slug?: string;
+  seo?: SeoMeta;
   eventSlug?: string;
   fellowshipSlug?: string;
   status?: PublishStatus;
@@ -70,6 +80,10 @@ interface Draft {
   bodyTa: string;
   publishedAt: string;
   coverImage?: ImageAsset;
+  /** SEO URL slug; blank → the API builds it from the English title. */
+  slug: string;
+  /** Search-engine title, description and keywords. */
+  seo: SeoMeta;
   eventSlug: string;
   fellowshipSlug: string;
   /** F-049: datetime-local value; blank = no schedule. */
@@ -83,6 +97,8 @@ const BLANK: Draft = {
   bodyEn: "",
   bodyTa: "",
   publishedAt: toDateInput(new Date().toISOString()),
+  slug: "",
+  seo: {},
   eventSlug: "",
   fellowshipSlug: "",
   publishAt: "",
@@ -240,6 +256,8 @@ export function BlogForm({ id }: { id?: string }) {
       bodyTa: paragraphsToText(record.body, "ta"),
       publishedAt: toDateInput(record.publishedAt),
       coverImage: record.coverImage,
+      slug: record.slug ?? "",
+      seo: record.seo ?? {},
       eventSlug: record.eventSlug ?? "",
       fellowshipSlug: record.fellowshipSlug ?? "",
       publishAt: toDatetimeLocal(record.publishAt),
@@ -306,6 +324,8 @@ export function BlogForm({ id }: { id?: string }) {
       body: textToParagraphs(draft.bodyEn, draft.bodyTa),
       publishedAt: new Date(draft.publishedAt).toISOString(),
       status: asStatus ?? status,
+      // Blank is left out: the API builds the slug from the English title.
+      ...(slugify(draft.slug) ? { slug: slugify(draft.slug) } : {}),
     };
 
     /*
@@ -321,6 +341,7 @@ export function BlogForm({ id }: { id?: string }) {
       eventSlug: draft.eventSlug.trim() || null,
       fellowshipSlug: draft.fellowshipSlug.trim() || null,
       publishAt: draft.publishAt ? new Date(draft.publishAt).toISOString() : null,
+      seo: seoPayload(draft.seo),
     };
 
     if (isEdit && id) {
@@ -420,7 +441,14 @@ export function BlogForm({ id }: { id?: string }) {
             <LocalizedField
               label="Title"
               value={draft.title}
-              onChange={(title) => patch({ title })}
+              onChange={(title) => {
+                // The slug follows the English title until the writer edits it.
+                const slug = draft.slug.trim();
+                const follows =
+                  slugEditable(data?.status) &&
+                  (!slug || slug === slugify(draft.title.en ?? ""));
+                patch(follows ? { title, slug: slugify(title.en ?? "") } : { title });
+              }}
               required
             />
             <LocalizedField
@@ -508,6 +536,54 @@ export function BlogForm({ id }: { id?: string }) {
                 </p>
               </div>
             </div>
+            <div className="space-y-1.5">
+              <div className="flex items-baseline justify-between gap-3">
+                <Label>URL slug</Label>
+                {slugEditable(data?.status) &&
+                  slugify(draft.title.en ?? "") &&
+                  slugify(draft.slug) !== slugify(draft.title.en ?? "") && (
+                    <button
+                      type="button"
+                      className="text-xs font-medium text-primary hover:underline"
+                      onClick={() => patch({ slug: slugify(draft.title.en ?? "") })}
+                    >
+                      Use title
+                    </button>
+                  )}
+              </div>
+              <Input
+                value={draft.slug}
+                placeholder={slugify(draft.title.en ?? "") || "generated-from-the-title"}
+                readOnly={!slugEditable(data?.status)}
+                disabled={!slugEditable(data?.status)}
+                spellCheck={false}
+                onChange={(event) => patch({ slug: event.target.value })}
+                onBlur={() => draft.slug && patch({ slug: slugify(draft.slug) })}
+              />
+              <p className="break-all font-mono text-xs text-muted-foreground">
+                /events/blog/{slugify(draft.slug) || slugify(draft.title.en ?? "") || "…"}
+              </p>
+              <p className="text-[13px] text-muted-foreground">
+                {slugEditable(data?.status)
+                  ? "Filled in from the English title as you type it; edit it to choose your own. The post's web address, used by search engines."
+                  : "Fixed now that the post is published — links and search results point here."}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+      {step === 2 && (
+        <Card className="mt-5">
+          <CardContent className="space-y-5">
+            <p className="text-sm font-semibold">Search engines (SEO)</p>
+            <SeoFields
+              value={draft.seo}
+              onChange={(seo) => patch({ seo })}
+              urlPath={`/events/blog/${slugify(draft.slug) || slugify(draft.title.en ?? "")}`}
+              fallbackTitle={draft.title}
+              fallbackDescription={draft.excerpt}
+              fallbackImage={draft.coverImage}
+            />
           </CardContent>
         </Card>
       )}

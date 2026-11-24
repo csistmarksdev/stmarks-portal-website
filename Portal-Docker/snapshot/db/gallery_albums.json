@@ -15,7 +15,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/06f8ee55-cea6-4abb-89bd-96184326ee96.png",
+      "url": "{{MEDIA}}/images/christmas-2025.png",
       "alt": {
         "en": "Scene2.png",
         "ta": "Scene2.png"
@@ -32,7 +32,7 @@
       {
         "id": "233951dc-46b1-4486-af7b-aa624107e5d2",
         "image": {
-          "url": "{{MEDIA}}/images/dd4ad445-a0c1-409e-a7cb-650cce690123.png",
+          "url": "{{MEDIA}}/images/christmas-2025-2.png",
           "alt": {
             "en": "Scene2.png",
             "ta": "Scene2.png"
@@ -49,7 +49,7 @@
       {
         "id": "1da3a12d-157f-46fb-885a-103bd7bb8190",
         "image": {
-          "url": "{{MEDIA}}/images/2cf83209-0378-4fd3-9ca9-0951da97ed83.png",
+          "url": "{{MEDIA}}/images/youth-fellowship.png",
           "alt": {
             "en": "Scene3.png",
             "ta": "Scene3.png"
@@ -66,7 +66,7 @@
       {
         "id": "b6a5a90a-5ef2-404d-bf37-010fe0a5a932",
         "image": {
-          "url": "{{MEDIA}}/images/1e141ab5-4fe0-4fac-b55c-fee7bac09232.jpg",
+          "url": "{{MEDIA}}/images/christmas-2025-3.jpg",
           "alt": {
             "en": "DEMO — replace with the carol service recording",
             "ta": "DEMO — கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
@@ -124,7 +124,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.jpg",
+      "url": "{{MEDIA}}/images/harvest-festival-decorations.jpg",
       "alt": {
         "en": "Harvest festival 2025",
         "ta": "அறுவடைத் திருவிழா 2025"
@@ -141,7 +141,7 @@
       {
         "id": "0e6fb414-331b-4738-b7c9-cff99c8a2bda",
         "image": {
-          "url": "{{MEDIA}}/images/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-highlights-2.jpg",
           "alt": {
             "en": "Harvest festival highlights",
             "ta": "அறுவடைத் திருவிழா சிறப்பம்சங்கள்"
@@ -162,7 +162,7 @@
       {
         "id": "320befc1-d396-4997-955c-8b9160bf5587",
         "image": {
-          "url": "{{MEDIA}}/images/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-15.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -179,7 +179,7 @@
       {
         "id": "4c37aee1-1f60-4a84-a8ab-df3122afdb97",
         "image": {
-          "url": "{{MEDIA}}/images/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-11.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -196,7 +196,7 @@
       {
         "id": "6bc8e813-017c-43e7-a0f6-3350601e7df8",
         "image": {
-          "url": "{{MEDIA}}/images/95525b76-9622-47df-9543-58292e81f1e4.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-10.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -213,7 +213,7 @@
       {
         "id": "c10b8ba9-2822-44f9-b25d-2872a7164e87",
         "image": {
-          "url": "{{MEDIA}}/images/c390a87c-4028-472f-a208-13bed9eed8a4.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-9.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -230,7 +230,7 @@
       {
         "id": "8853563e-a2fc-4447-94cd-c2952f4f7262",
         "image": {
-          "url": "{{MEDIA}}/images/465981de-3aff-4307-8a34-c00b594ad1ac.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-12.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -247,7 +247,7 @@
       {
         "id": "91d8e935-6b2e-4481-81b8-044cb7370bd1",
         "image": {
-          "url": "{{MEDIA}}/images/4747a7cc-a103-4d19-9e5a-55f403aa03b8.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-17.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -264,7 +264,7 @@
       {
         "id": "503d9baa-ff9e-477f-a687-21ebc615e0a8",
         "image": {
-          "url": "{{MEDIA}}/images/a1c80bc0-6fbf-43f0-be0a-a69367476f89.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-16.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -281,7 +281,7 @@
       {
         "id": "7f89480a-fdf2-4696-985e-83dec160d685",
         "image": {
-          "url": "{{MEDIA}}/images/edba4697-824f-4483-8bb9-a8d9d0e97549.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-13.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -298,7 +298,7 @@
       {
         "id": "0c12d522-03ab-40a7-97f1-7340fa33ae36",
         "image": {
-          "url": "{{MEDIA}}/images/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.jpg",
+          "url": "{{MEDIA}}/images/harvest-festival-moment-14.jpg",
           "alt": {
             "en": "Harvest festival moment",
             "ta": "அறுவடைத் திருவிழா தருணம்"
@@ -348,7 +348,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/b34adae6-63f8-4b6e-b1f6-9875b2703c70.jpg",
+      "url": "{{MEDIA}}/images/youth-retreat.jpg",
       "alt": {
         "en": "Youth retreat 2025",
         "ta": "இளைஞர் தியான முகாம் 2025"
@@ -365,7 +365,7 @@
       {
         "id": "1f86b6a1-f9b6-4494-8612-37c4f63a8953",
         "image": {
-          "url": "{{MEDIA}}/images/3423a599-9dc3-4b19-8083-3c0d0bae38ca.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-8.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -382,7 +382,7 @@
       {
         "id": "d8b7046e-8be7-424d-a159-8cdc1a81c90c",
         "image": {
-          "url": "{{MEDIA}}/images/69249520-3639-40b9-b383-211f4a7c27d2.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-12.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -399,7 +399,7 @@
       {
         "id": "fc3ffe52-d47d-47ea-8b82-ad607ac98bb3",
         "image": {
-          "url": "{{MEDIA}}/images/fbdf775d-2646-46e5-b17b-adaea6a2c037.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-14.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -416,7 +416,7 @@
       {
         "id": "240c6cf3-d00b-4236-a42f-0e65518b1177",
         "image": {
-          "url": "{{MEDIA}}/images/3273dcc8-7131-4073-8d83-779493614b6e.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-9.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -433,7 +433,7 @@
       {
         "id": "f9adc479-a645-4947-a796-7c5ffa006db9",
         "image": {
-          "url": "{{MEDIA}}/images/abb669a8-b681-4585-b57f-22ad0e6dc159.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-10.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -450,7 +450,7 @@
       {
         "id": "a1187bf1-e575-4e79-bffb-08a37c424f1c",
         "image": {
-          "url": "{{MEDIA}}/images/316ed3c1-0f5c-4607-992e-7c78965507c9.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-13.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -467,7 +467,7 @@
       {
         "id": "7021ab8f-0787-4d1b-8dab-96a83bbd86f9",
         "image": {
-          "url": "{{MEDIA}}/images/e0b77bbd-6821-4375-8846-7e056102b225.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-11.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -484,7 +484,7 @@
       {
         "id": "b34df577-8669-43f3-8a4c-167c800ff3b8",
         "image": {
-          "url": "{{MEDIA}}/images/eb1553a3-1cda-4088-8092-579f4cdcf6e3.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-moment-15.jpg",
           "alt": {
             "en": "Youth retreat moment",
             "ta": "இளைஞர் முகாம் தருணம்"
@@ -501,7 +501,7 @@
       {
         "id": "de259492-ebed-4a86-953e-57a68c71da2a",
         "image": {
-          "url": "{{MEDIA}}/images/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.jpg",
+          "url": "{{MEDIA}}/images/youth-retreat-2026.jpg",
           "alt": {
             "en": "Video thumbnail",
             "ta": "வீடியோ சிறுபடம்"
@@ -556,7 +556,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/b91359fe-9533-4fc9-a609-6daef1e4d90e.jpg",
+      "url": "{{MEDIA}}/images/sunday-school-annual-day.jpg",
       "alt": {
         "en": "Sunday school annual day",
         "ta": "ஞாயிறு பள்ளி ஆண்டு விழா"
@@ -573,7 +573,7 @@
       {
         "id": "f194606d-5c0d-4b69-ae9b-9b6392a61c58",
         "image": {
-          "url": "{{MEDIA}}/images/612363e4-1a02-4669-bf01-9cd46dfc25fd.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-7.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -590,7 +590,7 @@
       {
         "id": "7b5415a4-2281-4b48-98fd-5731e5b78eb1",
         "image": {
-          "url": "{{MEDIA}}/images/bbe0ae9e-eb33-4a17-a315-305d1a38f275.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-9.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -607,7 +607,7 @@
       {
         "id": "47ff036a-99da-40f1-a83d-f369304edfc7",
         "image": {
-          "url": "{{MEDIA}}/images/59bace0a-05a6-428b-97d8-4b33f2ee2b73.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-10.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -624,7 +624,7 @@
       {
         "id": "36f13383-8b0e-4215-8542-d05e9e0037bf",
         "image": {
-          "url": "{{MEDIA}}/images/0da936b0-9b50-4ed7-8039-0911921182ad.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-8.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -641,7 +641,7 @@
       {
         "id": "6e436494-06f7-46fd-8c8a-1651e0bca900",
         "image": {
-          "url": "{{MEDIA}}/images/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-12.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -658,7 +658,7 @@
       {
         "id": "fb0b4e41-1147-4ddf-ac0a-6013d3f1b0ee",
         "image": {
-          "url": "{{MEDIA}}/images/8b64441e-5859-44b1-9ef1-613c928b0585.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-13.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -675,7 +675,7 @@
       {
         "id": "b63f20be-a87c-46f2-9137-f038560a4e3f",
         "image": {
-          "url": "{{MEDIA}}/images/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-moment-11.jpg",
           "alt": {
             "en": "Sunday school annual day moment",
             "ta": "ஞாயிறு பள்ளி விழா தருணம்"
@@ -692,7 +692,7 @@
       {
         "id": "6fdfe894-b279-4db9-890a-931e1496d34c",
         "image": {
-          "url": "{{MEDIA}}/images/6dc48f58-0213-4cae-b2cc-075783a3198d.jpg",
+          "url": "{{MEDIA}}/images/sunday-school-annual-day-2026.jpg",
           "alt": {
             "en": "DEMO — replace with the annual day recording",
             "ta": "DEMO — ஆண்டு விழா பதிவால் மாற்றவும்"
@@ -751,7 +751,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.jpg",
+      "url": "{{MEDIA}}/images/sunrise-over-the-church.jpg",
       "alt": {
         "en": "Easter sunrise 2026",
         "ta": "உயிர்த்தெழுதல் விடியல் 2026"
@@ -768,7 +768,7 @@
       {
         "id": "1450d50b-8e9b-445c-84f2-7ba370e2f616",
         "image": {
-          "url": "{{MEDIA}}/images/81ce8a9f-b112-4283-9ee3-477bb832a47d.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-9.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -785,7 +785,7 @@
       {
         "id": "528fefa0-8948-4427-ae93-40f875a1c97a",
         "image": {
-          "url": "{{MEDIA}}/images/611d65d9-95b9-4157-9ac8-50a63eabe95c.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-8.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -802,7 +802,7 @@
       {
         "id": "0ff155d8-efe6-40fd-828b-a4d88a06cde3",
         "image": {
-          "url": "{{MEDIA}}/images/ea4a7653-c6df-41b4-be6a-bc48d8638a56.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-12.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -819,7 +819,7 @@
       {
         "id": "d4c175bb-d4e7-494a-aa06-0556389991b7",
         "image": {
-          "url": "{{MEDIA}}/images/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.jpg",
+          "url": "{{MEDIA}}/images/easter-2026.jpg",
           "alt": {
             "en": "DEMO — replace with the Easter service recording",
             "ta": "DEMO — ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
@@ -844,7 +844,7 @@
       {
         "id": "e34a9cf8-4f70-4759-b260-68c80eb0ba2b",
         "image": {
-          "url": "{{MEDIA}}/images/b625389c-9159-434d-8fa6-d93b4d7e2952.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-11.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -861,7 +861,7 @@
       {
         "id": "a0bef91d-9622-4f8f-86b3-2cd2dd069ca4",
         "image": {
-          "url": "{{MEDIA}}/images/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-13.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -878,7 +878,7 @@
       {
         "id": "77147abf-2de4-4ee8-a7e0-07a99c82a03e",
         "image": {
-          "url": "{{MEDIA}}/images/7397086d-d7ec-4837-ab35-a7ca565988f9.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-10.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -895,7 +895,7 @@
       {
         "id": "03766010-85e3-44eb-976a-daaa8316ec86",
         "image": {
-          "url": "{{MEDIA}}/images/bbd878fe-36fe-4262-bafb-f4db9e288852.jpg",
+          "url": "{{MEDIA}}/images/easter-service-moment-7.jpg",
           "alt": {
             "en": "Easter service moment",
             "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
@@ -945,7 +945,7 @@
       }
     },
     "cover": {
-      "url": "{{MEDIA}}/images/5809e97b-3e49-4cc6-a903-e16d6d310e23.jpg",
+      "url": "{{MEDIA}}/images/womens-fellowship-day.jpg",
       "alt": {
         "en": "Women's fellowship day 2025",
         "ta": "மகளிர் ஐக்கிய தினம் 2025"
@@ -962,7 +962,7 @@
       {
         "id": "bcbbe14b-4598-401a-ad79-0c05e89c5490",
         "image": {
-          "url": "{{MEDIA}}/images/970ac602-717e-464c-912d-77a57550af33.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-11.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -979,7 +979,7 @@
       {
         "id": "fd8a0fbd-3b4c-4d09-a965-878072a1aed5",
         "image": {
-          "url": "{{MEDIA}}/images/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-8.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -996,7 +996,7 @@
       {
         "id": "8f288ebe-ce2c-4c0a-b01d-5e1da04d6816",
         "image": {
-          "url": "{{MEDIA}}/images/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-7.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -1013,7 +1013,7 @@
       {
         "id": "4024cfea-3520-4410-b4db-067524643303",
         "image": {
-          "url": "{{MEDIA}}/images/f52a6736-8851-4685-ba9f-e3a04347ca96.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-13.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -1030,7 +1030,7 @@
       {
         "id": "9d235b12-b197-4459-a767-b30f4b25d095",
         "image": {
-          "url": "{{MEDIA}}/images/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-9.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -1047,7 +1047,7 @@
       {
         "id": "73ac97d4-f6d4-47ff-b9b4-4c3175a19098",
         "image": {
-          "url": "{{MEDIA}}/images/dffb2f7e-740f-45dc-b58c-2619de5d60a7.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-10.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"
@@ -1064,7 +1064,7 @@
       {
         "id": "26265933-e2a6-4b4b-ae08-c908d5a127d0",
         "image": {
-          "url": "{{MEDIA}}/images/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.jpg",
+          "url": "{{MEDIA}}/images/womens-fellowship-day-moment-12.jpg",
           "alt": {
             "en": "Women's fellowship day moment",
             "ta": "மகளிர் ஐக்கிய தின தருணம்"

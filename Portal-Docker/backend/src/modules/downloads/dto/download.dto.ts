@@ -60,6 +60,16 @@ export class CreateDownloadDto {
   @IsOptional()
   @IsIn(PUBLISH_STATUSES as readonly string[])
   status?: PublishStatus;
+
+  @ApiPropertyOptional({
+    example: "christmas-carol-service-2026",
+    description:
+      "SEO URL slug. Optional — generated from the English title when blank. " +
+      "Cleaned to lowercase-with-dashes and made unique; fixed once the download is published.",
+  })
+  @IsOptional()
+  @IsString()
+  slug?: string;
 }
 
 export class UpdateDownloadDto extends PartialType(CreateDownloadDto) {

@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 
 import { AuditModule } from "../audit/audit.module";
+import { MediaModule } from "../media/media.module";
 import { BackupController } from "./backup.controller";
 import { BackupService } from "./backup.service";
 
@@ -13,7 +14,7 @@ import { BackupService } from "./backup.service";
  * added tomorrow is carried without anyone remembering to add it to a list.
  */
 @Module({
-  imports: [AuditModule],
+  imports: [AuditModule, MediaModule],
   controllers: [BackupController],
   providers: [BackupService],
 })

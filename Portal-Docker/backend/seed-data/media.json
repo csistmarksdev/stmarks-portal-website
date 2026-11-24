@@ -1,8 +1,8 @@
 [
   {
     "kind": "image",
-    "path": "images/06f8ee55-cea6-4abb-89bd-96184326ee96.png",
-    "thumbnailPath": "thumbs/06f8ee55-cea6-4abb-89bd-96184326ee96.webp",
+    "path": "images/christmas-2025.png",
+    "thumbnailPath": "thumbs/christmas-2025.webp",
     "filename": "Scene2.png",
     "mimeType": "image/png",
     "format": "PNG",
@@ -12,12 +12,16 @@
     "height": 941,
     "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIG/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDBAAFcRESITIxNbH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAAREv/aAAwDAQACEQMRAD8AVt96jvxkPuFEdZB1bKwd2Kpd/ZZhrmuFYZV0G3knxpWVuXZGE/aQuHr3MVdEf//Z",
     "createdAt": "2026-07-25T13:25:35.824Z",
-    "updatedAt": "2026-07-25T13:25:35.824Z"
+    "updatedAt": "2026-07-25T13:25:35.824Z",
+    "previousPaths": [
+      "images/06f8ee55-cea6-4abb-89bd-96184326ee96.png",
+      "thumbs/06f8ee55-cea6-4abb-89bd-96184326ee96.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/dd4ad445-a0c1-409e-a7cb-650cce690123.png",
-    "thumbnailPath": "thumbs/dd4ad445-a0c1-409e-a7cb-650cce690123.webp",
+    "path": "images/christmas-2025-2.png",
+    "thumbnailPath": "thumbs/christmas-2025-2.webp",
     "filename": "Scene2.png",
     "mimeType": "image/png",
     "format": "PNG",
@@ -27,12 +31,16 @@
     "height": 941,
     "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIG/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDBAAFcRESITIxNbH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAAREv/aAAwDAQACEQMRAD8AVt96jvxkPuFEdZB1bKwd2Kpd/ZZhrmuFYZV0G3knxpWVuXZGE/aQuHr3MVdEf//Z",
     "createdAt": "2026-07-25T13:26:53.315Z",
-    "updatedAt": "2026-07-25T13:26:53.315Z"
+    "updatedAt": "2026-07-25T13:26:53.315Z",
+    "previousPaths": [
+      "images/dd4ad445-a0c1-409e-a7cb-650cce690123.png",
+      "thumbs/dd4ad445-a0c1-409e-a7cb-650cce690123.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/2cf83209-0378-4fd3-9ca9-0951da97ed83.png",
-    "thumbnailPath": "thumbs/2cf83209-0378-4fd3-9ca9-0951da97ed83.webp",
+    "path": "images/youth-fellowship.png",
+    "thumbnailPath": "thumbs/youth-fellowship.webp",
     "filename": "Scene3.png",
     "mimeType": "image/png",
     "format": "PNG",
@@ -42,12 +50,16 @@
     "height": 941,
     "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAIG/8QAIRAAAgEDAwUAAAAAAAAAAAAAAQMCAAQRBjFxFCE0QXP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAEAEf/aAAwDAQACEQMRAD8AfHU9r0hYBMMiMlZGCOCd6m51MlVotsBJzG9wsHGAfRNZ8+OeKLPZP0qK5L//2Q==",
     "createdAt": "2026-07-25T18:05:01.695Z",
-    "updatedAt": "2026-07-25T18:05:01.695Z"
+    "updatedAt": "2026-07-25T18:05:01.695Z",
+    "previousPaths": [
+      "images/2cf83209-0378-4fd3-9ca9-0951da97ed83.png",
+      "thumbs/2cf83209-0378-4fd3-9ca9-0951da97ed83.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.jpg",
-    "thumbnailPath": "thumbs/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.webp",
+    "path": "images/harvest-festival-decorations.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-decorations.webp",
     "filename": "ezgif-frame-030.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -61,12 +73,16 @@
       "ta": "அறுவடைத் திருவிழா அலங்காரம்"
     },
     "createdAt": "2026-07-26T14:06:37.877Z",
-    "updatedAt": "2026-07-26T14:06:37.877Z"
+    "updatedAt": "2026-07-26T14:06:37.877Z",
+    "previousPaths": [
+      "images/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.jpg",
+      "thumbs/4bb93e1d-1f7a-4024-95b8-0a87a4920f12.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/b34adae6-63f8-4b6e-b1f6-9875b2703c70.jpg",
-    "thumbnailPath": "thumbs/b34adae6-63f8-4b6e-b1f6-9875b2703c70.webp",
+    "path": "images/youth-retreat.jpg",
+    "thumbnailPath": "thumbs/youth-retreat.webp",
     "filename": "ezgif-frame-075.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -80,12 +96,16 @@
       "ta": "இளைஞர் தியான முகாம்"
     },
     "createdAt": "2026-07-26T14:06:38.002Z",
-    "updatedAt": "2026-07-26T14:06:38.002Z"
+    "updatedAt": "2026-07-26T14:06:38.002Z",
+    "previousPaths": [
+      "images/b34adae6-63f8-4b6e-b1f6-9875b2703c70.jpg",
+      "thumbs/b34adae6-63f8-4b6e-b1f6-9875b2703c70.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/5809e97b-3e49-4cc6-a903-e16d6d310e23.jpg",
-    "thumbnailPath": "thumbs/5809e97b-3e49-4cc6-a903-e16d6d310e23.webp",
+    "path": "images/womens-fellowship-day.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day.webp",
     "filename": "ezgif-frame-200.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -99,12 +119,16 @@
       "ta": "மகளிர் ஐக்கிய தினம்"
     },
     "createdAt": "2026-07-26T14:06:38.135Z",
-    "updatedAt": "2026-07-26T14:06:38.135Z"
+    "updatedAt": "2026-07-26T14:06:38.135Z",
+    "previousPaths": [
+      "images/5809e97b-3e49-4cc6-a903-e16d6d310e23.jpg",
+      "thumbs/5809e97b-3e49-4cc6-a903-e16d6d310e23.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/62796bd7-f390-433e-9cc5-310375a81cc2.jpg",
-    "thumbnailPath": "thumbs/62796bd7-f390-433e-9cc5-310375a81cc2.webp",
+    "path": "images/carol-service-by-candlelight.jpg",
+    "thumbnailPath": "thumbs/carol-service-by-candlelight.webp",
     "filename": "ezgif-frame-255.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -118,12 +142,16 @@
       "ta": "மெழுகுவர்த்தி வெளிச்சத்தில் கீர்த்தனை ஆராதனை"
     },
     "createdAt": "2026-07-26T14:06:38.270Z",
-    "updatedAt": "2026-07-26T14:06:38.270Z"
+    "updatedAt": "2026-07-26T14:06:38.270Z",
+    "previousPaths": [
+      "images/62796bd7-f390-433e-9cc5-310375a81cc2.jpg",
+      "thumbs/62796bd7-f390-433e-9cc5-310375a81cc2.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.jpg",
-    "thumbnailPath": "thumbs/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.webp",
+    "path": "images/sunrise-over-the-church.jpg",
+    "thumbnailPath": "thumbs/sunrise-over-the-church.webp",
     "filename": "ezgif-frame-005.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -137,12 +165,16 @@
       "ta": "ஆலயத்தின் மேல் சூரிய உதயம்"
     },
     "createdAt": "2026-07-26T14:06:38.405Z",
-    "updatedAt": "2026-07-26T14:06:38.405Z"
+    "updatedAt": "2026-07-26T14:06:38.405Z",
+    "previousPaths": [
+      "images/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.jpg",
+      "thumbs/47b63c8c-0576-4c4c-b8cb-752ee013a0fa.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/b91359fe-9533-4fc9-a609-6daef1e4d90e.jpg",
-    "thumbnailPath": "thumbs/b91359fe-9533-4fc9-a609-6daef1e4d90e.webp",
+    "path": "images/sunday-school-annual-day.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day.webp",
     "filename": "ezgif-frame-105.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -156,12 +188,16 @@
       "ta": "ஞாயிறு பள்ளி ஆண்டு விழா"
     },
     "createdAt": "2026-07-26T14:06:38.519Z",
-    "updatedAt": "2026-07-26T14:06:38.519Z"
+    "updatedAt": "2026-07-26T14:06:38.519Z",
+    "previousPaths": [
+      "images/b91359fe-9533-4fc9-a609-6daef1e4d90e.jpg",
+      "thumbs/b91359fe-9533-4fc9-a609-6daef1e4d90e.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/feb7d978-17a7-4b19-9f61-33eee20ef412.jpg",
-    "thumbnailPath": "thumbs/feb7d978-17a7-4b19-9f61-33eee20ef412.webp",
+    "path": "images/harvest-festival-moment.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment.webp",
     "filename": "ezgif-frame-039.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -175,12 +211,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.688Z",
-    "updatedAt": "2026-07-26T14:06:38.688Z"
+    "updatedAt": "2026-07-26T14:06:38.688Z",
+    "previousPaths": [
+      "images/feb7d978-17a7-4b19-9f61-33eee20ef412.jpg",
+      "thumbs/feb7d978-17a7-4b19-9f61-33eee20ef412.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4300a1a0-af06-444d-a7a3-ccd45a2e013b.jpg",
-    "thumbnailPath": "thumbs/4300a1a0-af06-444d-a7a3-ccd45a2e013b.webp",
+    "path": "images/harvest-festival-highlights.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-highlights.webp",
     "filename": "ezgif-frame-033.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -194,12 +234,16 @@
       "ta": "அறுவடைத் திருவிழா சிறப்பம்சங்கள்"
     },
     "createdAt": "2026-07-26T14:06:38.694Z",
-    "updatedAt": "2026-07-26T14:06:38.694Z"
+    "updatedAt": "2026-07-26T14:06:38.694Z",
+    "previousPaths": [
+      "images/4300a1a0-af06-444d-a7a3-ccd45a2e013b.jpg",
+      "thumbs/4300a1a0-af06-444d-a7a3-ccd45a2e013b.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4966f18c-1a50-4f2b-9892-c48bff8e4714.jpg",
-    "thumbnailPath": "thumbs/4966f18c-1a50-4f2b-9892-c48bff8e4714.webp",
+    "path": "images/harvest-festival-moment-2.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-2.webp",
     "filename": "ezgif-frame-036.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -213,12 +257,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.698Z",
-    "updatedAt": "2026-07-26T14:06:38.698Z"
+    "updatedAt": "2026-07-26T14:06:38.698Z",
+    "previousPaths": [
+      "images/4966f18c-1a50-4f2b-9892-c48bff8e4714.jpg",
+      "thumbs/4966f18c-1a50-4f2b-9892-c48bff8e4714.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/78576eab-9087-429c-907e-e0472c31d3c7.jpg",
-    "thumbnailPath": "thumbs/78576eab-9087-429c-907e-e0472c31d3c7.webp",
+    "path": "images/harvest-festival-moment-3.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-3.webp",
     "filename": "ezgif-frame-045.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -232,12 +280,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.706Z",
-    "updatedAt": "2026-07-26T14:06:38.706Z"
+    "updatedAt": "2026-07-26T14:06:38.706Z",
+    "previousPaths": [
+      "images/78576eab-9087-429c-907e-e0472c31d3c7.jpg",
+      "thumbs/78576eab-9087-429c-907e-e0472c31d3c7.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/0a1192f4-9085-4158-934c-18220b72a4b0.jpg",
-    "thumbnailPath": "thumbs/0a1192f4-9085-4158-934c-18220b72a4b0.webp",
+    "path": "images/harvest-festival-moment-4.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-4.webp",
     "filename": "ezgif-frame-048.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -251,12 +303,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.714Z",
-    "updatedAt": "2026-07-26T14:06:38.714Z"
+    "updatedAt": "2026-07-26T14:06:38.714Z",
+    "previousPaths": [
+      "images/0a1192f4-9085-4158-934c-18220b72a4b0.jpg",
+      "thumbs/0a1192f4-9085-4158-934c-18220b72a4b0.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/06e365cb-d82a-4069-8055-c833af6116b9.jpg",
-    "thumbnailPath": "thumbs/06e365cb-d82a-4069-8055-c833af6116b9.webp",
+    "path": "images/harvest-festival-moment-5.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-5.webp",
     "filename": "ezgif-frame-033.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -270,12 +326,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.719Z",
-    "updatedAt": "2026-07-26T14:06:38.719Z"
+    "updatedAt": "2026-07-26T14:06:38.719Z",
+    "previousPaths": [
+      "images/06e365cb-d82a-4069-8055-c833af6116b9.jpg",
+      "thumbs/06e365cb-d82a-4069-8055-c833af6116b9.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/c2a4e532-f5ed-4783-9416-44a91c382598.jpg",
-    "thumbnailPath": "thumbs/c2a4e532-f5ed-4783-9416-44a91c382598.webp",
+    "path": "images/harvest-festival-moment-6.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-6.webp",
     "filename": "ezgif-frame-051.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -289,12 +349,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.724Z",
-    "updatedAt": "2026-07-26T14:06:38.724Z"
+    "updatedAt": "2026-07-26T14:06:38.724Z",
+    "previousPaths": [
+      "images/c2a4e532-f5ed-4783-9416-44a91c382598.jpg",
+      "thumbs/c2a4e532-f5ed-4783-9416-44a91c382598.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/5d85cc1b-7958-4619-8eb9-a1aa92843157.jpg",
-    "thumbnailPath": "thumbs/5d85cc1b-7958-4619-8eb9-a1aa92843157.webp",
+    "path": "images/harvest-festival-moment-7.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-7.webp",
     "filename": "ezgif-frame-054.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -308,12 +372,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.732Z",
-    "updatedAt": "2026-07-26T14:06:38.732Z"
+    "updatedAt": "2026-07-26T14:06:38.732Z",
+    "previousPaths": [
+      "images/5d85cc1b-7958-4619-8eb9-a1aa92843157.jpg",
+      "thumbs/5d85cc1b-7958-4619-8eb9-a1aa92843157.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/bc2fcf50-4e56-43b8-b7ca-7de19940d2d4.jpg",
-    "thumbnailPath": "thumbs/bc2fcf50-4e56-43b8-b7ca-7de19940d2d4.webp",
+    "path": "images/harvest-festival-moment-8.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-8.webp",
     "filename": "ezgif-frame-042.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -327,12 +395,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.743Z",
-    "updatedAt": "2026-07-26T14:06:38.743Z"
+    "updatedAt": "2026-07-26T14:06:38.743Z",
+    "previousPaths": [
+      "images/bc2fcf50-4e56-43b8-b7ca-7de19940d2d4.jpg",
+      "thumbs/bc2fcf50-4e56-43b8-b7ca-7de19940d2d4.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/76f0350e-9bfa-4ed9-b793-6bde37b68b7f.jpg",
-    "thumbnailPath": "thumbs/76f0350e-9bfa-4ed9-b793-6bde37b68b7f.webp",
+    "path": "images/youth-retreat-moment.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment.webp",
     "filename": "ezgif-frame-078.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -346,12 +418,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.857Z",
-    "updatedAt": "2026-07-26T14:06:38.857Z"
+    "updatedAt": "2026-07-26T14:06:38.857Z",
+    "previousPaths": [
+      "images/76f0350e-9bfa-4ed9-b793-6bde37b68b7f.jpg",
+      "thumbs/76f0350e-9bfa-4ed9-b793-6bde37b68b7f.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/13fe7932-68c1-4827-bbfc-8d59b00bd383.jpg",
-    "thumbnailPath": "thumbs/13fe7932-68c1-4827-bbfc-8d59b00bd383.webp",
+    "path": "images/youth-retreat-moment-2.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-2.webp",
     "filename": "ezgif-frame-081.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -365,12 +441,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.860Z",
-    "updatedAt": "2026-07-26T14:06:38.860Z"
+    "updatedAt": "2026-07-26T14:06:38.860Z",
+    "previousPaths": [
+      "images/13fe7932-68c1-4827-bbfc-8d59b00bd383.jpg",
+      "thumbs/13fe7932-68c1-4827-bbfc-8d59b00bd383.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/7cba2c61-22b5-4905-9a68-448e520a14ed.jpg",
-    "thumbnailPath": "thumbs/7cba2c61-22b5-4905-9a68-448e520a14ed.webp",
+    "path": "images/youth-retreat-moment-3.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-3.webp",
     "filename": "ezgif-frame-096.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -384,12 +464,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.863Z",
-    "updatedAt": "2026-07-26T14:06:38.863Z"
+    "updatedAt": "2026-07-26T14:06:38.863Z",
+    "previousPaths": [
+      "images/7cba2c61-22b5-4905-9a68-448e520a14ed.jpg",
+      "thumbs/7cba2c61-22b5-4905-9a68-448e520a14ed.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/818b0e0e-bc13-4fc2-9f2e-089823f4eb52.jpg",
-    "thumbnailPath": "thumbs/818b0e0e-bc13-4fc2-9f2e-089823f4eb52.webp",
+    "path": "images/youth-retreat-moment-4.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-4.webp",
     "filename": "ezgif-frame-084.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -403,12 +487,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.868Z",
-    "updatedAt": "2026-07-26T14:06:38.868Z"
+    "updatedAt": "2026-07-26T14:06:38.868Z",
+    "previousPaths": [
+      "images/818b0e0e-bc13-4fc2-9f2e-089823f4eb52.jpg",
+      "thumbs/818b0e0e-bc13-4fc2-9f2e-089823f4eb52.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/20fc16c5-6a4c-4b0a-be93-43fd8cfab7d1.jpg",
-    "thumbnailPath": "thumbs/20fc16c5-6a4c-4b0a-be93-43fd8cfab7d1.webp",
+    "path": "images/youth-retreat-moment-5.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-5.webp",
     "filename": "ezgif-frame-087.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -422,12 +510,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.887Z",
-    "updatedAt": "2026-07-26T14:06:38.887Z"
+    "updatedAt": "2026-07-26T14:06:38.887Z",
+    "previousPaths": [
+      "images/20fc16c5-6a4c-4b0a-be93-43fd8cfab7d1.jpg",
+      "thumbs/20fc16c5-6a4c-4b0a-be93-43fd8cfab7d1.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/35e52cd3-1396-43a7-b457-5a98c33a73d0.jpg",
-    "thumbnailPath": "thumbs/35e52cd3-1396-43a7-b457-5a98c33a73d0.webp",
+    "path": "images/youth-retreat-moment-6.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-6.webp",
     "filename": "ezgif-frame-093.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -441,12 +533,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.888Z",
-    "updatedAt": "2026-07-26T14:06:38.888Z"
+    "updatedAt": "2026-07-26T14:06:38.888Z",
+    "previousPaths": [
+      "images/35e52cd3-1396-43a7-b457-5a98c33a73d0.jpg",
+      "thumbs/35e52cd3-1396-43a7-b457-5a98c33a73d0.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/12df9ad2-0f6d-41b7-b397-66a084b9b25b.jpg",
-    "thumbnailPath": "thumbs/12df9ad2-0f6d-41b7-b397-66a084b9b25b.webp",
+    "path": "images/youth-retreat-moment-7.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-7.webp",
     "filename": "ezgif-frame-090.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -460,12 +556,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.894Z",
-    "updatedAt": "2026-07-26T14:06:38.894Z"
+    "updatedAt": "2026-07-26T14:06:38.894Z",
+    "previousPaths": [
+      "images/12df9ad2-0f6d-41b7-b397-66a084b9b25b.jpg",
+      "thumbs/12df9ad2-0f6d-41b7-b397-66a084b9b25b.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/81dafc2d-2761-46c3-a7a5-1d74fcd6e296.jpg",
-    "thumbnailPath": "thumbs/81dafc2d-2761-46c3-a7a5-1d74fcd6e296.webp",
+    "path": "images/sunday-school-annual-day-moment.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment.webp",
     "filename": "ezgif-frame-111.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -479,12 +579,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.993Z",
-    "updatedAt": "2026-07-26T14:06:38.993Z"
+    "updatedAt": "2026-07-26T14:06:38.993Z",
+    "previousPaths": [
+      "images/81dafc2d-2761-46c3-a7a5-1d74fcd6e296.jpg",
+      "thumbs/81dafc2d-2761-46c3-a7a5-1d74fcd6e296.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/09af585b-23d0-4cd4-9099-cba074074690.jpg",
-    "thumbnailPath": "thumbs/09af585b-23d0-4cd4-9099-cba074074690.webp",
+    "path": "images/sunday-school-annual-day-moment-2.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-2.webp",
     "filename": "ezgif-frame-120.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -498,12 +602,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:38.994Z",
-    "updatedAt": "2026-07-26T14:06:38.994Z"
+    "updatedAt": "2026-07-26T14:06:38.994Z",
+    "previousPaths": [
+      "images/09af585b-23d0-4cd4-9099-cba074074690.jpg",
+      "thumbs/09af585b-23d0-4cd4-9099-cba074074690.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4736cb8e-fa9a-4804-9309-7aeb5e1018b7.jpg",
-    "thumbnailPath": "thumbs/4736cb8e-fa9a-4804-9309-7aeb5e1018b7.webp",
+    "path": "images/sunday-school-annual-day-moment-3.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-3.webp",
     "filename": "ezgif-frame-117.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -517,12 +625,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.003Z",
-    "updatedAt": "2026-07-26T14:06:39.003Z"
+    "updatedAt": "2026-07-26T14:06:39.003Z",
+    "previousPaths": [
+      "images/4736cb8e-fa9a-4804-9309-7aeb5e1018b7.jpg",
+      "thumbs/4736cb8e-fa9a-4804-9309-7aeb5e1018b7.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/df526a4f-6e7b-4f90-a702-987de0da2fdd.jpg",
-    "thumbnailPath": "thumbs/df526a4f-6e7b-4f90-a702-987de0da2fdd.webp",
+    "path": "images/sunday-school-annual-day-moment-4.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-4.webp",
     "filename": "ezgif-frame-108.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -536,12 +648,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.004Z",
-    "updatedAt": "2026-07-26T14:06:39.004Z"
+    "updatedAt": "2026-07-26T14:06:39.004Z",
+    "previousPaths": [
+      "images/df526a4f-6e7b-4f90-a702-987de0da2fdd.jpg",
+      "thumbs/df526a4f-6e7b-4f90-a702-987de0da2fdd.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/709fa870-119a-4618-a5a9-e7a5e85ba5cf.jpg",
-    "thumbnailPath": "thumbs/709fa870-119a-4618-a5a9-e7a5e85ba5cf.webp",
+    "path": "images/sunday-school-annual-day-moment-5.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-5.webp",
     "filename": "ezgif-frame-114.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -555,12 +671,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.019Z",
-    "updatedAt": "2026-07-26T14:06:39.019Z"
+    "updatedAt": "2026-07-26T14:06:39.019Z",
+    "previousPaths": [
+      "images/709fa870-119a-4618-a5a9-e7a5e85ba5cf.jpg",
+      "thumbs/709fa870-119a-4618-a5a9-e7a5e85ba5cf.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/6a45808a-33a9-4099-8a7e-ec87ffc89ff9.jpg",
-    "thumbnailPath": "thumbs/6a45808a-33a9-4099-8a7e-ec87ffc89ff9.webp",
+    "path": "images/sunday-school-annual-day-moment-6.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-6.webp",
     "filename": "ezgif-frame-123.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -574,12 +694,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.021Z",
-    "updatedAt": "2026-07-26T14:06:39.021Z"
+    "updatedAt": "2026-07-26T14:06:39.021Z",
+    "previousPaths": [
+      "images/6a45808a-33a9-4099-8a7e-ec87ffc89ff9.jpg",
+      "thumbs/6a45808a-33a9-4099-8a7e-ec87ffc89ff9.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4b66db55-a119-4d7e-99c4-07d53f11e8b9.jpg",
-    "thumbnailPath": "thumbs/4b66db55-a119-4d7e-99c4-07d53f11e8b9.webp",
+    "path": "images/easter-service-moment.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment.webp",
     "filename": "ezgif-frame-008.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -593,12 +717,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.123Z",
-    "updatedAt": "2026-07-26T14:06:39.123Z"
+    "updatedAt": "2026-07-26T14:06:39.123Z",
+    "previousPaths": [
+      "images/4b66db55-a119-4d7e-99c4-07d53f11e8b9.jpg",
+      "thumbs/4b66db55-a119-4d7e-99c4-07d53f11e8b9.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/5fc2ed91-1c7b-4a0a-aeb0-804c88a37c22.jpg",
-    "thumbnailPath": "thumbs/5fc2ed91-1c7b-4a0a-aeb0-804c88a37c22.webp",
+    "path": "images/easter-service-moment-2.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-2.webp",
     "filename": "ezgif-frame-011.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -612,12 +740,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.130Z",
-    "updatedAt": "2026-07-26T14:06:39.130Z"
+    "updatedAt": "2026-07-26T14:06:39.130Z",
+    "previousPaths": [
+      "images/5fc2ed91-1c7b-4a0a-aeb0-804c88a37c22.jpg",
+      "thumbs/5fc2ed91-1c7b-4a0a-aeb0-804c88a37c22.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/9069a265-1c9f-4367-a7bf-4683cbef18e6.jpg",
-    "thumbnailPath": "thumbs/9069a265-1c9f-4367-a7bf-4683cbef18e6.webp",
+    "path": "images/easter-service-moment-3.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-3.webp",
     "filename": "ezgif-frame-017.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -631,12 +763,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.133Z",
-    "updatedAt": "2026-07-26T14:06:39.133Z"
+    "updatedAt": "2026-07-26T14:06:39.133Z",
+    "previousPaths": [
+      "images/9069a265-1c9f-4367-a7bf-4683cbef18e6.jpg",
+      "thumbs/9069a265-1c9f-4367-a7bf-4683cbef18e6.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/86323155-5dd8-4a1f-91eb-78261944b466.jpg",
-    "thumbnailPath": "thumbs/86323155-5dd8-4a1f-91eb-78261944b466.webp",
+    "path": "images/easter-service-moment-4.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-4.webp",
     "filename": "ezgif-frame-023.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -650,12 +786,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.135Z",
-    "updatedAt": "2026-07-26T14:06:39.135Z"
+    "updatedAt": "2026-07-26T14:06:39.135Z",
+    "previousPaths": [
+      "images/86323155-5dd8-4a1f-91eb-78261944b466.jpg",
+      "thumbs/86323155-5dd8-4a1f-91eb-78261944b466.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/df18efdd-9f9f-4072-a73a-3642c01f3494.jpg",
-    "thumbnailPath": "thumbs/df18efdd-9f9f-4072-a73a-3642c01f3494.webp",
+    "path": "images/easter-service-moment-5.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-5.webp",
     "filename": "ezgif-frame-020.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -669,12 +809,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.153Z",
-    "updatedAt": "2026-07-26T14:06:39.153Z"
+    "updatedAt": "2026-07-26T14:06:39.153Z",
+    "previousPaths": [
+      "images/df18efdd-9f9f-4072-a73a-3642c01f3494.jpg",
+      "thumbs/df18efdd-9f9f-4072-a73a-3642c01f3494.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/ed33524f-c476-439b-bb13-a3fb1a43788f.jpg",
-    "thumbnailPath": "thumbs/ed33524f-c476-439b-bb13-a3fb1a43788f.webp",
+    "path": "images/easter-service-moment-6.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-6.webp",
     "filename": "ezgif-frame-014.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -688,12 +832,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.154Z",
-    "updatedAt": "2026-07-26T14:06:39.154Z"
+    "updatedAt": "2026-07-26T14:06:39.154Z",
+    "previousPaths": [
+      "images/ed33524f-c476-439b-bb13-a3fb1a43788f.jpg",
+      "thumbs/ed33524f-c476-439b-bb13-a3fb1a43788f.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/9dd341a5-c936-496f-911d-7a44e235ef35.jpg",
-    "thumbnailPath": "thumbs/9dd341a5-c936-496f-911d-7a44e235ef35.webp",
+    "path": "images/womens-fellowship-day-moment.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment.webp",
     "filename": "ezgif-frame-218.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -707,12 +855,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.248Z",
-    "updatedAt": "2026-07-26T14:06:39.248Z"
+    "updatedAt": "2026-07-26T14:06:39.248Z",
+    "previousPaths": [
+      "images/9dd341a5-c936-496f-911d-7a44e235ef35.jpg",
+      "thumbs/9dd341a5-c936-496f-911d-7a44e235ef35.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/9c2a7230-63b3-4f22-97be-cd0f417917d8.jpg",
-    "thumbnailPath": "thumbs/9c2a7230-63b3-4f22-97be-cd0f417917d8.webp",
+    "path": "images/womens-fellowship-day-moment-2.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-2.webp",
     "filename": "ezgif-frame-203.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -726,12 +878,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.250Z",
-    "updatedAt": "2026-07-26T14:06:39.250Z"
+    "updatedAt": "2026-07-26T14:06:39.250Z",
+    "previousPaths": [
+      "images/9c2a7230-63b3-4f22-97be-cd0f417917d8.jpg",
+      "thumbs/9c2a7230-63b3-4f22-97be-cd0f417917d8.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/f279796e-0fa3-43e9-9753-0b83961d0972.jpg",
-    "thumbnailPath": "thumbs/f279796e-0fa3-43e9-9753-0b83961d0972.webp",
+    "path": "images/womens-fellowship-day-moment-3.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-3.webp",
     "filename": "ezgif-frame-206.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -745,12 +901,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.251Z",
-    "updatedAt": "2026-07-26T14:06:39.251Z"
+    "updatedAt": "2026-07-26T14:06:39.251Z",
+    "previousPaths": [
+      "images/f279796e-0fa3-43e9-9753-0b83961d0972.jpg",
+      "thumbs/f279796e-0fa3-43e9-9753-0b83961d0972.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/e733fcac-6c88-447b-849a-f5a385feb937.jpg",
-    "thumbnailPath": "thumbs/e733fcac-6c88-447b-849a-f5a385feb937.webp",
+    "path": "images/womens-fellowship-day-moment-4.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-4.webp",
     "filename": "ezgif-frame-212.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -764,12 +924,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.253Z",
-    "updatedAt": "2026-07-26T14:06:39.253Z"
+    "updatedAt": "2026-07-26T14:06:39.253Z",
+    "previousPaths": [
+      "images/e733fcac-6c88-447b-849a-f5a385feb937.jpg",
+      "thumbs/e733fcac-6c88-447b-849a-f5a385feb937.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/1d02e7f3-ce93-4f40-b074-a9e48c8d5616.jpg",
-    "thumbnailPath": "thumbs/1d02e7f3-ce93-4f40-b074-a9e48c8d5616.webp",
+    "path": "images/womens-fellowship-day-moment-5.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-5.webp",
     "filename": "ezgif-frame-209.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -783,12 +947,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.267Z",
-    "updatedAt": "2026-07-26T14:06:39.267Z"
+    "updatedAt": "2026-07-26T14:06:39.267Z",
+    "previousPaths": [
+      "images/1d02e7f3-ce93-4f40-b074-a9e48c8d5616.jpg",
+      "thumbs/1d02e7f3-ce93-4f40-b074-a9e48c8d5616.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/dce991bd-a8a4-41fe-849f-89dd6b20cf54.jpg",
-    "thumbnailPath": "thumbs/dce991bd-a8a4-41fe-849f-89dd6b20cf54.webp",
+    "path": "images/womens-fellowship-day-moment-6.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-6.webp",
     "filename": "ezgif-frame-215.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -802,12 +970,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:06:39.276Z",
-    "updatedAt": "2026-07-26T14:06:39.276Z"
+    "updatedAt": "2026-07-26T14:06:39.276Z",
+    "previousPaths": [
+      "images/dce991bd-a8a4-41fe-849f-89dd6b20cf54.jpg",
+      "thumbs/dce991bd-a8a4-41fe-849f-89dd6b20cf54.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/e66fb93a-d686-43ac-b80f-5cc7d91f7413.jpg",
-    "thumbnailPath": "thumbs/e66fb93a-d686-43ac-b80f-5cc7d91f7413.webp",
+    "path": "images/the-choir-during-a-service.jpg",
+    "thumbnailPath": "thumbs/the-choir-during-a-service.webp",
     "filename": "ezgif-frame-180.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -821,12 +993,16 @@
       "ta": "ஆராதனையின்போது கீர்த்தனைக் குழு"
     },
     "createdAt": "2026-07-26T14:06:39.532Z",
-    "updatedAt": "2026-07-26T14:06:39.532Z"
+    "updatedAt": "2026-07-26T14:06:39.532Z",
+    "previousPaths": [
+      "images/e66fb93a-d686-43ac-b80f-5cc7d91f7413.jpg",
+      "thumbs/e66fb93a-d686-43ac-b80f-5cc7d91f7413.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/ab4ebd2a-a69d-4ac3-9f6f-f58ce14d11c1.jpg",
-    "thumbnailPath": "thumbs/ab4ebd2a-a69d-4ac3-9f6f-f58ce14d11c1.webp",
+    "path": "images/the-mens-prayer-breakfast.jpg",
+    "thumbnailPath": "thumbs/the-mens-prayer-breakfast.webp",
     "filename": "ezgif-frame-165.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -840,12 +1016,16 @@
       "ta": "ஆடவர் ஜெப காலை உணவு"
     },
     "createdAt": "2026-07-26T14:06:39.804Z",
-    "updatedAt": "2026-07-26T14:06:39.804Z"
+    "updatedAt": "2026-07-26T14:06:39.804Z",
+    "previousPaths": [
+      "images/ab4ebd2a-a69d-4ac3-9f6f-f58ce14d11c1.jpg",
+      "thumbs/ab4ebd2a-a69d-4ac3-9f6f-f58ce14d11c1.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/5954a1fe-2bec-4e3a-8dad-0379025dd787.jpg",
-    "thumbnailPath": "thumbs/5954a1fe-2bec-4e3a-8dad-0379025dd787.webp",
+    "path": "images/hands-folded-in-prayer.jpg",
+    "thumbnailPath": "thumbs/hands-folded-in-prayer.webp",
     "filename": "ezgif-frame-210.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -859,12 +1039,16 @@
       "ta": "ஜெபத்தில் கூப்பிய கைகள்"
     },
     "createdAt": "2026-07-26T14:06:39.929Z",
-    "updatedAt": "2026-07-26T14:06:39.929Z"
+    "updatedAt": "2026-07-26T14:06:39.929Z",
+    "previousPaths": [
+      "images/5954a1fe-2bec-4e3a-8dad-0379025dd787.jpg",
+      "thumbs/5954a1fe-2bec-4e3a-8dad-0379025dd787.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/c390a87c-4028-472f-a208-13bed9eed8a4.jpg",
-    "thumbnailPath": "thumbs/c390a87c-4028-472f-a208-13bed9eed8a4.webp",
+    "path": "images/harvest-festival-moment-9.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-9.webp",
     "filename": "ezgif-frame-039.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -878,12 +1062,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.767Z",
-    "updatedAt": "2026-07-26T14:13:47.767Z"
+    "updatedAt": "2026-07-26T14:13:47.767Z",
+    "previousPaths": [
+      "images/c390a87c-4028-472f-a208-13bed9eed8a4.jpg",
+      "thumbs/c390a87c-4028-472f-a208-13bed9eed8a4.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.jpg",
-    "thumbnailPath": "thumbs/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.webp",
+    "path": "images/harvest-festival-highlights-2.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-highlights-2.webp",
     "filename": "ezgif-frame-033.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -897,12 +1085,16 @@
       "ta": "அறுவடைத் திருவிழா சிறப்பம்சங்கள்"
     },
     "createdAt": "2026-07-26T14:13:47.768Z",
-    "updatedAt": "2026-07-26T14:13:47.768Z"
+    "updatedAt": "2026-07-26T14:13:47.768Z",
+    "previousPaths": [
+      "images/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.jpg",
+      "thumbs/3a0f2e84-ec98-44d8-9eb1-af3ea132900a.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/95525b76-9622-47df-9543-58292e81f1e4.jpg",
-    "thumbnailPath": "thumbs/95525b76-9622-47df-9543-58292e81f1e4.webp",
+    "path": "images/harvest-festival-moment-10.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-10.webp",
     "filename": "ezgif-frame-036.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -916,12 +1108,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.774Z",
-    "updatedAt": "2026-07-26T14:13:47.774Z"
+    "updatedAt": "2026-07-26T14:13:47.774Z",
+    "previousPaths": [
+      "images/95525b76-9622-47df-9543-58292e81f1e4.jpg",
+      "thumbs/95525b76-9622-47df-9543-58292e81f1e4.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.jpg",
-    "thumbnailPath": "thumbs/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.webp",
+    "path": "images/harvest-festival-moment-11.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-11.webp",
     "filename": "ezgif-frame-033.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -935,12 +1131,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.777Z",
-    "updatedAt": "2026-07-26T14:13:47.777Z"
+    "updatedAt": "2026-07-26T14:13:47.777Z",
+    "previousPaths": [
+      "images/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.jpg",
+      "thumbs/9924c8d8-ae50-485a-8b4b-52fe2447dbf2.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/465981de-3aff-4307-8a34-c00b594ad1ac.jpg",
-    "thumbnailPath": "thumbs/465981de-3aff-4307-8a34-c00b594ad1ac.webp",
+    "path": "images/harvest-festival-moment-12.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-12.webp",
     "filename": "ezgif-frame-042.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -954,12 +1154,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.802Z",
-    "updatedAt": "2026-07-26T14:13:47.802Z"
+    "updatedAt": "2026-07-26T14:13:47.802Z",
+    "previousPaths": [
+      "images/465981de-3aff-4307-8a34-c00b594ad1ac.jpg",
+      "thumbs/465981de-3aff-4307-8a34-c00b594ad1ac.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/edba4697-824f-4483-8bb9-a8d9d0e97549.jpg",
-    "thumbnailPath": "thumbs/edba4697-824f-4483-8bb9-a8d9d0e97549.webp",
+    "path": "images/harvest-festival-moment-13.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-13.webp",
     "filename": "ezgif-frame-051.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -973,12 +1177,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.806Z",
-    "updatedAt": "2026-07-26T14:13:47.806Z"
+    "updatedAt": "2026-07-26T14:13:47.806Z",
+    "previousPaths": [
+      "images/edba4697-824f-4483-8bb9-a8d9d0e97549.jpg",
+      "thumbs/edba4697-824f-4483-8bb9-a8d9d0e97549.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.jpg",
-    "thumbnailPath": "thumbs/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.webp",
+    "path": "images/harvest-festival-moment-14.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-14.webp",
     "filename": "ezgif-frame-054.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -992,12 +1200,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.808Z",
-    "updatedAt": "2026-07-26T14:13:47.808Z"
+    "updatedAt": "2026-07-26T14:13:47.808Z",
+    "previousPaths": [
+      "images/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.jpg",
+      "thumbs/01f3908a-1efd-4faa-bea8-03eb9bb2a2ad.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.jpg",
-    "thumbnailPath": "thumbs/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.webp",
+    "path": "images/harvest-festival-moment-15.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-15.webp",
     "filename": "ezgif-frame-030.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1011,12 +1223,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.811Z",
-    "updatedAt": "2026-07-26T14:13:47.811Z"
+    "updatedAt": "2026-07-26T14:13:47.811Z",
+    "previousPaths": [
+      "images/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.jpg",
+      "thumbs/4eb72984-7334-4fba-bf06-2aaf3a2c11a6.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/a1c80bc0-6fbf-43f0-be0a-a69367476f89.jpg",
-    "thumbnailPath": "thumbs/a1c80bc0-6fbf-43f0-be0a-a69367476f89.webp",
+    "path": "images/harvest-festival-moment-16.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-16.webp",
     "filename": "ezgif-frame-048.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1030,12 +1246,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.820Z",
-    "updatedAt": "2026-07-26T14:13:47.820Z"
+    "updatedAt": "2026-07-26T14:13:47.820Z",
+    "previousPaths": [
+      "images/a1c80bc0-6fbf-43f0-be0a-a69367476f89.jpg",
+      "thumbs/a1c80bc0-6fbf-43f0-be0a-a69367476f89.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4747a7cc-a103-4d19-9e5a-55f403aa03b8.jpg",
-    "thumbnailPath": "thumbs/4747a7cc-a103-4d19-9e5a-55f403aa03b8.webp",
+    "path": "images/harvest-festival-moment-17.jpg",
+    "thumbnailPath": "thumbs/harvest-festival-moment-17.webp",
     "filename": "ezgif-frame-045.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1049,12 +1269,16 @@
       "ta": "அறுவடைத் திருவிழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.822Z",
-    "updatedAt": "2026-07-26T14:13:47.822Z"
+    "updatedAt": "2026-07-26T14:13:47.822Z",
+    "previousPaths": [
+      "images/4747a7cc-a103-4d19-9e5a-55f403aa03b8.jpg",
+      "thumbs/4747a7cc-a103-4d19-9e5a-55f403aa03b8.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/3423a599-9dc3-4b19-8083-3c0d0bae38ca.jpg",
-    "thumbnailPath": "thumbs/3423a599-9dc3-4b19-8083-3c0d0bae38ca.webp",
+    "path": "images/youth-retreat-moment-8.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-8.webp",
     "filename": "ezgif-frame-075.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1068,12 +1292,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:47.985Z",
-    "updatedAt": "2026-07-26T14:13:47.985Z"
+    "updatedAt": "2026-07-26T14:13:47.985Z",
+    "previousPaths": [
+      "images/3423a599-9dc3-4b19-8083-3c0d0bae38ca.jpg",
+      "thumbs/3423a599-9dc3-4b19-8083-3c0d0bae38ca.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/3273dcc8-7131-4073-8d83-779493614b6e.jpg",
-    "thumbnailPath": "thumbs/3273dcc8-7131-4073-8d83-779493614b6e.webp",
+    "path": "images/youth-retreat-moment-9.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-9.webp",
     "filename": "ezgif-frame-084.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1087,12 +1315,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.011Z",
-    "updatedAt": "2026-07-26T14:13:48.011Z"
+    "updatedAt": "2026-07-26T14:13:48.011Z",
+    "previousPaths": [
+      "images/3273dcc8-7131-4073-8d83-779493614b6e.jpg",
+      "thumbs/3273dcc8-7131-4073-8d83-779493614b6e.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/abb669a8-b681-4585-b57f-22ad0e6dc159.jpg",
-    "thumbnailPath": "thumbs/abb669a8-b681-4585-b57f-22ad0e6dc159.webp",
+    "path": "images/youth-retreat-moment-10.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-10.webp",
     "filename": "ezgif-frame-087.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1106,12 +1338,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.013Z",
-    "updatedAt": "2026-07-26T14:13:48.013Z"
+    "updatedAt": "2026-07-26T14:13:48.013Z",
+    "previousPaths": [
+      "images/abb669a8-b681-4585-b57f-22ad0e6dc159.jpg",
+      "thumbs/abb669a8-b681-4585-b57f-22ad0e6dc159.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/e0b77bbd-6821-4375-8846-7e056102b225.jpg",
-    "thumbnailPath": "thumbs/e0b77bbd-6821-4375-8846-7e056102b225.webp",
+    "path": "images/youth-retreat-moment-11.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-11.webp",
     "filename": "ezgif-frame-093.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1125,12 +1361,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.015Z",
-    "updatedAt": "2026-07-26T14:13:48.015Z"
+    "updatedAt": "2026-07-26T14:13:48.015Z",
+    "previousPaths": [
+      "images/e0b77bbd-6821-4375-8846-7e056102b225.jpg",
+      "thumbs/e0b77bbd-6821-4375-8846-7e056102b225.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/69249520-3639-40b9-b383-211f4a7c27d2.jpg",
-    "thumbnailPath": "thumbs/69249520-3639-40b9-b383-211f4a7c27d2.webp",
+    "path": "images/youth-retreat-moment-12.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-12.webp",
     "filename": "ezgif-frame-078.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1144,12 +1384,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.019Z",
-    "updatedAt": "2026-07-26T14:13:48.019Z"
+    "updatedAt": "2026-07-26T14:13:48.019Z",
+    "previousPaths": [
+      "images/69249520-3639-40b9-b383-211f4a7c27d2.jpg",
+      "thumbs/69249520-3639-40b9-b383-211f4a7c27d2.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/316ed3c1-0f5c-4607-992e-7c78965507c9.jpg",
-    "thumbnailPath": "thumbs/316ed3c1-0f5c-4607-992e-7c78965507c9.webp",
+    "path": "images/youth-retreat-moment-13.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-13.webp",
     "filename": "ezgif-frame-090.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1163,12 +1407,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.022Z",
-    "updatedAt": "2026-07-26T14:13:48.022Z"
+    "updatedAt": "2026-07-26T14:13:48.022Z",
+    "previousPaths": [
+      "images/316ed3c1-0f5c-4607-992e-7c78965507c9.jpg",
+      "thumbs/316ed3c1-0f5c-4607-992e-7c78965507c9.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/fbdf775d-2646-46e5-b17b-adaea6a2c037.jpg",
-    "thumbnailPath": "thumbs/fbdf775d-2646-46e5-b17b-adaea6a2c037.webp",
+    "path": "images/youth-retreat-moment-14.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-14.webp",
     "filename": "ezgif-frame-081.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1182,12 +1430,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.023Z",
-    "updatedAt": "2026-07-26T14:13:48.023Z"
+    "updatedAt": "2026-07-26T14:13:48.023Z",
+    "previousPaths": [
+      "images/fbdf775d-2646-46e5-b17b-adaea6a2c037.jpg",
+      "thumbs/fbdf775d-2646-46e5-b17b-adaea6a2c037.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/eb1553a3-1cda-4088-8092-579f4cdcf6e3.jpg",
-    "thumbnailPath": "thumbs/eb1553a3-1cda-4088-8092-579f4cdcf6e3.webp",
+    "path": "images/youth-retreat-moment-15.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-moment-15.webp",
     "filename": "ezgif-frame-096.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1201,12 +1453,16 @@
       "ta": "இளைஞர் முகாம் தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.024Z",
-    "updatedAt": "2026-07-26T14:13:48.024Z"
+    "updatedAt": "2026-07-26T14:13:48.024Z",
+    "previousPaths": [
+      "images/eb1553a3-1cda-4088-8092-579f4cdcf6e3.jpg",
+      "thumbs/eb1553a3-1cda-4088-8092-579f4cdcf6e3.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/612363e4-1a02-4669-bf01-9cd46dfc25fd.jpg",
-    "thumbnailPath": "thumbs/612363e4-1a02-4669-bf01-9cd46dfc25fd.webp",
+    "path": "images/sunday-school-annual-day-moment-7.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-7.webp",
     "filename": "ezgif-frame-105.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1220,12 +1476,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.150Z",
-    "updatedAt": "2026-07-26T14:13:48.150Z"
+    "updatedAt": "2026-07-26T14:13:48.150Z",
+    "previousPaths": [
+      "images/612363e4-1a02-4669-bf01-9cd46dfc25fd.jpg",
+      "thumbs/612363e4-1a02-4669-bf01-9cd46dfc25fd.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/0da936b0-9b50-4ed7-8039-0911921182ad.jpg",
-    "thumbnailPath": "thumbs/0da936b0-9b50-4ed7-8039-0911921182ad.webp",
+    "path": "images/sunday-school-annual-day-moment-8.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-8.webp",
     "filename": "ezgif-frame-114.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1239,12 +1499,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.157Z",
-    "updatedAt": "2026-07-26T14:13:48.157Z"
+    "updatedAt": "2026-07-26T14:13:48.157Z",
+    "previousPaths": [
+      "images/0da936b0-9b50-4ed7-8039-0911921182ad.jpg",
+      "thumbs/0da936b0-9b50-4ed7-8039-0911921182ad.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/bbe0ae9e-eb33-4a17-a315-305d1a38f275.jpg",
-    "thumbnailPath": "thumbs/bbe0ae9e-eb33-4a17-a315-305d1a38f275.webp",
+    "path": "images/sunday-school-annual-day-moment-9.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-9.webp",
     "filename": "ezgif-frame-108.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1258,12 +1522,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.166Z",
-    "updatedAt": "2026-07-26T14:13:48.166Z"
+    "updatedAt": "2026-07-26T14:13:48.166Z",
+    "previousPaths": [
+      "images/bbe0ae9e-eb33-4a17-a315-305d1a38f275.jpg",
+      "thumbs/bbe0ae9e-eb33-4a17-a315-305d1a38f275.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/59bace0a-05a6-428b-97d8-4b33f2ee2b73.jpg",
-    "thumbnailPath": "thumbs/59bace0a-05a6-428b-97d8-4b33f2ee2b73.webp",
+    "path": "images/sunday-school-annual-day-moment-10.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-10.webp",
     "filename": "ezgif-frame-111.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1277,12 +1545,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.170Z",
-    "updatedAt": "2026-07-26T14:13:48.170Z"
+    "updatedAt": "2026-07-26T14:13:48.170Z",
+    "previousPaths": [
+      "images/59bace0a-05a6-428b-97d8-4b33f2ee2b73.jpg",
+      "thumbs/59bace0a-05a6-428b-97d8-4b33f2ee2b73.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.jpg",
-    "thumbnailPath": "thumbs/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.webp",
+    "path": "images/sunday-school-annual-day-moment-11.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-11.webp",
     "filename": "ezgif-frame-123.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1296,12 +1568,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.179Z",
-    "updatedAt": "2026-07-26T14:13:48.179Z"
+    "updatedAt": "2026-07-26T14:13:48.179Z",
+    "previousPaths": [
+      "images/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.jpg",
+      "thumbs/ca1f000f-c79d-4078-8fc3-6ddcba4f0b4f.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.jpg",
-    "thumbnailPath": "thumbs/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.webp",
+    "path": "images/sunday-school-annual-day-moment-12.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-12.webp",
     "filename": "ezgif-frame-117.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1315,12 +1591,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.181Z",
-    "updatedAt": "2026-07-26T14:13:48.181Z"
+    "updatedAt": "2026-07-26T14:13:48.181Z",
+    "previousPaths": [
+      "images/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.jpg",
+      "thumbs/cb547bb5-1cce-4f49-8f74-fd5abf52b2a1.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/8b64441e-5859-44b1-9ef1-613c928b0585.jpg",
-    "thumbnailPath": "thumbs/8b64441e-5859-44b1-9ef1-613c928b0585.webp",
+    "path": "images/sunday-school-annual-day-moment-13.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-moment-13.webp",
     "filename": "ezgif-frame-120.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1334,12 +1614,16 @@
       "ta": "ஞாயிறு பள்ளி விழா தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.185Z",
-    "updatedAt": "2026-07-26T14:13:48.185Z"
+    "updatedAt": "2026-07-26T14:13:48.185Z",
+    "previousPaths": [
+      "images/8b64441e-5859-44b1-9ef1-613c928b0585.jpg",
+      "thumbs/8b64441e-5859-44b1-9ef1-613c928b0585.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/bbd878fe-36fe-4262-bafb-f4db9e288852.jpg",
-    "thumbnailPath": "thumbs/bbd878fe-36fe-4262-bafb-f4db9e288852.webp",
+    "path": "images/easter-service-moment-7.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-7.webp",
     "filename": "ezgif-frame-011.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1353,12 +1637,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.292Z",
-    "updatedAt": "2026-07-26T14:13:48.292Z"
+    "updatedAt": "2026-07-26T14:13:48.292Z",
+    "previousPaths": [
+      "images/bbd878fe-36fe-4262-bafb-f4db9e288852.jpg",
+      "thumbs/bbd878fe-36fe-4262-bafb-f4db9e288852.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/611d65d9-95b9-4157-9ac8-50a63eabe95c.jpg",
-    "thumbnailPath": "thumbs/611d65d9-95b9-4157-9ac8-50a63eabe95c.webp",
+    "path": "images/easter-service-moment-8.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-8.webp",
     "filename": "ezgif-frame-017.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1372,12 +1660,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.294Z",
-    "updatedAt": "2026-07-26T14:13:48.294Z"
+    "updatedAt": "2026-07-26T14:13:48.294Z",
+    "previousPaths": [
+      "images/611d65d9-95b9-4157-9ac8-50a63eabe95c.jpg",
+      "thumbs/611d65d9-95b9-4157-9ac8-50a63eabe95c.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/81ce8a9f-b112-4283-9ee3-477bb832a47d.jpg",
-    "thumbnailPath": "thumbs/81ce8a9f-b112-4283-9ee3-477bb832a47d.webp",
+    "path": "images/easter-service-moment-9.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-9.webp",
     "filename": "ezgif-frame-014.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1391,12 +1683,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.301Z",
-    "updatedAt": "2026-07-26T14:13:48.301Z"
+    "updatedAt": "2026-07-26T14:13:48.301Z",
+    "previousPaths": [
+      "images/81ce8a9f-b112-4283-9ee3-477bb832a47d.jpg",
+      "thumbs/81ce8a9f-b112-4283-9ee3-477bb832a47d.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/7397086d-d7ec-4837-ab35-a7ca565988f9.jpg",
-    "thumbnailPath": "thumbs/7397086d-d7ec-4837-ab35-a7ca565988f9.webp",
+    "path": "images/easter-service-moment-10.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-10.webp",
     "filename": "ezgif-frame-008.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1410,12 +1706,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.307Z",
-    "updatedAt": "2026-07-26T14:13:48.307Z"
+    "updatedAt": "2026-07-26T14:13:48.307Z",
+    "previousPaths": [
+      "images/7397086d-d7ec-4837-ab35-a7ca565988f9.jpg",
+      "thumbs/7397086d-d7ec-4837-ab35-a7ca565988f9.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/b625389c-9159-434d-8fa6-d93b4d7e2952.jpg",
-    "thumbnailPath": "thumbs/b625389c-9159-434d-8fa6-d93b4d7e2952.webp",
+    "path": "images/easter-service-moment-11.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-11.webp",
     "filename": "ezgif-frame-023.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1429,12 +1729,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.320Z",
-    "updatedAt": "2026-07-26T14:13:48.320Z"
+    "updatedAt": "2026-07-26T14:13:48.320Z",
+    "previousPaths": [
+      "images/b625389c-9159-434d-8fa6-d93b4d7e2952.jpg",
+      "thumbs/b625389c-9159-434d-8fa6-d93b4d7e2952.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/ea4a7653-c6df-41b4-be6a-bc48d8638a56.jpg",
-    "thumbnailPath": "thumbs/ea4a7653-c6df-41b4-be6a-bc48d8638a56.webp",
+    "path": "images/easter-service-moment-12.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-12.webp",
     "filename": "ezgif-frame-020.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1448,12 +1752,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.321Z",
-    "updatedAt": "2026-07-26T14:13:48.321Z"
+    "updatedAt": "2026-07-26T14:13:48.321Z",
+    "previousPaths": [
+      "images/ea4a7653-c6df-41b4-be6a-bc48d8638a56.jpg",
+      "thumbs/ea4a7653-c6df-41b4-be6a-bc48d8638a56.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.jpg",
-    "thumbnailPath": "thumbs/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.webp",
+    "path": "images/easter-service-moment-13.jpg",
+    "thumbnailPath": "thumbs/easter-service-moment-13.webp",
     "filename": "ezgif-frame-005.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1467,12 +1775,16 @@
       "ta": "உயிர்த்தெழுதல் ஆராதனை தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.323Z",
-    "updatedAt": "2026-07-26T14:13:48.323Z"
+    "updatedAt": "2026-07-26T14:13:48.323Z",
+    "previousPaths": [
+      "images/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.jpg",
+      "thumbs/0c3e4bfc-184a-4eb2-85c2-6464e6d7b49a.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.jpg",
-    "thumbnailPath": "thumbs/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.webp",
+    "path": "images/womens-fellowship-day-moment-7.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-7.webp",
     "filename": "ezgif-frame-206.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1486,12 +1798,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.445Z",
-    "updatedAt": "2026-07-26T14:13:48.445Z"
+    "updatedAt": "2026-07-26T14:13:48.445Z",
+    "previousPaths": [
+      "images/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.jpg",
+      "thumbs/ae13dd48-2e96-4529-9e5d-b0f4ae670d35.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.jpg",
-    "thumbnailPath": "thumbs/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.webp",
+    "path": "images/womens-fellowship-day-moment-8.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-8.webp",
     "filename": "ezgif-frame-203.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1505,12 +1821,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.447Z",
-    "updatedAt": "2026-07-26T14:13:48.447Z"
+    "updatedAt": "2026-07-26T14:13:48.447Z",
+    "previousPaths": [
+      "images/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.jpg",
+      "thumbs/bf5dd4f6-0c42-4fc4-bedf-f6b5dd606e67.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.jpg",
-    "thumbnailPath": "thumbs/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.webp",
+    "path": "images/womens-fellowship-day-moment-9.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-9.webp",
     "filename": "ezgif-frame-212.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1524,12 +1844,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.453Z",
-    "updatedAt": "2026-07-26T14:13:48.453Z"
+    "updatedAt": "2026-07-26T14:13:48.453Z",
+    "previousPaths": [
+      "images/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.jpg",
+      "thumbs/0aae081e-3baa-4a7a-bdd4-3be9438e93d2.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/dffb2f7e-740f-45dc-b58c-2619de5d60a7.jpg",
-    "thumbnailPath": "thumbs/dffb2f7e-740f-45dc-b58c-2619de5d60a7.webp",
+    "path": "images/womens-fellowship-day-moment-10.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-10.webp",
     "filename": "ezgif-frame-215.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1543,12 +1867,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.456Z",
-    "updatedAt": "2026-07-26T14:13:48.456Z"
+    "updatedAt": "2026-07-26T14:13:48.456Z",
+    "previousPaths": [
+      "images/dffb2f7e-740f-45dc-b58c-2619de5d60a7.jpg",
+      "thumbs/dffb2f7e-740f-45dc-b58c-2619de5d60a7.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/970ac602-717e-464c-912d-77a57550af33.jpg",
-    "thumbnailPath": "thumbs/970ac602-717e-464c-912d-77a57550af33.webp",
+    "path": "images/womens-fellowship-day-moment-11.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-11.webp",
     "filename": "ezgif-frame-200.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1562,12 +1890,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.467Z",
-    "updatedAt": "2026-07-26T14:13:48.467Z"
+    "updatedAt": "2026-07-26T14:13:48.467Z",
+    "previousPaths": [
+      "images/970ac602-717e-464c-912d-77a57550af33.jpg",
+      "thumbs/970ac602-717e-464c-912d-77a57550af33.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.jpg",
-    "thumbnailPath": "thumbs/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.webp",
+    "path": "images/womens-fellowship-day-moment-12.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-12.webp",
     "filename": "ezgif-frame-218.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1581,12 +1913,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.470Z",
-    "updatedAt": "2026-07-26T14:13:48.470Z"
+    "updatedAt": "2026-07-26T14:13:48.470Z",
+    "previousPaths": [
+      "images/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.jpg",
+      "thumbs/dc0a4f21-4c7b-4479-bcfb-802b5e5bbd98.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/f52a6736-8851-4685-ba9f-e3a04347ca96.jpg",
-    "thumbnailPath": "thumbs/f52a6736-8851-4685-ba9f-e3a04347ca96.webp",
+    "path": "images/womens-fellowship-day-moment-13.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-day-moment-13.webp",
     "filename": "ezgif-frame-209.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1600,12 +1936,16 @@
       "ta": "மகளிர் ஐக்கிய தின தருணம்"
     },
     "createdAt": "2026-07-26T14:13:48.474Z",
-    "updatedAt": "2026-07-26T14:13:48.474Z"
+    "updatedAt": "2026-07-26T14:13:48.474Z",
+    "previousPaths": [
+      "images/f52a6736-8851-4685-ba9f-e3a04347ca96.jpg",
+      "thumbs/f52a6736-8851-4685-ba9f-e3a04347ca96.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.jpg",
-    "thumbnailPath": "thumbs/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.webp",
+    "path": "images/young-couples-gathering.jpg",
+    "thumbnailPath": "thumbs/young-couples-gathering.webp",
     "filename": "ezgif-frame-150.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1619,12 +1959,16 @@
       "ta": "இளம் தம்பதியர் கூட்டம்"
     },
     "createdAt": "2026-07-26T14:22:03.612Z",
-    "updatedAt": "2026-07-26T14:22:03.612Z"
+    "updatedAt": "2026-07-26T14:22:03.612Z",
+    "previousPaths": [
+      "images/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.jpg",
+      "thumbs/a2c63c44-54da-4dd3-baba-0cc8eaa7109e.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/4a72a6eb-0dfb-47e9-bcee-df4410660240.jpg",
-    "thumbnailPath": "thumbs/4a72a6eb-0dfb-47e9-bcee-df4410660240.webp",
+    "path": "images/sunday-school-class.jpg",
+    "thumbnailPath": "thumbs/sunday-school-class.webp",
     "filename": "ezgif-frame-090.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1638,12 +1982,16 @@
       "ta": "ஞாயிறு பள்ளி வகுப்பு"
     },
     "createdAt": "2026-07-26T14:22:03.694Z",
-    "updatedAt": "2026-07-26T14:22:03.694Z"
+    "updatedAt": "2026-07-26T14:22:03.694Z",
+    "previousPaths": [
+      "images/4a72a6eb-0dfb-47e9-bcee-df4410660240.jpg",
+      "thumbs/4a72a6eb-0dfb-47e9-bcee-df4410660240.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/8571cdef-0827-49b9-b6e3-00eca930bf54.jpg",
-    "thumbnailPath": "thumbs/8571cdef-0827-49b9-b6e3-00eca930bf54.webp",
+    "path": "images/church-choir-singing.jpg",
+    "thumbnailPath": "thumbs/church-choir-singing.webp",
     "filename": "ezgif-frame-180.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1657,12 +2005,16 @@
       "ta": "கீர்த்தனைக் குழு பாடுதல்"
     },
     "createdAt": "2026-07-26T14:22:03.787Z",
-    "updatedAt": "2026-07-26T14:22:03.787Z"
+    "updatedAt": "2026-07-26T14:22:03.787Z",
+    "previousPaths": [
+      "images/8571cdef-0827-49b9-b6e3-00eca930bf54.jpg",
+      "thumbs/8571cdef-0827-49b9-b6e3-00eca930bf54.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/30b12532-b8c1-4c1a-a034-412208c33862.jpg",
-    "thumbnailPath": "thumbs/30b12532-b8c1-4c1a-a034-412208c33862.webp",
+    "path": "images/womens-fellowship-meeting.jpg",
+    "thumbnailPath": "thumbs/womens-fellowship-meeting.webp",
     "filename": "ezgif-frame-210.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1676,12 +2028,16 @@
       "ta": "மகளிர் ஐக்கியக் கூட்டம்"
     },
     "createdAt": "2026-07-26T14:22:03.885Z",
-    "updatedAt": "2026-07-26T14:22:03.885Z"
+    "updatedAt": "2026-07-26T14:22:03.885Z",
+    "previousPaths": [
+      "images/30b12532-b8c1-4c1a-a034-412208c33862.jpg",
+      "thumbs/30b12532-b8c1-4c1a-a034-412208c33862.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/626abc92-0c1a-450c-81fc-16439e446f8a.jpg",
-    "thumbnailPath": "thumbs/626abc92-0c1a-450c-81fc-16439e446f8a.webp",
+    "path": "images/mens-fellowship-gathering.jpg",
+    "thumbnailPath": "thumbs/mens-fellowship-gathering.webp",
     "filename": "ezgif-frame-240.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1695,12 +2051,16 @@
       "ta": "ஆடவர் ஐக்கியக் கூட்டம்"
     },
     "createdAt": "2026-07-26T14:22:03.983Z",
-    "updatedAt": "2026-07-26T14:22:03.983Z"
+    "updatedAt": "2026-07-26T14:22:03.983Z",
+    "previousPaths": [
+      "images/626abc92-0c1a-450c-81fc-16439e446f8a.jpg",
+      "thumbs/626abc92-0c1a-450c-81fc-16439e446f8a.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/e6aabd9a-5e9a-4f0e-820f-8ac230653a7c.jpg",
-    "thumbnailPath": "thumbs/e6aabd9a-5e9a-4f0e-820f-8ac230653a7c.webp",
+    "path": "images/prayer-meeting.jpg",
+    "thumbnailPath": "thumbs/prayer-meeting.webp",
     "filename": "ezgif-frame-270.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1714,12 +2074,16 @@
       "ta": "ஜெபக் கூட்டம்"
     },
     "createdAt": "2026-07-26T14:22:04.101Z",
-    "updatedAt": "2026-07-26T14:22:04.101Z"
+    "updatedAt": "2026-07-26T14:22:04.101Z",
+    "previousPaths": [
+      "images/e6aabd9a-5e9a-4f0e-820f-8ac230653a7c.jpg",
+      "thumbs/e6aabd9a-5e9a-4f0e-820f-8ac230653a7c.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/9a3e485d-4149-422f-b9bb-8357924c4c75.jpg",
-    "thumbnailPath": "thumbs/9a3e485d-4149-422f-b9bb-8357924c4c75.webp",
+    "path": "images/church-community-gathering.jpg",
+    "thumbnailPath": "thumbs/church-community-gathering.webp",
     "filename": "ezgif-frame-015.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1733,12 +2097,16 @@
       "ta": "திருச்சபை சமூகக் கூட்டம்"
     },
     "createdAt": "2026-07-26T14:22:04.202Z",
-    "updatedAt": "2026-07-26T14:22:04.202Z"
+    "updatedAt": "2026-07-26T14:22:04.202Z",
+    "previousPaths": [
+      "images/9a3e485d-4149-422f-b9bb-8357924c4c75.jpg",
+      "thumbs/9a3e485d-4149-422f-b9bb-8357924c4c75.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.jpg",
-    "thumbnailPath": "thumbs/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.webp",
+    "path": "images/easter-2026.jpg",
+    "thumbnailPath": "thumbs/easter-2026.webp",
     "filename": "youtube-poster.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1752,12 +2120,16 @@
       "ta": "வீடியோ சிறுபடம்"
     },
     "createdAt": "2026-07-26T14:48:39.944Z",
-    "updatedAt": "2026-07-26T14:48:39.944Z"
+    "updatedAt": "2026-07-26T14:48:39.944Z",
+    "previousPaths": [
+      "images/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.jpg",
+      "thumbs/79e6a6f9-8f47-4980-a64f-4b14ba913d5e.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/1e141ab5-4fe0-4fac-b55c-fee7bac09232.jpg",
-    "thumbnailPath": "thumbs/1e141ab5-4fe0-4fac-b55c-fee7bac09232.webp",
+    "path": "images/christmas-2025-3.jpg",
+    "thumbnailPath": "thumbs/christmas-2025-3.webp",
     "filename": "youtube-poster.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1771,12 +2143,16 @@
       "ta": "வீடியோ சிறுபடம்"
     },
     "createdAt": "2026-07-26T14:48:42.347Z",
-    "updatedAt": "2026-07-26T14:48:42.347Z"
+    "updatedAt": "2026-07-26T14:48:42.347Z",
+    "previousPaths": [
+      "images/1e141ab5-4fe0-4fac-b55c-fee7bac09232.jpg",
+      "thumbs/1e141ab5-4fe0-4fac-b55c-fee7bac09232.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/6dc48f58-0213-4cae-b2cc-075783a3198d.jpg",
-    "thumbnailPath": "thumbs/6dc48f58-0213-4cae-b2cc-075783a3198d.webp",
+    "path": "images/sunday-school-annual-day-2026.jpg",
+    "thumbnailPath": "thumbs/sunday-school-annual-day-2026.webp",
     "filename": "youtube-poster.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1790,12 +2166,16 @@
       "ta": "வீடியோ சிறுபடம்"
     },
     "createdAt": "2026-07-26T14:48:42.529Z",
-    "updatedAt": "2026-07-26T14:48:42.529Z"
+    "updatedAt": "2026-07-26T14:48:42.529Z",
+    "previousPaths": [
+      "images/6dc48f58-0213-4cae-b2cc-075783a3198d.jpg",
+      "thumbs/6dc48f58-0213-4cae-b2cc-075783a3198d.webp"
+    ]
   },
   {
     "kind": "image",
-    "path": "images/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.jpg",
-    "thumbnailPath": "thumbs/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.webp",
+    "path": "images/youth-retreat-2026.jpg",
+    "thumbnailPath": "thumbs/youth-retreat-2026.webp",
     "filename": "youtube-poster.jpg",
     "mimeType": "image/jpeg",
     "format": "JPG",
@@ -1809,6 +2189,10 @@
       "ta": "வீடியோ சிறுபடம்"
     },
     "createdAt": "2026-07-26T16:59:28.220Z",
-    "updatedAt": "2026-07-26T16:59:28.220Z"
+    "updatedAt": "2026-07-26T16:59:28.220Z",
+    "previousPaths": [
+      "images/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.jpg",
+      "thumbs/6c74955c-efe3-4af1-ac0f-1ea43c7c98b0.webp"
+    ]
   }
 ]

@@ -11,8 +11,13 @@ import { Heading, Prose } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { pageMetadata } from "@/lib/seo";
-import { articleJsonLd, breadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, recordSeo } from "@/lib/seo";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  JsonLd,
+  pageVideoJsonLd,
+} from "@/components/seo/json-ld";
 import { formatDate } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getBlogPostBySlug, getBlogSlugs, getEventBySlug } from "@/services";
@@ -35,15 +40,16 @@ export async function generateMetadata({
 
   if (!post) return {};
 
-  const title = localize(post.title, locale as Locale);
-  const description = localize(post.excerpt, locale as Locale);
+  const seo = recordSeo(post.seo, locale as Locale, {
+    title: localize(post.title, locale as Locale),
+    description: localize(post.excerpt, locale as Locale),
+    image: post.coverImage?.url,
+  });
 
   return pageMetadata({
     locale: locale as Locale,
-    path: ROUTES.blogPost(slug),
-    title,
-    description,
-    image: post.coverImage?.url,
+    path: ROUTES.blogPost(post.slug),
+    ...seo,
     type: "article",
     publishedTime: post.publishedAt,
     authors: [localize(post.author, locale as Locale)],
@@ -76,6 +82,12 @@ export default async function BlogPostPage({
       <JsonLd
         data={[
           articleJsonLd(post, locale, ROUTES.blogPost(slug)),
+          ...pageVideoJsonLd(post.seo, {
+            title: localize(post.title, locale),
+            description: localize(post.excerpt, locale),
+            image: post.seo?.image?.url ?? post.coverImage?.url,
+            uploadDate: post.publishedAt,
+          }, locale, ROUTES.blogPost(post.slug)),
           breadcrumbJsonLd(
             [
               [tNav("home"), ROUTES.home],

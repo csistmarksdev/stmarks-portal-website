@@ -1,6 +1,12 @@
 "use client";
 
-import type { ContentRevision, ImageAsset, LocalizedText, PublishStatus } from "@portal/shared";
+import type {
+  ContentRevision,
+  ImageAsset,
+  LocalizedText,
+  PublishStatus,
+  SeoMeta,
+} from "@portal/shared";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -10,6 +16,7 @@ import { ErrorState } from "@/components/admin/error-state";
 import { PageHeader } from "@/components/admin/page-header";
 import { ParagraphsField } from "@/components/admin/paragraphs-field";
 import { ImagePicker } from "@/components/admin/media-picker";
+import { SeoFields, seoPayload } from "@/components/admin/seo-fields";
 import { StatusSelect, useApprovalLock } from "@/components/admin/status-select";
 import {
   ApprovalNotice,
@@ -24,6 +31,7 @@ import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useResourceItem, useResourceMutations } from "@/hooks/use-resource";
+import { slugEditable, slugify } from "@/lib/slug";
 import { cn, toDateInput, toDatetimeLocal } from "@/lib/utils";
 
 /* ---------------------------- Field definitions ---------------------------- */
@@ -51,7 +59,26 @@ export type FieldDef =
       allowEmpty?: boolean;
       required?: boolean;
     }
-  | { kind: "image"; name: string; label: string; required?: boolean };
+  | { kind: "image"; name: string; label: string; required?: boolean }
+  /**
+   * The SEO URL slug. Blank → the API derives it from the English title;
+   * editable while the record is a draft, fixed once it has been published.
+   */
+  | { kind: "slug"; name: string; label: string; urlPrefix: string; help?: string }
+  /**
+   * Search-engine title, description and keywords, in a card of its own.
+   * `fallbackDescription` names the field the website uses when the meta
+   * description is blank (an event's summary, an album's description).
+   */
+  | {
+      kind: "seo";
+      name: string;
+      label: string;
+      urlPrefix: string;
+      fallbackDescription?: string;
+      /** The image field shared when no share image is set. */
+      fallbackImage?: string;
+    };
 
 type FormValues = Record<string, unknown>;
 
@@ -134,6 +161,16 @@ function toPayload(fields: FieldDef[], values: FormValues): FormValues {
         payload[field.name] = text;
         break;
       }
+      case "seo": {
+        // null clears it on an edit; a create drops nulls (see `submit`).
+        payload[field.name] = seoPayload(raw as SeoMeta | undefined);
+        break;
+      }
+      case "slug": {
+        const text = slugify((raw as string) ?? "");
+        if (text) payload[field.name] = text;
+        break;
+      }
       case "image":
         if (raw) payload[field.name] = raw as ImageAsset;
         else if (!field.required) payload[field.name] = null;
@@ -175,12 +212,77 @@ function FieldControl({
   field,
   value,
   onChange,
+  values,
+  savedStatus,
 }: {
   field: FieldDef;
   value: unknown;
   onChange: (next: unknown) => void;
+  values: FormValues;
+  savedStatus?: PublishStatus;
 }) {
   switch (field.kind) {
+    case "seo": {
+      const slugValue = slugify((values.slug as string) ?? "") ||
+        slugify((values.title as LocalizedText | undefined)?.en ?? "");
+      return (
+        <SeoFields
+          value={value as SeoMeta | undefined}
+          onChange={onChange}
+          urlPath={`${field.urlPrefix}${slugValue}`}
+          fallbackTitle={values.title as LocalizedText | undefined}
+          fallbackDescription={
+            field.fallbackDescription
+              ? (values[field.fallbackDescription] as LocalizedText | undefined)
+              : undefined
+          }
+          fallbackImage={
+            field.fallbackImage ? (values[field.fallbackImage] as ImageAsset | undefined) : undefined
+          }
+        />
+      );
+    }
+    case "slug": {
+      const typed = (value as string) ?? "";
+      const fromTitle = slugify((values.title as LocalizedText | undefined)?.en ?? "");
+      const editable = slugEditable(savedStatus);
+      const shown = slugify(typed) || fromTitle;
+      return (
+        <div className="space-y-1.5">
+          <div className="flex items-baseline justify-between gap-3">
+            <Label>{field.label}</Label>
+            {editable && fromTitle && slugify(typed) !== fromTitle && (
+              <button
+                type="button"
+                className="text-xs font-medium text-primary hover:underline"
+                onClick={() => onChange(fromTitle)}
+              >
+                Use title
+              </button>
+            )}
+          </div>
+          <Input
+            value={typed}
+            placeholder={fromTitle || "generated-from-the-title"}
+            readOnly={!editable}
+            disabled={!editable}
+            spellCheck={false}
+            onChange={(event) => onChange(event.target.value)}
+            onBlur={() => typed && onChange(slugify(typed))}
+          />
+          <p className="break-all font-mono text-xs text-muted-foreground">
+            {field.urlPrefix}
+            {shown || "…"}
+          </p>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            {editable
+              ? "Filled in from the English title as you type it; edit it to choose your own. Used in the page's web address and by search engines."
+              : "Fixed now that it is published — links and search results point here."}
+            {field.help ? ` ${field.help}` : ""}
+          </p>
+        </div>
+      );
+    }
     case "localized":
       return (
         <LocalizedField
@@ -425,6 +527,25 @@ export function ResourceFormPage({
     );
   }
 
+  const hasSlug = fields.some((field) => field.kind === "slug");
+  const savedForSlug = data?.status as PublishStatus | undefined;
+  /**
+   * Applies one field's change. While the slug still matches the title it was
+   * built from (or is empty), it follows the English title as it is typed;
+   * once the writer edits the slug it is theirs and is left alone.
+   */
+  const withFieldChange = (current: FormValues, name: string, next: unknown): FormValues => {
+    const updated = { ...current, [name]: next };
+    if (name === "title" && hasSlug && slugEditable(savedForSlug)) {
+      const slug = ((current.slug as string) ?? "").trim();
+      const before = slugify((current.title as LocalizedText | undefined)?.en ?? "");
+      if (!slug || slug === before) {
+        updated.slug = slugify((next as LocalizedText | undefined)?.en ?? "");
+      }
+    }
+    return updated;
+  };
+
   const renderGroups = (subset: FieldDef[], dateColumns: string) =>
     groupFields(subset).map((group) => {
       const controls = group.map((field) => (
@@ -432,7 +553,9 @@ export function ResourceFormPage({
           key={field.name}
           field={field}
           value={values[field.name]}
-          onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
+          onChange={(next) => setValues((current) => withFieldChange(current, field.name, next))}
+          values={values}
+          savedStatus={data?.status as PublishStatus | undefined}
         />
       ));
       return group[0].kind === "date" ? (
@@ -478,7 +601,8 @@ export function ResourceFormPage({
 
   const isWriting = (field: FieldDef) => field.kind === "localized" || field.kind === "paragraphs";
   const writing = fields.filter(isWriting);
-  const details = fields.filter((field) => !isWriting(field));
+  const seoFields = fields.filter((field) => field.kind === "seo");
+  const details = fields.filter((field) => !isWriting(field) && field.kind !== "seo");
 
   return (
     <div className="max-w-6xl">
@@ -497,6 +621,14 @@ export function ResourceFormPage({
           <Card>
             <CardContent className="space-y-6">{renderGroups(writing, "sm:grid-cols-2")}</CardContent>
           </Card>
+          {seoFields.length > 0 && (
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-base">Search engines (SEO)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">{renderGroups(seoFields, "")}</CardContent>
+            </Card>
+          )}
           {belowWriting}
         </div>
 

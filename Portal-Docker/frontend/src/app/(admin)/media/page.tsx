@@ -2,12 +2,13 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { MediaItem, MediaKind, Paginated } from "@portal/shared";
-import { FileIcon, ImageIcon, PlayIcon, Trash2Icon, UploadIcon } from "lucide-react";
+import { FileIcon, ImageIcon, PlayIcon, Trash2Icon, UploadIcon, WandSparklesIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { PageHeader } from "@/components/admin/page-header";
+import { SeoFileNamesDialog } from "@/components/admin/seo-file-names-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +25,7 @@ export default function MediaPage() {
   const fileInput = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { can } = useAuth();
+  const [namesOpen, setNamesOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["media", kind, search, page],
@@ -67,8 +69,14 @@ export default function MediaPage() {
         title="Media library"
         description="Every photo, video, bulletin and document lives here once and is reused everywhere. Images get their thumbnails and blur previews on upload."
         actions={
-          can("media.write") ? (
+          can("media.write") || can("media.delete") ? (
             <>
+              {can("media.delete") && (
+                <Button variant="outline" onClick={() => setNamesOpen(true)}>
+                  <WandSparklesIcon /> Readable file names
+                </Button>
+              )}
+              {can("media.write") && (
               <Button
                 className="hidden lg:inline-flex"
                 onClick={() => fileInput.current?.click()}
@@ -76,6 +84,7 @@ export default function MediaPage() {
               >
                 <UploadIcon /> {upload.isPending ? "Uploading…" : "Upload"}
               </Button>
+              )}
               <input
                 ref={fileInput}
                 type="file"
@@ -92,6 +101,8 @@ export default function MediaPage() {
           ) : undefined
         }
       />
+
+      <SeoFileNamesDialog open={namesOpen} onOpenChange={setNamesOpen} />
 
       {can("media.write") && (
         <button

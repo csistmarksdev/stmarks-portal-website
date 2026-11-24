@@ -17,6 +17,7 @@ import {
 } from "class-validator";
 
 import { ImageAssetDto } from "../../../common/dto/image-asset.dto";
+import { SeoDto } from "../../../common/dto/seo.dto";
 import { LocalizedTextDto } from "../../../common/dto/localized-text.dto";
 
 export class CreateEventDto {
@@ -85,6 +86,22 @@ export class CreateEventDto {
   @IsOptional()
   @IsISO8601()
   publishAt?: string | null;
+
+  @ApiPropertyOptional({
+    example: "christmas-carol-service-2026",
+    description:
+      "SEO URL slug. Optional — generated from the English title when blank. " +
+      "Cleaned to lowercase-with-dashes and made unique; fixed once the event is published.",
+  })
+  @IsOptional()
+  @IsString()
+  slug?: string;
+
+  @ApiPropertyOptional({ type: SeoDto, description: "Search-engine title, description and keywords" })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => SeoDto)
+  seo?: SeoDto;
 }
 
 export class UpdateEventDto extends PartialType(CreateEventDto) {

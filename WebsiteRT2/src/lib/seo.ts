@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import { SITE_CONFIG } from "@/constants/site";
 import { defaultLocale, locales, type Locale } from "@/i18n/routing";
+import type { SeoMeta } from "@/types/common";
 
 /**
  * Per-page metadata: self-referencing canonical, hreflang pair and Open Graph.
@@ -61,6 +62,64 @@ export interface PageMetadataInput {
   type?: "website" | "article";
   publishedTime?: string;
   authors?: string[];
+  /** Meta keywords, as set in the Portal. */
+  keywords?: string[];
+  /** og:video — a share video set in the Portal. */
+  video?: SeoMeta["video"];
+}
+
+const YOUTUBE_ID = /(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/;
+const VIMEO_ID = /vimeo\.com\/(?:video\/)?(\d+)/;
+
+/**
+ * Where a share video can be played and pictured: the embeddable player for
+ * YouTube/Vimeo, the file itself otherwise, plus a YouTube still.
+ */
+export function videoSources(video: SeoMeta["video"]):
+  | { embedUrl?: string; contentUrl?: string; thumbnailUrl?: string }
+  | undefined {
+  if (!video?.url) return undefined;
+  const youtube = video.url.match(YOUTUBE_ID)?.[1];
+  if (youtube) {
+    return {
+      embedUrl: `https://www.youtube.com/embed/${youtube}`,
+      thumbnailUrl: `https://i.ytimg.com/vi/${youtube}/hqdefault.jpg`,
+    };
+  }
+  const vimeo = video.url.match(VIMEO_ID)?.[1];
+  if (vimeo) return { embedUrl: `https://player.vimeo.com/video/${vimeo}` };
+  return { contentUrl: video.url };
+}
+
+/**
+ * Title, description and keywords for a CMS record's page: what the writer set
+ * under "Search engines" in the Portal, in this page's language, else the
+ * record's own title and summary.
+ */
+export function recordSeo(
+  seo: SeoMeta | undefined,
+  locale: Locale,
+  fallback: { title: string; description?: string; image?: string },
+): {
+  title: string;
+  description?: string;
+  keywords?: string[];
+  image?: string;
+  video?: SeoMeta["video"];
+} {
+  const title = seo?.title?.[locale]?.trim() || fallback.title;
+  const description = seo?.description?.[locale]?.trim() || fallback.description;
+  const keywords = seo?.keywords?.filter(Boolean);
+  // A chosen share image wins; then the record's own; then a YouTube still.
+  const image =
+    seo?.image?.url ?? fallback.image ?? videoSources(seo?.video)?.thumbnailUrl;
+  return {
+    title,
+    description,
+    ...(keywords?.length ? { keywords } : {}),
+    ...(image ? { image } : {}),
+    ...(seo?.video?.url ? { video: seo.video } : {}),
+  };
 }
 
 export async function pageMetadata({
@@ -72,12 +131,21 @@ export async function pageMetadata({
   type = "website",
   publishedTime,
   authors,
+  keywords,
+  video,
 }: PageMetadataInput): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "site" });
   const siteName = t("name");
   const ogTitle = title ?? siteName;
   const ogDescription = description ?? t("description");
   const url = localePath(path, locale);
+  const sources = videoSources(video);
+  // A hosted video is shared as its embeddable player page; a file as itself.
+  const ogVideo = sources?.embedUrl
+    ? { url: sources.embedUrl, type: "text/html", width: 1280, height: 720 }
+    : sources?.contentUrl
+      ? { url: sources.contentUrl, width: 1280, height: 720 }
+      : undefined;
   const imageUrl = shareImageUrl(image) ?? SITE_CONFIG.ogImage;
   const images = [
     imageUrl === SITE_CONFIG.ogImage
@@ -88,6 +156,7 @@ export async function pageMetadata({
   return {
     ...(title ? { title } : {}),
     ...(description ? { description } : {}),
+    ...(keywords?.length ? { keywords } : {}),
     alternates: {
       canonical: url,
       languages: languageAlternates(path),
@@ -103,6 +172,7 @@ export async function pageMetadata({
         .filter((l) => l !== locale)
         .map((l) => SITE_CONFIG.locale[l]),
       images,
+      ...(ogVideo ? { videos: [ogVideo] } : {}),
       ...(type === "article" && publishedTime ? { publishedTime } : {}),
       ...(type === "article" && authors?.length ? { authors } : {}),
     },

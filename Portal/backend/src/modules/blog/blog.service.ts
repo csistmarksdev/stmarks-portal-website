@@ -23,6 +23,7 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { cleanSeo } from "../../common/utils/seo";
 import { assertNoPlaceholderContent } from "../../common/utils/content-guards";
 import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
@@ -154,8 +155,10 @@ export class BlogService {
     dto: CreateBlogPostDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<BlogPost>> {
+    if (dto.seo !== undefined) dto.seo = cleanSeo(dto.seo);
     assertMayWrite(actor, dto.status);
-    const slug = await uniqueSlug(dto.title.en, (candidate) =>
+    // A slug typed in the form wins; otherwise it comes from the English title.
+    const slug = await uniqueSlug(dto.slug?.trim() || dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
     if ((dto.status ?? "draft") === "published") {
@@ -184,6 +187,7 @@ export class BlogService {
     dto: UpdateBlogPostDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<BlogPost>> {
+    if (dto.seo !== undefined) dto.seo = cleanSeo(dto.seo);
     const existing = await this.repo.findByIdOrThrow(id);
     // Approval rule: an editor's change to a live record is held for an
     // admin; the website keeps the current version until it is approved.

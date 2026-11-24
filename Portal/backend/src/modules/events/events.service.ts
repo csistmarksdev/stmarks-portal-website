@@ -20,9 +20,11 @@ import { resolveList } from "../../common/utils/pagination";
 import { serializeDoc } from "../../common/utils/serialize";
 import { containsInsensitive } from "../../common/utils/mongo";
 import { slugify, uniqueSlug } from "../../common/utils/slugify";
+import { cleanSeo } from "../../common/utils/seo";
 import {
   assertNoPlaceholderContent,
   assertSlugYearMatchesDate,
+  retargetSlugYear,
 } from "../../common/utils/content-guards";
 import { publiclyVisible, scheduleValue } from "../../common/utils/publication";
 import { AuditService } from "../audit/audit.service";
@@ -56,7 +58,7 @@ export class EventsService {
   ) {}
 
   private toPublic(doc: ChurchEventDocument): ChurchEvent {
-    return serializeDoc<ChurchEvent>(doc, [...ADMIN_ONLY_FIELDS]);
+    return serializeDoc<ChurchEvent>(doc, [...ADMIN_ONLY_FIELDS, "previousSlugs"]);
   }
 
   private toAdmin(doc: ChurchEventDocument): WithSchedule<ChurchEvent> {
@@ -134,7 +136,11 @@ export class EventsService {
 
   /** GET /events/:slug — 404 when missing or unpublished. */
   async getPublicBySlug(slug: string): Promise<ChurchEvent> {
-    const doc = await this.repo.findOne({ ...publiclyVisible<ChurchEventEntity>(), slug });
+    const doc =
+      (await this.repo.findOne({ ...publiclyVisible<ChurchEventEntity>(), slug })) ??
+      // An old URL: the event's slug changed (e.g. it moved to another year).
+      // The response carries the current slug, so the website can redirect.
+      (await this.repo.findOne({ ...publiclyVisible<ChurchEventEntity>(), previousSlugs: slug }));
     if (!doc) throw new NotFoundException(`Event "${slug}" was not found`);
     return this.toPublic(doc);
   }
@@ -177,8 +183,10 @@ export class EventsService {
     dto: CreateEventDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<ChurchEvent>> {
+    if (dto.seo !== undefined) dto.seo = cleanSeo(dto.seo);
     assertMayWrite(actor, dto.status);
-    const slug = await uniqueSlug(dto.title.en, (candidate) =>
+    // A slug typed in the form wins; otherwise it comes from the English title.
+    const slug = await uniqueSlug(dto.slug?.trim() || dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
     // F-005: "…-2026" must not be stored as a 2027 date. Drafts included —
@@ -211,6 +219,7 @@ export class EventsService {
     dto: UpdateEventDto,
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<ChurchEvent>> {
+    if (dto.seo !== undefined) dto.seo = cleanSeo(dto.seo);
     const existing = await this.repo.findByIdOrThrow(id);
     // Approval rule: an editor's change to a live record is held for an
     // admin; the website keeps the current version until it is approved.
@@ -242,10 +251,25 @@ export class EventsService {
       );
     }
 
-    assertSlugYearMatchesDate(
-      slug,
-      dto.startDate ? new Date(dto.startDate) : existing.startDate,
-    );
+    const startDate = dto.startDate ? new Date(dto.startDate) : existing.startDate;
+    // Moving an event to another year moves the year in its slug too — even
+    // once published, since a year-stamped URL for the wrong year is worse for
+    // visitors and search engines than a redirected one. A slug the writer
+    // typed is left as typed, and checked below.
+    const previousSlugs = [...(existing.previousSlugs ?? [])];
+    if (slug === existing.slug) {
+      const moved = retargetSlugYear(slug, startDate);
+      if (moved) {
+        slug = await uniqueSlug(moved, (candidate) =>
+          this.repo.exists({ slug: candidate, _id: { $ne: existing._id } }),
+        );
+      }
+    }
+    if (slug !== existing.slug && existing.status !== "draft") {
+      // Anything that may have been public keeps its old address working.
+      if (!previousSlugs.includes(existing.slug)) previousSlugs.push(existing.slug);
+    }
+    assertSlugYearMatchesDate(slug, startDate);
     if ((dto.status ?? existing.status) === "published") {
       this.assertPublishable({
         slug,
@@ -261,6 +285,7 @@ export class EventsService {
         : {}),
       ...dto,
       slug,
+      previousSlugs: previousSlugs.filter((old) => old !== slug),
       ...(dto.publishAt !== undefined ? { publishAt: scheduleValue(dto.publishAt) } : {}),
       ...(dto.startDate ? { startDate: new Date(dto.startDate) } : {}),
       ...(dto.endDate !== undefined

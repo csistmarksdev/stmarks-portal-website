@@ -7,6 +7,7 @@ import {
   type ImageAsset,
   type LocalizedText,
   type PublishStatus,
+  type SeoMeta,
 } from "@portal/shared";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
 
@@ -14,6 +15,7 @@ import {
   ImageAssetSchema,
   LocalizedTextOptionalSchema,
   LocalizedTextSchema,
+  SeoSchema,
 } from "../../../common/schemas/sub-schemas";
 import {
   REVISION_PROP,
@@ -47,6 +49,10 @@ const GalleryPhotoSchema = new MongooseSchema<GalleryPhoto>(
 export class GalleryAlbumEntity {
   @Prop({ required: true, unique: true, index: true })
   slug: string;
+
+  /** Search-engine title, description and keywords. */
+  @Prop({ type: SeoSchema })
+  seo?: SeoMeta;
 
   @Prop({ required: true, enum: PUBLISH_STATUSES, default: "draft", index: true })
   status: PublishStatus;

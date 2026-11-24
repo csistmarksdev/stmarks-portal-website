@@ -19,58 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { readVideoUrl } from "@/lib/video";
 
 export interface NewGalleryItem {
   image: ImageAsset;
   video?: { url: string };
-}
-
-/**
- * Mirrors the Website's player so the admin gets the same verdict the site
- * will reach — a hosted link with no extractable id renders an empty player
- * there, which is impossible to diagnose after the fact.
- */
-function readUrl(raw: string) {
-  const url = raw.trim();
-  if (!url) return null;
-
-  if (/(?:youtube\.com|youtu\.be)/i.test(url)) {
-    const id = url.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/)?.[1];
-    return {
-      provider: "YouTube",
-      hosted: true,
-      // The same privacy-preserving host the Website embeds from, so what
-      // plays here is exactly what a visitor will get.
-      embed: id
-        ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`
-        : null,
-      problem: id
-        ? null
-        : "That YouTube link has no video id — copy it from the address bar or the Share button.",
-    };
-  }
-  if (/vimeo\.com/i.test(url)) {
-    const id = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)?.[1];
-    return {
-      provider: "Vimeo",
-      hosted: true,
-      embed: id ? `https://player.vimeo.com/video/${id}` : null,
-      problem: id
-        ? null
-        : "That Vimeo link has no video id — it should look like vimeo.com/123456789.",
-    };
-  }
-  try {
-    new URL(url);
-    return { provider: "video file", hosted: false, embed: null, problem: null };
-  } catch {
-    return {
-      provider: "video file",
-      hosted: false,
-      embed: null,
-      problem: "That is not a full web address.",
-    };
-  }
 }
 
 /**
@@ -84,11 +37,14 @@ export function AddGalleryItemsDialog({
   onOpenChange,
   onAdd,
   busy = false,
+  nameHint,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAdd: (items: NewGalleryItem[]) => void;
   busy?: boolean;
+  /** Sent with uploads so camera-named files are stored under readable names. */
+  nameHint?: string;
 }) {
   const [tab, setTab] = useState<"photos" | "video">("photos");
   const [search, setSearch] = useState("");
@@ -108,7 +64,7 @@ export function AddGalleryItemsDialog({
   const queryClient = useQueryClient();
 
   const pickedList = Object.values(picked);
-  const verdict = readUrl(videoUrl);
+  const verdict = readVideoUrl(videoUrl);
 
   useEffect(() => {
     if (open) return;
@@ -137,6 +93,7 @@ export function AddGalleryItemsDialog({
         files.map((file) => {
           const body = new FormData();
           body.append("file", file);
+          if (nameHint?.trim()) body.append("nameHint", nameHint.trim());
           return api.upload<MediaItem>("/admin/media", body);
         }),
       ),
@@ -168,6 +125,7 @@ export function AddGalleryItemsDialog({
     mutationFn: (file: File) => {
       const body = new FormData();
       body.append("file", file);
+      if (nameHint?.trim()) body.append("nameHint", nameHint.trim());
       return api.upload<MediaItem>("/admin/media", body);
     },
     onSuccess: (item) => {
@@ -183,6 +141,7 @@ export function AddGalleryItemsDialog({
     mutationFn: (file: File) => {
       const body = new FormData();
       body.append("file", file);
+      if (nameHint?.trim()) body.append("nameHint", nameHint.trim());
       return api.upload<MediaItem>("/admin/media", body);
     },
     onSuccess: (item) => {

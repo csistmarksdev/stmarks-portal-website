@@ -31,6 +31,7 @@ import { RequirePermissions } from "../../common/decorators/permissions.decorato
 import { LocalizedTextDto } from "../../common/dto/localized-text.dto";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
+import { MediaRenameService } from "./media-rename.service";
 import { MediaService } from "./media.service";
 
 /**
@@ -55,6 +56,15 @@ export class UploadMediaDto {
   @IsOptional()
   @IsString()
   altTa?: string;
+
+  @ApiProperty({
+    required: false,
+    description:
+      "Words to name the stored file by when neither the alt text nor the file's own name says anything (e.g. the album title)",
+  })
+  @IsOptional()
+  @IsString()
+  nameHint?: string;
 }
 
 export class UpdateAltDto {
@@ -77,7 +87,31 @@ export class VideoPosterDto {
 @ApiBearerAuth()
 @Controller("admin/media")
 export class MediaController {
-  constructor(private readonly media: MediaService) {}
+  constructor(
+    private readonly media: MediaService,
+    private readonly renamer: MediaRenameService,
+  ) {}
+
+  @Get("seo-names/preview")
+  @RequirePermissions("media.delete")
+  @ApiOperation({
+    summary:
+      "Files still stored under an id-only name, and the readable name each would get — changes nothing",
+  })
+  previewSeoNames() {
+    return this.renamer.plan();
+  }
+
+  @Post("seo-names/apply")
+  @RequirePermissions("media.delete")
+  @HttpCode(200)
+  @ApiOperation({
+    summary:
+      "Give id-named files readable names, rewrite every reference, and redirect the old paths",
+  })
+  applySeoNames(@CurrentUser() actor: AuthenticatedUser) {
+    return this.renamer.apply(actor);
+  }
 
   @Post()
   @RequirePermissions("media.write")
@@ -98,7 +132,7 @@ export class MediaController {
     @Body() dto: UploadMediaDto,
     @CurrentUser() actor: AuthenticatedUser,
   ) {
-    return this.media.upload(file, { en: dto.altEn, ta: dto.altTa }, actor);
+    return this.media.upload(file, { en: dto.altEn, ta: dto.altTa }, actor, dto.nameHint);
   }
 
   @Post("video-poster")

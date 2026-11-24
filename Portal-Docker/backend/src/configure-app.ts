@@ -1,11 +1,13 @@
 import { ValidationPipe, type INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import compression from "compression";
+import type { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 
 import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
 import { MediaOriginInterceptor } from "./common/interceptors/media-origin.interceptor";
 import { corsOptionsDelegate } from "./common/utils/cors";
+import { MediaRenameService } from "./modules/media/media-rename.service";
 
 /**
  * Everything that turns a bare Nest app into *this* API: route prefix,
@@ -45,6 +47,22 @@ export function configureApp(app: INestApplication): void {
    * the default filter.
    */
   app.use(compression());
+
+  /*
+   * Files renamed to readable names answer at their old path with a permanent
+   * redirect, so links already shared or indexed by search engines keep
+   * working. Registered here, ahead of the static /uploads handler (which
+   * mounts during app.init and does not fall through).
+   */
+  const renamer = app.get(MediaRenameService, { strict: false });
+  app.use("/uploads", (request: Request, response: Response, next: NextFunction) => {
+    const target = renamer.redirectFor(request.path);
+    if (target) {
+      response.redirect(301, `${request.baseUrl}/${target}`);
+      return;
+    }
+    next();
+  });
 
   // Let Nest close Mongo connections and finish in-flight work on SIGTERM
   // rather than dying mid-request when the container is replaced.

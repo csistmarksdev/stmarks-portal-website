@@ -2,7 +2,8 @@ import { CHURCH_PROFILE } from "@/content/church";
 import { SITE_CONFIG } from "@/constants/site";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
-import { localePath, shareImageUrl } from "@/lib/seo";
+import { localePath, shareImageUrl, videoSources } from "@/lib/seo";
+import type { SeoMeta } from "@/types/common";
 import type { BlogPost, ChurchEvent } from "@/types/content";
 
 /**
@@ -118,6 +119,45 @@ export function articleJsonLd(post: BlogPost, locale: Locale, path: string): Jso
     mainEntityOfPage: abs(localePath(path, locale)),
     inLanguage: locale === "ta" ? "ta-IN" : "en-IN",
   };
+}
+
+/**
+ * VideoObject for a page's share video, so it can appear in video search.
+ * Google needs a name, a thumbnail and an upload date; without a picture of
+ * any kind there is nothing to show, so no object is emitted.
+ */
+export function videoJsonLd(
+  video: SeoMeta["video"],
+  meta: { title: string; description?: string; image?: string; uploadDate: string },
+  locale: Locale,
+  path: string,
+): Json | null {
+  const sources = videoSources(video);
+  const thumbnail = image(meta.image) ?? sources?.thumbnailUrl;
+  if (!sources || !thumbnail) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: meta.title,
+    description: meta.description || meta.title,
+    thumbnailUrl: [thumbnail],
+    uploadDate: meta.uploadDate,
+    ...(sources.embedUrl ? { embedUrl: sources.embedUrl } : {}),
+    ...(sources.contentUrl ? { contentUrl: sources.contentUrl } : {}),
+    url: abs(localePath(path, locale)),
+    inLanguage: locale === "ta" ? "ta-IN" : "en-IN",
+  };
+}
+
+/** `videoJsonLd` as a list — empty when there is no video — for spreading. */
+export function pageVideoJsonLd(
+  seo: SeoMeta | undefined,
+  meta: { title: string; description?: string; image?: string; uploadDate: string },
+  locale: Locale,
+  path: string,
+): Json[] {
+  const json = seo?.video ? videoJsonLd(seo.video, meta, locale, path) : null;
+  return json ? [json] : [];
 }
 
 /** `trail` is [label, path] from the top, ending with the page itself. */

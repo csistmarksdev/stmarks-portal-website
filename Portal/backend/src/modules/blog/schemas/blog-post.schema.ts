@@ -6,12 +6,14 @@ import {
   type ImageAsset,
   type LocalizedText,
   type PublishStatus,
+  type SeoMeta,
 } from "@portal/shared";
 import { HydratedDocument } from "mongoose";
 
 import {
   ImageAssetSchema,
   LocalizedTextSchema,
+  SeoSchema,
 } from "../../../common/schemas/sub-schemas";
 import {
   REVISION_PROP,
@@ -25,6 +27,10 @@ export type BlogPostDocument = HydratedDocument<BlogPostEntity>;
 export class BlogPostEntity {
   @Prop({ required: true, unique: true, index: true })
   slug: string;
+
+  /** Search-engine title, description and keywords. */
+  @Prop({ type: SeoSchema })
+  seo?: SeoMeta;
 
   @Prop({ required: true, enum: PUBLISH_STATUSES, default: "draft", index: true })
   status: PublishStatus;

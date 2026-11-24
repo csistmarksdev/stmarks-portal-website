@@ -3,6 +3,7 @@ import type {
   ImageAsset,
   LocalizedText,
   LocalizedTextOptional,
+  SeoMeta,
   SocialLink,
 } from "./common";
 
@@ -166,6 +167,8 @@ export interface ChurchEvent extends BaseEntity {
   fellowshipSlug?: FellowshipSlug;
   organiser?: LocalizedText;
   featured: boolean;
+  /** Search-engine title, description and keywords from the Portal. */
+  seo?: SeoMeta;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -190,6 +193,8 @@ export interface BlogPost extends BaseEntity {
   fellowshipSlug?: FellowshipSlug;
   /** Estimated reading time in minutes, computed by the CMS. */
   readingMinutes?: number;
+  /** Search-engine title, description and keywords from the Portal. */
+  seo?: SeoMeta;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -234,6 +239,8 @@ export interface GalleryAlbum extends BaseEntity {
    * the admin in the portal; a shared album needs no `fellowshipSlug`.
    */
   shared?: boolean;
+  /** Search-engine title, description and keywords from the Portal. */
+  seo?: SeoMeta;
 }
 
 /* -------------------------------------------------------------------------- */

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowLeft, CalendarDays, MapPin, Users } from "lucide-react";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ScrollCue } from "@/components/common/scroll-cue";
@@ -12,10 +12,15 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Heading, Prose, Text } from "@/components/ui/typography";
 import { ROUTES } from "@/constants/site";
-import { Link } from "@/i18n/navigation";
+import { getPathname, Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { pageMetadata } from "@/lib/seo";
-import { breadcrumbJsonLd, eventJsonLd, JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, recordSeo } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  eventJsonLd,
+  JsonLd,
+  pageVideoJsonLd,
+} from "@/components/seo/json-ld";
 import { formatDateTime, getEventStatus } from "@/lib/date";
 import { localize, localizeAll } from "@/lib/localize";
 import { getEventBySlug, getEventSlugs } from "@/services";
@@ -38,15 +43,16 @@ export async function generateMetadata({
 
   if (!event) return {};
 
-  const title = localize(event.title, locale as Locale);
-  const description = localize(event.summary, locale as Locale);
+  const seo = recordSeo(event.seo, locale as Locale, {
+    title: localize(event.title, locale as Locale),
+    description: localize(event.summary, locale as Locale),
+    image: event.image?.url,
+  });
 
   return pageMetadata({
     locale: locale as Locale,
-    path: ROUTES.event(slug),
-    title,
-    description,
-    image: event.image?.url,
+    path: ROUTES.event(event.slug),
+    ...seo,
   });
 }
 
@@ -63,6 +69,12 @@ export default async function EventDetailPage({
 
   if (!event) notFound();
 
+  // An old address: the event's slug changed (e.g. it moved to another year).
+  // A permanent redirect sends visitors and search engines to the new one.
+  if (event.slug !== slug) {
+    permanentRedirect(getPathname({ href: ROUTES.event(event.slug), locale }));
+  }
+
   const [t, tCommon, tNav] = await Promise.all([
     getTranslations("events"),
     getTranslations("common"),
@@ -77,6 +89,12 @@ export default async function EventDetailPage({
       <JsonLd
         data={[
           eventJsonLd(event, locale, ROUTES.event(slug)),
+          ...pageVideoJsonLd(event.seo, {
+            title,
+            description: localize(event.summary, locale),
+            image: event.seo?.image?.url ?? event.image?.url,
+            uploadDate: event.updatedAt,
+          }, locale, ROUTES.event(event.slug)),
           breadcrumbJsonLd(
             [
               [tNav("home"), ROUTES.home],

@@ -9,7 +9,7 @@ import { ConfigService } from "@nestjs/config";
 import { InjectModel } from "@nestjs/mongoose";
 import type { MediaItem, MediaKind, Paginated } from "@portal/shared";
 import { randomUUID } from "node:crypto";
-import { copyFile, mkdir, rename, unlink, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readdir, rename, unlink, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { Model } from "mongoose";
 import type { FilterQuery } from "mongoose";
@@ -25,6 +25,7 @@ import {
 } from "../../common/utils/video";
 import { AuditService } from "../audit/audit.service";
 import { MediaEntity, type MediaDocument } from "./schemas/media.schema";
+import { slugify } from "../../common/utils/slugify";
 
 const IMAGE_MIMES = new Set([
   "image/jpeg",
@@ -82,6 +83,54 @@ const BLUR_WIDTH = 16;
  * A fixed map is what closes it: an extension that is never attacker-controlled
  * cannot contradict the type the file is served with.
  */
+/**
+ * The readable part of a stored file's name, for search engines: the English
+ * alt text if there is one, else the uploaded file's own name, slugified —
+ * `IMG 2041 (Copy).JPG` with alt "Christmas carol service" becomes
+ * `christmas-carol-service`. Only [a-z0-9-] survives, so it can never carry a
+ * path, a dot or an extension; the extension still comes from
+ * `EXTENSION_FOR_MIME`. Empty when nothing readable is left (a Tamil-only
+ * name), and the file is then named by its id alone, as before.
+ */
+export function readableFileStem(originalName: string, altEn?: string, hint?: string): string {
+  const alt = meaningfulName(altEn ?? "");
+  const own = meaningfulName(originalName);
+  const base = alt || own || hint?.trim() || "";
+  return slugify(base).slice(0, 60).replace(/-+$/, "");
+}
+
+/**
+ * Words that, on their own, describe nothing: what cameras, phones, screen
+ * grabbers and video tools call files (`IMG_2041`, `ezgif-frame-033`,
+ * `Scene2`, `youtube-poster`), and alt text that only restates the kind of
+ * file ("Video thumbnail").
+ */
+const EMPTY_WORDS = new Set([
+  "img", "dsc", "dscn", "dcim", "pxl", "vid", "mvimg", "mov", "gopr",
+  "image", "images", "photo", "photos", "picture", "pic", "pics",
+  "video", "videos", "clip", "movie", "frame", "frames", "scene", "shot",
+  "screenshot", "screen", "capture", "snapshot",
+  "whatsapp", "telegram", "signal", "ezgif", "youtube", "vimeo",
+  "poster", "thumbnail", "thumb", "cover",
+  "untitled", "download", "file", "new", "copy", "final", "edit", "edited",
+  "jpg", "jpeg", "png", "webp", "gif", "heic", "mp4", "webm",
+]);
+
+/**
+ * The text without its file extension, or "" when nothing in it says what
+ * the picture is — every word is an empty word or a number.
+ */
+export function meaningfulName(text: string): string {
+  const name = text.trim().replace(/\.(?:jpe?g|png|webp|avif|gif|heic|mp4|webm|ogv|mov|pdf|docx?|xlsx?|pptx?|txt)$/i, "");
+  const words = slugify(name).split("-").filter(Boolean);
+  // `scene2`, `img2041`: the letters decide, not the number stuck to them.
+  const telling = words.filter((word) => {
+    const core = word.replace(/\d+/g, "");
+    return core.length > 0 && !EMPTY_WORDS.has(core);
+  });
+  return telling.length ? name : "";
+}
+
 const EXTENSION_FOR_MIME: Record<string, string> = {
   "image/jpeg": ".jpg",
   "image/png": ".png",
@@ -151,6 +200,30 @@ export class MediaService {
   }
 
   /** Video files are far larger than a photo or a bulletin, so they get their own ceiling. */
+  /**
+   * `stem`, or `stem-2`, `stem-3`… — the first name in `dir` that no file
+   * uses, with any extension, and that no renamed file used before (its old
+   * address redirects, so it can never be handed out again). Images share one
+   * thumbnail folder, so `foo.png` and `foo.jpg` must not both exist.
+   */
+  private async freeName(dir: string, stem: string): Promise<string> {
+    const onDisk = new Set(
+      (await readdir(join(this.uploadRoot, dir)).catch(() => [] as string[])).map((file) =>
+        file.replace(/\.[^.]*$/, ""),
+      ),
+    );
+    for (let n = 1; ; n += 1) {
+      const name = n === 1 ? stem : `${stem}-${n}`;
+      if (onDisk.has(name)) continue;
+      // `name` is [a-z0-9-] only, so it is safe inside a pattern.
+      const pattern = new RegExp(`^${dir}/${name}\\.[^/]+$`);
+      const used = await this.model.exists({
+        $or: [{ path: pattern }, { previousPaths: pattern }],
+      });
+      if (!used) return name;
+    }
+  }
+
   private limitFor(kind: MediaKind): number {
     return kind === "video" ? this.maxVideoBytes : this.maxBytes;
   }
@@ -164,9 +237,10 @@ export class MediaService {
     file: Express.Multer.File,
     alt: { en?: string; ta?: string } | undefined,
     actor: AuthenticatedUser,
+    nameHint?: string,
   ): Promise<MediaItem> {
     try {
-      return await this.store(file, alt, actor);
+      return await this.store(file, alt, actor, nameHint);
     } finally {
       // A streamed upload's temporary file: moved into place on success, and
       // removed here on every path that refused it.
@@ -197,6 +271,7 @@ export class MediaService {
     file: Express.Multer.File,
     alt: { en?: string; ta?: string } | undefined,
     actor: AuthenticatedUser,
+    nameHint?: string,
   ): Promise<MediaItem> {
     const kind = this.kindOf(file.mimetype);
     /** sharp reads a path or a Buffer alike; a path keeps big images off the heap. */
@@ -242,8 +317,13 @@ export class MediaService {
     const ext = EXTENSION_FOR_MIME[file.mimetype] ?? ".bin";
 
     const dir = kind === "image" ? "images" : kind === "video" ? "videos" : "files";
-    const path = `${dir}/${id}${ext}`;
+    // `christmas-carol-service.jpg` rather than a bare UUID: a descriptive
+    // file name is one of the signals image search reads. A name already in
+    // use gets -2, -3…
     await mkdir(join(this.uploadRoot, dir), { recursive: true });
+    const stem = readableFileStem(file.originalname, alt?.en, nameHint);
+    const name = stem ? await this.freeName(dir, stem) : id;
+    const path = `${dir}/${name}${ext}`;
     const stored = join(this.uploadRoot, path);
 
     let width: number | undefined;
@@ -261,7 +341,7 @@ export class MediaService {
         height = metadata.height;
 
         await mkdir(join(this.uploadRoot, "thumbs"), { recursive: true });
-        thumbnailPath = `thumbs/${id}.webp`;
+        thumbnailPath = `thumbs/${name}.webp`;
         await sharp(source)
           .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
           .webp({ quality: 78 })

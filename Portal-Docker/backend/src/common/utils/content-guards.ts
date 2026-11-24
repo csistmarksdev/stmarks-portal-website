@@ -113,6 +113,23 @@ export function churchYear(date: Date): number {
 }
 
 /**
+ * When an event moves to another year, the year in its slug moves with it:
+ * `womens-fellowship-day-2026` dated 11 Oct 2027 becomes
+ * `womens-fellowship-day-2027`. Returns null when the slug has no year, or
+ * already names the event's year — nothing to move.
+ */
+export function retargetSlugYear(slug: string, startDate: Date): string | null {
+  const years = yearsInSlug(slug);
+  if (years.length === 0) return null;
+  const actual = churchYear(startDate);
+  if (years.includes(actual)) return null;
+  return slug
+    .split("-")
+    .map((token) => (/^(19|20)\d{2}$/.test(token) ? String(actual) : token))
+    .join("-");
+}
+
+/**
  * Rejects an event whose slug names a year that its start date does not fall
  * in — e.g. `womens-fellowship-day-2026` stored as 11 Oct 2027. Passes when
  * the slug has no year token, or when any of its year tokens matches.

@@ -64,6 +64,16 @@ export class CreateAnnouncementDto {
   @IsOptional()
   @IsISO8601()
   expiresAt?: string | null;
+
+  @ApiPropertyOptional({
+    example: "christmas-carol-service-2026",
+    description:
+      "SEO URL slug. Optional — generated from the English title when blank. " +
+      "Cleaned to lowercase-with-dashes and made unique; fixed once the announcement is published.",
+  })
+  @IsOptional()
+  @IsString()
+  slug?: string;
 }
 
 export class UpdateAnnouncementDto extends PartialType(CreateAnnouncementDto) {

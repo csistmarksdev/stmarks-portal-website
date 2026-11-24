@@ -30,6 +30,20 @@ export interface ImageAsset {
   blurDataURL?: string;
 }
 
+/**
+ * Search-engine metadata set in the Portal for a record's public page. Every
+ * part is optional; the page falls back to the record's own title and summary.
+ */
+export interface SeoMeta {
+  title?: LocalizedTextOptional;
+  description?: LocalizedTextOptional;
+  keywords?: string[];
+  /** Share image (og:image); else the record's own cover/image. */
+  image?: ImageAsset;
+  /** Share video: YouTube/Vimeo link or a direct file. */
+  video?: { url: string; provider?: "file" | "youtube" | "vimeo" };
+}
+
 export interface SocialLink {
   platform: "facebook" | "instagram" | "youtube" | "whatsapp" | "x";
   url: string;

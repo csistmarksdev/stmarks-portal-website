@@ -29,6 +29,7 @@ import { join, relative } from "node:path";
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user";
 import { humanFileSize } from "../../common/utils/format";
 import { AuditService } from "../audit/audit.service";
+import { MediaRenameService } from "../media/media-rename.service";
 import { RevalidateService } from "../revalidate/revalidate.service";
 import { ZipReader, ZipWriter, resolveWithin, type ArchiveEntry } from "./archive";
 import { resolveMedia, tokeniseMedia } from "./media-tokens";
@@ -162,6 +163,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     config: ConfigService,
     private readonly audit: AuditService,
     private readonly revalidate: RevalidateService,
+    private readonly mediaRenames: MediaRenameService,
   ) {
     this.uploadRoot = join(process.cwd(), config.get<string>("uploadDir", "uploads"));
     this.publicUrl = config.get<string>("publicUrl", "http://localhost:4000");
@@ -649,6 +651,8 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     try {
       const uploads = await this.restoreUploads(reader, mode);
       const collections = await this.restoreCollections(reader, mode);
+      // The restored media may carry renamed files old links redirect from.
+      await this.mediaRenames.loadRedirects();
 
       const documents = collections.reduce(
         (sum, entry) => sum + entry.inserted + entry.updated,

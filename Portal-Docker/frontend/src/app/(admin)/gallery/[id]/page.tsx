@@ -65,6 +65,7 @@ function PhotosManager({ albumId }: { albumId: string }) {
   return (
     <AlbumItemsEditor
       items={(album?.photos ?? []).map((photo) => ({ key: photo.id, ...photo }))}
+      nameHint={album?.title.en}
       busy={addPhoto.isPending || removePhoto.isPending || reorder.isPending}
       onAdd={(items) =>
         addPhoto
@@ -148,6 +149,7 @@ export default function EditAlbumPage({
         local && items ? (
           <AlbumItemsEditor
             items={items}
+            nameHint={album?.title.en}
             hint={
               holds
                 ? "Photo changes are sent with your changes for approval."

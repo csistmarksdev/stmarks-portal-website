@@ -163,7 +163,8 @@ export class AnnouncementsService {
     actor: AuthenticatedUser,
   ): Promise<WithSchedule<Announcement>> {
     assertMayWrite(actor, dto.status);
-    const slug = await uniqueSlug(dto.title.en, (candidate) =>
+    // A slug typed in the form wins; otherwise it comes from the English title.
+    const slug = await uniqueSlug(dto.slug?.trim() || dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
     const publishAt = scheduleValue(dto.publishAt);

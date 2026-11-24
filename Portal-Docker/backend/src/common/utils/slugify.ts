@@ -5,6 +5,7 @@ export function slugify(input: string): string {
     .trim()
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "") // strip diacritics
+    .replace(/['’]/g, "") // "St Mark's" → "st-marks", not "st-mark-s"
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 96);

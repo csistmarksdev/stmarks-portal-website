@@ -49,6 +49,13 @@ export class MediaEntity {
   @Prop({ type: LocalizedTextSchema })
   alt?: LocalizedText;
 
+  /**
+   * Paths this file (and its thumbnail) were stored under before it was given
+   * a readable name; requests for them are redirected to the current path.
+   */
+  @Prop({ type: [String], default: undefined, index: true })
+  previousPaths?: string[];
+
   /** Managed by Mongoose `timestamps: true` — declared for typing only. */
   createdAt?: Date;
   updatedAt?: Date;
