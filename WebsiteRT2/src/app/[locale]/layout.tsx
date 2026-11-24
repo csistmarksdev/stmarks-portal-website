@@ -5,6 +5,8 @@ import {
   Noto_Sans_Tamil,
   Noto_Serif_Tamil,
 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -349,6 +351,15 @@ export default async function LocaleLayout({
           </HeroScrollProvider>
           </MotionProvider>
         </NextIntlClientProvider>
+
+        {/*
+          Vercel Web Analytics (visitors and page views) and Speed Insights
+          (real-visitor Core Web Vitals). Both are cookieless, load their
+          script from this site's own /_vercel path, and only collect on a
+          Vercel deployment — locally they do nothing.
+        */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
