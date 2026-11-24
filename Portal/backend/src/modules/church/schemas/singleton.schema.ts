@@ -17,7 +17,7 @@ export const SINGLETON_KEYS: readonly SingletonKey[] = [
  * per-key admin DTOs, not by Mongoose.
  *
  * Only content that actually changes lives here. The church profile, history,
- * vision & mission, diocese and hero slides are hardcoded in the Website —
+ * vision & mission, diocese and hero slides are hardcoded in the Website -
  * write-once material that gained nothing from being CMS-managed.
  */
 @Schema({ timestamps: true, collection: "church_singletons" })
@@ -31,7 +31,7 @@ export class SingletonEntity {
   /**
    * A change submitted by someone who cannot publish, waiting for an admin.
    * `data` above stays what the website shows until it is approved; there is
-   * at most one submission per document — a newer one replaces it.
+   * at most one submission per document - a newer one replaces it.
    */
   @Prop({
     type: {

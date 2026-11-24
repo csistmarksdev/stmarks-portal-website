@@ -20,7 +20,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { CreateBlogPostDto, UpdateBlogPostDto } from "./dto/create-blog-post.dto";
 import { BlogService } from "./blog.service";
 
-@ApiTags("Admin — Blog")
+@ApiTags("Admin: Blog")
 @ApiBearerAuth()
 @Controller("admin/blog")
 export class BlogAdminController {

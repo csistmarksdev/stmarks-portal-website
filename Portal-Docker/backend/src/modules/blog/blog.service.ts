@@ -86,7 +86,7 @@ export class BlogService {
 
   /* ------------------------------- Public API ------------------------------ */
 
-  /** GET /blog — newest first by publishedAt (contract §5.2). */
+  /** GET /blog - newest first by publishedAt (contract §5.2). */
   listPublic(
     query: PaginationQueryDto,
     eventSlug?: string,
@@ -211,7 +211,7 @@ export class BlogService {
     if (dto.slug && dto.slug !== existing.slug) {
       if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
-          "Slugs are immutable after publish — they are part of public URLs",
+          "Slugs are immutable after publish, because they are part of public URLs",
         );
       }
       slug = await uniqueSlug(slugify(dto.slug), (candidate) =>

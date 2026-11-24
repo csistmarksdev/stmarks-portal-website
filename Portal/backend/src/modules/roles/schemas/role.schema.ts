@@ -5,8 +5,8 @@ import { HydratedDocument } from "mongoose";
 export type RoleDocument = HydratedDocument<Role>;
 
 /**
- * A custom role made by an administrator. The built-in roles are not stored —
- * their permissions are fixed in `@portal/shared` — so this collection only
+ * A custom role made by an administrator. The built-in roles are not stored -
+ * their permissions are fixed in `@portal/shared` - so this collection only
  * ever holds the extra ones.
  */
 @Schema({ timestamps: true, collection: "roles" })

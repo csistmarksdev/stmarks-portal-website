@@ -9,7 +9,7 @@ import { UpdateMaintenanceDto } from "./dto/maintenance.dto";
 import { SiteService } from "./site.service";
 
 /** Public: whether the website should show its maintenance notice. */
-@ApiTags("Public — Site")
+@ApiTags("Public: Site")
 @Public()
 @Controller("site")
 export class SitePublicController {
@@ -24,7 +24,7 @@ export class SitePublicController {
   }
 }
 
-@ApiTags("Admin — Site")
+@ApiTags("Admin: Site")
 @ApiBearerAuth()
 @Controller("admin/site")
 export class SiteAdminController {

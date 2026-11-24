@@ -4,7 +4,7 @@
 # The problem
 # -----------
 # A volume mounted at /data arrives owned by root, whatever the image said when
-# it built the directory — Docker creates the mount point on the host and the
+# it built the directory - Docker creates the mount point on the host and the
 # container's own `chown` never applied to it. `mongod` running as an
 # unprivileged user then cannot create its data files, and the container dies on
 # first boot with a permissions error that looks like a broken image.
@@ -15,7 +15,7 @@
 #
 # The other case
 # --------------
-# Some platforms — OpenShift, and anything using a `runAsUser` policy — start
+# Some platforms - OpenShift, and anything using a `runAsUser` policy - start
 # the container as an arbitrary non-root UID of their choosing. There is no
 # privilege to drop and no ownership to correct, so we simply exec. Those
 # platforms also put the process in group 0, which is why the image's writable
@@ -38,9 +38,9 @@ if [ "$(id -u)" = "0" ]; then
     fi
 
     # Neither tool present. Running as root is worse than not running at all
-    # would be unhelpful here — say what happened and carry on, so a deployment
+    # would be unhelpful here - say what happened and carry on, so a deployment
     # is degraded rather than dead.
-    echo "[portal] warning: no gosu or setpriv — continuing as root" >&2
+    echo "[portal] warning: no gosu or setpriv - continuing as root" >&2
 fi
 
 exec "$@"

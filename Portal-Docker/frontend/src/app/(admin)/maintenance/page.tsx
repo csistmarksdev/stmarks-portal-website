@@ -23,12 +23,12 @@ import { MAINTENANCE_KEY, useMaintenance } from "@/lib/maintenance";
 import { cn, formatDateTime, toDatetimeLocal } from "@/lib/utils";
 
 /**
- * Maintenance mode (church request, 23 Nov 2026). Super-admin only — the
+ * Maintenance mode (church request, 23 Nov 2026). Super-admin only - the
  * page is gated on `site.maintenance`, which only the super admin holds.
  *
  * The Portal stores the switch and serves it at `GET /site/status`; the
  * maintenance gate in front of the website (deploy-ec2/maintenance-gate)
- * reads it and shows the notice instead of the site — the website itself is
+ * reads it and shows the notice instead of the site - the website itself is
  * unchanged.
  */
 export default function MaintenancePage() {
@@ -57,7 +57,7 @@ export default function MaintenancePage() {
           ? "Maintenance notice saved"
           : enabled
             ? "Maintenance mode is on"
-            : "Maintenance mode is off — the website is live",
+            : "Maintenance mode is off. The website is live",
       );
       queryClient.setQueryData(MAINTENANCE_KEY, result);
     },
@@ -71,7 +71,7 @@ export default function MaintenancePage() {
       <PageHeader
         eyebrow="Website"
         title="Maintenance mode"
-        description="Take the public website offline behind a short notice — for an upgrade, a move, or a problem that needs fixing — and bring it back."
+        description="Take the public website offline behind a short notice (for an upgrade, a move, or a problem that needs fixing) and bring it back."
         actions={
           <Button variant="outline" onClick={() => save.mutate(enabled)} disabled={save.isPending || isLoading}>
             Save notice

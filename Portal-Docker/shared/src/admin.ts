@@ -1,5 +1,5 @@
 /**
- * Portal-only types — admin CMS, auth, RBAC, audit, media library.
+ * Portal-only types - admin CMS, auth, RBAC, audit, media library.
  * The public Website never sees these shapes.
  */
 
@@ -33,7 +33,7 @@ export type WithStatus<T> = T & { status: PublishStatus };
  * A published record is public only while `publishAt <= now` (or unset) and,
  * where expiry applies, `now < expiresAt` (or unset). Both are ISO datetimes.
  * Records written before these fields existed have neither, which means
- * "no schedule, no expiry" — exactly how they behaved before.
+ * "no schedule, no expiry" - exactly how they behaved before.
  *
  * Admin-only: public responses never carry these keys.
  */
@@ -49,7 +49,7 @@ export type WithSchedule<T> = WithStatus<T> & PublishSchedule;
 
 /**
  * Fields stripped from every public response of a content record. `revision`
- * is a change waiting for approval — the website must never see it.
+ * is a change waiting for approval - the website must never see it.
  */
 export const ADMIN_ONLY_FIELDS: readonly string[] = [
   "status",
@@ -61,7 +61,7 @@ export const ADMIN_ONLY_FIELDS: readonly string[] = [
 
 /**
  * A change to a live (published or archived) record, made by someone who
- * cannot publish. The record itself — what the website shows — is untouched
+ * cannot publish. The record itself - what the website shows - is untouched
  * until an admin approves it; there is at most one per record, and a newer
  * submission replaces it.
  */
@@ -114,25 +114,25 @@ export type Permission =
   /** Creating, editing and deleting custom roles. */
   | "roles.write"
   | "audit.read"
-  /** Purging audit history. Super-admin only — it removes the record of who did what. */
+  /** Purging audit history. Super-admin only - it removes the record of who did what. */
   | "audit.delete"
   | "contact.read"
   /**
-   * Downloading a full backup. Super-admin only — every collection is in the
+   * Downloading a full backup. Super-admin only - every collection is in the
    * archive, so it carries password hashes and the contact inbox. Holding this
    * is read access to the entire installation in one portable file, which is a
    * larger thing than any of the permissions above it.
    */
   | "backup.read"
   /**
-   * Uploading a backup to restore. Super-admin only — a restore rewrites the
+   * Uploading a backup to restore. Super-admin only - a restore rewrites the
    * user table, and whoever can do it can hand themselves any account in the
    * archive.
    */
   | "backup.restore"
   /**
    * Taking the public website into maintenance mode and back. Super-admin only
-   * (church request, 23 Nov 2026) — it takes the whole site offline.
+   * (church request, 23 Nov 2026) - it takes the whole site offline.
    */
   | "site.maintenance";
 
@@ -192,7 +192,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, readonly Permission[]> = {
   ],
   // No "content.publish": an editor's work goes live only when an admin or
   // super admin approves it (church request, 22 Nov 2026). No inbox, media
-  // library, users or audit log either — the System pages are admin-only
+  // library, users or audit log either - the System pages are admin-only
   // (church request, 23 Nov 2026). Uploading from inside a form still works.
   editor: ["content.read", "content.write", "media.read", "media.write"],
   viewer: ["content.read", "media.read"],
@@ -220,7 +220,7 @@ export function roleHasPermission(
   return isBuiltInRole(role) && ROLE_PERMISSIONS[role].includes(permission);
 }
 
-/** A role as the API describes it — built-in or custom. */
+/** A role as the API describes it - built-in or custom. */
 export interface RoleDefinition {
   key: RoleKey;
   name: string;
@@ -245,7 +245,7 @@ export interface AdminUser {
   id: string;
   name: string;
   email: string;
-  /** Role key — built-in or custom. */
+  /** Role key - built-in or custom. */
   role: RoleKey;
   /** Display name of the role. */
   roleName: string;
@@ -382,7 +382,7 @@ export interface BackupManifest {
   uploads: { files: number; bytes: number };
 }
 
-/** What a backup taken right now would contain — shown before one is built. */
+/** What a backup taken right now would contain - shown before one is built. */
 export interface BackupPreview {
   collections: Record<string, number>;
   documents: number;
@@ -391,7 +391,7 @@ export interface BackupPreview {
   estimatedSize: string;
 }
 
-/** What `POST /admin/backup` hands back — the archive waits on the server. */
+/** What `POST /admin/backup` hands back - the archive waits on the server. */
 export interface BackupTicket {
   id: string;
   filename: string;
@@ -406,7 +406,7 @@ export interface BackupTicket {
 
 /**
  * `replace` empties every collection the archive contains before inserting, so
- * the database ends up exactly as it was when the backup was taken — records
+ * the database ends up exactly as it was when the backup was taken - records
  * created since are gone. `merge` upserts by `_id` and deletes nothing.
  */
 export type RestoreMode = "replace" | "merge";
@@ -418,7 +418,7 @@ export const RESTORE_MODES: readonly RestoreMode[] = ["replace", "merge"] as con
  *
  * Restoring is destructive and cannot be undone, so the upload and the decision
  * to apply it are two separate requests: the CMS shows what is actually in the
- * file — when it was taken, from where, how much of it there is — and only then
+ * file - when it was taken, from where, how much of it there is - and only then
  * offers the button. Uploading the file twice to achieve that would be cruel on
  * a church's connection.
  */
@@ -512,7 +512,7 @@ export interface PortalNotification {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Site status — maintenance mode                                             */
+/* Site status - maintenance mode                                             */
 /* -------------------------------------------------------------------------- */
 
 /**

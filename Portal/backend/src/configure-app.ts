@@ -22,7 +22,7 @@ export function configureApp(app: INestApplication): void {
   app.setGlobalPrefix(config.get<string>("apiPrefix", "v1"));
 
   /*
-   * Decides what `req.ip` resolves to — see `trustProxy` in `configuration.ts`
+   * Decides what `req.ip` resolves to - see `trustProxy` in `configuration.ts`
    * for why the default differs between the two deployments. Set before the
    * throttler guard sees a request, because that guard keys its buckets on it.
    */
@@ -41,7 +41,7 @@ export function configureApp(app: INestApplication): void {
   /*
    * Gzip JSON responses. List endpoints return highly repetitive documents
    * (the same keys on every record, both languages on every field), which
-   * compress by roughly an order of magnitude — the single biggest win for
+   * compress by roughly an order of magnitude - the single biggest win for
    * the CMS over a slow connection. Already-compressed uploads are skipped by
    * the default filter.
    */

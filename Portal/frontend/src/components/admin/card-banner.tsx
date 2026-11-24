@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
  * The picture at the top of a record card in a collection list.
  *
  * A plain `<img>`, not `next/image`, matching the media library and picker. The
- * API's hostname is not known at build time — localhost while developing, a LAN
- * address from a phone, a domain in production — and `next/image` resolves
+ * API's hostname is not known at build time - localhost while developing, a LAN
+ * address from a phone, a domain in production - and `next/image` resolves
  * `remotePatterns` when the CMS is built, so the optimiser rejects exactly the
  * hosts this is opened from most often.
  */
@@ -32,7 +32,7 @@ export function CardBanner({
     /*
      * Absence is drawn, not skipped. The banner is what the Website puts at the
      * top of this record's page, so a record without one is a real gap someone
-     * should notice here — and a card silently missing its picture reads as a
+     * should notice here - and a card silently missing its picture reads as a
      * loading bug rather than as missing content.
      */
     return (

@@ -35,13 +35,13 @@ import { cn } from "@/lib/utils";
 /* -------------------------------------------------------------------------- */
 
 /**
- * The API stores a post body as `LocalizedText[]` — one entry per paragraph,
+ * The API stores a post body as `LocalizedText[]` - one entry per paragraph,
  * carrying both languages. That is the right shape to *serve* but a miserable
  * shape to *write* into: it forces a separate box per paragraph.
  *
  * So the editor works in continuous prose, with a blank line between
  * paragraphs, and converts at the boundary. Emphasis rides along as markers
- * (`**bold**`) inside each paragraph — see `lib/rich-text`. Nothing about the
+ * (`**bold**`) inside each paragraph - see `lib/rich-text`. Nothing about the
  * stored shape changes.
  */
 
@@ -59,7 +59,7 @@ export function splitParagraphs(text: string): string[] {
 /**
  * Zips the two languages back into the stored shape. Where one language has
  * fewer paragraphs the missing entries become empty strings rather than being
- * dropped, so paragraph *n* always refers to the same passage in both — the
+ * dropped, so paragraph *n* always refers to the same passage in both - the
  * Website renders them by index.
  */
 export function textToParagraphs(englishText: string, tamilText: string): LocalizedText[] {
@@ -146,8 +146,8 @@ function Pane({
 
   /*
    * The editor is deliberately uncontrolled: its content is written once, on
-   * mount, and never again. Re-assigning `innerHTML` on each keystroke — which
-   * is what a controlled contenteditable amounts to — destroys and rebuilds
+   * mount, and never again. Re-assigning `innerHTML` on each keystroke - which
+   * is what a controlled contenteditable amounts to - destroys and rebuilds
    * the nodes the caret lives in, so the cursor jumps to the end on every
    * character. The parent remounts this pane (via `key`) when a different post
    * is loaded, which is the only time the content should be replaced.
@@ -159,7 +159,7 @@ function Pane({
 
     /*
      * Coming back to the Write step remounts the pane. Its history is picked
-     * up again only if it still describes this text — if the body changed
+     * up again only if it still describes this text - if the body changed
      * some other way meanwhile, an undo would resurrect stale content.
      */
     const existing = getHistory(historyKey);
@@ -440,7 +440,7 @@ const VIEWS: { value: View; label: string; desktopOnly?: boolean }[] = [
  * One language at a time, at full width, is the default: two half-width boxes
  * made every line wrap after a few words. "Side by side" is still there for
  * translating passage by passage on a wide screen, and the choice is
- * remembered between visits. Both panes stay mounted whichever is showing —
+ * remembered between visits. Both panes stay mounted whichever is showing -
  * they are uncontrolled, so unmounting one would throw away its caret and undo
  * history.
  */
@@ -544,7 +544,7 @@ export function BilingualEditor({
           <Pane
             key={`ta-${hydrationKey}`}
             historyKey={`ta-${hydrationKey}`}
-            label="தமிழ் — Tamil"
+            label="தமிழ் (Tamil)"
             hint="இன்னும் எழுதப்படவில்லை"
             value={tamilText}
             onChange={onTamilChange}

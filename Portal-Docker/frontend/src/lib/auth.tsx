@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     /*
-     * A refresh token alone is enough to restore the session — `/auth/me` will
+     * A refresh token alone is enough to restore the session - `/auth/me` will
      * 401 without an access token and `request` then refreshes and retries.
      * Bailing out on a missing access token would sign the user out despite a
      * week of session left.

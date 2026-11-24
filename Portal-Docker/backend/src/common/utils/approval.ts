@@ -103,8 +103,8 @@ export function revisionFrom(changes: object, actor: AuthenticatedUser) {
 }
 
 /**
- * Deleting a live or archived record changes the website, so — like
- * publishing — it needs an approver. A custom role may hold `content.delete`
+ * Deleting a live or archived record changes the website, so - like
+ * publishing - it needs an approver. A custom role may hold `content.delete`
  * without `content.publish`; this keeps that from bypassing approval.
  */
 export function assertMayDelete(actor: AuthenticatedUser, current: PublishStatus): void {

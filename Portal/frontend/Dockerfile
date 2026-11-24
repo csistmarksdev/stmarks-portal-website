@@ -1,4 +1,4 @@
-# Portal frontend — Next.js admin CMS
+# Portal frontend - Next.js admin CMS
 FROM node:22-alpine AS build
 WORKDIR /app
 

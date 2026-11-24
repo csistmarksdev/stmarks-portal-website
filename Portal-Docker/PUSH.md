@@ -4,7 +4,7 @@ Copy-paste commands for the Linux VM. Run them in order.
 
 Image name: **`csistmarkscmsportal`**
 
-### Public release 1.7.2
+### Public release 1.7.3
 
 Build the production bundle, then use the public packaging command on the Linux
 VM. It stages the application in a fresh Docker build context, leaving out the
@@ -12,9 +12,9 @@ database snapshot, uploaded media and demo seed data before layers are created.
 
 ```bash
 node scripts/build-production-bundle.mjs
-bash scripts/build-public-image.sh stmarksdev/csistmarkscmsportal:1.7.2
-docker tag stmarksdev/csistmarkscmsportal:1.7.2 stmarksdev/csistmarkscmsportal:latest
-docker push stmarksdev/csistmarkscmsportal:1.7.2
+bash scripts/build-public-image.sh stmarksdev/csistmarkscmsportal:1.7.3
+docker tag stmarksdev/csistmarkscmsportal:1.7.3 stmarksdev/csistmarkscmsportal:latest
+docker push stmarksdev/csistmarkscmsportal:1.7.3
 docker push stmarksdev/csistmarkscmsportal:latest
 ```
 

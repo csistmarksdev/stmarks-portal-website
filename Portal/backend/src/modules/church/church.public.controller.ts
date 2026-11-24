@@ -14,7 +14,7 @@ import { ChurchService } from "./church.service";
  * or serve it. Serving it from here would have meant an endpoint returning
  * data nobody could edit.
  */
-@ApiTags("Public — Church")
+@ApiTags("Public: Church")
 @Public()
 @Controller("church")
 export class ChurchPublicController {

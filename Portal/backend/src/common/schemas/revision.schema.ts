@@ -20,7 +20,7 @@ export const REVISION_PROP = {
   _id: false,
 } as const;
 
-/** Who last sent a record for approval — so they can be told the outcome. */
+/** Who last sent a record for approval - so they can be told the outcome. */
 export const SUBMITTER_PROP = {
   type: { userId: String, name: String },
   _id: false,

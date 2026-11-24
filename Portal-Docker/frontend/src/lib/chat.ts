@@ -29,7 +29,7 @@ export const chatKeys = {
   messages: (id: string) => ["chat", "messages", id] as const,
 };
 
-/** Unread messages for the signed-in user — drives the menu badge. */
+/** Unread messages for the signed-in user - drives the menu badge. */
 export function useChatUnread(): number {
   const { user } = useAuth();
   const { data } = useQuery({

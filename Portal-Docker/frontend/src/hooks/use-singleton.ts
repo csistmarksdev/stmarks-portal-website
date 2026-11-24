@@ -13,12 +13,12 @@ export interface SingletonSubmission<T> {
 }
 
 /**
- * Church singleton documents (§5.8/§5.10) — GET/PUT /admin/church/<key>.
+ * Church singleton documents (§5.8/§5.10) - GET/PUT /admin/church/<key>.
  * A 404 means the singleton hasn't been seeded yet; treated as "empty".
  *
  * Approval rule: a save by someone who can publish goes live; anyone else's
  * is held as a submission. While one is waiting, the form shows *it* rather
- * than the live version — the writer keeps working on their change, and the
+ * than the live version - the writer keeps working on their change, and the
  * approver reviews exactly what was submitted.
  */
 export function useSingleton<T>(key: string) {
@@ -50,8 +50,8 @@ export function useSingleton<T>(key: string) {
     onSuccess: (result) => {
       toast.success(
         result?.status === "pending"
-          ? "Submitted — an admin will review it before it goes on the website"
-          : "Saved — live on the website",
+          ? "Submitted. An admin will review it before it goes on the website"
+          : "Saved and live on the website",
       );
       void refresh();
     },
@@ -61,7 +61,7 @@ export function useSingleton<T>(key: string) {
   const reject = useMutation({
     mutationFn: () => api.post(`/admin/church/${key}/reject`),
     onSuccess: () => {
-      toast.success("Change rejected — the website keeps the current version");
+      toast.success("Change rejected. The website keeps the current version");
       void refresh();
     },
     onError: (error: Error) => toast.error(error.message),

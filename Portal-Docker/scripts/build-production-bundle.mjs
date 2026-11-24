@@ -22,7 +22,7 @@
  *
  * This is also the container's build step. `Dockerfile` copies this folder in
  * and compiles nothing, so building the image needs no compiler, no npm and no
- * `node_modules` inside it — the difference between an image build that needs a
+ * `node_modules` inside it - the difference between an image build that needs a
  * gigabyte of RAM and one that is a file copy. It is the reason a ZimaBoard or
  * a free-tier instance can produce this image at all.
  *
@@ -51,7 +51,7 @@ const OUT = join(ROOT, "dist-portal");
  *
  * `sharp` ships prebuilt binaries per platform, so a bundle assembled on
  * Windows carries `@img/sharp-win32-x64` and dies on a Linux host the moment
- * anything touches an image — an upload, or Next optimizing one. npm resolves
+ * anything touches an image - an upload, or Next optimizing one. npm resolves
  * optional dependencies for `--os`/`--cpu` rather than the current machine,
  * which is exactly what cross-building needs.
  *
@@ -59,7 +59,7 @@ const OUT = join(ROOT, "dist-portal");
  *   TARGET_OS=linux TARGET_CPU=arm64 npm run build:bundle
  *
  * The CPU defaults to this machine's own when building *on* Linux, because
- * then the build host and the target are almost always the same box — an
+ * then the build host and the target are almost always the same box - an
  * arm64 server that hardcoded `x64` would assemble a bundle it cannot run, and
  * the failure would not appear until the first image was uploaded. Building
  * from Windows or macOS there is no such correspondence, so it falls back to
@@ -118,13 +118,13 @@ const mb = (bytes) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 /**
  * Install the workspace's dependencies if they are not there yet.
  *
- * The compilers — `tsc`, `nest`, `next` — are devDependencies, so a checkout
+ * The compilers - `tsc`, `nest`, `next` - are devDependencies, so a checkout
  * that has never had `npm ci` run in it fails inside the *first* workspace
  * build with `sh: 1: tsc: not found`, an npm exit code 127, and a stack trace
  * pointing at this file. Nothing in that names the missing step.
  *
  * That case is not unusual, it is the normal one: this folder is copied to a
- * build machine — a VM, a laptop, a fresh clone — and `node_modules` is the one
+ * build machine - a VM, a laptop, a fresh clone - and `node_modules` is the one
  * thing nobody copies, because it is 700 MB of the wrong platform's binaries.
  *
  * So the check is here rather than in a prerequisites list. It costs a
@@ -143,12 +143,12 @@ if (haveBuildTools()) {
   step("Build dependencies are present");
 } else {
   step("Installing build dependencies (first build on this machine)");
-  console.log("  node_modules/ is missing or incomplete — this takes a few minutes, once.");
+  console.log("  node_modules/ is missing or incomplete - this takes a few minutes, once.");
 
   /*
    * `npm ci` when there is a lockfile: it is faster and reproduces the exact
    * tree the application was tested against. It also *deletes* node_modules
-   * first and fails outright when the lockfile and the manifests disagree —
+   * first and fails outright when the lockfile and the manifests disagree -
    * which is a reasonable thing to fall back from rather than to stop on, since
    * a stale lockfile should not make the image unbuildable.
    */
@@ -158,7 +158,7 @@ if (haveBuildTools()) {
   } catch (error) {
     if (!hasLock) throw error;
     console.warn(`\n  ! npm ci failed (${error.message.split("\n")[0]})`);
-    console.warn("    Falling back to npm install — the lockfile may be out of date.\n");
+    console.warn("    Falling back to npm install - the lockfile may be out of date.\n");
     run("npm", ["install", "--no-audit", "--no-fund"], ROOT);
   }
 
@@ -240,7 +240,7 @@ step("Bundling the initial data set");
 for (const dir of ["seed-data", "seed-assets"]) {
   const from = join(ROOT, "backend", dir);
   if (!existsSync(from)) {
-    console.warn(`  ! ${dir}/ is missing — run backend/scripts/export-demo-data.mjs first`);
+    console.warn(`  ! ${dir}/ is missing - run backend/scripts/export-demo-data.mjs first`);
     continue;
   }
   cpSync(from, join(OUT, "backend", dir), { recursive: true });
@@ -253,7 +253,7 @@ for (const dir of ["seed-data", "seed-assets"]) {
  * This is the difference between a portal that comes up as the church's actual
  * site and one that comes up empty. `restore-snapshot.mjs` fills each
  * collection only when it is empty, so this is a starting point and never a
- * reset — restarting a portal the parish has been editing changes nothing.
+ * reset - restarting a portal the parish has been editing changes nothing.
  *
  * `restore-snapshot.mjs` is installed inside `backend/` rather than beside the
  * entrypoint so that `mongodb` and `bson` resolve from the API's own
@@ -278,11 +278,11 @@ if (existsSync(join(ROOT, "snapshot", "db"))) {
   /*
    * Not fatal, because a bundle pointed at a database that already has content
    * is a legitimate way to deploy. Loud, because the usual cause is that the
-   * capture step was skipped — and the symptom is an empty portal that looks
+   * capture step was skipped - and the symptom is an empty portal that looks
    * like a broken build rather than a missing input.
    */
   console.warn(
-    "  ! snapshot/db is missing — this bundle will start with an EMPTY database.\n" +
+    "  ! snapshot/db is missing - this bundle will start with an EMPTY database.\n" +
       "    Capture it first, from a machine that can reach the live database:\n" +
       "        node scripts/capture-live-data.mjs",
   );
@@ -304,7 +304,7 @@ cpSync(join(standalone, "frontend"), join(OUT, "frontend"), { recursive: true })
 cpSync(join(standalone, "node_modules"), join(OUT, "node_modules"), { recursive: true });
 
 /*
- * Next deliberately leaves these two out of the standalone trace — they are
+ * Next deliberately leaves these two out of the standalone trace - they are
  * served from disk rather than imported, so nothing references them. Without
  * them the CMS boots and then serves a page with no CSS or JavaScript.
  */
@@ -325,7 +325,7 @@ if (existsSync(join(ROOT, "frontend", "public"))) {
  * The API's dependencies were installed with `--os/--cpu` above, but the CMS's
  * were *copied* from the local build, so they carry whatever this machine runs.
  * Uploaded to a Linux host, Next fails on the first image it optimizes with
- * "Could not load the sharp module using the win32-x64 runtime" — and the CMS
+ * "Could not load the sharp module using the win32-x64 runtime" - and the CMS
  * looks broken for a reason nothing in the logs connects to the build machine.
  */
 step(`Fetching sharp binaries for ${TARGET_OS}-${TARGET_CPU}`);
@@ -339,7 +339,7 @@ const sharpVersion = (() => {
 })();
 
 if (!sharpVersion) {
-  console.log("  sharp is not in the bundle — nothing to do");
+  console.log("  sharp is not in the bundle - nothing to do");
 } else {
   const staging = join(ROOT, ".sharp-staging");
   rmSync(staging, { recursive: true, force: true });
@@ -352,7 +352,7 @@ if (!sharpVersion) {
   /*
    * The two platform packages are named explicitly rather than installed via
    * `sharp` itself. `--os/--cpu` alone resolves only the architecture-neutral
-   * parts — npm still skips the binaries, because each declares an `os`/`cpu`
+   * parts - npm still skips the binaries, because each declares an `os`/`cpu`
    * this machine does not satisfy. Naming them and passing `--force` is what
    * actually fetches a foreign platform's binaries.
    *
@@ -423,7 +423,7 @@ if (!sharpVersion) {
 /*
  * Source maps map the compiled API back to its TypeScript. Useful while
  * developing, and 142 files of internal structure to hand to a hosting
- * provider — they buy nothing at runtime, since nothing reads them unless a
+ * provider - they buy nothing at runtime, since nothing reads them unless a
  * debugger is attached.
  */
 step("Stripping source maps");
@@ -441,7 +441,7 @@ const dropMaps = (dir) => {
 };
 dropMaps(join(OUT, "backend", "dist"));
 dropMaps(join(OUT, "shared", "dist"));
-// Next emits maps for the server bundles too — same reasoning, and they are the
+// Next emits maps for the server bundles too - same reasoning, and they are the
 // larger half.
 dropMaps(join(OUT, "frontend", ".next", "server"));
 console.log(`  removed ${stripped} source map(s)`);
@@ -452,7 +452,7 @@ step("Adding the entrypoint and documentation");
 cpSync(join(ROOT, "docker", "entrypoint.mjs"), join(OUT, "start.mjs"));
 // The bundle's own example, not the backend's: in the bundle `PORT` is the
 // public router port, while the backend's example documents it as the API's
-// own — following that one puts two servers on the same number.
+// own - following that one puts two servers on the same number.
 cpSync(join(ROOT, "docker", "bundle.env.example"), join(OUT, ".env.example"));
 if (existsSync(join(ROOT, "docker", "BUNDLE-README.md"))) {
   cpSync(join(ROOT, "docker", "BUNDLE-README.md"), join(OUT, "README.md"));
@@ -464,7 +464,7 @@ if (existsSync(join(ROOT, "docker", "BUNDLE-README.md"))) {
  * Anything left in the bundle that only runs on the machine that built it.
  *
  * `sharp` is handled above; this catches the rest, and `@next/swc` is the one
- * that actually turns up — Next's tracer sometimes pulls the host's SWC binary
+ * that actually turns up - Next's tracer sometimes pulls the host's SWC binary
  * into the standalone tree. It is a *compiler*, so a production server never
  * loads it and the bundle works anyway, but shipping a 40 MB Windows DLL to a
  * Linux host is worth knowing about rather than discovering in an image layer.
@@ -498,7 +498,7 @@ console.log(
  * The Dockerfile reads `node` from here so the runtime installs the *same*
  * Node the application was compiled and dependency-resolved against, rather
  * than a version pinned separately in a second file and left to drift. It reads
- * `cpu` to refuse a bundle built for the wrong architecture — an amd64 bundle
+ * `cpu` to refuse a bundle built for the wrong architecture - an amd64 bundle
  * in an arm64 image builds cleanly and then dies on the first image operation,
  * which is a long way from the cause.
  */

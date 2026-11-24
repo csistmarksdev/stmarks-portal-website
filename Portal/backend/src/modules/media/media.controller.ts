@@ -37,7 +37,7 @@ import { MediaService } from "./media.service";
 /**
  * Coarse guard only. Decorators are evaluated at import time, before the
  * config module has read `.env`, so this reads the raw environment and errs
- * generous — `MediaService` then applies the exact per-kind limit (a 15 MB
+ * generous - `MediaService` then applies the exact per-kind limit (a 15 MB
  * image ceiling would otherwise reject every video before it was inspected).
  */
 const HARD_UPLOAD_CEILING =
@@ -83,7 +83,7 @@ export class VideoPosterDto {
   url: string;
 }
 
-@ApiTags("Admin — Media library")
+@ApiTags("Admin: Media library")
 @ApiBearerAuth()
 @Controller("admin/media")
 export class MediaController {
@@ -96,7 +96,7 @@ export class MediaController {
   @RequirePermissions("media.delete")
   @ApiOperation({
     summary:
-      "Files still stored under an id-only name, and the readable name each would get — changes nothing",
+      "Files still stored under an id-only name, and the readable name each would get - changes nothing",
   })
   previewSeoNames() {
     return this.renamer.plan();
@@ -120,7 +120,7 @@ export class MediaController {
   @ApiBody({ type: UploadMediaDto })
   @ApiOperation({
     summary:
-      "Upload an image / video / PDF / document — images also return dimensions, a thumbnail and blurDataURL",
+      "Upload an image / video / PDF / document - images also return dimensions, a thumbnail and blurDataURL",
   })
   upload(
     @UploadedFile(

@@ -3,8 +3,8 @@
  *
  *   node scripts/check-theme-contrast.mjs
  *
- * Reads the values the browser will actually use — not the ones intended in
- * source — so a token that silently fails to resolve shows up as a failure
+ * Reads the values the browser will actually use - not the ones intended in
+ * source - so a token that silently fails to resolve shows up as a failure
  * rather than shipping as invisible text.
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
@@ -20,7 +20,7 @@ const cssFile = readdirSync(cssDir)
   .sort((a, b) => b.t - a.t)[0]?.f;
 
 if (!cssFile) {
-  console.error("No compiled CSS found — run `npm run build:frontend` first.");
+  console.error("No compiled CSS found - run `npm run build:frontend` first.");
   process.exit(1);
 }
 const css = readFileSync(join(cssDir, cssFile), "utf8");
@@ -109,7 +109,7 @@ for (const [name, tokens] of [
 
 console.log(
   failures
-    ? `\n${failures} problem(s) — text may be unreadable in one of the themes.`
+    ? `\n${failures} problem(s) - text may be unreadable in one of the themes.`
     : "\n✓ both themes pass every contrast requirement",
 );
 process.exit(failures ? 1 : 0);

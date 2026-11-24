@@ -8214,7 +8214,7 @@
     "action": "update",
     "resource": "backup",
     "resourceId": "a5f8ae44-0ecc-437d-ab70-cf8e63e19cc5",
-    "summary": "Administrator restored a backup taken 2026-08-08T17:41:16.044Z (replace) — 570 document(s) across 12 collection(s), 288 file(s)",
+    "summary": "Administrator restored a backup taken 2026-08-08T17:41:16.044Z (replace) - 570 document(s) across 12 collection(s), 288 file(s)",
     "userId": "6a622da0ad952d26e9d58e88",
     "userName": "Administrator",
     "ip": "127.0.0.1",

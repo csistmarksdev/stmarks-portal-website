@@ -34,7 +34,7 @@ const GalleryVideoSchema = new MongooseSchema(
   { _id: false },
 );
 
-/** Photo sub-document — carries its own stable string id (not a Mongo _id). */
+/** Photo sub-document - carries its own stable string id (not a Mongo _id). */
 const GalleryPhotoSchema = new MongooseSchema<GalleryPhoto>(
   {
     id: { type: String, required: true },
@@ -84,7 +84,7 @@ export class GalleryAlbumEntity {
   fellowshipSlug?: FellowshipSlug;
 
   /**
-   * Churchwide album — surfaces in every fellowship's gallery instead of
+   * Churchwide album - surfaces in every fellowship's gallery instead of
    * belonging to one (contract §5.3).
    */
   @Prop({ default: false, index: true })

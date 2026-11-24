@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Gives id-named media in a JSON data set (the bundled snapshot, or the seed
- * data) readable, search-friendly names — the offline twin of the Media
+ * data) readable, search-friendly names - the offline twin of the Media
  * library's "Readable file names" action, using the very same rules (it loads
  * them from the compiled backend, so run `npm run build -w backend` first).
  *
@@ -64,7 +64,7 @@ for (const name of files.filter((n) => n !== "media.json")) {
 
 const idOf = (doc, index) => doc._id?.$oid ?? String(doc._id ?? index);
 
-/** Every stored file as `images/x.jpg` — names a rename must not take. */
+/** Every stored file as `images/x.jpg` - names a rename must not take. */
 async function filesOnDisk() {
   const paths = [];
   for (const dir of ["images", "videos", "files", "thumbs"]) {
@@ -97,7 +97,7 @@ if (arg("--moves")) {
     console.log(
       item.to
         ? `  ${item.from}  →  ${item.to}   (${item.source})`
-        : `  ${item.from}  —  left as is: ${item.source}`,
+        : `  ${item.from} - left as is: ${item.source}`,
     );
   }
 }

@@ -99,7 +99,7 @@ function ProfileCard({
 
   /*
    * The card renders before `/auth/me` resolves, so the field starts empty and
-   * is seeded once the name arrives — without clobbering anything already
+   * is seeded once the name arrives - without clobbering anything already
    * typed, which is why this is not a plain `setValue(name)`.
    */
   useEffect(() => {
@@ -202,7 +202,7 @@ function PasswordCard({ onChanged }: { onChanged: () => Promise<void> }) {
        * Signing out here rather than letting the next request fail turns a
        * confusing "session expired" into an expected return to sign-in.
        */
-      toast.success("Password changed — please sign in again");
+      toast.success("Password changed. Please sign in again");
       await onChanged();
     } catch (error) {
       toast.error(

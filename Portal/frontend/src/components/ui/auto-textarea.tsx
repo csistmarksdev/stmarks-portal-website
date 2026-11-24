@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 
 /**
  * A textarea that grows with what is typed into it, so the writer always sees
- * the whole of their text — no clipped titles, no scrolling inside a three-line
+ * the whole of their text - no clipped titles, no scrolling inside a three-line
  * slot.
  *
  * `singleLine` makes it behave like a text input that wraps: Enter does not add
- * a line break (pasted ones become spaces), but a long title — and Tamil runs
- * long — wraps onto a second line instead of disappearing past the edge of the
+ * a line break (pasted ones become spaces), but a long title - and Tamil runs
+ * long - wraps onto a second line instead of disappearing past the edge of the
  * box.
  */
 function AutoTextarea({
@@ -28,7 +28,7 @@ function AutoTextarea({
   /** Height floor while empty or short. Defaults to 1 for single-line, 3 otherwise. */
   minRows?: number;
   /**
-   * Fit the content as a *minimum* and otherwise fill the parent's height —
+   * Fit the content as a *minimum* and otherwise fill the parent's height -
    * used side by side, so the shorter language matches the taller one. The
    * parent must give it the room (a flex column with this as `flex-1`).
    */
@@ -95,9 +95,9 @@ function AutoTextarea({
         onChange?.(event);
       }}
       className={cn(
-        "flex w-full resize-none overflow-hidden rounded-xl border border-input bg-card px-3.5 text-sm shadow-sm transition-colors duration-300 placeholder:text-muted-foreground hover:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "flex w-full resize-none overflow-hidden rounded-xl border border-input bg-card px-3.5 text-sm shadow-sm max-lg:text-base transition-colors duration-300 placeholder:text-muted-foreground hover:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         // Single-line matches the 40px Input exactly while it fits on one line.
-        singleLine ? "min-h-10 py-[9px] leading-5" : "py-2.5 leading-relaxed",
+        singleLine ? "min-h-10 py-[9px] leading-5 max-lg:min-h-11 max-lg:py-[11px] max-lg:leading-5" : "py-2.5 leading-relaxed",
         stretch && "flex-1",
         className,
       )}

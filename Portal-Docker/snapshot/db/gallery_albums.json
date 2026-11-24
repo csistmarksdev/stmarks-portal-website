@@ -68,8 +68,8 @@
         "image": {
           "url": "{{MEDIA}}/images/christmas-2025-3.jpg",
           "alt": {
-            "en": "DEMO — replace with the carol service recording",
-            "ta": "DEMO — கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
+            "en": "DEMO - replace with the carol service recording",
+            "ta": "DEMO - கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
           },
           "width": {
             "$numberInt": "480"
@@ -80,8 +80,8 @@
           "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAMABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EAB8QAAICAgIDAQAAAAAAAAAAAAECAxEAEgQhBUFRYf/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFhEBAQEAAAAAAAAAAAAAAAAAEQAB/9oADAMBAAIRAxEAPwDLr4+KSNWjk717BIBJ/BeM5PjoOK4WV3UFNgdSe/nqsnCeRRQcgXeDTSNezk39wNanAL//2Q=="
         },
         "caption": {
-          "en": "DEMO — replace with the carol service recording",
-          "ta": "DEMO — கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
+          "en": "DEMO - replace with the carol service recording",
+          "ta": "DEMO - கிறிஸ்துமஸ் கீர்த்தனை பதிவால் மாற்றவும்"
         },
         "video": {
           "url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
@@ -694,8 +694,8 @@
         "image": {
           "url": "{{MEDIA}}/images/sunday-school-annual-day-2026.jpg",
           "alt": {
-            "en": "DEMO — replace with the annual day recording",
-            "ta": "DEMO — ஆண்டு விழா பதிவால் மாற்றவும்"
+            "en": "DEMO - replace with the annual day recording",
+            "ta": "DEMO - ஆண்டு விழா பதிவால் மாற்றவும்"
           },
           "width": {
             "$numberInt": "1280"
@@ -706,8 +706,8 @@
           "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIFBv/EAB0QAAICAgMBAAAAAAAAAAAAAAECAAQFQQMRFCH/xAAUAQEAAAAAAAAAAAAAAAAAAAAD/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAFREhP/2gAMAwEAAhEDEQA/AJ1i9jGYefHcAOwyCIbNBwvdGspGlA+zNQibUC5un//Z"
         },
         "caption": {
-          "en": "DEMO — replace with the annual day recording",
-          "ta": "DEMO — ஆண்டு விழா பதிவால் மாற்றவும்"
+          "en": "DEMO - replace with the annual day recording",
+          "ta": "DEMO - ஆண்டு விழா பதிவால் மாற்றவும்"
         },
         "video": {
           "url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
@@ -821,8 +821,8 @@
         "image": {
           "url": "{{MEDIA}}/images/easter-2026.jpg",
           "alt": {
-            "en": "DEMO — replace with the Easter service recording",
-            "ta": "DEMO — ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
+            "en": "DEMO - replace with the Easter service recording",
+            "ta": "DEMO - ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
           },
           "width": {
             "$numberInt": "1278"
@@ -833,8 +833,8 @@
           "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAF/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQIDAAQRQbEFEjE0RHFy/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/xAAYEQEAAwEAAAAAAAAAAAAAAAACAAEDEf/aAAwDAQACEQMRAD8A1gs0rKht7ZNeYNkquOtHNMltM6xThFK5ydTV4snpdxQ8T7ofLbVHNqz2GwZ//9k="
         },
         "caption": {
-          "en": "DEMO — replace with the Easter service recording",
-          "ta": "DEMO — ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
+          "en": "DEMO - replace with the Easter service recording",
+          "ta": "DEMO - ஈஸ்டர் ஆராதனை பதிவால் மாற்றவும்"
         },
         "video": {
           "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",

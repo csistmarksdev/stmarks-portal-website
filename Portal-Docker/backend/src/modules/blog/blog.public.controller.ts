@@ -6,7 +6,7 @@ import { Public } from "../../common/decorators/public.decorator";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { BlogService } from "./blog.service";
 
-@ApiTags("Public — Blog")
+@ApiTags("Public: Blog")
 @Public()
 @Controller("blog")
 export class BlogPublicController {

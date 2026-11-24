@@ -7,7 +7,7 @@ import type { AppConfig } from "./configuration";
  * Every value in `configuration.ts` has a fallback so `npm run dev` works with
  * no setup. That is right for a laptop and dangerous on a server: a deploy that
  * forgets `JWT_ACCESS_SECRET` does not crash, it starts happily and signs admin
- * tokens with the string `dev-access-secret` — which is in this repository, so
+ * tokens with the string `dev-access-secret` - which is in this repository, so
  * anyone who can read it can mint themselves an administrator.
  *
  * Fatal versus warning
@@ -15,7 +15,7 @@ import type { AppConfig } from "./configuration";
  * The split is deliberate, and was originally wrong. Everything imperfect was
  * fatal, which blocked the documented deployment order: the Portal is deployed
  * *before* the website, so at that moment nobody can know the website's
- * revalidation URL — and refusing to boot over it left an otherwise healthy
+ * revalidation URL - and refusing to boot over it left an otherwise healthy
  * installation dead for a setting that only affects how quickly published
  * changes appear.
  *
@@ -24,7 +24,7 @@ import type { AppConfig } from "./configuration";
  * exists is a warning, printed loudly at every boot until it is resolved.
  */
 
-/** Values shipped as fallbacks or placeholders — never acceptable on a server. */
+/** Values shipped as fallbacks or placeholders - never acceptable on a server. */
 const KNOWN_PLACEHOLDERS = new Set([
   "dev-access-secret",
   "dev-refresh-secret",
@@ -89,7 +89,7 @@ export function collectProductionConfigReport(
 
   /*
    * The administrator password. Not part of `AppConfig` because the API never
-   * reads it — it is used once, by the initializer, to create the first
+   * reads it - it is used once, by the initializer, to create the first
    * account. That is exactly why it needed checking here: nothing else looks at
    * it, so a deployment left on the example value ships a CMS whose login is
    * published in this repository.
@@ -127,7 +127,7 @@ export function collectProductionConfigReport(
    */
   /*
    * Only a problem when nothing is correcting media origins per request. With
-   * `MediaOriginInterceptor` active — the default, and how the container ships —
+   * `MediaOriginInterceptor` active - the default, and how the container ships -
    * a stored `localhost` URL is rewritten to the caller's own origin on the way
    * out, so a local `PUBLIC_URL` costs nothing and the warning would be noise
    * at every boot of a perfectly working deployment.
@@ -136,7 +136,7 @@ export function collectProductionConfigReport(
 
   if (LOCAL_ADDRESS.test(config.publicUrl) && !rewritesMediaPerRequest) {
     warnings.push(
-      `PUBLIC_URL is "${config.publicUrl}", a local address — images will not load for anyone else. Set it to the public origin and restart; stored URLs are repaired automatically.`,
+      `PUBLIC_URL is "${config.publicUrl}", a local address, so images will not load for anyone else. Set it to the public origin and restart; stored URLs are repaired automatically.`,
     );
   }
 
@@ -146,7 +146,7 @@ export function collectProductionConfigReport(
     warnings.push(
       explicit.length > 0
         ? `CORS_ORIGINS contains "*". Public reads stay open to every origin, but sign-in, admin and other write routes only accept: ${explicit.join(", ")}.`
-        : 'CORS_ORIGINS is "*". Public reads stay open, but sign-in, admin and other write routes now accept NO browser origin — the CMS and the website’s contact form will be refused. List their exact origins in CORS_ORIGINS.',
+        : 'CORS_ORIGINS is "*". Public reads stay open, but sign-in, admin and other write routes now accept NO browser origin, so the CMS and the website’s contact form will be refused. List their exact origins in CORS_ORIGINS.',
     );
   }
 
@@ -206,7 +206,7 @@ export function assertProductionConfig(
   throw new Error(
     `Refusing to start: ${problems.length} unsafe production setting(s).\n` +
       problems.map((p) => `  • ${p}`).join("\n") +
-      "\n\nThese are security settings — fix them in the environment. " +
+      "\n\nThese are security settings. Fix them in the environment. " +
       "Run with NODE_ENV unset for local development.",
   );
 }

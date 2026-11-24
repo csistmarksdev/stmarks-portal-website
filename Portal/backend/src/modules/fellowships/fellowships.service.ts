@@ -77,7 +77,7 @@ export class FellowshipsService {
 
   /* ------------------------------- Public API ------------------------------ */
 
-  /** GET /fellowships — sorted by `order` (contract §5.6). */
+  /** GET /fellowships - sorted by `order` (contract §5.6). */
   async listPublic(): Promise<Fellowship[]> {
     const docs = await this.repo.find({ status: "published" }, { order: 1 });
     return docs.map((doc) => this.toPublic(doc));

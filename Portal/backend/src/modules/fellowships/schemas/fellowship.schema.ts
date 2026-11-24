@@ -43,7 +43,7 @@ const CoordinatorSchema = new MongooseSchema(
 
 @Schema({ timestamps: true, collection: "fellowships" })
 export class FellowshipEntity {
-  /** Fixed enum — the Website routes are built around these eight slugs. */
+  /** Fixed enum - the Website routes are built around these eight slugs. */
   @Prop({ required: true, unique: true, enum: FELLOWSHIP_SLUGS, index: true })
   slug: FellowshipSlug;
 

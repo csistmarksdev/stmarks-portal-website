@@ -63,7 +63,7 @@ export default function UsersPage() {
   });
 
   /*
-   * Only roles that do nothing beyond your own access are offered — the server
+   * Only roles that do nothing beyond your own access are offered - the server
    * refuses the rest anyway (no one can promote someone past themselves).
    */
   const assignable = (roles ?? []).filter((role) =>
@@ -97,7 +97,7 @@ export default function UsersPage() {
     mutationFn: ({ id, password }: { id: string; password: string }) =>
       api.patch(`/admin/users/${id}/password`, { password }),
     onSuccess: () => {
-      toast.success("Password reset — the user must sign in again");
+      toast.success("Password reset. The user must sign in again");
       setPasswordFor(null);
       setNewPassword("");
     },

@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsOptional, IsString } from "class-validator";
 
 /**
- * `LocalizedText` — every translatable content field carries both languages.
+ * `LocalizedText` - every translatable content field carries both languages.
  * The Website does not fall back when a language is missing, so both are
  * required (empty string is allowed but discouraged; the CMS warns on it).
  */

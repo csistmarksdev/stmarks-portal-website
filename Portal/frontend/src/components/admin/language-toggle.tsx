@@ -11,10 +11,11 @@ import {
 } from "@/lib/language-view";
 import { cn } from "@/lib/utils";
 
-const OPTIONS: { value: LanguageView; label: string; title: string }[] = [
+const OPTIONS: { value: LanguageView; label: string; short?: string; title: string }[] = [
   { value: "en", label: "English", title: "Show English" },
   { value: "ta", label: "தமிழ்", title: "Show Tamil" },
-  { value: "both", label: "Side by side", title: "Show English and Tamil together" },
+  // On a phone the two are stacked, not side by side.
+  { value: "both", label: "Side by side", short: "Both", title: "Show English and Tamil together" },
 ];
 
 /** English / Tamil / Side-by-side segmented switch. */
@@ -31,9 +32,9 @@ export function LanguageToggle({
     <div
       role="tablist"
       aria-label="Language"
-      className={cn("inline-flex shrink-0 gap-0.5 rounded-full bg-muted p-1", className)}
+      className={cn("inline-flex shrink-0 gap-0.5 rounded-full bg-muted p-1 max-md:w-full", className)}
     >
-      {OPTIONS.map(({ value, label, title }) => (
+      {OPTIONS.map(({ value, label, short, title }) => (
         <button
           key={value}
           type="button"
@@ -42,13 +43,20 @@ export function LanguageToggle({
           title={title}
           onClick={() => onChange(value)}
           className={cn(
-            "rounded-full px-3.5 py-1.5 text-[13px] font-medium leading-none transition-colors",
+            "rounded-full px-3.5 py-1.5 text-[13px] font-medium leading-none transition-colors max-lg:min-h-9 max-md:flex-1 max-md:py-2.5 max-md:text-sm",
             view === value
               ? "bg-card text-foreground shadow-sm ring-1 ring-border/70"
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {label}
+          {short ? (
+            <>
+              <span className="md:hidden">{short}</span>
+              <span className="max-md:hidden">{label}</span>
+            </>
+          ) : (
+            label
+          )}
         </button>
       ))}
     </div>
@@ -56,7 +64,7 @@ export function LanguageToggle({
 }
 
 /**
- * Registers a bilingual field and tells it whether it is the page's first —
+ * Registers a bilingual field and tells it whether it is the page's first -
  * the one that carries the language bar. Attach `ref` to the field's root.
  */
 export function useBilingualField() {
@@ -69,7 +77,7 @@ export function useBilingualField() {
   return { ref, isFirst: useIsFirstBilingualField(id) };
 }
 
-/** The language bar itself — rendered by the page's first bilingual field. */
+/** The language bar itself - rendered by the page's first bilingual field. */
 export function LanguageBarView() {
   const [view, setView] = useLanguageView();
   return (
@@ -77,7 +85,7 @@ export function LanguageBarView() {
       <p className="flex min-w-0 items-center gap-2 text-[13px] text-muted-foreground">
         <LanguagesIcon className="size-4 shrink-0" />
         <span className="font-medium text-foreground">Language</span>
-        <span className="hidden truncate md:inline">— fill in English and Tamil</span>
+        <span className="hidden truncate md:inline">(fill in English and Tamil)</span>
       </p>
       <LanguageToggle view={view} onChange={setView} />
     </div>
@@ -85,7 +93,7 @@ export function LanguageBarView() {
 }
 
 /**
- * Places the page's language bar explicitly — for layouts where the first
+ * Places the page's language bar explicitly - for layouts where the first
  * bilingual field sits in a narrow column and would squeeze the bar. Put it
  * before the fields; being first in the page, it takes the bar over from them.
  */
@@ -100,7 +108,7 @@ export function LanguageBar({ className }: { className?: string }) {
 
 /**
  * Right-aligned note on a field's label row when the language not on screen
- * is still empty — so nothing is forgotten while working in one language.
+ * is still empty - so nothing is forgotten while working in one language.
  * Sized to the label's line so the row height never changes.
  */
 export function MissingLanguageNote({

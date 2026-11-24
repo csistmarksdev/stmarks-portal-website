@@ -119,7 +119,7 @@ function BackupCard() {
        * admin who wants the file twice, should not have to rebuild the archive.
        */
       window.location.href = `${apiUrl()}${created.downloadPath}`;
-      toast.success(`Backup ready — ${created.size}`);
+      toast.success(`Backup ready: ${created.size}`);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Could not build the backup",
@@ -172,7 +172,7 @@ function BackupCard() {
 
         <p className="text-[13px] text-muted-foreground">
           The file includes admin accounts and their passwords, and every
-          message from the contact form. Treat it like the database it is —
+          message from the contact form. Treat it like the database it is -
           store it somewhere private.
         </p>
 
@@ -263,7 +263,7 @@ function RestoreCard() {
       setResult(applied);
       setStaged(null);
       /*
-       * Every count on the page — and on every other page in the CMS — is now
+       * Every count on the page - and on every other page in the CMS - is now
        * describing a database that no longer exists. Clearing the whole cache
        * rather than naming queries is the honest response to a restore: there
        * is no part of the app whose data this did not change.
@@ -407,7 +407,7 @@ function StagedReview({
           checked={mode === "replace"}
           onSelect={() => onModeChange("replace")}
           title="Replace"
-          description="Clear everything the backup covers and put the backup in its place. Anything added since the backup was taken is lost — this is the option that truly puts things back."
+          description="Clear everything the backup covers and put the backup in its place. Anything added since the backup was taken is lost. This is the option that truly puts things back."
         />
         <ModeOption
           checked={mode === "merge"}
@@ -546,7 +546,7 @@ function RestoreSummary({
           </a>{" "}
           <span className="text-muted-foreground">
             ({result.safetyBackup.size}, link expires{" "}
-            {formatDateTime(result.safetyBackup.expiresAt)}) — save it now if
+            {formatDateTime(result.safetyBackup.expiresAt)}) - save it now if
             this was a mistake.
           </span>
         </p>

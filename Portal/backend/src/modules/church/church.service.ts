@@ -42,7 +42,7 @@ export class ChurchService {
     const doc = await this.model.findOne({ key }).lean().exec();
     if (!doc) {
       throw new NotFoundException(
-        `Church content "${key}" has not been set up yet — run the seed or save it in the CMS`,
+        `Church content "${key}" has not been set up yet. Run the seed or save it in the CMS`,
       );
     }
     return doc.data as T;
@@ -50,7 +50,7 @@ export class ChurchService {
 
   /**
    * Saves a singleton. An approver's save goes live at once (and settles any
-   * waiting submission — approving one is simply saving it); anyone else's is
+   * waiting submission - approving one is simply saving it); anyone else's is
    * held as a submission for an admin to approve or reject (approval rule,
    * church requests 22 & 23 Nov 2026).
    */
@@ -99,7 +99,7 @@ export class ChurchService {
     return { status: "pending" };
   }
 
-  /** The waiting submission, if any — wrapped, so "none" is a real JSON body. */
+  /** The waiting submission, if any - wrapped, so "none" is a real JSON body. */
   async pending(key: SingletonKey) {
     const doc = await this.model.findOne({ key }).lean().exec();
     if (!doc?.pending) return { pending: null };

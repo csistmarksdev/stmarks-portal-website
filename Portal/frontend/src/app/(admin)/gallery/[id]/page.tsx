@@ -19,7 +19,7 @@ function PhotosManager({ albumId }: { albumId: string }) {
   const queryClient = useQueryClient();
   const invalidate = () => queryClient.invalidateQueries({ queryKey: [apiPath] });
 
-  /** One request for the whole batch — the API takes an array of items. */
+  /** One request for the whole batch - the API takes an array of items. */
   const addPhoto = useMutation({
     mutationFn: (items: NewGalleryItem[]) =>
       api.post(`${apiPath}/${albumId}/photos`, { photos: items }),
@@ -99,8 +99,8 @@ export default function EditAlbumPage({
   const { holds } = useApprovalLock(album?.status, true);
 
   /*
-   * Under the approval rule an editor's changes to a live album — photos
-   * included — are submitted, not applied. So the photo grid works locally
+   * Under the approval rule an editor's changes to a live album - photos
+   * included - are submitted, not applied. So the photo grid works locally
    * in that case, and when an approver reviews a change that touched the
    * photos; the stream then travels with the save. Otherwise every add,
    * remove and reorder is saved straight away, as before.
@@ -153,7 +153,7 @@ export default function EditAlbumPage({
             hint={
               holds
                 ? "Photo changes are sent with your changes for approval."
-                : "These are the submitted photos — approving applies them."
+                : "These are the submitted photos. Approving applies them."
             }
             onAdd={(added) => {
               setItems((current) => [

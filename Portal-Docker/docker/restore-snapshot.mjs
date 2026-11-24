@@ -10,8 +10,8 @@
  * ----------------------------------
  * A collection is filled only when it is empty, and the decision is made for
  * each one independently. All-or-nothing on "is the database empty" sounds
- * tidier and is worse: a half-finished first boot — the container killed while
- * inserting `media` — leaves a database that is neither empty nor complete, and
+ * tidier and is worse: a half-finished first boot - the container killed while
+ * inserting `media` - leaves a database that is neither empty nor complete, and
  * an all-or-nothing check would then decline to touch it forever. Per
  * collection, the next boot fills in exactly what is missing.
  *
@@ -20,7 +20,7 @@
  * is a starting point, never a reset.
  *
  * `_id` is preserved. Documents reference each other by id, and the snapshot is
- * a clone of a working installation rather than a demo set — letting Mongo
+ * a clone of a working installation rather than a demo set - letting Mongo
  * assign fresh ids would sever those references.
  */
 import { EJSON } from "bson";
@@ -40,7 +40,7 @@ import { dirname, join, relative, resolve } from "node:path";
 /*
  * This file is installed inside `backend/` rather than beside the entrypoint,
  * so that `mongodb` and `bson` resolve from the API's own `node_modules`. They
- * are already there — Mongoose depends on them — which is the difference
+ * are already there - Mongoose depends on them - which is the difference
  * between reusing a driver that is present and shipping a second copy of it.
  */
 const APP_ROOT = join(import.meta.dirname, "..");
@@ -51,7 +51,7 @@ const SNAPSHOT_UPLOADS =
  * `resolve`, not `join`: an absolute `UPLOAD_DIR` must win outright.
  * `join("/app/backend", "/data/uploads")` quietly produces
  * `/app/backend/data/uploads`, so the bundled media would be written into the
- * container's ephemeral layer instead of the volume the deployment mounted —
+ * container's ephemeral layer instead of the volume the deployment mounted -
  * accepted, ignored, and gone on the next redeploy. Every other consumer of
  * `uploadDir` (the API, the seed, the initializer) resolves it the same way;
  * this is what makes `UPLOAD_DIR=/data/uploads` single-disk hosting work.
@@ -63,7 +63,7 @@ const UPLOAD_DIR = resolve(import.meta.dirname, process.env.UPLOAD_DIR ?? "uploa
  *
  * Stored media URLs are absolute because the public Website reads this API
  * cross-origin and cannot resolve a relative path against its own domain. The
- * value written here is a starting point only — `MediaOriginInterceptor`
+ * value written here is a starting point only - `MediaOriginInterceptor`
  * rewrites it to the request's own origin on the way out, so a wrong guess at
  * this moment is corrected on every response rather than baked in.
  */
@@ -79,7 +79,7 @@ function resolveTokens(value, base) {
     return value.includes("{{MEDIA}}") ? value.split("{{MEDIA}}").join(base) : value;
   }
   if (Array.isArray(value)) return value.map((v) => resolveTokens(v, base));
-  // Only plain objects are rebuilt — a Date or an ObjectId revived by EJSON is
+  // Only plain objects are rebuilt - a Date or an ObjectId revived by EJSON is
   // `typeof "object"` and would be destroyed by `Object.fromEntries`.
   if (value !== null && typeof value === "object") {
     const proto = Object.getPrototypeOf(value);
@@ -109,7 +109,7 @@ function walk(dir, base = dir) {
  * Copied rather than served from the snapshot in place, because uploads are
  * writable: the church replaces a photo through the CMS and the new file has to
  * land somewhere that is not a read-only part of the image. Files already
- * present are never overwritten — an admin's replacement outranks the snapshot,
+ * present are never overwritten - an admin's replacement outranks the snapshot,
  * and re-copying on every boot would silently undo their edit.
  */
 function restoreUploads() {
@@ -148,7 +148,7 @@ async function main() {
   restoreUploads();
 
   if (!existsSync(SNAPSHOT_DB)) {
-    console.log("· No snapshot baked into this image — starting empty");
+    console.log("· No snapshot baked into this image - starting empty");
     return;
   }
 

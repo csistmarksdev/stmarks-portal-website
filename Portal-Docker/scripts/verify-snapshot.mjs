@@ -8,9 +8,9 @@
  *
  * `capture-live-data.mjs` reads documents from the database and media files
  * from `backend/uploads`, which are two different places that are only assumed
- * to agree. When they do not — a file deleted from disk but still referenced by
+ * to agree. When they do not - a file deleted from disk but still referenced by
  * a `media` record, a capture run against a database from a *different*
- * installation than the uploads folder — the failure does not appear at capture
+ * installation than the uploads folder - the failure does not appear at capture
  * time, or at build time, or at boot. It appears as a broken image in the CMS
  * weeks later, and by then the original is gone.
  *
@@ -51,7 +51,7 @@ function walk(dir, base = dir) {
 }
 
 if (!existsSync(DB_DIR)) {
-  console.error(`No snapshot at ${SNAPSHOT} — nothing to verify.`);
+  console.error(`No snapshot at ${SNAPSHOT} - nothing to verify.`);
   process.exit(1);
 }
 
@@ -85,7 +85,7 @@ const refer = (path, where) => {
 /*
  * Absolute origins that should have become `{{MEDIA}}` at capture time. A
  * survivor means the rewrite missed a field, and every deployment of the image
- * would then ask the capture host — usually a private address — for that file.
+ * would then ask the capture host - usually a private address - for that file.
  */
 const ORIGIN = /https?:\/\/[^"'\s]*?\/uploads\/([A-Za-z0-9._\-/%]+)/g;
 const TOKEN = /\{\{MEDIA\}\}\/([A-Za-z0-9._\-/%]+)/g;
@@ -98,7 +98,7 @@ for (const file of collections) {
 
   for (const [full, path] of text.matchAll(ORIGIN)) {
     fail(
-      `${name}: a literal media URL survived the {{MEDIA}} rewrite — ` +
+      `${name}: a literal media URL survived the {{MEDIA}} rewrite - ` +
         `${full.slice(0, 90)}${full.length > 90 ? "…" : ""}`,
     );
     refer(path, name);
@@ -124,7 +124,7 @@ console.log(`Media references: ${referenced.size} referenced, ${missing.length} 
 const orphans = [...files].filter((f) => !referenced.has(f));
 if (orphans.length > 0) {
   console.log(
-    `  ${orphans.length} file(s) present but unreferenced — carried anyway ` +
+    `  ${orphans.length} file(s) present but unreferenced - carried anyway ` +
       `(e.g. ${orphans.slice(0, 3).join(", ")})`,
   );
 }
@@ -133,7 +133,7 @@ if (orphans.length > 0) {
 
 const manifestPath = join(DB_DIR, "_manifest.json");
 if (!existsSync(manifestPath)) {
-  fail("_manifest.json is missing — the image cannot report what it carries");
+  fail("_manifest.json is missing - the image cannot report what it carries");
 } else {
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
   console.log(`\nManifest: captured ${manifest.capturedAt}`);
@@ -165,11 +165,11 @@ if (!existsSync(manifestPath)) {
 
   /*
    * A snapshot with no users restores into a portal nobody can sign in to
-   * except through the generated emergency admin — which is a working portal,
+   * except through the generated emergency admin - which is a working portal,
    * but not the installation it was supposed to be a clone of.
    */
   if (!manifest.collections?.users) {
-    fail("no user accounts in the snapshot — the portal would restore with no way in");
+    fail("no user accounts in the snapshot - the portal would restore with no way in");
   }
 }
 

@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(iso?: string): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
@@ -15,7 +15,7 @@ export function formatDate(iso?: string): string {
 }
 
 export function formatDateTime(iso?: string): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleString("en-IN", {
     day: "numeric",
     month: "short",
@@ -39,7 +39,7 @@ export function toDateInput(iso?: string): string {
   return new Date(iso).toISOString().slice(0, 10);
 }
 
-/** Last path segment of a URL, decoded for display — never throws. */
+/** Last path segment of a URL, decoded for display - never throws. */
 export function fileNameOf(url: string): string {
   const last = url.split(/[?#]/)[0].split("/").pop() || url;
   try {

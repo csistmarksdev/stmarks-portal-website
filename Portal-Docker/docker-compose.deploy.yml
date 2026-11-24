@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — deploy the published image.
+# CSI St. Mark's Portal - deploy the published image.
 #
 #   Place the private 1.5 backup (db/ and uploads/) in ./snapshot/.
 #   docker compose -f docker-compose.deploy.yml up -d
@@ -17,8 +17,8 @@ services:
   portal:
     # Pinned, deliberately. `latest` moves whenever something is pushed, so a
     # host that restarts at the wrong moment silently changes version. Bump this
-    # when you intend to upgrade — that is what makes rolling back one edit.
-    image: stmarksdev/csistmarkscmsportal:1.7.2
+    # when you intend to upgrade - that is what makes rolling back one edit.
+    image: stmarksdev/csistmarkscmsportal:1.7.3
     container_name: portal
     restart: unless-stopped
 
@@ -50,7 +50,7 @@ services:
       # only matters as the value handed to the public Website.
       PUBLIC_URL: ${PUBLIC_URL:-}
 
-      # "*" by default — any site may read the API, which is what the public
+      # "*" by default - any site may read the API, which is what the public
       # Website needs. Narrow it to real origins once the domain is settled.
       CORS_ORIGINS: ${CORS_ORIGINS:-*}
 
@@ -72,7 +72,7 @@ services:
     # On stop, the entrypoint signals the API and the CMS first and leaves
     # `mongod` running for a few more seconds so in-flight writes land and
     # WiredTiger closes its files. Docker's 10-second default expires in the
-    # middle of that and SIGKILLs the database with its files open — survivable,
+    # middle of that and SIGKILLs the database with its files open - survivable,
     # because the next boot runs recovery, but recovery is what this avoids
     # needing.
     stop_grace_period: 30s
@@ -107,7 +107,7 @@ services:
           memory: 1g
 
   # ---------------------------------------------------------------- verify ---
-  # Runs the Website contract suite against the container above — 53 checks
+  # Runs the Website contract suite against the container above - 53 checks
   # covering every endpoint the public site consumes, validating response shape
   # rather than just status codes.
   #
@@ -118,18 +118,18 @@ services:
   # the first-boot restore rather than racing it.
   #
   # It talks to `portal:8080` over the compose network, so it also proves the
-  # container is reachable by service name — which is how the Website will reach
+  # container is reachable by service name - which is how the Website will reach
   # it if they are deployed side by side.
   #
   # The test is baked into the image from `1.1` onwards, so `1.5` has it. On the
   # original `1.0` it is absent and this service exits with "Cannot find module"
-  # — either uncomment the bind mount below (needs this repository checked out
+  # - either uncomment the bind mount below (needs this repository checked out
   # beside the compose file), or copy it in once:
   #
   #   docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs
   #   docker exec portal node /app/check-website-api.mjs http://127.0.0.1:8080
   verify:
-    image: stmarksdev/csistmarkscmsportal:1.7.2
+    image: stmarksdev/csistmarkscmsportal:1.7.3
     profiles: ["verify"]
     depends_on:
       portal:

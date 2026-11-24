@@ -16,8 +16,8 @@
  * stranger something presentable.
  *
  * This one is a *clone*. The container is meant to come up as the installation
- * it was taken from — same accounts, same audit trail, same media library, same
- * gallery videos — so nothing is filtered and `_id` is preserved. Documents
+ * it was taken from - same accounts, same audit trail, same media library, same
+ * gallery videos - so nothing is filtered and `_id` is preserved. Documents
  * reference each other by id (a gallery album's cover is a `media` record's
  * file, a `contact_message` belongs to a user); dropping ids the way a demo
  * export does would quietly sever those.
@@ -51,7 +51,7 @@ import { dirname, join, relative } from "node:path";
 /*
  * Normally the repository this script sits in. `PORTAL_ROOT` overrides it so
  * the capture can be driven from a checkout that has the MongoDB driver
- * installed while writing into one that does not — which is the ordinary case
+ * installed while writing into one that does not - which is the ordinary case
  * here, because this tree is built in Docker and never has `node_modules`.
  */
 const ROOT = process.env.PORTAL_ROOT
@@ -108,7 +108,7 @@ function walk(dir, base = dir) {
  * Absolute media URLs -> a portable token.
  *
  * Only plain objects and arrays are walked. A `Date` is `typeof "object"`, and
- * an `ObjectId` and a `Binary` are too — recursing into them and rebuilding
+ * an `ObjectId` and a `Binary` are too - recursing into them and rebuilding
  * with `Object.fromEntries` would replace each with a meaningless plain object
  * and destroy every timestamp and id in the snapshot.
  */
@@ -125,7 +125,7 @@ function tokenise(value) {
   return value;
 }
 
-/** True only for `{}`-shaped objects — not Dates, ObjectIds, Buffers, RegExps. */
+/** True only for `{}`-shaped objects - not Dates, ObjectIds, Buffers, RegExps. */
 function isPlainObject(value) {
   if (value === null || typeof value !== "object") return false;
   const proto = Object.getPrototypeOf(value);
@@ -163,7 +163,7 @@ async function main() {
 
     /*
      * Empty collections are still written out. An empty `downloads` is a fact
-     * about the installation — the restore then knows the collection was seen
+     * about the installation - the restore then knows the collection was seen
      * and considered, rather than leaving a later reader wondering whether it
      * was missed.
      */
@@ -183,7 +183,7 @@ async function main() {
    *
    * The demo export copies just the referenced ones, which is right for a demo
    * and wrong here: an admin who deletes a gallery album leaves its images in
-   * the library, and a reference-only capture would silently drop them — the
+   * the library, and a reference-only capture would silently drop them - the
    * media page would come up in the container with holes in it.
    */
   const files = walk(UPLOADS);

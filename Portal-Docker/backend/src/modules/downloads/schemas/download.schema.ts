@@ -48,11 +48,11 @@ export class DownloadEntity {
   @Prop({ required: true })
   fileUrl: string;
 
-  /** Uppercase extension, e.g. "PDF" — computed at upload time. */
+  /** Uppercase extension, e.g. "PDF" - computed at upload time. */
   @Prop({ required: true })
   format: string;
 
-  /** Human-readable size, e.g. "1.2 MB" — computed at upload time. */
+  /** Human-readable size, e.g. "1.2 MB" - computed at upload time. */
   @Prop({ required: true })
   size: string;
 

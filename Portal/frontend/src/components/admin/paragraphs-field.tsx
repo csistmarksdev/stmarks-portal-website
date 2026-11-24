@@ -15,7 +15,7 @@ import {
 import { visibleLanguages } from "@/components/admin/localized-field";
 import { AutoTextarea } from "@/components/ui/auto-textarea";
 
-/** Editor for `LocalizedText[]` — ordered bilingual paragraphs. */
+/** Editor for `LocalizedText[]` - ordered bilingual paragraphs. */
 export function ParagraphsField({
   label,
   value,
@@ -120,7 +120,7 @@ export function ParagraphsField({
                 )}
                 <AutoTextarea
                   lang={locale}
-                  aria-label={`Paragraph ${index + 1} — ${caption}`}
+                  aria-label={`Paragraph ${index + 1}, ${caption}`}
                   stretch={both}
                   placeholder={placeholder}
                   value={paragraph[locale]}

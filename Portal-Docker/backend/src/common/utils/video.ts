@@ -6,7 +6,7 @@ type Provider = NonNullable<GalleryVideo["provider"]>;
  * These patterns mirror `Website/src/features/gallery/photo-grid.tsx`
  * exactly. The Website builds its embed URL from the id it extracts here, so
  * a link this file accepts but that file cannot parse would render a dead
- * player on the live site — which is why the Portal validates on write rather
+ * player on the live site - which is why the Portal validates on write rather
  * than storing whatever was pasted.
  */
 const YOUTUBE_HOST = /(?:youtube\.com|youtu\.be)/i;
@@ -42,7 +42,7 @@ export function describeVideoProblem(
     return "That YouTube link has no video id in it. Use the address from the browser bar (youtube.com/watch?v=…) or the Share button (youtu.be/…).";
   }
   if (provider === "vimeo" && !VIMEO_ID.test(url)) {
-    return "That Vimeo link has no video id in it — it should look like vimeo.com/123456789.";
+    return "That Vimeo link has no video id in it. It should look like vimeo.com/123456789.";
   }
   if (provider === "file") {
     try {

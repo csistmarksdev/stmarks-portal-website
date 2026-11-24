@@ -10,7 +10,7 @@ export const notificationKeys = {
   list: ["notifications", "list"] as const,
 };
 
-/** Unread notifications — drives the menu badge. Polled while the tab is open. */
+/** Unread notifications - drives the menu badge. Polled while the tab is open. */
 export function useNotificationsUnread(): number {
   const { user } = useAuth();
   const { data } = useQuery({

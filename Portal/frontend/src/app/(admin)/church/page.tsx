@@ -26,7 +26,7 @@ const ITEMS: Array<{
   {
     href: "/church/service-timings",
     label: "Service timings",
-    description: "The services table — days, times and venues.",
+    description: "The services table: days, times and venues.",
     icon: ClockIcon,
   },
   {
@@ -43,7 +43,7 @@ export default function ChurchIndexPage() {
       <PageHeader
         eyebrow="The church itself"
         title="Church content"
-        description="Single documents rather than lists — each one is edited in place and served straight to the website."
+        description="Single documents rather than lists. Each one is edited in place and served straight to the website."
       />
 
       {/* One card per document, across the width rather than a narrow list. */}
@@ -73,7 +73,7 @@ export default function ChurchIndexPage() {
         The church profile, history, vision &amp; mission, diocese details,
         the leadership roll and hero images are written into the website
         itself. They change once in a
-        decade, so they live in the code rather than here — ask a developer if
+        decade, so they live in the code rather than here - ask a developer if
         one of them ever needs updating.
       </p>
     </div>

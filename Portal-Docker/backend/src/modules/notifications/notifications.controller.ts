@@ -6,7 +6,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { NotificationsService } from "./notifications.service";
 
 /* Every signed-in account has its own notifications; no permission needed. */
-@ApiTags("Admin — Notifications")
+@ApiTags("Admin: Notifications")
 @ApiBearerAuth()
 @Controller("admin/notifications")
 export class NotificationsController {

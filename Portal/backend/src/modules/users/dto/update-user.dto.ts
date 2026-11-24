@@ -9,7 +9,7 @@ export class UpdateUserDto extends PartialType(
 ) {}
 
 export class ChangePasswordDto {
-  /** Same floor as everywhere else — see `CreateUserDto`. */
+  /** Same floor as everywhere else - see `CreateUserDto`. */
   @ApiProperty({ minLength: 12, maxLength: 200 })
   @IsString()
   @MinLength(12)

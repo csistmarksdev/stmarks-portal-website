@@ -237,7 +237,7 @@ export function BlogForm({ id }: { id?: string }) {
    * Load the record into the draft exactly once per post.
    *
    * Keyed on the id rather than on `data`, because `data` changes identity on
-   * every refetch — and saving invalidates this very query. Re-running on that
+   * every refetch - and saving invalidates this very query. Re-running on that
    * would overwrite whatever the writer had typed since, which in a long-form
    * editor means losing an article to a background request.
    */
@@ -310,7 +310,7 @@ export function BlogForm({ id }: { id?: string }) {
 
   /** Saves; `asStatus` overrides the chosen status (Approve publishes). */
   const save = async (asStatus?: PublishStatus) => {
-    // Every gate, not just this step's — Save is reachable from anywhere.
+    // Every gate, not just this step's - Save is reachable from anywhere.
     const blocking = [0, 1].flatMap((index) => problemsIn(index, draft));
     if (blocking.length > 0) {
       toast.error(blocking[0]);
@@ -332,7 +332,7 @@ export function BlogForm({ id }: { id?: string }) {
      * The three optional fields, sent as `null` when empty rather than left out.
      *
      * Omitting a key means "leave it as it is", so removing a cover image used
-     * to save without complaint and change nothing — the picture was still
+     * to save without complaint and change nothing - the picture was still
      * there on the next load, and on the post's page on the website. `null`
      * says remove it, which is what clearing the field meant.
      */
@@ -391,7 +391,7 @@ export function BlogForm({ id }: { id?: string }) {
   return (
     /*
      * Every step scrolls, so every step needs clearance under the fixed action
-     * bar — enough that the end of a long article can be scrolled fully clear
+     * bar - enough that the end of a long article can be scrolled fully clear
      * of it rather than stopping just underneath.
      */
     <div className="max-w-6xl">
@@ -487,7 +487,7 @@ export function BlogForm({ id }: { id?: string }) {
       {/* --------------------------------------------------- 2 · Write */}
       {step === 1 && (
         <BilingualEditor
-          // Remounts the panes when a different post loads — see the editor's
+          // Remounts the panes when a different post loads - see the editor's
           // note on why it is uncontrolled.
           hydrationKey={hydratedId ?? "new"}
           englishText={draft.bodyEn}
@@ -513,7 +513,7 @@ export function BlogForm({ id }: { id?: string }) {
                   value={draft.fellowshipSlug}
                   onChange={(event) => patch({ fellowshipSlug: event.target.value })}
                 >
-                  <option value="">—</option>
+                  <option value="">None</option>
                   {fellowshipOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -566,7 +566,7 @@ export function BlogForm({ id }: { id?: string }) {
               <p className="text-[13px] text-muted-foreground">
                 {slugEditable(data?.status)
                   ? "Filled in from the English title as you type it; edit it to choose your own. The post's web address, used by search engines."
-                  : "Fixed now that the post is published — links and search results point here."}
+                  : "Fixed now that the post is published, so links and search results point here."}
               </p>
             </div>
           </CardContent>
@@ -631,7 +631,7 @@ export function BlogForm({ id }: { id?: string }) {
                       {" · "}
                       {tamilParagraphs === 0
                         ? "no Tamil text"
-                        : `${tamilParagraphs} in Tamil — counts differ`}
+                        : `${tamilParagraphs} in Tamil (counts differ)`}
                     </span>
                   )}
                 </ReviewRow>
@@ -757,7 +757,7 @@ export function BlogForm({ id }: { id?: string }) {
   );
 }
 
-/** One paragraph of the review preview — headings as the website shows them. */
+/** One paragraph of the review preview - headings as the website shows them. */
 function PreviewBlock({ text }: { text: string }) {
   const block = parseBlock(text);
   if (block.kind === "title") {

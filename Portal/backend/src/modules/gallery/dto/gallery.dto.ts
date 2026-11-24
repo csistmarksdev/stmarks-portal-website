@@ -101,7 +101,7 @@ export class CreateAlbumDto {
   @ApiPropertyOptional({
     default: false,
     description:
-      "Churchwide album — appears in every fellowship's gallery (contract §5.3)",
+      "Churchwide album - appears in every fellowship's gallery (contract §5.3)",
   })
   @IsOptional()
   @IsBoolean()
@@ -135,7 +135,7 @@ export class CreateAlbumDto {
   @ApiPropertyOptional({
     example: "christmas-carol-service-2026",
     description:
-      "SEO URL slug. Optional — generated from the English title when blank. " +
+      "SEO URL slug. Optional - generated from the English title when blank. " +
       "Cleaned to lowercase-with-dashes and made unique; fixed once the album is published.",
   })
   @IsOptional()
@@ -164,7 +164,7 @@ export class AlbumItemDto extends AddPhotoDto {
 
 export class UpdateAlbumDto extends PartialType(OmitType(CreateAlbumDto, ["photos"] as const)) {
   /**
-   * The whole photo stream — honoured only as part of the approval flow: an
+   * The whole photo stream - honoured only as part of the approval flow: an
    * editor's change to a live album carries its photos in the submission,
    * and an approver's save applies them. Anywhere else it is ignored; the
    * photo endpoints add, remove and reorder items one at a time.

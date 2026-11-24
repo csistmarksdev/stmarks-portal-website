@@ -4,7 +4,7 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Public } from "../../common/decorators/public.decorator";
 import { FellowshipsService } from "./fellowships.service";
 
-@ApiTags("Public — Fellowships")
+@ApiTags("Public: Fellowships")
 @Public()
 @Controller("fellowships")
 export class FellowshipsPublicController {

@@ -1,6 +1,6 @@
 /**
  * Mirrors the Website's player so the admin gets the same verdict the site
- * will reach — a hosted link with no extractable id renders an empty player
+ * will reach - a hosted link with no extractable id renders an empty player
  * there, which is impossible to diagnose after the fact.
  */
 export function readVideoUrl(raw: string) {
@@ -19,7 +19,7 @@ export function readVideoUrl(raw: string) {
         : null,
       problem: id
         ? null
-        : "That YouTube link has no video id — copy it from the address bar or the Share button.",
+        : "That YouTube link has no video id. Copy it from the address bar or the Share button.",
     };
   }
   if (/vimeo\.com/i.test(url)) {
@@ -30,7 +30,7 @@ export function readVideoUrl(raw: string) {
       embed: id ? `https://player.vimeo.com/video/${id}` : null,
       problem: id
         ? null
-        : "That Vimeo link has no video id — it should look like vimeo.com/123456789.",
+        : "That Vimeo link has no video id. It should look like vimeo.com/123456789.",
     };
   }
   try {

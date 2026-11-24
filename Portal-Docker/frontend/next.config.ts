@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
    * dependencies actually reached traced in beside it.
    *
    * This is what makes a combined handover build practical: without it the CMS
-   * needs the whole workspace `node_modules` at runtime — several hundred
-   * megabytes, most of it build-time tooling — and the artifact is no longer
+   * needs the whole workspace `node_modules` at runtime - several hundred
+   * megabytes, most of it build-time tooling - and the artifact is no longer
    * something you can hand someone.
    *
    * `outputFileTracingRoot` points at the monorepo root because `@portal/shared`
@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
    * Let other devices on the network load dev-only assets (/_next/*, the HMR
    * socket). Next blocks cross-origin dev requests by default, which is what
    * stops the CMS working from a phone. These globs cover the private IPv4
-   * ranges plus mDNS hostnames — a bare "*" is rejected by Next.
+   * ranges plus mDNS hostnames - a bare "*" is rejected by Next.
    */
   allowedDevOrigins: [
     "10.*.*.*",
@@ -38,12 +38,12 @@ const nextConfig: NextConfig = {
    * Security headers for the CMS itself.
    *
    * Next sends none of these by default, and the API's `helmet` does not cover
-   * this app — the two are separate servers, and behind the container's router
+   * this app - the two are separate servers, and behind the container's router
    * they answer on one origin, so a reader cannot tell which sent what.
    *
    * `frame-ancestors 'none'` is the one that matters: without it the whole
    * admin UI can be framed invisibly on another site and an administrator's
-   * clicks aimed at something else — deleting a record, or publishing one. The
+   * clicks aimed at something else - deleting a record, or publishing one. The
    * rest are inexpensive: stop the browser second-guessing declared types, and
    * stop full URLs (which carry record ids) leaking to third parties in the
    * referrer.
@@ -67,6 +67,18 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      /*
+       * The service worker (`public/sw.js`) is checked for updates on every
+       * visit only if nothing in between holds an old copy - so it is never
+       * cached. Its own scripts may only come from this origin.
+       */
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self'" },
+        ],
+      },
     ];
   },
 
@@ -75,8 +87,8 @@ const nextConfig: NextConfig = {
     /*
      * Uploaded media is served by the API, whose host is not knowable at build
      * time. Listing the build machine's own addresses bakes them into the
-     * artifact, so a bundle built on a laptop and run on Render — or in the
-     * container — refuses every image it is asked to optimise, and the CMS
+     * artifact, so a bundle built on a laptop and run on Render - or in the
+     * container - refuses every image it is asked to optimise, and the CMS
      * comes up blank.
      *
      * The path is what is constrained instead: only `/uploads/**` is allowed,

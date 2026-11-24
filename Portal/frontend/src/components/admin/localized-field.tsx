@@ -25,7 +25,7 @@ export function visibleLanguages(view: LanguageView) {
 
 /**
  * Bilingual field editor. The Website renders an empty string (no fallback)
- * when a language is missing, so both matter — but writing them in two cramped
+ * when a language is missing, so both matter - but writing them in two cramped
  * columns is miserable, so the field shows one language at a time at full
  * width, or both side by side, by choice. The choice is shared by every field
  * in the CMS (see `useLanguageView`) and set from one bar per page, shown above
@@ -79,7 +79,7 @@ export function LocalizedField({
             )}
             <AutoTextarea
               lang={locale}
-              aria-label={`${label} — ${caption}`}
+              aria-label={`${label}, ${caption}`}
               singleLine={!multiline}
               minRows={multiline ? rows : 1}
               stretch={both}

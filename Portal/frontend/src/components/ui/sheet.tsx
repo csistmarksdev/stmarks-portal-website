@@ -10,7 +10,7 @@ const SheetTrigger = DialogPrimitive.Trigger;
 const SheetClose = DialogPrimitive.Close;
 
 /**
- * Bottom sheet — the mobile idiom for secondary navigation and actions.
+ * Bottom sheet - the mobile idiom for secondary navigation and actions.
  * Rounded top corners, a grab handle, and safe-area padding so the content
  * clears the home indicator.
  */

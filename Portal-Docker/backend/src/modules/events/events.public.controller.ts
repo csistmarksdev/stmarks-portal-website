@@ -6,7 +6,7 @@ import { Public } from "../../common/decorators/public.decorator";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { EventsService } from "./events.service";
 
-@ApiTags("Public — Events")
+@ApiTags("Public: Events")
 @Public()
 @Controller("events")
 export class EventsPublicController {

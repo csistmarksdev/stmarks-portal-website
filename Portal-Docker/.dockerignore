@@ -11,7 +11,7 @@
 # the build has "succeeded".
 #
 # `dist-portal/` is the deliberate exception, and it is re-included at the
-# bottom of this file. It is not the source tree's `node_modules` — it is a
+# bottom of this file. It is not the source tree's `node_modules` - it is a
 # bundle whose dependencies were resolved for `linux/<target>` explicitly
 # (`npm install --os --cpu`, plus sharp's platform binaries fetched by hand),
 # assembled by `scripts/build-production-bundle.mjs` and stamped with the
@@ -50,7 +50,7 @@ backend/seed-data
 docs
 **/*.md
 
-# Local compose overrides — the image must not depend on anyone's machine.
+# Local compose overrides - the image must not depend on anyone's machine.
 docker-compose.override.yml
 
 # ---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ docker-compose.override.yml
 #
 # Negations must come last: Docker applies these rules in order and the final
 # match wins, so `!dist-portal/**` placed above `**/node_modules` would be
-# overridden by it and the bundle would arrive with no dependencies — an image
+# overridden by it and the bundle would arrive with no dependencies - an image
 # that builds and then cannot start.
 !dist-portal
 !dist-portal/**

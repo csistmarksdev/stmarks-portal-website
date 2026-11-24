@@ -7,7 +7,7 @@ of the church's real content, media and accounts.
 docker run -d --name portal -p 8080:8080 -v portal-data:/data csistmarkscmsportal
 ```
 
-Open `http://localhost:8080`. Everything is there — the 6 gallery albums with
+Open `http://localhost:8080`. Everything is there - the 6 gallery albums with
 their YouTube links, the 10 blog posts, the 96-item media library, the existing
 administrator account. Nothing to provision, nothing to configure.
 
@@ -30,7 +30,7 @@ administrator account. Nothing to provision, nothing to configure.
 ## Building the image
 
 The build machine needs Docker, Node 20+, and about 2 GB of free RAM. MongoDB is
-not needed — the image brings its own.
+not needed - the image brings its own.
 
 Node is on that list because the application is compiled **outside** the
 container: `./scripts/build-image.sh` produces `dist-portal/` on this machine
@@ -46,10 +46,10 @@ cd Portal-Docker
 Two ways to build without Node on this machine:
 
 ```bash
-# the bundle was compiled elsewhere and copied here — Docker only, ~1 minute
+# the bundle was compiled elsewhere and copied here - Docker only, ~1 minute
 ./scripts/build-image.sh --use-dist-portal
 
-# compile inside the image instead — Docker only, and the slow path
+# compile inside the image instead - Docker only, and the slow path
 ./scripts/build-image.sh --from-source
 ```
 
@@ -60,7 +60,7 @@ For a registry, and both architectures:
 ```
 
 `--multi-arch` builds `linux/amd64` and `linux/arm64`. The non-native one runs
-under QEMU and is slow — roughly ten minutes rather than three. It also requires
+under QEMU and is slow - roughly ten minutes rather than three. It also requires
 `--push`, because a manifest list covering two architectures cannot be stored in
 a local Docker daemon; only a registry can hold one.
 
@@ -93,7 +93,7 @@ PORTAL_ROOT=/path/to/Portal-Docker node /path/to/Portal-Docker/scripts/capture-l
 ```
 
 `PORTAL_ROOT` exists because this tree is built in Docker and never has
-`node_modules` of its own — the script runs from a tree that has the MongoDB
+`node_modules` of its own - the script runs from a tree that has the MongoDB
 driver installed and writes into the tree that gets built.
 
 It reads `MONGODB_URI` from `backend/.env`, and captures:
@@ -111,7 +111,7 @@ node scripts/verify-snapshot.mjs        # or: npm run verify:snapshot
 
 The documents come from the database and the media comes from `backend/uploads`,
 which are two different places that are only assumed to agree. This cross-checks
-them — every `media` record's file and every `{{MEDIA}}` reference must exist —
+them - every `media` record's file and every `{{MEDIA}}` reference must exist -
 and refuses a snapshot pinned to the capture host's own address. A missing file
 found here is one re-capture away from fixed; found later, the original may be
 gone.
@@ -167,7 +167,7 @@ Nothing is required. These are the values worth knowing about.
 | `JWT_ACCESS_SECRET` | generated | Kept in `/data/secrets.json` when unset. |
 | `JWT_REFRESH_SECRET` | generated | " |
 | `SEED_ADMIN_PASSWORD` | generated | Only used if the database has no admin. |
-| `WEBSITE_REVALIDATE_URL` | — | Publishing does not refresh the website without it. |
+| `WEBSITE_REVALIDATE_URL` | - | Publishing does not refresh the website without it. |
 | `MEDIA_ORIGIN_FROM_REQUEST` | `true` | See below. |
 | `NEXT_PUBLIC_UNOPTIMIZED_IMAGES` | `true` (baked in) | Build-time only. Serves uploads directly instead of through Next's optimiser, which needs a writable cache the container may not have. |
 | `STATE_DIR` | `/data` | Database and secrets. |
@@ -177,7 +177,7 @@ Nothing is required. These are the values worth knowing about.
 
 Media URLs are absolute and stored *inside* content records, so the origin is
 fixed when a file is uploaded. That breaks the moment the portal is reached from
-anywhere else — and on most platforms you cannot know your own URL until after
+anywhere else - and on most platforms you cannot know your own URL until after
 the first deploy.
 
 Two things handle it:
@@ -190,13 +190,13 @@ Two things handle it:
    actually arrived on. So the same image serves `localhost`, a LAN address and
    a public domain correctly, at the same time, with no configuration.
 
-Set `PUBLIC_URL` anyway once you have a domain — it is the value handed to the
+Set `PUBLIC_URL` anyway once you have a domain - it is the value handed to the
 public website, which is not making requests through this rewriting.
 
 Set `MEDIA_ORIGIN_FROM_REQUEST=false` only if media moves to a CDN on a
 genuinely different origin.
 
-### CORS — open to everything by default
+### CORS - open to everything by default
 
 Every response carries a literal wildcard:
 
@@ -216,7 +216,7 @@ Nothing is lost: this API has no cookie authentication and no session. The CMS
 reads its token from `localStorage` and sends it as an explicit
 `Authorization: Bearer` header, which is unaffected by the credentials flag.
 
-That is also what makes the wildcard safe rather than merely convenient — with
+That is also what makes the wildcard safe rather than merely convenient - with
 credentials off, a browser attaches nothing automatically to a cross-origin
 request, so a hostile page calling this API gets exactly the anonymous access it
 would get from `curl`. Everything that matters sits behind a Bearer token it
@@ -249,7 +249,7 @@ node scripts/check-website-api.mjs http://localhost:8080
 53 checks across every public endpoint. It has no dependencies, so it runs on a
 bare machine with nothing but Node.
 
-**If the host has no Node**, run it inside the container — which has one:
+**If the host has no Node**, run it inside the container - which has one:
 
 ```bash
 docker cp scripts/check-website-api.mjs portal:/tmp/check.mjs
@@ -269,7 +269,7 @@ response, and the ways that fails are quiet:
 | an unpublished draft leaking `status` | editorial state visible to the public |
 | media URLs on the wrong origin | every image 404s |
 
-So each record is validated against the shape in `shared/src/content.ts` — the
+So each record is validated against the shape in `shared/src/content.ts` - the
 same file `npm run check:contract` compares against the Website's own types.
 
 It also confirms the endpoints that must **not** exist still return 404
@@ -289,7 +289,7 @@ NEXT_PUBLIC_API_URL=https://your-portal-host/v1
 ```
 
 ```ts
-// 2. Website/src/services/*.service.ts — swap each mock body for apiGet.
+// 2. Website/src/services/*.service.ts - swap each mock body for apiGet.
 //    Nothing else changes: call sites, types and components stay as they are.
 export function getEvents(): Promise<ChurchEvent[]> {
   return apiGet<ChurchEvent[]>("/events", { tags: ["events"] });
@@ -313,7 +313,7 @@ CMS does.
 | `/data` | database, generated secrets | yes, for a real deployment |
 | `/app/backend/uploads` | media uploaded through the CMS | yes |
 
-Without volumes the container still runs and still works — it simply returns to
+Without volumes the container still runs and still works - it simply returns to
 the baked-in snapshot whenever it is recreated. That is the right behaviour for
 a demonstration and the wrong one for the church's actual portal.
 
@@ -333,7 +333,7 @@ as root.
 ## Platform guides
 
 Every one of these is the same image with no changes. If it is not in the
-matrix below, it still works — the container is a standard Linux image that
+matrix below, it still works - the container is a standard Linux image that
 takes one port, two optional volumes and some environment variables.
 
 | Where | Deploy as | Persists | Notes |
@@ -341,13 +341,13 @@ takes one port, two optional volumes and some environment variables.
 | Ubuntu / ZimaOS / CasaOS / any Docker host | `docker run` or the compose files | `/data` + `/app/backend/uploads` | the full experience, bundled MongoDB |
 | Render | Web Service → Existing image | disk at `/data` | `RENDER_EXTERNAL_URL` detected |
 | Railway | image, or the repo `Dockerfile` | volume at `/data` | `PORT` + `RAILWAY_PUBLIC_DOMAIN` detected |
-| Heroku | `heroku container:push web` | none — use `MONGODB_URI` | dyno filesystem is ephemeral |
+| Heroku | `heroku container:push web` | none - use `MONGODB_URI` | dyno filesystem is ephemeral |
 | Fly.io / Azure / AWS / GCP | image + platform volume at `/data` | `/data` | origins auto-detected |
-| Netlify | — | — | not applicable, see below |
+| Netlify | - | - | not applicable, see below |
 
 Render, Railway, Fly and Heroku each read a configuration file from the
 repository root, and one is written for each of them in
-[`../deploy/`](../deploy/README.md) — `render.yaml`, `railway.toml`, `fly.toml`,
+[`../deploy/`](../deploy/README.md) - `render.yaml`, `railway.toml`, `fly.toml`,
 `heroku.yml` + `app.json`. Copy the one you need to the root and the platform
 picks it up; the sections below are what those files do, in prose.
 
@@ -383,7 +383,7 @@ the API and CMS down first and lets `mongod` finish a few seconds later so its
 files close cleanly. Docker's 10-second default kills the container in the
 middle of that, and the next boot runs WiredTiger recovery instead.
 
-On Ubuntu (or any Linux with Docker), the same one-liner works — Docker, Podman
+On Ubuntu (or any Linux with Docker), the same one-liner works - Docker, Podman
 or any OCI runtime, no Node, npm or MongoDB install needed on the host.
 
 ### Render
@@ -421,7 +421,7 @@ detected. Add an Azure Files mount at `/data` for persistence.
 ### AWS App Runner / ECS
 
 App Runner: port `8080`, and set `PUBLIC_URL` to the service URL after the first
-deploy — App Runner's storage is ephemeral, so treat it as a read-mostly
+deploy - App Runner's storage is ephemeral, so treat it as a read-mostly
 deployment or move to ECS with EFS mounted at `/data`.
 
 ### Google Cloud Run
@@ -451,7 +451,7 @@ a few seconds past the first-boot restore before curling it.
 ### Netlify
 
 Not supported, and not needed. Netlify serves static sites; the Portal is a
-long-running server — an API, an admin CMS and a MongoDB process — so there is
+long-running server - an API, an admin CMS and a MongoDB process - so there is
 no static export that behaves like it. The CMS already serves the site's own
 frontend at the same address as the API, so a static host adds nothing here.
 Point the public website at the Portal's `/v1` endpoints instead (see
@@ -488,7 +488,7 @@ place to keep a parish's records.
 **Images are broken / the media library is empty.**
 Check `docker logs portal` for the restore lines. If media was installed but
 images 404, the uploads volume was mounted over a directory that had already
-been populated by an earlier boot — remove the volume and restart.
+been populated by an earlier boot - remove the volume and restart.
 
 **Images work on the machine running Docker, and are broken from every other
 machine.**
@@ -514,7 +514,7 @@ environment:
   PUBLIC_URL: http://10.0.0.5:8080     # or https://portal.example.org
 ```
 
-Verify a fix without a browser — ask for a hostname the portal has never been
+Verify a fix without a browser - ask for a hostname the portal has never been
 reached on and check the answer follows it:
 
 ```bash
@@ -533,7 +533,7 @@ there, or set the secrets explicitly.
 
 **The container is killed shortly after starting, on a small host.**
 MongoDB's cache is capped at 256 MB by default here; lower it with
-already the lowest value MongoDB accepts — `--wiredTigerCacheSizeGB` has a floor
+already the lowest value MongoDB accepts - `--wiredTigerCacheSizeGB` has a floor
 of `0.25`, and setting `MONGO_CACHE_GB` below it makes `mongod` refuse to start.
 If 256 MB of cache is still too much for the host, move to an external database.
 
@@ -543,6 +543,6 @@ have it. Use an external database on that hardware.
 
 **The CMS loads but every request fails with a connection error.**
 The CMS is built to call the API on its own origin under `/v1`. If you set
-`SPLIT_PORTS=true`, that assumption no longer holds — you would need to rebuild
+`SPLIT_PORTS=true`, that assumption no longer holds - you would need to rebuild
 with `NEXT_PUBLIC_API_URL` set, because `NEXT_PUBLIC_*` values are inlined into
 the browser bundle at build time.

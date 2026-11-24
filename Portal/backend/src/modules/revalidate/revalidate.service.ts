@@ -3,10 +3,10 @@ import { ConfigService } from "@nestjs/config";
 
 /**
  * Notifies the public Website's revalidation webhook when content changes
- * (spec §4 — cache tags per resource).
+ * (spec §4 - cache tags per resource).
  *
- * Without this the site's caches expire on their own schedule, and — because
- * each URL is cached separately — a list page and a detail page can disagree
+ * Without this the site's caches expire on their own schedule, and - because
+ * each URL is cached separately - a list page and a detail page can disagree
  * about the same record for minutes after an edit. Renaming a gallery album
  * showed the new title on `/gallery` and the old one on the album's own page.
  *
@@ -23,7 +23,7 @@ export class RevalidateService {
    * Fire-and-forget: a publish must never fail because the website could not
    * be reached. Failures are logged, not raised.
    *
-   * The secret travels in a header rather than the query string — query
+   * The secret travels in a header rather than the query string - query
    * strings end up in access logs, proxy logs and browser history, which is a
    * poor place for a shared credential.
    */

@@ -22,7 +22,7 @@ export interface AlbumItemView {
 /**
  * An album's photos and videos: add, remove, reorder.
  *
- * Purely presentational — the caller decides what each action does. Editing a
+ * Purely presentational - the caller decides what each action does. Editing a
  * saved album sends every change to the server at once; a new album keeps them
  * in the page and sends the lot with "Create album", so photos can be chosen
  * before the album exists.
@@ -46,7 +46,7 @@ export function AlbumItemsEditor({
   hint?: string;
   /**
    * Names files uploaded here when their own name says nothing (IMG_2041.jpg)
-   * — the album title, so the stored file reads `harvest-festival-…jpg`.
+   * - the album title, so the stored file reads `harvest-festival-…jpg`.
    */
   nameHint?: string;
 }) {
@@ -59,11 +59,11 @@ export function AlbumItemsEditor({
         <div>
           <CardTitle>Photos &amp; videos ({items.length})</CardTitle>
           <CardDescription>
-            One ordered stream — the website&apos;s lightbox pages through it in this order.
+            One ordered stream: the website&apos;s lightbox pages through it in this order.
             {hint && <span className="mt-1 block text-accent-fg">{hint}</span>}
           </CardDescription>
         </div>
-        {/* One button — photos and video links live behind the same dialog. */}
+        {/* One button - photos and video links live behind the same dialog. */}
         <Button type="button" size="sm" className="shrink-0" onClick={() => setPickerOpen(true)}>
           <PlusIcon /> Add
         </Button>

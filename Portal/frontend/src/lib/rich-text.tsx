@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * Inline formatting for body copy — the Portal's half of the syntax.
+ * Inline formatting for body copy - the Portal's half of the syntax.
  *
  * **This mirrors `Website/src/lib/rich-text.tsx` and must stay in step with
  * it.** The two projects have no shared package, so the syntax is duplicated
@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
  *     **bold**      __underline__      *italic*
  *
  * Emphasis lives inside the stored string because `body` is `LocalizedText[]`
- * — an array of plain strings — and that response format is fixed. Nothing
+ * - an array of plain strings - and that response format is fixed. Nothing
  * about the API changes to support formatting.
  */
 
@@ -108,7 +108,7 @@ export function parseBlock(text: string): { kind: BlockKind; text: string } {
   return { kind: "paragraph", text };
 }
 
-/** Strips markers — for word counts and other plain-text uses. */
+/** Strips markers - for word counts and other plain-text uses. */
 export function stripMarkers(text: string): string {
   return text
     .replace(/^#{1,2} /gm, "")

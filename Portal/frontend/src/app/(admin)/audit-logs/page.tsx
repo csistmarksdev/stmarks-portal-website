@@ -79,7 +79,7 @@ export default function AuditLogsPage() {
       <PageHeader
         eyebrow="Record keeping"
         title="Audit logs"
-        description="A running record of who did what — sign-ins, edits, publishes, uploads. Entries cannot be edited, and clearing them is itself recorded."
+        description="A running record of who did what: sign-ins, edits, publishes, uploads. Entries cannot be edited, and clearing them is itself recorded."
       />
       <div className="mb-4 flex flex-wrap gap-2">
         <Select className="min-w-0 flex-1 sm:w-40 sm:flex-none" value={action} onChange={(e) => { setAction(e.target.value); setPage(1); }}>
@@ -117,7 +117,7 @@ export default function AuditLogsPage() {
               title="Clear audit history?"
               description={
                 retention === 0
-                  ? "This deletes the entire audit history — every sign-in, edit and publish ever recorded. It cannot be undone. The fact that you cleared it will itself be recorded."
+                  ? "This deletes the entire audit history: every sign-in, edit and publish ever recorded. It cannot be undone. The fact that you cleared it will itself be recorded."
                   : `This permanently deletes audit entries older than ${retention} days. It cannot be undone. The fact that you cleared them will itself be recorded.`
               }
               confirmLabel="Clear history"
@@ -130,7 +130,7 @@ export default function AuditLogsPage() {
                   setPage(1);
                   toast.success(
                     deleted === 0
-                      ? "Nothing matched — no entries were that old"
+                      ? "Nothing matched. No entries were that old"
                       : `Cleared ${deleted} entr${deleted === 1 ? "y" : "ies"}`,
                   );
                 } catch (error) {
@@ -150,7 +150,7 @@ export default function AuditLogsPage() {
         <div className="rounded-3xl border border-dashed border-border-strong py-16 text-center text-sm text-muted-foreground">
           {action || resource
             ? "Nothing recorded under those filters."
-            : "Nothing recorded yet — activity will appear as people work."}
+            : "Nothing recorded yet. Activity will appear as people work."}
         </div>
       ) : (
         <>
@@ -180,7 +180,7 @@ export default function AuditLogsPage() {
           {data && data.total > data.pageSize && (
             <div className="mt-4 flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
-                {data.total} entries — page {data.page} of {Math.ceil(data.total / data.pageSize)}
+                {data.total} entries · page {data.page} of {Math.ceil(data.total / data.pageSize)}
               </span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>

@@ -5,8 +5,8 @@
  *
  * The Website owns the contract (`Website/src/types/content.ts`); the Portal
  * mirrors it in `shared/src/content.ts`. A silent divergence is the dangerous
- * kind — a renamed field type-checks fine on both sides and only breaks once
- * the two are wired together — so this compares them field by field.
+ * kind - a renamed field type-checks fine on both sides and only breaks once
+ * the two are wired together - so this compares them field by field.
  *
  * Only the shapes the Portal actually serves are checked. Write-once content
  * (church profile, history, vision & mission, diocese, hero slides) is
@@ -24,7 +24,7 @@ const PORTAL = join(root, "shared", "src", "content.ts");
  * Every website checkout beside the Portal, not just one.
  *
  * This pointed only at `Website/`, while active development had moved to
- * `WebsiteRT/`. The two happen to agree today, so the check still passed — but
+ * `WebsiteRT/`. The two happen to agree today, so the check still passed - but
  * it was passing about the wrong file: any contract change made in `WebsiteRT`
  * would have gone unnoticed, which is precisely the silent drift this script
  * exists to catch. Checking each one that is present also catches the two
@@ -40,12 +40,12 @@ const WEBSITE_DIRS = ["WebsiteRT2", "WebsiteRT", "Website"]
 
 if (WEBSITE_DIRS.length === 0) {
   console.error(
-    "No website checkout found beside the Portal — expected ../WebsiteRT or ../Website.",
+    "No website checkout found beside the Portal - expected ../WebsiteRT or ../Website.",
   );
   process.exit(1);
 }
 
-/** Shapes the Portal stores and serves — these must match exactly. */
+/** Shapes the Portal stores and serves - these must match exactly. */
 const SHARED_SHAPES = [
   "ServiceTiming",
   "PastorMessage",
@@ -121,7 +121,7 @@ for (const name of SHARED_SHAPES) {
   const list = (fields(portal, name) ?? "").split(", ");
   for (const field of ADMIN_ONLY_FIELDS) {
     if (list.includes(field)) {
-      problems.push(`${name} declares admin-only field "${field}" — keep it in shared/src/admin.ts`);
+      problems.push(`${name} declares admin-only field "${field}" - keep it in shared/src/admin.ts`);
     }
   }
 }
@@ -129,7 +129,7 @@ for (const name of SHARED_SHAPES) {
 for (const name of WEBSITE_ONLY) {
   if (fields(portal, name) !== null) {
     problems.push(
-      `${name} is hardcoded in the Website but declared in the Portal — remove it`,
+      `${name} is hardcoded in the Website but declared in the Portal - remove it`,
     );
   }
 }

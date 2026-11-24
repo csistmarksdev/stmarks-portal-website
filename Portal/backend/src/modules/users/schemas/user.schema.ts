@@ -15,7 +15,7 @@ export class User {
   @Prop({ required: true, select: false })
   passwordHash: string;
 
-  /** Built-in role or a custom role's key — checked against `roles` on write. */
+  /** Built-in role or a custom role's key - checked against `roles` on write. */
   @Prop({ required: true, trim: true, default: "editor" })
   role: RoleKey;
 

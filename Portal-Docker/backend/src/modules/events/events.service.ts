@@ -83,7 +83,7 @@ export class EventsService {
   /* ------------------------------- Public API ------------------------------ */
 
   /**
-   * GET /events — contract §5.1.
+   * GET /events - contract §5.1.
    * Default: newest first. `status=upcoming` (not yet over) sorts ascending,
    * `status=past` descending. Event timing status is derived from dates.
    */
@@ -128,13 +128,13 @@ export class EventsService {
     );
   }
 
-  /** GET /events/slugs — cheap, for generateStaticParams + sitemap. */
+  /** GET /events/slugs - cheap, for generateStaticParams + sitemap. */
   async publicSlugs(): Promise<string[]> {
     const docs = await this.repo.find(publiclyVisible<ChurchEventEntity>(), { startDate: -1 });
     return docs.map((doc) => doc.slug);
   }
 
-  /** GET /events/:slug — 404 when missing or unpublished. */
+  /** GET /events/:slug - 404 when missing or unpublished. */
   async getPublicBySlug(slug: string): Promise<ChurchEvent> {
     const doc =
       (await this.repo.findOne({ ...publiclyVisible<ChurchEventEntity>(), slug })) ??
@@ -189,7 +189,7 @@ export class EventsService {
     const slug = await uniqueSlug(dto.slug?.trim() || dto.title.en, (candidate) =>
       this.repo.exists({ slug: candidate }),
     );
-    // F-005: "…-2026" must not be stored as a 2027 date. Drafts included —
+    // F-005: "…-2026" must not be stored as a 2027 date. Drafts included -
     // the date is what decides upcoming/past once it is published.
     assertSlugYearMatchesDate(slug, new Date(dto.startDate));
     if ((dto.status ?? "draft") === "published") {
@@ -243,7 +243,7 @@ export class EventsService {
     if (dto.slug && dto.slug !== existing.slug) {
       if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
-          "Slugs are immutable after publish — they are part of public URLs",
+          "Slugs are immutable after publish, because they are part of public URLs",
         );
       }
       slug = await uniqueSlug(slugify(dto.slug), (candidate) =>
@@ -252,7 +252,7 @@ export class EventsService {
     }
 
     const startDate = dto.startDate ? new Date(dto.startDate) : existing.startDate;
-    // Moving an event to another year moves the year in its slug too — even
+    // Moving an event to another year moves the year in its slug too - even
     // once published, since a year-stamped URL for the wrong year is worse for
     // visitors and search engines than a redirected one. A slug the writer
     // typed is left as typed, and checked below.

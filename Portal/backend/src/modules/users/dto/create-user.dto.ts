@@ -22,7 +22,7 @@ export class CreateUserDto {
   /*
    * Twelve, matching the self-service change and what the CMS has always told
    * people. This was eight, so the account an administrator created for someone
-   * could be weaker than the password that person was later allowed to set —
+   * could be weaker than the password that person was later allowed to set -
    * and the weaker one is the one that exists on day one.
    *
    * The ceiling is not decoration: bcrypt hashes whatever it is handed, and an

@@ -125,7 +125,7 @@ export class DashboardService {
   }
 }
 
-@ApiTags("Admin — Dashboard")
+@ApiTags("Admin: Dashboard")
 @ApiBearerAuth()
 @Controller("admin/dashboard")
 export class DashboardController {

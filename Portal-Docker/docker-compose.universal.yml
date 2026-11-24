@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — one compose file that works everywhere.
+# CSI St. Mark's Portal - one compose file that works everywhere.
 #
 #   docker login -u stmarksdev                                  # private image
 #   docker compose -f docker-compose.universal.yml up -d
@@ -12,12 +12,12 @@
 # What makes it portable, and what each rule costs
 # ------------------------------------------------
 # Every app-store UI ships its own partial compose parser, and each of the
-# following is a thing at least one of them gets wrong — silently, producing a
+# following is a thing at least one of them gets wrong - silently, producing a
 # container that starts and behaves oddly rather than an error anyone can act on.
 #
 # 1. **No `${VAR}` substitution, anywhere.** The ZimaOS importer stores the text
 #    verbatim instead of expanding it, so `${JWT_ACCESS_SECRET:-}` would arrive
-#    as a literal 22-character string — and the API refuses to start on a secret
+#    as a literal 22-character string - and the API refuses to start on a secret
 #    shorter than 32 characters, boot-looping with nothing in the logs that names
 #    the cause. Every value below is either a literal or absent.
 #
@@ -25,7 +25,7 @@
 #    to write the file, which is not where you put it.
 #
 # 3. **No profiles, and one service.** Profiles are ignored by most importers,
-#    which then start the profiled service too — for this stack, a second portal
+#    which then start the profiled service too - for this stack, a second portal
 #    with a second MongoDB fighting over the same volumes.
 #
 # 4. **No `version:` key.** It has been obsolete since Compose v2 and now only
@@ -65,15 +65,15 @@ services:
     restart: unless-stopped
 
     ports:
-      # host:container. One port serves everything — /v1 and /uploads reach the
-      # API, everything else the admin CMS — so there is a single origin and no
+      # host:container. One port serves everything - /v1 and /uploads reach the
+      # API, everything else the admin CMS - so there is a single origin and no
       # CORS between the two halves. Change only the left number.
       - "8080:8080"
 
     volumes:
       # The database, and the secrets generated on first boot. Without this the
       # portal still runs and returns to the shipped snapshot every time the
-      # container is recreated — fine for a trial, wrong for the parish's real
+      # container is recreated - fine for a trial, wrong for the parish's real
       # portal.
       - portal-data:/data
       # Media uploaded through the CMS. The snapshot's 376 files are installed
@@ -91,7 +91,7 @@ services:
     # On stop, the entrypoint signals the API and the CMS first and leaves
     # `mongod` running for a few more seconds so in-flight writes land and
     # WiredTiger closes its files. Docker's 10-second default expires in the
-    # middle of that and SIGKILLs the database with its files open — which is
+    # middle of that and SIGKILLs the database with its files open - which is
     # survivable, because the next boot runs recovery, but recovery is exactly
     # what this avoids needing.
     stop_grace_period: 30s
@@ -107,7 +107,7 @@ services:
       # The first boot restores 577 documents and 376 media files before
       # anything listens. A shorter grace period marks the container unhealthy
       # while it is doing exactly what it was told to, and orchestrators respond
-      # by killing and retrying it — forever.
+      # by killing and retrying it - forever.
       start_period: 120s
       retries: 5
 
@@ -153,7 +153,7 @@ x-casaos:
   description:
     en_us: >-
       The parish content system: an admin CMS, a public content API, and the
-      church's existing content, media and accounts. Self-contained — it brings
+      church's existing content, media and accounts. Self-contained - it brings
       its own database and needs nothing configured.
   # icon: https://your-host/portal-icon.png
   tips:
@@ -178,7 +178,7 @@ x-casaos:
 # ---------------------------------------------------------------------------
 # Once there is a real domain
 #
-# Add these under `environment:` above, as literal values — no ${...}:
+# Add these under `environment:` above, as literal values - no ${...}:
 #
 #   PUBLIC_URL: https://portal.stmarkschurch.org
 #     The canonical origin handed to the public website. Media URLs are
@@ -198,7 +198,7 @@ x-casaos:
 #   JWT_ACCESS_SECRET / JWT_REFRESH_SECRET
 #     Generated into the volume on first boot and kept there. Set them only to
 #     survive a volume reset, or to share them with the website.
-#     `openssl rand -base64 48` — at least 32 characters, and not equal to each
+#     `openssl rand -base64 48` - at least 32 characters, and not equal to each
 #     other.
 #
 #   WEBSITE_REVALIDATE_URL / WEBSITE_REVALIDATE_SECRET

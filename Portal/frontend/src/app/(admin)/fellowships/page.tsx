@@ -10,13 +10,13 @@ export default function FellowshipsPage() {
     <ResourceListPage<WithStatus<Fellowship>>
       title="Fellowships"
       eyebrow="Church life"
-      description="The eight ministries of the church, from Sunday School to the choir. Each one has its own page on the website — the web addresses are fixed."
+      description="The eight ministries of the church, from Sunday School to the choir. Each one has its own page on the website - the web addresses are fixed."
       apiPath="/admin/fellowships"
       routeBase="/fellowships"
       label="Fellowship"
       searchPlaceholder="Search fellowships…"
       emptyTitle="No fellowships set up"
-      emptyHint="Run the seed, or create each of the eight fellowships by hand — the website expects all of them."
+      emptyHint="Run the seed, or create each of the eight fellowships by hand. The website expects all of them."
       banner={(fellowship) => fellowship.banner}
       bannerNoun="banner"
       columns={[

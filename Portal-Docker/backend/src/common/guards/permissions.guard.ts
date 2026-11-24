@@ -11,7 +11,7 @@ import { PERMISSIONS_KEY } from "../decorators/permissions.decorator";
 import type { AuthenticatedUser } from "../interfaces/authenticated-user";
 
 /**
- * RBAC guard — checks @RequirePermissions() against the permissions the JWT
+ * RBAC guard - checks @RequirePermissions() against the permissions the JWT
  * strategy resolved for the user's role (built-in or custom).
  */
 @Injectable()

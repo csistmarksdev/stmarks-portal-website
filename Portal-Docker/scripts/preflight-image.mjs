@@ -7,8 +7,8 @@
  *
  * `Dockerfile` verifies most of this itself, in a layer near the end. That is
  * the right place for it and it is late: the context upload and every apt and
- * Node install happen first, so a bundle assembled for the wrong architecture —
- * or one missing `frontend/.next/static` — is found after a couple of minutes
+ * Node install happen first, so a bundle assembled for the wrong architecture -
+ * or one missing `frontend/.next/static` - is found after a couple of minutes
  * of work rather than immediately. This runs the same assertions in about a
  * second, on the machine that just built the bundle.
  *
@@ -55,8 +55,8 @@ if (!existsSync(BUNDLE)) {
 
 /*
  * Everything the entrypoint reaches for on boot. Each has a plausible way of
- * going missing — a stale bundle from before a rename, a capture step skipped,
- * a Next build that did not emit standalone output — and each would otherwise
+ * going missing - a stale bundle from before a rename, a capture step skipped,
+ * a Next build that did not emit standalone output - and each would otherwise
  * surface as a container that starts and then dies.
  */
 const REQUIRED = [
@@ -76,7 +76,7 @@ const REQUIRED = [
 for (const [rel, what] of REQUIRED) {
   if (existsSync(join(BUNDLE, rel))) continue;
   fail(
-    `dist-portal/${rel} is missing — ${what}`,
+    `dist-portal/${rel} is missing - ${what}`,
     "node scripts/build-production-bundle.mjs",
   );
 }
@@ -105,7 +105,7 @@ if (existsSync(infoPath)) {
 
   if (!info.snapshot) {
     fail(
-      "the bundle carries no snapshot — this image would start an EMPTY portal",
+      "the bundle carries no snapshot - this image would start an EMPTY portal",
       "node scripts/capture-live-data.mjs && node scripts/build-production-bundle.mjs",
     );
   } else {
@@ -116,7 +116,7 @@ if (existsSync(infoPath)) {
 
     /*
      * A snapshot much older than the bundle usually means a rebuild happened
-     * without a re-capture — the image then ships the code the parish asked for
+     * without a re-capture - the image then ships the code the parish asked for
      * and the data from whenever anyone last remembered this step.
      */
     const ageDays =
@@ -137,7 +137,7 @@ if (existsSync(infoPath)) {
  * Native modules built for something other than the target.
  *
  * `sharp` is the one that bites: its binaries are per-platform, and a bundle
- * carrying the build machine's copy installs, builds and starts — then throws
+ * carrying the build machine's copy installs, builds and starts - then throws
  * on the first image upload, in a message that names a runtime rather than a
  * build step.
  */
@@ -171,7 +171,7 @@ if (foreign.length > 0) {
 
 const launch = join(ROOT, "docker", "launch.sh");
 if (!existsSync(launch)) {
-  fail("docker/launch.sh is missing — the image has no entrypoint", "restore it from git");
+  fail("docker/launch.sh is missing - the image has no entrypoint", "restore it from git");
 } else {
   const text = readFileSync(launch, "latin1");
   if (text.includes("\r\n")) {
@@ -233,7 +233,7 @@ try {
   ok("bundled snapshot is complete: every referenced media file is present");
 } catch (error) {
   fail(
-    "the bundled snapshot is incomplete — some referenced media is missing",
+    "the bundled snapshot is incomplete - some referenced media is missing",
     "node scripts/verify-snapshot.mjs dist-portal/snapshot    (for the detail)",
   );
   notes.push(String(error.stdout ?? "").trim().split("\n").slice(-6).join("\n  "));
@@ -263,7 +263,7 @@ if (problems.length === 0) {
   process.exit(0);
 }
 
-console.error(`\n✗ ${problems.length} problem(s) — the image would fail to build or to run:\n`);
+console.error(`\n✗ ${problems.length} problem(s) - the image would fail to build or to run:\n`);
 for (const { what, fix } of problems) {
   console.error(`  - ${what}`);
   console.error(`      fix: ${fix}\n`);

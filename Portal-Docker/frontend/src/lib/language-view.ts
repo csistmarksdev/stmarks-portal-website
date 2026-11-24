@@ -4,7 +4,7 @@ import { useCallback, useSyncExternalStore } from "react";
 
 /**
  * Which language the bilingual fields show: one at a time, or both side by
- * side. One preference for the whole CMS — switching it in any field (or in
+ * side. One preference for the whole CMS - switching it in any field (or in
  * the blog editor) switches every field, and it is remembered between visits.
  */
 export type LanguageView = "en" | "ta" | "both";
@@ -62,7 +62,7 @@ export function useLanguageView(): [LanguageView, (next: LanguageView) => void] 
 /*
  * Every bilingual field registers its element here, and only the first one in
  * document order shows the language switch. A form gets exactly one switch, at
- * the top of its bilingual fields, without each page having to place it — and
+ * the top of its bilingual fields, without each page having to place it - and
  * the fields themselves keep plain label rows that line up with their
  * neighbours.
  */

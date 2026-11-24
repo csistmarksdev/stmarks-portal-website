@@ -15,12 +15,12 @@
  *
  * Those two used to be created unconditionally, and they are not neutral: they
  * publish immediately, the announcement pins itself to the top, and the event
- * dates itself two weeks out — so it sorts above real events and takes a slot
+ * dates itself two weeks out - so it sorts above real events and takes a slot
  * on the home page. A parish that ran the seed got invented content on its
  * public site, indistinguishable at a glance from its own. Structure is safe to
  * create anywhere; content is not, so content is now opt-in.
  *
- * Existing records are never overwritten — safe to run repeatedly.
+ * Existing records are never overwritten - safe to run repeatedly.
  */
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
@@ -59,14 +59,14 @@ const PLACEHOLDER_PATH = "images/placeholder.jpg";
  * The stand-in banner, written to disk if it is not already there.
  *
  * It used to be a bare constant pointing at
- * `http://localhost:4000/uploads/images/placeholder.jpg` — two faults in one
+ * `http://localhost:4000/uploads/images/placeholder.jpg` - two faults in one
  * line. Nothing ever created that file, so every seeded fellowship banner was a
  * 404; and the origin was hardcoded, so even once the file existed the URL only
  * worked on the seeding machine. Banner URLs are *stored* in the records, so
  * that address outlives the process that wrote it.
  *
  * Now the file is generated when missing and the origin comes from the app's
- * own `publicUrl` — the same value the media service stamps into uploads, so
+ * own `publicUrl` - the same value the media service stamps into uploads, so
  * seeded and uploaded images agree about where they live.
  */
 async function ensurePlaceholderImage(
@@ -250,7 +250,7 @@ async function seed() {
           location: t("Church premises", "ஆலய வளாகம்"),
           // Featured events lead the events page and take a home-page slot, and
           // every other event carries a banner. Without one this demo row was
-          // the single image-less card in the grid — which reads as a broken
+          // the single image-less card in the grid - which reads as a broken
           // record rather than as sample data.
           image: placeholderImage,
           featured: true,

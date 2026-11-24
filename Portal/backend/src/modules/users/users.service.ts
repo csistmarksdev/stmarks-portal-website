@@ -42,7 +42,7 @@ export class UsersService {
 
   /**
    * The role being handed out must exist, and must not allow anything the
-   * actor cannot do themselves — otherwise anyone who can manage users could
+   * actor cannot do themselves - otherwise anyone who can manage users could
    * promote a friend, or a second account of their own, past themselves.
    */
   private async assertAssignable(role: string, actor: AuthenticatedUser): Promise<void> {
@@ -135,7 +135,7 @@ export class UsersService {
      * Nulls are dropped rather than passed through.
      *
      * `updateById` reads `field: null` as "remove this field", which is what
-     * content records want — an optional cover image has to be removable. No
+     * content records want - an optional cover image has to be removable. No
      * field on a *user* is optional in that sense, and `PartialType` makes every
      * one of them nullable as far as validation is concerned. So `{ role: null }`
      * would have unset the role, and an account with no role has no permissions

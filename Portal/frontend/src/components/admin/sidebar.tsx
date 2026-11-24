@@ -27,7 +27,7 @@ import { useSidebarCollapsed } from "@/lib/sidebar-state";
 import { cn } from "@/lib/utils";
 
 /**
- * Floating navigation rail — a light rounded card over the parchment ground,
+ * Floating navigation rail - a light rounded card over the parchment ground,
  * matching the Website's solid card surface (gradient wash + hairline ring +
  * layered warm shadow).
  *
@@ -65,7 +65,7 @@ export function Sidebar() {
       )}
     >
       {/*
-       * Crest, name, arms — the same arrangement the public site uses in its
+       * Crest, name, arms - the same arrangement the public site uses in its
        * header, so the CMS is recognisably the back of the same building.
        *
        * `unoptimized` on both: these are SVGs, and Next's image optimiser
@@ -193,7 +193,7 @@ export function Sidebar() {
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                title={collapsed ? `${user.name} — ${user.roleName}` : undefined}
+                title={collapsed ? `${user.name}, ${user.roleName}` : undefined}
                 className={cn(
                   "flex items-center gap-2.5 rounded-2xl bg-muted/80 text-left ring-1 ring-border/70 transition-colors duration-300 hover:bg-muted hover:ring-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   collapsed ? "justify-center p-1" : "w-full px-3 py-2.5",

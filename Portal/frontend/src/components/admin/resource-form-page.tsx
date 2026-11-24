@@ -105,7 +105,7 @@ function toFormValues(fields: FieldDef[], record: FormValues): FormValues {
  * Editable form values → API payload.
  *
  * An emptied optional field becomes an explicit `null`, which the API reads as
- * "remove this". Omitting the key instead — which this did — means "leave it
+ * "remove this". Omitting the key instead - which this did - means "leave it
  * alone", so clearing a cover image or a fellowship saved cleanly and changed
  * nothing: the field came back on the next load, and the only clue was that the
  * record had quietly disagreed with the form all along.
@@ -119,7 +119,7 @@ function toPayload(fields: FieldDef[], values: FormValues): FormValues {
     const raw = values[field.name];
     switch (field.kind) {
       case "localized":
-        // A required field is never nulled — `validate` has already refused an
+        // A required field is never nulled - `validate` has already refused an
         // empty one, so reaching here with no text is not a clearing.
         if (!field.required && isEmptyLocalized(raw)) {
           payload[field.name] = null;
@@ -180,7 +180,7 @@ function toPayload(fields: FieldDef[], values: FormValues): FormValues {
   return payload;
 }
 
-/** Drops the `null`s a create has no use for — nothing exists to remove yet. */
+/** Drops the `null`s a create has no use for - nothing exists to remove yet. */
 function withoutRemovals(payload: FormValues): FormValues {
   return Object.fromEntries(
     Object.entries(payload).filter(([, value]) => value !== null),
@@ -277,7 +277,7 @@ function FieldControl({
           <p className="text-xs leading-relaxed text-muted-foreground">
             {editable
               ? "Filled in from the English title as you type it; edit it to choose your own. Used in the page's web address and by search engines."
-              : "Fixed now that it is published — links and search results point here."}
+              : "Fixed now that it is published, so links and search results point here."}
             {field.help ? ` ${field.help}` : ""}
           </p>
         </div>
@@ -333,7 +333,7 @@ function FieldControl({
             value={(value as string) ?? ""}
             onChange={(event) => onChange(event.target.value)}
           >
-            {(field.allowEmpty ?? !field.required) && <option value="">—</option>}
+            {(field.allowEmpty ?? !field.required) && <option value="">None</option>}
             {field.options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -435,18 +435,18 @@ export function ResourceFormPage({
   defaults?: FormValues;
   withStatusField?: boolean;
   /**
-   * Extra sections for the main column, under the writing — the album's
+   * Extra sections for the main column, under the writing - the album's
    * photo stream. Placed here rather than after the page, so they line up
    * with the form instead of trailing below both columns.
    */
   belowWriting?: ReactNode;
   /**
-   * Extra fields sent with a create — a new album's photos, chosen before the
+   * Extra fields sent with a create - a new album's photos, chosen before the
    * album exists, so it is created whole in one request.
    */
   createExtras?: () => FormValues;
   /**
-   * Extra fields sent with an update — an album's photos when they travel
+   * Extra fields sent with an update - an album's photos when they travel
    * with a change for approval (see the album editor).
    */
   updateExtras?: () => FormValues | undefined;
@@ -569,8 +569,8 @@ export function ResourceFormPage({
 
   /*
    * Two columns on a wide screen, the way a writing tool is laid out: the
-   * words in a wide main column, everything about them — dates, image,
-   * fellowship, status, save — in a details column beside them. One
+   * words in a wide main column, everything about them - dates, image,
+   * fellowship, status, save - in a details column beside them. One
    * narrow column left most of a desktop screen empty beside the form.
    */
   const savedStatus = data?.status as PublishStatus | undefined;
@@ -648,7 +648,7 @@ export function ResourceFormPage({
                 <p className="text-xs leading-relaxed text-muted-foreground">
                   Only published records appear on the public website
                   {fields.some((field) => field.name === "publishAt")
-                    ? " — and only once their publish time has passed."
+                    ? ", and only once their publish time has passed."
                     : "."}
                 </p>
               </div>

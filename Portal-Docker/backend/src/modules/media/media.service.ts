@@ -36,7 +36,7 @@ const IMAGE_MIMES = new Set([
 ]);
 
 /**
- * Formats a browser can play in a `<video>` tag — the same set the Website's
+ * Formats a browser can play in a `<video>` tag - the same set the Website's
  * inline player handles. Anything else would upload happily and then refuse
  * to play, so it is rejected here.
  */
@@ -64,9 +64,9 @@ const BLUR_WIDTH = 16;
  * The extension each accepted type is stored under.
  *
  * The stored filename is derived from the *validated* MIME type and never from
- * the name the browser sent. That used to be the other way round — the
+ * the name the browser sent. That used to be the other way round - the
  * extension came from `file.originalname`, and only the MIME type was checked
- * against the allow-list — which meant the two could disagree and the filename
+ * against the allow-list - which meant the two could disagree and the filename
  * won:
  *
  *   upload `payload.html` declared as `image/png`
@@ -85,7 +85,7 @@ const BLUR_WIDTH = 16;
  */
 /**
  * The readable part of a stored file's name, for search engines: the English
- * alt text if there is one, else the uploaded file's own name, slugified —
+ * alt text if there is one, else the uploaded file's own name, slugified -
  * `IMG 2041 (Copy).JPG` with alt "Christmas carol service" becomes
  * `christmas-carol-service`. Only [a-z0-9-] survives, so it can never carry a
  * path, a dot or an extension; the extension still comes from
@@ -118,7 +118,7 @@ const EMPTY_WORDS = new Set([
 
 /**
  * The text without its file extension, or "" when nothing in it says what
- * the picture is — every word is an empty word or a number.
+ * the picture is - every word is an empty word or a number.
  */
 export function meaningfulName(text: string): string {
   const name = text.trim().replace(/\.(?:jpe?g|png|webp|avif|gif|heic|mp4|webm|ogv|mov|pdf|docx?|xlsx?|pptx?|txt)$/i, "");
@@ -201,7 +201,7 @@ export class MediaService {
 
   /** Video files are far larger than a photo or a bulletin, so they get their own ceiling. */
   /**
-   * `stem`, or `stem-2`, `stem-3`… — the first name in `dir` that no file
+   * `stem`, or `stem-2`, `stem-3`… - the first name in `dir` that no file
    * uses, with any extension, and that no renamed file used before (its old
    * address redirects, so it can never be handed out again). Images share one
    * thumbnail folder, so `foo.png` and `foo.jpg` must not both exist.
@@ -230,7 +230,7 @@ export class MediaService {
 
   /**
    * Stores an upload. Images get intrinsic dimensions, a WebP thumbnail and
-   * a base64 blur preview (spec §6 — the Website's `next/image` needs
+   * a base64 blur preview (spec §6 - the Website's `next/image` needs
    * width/height and ideally `blurDataURL`).
    */
   async upload(
@@ -286,7 +286,7 @@ export class MediaService {
 
     /*
      * Decoding is also the check that the bytes are an image at all, and it
-     * happens before anything is written — a refused upload must not leave a
+     * happens before anything is written - a refused upload must not leave a
      * file behind.
      *
      * The declared MIME type is the client's word for it and nothing more.
@@ -309,7 +309,7 @@ export class MediaService {
 
     const id = randomUUID();
     /*
-     * From the allow-listed MIME type, not from `file.originalname` — see
+     * From the allow-listed MIME type, not from `file.originalname` - see
      * `EXTENSION_FOR_MIME`. `kindOf` has already rejected anything not in the
      * map, so the lookup cannot miss; the fallback is belt and braces and
      * deliberately inert rather than something a browser will execute.
@@ -394,7 +394,7 @@ export class MediaService {
    * ever loads images from one origin and nothing breaks if the remote host
    * changes its URLs.
    *
-   * Throws 422 when no thumbnail can be had — the caller then asks the admin
+   * Throws 422 when no thumbnail can be had - the caller then asks the admin
    * to choose a poster, so the flow degrades rather than dead-ends.
    */
   async createPosterFromVideoUrl(
@@ -548,7 +548,7 @@ export class MediaService {
       try {
         await unlink(join(this.uploadRoot, relative));
       } catch {
-        // Already gone — the DB record is the source of truth.
+        // Already gone - the DB record is the source of truth.
       }
     }
     await this.audit.log(actor, "delete", "media", id, `Deleted media "${doc.filename}"`);

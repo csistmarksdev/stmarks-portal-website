@@ -38,7 +38,7 @@ export interface ChatConversation {
   };
   /** Messages from the other person not yet read by me. */
   unread: number;
-  /** When the other person last read the conversation — for "Seen". */
+  /** When the other person last read the conversation - for "Seen". */
   theirLastReadAt?: string;
   updatedAt: string;
 }

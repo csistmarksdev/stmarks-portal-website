@@ -29,13 +29,13 @@ export default function AnnouncementsPage() {
     <ResourceListPage<WithSchedule<Announcement>>
       title="Announcements"
       eyebrow="Notices"
-      description="Parish notices, in the order the congregation sees them — the pinned one leads, then newest first. Only one can be pinned at a time."
+      description="Parish notices, in the order the congregation sees them: the pinned one leads, then newest first. Only one can be pinned at a time."
       apiPath="/admin/announcements"
       routeBase="/announcements"
       label="Announcement"
       searchPlaceholder="Search notices…"
       emptyTitle="No notices posted"
-      emptyHint="Share what the congregation should know — pin the most important one to keep it on top."
+      emptyHint="Share what the congregation should know, and pin the most important one to keep it on top."
       columns={[
         {
           key: "title",
@@ -55,7 +55,7 @@ export default function AnnouncementsPage() {
         {
           key: "expiresAt",
           header: "Expires",
-          render: (item) => (item.expiresAt ? formatDate(item.expiresAt) : "—"),
+          render: (item) => (item.expiresAt ? formatDate(item.expiresAt) : "Never"),
         },
       ]}
       extraRowActions={(item) =>

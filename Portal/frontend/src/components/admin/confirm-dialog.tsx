@@ -49,7 +49,7 @@ export function ConfirmDialog({
       open={open}
       onOpenChange={(next) => {
         setOpen(next);
-        // Reopening starts from a blank field — an unlocked dialog left over
+        // Reopening starts from a blank field - an unlocked dialog left over
         // from a cancelled attempt is exactly the friction this removes.
         if (!next) setTyped("");
       }}

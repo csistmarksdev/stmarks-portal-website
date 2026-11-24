@@ -27,7 +27,7 @@ export function useResourceList<T>(
      * Keep the current rows on screen while the next search or page loads.
      * Without this every change is a brand-new query key with no cached data,
      * so `isLoading` flips true and the grid collapses into skeletons and back
-     * — which reads as jank even when the request itself is fast.
+     * - which reads as jank even when the request itself is fast.
      */
     placeholderData: keepPreviousData,
   });
@@ -61,7 +61,7 @@ export function useResourceMutations(path: string, label: string) {
       // An editor's change to a live item comes back held, not applied.
       toast.success(
         result?.revision
-          ? "Changes submitted — an admin will review them before they go on the website"
+          ? "Changes submitted. An admin will review them before they go on the website"
           : `${label} updated`,
       );
       void invalidate();
@@ -73,7 +73,7 @@ export function useResourceMutations(path: string, label: string) {
   const rejectRevision = useMutation({
     mutationFn: (id: string) => api.post(`${path}/${id}/revision/reject`),
     onSuccess: () => {
-      toast.success("Changes rejected — the website keeps the current version");
+      toast.success("Changes rejected. The website keeps the current version");
       void invalidate();
     },
     onError: (error: Error) => toast.error(error.message),

@@ -45,9 +45,9 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Overview",
     items: [
       { href: "/dashboard", label: "Dashboard", short: "Home", icon: LayoutDashboardIcon },
-      // Every account, whatever its role — talking to colleagues needs no permission.
+      // Every account, whatever its role - talking to colleagues needs no permission.
       { href: "/messages", label: "Messages", short: "Chat", icon: MessageCircleIcon },
-      // Approvals: submitted, approved, rejected — every account has its own.
+      // Approvals: submitted, approved, rejected - every account has its own.
       { href: "/notifications", label: "Notifications", short: "Alerts", icon: BellDotIcon },
     ],
   },
@@ -78,7 +78,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { href: "/roles", label: "Roles & permissions", icon: ShieldIcon, anyOf: ["users.read", "roles.write"] },
       { href: "/audit-logs", label: "Audit logs", icon: FileClockIcon, anyOf: ["audit.read"] },
       { href: "/backup", label: "Backup & restore", short: "Backup", icon: ArchiveIcon, anyOf: ["backup.read", "backup.restore", "roles.write"] },
-      // Super-admin only — it takes the whole public website offline.
+      // Super-admin only - it takes the whole public website offline.
       { href: "/maintenance", label: "Maintenance mode", short: "Maintenance", icon: ConstructionIcon, anyOf: ["site.maintenance"] },
       { href: "/settings", label: "Settings", icon: SettingsIcon },
     ],
@@ -89,7 +89,7 @@ export const NAV_SECTIONS: NavSection[] = [
  * System pages are gated by permission, so a custom role sees exactly the
  * pages its permissions open. With the built-in roles that works out as
  * admin and super-admin only (church request, 23 Nov 2026). The backup page
- * is informational for admins — downloading and restoring stay super-admin.
+ * is informational for admins - downloading and restoring stay super-admin.
  */
 
 function allowed(item: NavItem, permissions: readonly Permission[]): boolean {
@@ -112,7 +112,7 @@ export function isPathAllowed(pathname: string, permissions: readonly Permission
 const ALL_ITEMS = NAV_SECTIONS.flatMap((section) => section.items);
 
 /**
- * The four destinations that earn a spot in the mobile tab bar — the jobs a
+ * The five destinations that earn a spot in the mobile tab bar - the jobs a
  * volunteer actually opens their phone to do. Everything else lives behind
  * "More".
  */
@@ -121,6 +121,7 @@ export const MOBILE_TABS: NavItem[] = [
   "/events",
   "/announcements",
   "/gallery",
+  "/messages",
 ].map((href) => ALL_ITEMS.find((item) => item.href === href)!);
 
 export function isActive(pathname: string, href: string): boolean {

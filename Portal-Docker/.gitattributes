@@ -1,8 +1,8 @@
 # Line endings, decided here rather than by whoever cloned this.
 #
 # The image's entrypoint is `docker/launch.sh`, run by `/bin/sh` inside a Linux
-# container. If it is checked out with CRLF — which is what git does by default
-# on Windows, where this repository is developed — the kernel reads the shebang
+# container. If it is checked out with CRLF - which is what git does by default
+# on Windows, where this repository is developed - the kernel reads the shebang
 # as `/bin/sh\r`, cannot find it, and the container dies with
 #
 #     exec /usr/local/bin/launch.sh: no such file or directory

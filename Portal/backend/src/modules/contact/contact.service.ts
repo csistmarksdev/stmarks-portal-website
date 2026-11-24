@@ -26,7 +26,7 @@ export class ContactService {
   ) {}
 
   /**
-   * Contract §5.9 — `messageKey` is an i18n key the Website form surfaces,
+   * Contract §5.9 - `messageKey` is an i18n key the Website form surfaces,
    * never a raw display string. Failures return `{ success: false }` rather
    * than throwing so the form always gets the contracted shape.
    */
@@ -56,8 +56,8 @@ export class ContactService {
       /*
        * The body is searched as well as the headers, unlike the content lists
        * which match on titles alone. Someone hunting through the inbox is
-       * usually looking for a half-remembered phrase — "the family asking about
-       * baptism" — not for a subject line they never wrote.
+       * usually looking for a half-remembered phrase - "the family asking about
+       * baptism" - not for a subject line they never wrote.
        *
        * Escaped before it reaches Mongo: an unescaped `(` is a syntax error the
        * driver raises, and a user typing a bracket should get no results, not a

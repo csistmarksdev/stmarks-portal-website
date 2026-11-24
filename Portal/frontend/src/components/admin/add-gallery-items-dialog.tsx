@@ -132,7 +132,7 @@ export function AddGalleryItemsDialog({
       setVideoUrl(item.url);
       setPoster(null);
       void queryClient.invalidateQueries({ queryKey: ["media"] });
-      toast.success("Video uploaded — now choose a poster image");
+      toast.success("Video uploaded. Now choose a poster image");
     },
     onError: (error: Error) => toast.error(error.message),
   });
@@ -240,7 +240,7 @@ export function AddGalleryItemsDialog({
               </div>
             ) : data && data.items.length === 0 ? (
               <p className="rounded-2xl border border-dashed border-border-strong py-10 text-center text-sm text-muted-foreground">
-                {search ? "No photos match that name." : "No photos yet — upload some above."}
+                {search ? "No photos match that name." : "No photos yet. Upload some above."}
               </p>
             ) : (
               <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
@@ -371,7 +371,7 @@ export function AddGalleryItemsDialog({
               ) : verdict ? (
                 <p className="text-xs text-muted-foreground">
                   Recognised as a <strong>{verdict.provider}</strong>
-                  {verdict.hosted ? " — fetching its thumbnail…" : " — choose a poster image below."}
+                  {verdict.hosted ? ", fetching its thumbnail…" : ". Choose a poster image below."}
                 </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
@@ -405,7 +405,7 @@ export function AddGalleryItemsDialog({
                       : fetchPoster.isPending
                         ? "Fetching from the video…"
                         : verdict.hosted
-                          ? "Could not fetch one automatically — upload an image instead."
+                          ? "Could not fetch one automatically. Upload an image instead."
                           : "A video file has no thumbnail; upload one."}
                   </p>
                   <Button
@@ -436,7 +436,7 @@ export function AddGalleryItemsDialog({
             {/*
               Play it before saving.
 
-              A link can look perfectly valid and still be unembeddable — the
+              A link can look perfectly valid and still be unembeddable - the
               owner disabled embedding, the video is private, or it was deleted.
               None of that is visible in the URL, and the thumbnail fetch does
               not prove it either. The only honest check is to play the thing,
@@ -482,7 +482,7 @@ export function AddGalleryItemsDialog({
                   </div>
                 ) : (
                   <p className="rounded-2xl border border-dashed border-border-strong px-4 py-3 text-[13px] leading-relaxed text-muted-foreground">
-                    A link can be valid and still refuse to embed — private,
+                    A link can be valid and still refuse to embed - private,
                     deleted, or embedding turned off by the owner. Play it here
                     to be sure before it reaches the website.
                   </p>

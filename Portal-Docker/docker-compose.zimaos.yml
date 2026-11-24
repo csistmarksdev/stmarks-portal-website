@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — for ZimaOS / CasaOS.
+# CSI St. Mark's Portal - for ZimaOS / CasaOS.
 #
 # Import this one rather than `docker-compose.deploy.yml`, which is written for
 # the `docker compose` CLI and imports badly here.
@@ -12,7 +12,7 @@
 #
 # What is different from the general file, and why
 # ------------------------------------------------
-# 1. No compose variable substitution — no dollar-brace defaults anywhere. The
+# 1. No compose variable substitution - no dollar-brace defaults anywhere. The
 #    ZimaOS importer does not expand that syntax; it stores the text verbatim.
 #    JWT_ACCESS_SECRET would arrive as a 22-character literal, and the API
 #    refuses to start on a secret shorter than 32 characters. The container
@@ -25,7 +25,7 @@
 #
 # 3. No `verify` service. ZimaOS does not support compose profiles, so a
 #    test-only service is imported as a second application and would start a
-#    second portal — with its own MongoDB — alongside the real one.
+#    second portal - with its own MongoDB - alongside the real one.
 #
 # 4. Bind mounts under /DATA/AppData rather than named volumes, because that is
 #    where ZimaOS keeps application data and what its file browser shows you.
@@ -34,7 +34,7 @@
 # registry credentials in its settings. The image is private.
 #
 # After importing, the portal is at http://<zima-box>:8080 and the API at
-# http://<zima-box>:8080/v1 — one port, one origin, no CORS between them.
+# http://<zima-box>:8080/v1 - one port, one origin, no CORS between them.
 
 name: csistmarks-portal
 
@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
     ports:
-      # Host:container. Both halves stated explicitly — the ZimaOS form leaves
+      # Host:container. Both halves stated explicitly - the ZimaOS form leaves
       # the container side blank if it is not written out, which silently
       # publishes nothing.
       - "8080:8080"
@@ -57,7 +57,7 @@ services:
       # The database and the secrets generated on first boot. Lose this and the
       # portal resets to the shipped snapshot on every restart.
       - /DATA/AppData/portal/data:/data
-      # Media uploaded through the CMS. The bundled media — 376 files — is
+      # Media uploaded through the CMS. The bundled media - 376 files - is
       # installed here on first boot; after that these are ordinary files the
       # church owns, visible in the ZimaOS file manager.
       - /DATA/AppData/portal/uploads:/app/backend/uploads
@@ -74,7 +74,7 @@ services:
     # `mongod` running for a few more seconds so in-flight writes land and
     # WiredTiger closes its files. Docker's 10-second default expires in the
     # middle of that and SIGKILLs the database with its files open. The next
-    # boot then runs recovery — survivable, and exactly what a home box losing
+    # boot then runs recovery - survivable, and exactly what a home box losing
     # power at the wrong moment does not need on top of everything else.
     stop_grace_period: 30s
 
@@ -122,7 +122,7 @@ x-casaos:
   description:
     en_us: >-
       The parish content system: an admin CMS, a public content API, and the
-      church's existing content, media and accounts. Self-contained — it brings
+      church's existing content, media and accounts. Self-contained - it brings
       its own database and needs nothing configured.
   # Any URL the box can reach at install time; leave commented rather than
   # pointing at one that 404s, which shows a broken image in the app list.

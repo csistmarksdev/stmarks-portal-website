@@ -1,7 +1,7 @@
 /**
  * Picking the right size of an uploaded image for the place it is shown.
  *
- * `ImageAsset` — what content records store — carries only the full-size `url`,
+ * `ImageAsset` - what content records store - carries only the full-size `url`,
  * because that is what the public Website renders. A CMS list showing twenty of
  * those is twenty full-resolution photographs: a gallery card that needs a
  * 400px-wide picture pulls a 4 MB original to draw it, twenty times over, on
@@ -13,7 +13,7 @@
  * the alternative is widening the stored contract shape (and every record in the
  * database) so a list page can load faster.
  *
- * The coupling is made safe rather than assumed correct — `<CardBanner>` falls
+ * The coupling is made safe rather than assumed correct - `<CardBanner>` falls
  * back to the original `url` if the derived thumbnail 404s, so an image uploaded
  * before thumbnails existed, or one whose processing failed, still appears.
  */

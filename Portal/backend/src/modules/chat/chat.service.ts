@@ -22,7 +22,7 @@ import { MessagesQueryDto } from "./dto/chat.dto";
 import { Conversation, ConversationDocument } from "./schemas/conversation.schema";
 import { Message, MessageDocument } from "./schemas/message.schema";
 
-/** Messages older than this are deleted — and treated as gone already. */
+/** Messages older than this are deleted - and treated as gone already. */
 function retentionCutoff(): Date {
   return new Date(Date.now() - CHAT_RETENTION_DAYS * 86_400_000);
 }
@@ -31,7 +31,7 @@ function retentionCutoff(): Date {
  * Direct messages between Portal accounts.
  *
  * Private by design: a conversation is readable only by its two participants.
- * No permission opens someone else's — not even a super admin's — and message
+ * No permission opens someone else's - not even a super admin's - and message
  * text is never written to the audit log.
  */
 @Injectable()
@@ -59,7 +59,7 @@ export class ChatService {
     return new Map(entries);
   }
 
-  /** Every other active account — anyone signed in can message anyone. */
+  /** Every other active account - anyone signed in can message anyone. */
   async contacts(me: AuthenticatedUser): Promise<ChatContact[]> {
     const docs = await this.users
       .find({ active: true, _id: { $ne: me.userId } })
@@ -246,7 +246,7 @@ export class ChatService {
 
   async markRead(id: string, me: AuthenticatedUser): Promise<void> {
     await this.mine(id, me);
-    // `timestamps: false` — reading must not move the conversation to the top.
+    // `timestamps: false` - reading must not move the conversation to the top.
     await this.conversations
       .updateOne({ _id: id }, { $set: { [`reads.${me.userId}`]: new Date() } }, { timestamps: false })
       .exec();

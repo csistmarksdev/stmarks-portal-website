@@ -40,7 +40,7 @@ export function SingletonShell({
   const canPublish = can("content.publish");
   const canWrite = can("content.write");
   // Same actions as every other editing page: Back, Reject / Approve when a
-  // change is waiting, and Save — in the header, or at the foot on phones.
+  // change is waiting, and Save - in the header, or at the foot on phones.
   const actionProps = {
     backHref: "/church",
     savedStatus: pending ? ("pending" as const) : undefined,
@@ -82,7 +82,7 @@ export function SingletonShell({
                     {pending.submittedBy.name} submitted a change on {submittedOn}.
                   </span>{" "}
                   It is shown below; the website still has the current version. Make any
-                  corrections, then <span className="font-medium">Approve &amp; publish</span> — or{" "}
+                  corrections, then <span className="font-medium">Approve &amp; publish</span>, or{" "}
                   <span className="font-medium">Reject</span> to discard it.
                 </p>
               </div>

@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/auth";
 
 export const MAINTENANCE_KEY = ["site", "maintenance"] as const;
 
-/** The maintenance switch — read by the Portal-wide banner and its own page. */
+/** The maintenance switch - read by the Portal-wide banner and its own page. */
 export function useMaintenance() {
   const { user } = useAuth();
   return useQuery({

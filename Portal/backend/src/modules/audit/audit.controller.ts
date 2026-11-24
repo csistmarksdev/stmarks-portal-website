@@ -9,7 +9,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { AuditService } from "./audit.service";
 import { PurgeAuditDto } from "./dto/purge-audit.dto";
 
-@ApiTags("Admin — Audit")
+@ApiTags("Admin: Audit")
 @ApiBearerAuth()
 @Controller("admin/audit-logs")
 export class AuditController {
@@ -34,8 +34,8 @@ export class AuditController {
   }
 
   /*
-   * Guarded by `audit.delete`, not `audit.read`. Reading the log is broad —
-   * even a viewer has it — while clearing it removes the record of what
+   * Guarded by `audit.delete`, not `audit.read`. Reading the log is broad -
+   * even a viewer has it - while clearing it removes the record of what
    * everyone did, so only a super-admin holds the delete permission.
    */
   @Delete()

@@ -8,7 +8,7 @@ import { Public } from "../../common/decorators/public.decorator";
 /**
  * Liveness/readiness probe for whatever runs the container.
  *
- * Reports the database connection rather than just "the process is up" — a
+ * Reports the database connection rather than just "the process is up" - a
  * Nest app whose Mongo connection has dropped answers HTTP fine while every
  * request fails, which is exactly the state a probe needs to catch.
  */

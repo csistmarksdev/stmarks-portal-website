@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  * Password field with a reveal toggle.
  *
  * Typing a password blind is the usual cause of a failed sign-in, so being
- * able to check it is worth more than the shoulder-surfing risk — hidden is
+ * able to check it is worth more than the shoulder-surfing risk - hidden is
  * still the default, and the field reverts to hidden when it loses focus so a
  * revealed password is never left on screen.
  *

@@ -47,7 +47,7 @@ export default function AdminLayout({
       {/* Floating rail from lg up; app bar + tab bar below it. */}
       <Sidebar />
       <MobileNav />
-      {/* Sidebar floats at left-4 with width 15rem — content clears it plus a gutter. */}
+      {/* Sidebar floats at left-4 with width 15rem - content clears it plus a gutter. */}
       {/* Clears the floating rail (left-4 plus its width) and a gutter. */}
       <div
         className={cn(
@@ -55,11 +55,15 @@ export default function AdminLayout({
           sidebarCollapsed ? "lg:pl-[6.5rem]" : "lg:pl-[17rem]",
         )}
       >
-        <main className="pb-dock px-4 py-6 lg:px-6 lg:py-8 lg:pb-8">
+        {/*
+          On a phone there is no app bar above the page, so the page itself
+          clears the status bar (and the notch, in the installed app).
+        */}
+        <main className="pb-dock px-4 py-6 pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] lg:px-6 lg:py-8 lg:pb-8">
           {/*
             Every page shares one centred column. Pages stop at max-w-6xl; left
-            aligned, any width beyond that — a wide screen, or the room freed by
-            collapsing the sidebar — all piled up on the right.
+            aligned, any width beyond that - a wide screen, or the room freed by
+            collapsing the sidebar - all piled up on the right.
           */}
           <div className="mx-auto w-full max-w-6xl">
             <MaintenanceBanner />

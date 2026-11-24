@@ -15,7 +15,7 @@ const LABELS: Partial<Record<PublishStatus, string>> = {
 };
 
 /**
- * The record's workflow status — and, for a published record, whether it is
+ * The record's workflow status - and, for a published record, whether it is
  * actually on the website right now (F-049): a future `publishAt` means it is
  * still waiting, a past `expiresAt` means it has come down.
  */

@@ -16,7 +16,7 @@ const OPTIONS: Array<{
 ];
 
 /**
- * Three-way theme control. "Auto" is offered — and is the default — because
+ * Three-way theme control. "Auto" is offered - and is the default - because
  * most people have already told their device which they prefer, and a portal
  * that ignores that is one more thing to set up.
  */
@@ -68,12 +68,12 @@ export function ThemeCycleButton({ className }: { className?: string }) {
     <button
       type="button"
       onClick={() => setPreference(next.value)}
-      title={`Theme: ${current.label} — switch to ${next.label}`}
+      title={`Theme: ${current.label}. Switch to ${next.label}`}
       aria-label={`Theme: ${current.label}. Switch to ${next.label}`}
-      className={
-        "grid size-10 place-items-center rounded-2xl text-muted-foreground ring-1 ring-border/70 transition-colors hover:bg-muted hover:text-foreground " +
-        (className ?? "")
-      }
+      className={cn(
+        "grid size-10 place-items-center rounded-2xl text-muted-foreground ring-1 ring-border/70 transition-colors hover:bg-muted hover:text-foreground",
+        className,
+      )}
     >
       <current.icon className="size-4" />
     </button>

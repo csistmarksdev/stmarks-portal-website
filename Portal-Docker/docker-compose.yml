@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — the whole thing, one container.
+# CSI St. Mark's Portal - the whole thing, one container.
 #
 #   node scripts/build-production-bundle.mjs      compile, once, out here
 #   docker compose up -d --build
@@ -38,7 +38,7 @@ services:
       PORT: 8080
 
       # The origin browsers use. Leave unset and the container detects it from
-      # the hosting platform, falling back to localhost — media URLs are
+      # the hosting platform, falling back to localhost - media URLs are
       # rewritten to the requesting origin on every response either way, so this
       # is a nicety rather than a requirement. Set it once you have a domain.
       PUBLIC_URL: ${PUBLIC_URL:-}
@@ -63,7 +63,7 @@ services:
     volumes:
       # The database, uploaded media and generated secrets. Without this the
       # container still runs, and resets to the baked-in snapshot every time it
-      # is recreated — fine for a demo, not for the church's actual portal.
+      # is recreated - fine for a demo, not for the church's actual portal.
       - portal-data:/data
       - portal-uploads:/app/backend/uploads
 

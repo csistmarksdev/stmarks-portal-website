@@ -49,7 +49,7 @@ services:
       - "4000:4000"
     healthcheck:
       # The app's own probe, which reports the Mongo connection rather than just
-      # "the process is up" — a dropped connection answers HTTP fine.
+      # "the process is up" - a dropped connection answers HTTP fine.
       test:
         ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 15s

@@ -11,7 +11,7 @@ export class Conversation {
   @Prop({ type: [String], required: true, index: true })
   participants: string[];
 
-  /** `participants` joined — the uniqueness key for the pair. */
+  /** `participants` joined - the uniqueness key for the pair. */
   @Prop({ required: true, unique: true })
   key: string;
 
@@ -33,7 +33,7 @@ export class Conversation {
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);
 ConversationSchema.index({ participants: 1, updatedAt: -1 });
 /*
- * A conversation goes when its last message does — nothing would be left in
+ * A conversation goes when its last message does - nothing would be left in
  * it. One that was opened but never written in has no `lastMessage` and is
  * never listed; the TTL index ignores it, which is harmless.
  */

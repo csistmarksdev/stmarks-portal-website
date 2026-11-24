@@ -8,7 +8,7 @@ export interface AuthenticatedUser {
   /** Built-in or custom role key. */
   role: RoleKey;
   /**
-   * What the role allows, resolved from the role on every request — so editing
+   * What the role allows, resolved from the role on every request - so editing
    * a custom role takes effect immediately, not when tokens next refresh.
    */
   permissions: Permission[];

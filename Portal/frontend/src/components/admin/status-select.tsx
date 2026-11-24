@@ -20,10 +20,10 @@ import { useAuth } from "@/lib/auth";
 const SUBMITTER_STATUSES: readonly PublishStatus[] = ["draft", "pending"];
 
 const LABELS: Record<PublishStatus, string> = {
-  draft: "Draft — not on the website",
-  pending: "Awaiting approval — an admin will review and publish it",
-  published: "Published — live on the website",
-  archived: "Archived — hidden, kept on file",
+  draft: "Draft: not on the website",
+  pending: "Awaiting approval: an admin will review and publish it",
+  published: "Published: live on the website",
+  archived: "Archived: hidden, kept on file",
 };
 
 /**
@@ -71,7 +71,7 @@ export function StatusSelect({
       {/* A locked record still shows its real status. */}
       {(options.includes(value) ? options : [...options, value]).map((status) => (
         <option key={status} value={status}>
-          {!canPublish && status === "pending" ? "Submit for approval — an admin will review and publish it" : LABELS[status]}
+          {!canPublish && status === "pending" ? "Submit for approval: an admin will review and publish it" : LABELS[status]}
         </option>
       ))}
     </Select>

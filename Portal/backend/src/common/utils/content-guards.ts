@@ -5,7 +5,7 @@ import { BadRequestException } from "@nestjs/common";
  */
 
 /* -------------------------------------------------------------------------- */
-/* F-003 — placeholder content must not be published                          */
+/* F-003 - placeholder content must not be published                          */
 /* -------------------------------------------------------------------------- */
 
 const PLACEHOLDER_WORDS = [
@@ -20,7 +20,7 @@ const PLACEHOLDER_WORDS = [
 
 /**
  * Whole-word, case-insensitive. "Word" boundaries are any non letter/number
- * character, so `sample-harvest-festival` and `DEMO — replace…` match while
+ * character, so `sample-harvest-festival` and `DEMO - replace…` match while
  * `testimony`, `contest` and `demonstration` do not.
  */
 const PLACEHOLDER_PATTERN = new RegExp(
@@ -28,7 +28,7 @@ const PLACEHOLDER_PATTERN = new RegExp(
   "iu",
 );
 
-/** Tamil "sample" — matched as a substring, since Tamil words inflect. */
+/** Tamil "sample" - matched as a substring, since Tamil words inflect. */
 const TAMIL_SAMPLE = "மாதிரி";
 
 /** Returns the offending word in `text`, or null when it is clean. */
@@ -55,7 +55,7 @@ export interface PlaceholderCheckInput {
 /**
  * Throws 400 when a record about to be *published* still carries placeholder
  * text in its slug, title (any language) or the extra fields given. Callers
- * only invoke this when the resulting status is "published" — drafts may
+ * only invoke this when the resulting status is "published" - drafts may
  * contain anything.
  */
 export function assertNoPlaceholderContent(input: PlaceholderCheckInput): void {
@@ -90,7 +90,7 @@ export function assertNoPlaceholderContent(input: PlaceholderCheckInput): void {
 }
 
 /* -------------------------------------------------------------------------- */
-/* F-005 — the year in an event's slug must match its date                    */
+/* F-005 - the year in an event's slug must match its date                    */
 /* -------------------------------------------------------------------------- */
 
 const CHURCH_TIME_ZONE = "Asia/Kolkata";
@@ -116,7 +116,7 @@ export function churchYear(date: Date): number {
  * When an event moves to another year, the year in its slug moves with it:
  * `womens-fellowship-day-2026` dated 11 Oct 2027 becomes
  * `womens-fellowship-day-2027`. Returns null when the slug has no year, or
- * already names the event's year — nothing to move.
+ * already names the event's year - nothing to move.
  */
 export function retargetSlugYear(slug: string, startDate: Date): string | null {
   const years = yearsInSlug(slug);
@@ -131,7 +131,7 @@ export function retargetSlugYear(slug: string, startDate: Date): string | null {
 
 /**
  * Rejects an event whose slug names a year that its start date does not fall
- * in — e.g. `womens-fellowship-day-2026` stored as 11 Oct 2027. Passes when
+ * in - e.g. `womens-fellowship-day-2026` stored as 11 Oct 2027. Passes when
  * the slug has no year token, or when any of its year tokens matches.
  */
 export function assertSlugYearMatchesDate(slug: string, startDate: Date): void {

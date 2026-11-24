@@ -6,7 +6,7 @@ import { Public } from "../../common/decorators/public.decorator";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { DownloadsService } from "./downloads.service";
 
-@ApiTags("Public — Downloads")
+@ApiTags("Public: Downloads")
 @Public()
 @Controller("downloads")
 export class DownloadsPublicController {

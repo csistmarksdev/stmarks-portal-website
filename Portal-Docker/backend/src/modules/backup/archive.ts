@@ -1,5 +1,5 @@
 /**
- * Zip mechanics for backup and restore — everything that is about the archive
+ * Zip mechanics for backup and restore - everything that is about the archive
  * format rather than about this application's data.
  *
  * Kept apart from `backup.service.ts` so that file reads as "what a backup
@@ -21,7 +21,7 @@ import yauzl from "yauzl";
 /**
  * A zip entry name is attacker-controlled input. An archive can name an entry
  * `../../etc/passwd` or `C:\Windows\System32\x.dll`, and a naive extractor
- * writes exactly there — "zip slip", and the reason a restore is not simply a
+ * writes exactly there - "zip slip", and the reason a restore is not simply a
  * loop over `createWriteStream(join(root, entry.fileName))`.
  *
  * Returns a clean forward-slash relative path, or `null` when the name is a
@@ -66,7 +66,7 @@ export function resolveWithin(root: string, relative: string): string | null {
  * Builds a zip on disk, one entry at a time.
  *
  * Written to a file rather than straight to the HTTP response because the
- * caller needs the finished size before it answers — the CMS shows it, and a
+ * caller needs the finished size before it answers - the CMS shows it, and a
  * download with a `Content-Length` is a progress bar instead of a spinner.
  */
 export class ZipWriter {
@@ -75,7 +75,7 @@ export class ZipWriter {
 
   constructor(targetPath: string) {
     /*
-     * Level 6, not 9. The bulk of a backup is JPEG, MP4 and PDF — already
+     * Level 6, not 9. The bulk of a backup is JPEG, MP4 and PDF - already
      * compressed, and squeezed no further by trying harder. Level 9 costs
      * minutes of CPU on a large media library to save a fraction of a percent,
      * on a machine the church is also using to serve the site.
@@ -87,7 +87,7 @@ export class ZipWriter {
       out.on("close", () => resolveClose(this.archive.pointer()));
       out.on("error", rejectClose);
       this.archive.on("error", rejectClose);
-      // `warning` covers recoverable trouble — a file that vanished between
+      // `warning` covers recoverable trouble - a file that vanished between
       // being listed and being read. Loud failure beats a silently short
       // backup, so even ENOENT is promoted to an error here.
       this.archive.on("warning", rejectClose);
@@ -95,7 +95,7 @@ export class ZipWriter {
     this.archive.pipe(out);
   }
 
-  /** A text entry — manifest and collection dumps. These compress well. */
+  /** A text entry - manifest and collection dumps. These compress well. */
   text(name: string, contents: string): void {
     this.archive.append(contents, { name });
   }
@@ -127,7 +127,7 @@ export class ZipWriter {
 export interface ArchiveEntry {
   /** Sanitised, forward-slash relative path. */
   name: string;
-  /** Declared uncompressed size — read before extracting, to bound the cost. */
+  /** Declared uncompressed size - read before extracting, to bound the cost. */
   uncompressedSize: number;
   readonly handle: yauzl.Entry;
 }

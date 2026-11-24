@@ -104,7 +104,7 @@ export class GalleryService {
 
   /* ------------------------------- Public API ------------------------------ */
 
-  /** GET /gallery — newest first by album `date` (contract §5.3). */
+  /** GET /gallery - newest first by album `date` (contract §5.3). */
   listPublic(
     query: PaginationQueryDto,
     fellowship?: FellowshipSlug,
@@ -243,7 +243,7 @@ export class GalleryService {
     if (dto.slug && dto.slug !== existing.slug) {
       if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
-          "Slugs are immutable after publish — they are part of public URLs",
+          "Slugs are immutable after publish, because they are part of public URLs",
         );
       }
       slug = await uniqueSlug(slugify(dto.slug), (candidate) =>

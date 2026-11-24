@@ -5,7 +5,7 @@
  * On boot it:
  *   1. works out the public origin, asking the hosting platform if it can
  *   2. fills in any missing secrets, durably
- *   3. starts the bundled MongoDB — unless pointed at an external one
+ *   3. starts the bundled MongoDB - unless pointed at an external one
  *   4. restores the baked-in snapshot, if the database is empty
  *   5. runs the first-run initializer (idempotent)
  *   6. starts the API and the CMS on internal ports
@@ -14,7 +14,7 @@
  * Nothing is compiled here. The API is already `dist/`, the CMS is already a
  * Next standalone server with its `.next` output beside it; both are built once
  * when the image is built. A container that runs `next build` on boot needs a
- * gigabyte of RAM and a minute of CPU *every time it starts* — on a small host
+ * gigabyte of RAM and a minute of CPU *every time it starts* - on a small host
  * that is the difference between a restart and an outage, and it is pure waste
  * because the result is byte-for-byte what the image already contains.
  *
@@ -47,7 +47,7 @@ import { URL } from "node:url";
 /*
  * Everything resolves against this file's own directory rather than a fixed
  * path, so the same entrypoint drives an uploaded folder, a container, or a
- * checkout — and can be tested outside all three.
+ * checkout - and can be tested outside all three.
  */
 const ROOT = import.meta.dirname;
 
@@ -125,7 +125,7 @@ const MONGO_DATA_DIR = process.env.MONGO_DATA_DIR ?? join(STATE_DIR, "db");
  * starts, so a deploy with no configuration at all still comes up with the
  * right origin.
  *
- * Failing to find one is not fatal — `MediaOriginInterceptor` rewrites media
+ * Failing to find one is not fatal - `MediaOriginInterceptor` rewrites media
  * origins per request anyway, so this is a better starting value rather than a
  * requirement.
  */
@@ -170,14 +170,14 @@ function detectPublicUrl() {
  * Generate any missing secret once, and keep it.
  *
  * The API refuses to start in production without real JWT secrets, and rightly
- * so. But requiring them by hand contradicts what this image is for — dropping
- * it on a host and having it work — and the obvious shortcut, baking secrets
+ * so. But requiring them by hand contradicts what this image is for - dropping
+ * it on a host and having it work - and the obvious shortcut, baking secrets
  * into the image, would ship the same signing key to every deployment and put
  * it in any registry the image is pushed to.
  *
  * So they are generated on first boot and written to the state volume. With a
  * volume, sessions survive restarts. Without one, new secrets are generated on
- * each boot and everyone is simply signed out — correct, if inconvenient, and
+ * each boot and everyone is simply signed out - correct, if inconvenient, and
  * it never weakens anything.
  */
 function ensureSecrets() {
@@ -188,7 +188,7 @@ function ensureSecrets() {
     try {
       stored = JSON.parse(readFileSync(file, "utf8"));
     } catch {
-      log("secrets file unreadable — generating fresh secrets");
+      log("secrets file unreadable - generating fresh secrets");
     }
   }
 
@@ -199,7 +199,7 @@ function ensureSecrets() {
     /*
      * Only ever used to create an administrator on a database that has none.
      * The baked snapshot already contains the church's accounts, so on a normal
-     * boot this is generated, unused, and thrown away — it exists so the
+     * boot this is generated, unused, and thrown away - it exists so the
      * production config check passes, and so an empty external database still
      * ends up with a way in.
      */
@@ -219,7 +219,7 @@ function ensureSecrets() {
     try {
       mkdirSync(STATE_DIR, { recursive: true });
       writeFileSync(file, JSON.stringify(stored, null, 2), { mode: 0o600 });
-      log(`generated ${generated.join(", ")} — stored in ${file}`);
+      log(`generated ${generated.join(", ")} - stored in ${file}`);
     } catch (error) {
       log(
         `generated ${generated.join(", ")} in memory only ` +
@@ -241,7 +241,7 @@ function isEmbeddedUri(uri) {
  * Whether a `mongod` binary is on PATH at all.
  *
  * The container always has one. The same entrypoint also drives the plain
- * `dist-portal/` folder on a VM, where it usually does not — and spawning a
+ * `dist-portal/` folder on a VM, where it usually does not - and spawning a
  * command that does not exist surfaces as `ENOENT`, which says nothing about
  * what to do next. Checked up front so the failure names the fix instead.
  */
@@ -255,7 +255,7 @@ function hasMongod() {
  *
  * Running a database inside the application container is not how you build a
  * production system, and it is exactly right for what this image is: a whole
- * installation — content, media, accounts — that a parish can put on a ZimaOS
+ * installation - content, media, accounts - that a parish can put on a ZimaOS
  * box, a Render free tier or a laptop and have working in one command. Every
  * one of those places gives you one container and no managed database.
  *
@@ -268,13 +268,13 @@ function startEmbeddedMongo() {
   /*
    * `--wiredTigerCacheSizeGB` is pinned to the floor on purpose. WiredTiger's
    * default is half of *host* RAM, which it reads from the machine and not from
-   * the container's limit — on a 512 MB instance it happily plans for gigabytes
+   * the container's limit - on a 512 MB instance it happily plans for gigabytes
    * and is killed by the OOM reaper before the API finishes starting. This
    * dataset is a few hundred documents; it does not need the cache.
    *
    * 0.25 is the lowest value MongoDB accepts. Anything smaller is rejected at
    * startup, so a well-meaning `MONGO_CACHE_GB=0.1` on a tiny host would stop
-   * the database booting at all — clamped here rather than left to fail.
+   * the database booting at all - clamped here rather than left to fail.
    */
   const requestedCache = Number(process.env.MONGO_CACHE_GB ?? 0.25);
   const cacheGb = Number.isFinite(requestedCache)
@@ -365,7 +365,7 @@ function start(name, args, cwd, extraEnv = {}, command = process.execPath) {
 
   child.on("exit", (code, signal) => {
     if (shuttingDown) return;
-    log(`${name} exited (code ${code}, signal ${signal}) — stopping`);
+    log(`${name} exited (code ${code}, signal ${signal}) - stopping`);
     shutdown(code === 0 ? 1 : (code ?? 1));
   });
 
@@ -451,7 +451,7 @@ function startRouter() {
     /*
      * Both apps build absolute URLs and check origins, so they need to know how
      * the request actually arrived rather than that it came from loopback.
-     * Anything the client sent is preserved — a platform's proxy in front of us
+     * Anything the client sent is preserved - a platform's proxy in front of us
      * has already set these, and overwriting would replace the real public
      * hostname with our own internal one, which is precisely what media URLs
      * are derived from.
@@ -460,7 +460,7 @@ function startRouter() {
      * Headers the client did not send are left out, never set to `undefined`.
      * A request without a Host header (HTTP/1.0, some scanners) used to give
      * `x-forwarded-host: undefined`, which `http.request` rejects by throwing
-     * synchronously — uncaught, inside the server callback, so the whole
+     * synchronously - uncaught, inside the server callback, so the whole
      * process exited and the container restarted. One stray request took the
      * site down.
      */
@@ -539,12 +539,12 @@ async function main() {
   log(
     loadedEnvFile
       ? "configuration: .env loaded (real environment variables take precedence)"
-      : "configuration: no .env file — reading the environment only",
+      : "configuration: no .env file - reading the environment only",
   );
 
   /*
    * `PORT` is the public port; the API and CMS sit behind it on their own.
-   * Sharing a number is a silent, confusing failure — whichever binds second
+   * Sharing a number is a silent, confusing failure - whichever binds second
    * dies with EADDRINUSE, and the surviving half looks like a broken app.
    */
   if (!SPLIT_PORTS) {
@@ -601,12 +601,12 @@ async function main() {
     }
     log("bundled MongoDB ready");
   } else {
-    log("using external MONGODB_URI — bundled MongoDB not started");
+    log("using external MONGODB_URI - bundled MongoDB not started");
     await waitForMongo(process.env.MONGODB_URI);
   }
 
   // Both steps run from `backend/`, which is where the API's `node_modules`
-  // and its `uploads` directory are — the restore resolves the Mongo driver
+  // and its `uploads` directory are - the restore resolves the Mongo driver
   // from the first and writes media into the second.
   log("restoring snapshot…");
   await runStep("snapshot restore", ["restore-snapshot.mjs"], join(ROOT, "backend"));
@@ -615,7 +615,7 @@ async function main() {
   await runStep("initializer", [join("dist", "seed", "initialize.js")], join(ROOT, "backend"));
 
   // The API reads `PORT` for its own listen port, so it is given the internal
-  // one explicitly — `PORT` belongs to the public router.
+  // one explicitly - `PORT` belongs to the public router.
   log(`starting API on ${BIND}:${API_PORT}`);
   // On a 1 GiB host the two V8 heaps share memory with WiredTiger and
   // native image processing. Respect both the host and the container limit.
@@ -641,7 +641,7 @@ async function main() {
   });
 
   if (SPLIT_PORTS) {
-    log(`SPLIT_PORTS=true — API on :${API_PORT}, CMS on :${CMS_PORT}, no router`);
+    log(`SPLIT_PORTS=true - API on :${API_PORT}, CMS on :${CMS_PORT}, no router`);
     return;
   }
 
@@ -656,7 +656,7 @@ async function main() {
 main().catch((error) => {
   console.error(`[portal] startup failed: ${error.message}`);
   if (children.length === 0) process.exit(1);
-  // Something is running — stop it in the right order, database last, rather
+  // Something is running - stop it in the right order, database last, rather
   // than exiting and leaving `mongod` to be SIGKILLed with its files open.
   shutdown(1);
 });

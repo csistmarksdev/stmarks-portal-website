@@ -1,4 +1,4 @@
-# Portal backend — NestJS API
+# Portal backend - NestJS API
 FROM node:22-alpine AS build
 WORKDIR /app
 
@@ -24,7 +24,7 @@ COPY --from=build /app/shared/dist shared/dist
 COPY --from=build /app/backend/dist backend/dist
 
 # Uploads are a mounted volume the app writes to at runtime, so it has to be
-# owned by the user the app runs as — created here rather than left for Docker
+# owned by the user the app runs as - created here rather than left for Docker
 # to make root-owned on first mount.
 RUN mkdir -p /app/backend/uploads && chown -R node:node /app
 

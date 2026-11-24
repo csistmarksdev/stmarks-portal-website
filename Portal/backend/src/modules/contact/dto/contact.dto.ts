@@ -7,7 +7,7 @@ import {
   MinLength,
 } from "class-validator";
 
-/** Contract §5.9 — the Website contact form body. */
+/** Contract §5.9 - the Website contact form body. */
 export class ContactFormDto {
   @ApiProperty({ maxLength: 120 })
   @IsString()

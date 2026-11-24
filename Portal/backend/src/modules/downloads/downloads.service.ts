@@ -69,7 +69,7 @@ export class DownloadsService {
 
   /* ------------------------------- Public API ------------------------------ */
 
-  /** GET /downloads — newest first (contract §5.5). */
+  /** GET /downloads - newest first (contract §5.5). */
   listPublic(
     query: PaginationQueryDto,
     category?: DownloadCategory,
@@ -89,7 +89,7 @@ export class DownloadsService {
     );
   }
 
-  /** GET /downloads/grouped — one call for the downloads page. */
+  /** GET /downloads/grouped - one call for the downloads page. */
   async grouped(): Promise<DownloadsGrouped> {
     const docs = await this.repo.find({ status: "published" }, { publishedAt: -1 });
     const all = docs.map((doc) => this.toPublic(doc));
@@ -189,7 +189,7 @@ export class DownloadsService {
     if (dto.slug && dto.slug !== existing.slug) {
       if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
-          "Slugs are immutable after publish — they are part of public URLs",
+          "Slugs are immutable after publish, because they are part of public URLs",
         );
       }
       slug = await uniqueSlug(slugify(dto.slug), (candidate) =>

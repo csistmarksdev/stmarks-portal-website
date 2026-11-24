@@ -127,7 +127,7 @@ export default function MediaPage() {
           }}
         />
         <Select
-          className="w-32 shrink-0 sm:w-40"
+          className="w-[9.5rem] shrink-0 sm:w-40"
           value={kind}
           onChange={(event) => {
             setKind(event.target.value);
@@ -190,7 +190,7 @@ export default function MediaPage() {
                         description="Content that references this file will show a broken link."
                         onConfirm={() => remove.mutateAsync(item.id)}
                         trigger={
-                          <Button variant="destructive" size="icon" className="size-7">
+                          <Button variant="destructive" size="icon" className="size-7 max-lg:size-10">
                             <Trash2Icon />
                           </Button>
                         }
@@ -223,14 +223,14 @@ export default function MediaPage() {
               <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
                 {search || kind
                   ? "Try a different name or file type."
-                  : "Photos from the last festival would be a good start — drag several files onto the upload button at once."}
+                  : "Photos from the last festival would be a good start. Drag several files onto the upload button at once."}
               </p>
             </div>
           )}
           {data && data.total > data.pageSize && (
             <div className="mt-4 flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
-                {data.total} files — page {data.page} of {Math.ceil(data.total / data.pageSize)}
+                {data.total} files · page {data.page} of {Math.ceil(data.total / data.pageSize)}
               </span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>

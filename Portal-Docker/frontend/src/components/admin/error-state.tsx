@@ -44,7 +44,7 @@ export function ErrorState({
       </p>
       <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
         {offline
-          ? "Check your connection — nothing has been lost, this is only a display problem."
+          ? "Check your connection. Nothing has been lost, this is only a display problem."
           : (message ??
             "The portal could not reach the server. Your content is safe; this is a connection problem.")}
       </p>

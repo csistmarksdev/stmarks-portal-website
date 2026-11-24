@@ -1,6 +1,6 @@
 import type { LocalizedText } from "@portal/shared";
 
-/** Human-readable size string, e.g. "1.2 MB" — computed at upload time. */
+/** Human-readable size string, e.g. "1.2 MB" - computed at upload time. */
 export function humanFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   const units = ["KB", "MB", "GB"];

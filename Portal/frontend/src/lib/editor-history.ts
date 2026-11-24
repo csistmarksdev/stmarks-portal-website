@@ -3,8 +3,8 @@
  *
  * The browser's own undo stack is not usable here. Chrome's history for a
  * contenteditable is patchy once `execCommand` formatting and plain-text paste
- * are in the mix — Ctrl+Z often does nothing, or rewinds far more than the last
- * edit — and it dies with the element, so leaving the Write step and coming
+ * are in the mix - Ctrl+Z often does nothing, or rewinds far more than the last
+ * edit - and it dies with the element, so leaving the Write step and coming
  * back wiped it. This keeps snapshots of the editor instead: the HTML plus the
  * caret as character offsets, which is all a restore needs.
  *
@@ -56,14 +56,14 @@ function isGroupable(inputType: string): boolean {
 
 /**
  * Records the editor's current state. Typing in a burst extends the top step
- * instead of adding one per character; anything else — Enter, paste,
- * formatting, a pause — starts a new step.
+ * instead of adding one per character; anything else - Enter, paste,
+ * formatting, a pause - starts a new step.
  */
 export function record(
   history: History,
   snapshot: Snapshot,
   inputType: string,
-  /** The text typed, if any — a space or newline closes the current group. */
+  /** The text typed, if any - a space or newline closes the current group. */
   data: string | null = null,
 ): void {
   const top = history.states[history.index];

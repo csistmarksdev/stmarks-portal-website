@@ -26,7 +26,7 @@ async function bootstrap() {
 
   /*
    * Swagger documents every admin route, including the shape of each write.
-   * The routes are guarded, so this is not a way in — but it is a free map for
+   * The routes are guarded, so this is not a way in - but it is a free map for
    * anyone probing, and a CMS for one parish has no audience for public API
    * docs. On in development, off in production unless explicitly re-enabled.
    */
@@ -35,7 +35,7 @@ async function bootstrap() {
 
   if (docsEnabled) {
     const swaggerConfig = new DocumentBuilder()
-      .setTitle("CSI St. Mark's Church — Portal API")
+      .setTitle("CSI St. Mark's Church: Portal API")
       .setDescription(
         "Public content API (the Website contract) + authenticated admin CMS API. " +
           "Public GET endpoints are unauthenticated; everything under /admin and /auth (except login/refresh) requires a Bearer token.",
@@ -52,12 +52,12 @@ async function bootstrap() {
   const port = config.get<number>("port", 4000);
   /*
    * Every interface by default, so the API answers on the LAN address too and
-   * not just loopback — otherwise a phone on the same network gets connection
+   * not just loopback - otherwise a phone on the same network gets connection
    * refused while developing.
    *
    * `HOST` overrides it, which is what the container sets. There the API sits
    * behind a router on the one published port, so binding every interface would
-   * publish a second, unrouted copy of the API on its internal port — reachable
+   * publish a second, unrouted copy of the API on its internal port - reachable
    * on host networking, and bypassing nothing useful.
    */
   const host = process.env.HOST ?? "0.0.0.0";

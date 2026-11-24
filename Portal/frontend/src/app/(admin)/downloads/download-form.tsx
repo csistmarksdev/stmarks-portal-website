@@ -145,7 +145,7 @@ export function DownloadForm({ id }: { id?: string }) {
         </div>
       ) : null}
       {/* Writing in the main column, everything else in a details column
-          beside it — the same layout as the other content forms. */}
+          beside it - the same layout as the other content forms. */}
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <Card>
           <CardContent className="space-y-6">
@@ -247,7 +247,7 @@ export function DownloadForm({ id }: { id?: string }) {
                   value={fellowshipSlug}
                   onChange={(event) => setFellowshipSlug(event.target.value)}
                 >
-                  <option value="">—</option>
+                  <option value="">None</option>
                   {fellowshipOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}

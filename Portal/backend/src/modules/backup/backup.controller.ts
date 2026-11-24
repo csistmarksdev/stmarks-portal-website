@@ -40,7 +40,7 @@ import { BACKUP_WORK_DIR, BackupService } from "./backup.service";
  * Ceiling on an uploaded archive.
  *
  * Read from the raw environment because decorators are evaluated at import
- * time, before the config module has parsed `.env` — the same reason
+ * time, before the config module has parsed `.env` - the same reason
  * `MediaController` does it. Generous by default: a backup is every video the
  * church has ever uploaded, and a limit that rejects an installation's own
  * backup would make the feature useless exactly when it is needed.
@@ -73,7 +73,7 @@ export class ApplyRestoreDto {
   safetyBackup?: boolean;
 }
 
-@ApiTags("Admin — Backup & restore")
+@ApiTags("Admin: Backup & restore")
 @ApiBearerAuth()
 @Controller("admin/backup")
 export class BackupController {
@@ -91,7 +91,7 @@ export class BackupController {
   @HttpCode(201)
   @ApiOperation({
     summary:
-      "Build a complete archive — every collection plus the media library — and return a ticket to download it",
+      "Build a complete archive - every collection plus the media library - and return a ticket to download it",
   })
   create(@CurrentUser() actor: AuthenticatedUser, @Req() request: Request) {
     return this.backup.create(actor, request.ip);
@@ -102,8 +102,8 @@ export class BackupController {
    *
    * Unauthenticated, and deliberately so. A browser download is a navigation:
    * it cannot carry the `Authorization` header the rest of this API is built
-   * on, and the alternative — fetching the archive into memory in JavaScript
-   * and handing the user a blob — puts a multi-gigabyte file in the tab's heap
+   * on, and the alternative - fetching the archive into memory in JavaScript
+   * and handing the user a blob - puts a multi-gigabyte file in the tab's heap
    * to save nothing.
    *
    * What stands in for the header is the ticket: an unguessable 256-bit token
@@ -134,7 +134,7 @@ export class BackupController {
     /*
      * `StreamableFile`, not a bare `ReadStream`. Nest only recognises the
      * former as something to pipe; returning the stream itself sends it to the
-     * JSON serialiser, which produces a 200 with a few bytes of `{}` in it —
+     * JSON serialiser, which produces a 200 with a few bytes of `{}` in it -
      * a "successful" download of a corrupt archive.
      */
     return new StreamableFile(createReadStream(path), {
@@ -147,8 +147,8 @@ export class BackupController {
    * Accepts an archive and reports what is in it, without applying anything.
    *
    * Two steps rather than one because a restore cannot be undone: the CMS
-   * shows the manifest — when the backup was taken, from where, how much of it
-   * there is — and only then offers the button.
+   * shows the manifest - when the backup was taken, from where, how much of it
+   * there is - and only then offers the button.
    */
   @Post("restore")
   @RequirePermissions("backup.restore")
@@ -179,7 +179,7 @@ export class BackupController {
   @HttpCode(200)
   @ApiOperation({
     summary:
-      "Apply a staged archive. Destructive in `replace` mode — every collection in the archive is emptied first.",
+      "Apply a staged archive. Destructive in `replace` mode - every collection in the archive is emptied first.",
   })
   apply(
     @Param("id") id: string,

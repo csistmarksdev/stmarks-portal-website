@@ -6,7 +6,7 @@ import { Public } from "../../common/decorators/public.decorator";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { GalleryService } from "./gallery.service";
 
-@ApiTags("Public — Gallery")
+@ApiTags("Public: Gallery")
 @Public()
 @Controller("gallery")
 export class GalleryPublicController {

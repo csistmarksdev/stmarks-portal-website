@@ -55,7 +55,7 @@ import {
 
 const TAG = "announcements";
 
-/** Contract §5.4 — pinned first, then newest. */
+/** Contract §5.4 - pinned first, then newest. */
 const PINNED_THEN_NEWEST = { pinned: -1 as const, publishedAt: -1 as const };
 
 export class AnnouncementsRepository extends BaseRepository<AnnouncementEntity> {}
@@ -222,7 +222,7 @@ export class AnnouncementsService {
     if (dto.slug && dto.slug !== existing.slug) {
       if (existing.status !== "draft" && existing.status !== "pending") {
         throw new BadRequestException(
-          "Slugs are immutable after publish — they are part of public URLs",
+          "Slugs are immutable after publish, because they are part of public URLs",
         );
       }
       slug = await uniqueSlug(slugify(dto.slug), (candidate) =>
@@ -273,7 +273,7 @@ export class AnnouncementsService {
     return this.toAdmin(doc);
   }
 
-  /** Pin toggle — pinning one announcement unpins every other (§7). */
+  /** Pin toggle - pinning one announcement unpins every other (§7). */
   async setPinned(
     id: string,
     pinned: boolean,

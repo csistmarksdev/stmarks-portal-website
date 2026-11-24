@@ -36,7 +36,7 @@ import { cn, formatDate } from "@/lib/utils";
 /**
  * Plain greeting, no commentary.
  *
- * The small hours used to get "Working late" — a remark about the reader
+ * The small hours used to get "Working late" - a remark about the reader
  * rather than a greeting, and one that lands as a nudge when someone is
  * finishing the notices at midnight. Before five is still the same evening to
  * anyone awake in it, so it reads as evening.
@@ -74,7 +74,7 @@ function timeAgo(iso: string): string {
  * Folds a run of identical consecutive summaries into one row with a count.
  *
  * Saving a blog post three times while editing writes three audit lines, and
- * the feed rendered them as three identical rows — half the visible history
+ * the feed rendered them as three identical rows - half the visible history
  * spent saying the same thing once per keystroke-session. Only *consecutive*
  * matches collapse, so the feed stays a chronology rather than becoming a
  * tally: the same edit made again after lunch is genuinely a separate event.
@@ -140,8 +140,8 @@ export default function DashboardPage() {
   /*
    * The next few services and gatherings.
    *
-   * Read from the *public* endpoint on purpose: `status=upcoming` — "not yet
-   * over, soonest first" — only exists there, and it serves published records
+   * Read from the *public* endpoint on purpose: `status=upcoming` - "not yet
+   * over, soonest first" - only exists there, and it serves published records
    * only, which is exactly the question being asked. This card is "what the
    * congregation will see next", not "what is in the database".
    */
@@ -176,7 +176,7 @@ export default function DashboardPage() {
   const blogDrafts = stats ? stats.blog.total - stats.blog.published : 0;
 
   const attention: Array<{ href: string; icon: React.ElementType; text: string }> = [];
-  // Submissions and changes to live items, per type — approvers only.
+  // Submissions and changes to live items, per type - approvers only.
   if (stats?.approvals && can("content.publish")) {
     for (const [type, { submissions, changes }] of Object.entries(stats.approvals)) {
       const total = submissions + changes;
@@ -199,7 +199,7 @@ export default function DashboardPage() {
     attention.push({
       href: `/church/${page.key}`,
       icon: ClockIcon,
-      text: `${page.by} changed the ${page.label} — waiting for your approval`,
+      text: `${page.by} changed the ${page.label}, waiting for your approval`,
     });
   }
   if (stats) {
@@ -237,7 +237,7 @@ export default function DashboardPage() {
       attention.push({
         href: "/announcements",
         icon: PinOffIcon,
-        text: "No announcement is pinned — the website's notice band is empty",
+        text: "No announcement is pinned, so the website's notice band is empty",
       });
     }
   }
@@ -260,7 +260,7 @@ export default function DashboardPage() {
        *
        * This replaced a prose sentence ("the website is serving 9 blog
        * posts…") sitting above a plain list that said "Blog posts 10". Both
-       * were right — one counted published records, the other every record —
+       * were right - one counted published records, the other every record -
        * and together they were a dashboard quietly contradicting itself.
        *
        * So every tile now reads the same way: the headline is what is *live on
@@ -317,14 +317,14 @@ export default function DashboardPage() {
       {/*
        * One flex column on a phone, two columns from lg. `display: contents`
        * on the wrappers lets both groups' sections become items of the same
-       * flex container on mobile, so `order-*` can interleave them — quick
+       * flex container on mobile, so `order-*` can interleave them - quick
        * actions belong near the top on a phone but in the rail on a desktop.
        */}
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_20rem] lg:items-start lg:gap-6">
         {/*
          * `lg:min-w-0` is load-bearing, not tidiness. A grid item defaults to
          * `min-width: auto`, which floors the `1fr` track at the item's
-         * min-content width — and one `truncate`d line is `white-space: nowrap`,
+         * min-content width - and one `truncate`d line is `white-space: nowrap`,
          * so its min-content is the *whole* string however long it is. Without
          * this, a single long audit summary widens the column past the viewport,
          * pushes the 20rem rail off-screen and gives the whole page a horizontal
@@ -341,7 +341,7 @@ export default function DashboardPage() {
               <Card>
                 <CardContent className="flex items-center gap-3 p-4 text-sm text-muted-foreground sm:p-5">
                   <CircleCheckIcon className="size-4.5 shrink-0 text-success" />
-                  All caught up — nothing is waiting on you today.
+                  All caught up. Nothing is waiting on you today.
                 </CardContent>
               </Card>
             ) : (
@@ -399,7 +399,7 @@ export default function DashboardPage() {
                       href={`/events/${event.id}`}
                       className="group flex items-center gap-3.5 px-4 py-3 transition-colors first:rounded-t-3xl last:rounded-b-3xl hover:bg-hover-tint sm:px-5"
                     >
-                      {/* A date block rather than a line of text — scanning
+                      {/* A date block rather than a line of text - scanning
                           "when" down a column is the whole point of this card. */}
                       <DateBlock iso={event.startDate} />
 
@@ -409,7 +409,7 @@ export default function DashboardPage() {
                         </span>
                         {/*
                           Time first, venue second, and the venue is the half
-                          that truncates — "6:00 pm" is short, fixed-width and
+                          that truncates - "6:00 pm" is short, fixed-width and
                           the thing being looked for, so it must never be the
                           part that gets cut.
                         */}
@@ -453,7 +453,7 @@ export default function DashboardPage() {
               ) : activity.items.length === 0 ? (
                 <Card>
                   <CardContent className="p-4 text-sm text-muted-foreground sm:p-5">
-                    Quiet so far — changes made in the portal will show up here.
+                    Quiet so far. Changes made in the portal will show up here.
                   </CardContent>
                 </Card>
               ) : (
@@ -461,7 +461,7 @@ export default function DashboardPage() {
                   <CardContent className="divide-y divide-border/70 p-0">
                     {collapseRuns(activity.items).map((entry) => (
                       /* On a phone the summary gets the full width and the
-                         timestamp drops beneath it — truncating to a ~30
+                         timestamp drops beneath it - truncating to a ~30
                          character stub made the feed unreadable there. */
                       <div
                         key={entry.id}
@@ -478,7 +478,7 @@ export default function DashboardPage() {
                             </span>
                           )}
                           {entry.userName && (
-                            <span className="text-muted-foreground"> — {entry.userName}</span>
+                            <span className="text-muted-foreground"> · {entry.userName}</span>
                           )}
                         </p>
                       </div>
@@ -492,7 +492,7 @@ export default function DashboardPage() {
 
         {/* ------------------------------ Rail -------------------------------- */}
         <div className="contents lg:flex lg:flex-col lg:gap-6">
-          {/* Verse of the week — same dark treatment as the Website section. */}
+          {/* Verse of the week - same dark treatment as the Website section. */}
           <section className="order-5">
             <h2 className="label mb-3 text-muted-foreground">Verse of the week</h2>
             {/*
@@ -528,7 +528,7 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Quick actions — second on a phone, since creating is why you
+          {/* Quick actions - second on a phone, since creating is why you
               reach for the portal on the move. */}
           {can("content.write") && (
             <section className="order-2">
@@ -564,7 +564,7 @@ export default function DashboardPage() {
           {/*
             The rest of the library, as plain rows.
 
-            Only what the tiles above do not already carry — repeating events
+            Only what the tiles above do not already carry - repeating events
             and blog here is what produced the two-numbers-for-one-thing problem
             in the first place. These are totals, and labelled as such.
           */}
@@ -617,7 +617,7 @@ export default function DashboardPage() {
  *
  * `note` is not decoration. The headline is always "live on the website", so
  * without the second line a reader has no way to tell 9 published posts from
- * 10 written ones — which is exactly how the old dashboard managed to print
+ * 10 written ones - which is exactly how the old dashboard managed to print
  * both numbers and look correct doing it.
  */
 function StatTile({
@@ -666,7 +666,7 @@ function StatTile({
   );
 }
 
-/** Whole days from today — negative is past, 0 today, 1 tomorrow. */
+/** Whole days from today - negative is past, 0 today, 1 tomorrow. */
 function daysAway(iso: string): number {
   const midnight = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
   const then = midnight(new Date(iso)).getTime();
@@ -677,7 +677,7 @@ function daysAway(iso: string): number {
 /**
  * When the event is, as someone would say it out loud.
  *
- * The clock time is the part that was missing and the part that matters — a
+ * The clock time is the part that was missing and the part that matters - a
  * dashboard row saying only "9 Aug" does not tell anyone whether they are late
  * for it. "Today" and "Tomorrow" replace the date entirely rather than joining
  * it, because the block on the left already carries the date.
@@ -699,7 +699,7 @@ function whenLabel(iso: string): string {
  *
  * Semantic tokens, not `brand-50`/`brand-800`. Those are raw palette steps and
  * do not change between themes, so the block came out as a bright pink chip
- * sitting on a near-black card in dark mode — the one element on the page not
+ * sitting on a near-black card in dark mode - the one element on the page not
  * following the theme. `secondary` is defined per theme and is what the badges
  * elsewhere already use.
  */
@@ -712,7 +712,7 @@ function DateBlock({ iso }: { iso: string }) {
       className={cn(
         "grid size-12 shrink-0 place-items-center rounded-xl leading-none ring-1",
         today
-          ? // Today earns the flame — it is the only row anyone needs to act on.
+          ? // Today earns the flame - it is the only row anyone needs to act on.
             "bg-accent-fg/12 text-accent-fg ring-accent-fg/30"
           : "bg-secondary text-secondary-foreground ring-border/70",
       )}

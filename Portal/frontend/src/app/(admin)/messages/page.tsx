@@ -93,6 +93,53 @@ function dayLabel(iso: string): string {
   });
 }
 
+/** Below `lg`, where the Portal shows its phone layout. */
+const PHONE_QUERY = "(max-width: 63.999rem)";
+
+/**
+ * A touch keyboard: Return adds a new line and the Send button sends, the way
+ * every phone messaging app works. With a hardware keyboard Enter sends.
+ */
+const touchTyping = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(pointer: coarse)").matches;
+
+/**
+ * Keeps a full-screen phone conversation inside the part of the screen the
+ * on-screen keyboard leaves visible.
+ *
+ * iOS Safari does not shrink the page when the keyboard opens - it slides the
+ * visible area over it - so a fixed panel sized to the screen puts its message
+ * box under the keyboard. The Visual Viewport API reports the area actually
+ * showing; it is written to `--vv-top` / `--vv-height` on the panel, which
+ * only the phone layout reads. `keyboard` is true while one is open, so the
+ * home-indicator padding under the message box can be dropped.
+ */
+function useVisualViewport(active: boolean) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [keyboard, setKeyboard] = useState(false);
+
+  useEffect(() => {
+    const panel = ref.current;
+    const viewport = window.visualViewport;
+    if (!active || !panel || !viewport) return;
+    const update = () => {
+      panel.style.setProperty("--vv-top", `${viewport.offsetTop}px`);
+      panel.style.setProperty("--vv-height", `${viewport.height}px`);
+      setKeyboard(window.innerHeight - viewport.height > 120);
+    };
+    update();
+    viewport.addEventListener("resize", update);
+    viewport.addEventListener("scroll", update);
+    return () => {
+      viewport.removeEventListener("resize", update);
+      viewport.removeEventListener("scroll", update);
+    };
+  }, [active]);
+
+  return { ref, keyboard };
+}
+
 const timeOf = (iso: string) =>
   new Date(iso).toLocaleTimeString("en-IN", {
     hour: "numeric",
@@ -214,7 +261,7 @@ function ConversationList({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-center gap-2 border-b border-border/70 p-3">
+      <div className="flex items-center gap-2 border-b border-border/70 p-3 max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:rounded-t-3xl max-lg:bg-card">
         <div className="relative flex-1">
           <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -224,9 +271,10 @@ function ConversationList({
             onChange={(event) => setSearch(event.target.value)}
           />
         </div>
+        {/* On a phone the floating button below starts a conversation. */}
         <Button
           size="icon"
-          className="size-9 shrink-0"
+          className="size-9 shrink-0 max-lg:hidden"
           onClick={onNew}
           title="New message"
         >
@@ -234,7 +282,7 @@ function ConversationList({
         </Button>
       </div>
 
-      <div className="scrollbar-ghost min-h-0 flex-1 overflow-y-auto p-2">
+      <div className="scrollbar-ghost min-h-0 flex-1 overflow-y-auto p-2 max-lg:overflow-visible">
         {isLoading ? (
           <div className="space-y-2">
             {Array.from({ length: 4 }).map((_, index) => (
@@ -272,16 +320,16 @@ function ConversationList({
                 onClick={() => onSelect(conversation.id)}
                 aria-current={active ? "true" : undefined}
                 className={cn(
-                  "flex w-full items-center gap-3 rounded-2xl px-2.5 py-2.5 text-left transition-colors",
+                  "flex w-full items-center gap-3 rounded-2xl px-2.5 py-2.5 text-left transition-colors max-lg:gap-3.5 max-lg:py-3 max-lg:active:bg-muted",
                   active ? "bg-secondary ring-1 ring-border" : "hover:bg-muted",
                 )}
               >
-                <Avatar name={conversation.with?.name} />
+                <Avatar name={conversation.with?.name} className="max-lg:size-12 max-lg:text-base" />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-baseline justify-between gap-2">
                     <span
                       className={cn(
-                        "truncate text-sm",
+                        "truncate text-sm max-lg:text-[15px]",
                         conversation.unread > 0
                           ? "font-semibold"
                           : "font-medium",
@@ -298,7 +346,7 @@ function ConversationList({
                   <span className="mt-0.5 flex items-center justify-between gap-2">
                     <span
                       className={cn(
-                        "truncate text-[13px]",
+                        "truncate text-[13px] max-lg:text-sm",
                         conversation.unread > 0
                           ? "text-foreground"
                           : "text-muted-foreground",
@@ -367,7 +415,7 @@ function Thread({
       await api.post(`/admin/chat/conversations/${conversationId}/read`);
       refreshLists();
     } catch {
-      // Best effort — the next poll tries again.
+      // Best effort - the next poll tries again.
     }
   }, [conversationId, refreshLists]);
 
@@ -380,7 +428,7 @@ function Thread({
       });
   };
 
-  /** Appends without duplicates — a poll and a send can return the same message. */
+  /** Appends without duplicates - a poll and a send can return the same message. */
   const append = useCallback((incoming: ChatMessage[]) => {
     if (incoming.length === 0) return;
     setMessages((current) => {
@@ -440,7 +488,7 @@ function Thread({
     return () => window.clearInterval(timer);
   }, [loaded, newest, conversationId, append, markRead, user?.id]);
 
-  // Follow new messages down — unless the reader has scrolled up to look back.
+  // Follow new messages down - unless the reader has scrolled up to look back.
   useEffect(() => {
     if (stickToBottom.current) scrollToBottom(loaded);
   }, [messages, loaded]);
@@ -499,6 +547,26 @@ function Thread({
     element.style.height = `${Math.min(element.scrollHeight, 160)}px`;
   }, [draft]);
 
+  const { ref: panel, keyboard } = useVisualViewport(true);
+  // Read after mount: the server cannot know what keyboard the reader has.
+  const [touch, setTouch] = useState(false);
+  useEffect(() => setTouch(touchTyping()), []);
+
+  // The page under a full-screen phone conversation must not scroll with it.
+  useEffect(() => {
+    if (!window.matchMedia(PHONE_QUERY).matches) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, []);
+
+  // Whatever the keyboard does, keep the newest message in view.
+  useEffect(() => {
+    if (keyboard && stickToBottom.current) scrollToBottom();
+  }, [keyboard]);
+
   const other = conversation?.with ?? null;
   const gone = conversation !== undefined && other === null;
   const lastMine = [...messages]
@@ -511,9 +579,17 @@ function Thread({
     messages[messages.length - 1]?.id === lastMine.id;
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    /*
+     * Phone: the conversation takes the whole screen, over the dock, like any
+     * messaging app - and only the part the keyboard leaves visible
+     * (`useVisualViewport`). Desktop: the right-hand pane, as before.
+     */
+    <div
+      ref={panel}
+      className="flex h-full min-h-0 flex-col max-lg:fixed max-lg:inset-x-0 max-lg:top-[var(--vv-top,0px)] max-lg:z-50 max-lg:h-[var(--vv-height,100dvh)] max-lg:bg-background"
+    >
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-border/70 px-3 py-2.5 sm:px-4">
+      <div className="flex items-center gap-3 border-b border-border/70 px-3 py-2.5 sm:px-4 max-lg:bg-card/80 max-lg:backdrop-blur-xl max-lg:pt-[calc(env(safe-area-inset-top,0px)+0.5rem)]">
         <Button
           variant="ghost"
           size="icon"
@@ -525,7 +601,7 @@ function Thread({
         </Button>
         <Avatar name={other?.name} className="size-9" />
         <div className="min-w-0 leading-tight">
-          <p className="truncate text-sm font-semibold">
+          <p className="truncate text-sm font-semibold max-lg:text-[15px]">
             {conversation ? (other?.name ?? "Deleted account") : " "}
           </p>
           <p className="truncate text-xs text-muted-foreground">
@@ -543,7 +619,7 @@ function Thread({
             element.scrollHeight - element.scrollTop - element.clientHeight <
             80;
         }}
-        className="scrollbar-ghost min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-5"
+        className="scrollbar-ghost min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-4 sm:px-5"
       >
         {!loaded ? (
           <div className="space-y-3">
@@ -564,7 +640,7 @@ function Thread({
               <p className="mt-1 text-[13px] text-muted-foreground">
                 {gone
                   ? "This account no longer exists."
-                  : "Say hello — this is the start of your conversation."}
+                  : "Say hello. This is the start of your conversation."}
               </p>
             </div>
           </div>
@@ -617,7 +693,7 @@ function Thread({
                     >
                       <div
                         className={cn(
-                          "max-w-[80%] rounded-3xl px-4 py-2 text-[14px] leading-relaxed sm:max-w-[70%]",
+                          "max-w-[80%] rounded-3xl px-4 py-2 text-[14px] leading-relaxed sm:max-w-[70%] max-lg:text-[15px]",
                           mine
                             ? "rounded-br-lg bg-primary text-primary-foreground"
                             : "rounded-bl-lg bg-muted text-foreground",
@@ -653,7 +729,13 @@ function Thread({
 
       {/* Composer */}
       <form
-        className="border-t border-border/70 p-3"
+        className={cn(
+          "border-t border-border/70 p-3",
+          // Clear of the home indicator - unless the keyboard is up, which
+          // covers it anyway.
+          !keyboard && "max-lg:pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)]",
+          "max-lg:bg-card/80 max-lg:backdrop-blur-xl",
+        )}
         onSubmit={(event) => {
           event.preventDefault();
           void send();
@@ -661,7 +743,7 @@ function Thread({
       >
         {gone ? (
           <p className="py-2 text-center text-[13px] text-muted-foreground">
-            You can&apos;t reply — this account has been removed.
+            You can&apos;t reply. This account has been removed.
           </p>
         ) : (
           <div className="flex items-end gap-2">
@@ -677,7 +759,8 @@ function Thread({
                 if (
                   event.key === "Enter" &&
                   !event.shiftKey &&
-                  !event.nativeEvent.isComposing
+                  !event.nativeEvent.isComposing &&
+                  !touch
                 ) {
                   event.preventDefault();
                   void send();
@@ -685,12 +768,13 @@ function Thread({
               }}
               placeholder={other ? `Message ${other.name}` : "Write a message"}
               aria-label="Message"
-              className="min-h-10 flex-1 resize-none rounded-2xl border border-input bg-card px-4 py-2.5 text-sm leading-5 shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring"
+              enterKeyHint={touch ? "enter" : "send"}
+              className="min-h-10 flex-1 resize-none rounded-2xl border border-input bg-card px-4 py-2.5 text-sm leading-5 shadow-sm max-lg:min-h-11 max-lg:rounded-3xl max-lg:py-3 max-lg:text-base max-lg:[scrollbar-width:none] outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring"
             />
             <Button
               type="submit"
               size="icon"
-              className="size-10 shrink-0 rounded-full"
+              className="size-10 shrink-0 rounded-full max-lg:size-11"
               disabled={!draft.trim() || sending}
               aria-label="Send"
             >
@@ -741,18 +825,18 @@ function MessagesView() {
   };
 
   /*
-   * The panes fill the screen so the message box is always visible.
-   * Desktop: the viewport less the page header and the layout's padding.
-   * Phone, conversation open: the header is hidden (the thread's own header
-   * names the person and has a back arrow), leaving the viewport less the app
-   * bar (3.5rem), the top padding (1.5rem) and the room kept for the floating
-   * dock (5.25rem) — otherwise the dock covered the message box.
+   * Desktop: the panes fill the screen less the page header and the layout's
+   * padding, so the message box is always visible.
+   *
+   * Phone: the list is part of the page and scrolls with it; an open
+   * conversation is a full-screen panel of its own (see `Thread`), so the
+   * card it sits in collapses to nothing.
    */
   const paneHeight = useMemo(
     () =>
       selected
-        ? "h-[calc(100dvh-10.25rem-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))] lg:h-[calc(100dvh-12rem)]"
-        : "h-[calc(100dvh-20rem)] min-h-[24rem] lg:h-[calc(100dvh-12rem)]",
+        ? "lg:h-[calc(100dvh-12rem)] max-lg:bg-transparent max-lg:ring-0 max-lg:[box-shadow:none]"
+        : "lg:h-[calc(100dvh-12rem)]",
     [selected],
   );
 
@@ -776,7 +860,7 @@ function MessagesView() {
 
       <div
         className={cn(
-          "grid overflow-hidden rounded-3xl bg-card ring-1 ring-border/70 [box-shadow:var(--shadow-card)] lg:grid-cols-[20rem_minmax(0,1fr)]",
+          "grid rounded-3xl bg-card ring-1 ring-border/70 [box-shadow:var(--shadow-card)] lg:grid-cols-[20rem_minmax(0,1fr)] lg:overflow-hidden",
           paneHeight,
         )}
       >
@@ -822,6 +906,18 @@ function MessagesView() {
           )}
         </div>
       </div>
+
+      {/* Phone: start a conversation from the thumb zone, as on every list. */}
+      {!selected && (
+        <button
+          type="button"
+          onClick={() => setPicking(true)}
+          aria-label="New message"
+          className="bottom-dock fixed right-4 z-30 grid size-14 place-items-center rounded-full bg-primary text-primary-foreground [box-shadow:var(--shadow-float)] transition-transform active:scale-95 lg:hidden"
+        >
+          <MessageCirclePlusIcon className="size-6" />
+        </button>
+      )}
 
       <NewMessageDialog
         open={picking}

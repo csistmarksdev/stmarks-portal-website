@@ -7,13 +7,13 @@ import type { FilterQuery } from "mongoose";
  */
 
 /* -------------------------------------------------------------------------- */
-/* F-049 — what the public API may see                                        */
+/* F-049 - what the public API may see                                        */
 /* -------------------------------------------------------------------------- */
 
 /**
  * Filter for records the public website may see right now:
- * `status: "published"`, `publishAt` unset or past, and — when `expiry` is
- * set — `expiresAt` unset or still ahead.
+ * `status: "published"`, `publishAt` unset or past, and - when `expiry` is
+ * set - `expiresAt` unset or still ahead.
  *
  * `{ field: null }` matches both a stored null and a missing key, so records
  * written before scheduling existed stay visible exactly as before.
@@ -56,7 +56,7 @@ export function assertScheduleOrder(
 ): void {
   if (publishAt && expiresAt && expiresAt.getTime() <= publishAt.getTime()) {
     throw new BadRequestException(
-      "expiresAt must be later than publishAt — the record would never be public.",
+      "expiresAt must be later than publishAt, or the record would never be public.",
     );
   }
 }

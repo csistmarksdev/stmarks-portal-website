@@ -40,7 +40,7 @@ export default function EventsPage() {
         {
           /*
            * The venue is on every event card the website renders, and it was
-           * the one detail this list did not show — so checking where something
+           * the one detail this list did not show - so checking where something
            * was happening meant opening each event in turn.
            *
            * `location` is required on the event, so there is normally something
@@ -53,7 +53,7 @@ export default function EventsPage() {
             event.location?.en ? (
               <span className="line-clamp-1">{event.location.en}</span>
             ) : (
-              <span className="text-muted-foreground">—</span>
+              <span className="text-muted-foreground">-</span>
             ),
         },
         {
@@ -63,7 +63,7 @@ export default function EventsPage() {
             event.fellowshipSlug ? (
               <Badge variant="secondary">{event.fellowshipSlug}</Badge>
             ) : (
-              <span className="text-muted-foreground">—</span>
+              <span className="text-muted-foreground">-</span>
             ),
         },
       ]}

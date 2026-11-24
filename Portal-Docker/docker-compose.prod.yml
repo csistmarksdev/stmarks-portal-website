@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — production, with a separate database container.
+# CSI St. Mark's Portal - production, with a separate database container.
 #
 #   node scripts/build-production-bundle.mjs
 #   docker compose -f docker-compose.prod.yml up -d --build
@@ -13,13 +13,13 @@
 #
 # Prefer this once the portal is more than a demonstration. The bundled database
 # is there to make the image runnable anywhere in one command, not to be the
-# best place to keep a parish's records — a separate container can be backed up,
+# best place to keep a parish's records - a separate container can be backed up,
 # restored and upgraded without touching the application.
 #
 # On first boot the snapshot is restored into the empty database, exactly as it
 # would be into the bundled one. Nothing is lost by moving.
 #
-# Every value that decides whether the deployment is safe is required —
+# Every value that decides whether the deployment is safe is required -
 # `${VAR:?message}` makes compose refuse to start and name what is missing,
 # rather than falling back to a default that ships to the internet.
 # Generate the secrets with: openssl rand -base64 48
@@ -58,7 +58,7 @@ services:
       MONGODB_URI: mongodb://mongo:27017/csistmc-portal
 
       # The canonical origin. Media URLs are still corrected per request, so a
-      # wrong value here degrades rather than breaks — but this is the value the
+      # wrong value here degrades rather than breaks - but this is the value the
       # public website will be given, so it should be right.
       PUBLIC_URL: ${PUBLIC_URL:?public origin, e.g. https://portal.example.org}
 
@@ -70,7 +70,7 @@ services:
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?openssl rand -base64 48}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?openssl rand -base64 48}
 
-      # Used only if the database has no administrator — the snapshot carries
+      # Used only if the database has no administrator - the snapshot carries
       # the church's existing accounts, so normally this is never reached.
       SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@csistmarksmadipakkam.org}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
@@ -89,11 +89,11 @@ services:
       # through the CMS.
       - uploads:/app/backend/uploads
       # Generated secrets, so sessions survive a restart. No database lives here
-      # in this stack — `mongo` has its own volume.
+      # in this stack - `mongo` has its own volume.
       - state:/data
 
     # Shorter than it needs to be elsewhere, because no database runs inside
-    # this container — but the API is still given time to finish in-flight
+    # this container - but the API is still given time to finish in-flight
     # requests against `mongo` rather than being cut off mid-write.
     stop_grace_period: 30s
 

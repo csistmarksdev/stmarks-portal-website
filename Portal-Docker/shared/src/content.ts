@@ -1,7 +1,7 @@
 /**
  * Public content models.
  *
- * ⚠️ These mirror `Website/src/types/content.ts` field-for-field — they are
+ * ⚠️ These mirror `Website/src/types/content.ts` field-for-field - they are
  * the exact response schemas of the public API. Do not rename fields or
  * change shapes here without a matching Website change.
  */
@@ -148,7 +148,7 @@ export interface GalleryVideo {
 export const VIDEO_PROVIDERS = ["file", "youtube", "vimeo"] as const;
 
 /**
- * One item in a gallery: a photograph, or — when `video` is set — a video whose
+ * One item in a gallery: a photograph, or - when `video` is set - a video whose
  * `image` is its poster/thumbnail. Modelling both as one type keeps albums a
  * single ordered stream the lightbox can page through.
  */

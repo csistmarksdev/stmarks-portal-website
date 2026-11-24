@@ -61,7 +61,7 @@ export class CoordinatorDto {
 }
 
 export class CreateFellowshipDto {
-  @ApiProperty({ enum: FELLOWSHIP_SLUGS, description: "Fixed enum — Website routes depend on it" })
+  @ApiProperty({ enum: FELLOWSHIP_SLUGS, description: "Fixed enum - Website routes depend on it" })
   @IsIn(FELLOWSHIP_SLUGS as readonly string[])
   slug: FellowshipSlug;
 
@@ -123,7 +123,7 @@ export class CreateFellowshipDto {
   status?: PublishStatus;
 }
 
-/** Slug is the identity of a fellowship — it can never change. */
+/** Slug is the identity of a fellowship - it can never change. */
 export class UpdateFellowshipDto extends PartialType(
   OmitType(CreateFellowshipDto, ["slug"] as const),
 ) {}

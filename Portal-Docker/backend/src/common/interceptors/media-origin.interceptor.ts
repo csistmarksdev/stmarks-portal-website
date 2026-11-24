@@ -18,7 +18,7 @@ import { map } from "rxjs/operators";
  * file. That is fine on one fixed server and wrong everywhere else: the same
  * image is reached as `http://localhost:8080/...` from the host, as
  * `http://10.0.0.5:8080/...` from a phone, and as `https://portal.example.org/...`
- * from the internet — and only one of those can be the stored value. The other
+ * from the internet - and only one of those can be the stored value. The other
  * two render a page of broken images.
  *
  * `PUBLIC_URL` plus a boot-time repair (see `restore-snapshot.mjs`) gets one of
@@ -33,13 +33,13 @@ import { map } from "rxjs/operators";
  * -----
  * Deliberately narrow. Only `<origin>/uploads/<path>` is touched, and only the
  * origin part of it. A link to YouTube, to a diocesan site, or to anything that
- * is not this API's upload route is left exactly as it is — which is what keeps
+ * is not this API's upload route is left exactly as it is - which is what keeps
  * gallery videos and external references working.
  *
  * Set `MEDIA_ORIGIN_FROM_REQUEST=false` to disable, for a deployment that
  * serves media from a CDN on a genuinely different origin from the API.
  */
-/** `http(s)://any-host/uploads/` — the part that has to change. */
+/** `http(s)://any-host/uploads/` - the part that has to change. */
 const OWN_MEDIA = /https?:\/\/[^/"\s]+\/uploads\//g;
 
 @Injectable()
@@ -69,7 +69,7 @@ export class MediaOriginInterceptor implements NestInterceptor {
  * would report the internal port and `http`, so every media URL on Render would
  * come back as `http://…` and be blocked as mixed content on an HTTPS page.
  *
- * A forwarding header can be spoofed by a client — the cost here is that an
+ * A forwarding header can be spoofed by a client - the cost here is that an
  * attacker makes *their own* response point at a host of their choosing, which
  * gains them nothing.
  */
@@ -92,7 +92,7 @@ function requestOrigin(request: Request): string | null {
  *
  * Only plain objects and arrays are walked. Anything else is returned as-is,
  * which matters more than it looks: a `Date` is `typeof "object"` with no
- * enumerable keys, so rebuilding it with `Object.fromEntries` yields `{}` —
+ * enumerable keys, so rebuilding it with `Object.fromEntries` yields `{}` -
  * every timestamp in every API response would be replaced by an empty object.
  */
 function rewrite(value: unknown, base: string): unknown {

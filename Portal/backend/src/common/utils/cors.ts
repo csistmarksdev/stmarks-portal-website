@@ -1,8 +1,8 @@
 /**
  * Origin matching for CORS.
  *
- * The portal is normally opened from other devices on the same network — a
- * phone or a laptop hitting the machine's LAN address — so a fixed list of
+ * The portal is normally opened from other devices on the same network - a
+ * phone or a laptop hitting the machine's LAN address - so a fixed list of
  * `localhost` origins locks everyone else out. Private-network origins are
  * therefore allowed by default on any port, while the public internet still
  * needs an explicit entry in `CORS_ORIGINS`.
@@ -14,7 +14,7 @@ const PRIVATE_HOST = [
   /^127\./,
   /^\[?::1\]?$/,
   /^0\.0\.0\.0$/,
-  /^10\./, // 10.0.0.0/8 — also where ZeroTier/Tailscale sit
+  /^10\./, // 10.0.0.0/8 - also where ZeroTier/Tailscale sit
   /^192\.168\./, // 192.168.0.0/16
   /^172\.(1[6-9]|2\d|3[01])\./, // 172.16.0.0/12
   /^169\.254\./, // link-local
@@ -39,7 +39,7 @@ export interface CorsRules {
 
 /**
  * Builds the callback Nest's `enableCors` expects. A missing origin (curl,
- * same-origin, server-to-server) is always allowed — the header is only
+ * same-origin, server-to-server) is always allowed - the header is only
  * meaningful for browsers.
  */
 export function corsOriginChecker({ allowed, allowPrivateNetwork }: CorsRules) {
@@ -62,7 +62,7 @@ export function corsOriginChecker({ allowed, allowPrivateNetwork }: CorsRules) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* F-068 — per-route policy                                                   */
+/* F-068 - per-route policy                                                   */
 /* -------------------------------------------------------------------------- */
 
 export interface CorsPolicy extends CorsRules {
@@ -90,7 +90,7 @@ interface CorsRequest {
   headers: Record<string, string | string[] | undefined>;
 }
 
-/** The method the browser will actually send — for a preflight, the one it asks about. */
+/** The method the browser will actually send - for a preflight, the one it asks about. */
 function effectiveMethod(req: CorsRequest): string {
   const method = (req.method ?? "GET").toUpperCase();
   if (method !== "OPTIONS") return method;
@@ -125,7 +125,7 @@ type CorsOptionsLike = {
  *
  * - Public reads (website content, media) may be open to any origin, as a
  *   cacheable `*` without credentials.
- * - Everything else — POST/PATCH/PUT/DELETE, `/auth/*`, `/admin/*` — is
+ * - Everything else - POST/PATCH/PUT/DELETE, `/auth/*`, `/admin/*` - is
  *   credentialed and admits only `CORS_ORIGINS` (plus the LAN when
  *   `CORS_ALLOW_PRIVATE_NETWORK` is on). In production a `*` there is
  *   ignored for these routes, so a permissive setting cannot open the write

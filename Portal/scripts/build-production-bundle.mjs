@@ -44,7 +44,7 @@ const OUT = join(ROOT, "dist-portal");
  *
  * `sharp` ships prebuilt binaries per platform, so a bundle assembled on
  * Windows carries `@img/sharp-win32-x64` and dies on a Linux host the moment
- * anything touches an image — an upload, or Next optimizing one. npm resolves
+ * anything touches an image - an upload, or Next optimizing one. npm resolves
  * optional dependencies for `--os`/`--cpu` rather than the current machine,
  * which is exactly what cross-building needs.
  *
@@ -139,7 +139,7 @@ step("Bundling the initial data set");
 for (const dir of ["seed-data", "seed-assets"]) {
   const from = join(ROOT, "backend", dir);
   if (!existsSync(from)) {
-    console.warn(`  ! ${dir}/ is missing — run backend/scripts/export-demo-data.mjs first`);
+    console.warn(`  ! ${dir}/ is missing - run backend/scripts/export-demo-data.mjs first`);
     continue;
   }
   cpSync(from, join(OUT, "backend", dir), { recursive: true });
@@ -161,7 +161,7 @@ cpSync(join(standalone, "frontend"), join(OUT, "frontend"), { recursive: true })
 cpSync(join(standalone, "node_modules"), join(OUT, "node_modules"), { recursive: true });
 
 /*
- * Next deliberately leaves these two out of the standalone trace — they are
+ * Next deliberately leaves these two out of the standalone trace - they are
  * served from disk rather than imported, so nothing references them. Without
  * them the CMS boots and then serves a page with no CSS or JavaScript.
  */
@@ -182,7 +182,7 @@ if (existsSync(join(ROOT, "frontend", "public"))) {
  * The API's dependencies were installed with `--os/--cpu` above, but the CMS's
  * were *copied* from the local build, so they carry whatever this machine runs.
  * Uploaded to a Linux host, Next fails on the first image it optimizes with
- * "Could not load the sharp module using the win32-x64 runtime" — and the CMS
+ * "Could not load the sharp module using the win32-x64 runtime" - and the CMS
  * looks broken for a reason nothing in the logs connects to the build machine.
  */
 step(`Fetching sharp binaries for ${TARGET_OS}-${TARGET_CPU}`);
@@ -196,7 +196,7 @@ const sharpVersion = (() => {
 })();
 
 if (!sharpVersion) {
-  console.log("  sharp is not in the bundle — nothing to do");
+  console.log("  sharp is not in the bundle - nothing to do");
 } else {
   const staging = join(ROOT, ".sharp-staging");
   rmSync(staging, { recursive: true, force: true });
@@ -209,7 +209,7 @@ if (!sharpVersion) {
   /*
    * The two platform packages are named explicitly rather than installed via
    * `sharp` itself. `--os/--cpu` alone resolves only the architecture-neutral
-   * parts — npm still skips the binaries, because each declares an `os`/`cpu`
+   * parts - npm still skips the binaries, because each declares an `os`/`cpu`
    * this machine does not satisfy. Naming them and passing `--force` is what
    * actually fetches a foreign platform's binaries.
    *
@@ -280,7 +280,7 @@ if (!sharpVersion) {
 /*
  * Source maps map the compiled API back to its TypeScript. Useful while
  * developing, and 142 files of internal structure to hand to a hosting
- * provider — they buy nothing at runtime, since nothing reads them unless a
+ * provider - they buy nothing at runtime, since nothing reads them unless a
  * debugger is attached.
  */
 step("Stripping source maps");
@@ -298,7 +298,7 @@ const dropMaps = (dir) => {
 };
 dropMaps(join(OUT, "backend", "dist"));
 dropMaps(join(OUT, "shared", "dist"));
-// Next emits maps for the server bundles too — same reasoning, and they are the
+// Next emits maps for the server bundles too - same reasoning, and they are the
 // larger half.
 dropMaps(join(OUT, "frontend", ".next", "server"));
 console.log(`  removed ${stripped} source map(s)`);
@@ -309,7 +309,7 @@ step("Adding the entrypoint and documentation");
 cpSync(join(ROOT, "docker", "entrypoint.mjs"), join(OUT, "start.mjs"));
 // The bundle's own example, not the backend's: in the bundle `PORT` is the
 // public router port, while the backend's example documents it as the API's
-// own — following that one puts two servers on the same number.
+// own - following that one puts two servers on the same number.
 cpSync(join(ROOT, "docker", "bundle.env.example"), join(OUT, ".env.example"));
 if (existsSync(join(ROOT, "docker", "BUNDLE-README.md"))) {
   cpSync(join(ROOT, "docker", "BUNDLE-README.md"), join(OUT, "README.md"));

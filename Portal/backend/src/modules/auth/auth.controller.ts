@@ -66,7 +66,7 @@ export class AuthController {
   /*
    * Self-service, deliberately on `/auth` rather than `/admin/users`.
    *
-   * The admin routes require `users.write`, which only a super-admin holds — so
+   * The admin routes require `users.write`, which only a super-admin holds - so
    * an editor could not change their own name or password without asking
    * someone else to do it for them. These act only on the caller's own record,
    * so they need authentication and nothing more.

@@ -13,11 +13,11 @@ import { readableFileStem } from "./media.service";
 import { MediaEntity } from "./schemas/media.schema";
 
 /* -------------------------------------------------------------------------- */
-/* The rules — pure, so the live rename and a rename of the bundled snapshot   */
+/* The rules - pure, so the live rename and a rename of the bundled snapshot   */
 /* and seed data (scripts/rename-media-files.mjs) name files identically.      */
 /* -------------------------------------------------------------------------- */
 
-/** A stored name that is only a UUID — what every upload got before readable names. */
+/** A stored name that is only a UUID - what every upload got before readable names. */
 export const ID_ONLY = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
@@ -65,8 +65,8 @@ export function buildUsage(records: Iterable<Record<string, unknown>>): Map<stri
 
 /**
  * The readable name for one file, and where it came from: alt text, then its
- * own file name, then the title of a record that shows it, then — last
- * resort — whatever its file name was, since `scene2` still beats an id.
+ * own file name, then the title of a record that shows it, then - last
+ * resort - whatever its file name was, since `scene2` still beats an id.
  */
 export function chooseStem(
   file: { filename: string; alt?: { en?: string } | null },
@@ -105,15 +105,15 @@ export interface RenamePlanItem {
 }
 
 /**
- * A readable name that still ends in a short id — `sunrise-over-the-church-47b63c8c`
- * — as the first version of readable names produced. Eight hex characters
+ * A readable name that still ends in a short id - `sunrise-over-the-church-47b63c8c`
+ * - as the first version of readable names produced. Eight hex characters
  * with both a digit and a letter, so a real word or a date never matches.
  */
 export const HASH_SUFFIX = /-(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{8}(?:-\d+)?$/;
 
 /**
- * Whether a name carries an id on the end: by its look, or — for an id that
- * happens to be all digits (`-86323155`) — because the file was once stored
+ * Whether a name carries an id on the end: by its look, or - for an id that
+ * happens to be all digits (`-86323155`) - because the file was once stored
  * under the full id it was cut from.
  */
 export function hasIdSuffix(name: string, previousPaths: string[] = []): boolean {
@@ -132,12 +132,12 @@ export function hasIdSuffix(name: string, previousPaths: string[] = []): boolean
 const nameKey = (path: string) => path.replace(/\.[^./]*$/, "");
 
 /**
- * What renaming would do for these files — pure, nothing is touched.
+ * What renaming would do for these files - pure, nothing is touched.
  *
  * Files named only by an id, or by a name with an id on the end, get their
  * readable name with nothing added; when two would share one, the later gets
  * `-2`, `-3`… A name is never reused if any file has it now, if it is listed
- * in `reserved` (files on disk), or if a renamed file used to have it — that
+ * in `reserved` (files on disk), or if a renamed file used to have it - that
  * old address redirects, so handing it out again would misroute it.
  */
 export function planRenames(
@@ -211,8 +211,8 @@ export function movesOf(plan: RenamePlanItem[]): Map<string, string> {
 
 /**
  * The value with every reference to a moved upload pointed at its new path.
- * Walks plain objects and arrays only, so dates, ids and other BSON values —
- * or EJSON wrappers in a JSON file — are left exactly as they were.
+ * Walks plain objects and arrays only, so dates, ids and other BSON values -
+ * or EJSON wrappers in a JSON file - are left exactly as they were.
  */
 export function rewriteUploadRefs(
   value: unknown,
@@ -294,7 +294,7 @@ export class MediaRenameService implements OnModuleInit {
     return this.redirects.get(path.replace(/^\/+/, "")) ?? null;
   }
 
-  /** Re-reads the redirect table — after a rename, or a restore replaced the media. */
+  /** Re-reads the redirect table - after a rename, or a restore replaced the media. */
   async loadRedirects(): Promise<void> {
     const docs = await this.model
       .find(
@@ -333,7 +333,7 @@ export class MediaRenameService implements OnModuleInit {
     return buildUsage(records);
   }
 
-  /** What renaming would do — nothing is changed. */
+  /** What renaming would do - nothing is changed. */
   async plan(): Promise<RenamePlanItem[]> {
     const docs = await this.model.find().sort({ createdAt: 1 });
     return planRenames(
@@ -350,7 +350,7 @@ export class MediaRenameService implements OnModuleInit {
     );
   }
 
-  /** Every stored file, as `images/x.jpg` — names a rename must not take. */
+  /** Every stored file, as `images/x.jpg` - names a rename must not take. */
   private async filesOnDisk(): Promise<string[]> {
     const paths: string[] = [];
     for (const dir of ["images", "videos", "files", "thumbs"]) {
@@ -410,7 +410,7 @@ export class MediaRenameService implements OnModuleInit {
     return { renamed, skipped: plan.length - renamed, recordsUpdated };
   }
 
-  /** A missing file still gets its new name in the database — nothing to move. */
+  /** A missing file still gets its new name in the database - nothing to move. */
   private async move(from: string, to: string): Promise<void> {
     try {
       await rename(join(this.uploadRoot, from), join(this.uploadRoot, to));

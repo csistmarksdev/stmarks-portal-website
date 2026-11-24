@@ -32,8 +32,8 @@ function fileName(url: string): string {
 const ID_ONLY = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.[a-z0-9]+$/i;
 
 /**
- * Full-size view of one album item — the photo, or the video playing as the
- * website will play it — with its link and file name. Arrow keys and the
+ * Full-size view of one album item - the photo, or the video playing as the
+ * website will play it - with its link and file name. Arrow keys and the
  * buttons page through the album.
  */
 export function MediaViewerDialog({
@@ -78,7 +78,7 @@ export function MediaViewerDialog({
             {item.video ? "Video" : "Photo"} {index + 1} of {items.length}
           </DialogTitle>
           <DialogDescription>
-            {item.image.alt?.en?.trim() || "No alt text yet — add it in the media library."}
+            {item.image.alt?.en?.trim() || "No alt text yet. Add it in the media library."}
           </DialogDescription>
         </DialogHeader>
 
@@ -131,7 +131,7 @@ export function MediaViewerDialog({
           <p className="text-xs text-muted-foreground">
             File name: <span className="font-mono">{imageName}</span>
             {ID_ONLY.test(imageName) &&
-              " — an id rather than words. New uploads are named from their alt text or the album title, which helps image search."}
+              ", an id rather than words. New uploads are named from their alt text or the album title, which helps image search."}
           </p>
         </div>
 

@@ -110,7 +110,7 @@ function LocalizedSeoText({
               </span>
               <AutoTextarea
                 lang={locale}
-                aria-label={`${label} — ${caption}`}
+                aria-label={`${label}, ${caption}`}
                 singleLine={!multiline}
                 minRows={multiline ? 2 : 1}
                 stretch={both}
@@ -223,8 +223,8 @@ function VideoPreview({ url }: { url: string }) {
 /**
  * Search-engine settings for a record with a public page: the title and
  * description shown in search results, and meta keywords. Each part is
- * optional — left blank, the website uses the record's own title and
- * summary — and a live preview shows what a search result would look like.
+ * optional - left blank, the website uses the record's own title and
+ * summary - and a live preview shows what a search result would look like.
  */
 export function SeoFields({
   value,
@@ -240,7 +240,7 @@ export function SeoFields({
   urlPath: string;
   fallbackTitle?: LocalizedText;
   fallbackDescription?: LocalizedText;
-  /** The record's own cover/image — what is shared when no share image is set. */
+  /** The record's own cover/image - what is shared when no share image is set. */
   fallbackImage?: ImageAsset;
 }) {
   const current = value ?? {};

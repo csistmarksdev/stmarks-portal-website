@@ -3,7 +3,7 @@
  *
  *   node scripts/generate-icons.mjs
  *
- * Source: frontend/Logo.svg — a 1.4 MB SVG that wraps two base64 PNGs: an RGB
+ * Source: frontend/Logo.svg - a 1.4 MB SVG that wraps two base64 PNGs: an RGB
  * image plus a greyscale mask the SVG applies as an alpha channel. Neither is
  * usable on its own, so we recombine them here and emit optimised assets:
  *
@@ -26,7 +26,7 @@ const SOURCE = join(root, "frontend", "Logo.svg");
 const APP_DIR = join(root, "frontend", "src", "app");
 const PUBLIC_DIR = join(root, "frontend", "public");
 
-/** Sand-50 from the design tokens — matches the app background. */
+/** Sand-50 from the design tokens - matches the app background. */
 const GROUND = { r: 252, g: 251, b: 248, alpha: 1 };
 
 function extractLayers() {
@@ -65,7 +65,7 @@ async function buildCrest() {
 }
 
 /**
- * The crest is flat heraldry — a palette PNG is visually identical to
+ * The crest is flat heraldry - a palette PNG is visually identical to
  * truecolour here and roughly a tenth the size, which matters for an asset
  * the browser fetches on every page load.
  */

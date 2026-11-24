@@ -119,7 +119,7 @@ export function SeoFileNamesDialog({
             {stuck.length > 0 && (
               <div className="space-y-1.5">
                 <p className="text-xs font-medium text-muted-foreground">
-                  Left as they are ({stuck.length}) — nothing readable to name them by. Add English
+                  Left as they are ({stuck.length}): nothing readable to name them by. Add English
                   alt text in the library, then run this again.
                 </p>
                 <ul className="flex flex-wrap gap-1.5">

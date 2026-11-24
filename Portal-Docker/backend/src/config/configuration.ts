@@ -58,7 +58,7 @@ export default (): AppConfig => ({
     .filter(Boolean),
   /*
    * Lets the CMS be opened from any device on the LAN without listing each
-   * address — a real convenience while setting up in the church office.
+   * address - a real convenience while setting up in the church office.
    *
    * Off by default in production, on by default everywhere else. Combined with
    * `credentials: true`, blanket private-network trust means any page a staff
@@ -72,7 +72,7 @@ export default (): AppConfig => ({
       : process.env.NODE_ENV !== "production",
   /*
    * F-068. Public content reads (GET/HEAD outside /auth and /admin) answered
-   * with a literal `*`, uncredentialed — harmless for published content and
+   * with a literal `*`, uncredentialed - harmless for published content and
    * cache-friendly. Writes, sign-in and admin routes are never covered by it.
    * Also implied by a `*` in CORS_ORIGINS.
    */
@@ -82,7 +82,7 @@ export default (): AppConfig => ({
    *
    * This decides what `req.ip` is, and `req.ip` is what the rate limiter buckets
    * by and what the audit log records. Left off behind a proxy, every request in
-   * the world shares one bucket — one attacker can exhaust the sign-in limit for
+   * the world shares one bucket - one attacker can exhaust the sign-in limit for
    * the whole parish, and every audit entry names the proxy instead of a person.
    * Turned on when nothing is in front, a caller sets the header themselves and
    * the per-IP limit stops meaning anything.
@@ -105,7 +105,7 @@ export default (): AppConfig => ({
    *
    * Absolute is what makes single-disk hosting work. Render, Fly and Railway
    * give a service exactly one persistent volume, and this deployment has two
-   * things that must survive a redeploy — the database and the media. Pointing
+   * things that must survive a redeploy - the database and the media. Pointing
    * `UPLOAD_DIR=/data/uploads` puts both under the one mount.
    *
    * Every consumer resolves this with `path.resolve` rather than `path.join`

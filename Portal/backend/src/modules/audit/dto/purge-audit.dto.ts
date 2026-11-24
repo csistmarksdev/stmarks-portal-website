@@ -7,7 +7,7 @@ import { IsInt, IsOptional, Max, Min } from "class-validator";
  *
  * Expressed as a retention window rather than a list of ids: the useful
  * operation is "stop keeping years of this", not "make one particular action
- * disappear" — and the latter is exactly what an audit trail exists to prevent.
+ * disappear" - and the latter is exactly what an audit trail exists to prevent.
  *
  * `0` clears everything, and has to be asked for explicitly.
  */

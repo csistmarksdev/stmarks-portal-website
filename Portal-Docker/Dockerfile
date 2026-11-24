@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — the whole installation in one image.
+# CSI St. Mark's Portal - the whole installation in one image.
 #
 #   node scripts/build-production-bundle.mjs      compile, once, out here
 #   docker build -t csistmarkscmsportal .         assemble the image
@@ -7,7 +7,7 @@
 # or, both steps together:  ./scripts/build-image.sh
 #
 # The image carries the API, the admin CMS, a MongoDB server, and a snapshot of
-# the church's real content, media and accounts — so it comes up as a working
+# the church's real content, media and accounts - so it comes up as a working
 # portal with no database to provision and nothing to configure. Point
 # `MONGODB_URI` at a managed database and the bundled one is never started.
 #
@@ -19,7 +19,7 @@
 #
 # That is deliberate and it is the point of this file. Compiling in the image
 # means a Next.js build inside the builder: roughly 2 GB of RAM, a full
-# dependency install, and several minutes of CPU — every time the image is
+# dependency install, and several minutes of CPU - every time the image is
 # built, on every architecture, and again on any host that rebuilds rather than
 # pulls. On a ZimaBoard, a free-tier instance or a laptop that is the difference
 # between "the image builds" and "the machine swaps until the daemon is killed".
@@ -34,14 +34,14 @@
 # immediately and says so if it is not, rather than producing an image that
 # starts and then dies.
 #
-# `Dockerfile.source` is the other half of the trade — it compiles from source
+# `Dockerfile.source` is the other half of the trade - it compiles from source
 # inside the image, for a platform that builds straight from a git repository
 # (Render's and Railway's repo integrations) and never sees a prebuilt bundle.
 #
 # Base image
 # ----------
 # `ubuntu:24.04`, chosen over Debian because MongoDB publishes both linux/amd64
-# and linux/arm64 packages for Ubuntu and only amd64 for Debian — so one
+# and linux/arm64 packages for Ubuntu and only amd64 for Debian - so one
 # Dockerfile serves a ZimaBoard, an AWS Graviton instance and an Apple Silicon
 # laptop.
 #
@@ -52,7 +52,7 @@
 #
 # Node comes from the official tarball rather than a distribution package,
 # because those are built to target glibc 2.28 and are the canonical way to put
-# a specific Node on any distribution — and the version is read out of the
+# a specific Node on any distribution - and the version is read out of the
 # bundle, so the runtime is guaranteed to be the same Node the application was
 # compiled and dependency-resolved against rather than a number pinned here and
 # left to drift.
@@ -60,7 +60,7 @@
 # Not the official `mongo:8` image, for one specific reason: it declares
 # `VOLUME /data/db`. That declaration is inherited and cannot be undone, so
 # every `docker run` would create an anonymous volume mounted *over* `/data/db`
-# — shadowing the very path inside a `-v portal-data:/data` mount that the
+# - shadowing the very path inside a `-v portal-data:/data` mount that the
 # database writes to. The data would look persisted, live somewhere else, and
 # vanish on `docker rm`.
 
@@ -84,7 +84,7 @@ COPY dist-portal/.node-version /tmp/node-version
 
 # MongoDB and Node, in one layer.
 #
-# `mongodb-org-server` is just `mongod` — the shell and the import/export tools
+# `mongodb-org-server` is just `mongod` - the shell and the import/export tools
 # are another 150 MB of things nothing in this image invokes.
 #
 # Only the `node` binary is extracted from the tarball: npm, the headers and the
@@ -92,7 +92,7 @@ COPY dist-portal/.node-version /tmp/node-version
 #
 # One `RUN`, because `curl`, `gnupg` and `xz-utils` are needed by both halves
 # and must be gone by the time the layer is committed. Removing them in a
-# *later* layer would leave them in the image regardless — a deleted file in an
+# *later* layer would leave them in the image regardless - a deleted file in an
 # upper layer still ships the bytes underneath it.
 #
 # `WITH_MONGODB=false` builds without the database, for a deployment that sets
@@ -133,18 +133,18 @@ RUN set -eux; \
 # COPY can set ownership directly.
 #
 # Group 0 rather than a group of its own: that is what lets platforms which
-# impose an arbitrary `runAsUser` — OpenShift, and any Kubernetes with a
-# restricted security context — still read the application. They pick the UID;
+# impose an arbitrary `runAsUser` - OpenShift, and any Kubernetes with a
+# restricted security context - still read the application. They pick the UID;
 # they always put it in group 0.
 RUN useradd --system --uid 10001 --gid 0 --home-dir /app --shell /usr/sbin/nologin portal
 
 # The application: compiled API, Next standalone CMS, production dependencies,
-# the snapshot, and the entrypoint — all of it already assembled on the host.
+# the snapshot, and the entrypoint - all of it already assembled on the host.
 #
 # One COPY rather than a dozen, because there is nothing left to interleave; and
 # `--chown` on it rather than a `chown -R` afterwards, since a recursive chown
 # rewrites every file it touches and copy-on-write layers then carry a second
-# full copy of the application — roughly doubling the image for a metadata
+# full copy of the application - roughly doubling the image for a metadata
 # change.
 COPY --chown=10001:0 dist-portal/ ./
 
@@ -166,7 +166,7 @@ COPY docker/launch.sh /usr/local/bin/launch.sh
 # the machine where the question is being asked, rather than needing a checkout.
 COPY --chown=10001:0 scripts/check-website-api.mjs check-website-api.mjs
 
-# Only the writable paths need group-write, and both are empty here — so this
+# Only the writable paths need group-write, and both are empty here - so this
 # stays a metadata-only layer of two directories rather than a copy of the app.
 RUN chmod 0755 /usr/local/bin/launch.sh \
  && mkdir -p /data/db /app/backend/uploads \
@@ -176,9 +176,9 @@ RUN chmod 0755 /usr/local/bin/launch.sh \
 # Fail the build, not the deployment.
 #
 # Everything here is something the bundle was supposed to provide and that the
-# entrypoint will reach for on boot. Each has a plausible way of going missing —
+# entrypoint will reach for on boot. Each has a plausible way of going missing -
 # a stale `dist-portal/` from before a rename, a capture step skipped, a bundle
-# built for the wrong architecture — and each would otherwise surface as a
+# built for the wrong architecture - and each would otherwise surface as a
 # container that starts and then dies, or worse, one that comes up empty.
 #
 # The architecture check is the one that repays itself. An amd64 bundle inside
@@ -208,7 +208,7 @@ RUN set -eux; \
     command -v setpriv || command -v gosu; \
     node -e "const b=require('/app/bundle-info.json'); \
         console.log('bundle: node '+b.node+', '+b.target.os+'/'+b.target.cpu+', built '+b.builtAt); \
-        console.log('snapshot: '+(b.snapshot ? b.snapshot.documents+' documents, '+b.snapshot.uploads.files+' uploads' : 'NONE — this portal will start empty'))"; \
+        console.log('snapshot: '+(b.snapshot ? b.snapshot.documents+' documents, '+b.snapshot.uploads.files+' uploads' : 'NONE - this portal will start empty'))"; \
     echo "runtime image contents verified"
 
 # The database, generated secrets and uploaded media. Declared so that a plain

@@ -23,7 +23,7 @@ export function configureApp(app: INestApplication): void {
   app.setGlobalPrefix(config.get<string>("apiPrefix", "v1"));
 
   /*
-   * Decides what `req.ip` resolves to — see `trustProxy` in `configuration.ts`
+   * Decides what `req.ip` resolves to - see `trustProxy` in `configuration.ts`
    * for why the default differs between the two deployments. Set before the
    * throttler guard sees a request, because that guard keys its buckets on it.
    */
@@ -42,7 +42,7 @@ export function configureApp(app: INestApplication): void {
   /*
    * Gzip JSON responses. List endpoints return highly repetitive documents
    * (the same keys on every record, both languages on every field), which
-   * compress by roughly an order of magnitude — the single biggest win for
+   * compress by roughly an order of magnitude - the single biggest win for
    * the CMS over a slow connection. Already-compressed uploads are skipped by
    * the default filter.
    */
@@ -94,10 +94,10 @@ export function configureApp(app: INestApplication): void {
    * Media URLs follow the origin each request arrived on.
    *
    * Without this every response hands out `${PUBLIC_URL}/uploads/…`, and
-   * `PUBLIC_URL` is whatever could be worked out at boot — inside the container
+   * `PUBLIC_URL` is whatever could be worked out at boot - inside the container
    * with nothing configured, `http://localhost:8080`. That is correct for
    * exactly one viewer: someone sitting at the machine running Docker. Reached
-   * from anywhere else — a ZimaOS box on the LAN, a phone, a public domain —
+   * from anywhere else - a ZimaOS box on the LAN, a phone, a public domain -
    * `localhost` is the *viewer's* own machine, which serves nothing, and every
    * image in the CMS and on the website is broken while the API reports 200 and
    * the files are plainly there on disk.

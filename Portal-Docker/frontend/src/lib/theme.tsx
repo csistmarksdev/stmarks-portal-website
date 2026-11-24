@@ -20,7 +20,7 @@ export const THEME_STORAGE_KEY = "portal.theme";
  * the correct theme is on <html> before the first frame. Without it a dark-mode
  * user gets a white flash on every navigation to a fresh document.
  *
- * Deliberately dependency-free and stringified — it executes before any bundle
+ * Deliberately dependency-free and stringified - it executes before any bundle
  * has loaded.
  */
 export const THEME_INIT_SCRIPT = `
@@ -88,7 +88,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (next === "system") window.localStorage.removeItem(THEME_STORAGE_KEY);
       else window.localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
-      // Private browsing with storage disabled — the choice just won't persist.
+      // Private browsing with storage disabled - the choice just won't persist.
     }
   }, []);
 

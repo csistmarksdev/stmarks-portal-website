@@ -13,7 +13,7 @@
 # The application is compiled here, on this machine, into `dist-portal/`. The
 # image build that follows copies that folder in and compiles nothing.
 #
-# Doing it the other way — `npm ci && next build` inside the builder — needs
+# Doing it the other way - `npm ci && next build` inside the builder - needs
 # roughly 2 GB of RAM and several minutes of CPU per architecture, every time,
 # which is more than a ZimaBoard or a free-tier box has to give. Here the
 # expensive half runs once, and can be run and tested before an image exists at
@@ -25,7 +25,7 @@
 #                       Dependencies are installed on the first run.
 #
 #   --use-dist-portal   assemble from a `dist-portal/` that was built
-#                       elsewhere and copied in. **Needs Docker only** — no
+#                       elsewhere and copied in. **Needs Docker only** - no
 #                       Node, no npm, no node_modules, nothing to install. Build
 #                       the bundle on a machine that has Node, copy the folder
 #                       to the build host, and this turns it into an image in
@@ -94,7 +94,7 @@ HAVE_NODE=false
 command -v node > /dev/null 2>&1 && HAVE_NODE=true
 
 # Where the snapshot lives depends on what is being built from. With a prebuilt
-# bundle it is *inside* that bundle — and the source tree's own `snapshot/` may
+# bundle it is *inside* that bundle - and the source tree's own `snapshot/` may
 # legitimately not exist at all, because the only thing copied to this machine
 # was `dist-portal/`.
 if [ "$SKIP_BUNDLE" = true ]; then
@@ -122,14 +122,14 @@ fi
 
 # The snapshot is the image's reason for existing. Building without it produces
 # something that starts, shows an empty portal, and looks like the export step
-# silently failed — which it did, several steps ago and somewhere else.
+# silently failed - which it did, several steps ago and somewhere else.
 if [ ! -d "$SNAPSHOT_DIR/db" ]; then
     if [ "$SKIP_BUNDLE" = true ]; then
         cat >&2 <<'EOF'
 error: dist-portal/snapshot/ is missing.
 
   --use-dist-portal builds from a bundle that was assembled elsewhere, and this
-  one carries no data — the image would come up as an empty portal.
+  one carries no data - the image would come up as an empty portal.
 
   Either the copy across dropped it (it is ~15 MB; some transfer methods skip
   directories that look like media), or the bundle was built on a machine whose
@@ -148,7 +148,7 @@ error: snapshot/ is missing.
       node scripts/capture-live-data.mjs
 
   Or, if the application was compiled elsewhere and only `dist-portal/` was
-  copied to this machine, build from that instead — it carries its own copy of
+  copied to this machine, build from that instead - it carries its own copy of
   the snapshot and needs no Node here:
 
       ./scripts/build-image.sh --use-dist-portal
@@ -164,7 +164,7 @@ if [ "$HAVE_NODE" = true ]; then
 else
     # No Node to parse the manifest with; count what is on disk instead, so the
     # data is still confirmed rather than merely assumed. `_manifest.json` is
-    # excluded — it describes the collections rather than being one.
+    # excluded - it describes the collections rather than being one.
     echo "Snapshot: $(find "$SNAPSHOT_DIR/db" -name '*.json' ! -name '_*' 2>/dev/null | wc -l) collection(s), \
 $(find "$SNAPSHOT_DIR/uploads" -type f 2>/dev/null | wc -l) media file(s)"
 fi
@@ -173,14 +173,14 @@ DOCKERFILE=Dockerfile
 
 if [ "$FROM_SOURCE" = true ]; then
     DOCKERFILE=Dockerfile.source
-    echo "Compiling inside the image (Dockerfile.source) — this is the slow path."
+    echo "Compiling inside the image (Dockerfile.source) - this is the slow path."
 else
     # --------------------------------------------------------------- bundle --
     #
     # Cross-building is settled here rather than in the Dockerfile, because this
     # is where npm runs. A multi-architecture image needs one bundle per
     # architecture and this script builds one, so that combination is refused
-    # rather than silently producing an arm64 image carrying amd64 binaries —
+    # rather than silently producing an arm64 image carrying amd64 binaries -
     # which builds, starts, and dies on the first uploaded image.
     if [ "$MULTI_ARCH" = true ] && [ "$SKIP_BUNDLE" != true ]; then
         cat >&2 <<'EOF'
@@ -201,13 +201,13 @@ EOF
 
     if [ "$SKIP_BUNDLE" = true ]; then
         # Its existence was established above, before the snapshot check.
-        echo "Building from the existing dist-portal/ — nothing is compiled here"
+        echo "Building from the existing dist-portal/ - nothing is compiled here"
     else
         if [ "$HAVE_NODE" != true ]; then
             cat >&2 <<'EOF'
 error: no `node` on this machine, and the application has to be compiled.
 
-  The image itself never compiles anything, which is the point of it — but
+  The image itself never compiles anything, which is the point of it - but
   something has to produce `dist-portal/` first. Three ways out, cheapest first:
 
     1. Build the bundle on a machine that has Node, copy the folder here, and
@@ -219,7 +219,7 @@ error: no `node` on this machine, and the application has to be compiled.
            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
            sudo apt install -y nodejs
 
-    3. Compile inside the image — no Node needed, but several minutes of CPU
+    3. Compile inside the image - no Node needed, but several minutes of CPU
        and ~2 GB of RAM in the builder, on every build:
            ./scripts/build-image.sh --from-source
 EOF
@@ -237,7 +237,7 @@ EOF
 
     # -------------------------------------------------------------- preflight --
     #
-    # The Dockerfile checks most of this too, in a layer near the end — after the
+    # The Dockerfile checks most of this too, in a layer near the end - after the
     # context upload, the apt install and the Node download. Doing it here first
     # turns "two minutes, then a missing file" into "one second, and the command
     # that fixes it".
@@ -247,10 +247,10 @@ EOF
     # a bundle that had better be arm64 too.
     if [ "$HAVE_NODE" != true ]; then
         # Docker-only host building from a copied bundle. The image's own
-        # verification layer still runs every one of these checks — this one is
+        # verification layer still runs every one of these checks - this one is
         # an optimisation, not the safety net, so its absence costs time on a
         # bad bundle rather than correctness.
-        echo "Skipping preflight (no node here) — the image build verifies the bundle itself."
+        echo "Skipping preflight (no node here) - the image build verifies the bundle itself."
     else
         if [ "$MULTI_ARCH" = true ]; then
             case "$PLATFORMS" in
@@ -263,7 +263,7 @@ EOF
             # Several platforms from one bundle cannot all match, and the
             # Dockerfile already refuses that mismatch per platform with the
             # exact rebuild command. Checking it here as well would only fail
-            # earlier with less information — so the arch check is neutralised
+            # earlier with less information - so the arch check is neutralised
             # and the rest still runs.
             [ -n "$image_arch" ] || image_arch=$(node -p \
                 "require('./dist-portal/bundle-info.json').target.cpu")
@@ -283,12 +283,12 @@ fi
 echo
 
 # `Dockerfile.source` has no `WITH_MONGODB`, and passing a build argument a
-# Dockerfile does not declare is a warning on every build — noise that trains
+# Dockerfile does not declare is a warning on every build - noise that trains
 # people to ignore warnings.
 #
 # Expanded as `${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}` at the call sites: under
 # `set -u`, bash before 4.4 treats an empty array's plain expansion as an unset
-# variable and aborts — which is exactly the `--from-source` path, on exactly
+# variable and aborts - which is exactly the `--from-source` path, on exactly
 # the older machines most likely to need it.
 BUILD_ARGS=()
 [ "$FROM_SOURCE" = true ] || BUILD_ARGS+=(--build-arg "WITH_MONGODB=$WITH_MONGODB")
@@ -301,7 +301,7 @@ if [ "$MULTI_ARCH" = true ]; then
 
     # A named builder using the docker-container driver. The default builder
     # uses the daemon's own driver, which can only ever build for the host
-    # architecture — the `--platform` flag is accepted and then ignored, so the
+    # architecture - the `--platform` flag is accepted and then ignored, so the
     # build "succeeds" and produces a single-architecture image.
     docker buildx inspect portal-builder > /dev/null 2>&1 \
         || docker buildx create --name portal-builder --driver docker-container --bootstrap

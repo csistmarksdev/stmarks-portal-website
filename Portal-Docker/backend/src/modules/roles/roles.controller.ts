@@ -7,7 +7,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { CreateRoleDto, UpdateRoleDto } from "./dto/role.dto";
 import { RolesService } from "./roles.service";
 
-@ApiTags("Admin — Roles")
+@ApiTags("Admin: Roles")
 @ApiBearerAuth()
 @Controller("admin/roles")
 export class RolesController {

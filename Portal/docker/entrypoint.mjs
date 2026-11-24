@@ -34,7 +34,7 @@ import { URL } from "node:url";
 /*
  * Everything resolves against this file's own directory rather than a fixed
  * path, so the same entrypoint drives an uploaded folder, a container, or a
- * checkout — and can be tested outside all three.
+ * checkout - and can be tested outside all three.
  */
 const ROOT = import.meta.dirname;
 
@@ -42,7 +42,7 @@ const ROOT = import.meta.dirname;
  * Load `.env` from beside this file, if there is one.
  *
  * Hosting platforms inject configuration as real environment variables, but
- * anyone deploying to a plain VM reaches for a `.env` file — and nothing here
+ * anyone deploying to a plain VM reaches for a `.env` file - and nothing here
  * read one, so the app died on `MONGODB_URI is not set` while the value sat
  * in a file two lines away.
  *
@@ -175,7 +175,7 @@ function start(name, args, cwd, extraEnv = {}) {
 
   child.on("exit", (code, signal) => {
     if (shuttingDown) return;
-    log(`${name} exited (code ${code}, signal ${signal}) — stopping`);
+    log(`${name} exited (code ${code}, signal ${signal}) - stopping`);
     shutdown(code === 0 ? 1 : (code ?? 1));
   });
 
@@ -240,14 +240,14 @@ function startRouter() {
     /*
      * Both apps build absolute URLs and check origins, so they need to know how
      * the request actually arrived rather than that it came from loopback.
-     * Anything the client sent is preserved — a proxy in front of us may have
+     * Anything the client sent is preserved - a proxy in front of us may have
      * set it already, and overwriting would lose the real protocol.
      */
     /*
      * Headers the client did not send are left out, never set to `undefined`.
      * A request without a Host header (HTTP/1.0, some scanners) used to give
      * `x-forwarded-host: undefined`, which `http.request` rejects by throwing
-     * synchronously — uncaught, inside the server callback, so the whole
+     * synchronously - uncaught, inside the server callback, so the whole
      * process exited and the container restarted. One stray request took the
      * site down.
      */
@@ -326,7 +326,7 @@ async function main() {
   log(
     loadedEnvFile
       ? "configuration: .env loaded (real environment variables take precedence)"
-      : "configuration: no .env file — reading the environment only",
+      : "configuration: no .env file - reading the environment only",
   );
 
   const uri = process.env.MONGODB_URI;
@@ -339,7 +339,7 @@ async function main() {
 
   /*
    * `PORT` is the public port; the API and CMS sit behind it on their own.
-   * Sharing a number is a silent, confusing failure — whichever binds second
+   * Sharing a number is a silent, confusing failure - whichever binds second
    * dies with EADDRINUSE, and the surviving half looks like a broken app. It
    * is an easy mistake because `PORT=4000` is exactly what the API used to
    * take, so say plainly what to change.
@@ -369,7 +369,7 @@ async function main() {
   await runInitializer();
 
   // The API reads `PORT` for its own listen port, so it is given the internal
-  // one explicitly — `PORT` belongs to the public router.
+  // one explicitly - `PORT` belongs to the public router.
   log(`starting API on ${BIND}:${API_PORT}`);
   start("api", ["dist/main"], join(ROOT, "backend"), {
     PORT: String(API_PORT),
@@ -383,7 +383,7 @@ async function main() {
   });
 
   if (SPLIT_PORTS) {
-    log(`SPLIT_PORTS=true — API on :${API_PORT}, CMS on :${CMS_PORT}, no router`);
+    log(`SPLIT_PORTS=true - API on :${API_PORT}, CMS on :${CMS_PORT}, no router`);
     return;
   }
 

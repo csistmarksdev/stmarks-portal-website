@@ -19,7 +19,7 @@ function digest(token: string): string {
 
 /**
  * A real bcrypt hash of a string nobody knows, used to spend the same time on
- * an unknown address as on a known one. Its plaintext is irrelevant — only the
+ * an unknown address as on a known one. Its plaintext is irrelevant - only the
  * cost matters, and the cost factor here matches `SALT_ROUNDS` in the users
  * service so the two paths take the same length of time.
  */
@@ -102,7 +102,7 @@ export class AuthService {
     }
     const matches = await bcrypt.compare(digest(refreshToken), user.refreshTokenHash);
     if (!matches) {
-      // Token was rotated or revoked — treat as a stolen/stale token.
+      // Token was rotated or revoked - treat as a stolen/stale token.
       throw new UnauthorizedException("Session expired");
     }
 
@@ -139,8 +139,8 @@ export class AuthService {
    *
    * The proof matters: the caller is already authenticated, so without it a
    * borrowed session could set a new password and lock the real owner out.
-   * Succeeding also drops the stored refresh hash, so every existing session —
-   * including whoever may have taken one — has to sign in again.
+   * Succeeding also drops the stored refresh hash, so every existing session -
+   * including whoever may have taken one - has to sign in again.
    */
   async changeOwnPassword(
     actor: AuthenticatedUser,
@@ -205,7 +205,7 @@ export class AuthService {
       "jwt.refreshExpires",
       "7d",
     ) as JwtSignOptions["expiresIn"];
-    // `jti` makes every issued token unique — otherwise two tokens signed in
+    // `jti` makes every issued token unique - otherwise two tokens signed in
     // the same second are byte-identical and rotation cannot invalidate the
     // previous one.
     const [accessToken, refreshToken] = await Promise.all([

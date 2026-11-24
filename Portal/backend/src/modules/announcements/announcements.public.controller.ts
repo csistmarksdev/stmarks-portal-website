@@ -6,14 +6,14 @@ import { Public } from "../../common/decorators/public.decorator";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { AnnouncementsService } from "./announcements.service";
 
-@ApiTags("Public — Announcements")
+@ApiTags("Public: Announcements")
 @Public()
 @Controller("announcements")
 export class AnnouncementsPublicController {
   constructor(private readonly announcements: AnnouncementsService) {}
 
   @Get()
-  @ApiOperation({ summary: "List announcements — pinned first, then newest (§5.4)" })
+  @ApiOperation({ summary: "List announcements - pinned first, then newest (§5.4)" })
   @ApiQuery({ name: "fellowship", required: false })
   list(
     @Query() query: PaginationQueryDto,

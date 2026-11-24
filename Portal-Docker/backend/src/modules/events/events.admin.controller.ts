@@ -20,7 +20,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { CreateEventDto, UpdateEventDto } from "./dto/create-event.dto";
 import { EventsService } from "./events.service";
 
-@ApiTags("Admin — Events")
+@ApiTags("Admin: Events")
 @ApiBearerAuth()
 @Controller("admin/events")
 export class EventsAdminController {

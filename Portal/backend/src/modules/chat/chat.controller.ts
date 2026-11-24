@@ -7,11 +7,11 @@ import { ChatService } from "./chat.service";
 import { MessagesQueryDto, OpenConversationDto, SendMessageDto } from "./dto/chat.dto";
 
 /*
- * Open to every signed-in account — no permission is needed to talk to a
+ * Open to every signed-in account - no permission is needed to talk to a
  * colleague. Each call is scoped to the caller: they see and write only their
  * own conversations.
  */
-@ApiTags("Admin — Messages")
+@ApiTags("Admin: Messages")
 @ApiBearerAuth()
 @Controller("admin/chat")
 export class ChatController {

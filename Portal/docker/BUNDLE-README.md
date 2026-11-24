@@ -1,4 +1,4 @@
-# CSI St. Mark's Church — Portal
+# CSI St. Mark's Church - Portal
 
 Deployment and operations guide.
 
@@ -34,7 +34,7 @@ Two applications served from **one port**:
 | `/uploads/*` | Uploaded images and video | Both |
 | `/docs` | API documentation | Off in production unless enabled |
 
-A third component — the public church website — is a **separate deployment**
+A third component - the public church website - is a **separate deployment**
 that talks to this one over `/v1`. See [section 7](#7-connecting-the-public-website).
 
 ```
@@ -48,7 +48,7 @@ that talks to this one over `/v1`. See [section 7](#7-connecting-the-public-webs
 ### Layout
 
 ```
-start.mjs              entrypoint — the only thing you run
+start.mjs              entrypoint - the only thing you run
 README.md              this file
 .env.example           every setting, annotated
 
@@ -57,7 +57,7 @@ backend/
   node_modules/        its dependencies, prebuilt for the target platform
   seed-data/           initial content (139 records)
   seed-assets/         the images that content references (193 files)
-  uploads/             created on first boot — the live media folder
+  uploads/             created on first boot - the live media folder
 
 frontend/              the admin CMS (Next.js standalone server)
 node_modules/          the CMS's dependencies
@@ -72,14 +72,14 @@ node_modules/          the CMS's dependencies
 | **Node.js** | 20 or newer (22 LTS recommended) |
 | **MongoDB** | 6 or 7, reachable from the app |
 | **CPU** | 1 vCPU is enough; 2 gives headroom for image processing |
-| **Memory** | **1 GB.** 512 MB works but leaves little margin — see below |
+| **Memory** | **1 GB.** 512 MB works but leaves little margin - see below |
 | **Disk** | ~150 MB for the app, plus uploads (starts at ~14 MB and grows) |
 | **Platform** | **linux-x64.** See the note below |
 | **Outbound network** | Only to MongoDB and the website's revalidate URL |
 
 ### Measured resource use
 
-Taken from a real run of this bundle — three Node processes: the entrypoint and
+Taken from a real run of this bundle - three Node processes: the entrypoint and
 router, the API, and the CMS. MongoDB is separate and not counted here.
 
 | | Idle | Under load |
@@ -90,7 +90,7 @@ router, the API, and the CMS. MongoDB is separate and not counted here.
 | **Total** | **313 MB** | **346 MB** |
 
 "Under load" is 300 API requests sustained at ~270 req/s plus six image resizes
-of a 2 MB PNG — far beyond anything a parish site generates, so treat ~350 MB as
+of a 2 MB PNG - far beyond anything a parish site generates, so treat ~350 MB as
 a working ceiling rather than a typical figure.
 
 **512 MB is viable** but leaves ~160 MB of headroom, and image processing is the
@@ -117,7 +117,7 @@ Point the health check at `/v1/health` ([section 6](#6-verifying-the-deployment)
 
 > **Platform matters.** This bundle contains precompiled native binaries
 > (`sharp`, for image processing). It is built for **linux-x64**. On any other
-> platform — ARM servers such as AWS Graviton or a Raspberry Pi, or macOS — the
+> platform - ARM servers such as AWS Graviton or a Raspberry Pi, or macOS - the
 > app starts but fails the moment it touches an image, with
 > `Could not load the sharp module`. If your server is not linux-x64, ask for a
 > rebuild naming the platform; it is a one-line change at build time.
@@ -143,7 +143,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 
 **3. Set the environment variables** from [section 4](#4-environment-variables).
 
-Either in the platform's dashboard, or in a **`.env` file beside `start.mjs`** —
+Either in the platform's dashboard, or in a **`.env` file beside `start.mjs`** -
 copy `.env.example` to `.env` and fill it in. Real environment variables win
 over the file, so a platform's settings are never overridden by a stale copy.
 
@@ -154,7 +154,7 @@ over the file, so a platform's settings are never overridden by a stale copy.
 With `NODE_ENV=production` the app checks its own configuration at startup and
 sorts the findings into two kinds:
 
-**Refuses to start** — anything that would let a stranger in, and cannot be
+**Refuses to start** - anything that would let a stranger in, and cannot be
 corrected after the fact:
 
 ```
@@ -163,7 +163,7 @@ Refusing to start: 2 unsafe production setting(s).
   • SEED_ADMIN_PASSWORD is still the example value …
 ```
 
-**Starts, but warns** — settings you can only complete once the rest of the
+**Starts, but warns** - settings you can only complete once the rest of the
 system exists. Expected on a first deploy, when the website does not exist yet:
 
 ```
@@ -187,7 +187,7 @@ node start.mjs
 shows what a healthy first boot looks like.
 
 **6. Once you know the public URL**, set `PUBLIC_URL` to it and restart. The app
-repairs stored image URLs automatically — see [section 5](#5-what-happens-on-first-boot).
+repairs stored image URLs automatically - see [section 5](#5-what-happens-on-first-boot).
 
 ---
 
@@ -203,7 +203,7 @@ forged administrator logins.
 | Variable | Example | Notes |
 |---|---|---|
 | `MONGODB_URI` | `mongodb://user:pass@host:27017/csistmc-portal` | Include credentials if your database requires them |
-| `PUBLIC_URL` | `https://portal.example.org` | The public origin of **this** deployment, no trailing slash. Written into image URLs — see the warning below |
+| `PUBLIC_URL` | `https://portal.example.org` | The public origin of **this** deployment, no trailing slash. Written into image URLs - see the warning below |
 | `CORS_ORIGINS` | `https://csistmarksmadipakkam.org,https://www.csistmarksmadipakkam.org` | Comma-separated. Browser origins allowed to call the API. Exact match, so include `www.` if you serve it |
 | `JWT_ACCESS_SECRET` | 48 random bytes | Minimum 32 characters |
 | `JWT_REFRESH_SECRET` | 48 random bytes | Minimum 32 characters, **different** from the access secret |
@@ -212,18 +212,18 @@ forged administrator logins.
 
 > **`PUBLIC_URL` must match the origin browsers actually use.** It is stored
 > inside image URLs in the database, so a wrong value means every image 404s.
-> You often will not know it until after the first deploy — that is fine, set it
+> You often will not know it until after the first deploy - that is fine, set it
 > afterwards and restart.
 
 ### Recommended
 
 | Variable | Default | Notes |
 |---|---|---|
-| `SEED_ADMIN_EMAIL` | `admin@csistmarksmadipakkam.org` | The administrator's login. **Do not change after first boot** — see [section 11](#11-troubleshooting) |
+| `SEED_ADMIN_EMAIL` | `admin@csistmarksmadipakkam.org` | The administrator's login. **Do not change after first boot** - see [section 11](#11-troubleshooting) |
 | `SEED_ADMIN_NAME` | `Portal Administrator` | Display name |
-| `WEBSITE_REVALIDATE_URL` | — | `https://<website>/api/revalidate`. Without it, publishing in the CMS does not refresh the website for up to 5 minutes |
-| `WEBSITE_REVALIDATE_SECRET` | — | Shared secret. **Must be identical** to `REVALIDATE_SECRET` on the website |
-| `CORS_PUBLIC_READ_ANY_ORIGIN` | `false` | `true` answers public GETs with `Access-Control-Allow-Origin: *` (no credentials). Sign-in, admin and every write — including the contact form — still need an exact `CORS_ORIGINS` entry; a `*` there no longer covers them in production |
+| `WEBSITE_REVALIDATE_URL` | - | `https://<website>/api/revalidate`. Without it, publishing in the CMS does not refresh the website for up to 5 minutes |
+| `WEBSITE_REVALIDATE_SECRET` | - | Shared secret. **Must be identical** to `REVALIDATE_SECRET` on the website |
+| `CORS_PUBLIC_READ_ANY_ORIGIN` | `false` | `true` answers public GETs with `Access-Control-Allow-Origin: *` (no credentials). Sign-in, admin and every write - including the contact form - still need an exact `CORS_ORIGINS` entry; a `*` there no longer covers them in production |
 | `CORS_ALLOW_PRIVATE_NETWORK` | `false` in production | Leave off. `true` admits any private-network origin with credentials |
 
 ### Optional
@@ -270,7 +270,7 @@ Initialization complete.
 [portal]   CMS   everything else
 ```
 
-**Every later boot is a no-op** — it only fills what is empty:
+**Every later boot is a no-op** - it only fills what is empty:
 
 ```
 · Administrator admin@csistmarksmadipakkam.org already exists
@@ -296,7 +296,7 @@ deleted, and a boot where nothing changed says so and does nothing.
 
 ## 6. Verifying the deployment
 
-**Health.** Reports the database connection, not merely that the process is up —
+**Health.** Reports the database connection, not merely that the process is up -
 use it for the platform's health check:
 
 ```bash
@@ -306,24 +306,24 @@ curl https://portal.example.org/v1/health
 
 Returns **503** with `"status":"degraded"` if the database connection drops.
 
-**Public API** — should return data with no authentication:
+**Public API** - should return data with no authentication:
 
 ```bash
 curl https://portal.example.org/v1/events
 curl https://portal.example.org/v1/fellowships
 ```
 
-**Admin API** — must refuse anonymous callers:
+**Admin API** - must refuse anonymous callers:
 
 ```bash
 curl -o /dev/null -w "%{http_code}\n" https://portal.example.org/v1/admin/events
 # 401
 ```
 
-**Images** — take a `banner.url` from the fellowships response and open it. It
+**Images** - take a `banner.url` from the fellowships response and open it. It
 should return the image, and its origin should equal `PUBLIC_URL`.
 
-**CMS** — open `https://portal.example.org/` and sign in with `SEED_ADMIN_EMAIL`
+**CMS** - open `https://portal.example.org/` and sign in with `SEED_ADMIN_EMAIL`
 and `SEED_ADMIN_PASSWORD`. Have the church change that password immediately,
 under Users.
 
@@ -364,7 +364,7 @@ Two things hold everything the church owns:
 | **`backend/uploads/`** | Every uploaded image and video | Content survives but all images 404 |
 
 `uploads/` is a **directory inside the app folder**. If your platform replaces
-the whole folder on deploy — most do — mount persistent storage at
+the whole folder on deploy - most do - mount persistent storage at
 `backend/uploads`, or point `UPLOAD_DIR` at a path that persists. Getting this
 wrong loses every photograph the church uploads.
 
@@ -381,13 +381,13 @@ tar czf backup/uploads.tar.gz backend/uploads
 ## 9. Reverse proxy and TLS
 
 The app speaks plain HTTP on one port and expects TLS to be terminated in front
-of it — by the platform, or by nginx/Caddy if you manage the server.
+of it - by the platform, or by nginx/Caddy if you manage the server.
 
 If you run your own proxy, it must:
 
 - forward **all** paths to the app; do not filter or rewrite `/v1` or `/uploads`
 - set `X-Forwarded-Proto: https` so generated links use `https`
-- allow request bodies up to at least `MAX_VIDEO_UPLOAD_MB` (default 200 MB) —
+- allow request bodies up to at least `MAX_VIDEO_UPLOAD_MB` (default 200 MB) -
   nginx's default `client_max_body_size` is **1 MB** and will reject uploads
 - allow a generous timeout on uploads
 
@@ -425,7 +425,7 @@ To deploy a new build:
 The initializer runs again, sees existing data, and leaves it alone. No
 migration step, no downtime beyond the restart.
 
-Keep the previous folder until the new one is confirmed working — rolling back
+Keep the previous folder until the new one is confirmed working - rolling back
 is then just swapping the folders back.
 
 ---
@@ -442,7 +442,7 @@ Refusing to start: 3 unsafe production setting(s).
 Working as intended. Fix exactly what it names and start again. It reports every
 problem at once, so one pass is enough.
 
-### `MONGODB_URI is not set` — but it *is* in my `.env`
+### `MONGODB_URI is not set` - but it *is* in my `.env`
 
 `start.mjs` reads `.env` from **its own folder**. Check the file sits beside
 `start.mjs` (not in `backend/`), is named exactly `.env`, and that the line has
@@ -450,7 +450,7 @@ no `export ` prefix. The first log line confirms what happened:
 
 ```
 [portal] configuration: .env loaded (real environment variables take precedence)
-[portal] configuration: no .env file — reading the environment only
+[portal] configuration: no .env file - reading the environment only
 ```
 
 ### `PORT and API_PORT are both 4000`
@@ -463,8 +463,8 @@ internal. Leave `API_PORT` and `CMS_PORT` unset and give `PORT` its own number.
 Only security settings stop the boot: the two JWT secrets, the administrator
 password, and private-network CORS. Fix exactly what it names.
 
-Incomplete-but-workable settings — a local `PUBLIC_URL`, local `CORS_ORIGINS`,
-a missing revalidation URL — print a `⚠` warning and let the app run.
+Incomplete-but-workable settings - a local `PUBLIC_URL`, local `CORS_ORIGINS`,
+a missing revalidation URL - print a `⚠` warning and let the app run.
 
 ### `database at … did not become reachable`
 
@@ -474,7 +474,7 @@ accepts connections from this host, and any firewall or IP allow-list.
 ### All images are broken, but text content is fine
 
 `PUBLIC_URL` does not match the address browsers use. Set it correctly and
-restart — stored URLs are repaired automatically ([section 5](#5-what-happens-on-first-boot)).
+restart - stored URLs are repaired automatically ([section 5](#5-what-happens-on-first-boot)).
 
 If images break only on the **public website** while working in the CMS, it is
 instead a mismatch between `PUBLIC_URL` here and `NEXT_PUBLIC_API_URL` there
@@ -482,8 +482,8 @@ instead a mismatch between `PUBLIC_URL` here and `NEXT_PUBLIC_API_URL` there
 
 ### The CMS loads but is unstyled, or "fails to fetch"
 
-The browser is being blocked by CORS. Add the exact origin — scheme, host and
-`www.` if used — to `CORS_ORIGINS` and restart.
+The browser is being blocked by CORS. Add the exact origin - scheme, host and
+`www.` if used - to `CORS_ORIGINS` and restart.
 
 ### `Could not load the sharp module`
 
@@ -493,7 +493,7 @@ The bundle was built for a different CPU or operating system than this server
 ### Uploads fail on large files
 
 Either above `MAX_UPLOAD_MB` / `MAX_VIDEO_UPLOAD_MB`, or your reverse proxy's
-body-size limit ([section 9](#9-reverse-proxy-and-tls)) — nginx defaults to 1 MB.
+body-size limit ([section 9](#9-reverse-proxy-and-tls)) - nginx defaults to 1 MB.
 
 ### Two administrator accounts appeared
 
@@ -521,7 +521,7 @@ the CMS under Users.
   the build host happens to be, and breaks image handling.
 - **Do not delete or reset `backend/uploads/`.** Every photograph the church has
   uploaded lives there, and nothing else holds a copy.
-- **Do not change `SEED_ADMIN_EMAIL` after the first boot** — it creates a second
+- **Do not change `SEED_ADMIN_EMAIL` after the first boot** - it creates a second
   administrator rather than renaming the first.
 - **Do not point two deployments at one database** unless they share the uploads
   folder too. Each writes image URLs using its own `PUBLIC_URL`, and they will

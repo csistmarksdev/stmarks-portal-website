@@ -20,7 +20,7 @@ export const APPROVAL_TYPES = {
 
 export type ApprovalType = keyof typeof APPROVAL_TYPES;
 
-/** Who sent something for approval — stored on the record as `submittedBy`. */
+/** Who sent something for approval - stored on the record as `submittedBy`. */
 export interface Submitter {
   userId: string;
   name: string;
@@ -42,7 +42,7 @@ export function contentSubject(type: ApprovalType, id: string, title: string): S
  * In-app notifications for the approval workflow: approvers hear about
  * submissions; writers hear what became of theirs.
  *
- * Notifying is best effort — a failure is logged, never allowed to fail the
+ * Notifying is best effort - a failure is logged, never allowed to fail the
  * save that triggered it.
  */
 @Injectable()
@@ -130,7 +130,7 @@ export class NotificationsService {
       [submitter.userId],
       "approved",
       changes
-        ? `${actor.name} approved your changes to the ${subject.label} — they are live`
+        ? `${actor.name} approved your changes to the ${subject.label}. They are live`
         : `${actor.name} approved and published your ${subject.label}`,
       subject.link,
       actor,

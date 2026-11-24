@@ -39,8 +39,8 @@ async function main() {
   process.env.JWT_ACCESS_SECRET = "smoke-access";
   process.env.JWT_REFRESH_SECRET = "smoke-refresh";
   /*
-   * Mirrors a deployment behind a reverse proxy — the container's own router is
-   * one — so `req.ip` comes from `X-Forwarded-For`. That is what the rate
+   * Mirrors a deployment behind a reverse proxy - the container's own router is
+   * one - so `req.ip` comes from `X-Forwarded-For`. That is what the rate
    * limiter buckets by, and the checks below rely on it to get a bucket of
    * their own instead of fighting over the shared one.
    */
@@ -212,7 +212,7 @@ async function main() {
     assert(body.banner.url && body.coordinator.name.en);
   });
 
-  await check("GET /church/* — only the CMS-owned singletons", async () => {
+  await check("GET /church/* - only the CMS-owned singletons", async () => {
     for (const key of ["service-timings", "pastor-message", "weekly-verse"]) {
       const res = await fetch(`${BASE}/church/${key}`);
       assert.equal(res.status, 200, `GET /church/${key} → ${res.status}`);
@@ -522,7 +522,7 @@ async function main() {
     const publicAlbum = await json(await fetch(`${BASE}/gallery/${album.slug}`));
     assert.equal(publicAlbum.photos.length, 3, "public album shows the photos");
 
-    // An unplayable link refuses the whole create — no half-made album.
+    // An unplayable link refuses the whole create - no half-made album.
     const before = (await json(await fetch(`${BASE}/admin/gallery?pageSize=100`, { headers: auth() }))).total;
     const bad = await fetch(`${BASE}/admin/gallery`, {
       method: "POST",
@@ -627,7 +627,7 @@ async function main() {
       });
 
       if (res.status === 422) {
-        console.log("      (skipped — no outbound network for thumbnails)");
+        console.log("      (skipped - no outbound network for thumbnails)");
         return;
       }
       assert.equal(res.status, 201, `expected 201, got ${res.status}`);
@@ -664,7 +664,7 @@ async function main() {
     const fetched = await fetch(item.url);
     assert.equal(fetched.status, 200, `uploaded video not served: ${fetched.status}`);
 
-    // Stored under a readable name (for search engines) — no id in it.
+    // Stored under a readable name (for search engines) - no id in it.
     assert(/\/videos\/carols(?:-\d+)?\.mp4$/.test(item.url), `readable file name: ${item.url}`);
 
     // A camera name says nothing, so the hint (an album title) names it.
@@ -727,7 +727,7 @@ async function main() {
     /*
      * `{ $regex: term }` compiles whatever arrives. Unescaped, `(` is a driver
      * syntax error (a 500 from typing a bracket) and `(a+)+$` is a denial of
-     * service any `content.read` holder — including a viewer — could trigger.
+     * service any `content.read` holder - including a viewer - could trigger.
      */
     for (const term of ["(", "(a+)+$", "*", "[", "\\"]) {
       const res = await fetch(
@@ -904,7 +904,7 @@ async function main() {
     );
 
     // 5. Once live, the editor's edits are held for approval (church request,
-    //    23 Nov 2026) — the website keeps the live version meanwhile.
+    //    23 Nov 2026) - the website keeps the live version meanwhile.
     const liveTitle = publicAfter.find((a) => a.id === submitted.id).title.en;
     const editLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
       method: "PATCH",
@@ -958,7 +958,7 @@ async function main() {
     assert.equal(publicApproved.title.en, "Approved change", "approved change is public");
 
     // An editor cannot delete a live item (they lack content.delete, and the
-    // service refuses regardless — see the custom-role check below).
+    // service refuses regardless - see the custom-role check below).
     const delLive = await fetch(`${BASE}/admin/announcements/${submitted.id}`, {
       method: "DELETE",
       headers: asEditor,
@@ -977,7 +977,7 @@ async function main() {
     assert.equal(noStatus.status, "draft", "editor default status should be draft");
 
     // 7. Church pages: an editor's save is held for approval (church request,
-    //    23 Nov 2026) — the website keeps the live version until an admin
+    //    23 Nov 2026) - the website keeps the live version until an admin
     //    approves (saves) it or rejects it.
     const liveBefore = await json(await fetch(`${BASE}/church/weekly-verse`));
     const psalm = {
@@ -1088,7 +1088,7 @@ async function main() {
     );
     assert.equal(reread.coverImage, undefined, "coverImage came back on re-read");
 
-    // An omitted key must still mean "leave alone" — the other half of the
+    // An omitted key must still mean "leave alone" - the other half of the
     // contract, and the half everything else in the CMS relies on.
     const untouched = await json(
       await fetch(`${BASE}/admin/blog/${created.id}`, {
@@ -1120,7 +1120,7 @@ async function main() {
     );
     assert.equal(bySender.total, 1, "search must match the sender's name");
 
-    // The body is searched too — people hunt for a half-remembered phrase.
+    // The body is searched too - people hunt for a half-remembered phrase.
     const byBody = await json(
       await fetch(`${BASE}/admin/contact-messages?search=arranging`, { headers: auth() }),
     );
@@ -1128,7 +1128,7 @@ async function main() {
 
     /*
      * A regex metacharacter must be treated as text. Unescaped, `(` is a
-     * syntax error the driver raises — a 500 from typing a bracket into a
+     * syntax error the driver raises - a 500 from typing a bracket into a
      * search box.
      */
     const res = await fetch(`${BASE}/admin/contact-messages?search=${encodeURIComponent("a(b")}`, {
@@ -1370,7 +1370,7 @@ async function main() {
       photos: [
         {
           image,
-          caption: { en: "DEMO — replace with the carol service recording" },
+          caption: { en: "DEMO - replace with the carol service recording" },
           video: { url: "https://youtu.be/dQw4w9WgXcQ" },
         },
       ],
@@ -1500,7 +1500,7 @@ async function main() {
   });
 
   await check("id-named uploads get readable names; references and old links follow", async () => {
-    // Uploaded the old way: a camera name, no alt text, no hint — an id-only name.
+    // Uploaded the old way: a camera name, no alt text, no hint - an id-only name.
     const form = new FormData();
     form.append("file", new Blob([await sharpPixel()], { type: "image/png" }), "IMG_2041.png");
     const uploaded = await json(
@@ -1551,8 +1551,8 @@ async function main() {
    * a real archive, change the database, restore, and assert the change is
    * gone. Anything less would pass on a restore that quietly writes nothing.
    *
-   * Runs last because a `replace` restore rolls the whole database — including
-   * `users` — back to the moment the archive was taken, which would pull the
+   * Runs last because a `replace` restore rolls the whole database - including
+   * `users` - back to the moment the archive was taken, which would pull the
    * ground out from under every check above it.
    */
   console.log("\nBackup & restore:");
@@ -1580,7 +1580,7 @@ async function main() {
   });
 
   await check("the archive downloads on its token, and only on its token", async () => {
-    // Unauthenticated on purpose — a browser download cannot send a Bearer
+    // Unauthenticated on purpose - a browser download cannot send a Bearer
     // header. The token in the path is what stands in for it.
     const res = await fetch(`${BASE}${ticket.downloadPath}`);
     assert.equal(res.status, 200, `expected 200, got ${res.status}`);
@@ -1654,7 +1654,7 @@ async function main() {
     const events = await json(await fetch(`${BASE}/events`));
     assert(events.length >= 1, "restored events must be served again");
 
-    // The safety backup's link still works even though `users` was rewritten —
+    // The safety backup's link still works even though `users` was rewritten -
     // its token is not tied to the session that asked for it.
     const rollback = await fetch(`${BASE}${result.safetyBackup.downloadPath}`);
     assert.equal(rollback.status, 200, `safety backup unreachable → ${rollback.status}`);
@@ -1829,7 +1829,7 @@ async function main() {
   /*
    * Direct messages between accounts (church request, 23 Nov 2026). Any
    * signed-in account can message any other; a conversation is readable by
-   * its two participants only — not even a super admin can open someone
+   * its two participants only - not even a super admin can open someone
    * else's.
    */
   await check("Messages: send, unread, read, and private to the pair", async () => {
@@ -1855,7 +1855,7 @@ async function main() {
     const anna = await signIn("anna@example.org");
     const ben = await signIn("ben@example.org");
 
-    // A viewer — the least-privileged role — can still see who to message.
+    // A viewer - the least-privileged role - can still see who to message.
     const contacts = await json(await fetch(`${BASE}/admin/chat/contacts`, { headers: as(ben.accessToken) }));
     assert(contacts.some((c) => c.id === anna.user.id), "contacts should list other accounts");
     assert(!contacts.some((c) => c.id === ben.user.id), "contacts must not include yourself");
@@ -2155,7 +2155,7 @@ async function main() {
     };
 
     // Both halves are super-admin only. The archive is the whole database in
-    // one file — an admin who can download it has every password hash in the
+    // one file - an admin who can download it has every password hash in the
     // installation, whether or not they can put one back.
     const preview = await fetch(`${BASE}/admin/backup/preview`, { headers: asAdmin });
     assert.equal(preview.status, 403, `admin preview → ${preview.status}`);
@@ -2207,7 +2207,7 @@ async function main() {
    *
    * Sign-in is rate limited to 5 attempts a minute, and this spends several of
    * them on purpose. Run anywhere earlier it starves the logins the RBAC checks
-   * need, and those fail with a confusing 401 — no token, because the login that
+   * need, and those fail with a confusing 401 - no token, because the login that
    * should have issued one was throttled.
    */
   await check("Sign-in takes the same time for unknown and known addresses", async () => {
@@ -2238,7 +2238,7 @@ async function main() {
 
     /*
      * Before the decoy hash, an unknown address returned without touching
-     * bcrypt at all — the gap was the whole cost of a hash, and a reliable way
+     * bcrypt at all - the gap was the whole cost of a hash, and a reliable way
      * to enumerate who holds an account. Asserting the ratio rather than a
      * millisecond figure keeps this meaningful on a slow machine.
      */

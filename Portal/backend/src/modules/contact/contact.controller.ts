@@ -32,7 +32,7 @@ export class SetReadDto {
   read: boolean;
 }
 
-@ApiTags("Public — Contact")
+@ApiTags("Public: Contact")
 @Controller("contact")
 export class ContactPublicController {
   constructor(private readonly contact: ContactService) {}
@@ -48,7 +48,7 @@ export class ContactPublicController {
   }
 }
 
-@ApiTags("Admin — Contact inbox")
+@ApiTags("Admin: Contact inbox")
 @ApiBearerAuth()
 @Controller("admin/contact-messages")
 export class ContactAdminController {

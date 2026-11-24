@@ -56,7 +56,7 @@ const INTERNAL_COLLECTION = /^system\./;
 /** Names a restore will accept. Anything else is a malformed or hostile archive. */
 const COLLECTION_NAME = /^[A-Za-z0-9][A-Za-z0-9_.-]{0,119}$/;
 
-/** Website cache tags to refresh after a restore — every content surface moved. */
+/** Website cache tags to refresh after a restore - every content surface moved. */
 const ALL_CONTENT_TAGS = [
   "events",
   "blog",
@@ -74,12 +74,12 @@ const INCOMPRESSIBLE = /\.(jpe?g|png|webp|avif|gif|mp4|webm|mov|ogg|pdf|zip|docx
  * Where built archives and incoming uploads both live.
  *
  * Exported because multer's `diskStorage` is configured in the controller's
- * decorators, which are evaluated before any provider exists — it cannot ask
+ * decorators, which are evaluated before any provider exists - it cannot ask
  * the service where to write. One constant keeps the two ends from drifting
  * into separate directories, only one of which is ever swept.
  *
  * Overridable because the default is the container's own writable layer, which
- * on a small host has far less room than the volume the media lives on — and a
+ * on a small host has far less room than the volume the media lives on - and a
  * backup is, by definition, about as large as the media library. Point
  * `BACKUP_WORK_DIR` at a mounted volume when `/tmp` is tight.
  */
@@ -92,7 +92,7 @@ export const BACKUP_WORK_DIR =
  * The upload itself is already capped, but a zip's compressed size says nothing
  * about its expanded one: a few megabytes of zeros unpack to hundreds of
  * gigabytes. Restoring one would fill the disk, and on the single-container
- * deployment that disk is also MongoDB's — so a bad archive takes the database
+ * deployment that disk is also MongoDB's - so a bad archive takes the database
  * with it rather than just failing.
  *
  * Checked before a single byte is written, from the sizes in the zip's own
@@ -103,13 +103,13 @@ export const BACKUP_WORK_DIR =
 const MAX_EXPANDED_BYTES =
   Number(process.env.MAX_BACKUP_EXPANDED_MB ?? 16_384) * 1024 * 1024;
 
-/** `1 record` / `570 records` — audit lines are read, not parsed. */
+/** `1 record` / `570 records` - audit lines are read, not parsed. */
 function plural(count: number, noun: string): string {
   return `${count.toLocaleString("en-IN")} ${noun}${count === 1 ? "" : "s"}`;
 }
 
 /**
- * `8 Aug 2026` — for an audit line someone reads at a glance.
+ * `8 Aug 2026` - for an audit line someone reads at a glance.
  *
  * The manifest keeps the full ISO instant; this is only how it is narrated. A
  * raw `2026-08-08T17:41:16.044Z` in the activity feed is precision nobody asked
@@ -152,7 +152,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
    * In memory, not in Mongo. Both maps describe files in a temp directory that
    * does not survive a restart either, so persisting the index would only
    * create rows pointing at files that are gone. The Portal is a single
-   * process — the Docker image runs one container — so there is no second
+   * process - the Docker image runs one container - so there is no second
    * instance that would need to see these.
    */
   private readonly backups = new Map<string, BackupRecord>();
@@ -169,7 +169,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     this.publicUrl = config.get<string>("publicUrl", "http://localhost:4000");
   }
 
-  /** Clears anything a previous run left behind — its tokens died with it. */
+  /** Clears anything a previous run left behind - its tokens died with it. */
   async onModuleInit(): Promise<void> {
     await rm(this.workDir, { recursive: true, force: true }).catch(() => undefined);
     await mkdir(this.workDir, { recursive: true });
@@ -227,7 +227,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
    *
    * Called at the top of every entry point rather than on a timer. There is no
    * background work to keep alive between requests, and a temp directory that
-   * is tidied when someone visits the page is tidied often enough — the boot
+   * is tidied when someone visits the page is tidied often enough - the boot
    * wipe in `onModuleInit` covers whatever a quiet week leaves behind.
    */
   private sweep(): void {
@@ -293,18 +293,18 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
    * Builds a complete archive of the installation and returns a ticket for it.
    *
    * Everything goes in: content, media library, admin accounts, the audit
-   * trail, the contact inbox. This is a clone, not an export — the point is
+   * trail, the contact inbox. This is a clone, not an export - the point is
    * that restoring it produces the installation that was backed up, and an
    * archive missing the user table produces a site nobody can sign in to.
    *
    * `_id` is preserved for the same reason. Documents reference each other by
-   * id — a gallery album's cover is a `media` record — and letting Mongo assign
+   * id - a gallery album's cover is a `media` record - and letting Mongo assign
    * fresh ones on restore would sever every one of those.
    */
   async create(
     actor: AuthenticatedUser | null,
     ip?: string,
-    /** How the audit line describes it — a plain download, or a pre-restore net. */
+    /** How the audit line describes it - a plain download, or a pre-restore net. */
     reason: "download" | "safety" = "download",
   ): Promise<BackupTicket> {
     this.sweep();
@@ -319,8 +319,8 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
 
     for (const name of await this.collectionNames()) {
       /*
-       * Whole collection in memory at once. Correct at this scale — a parish
-       * CMS holds thousands of documents, not millions — and the alternative
+       * Whole collection in memory at once. Correct at this scale - a parish
+       * CMS holds thousands of documents, not millions - and the alternative
        * (interleaving a cursor with archiver's entry queue) trades real
        * clarity for headroom nobody here will use.
        */
@@ -343,7 +343,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     /*
      * Every upload is copied, not only the files some record links to. An
      * admin who deletes a gallery album leaves its images in the library, and
-     * a reference-only capture would silently drop them — the media page would
+     * a reference-only capture would silently drop them - the media page would
      * come back with holes in it.
      */
     const files = await this.walkUploads();
@@ -394,11 +394,11 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
       /*
        * Verb-first and without the actor's name, like every other summary
        * here. The audit feed renders the name beside the line already, so
-       * naming them again reads as "Administrator downloaded a backup —
+       * naming them again reads as "Administrator downloaded a backup -
        * Administrator".
        */
       (reason === "safety" ? "Backed up before restoring" : "Downloaded a backup") +
-        ` — ${plural(documents, "record")}, ${plural(files.length, "file")}, ` +
+        ` - ${plural(documents, "record")}, ${plural(files.length, "file")}, ` +
         humanFileSize(sizeBytes),
       ip,
     );
@@ -418,7 +418,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     this.sweep();
 
     const record = this.backups.get(id);
-    if (!record) throw new NotFoundException("That backup has expired — please build a new one");
+    if (!record) throw new NotFoundException("That backup has expired. Please build a new one");
 
     const expected = Buffer.from(record.token);
     const supplied = Buffer.from(token ?? "");
@@ -426,22 +426,22 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
       expected.length !== supplied.length ||
       !timingSafeEqual(expected, supplied)
     ) {
-      throw new NotFoundException("That backup has expired — please build a new one");
+      throw new NotFoundException("That backup has expired. Please build a new one");
     }
 
     return { path: record.path, filename: record.filename, sizeBytes: record.sizeBytes };
   }
 
   /* ------------------------------------------------------------------------ */
-  /* Restore — staging                                                        */
+  /* Restore - staging                                                        */
   /* ------------------------------------------------------------------------ */
 
   /**
    * Reads an uploaded archive, checks it over, and holds it.
    *
    * Nothing is written to the database or the upload directory here. A restore
-   * cannot be undone, so the CMS gets to show what is actually in the file —
-   * when it was taken, from which installation, how much of it there is —
+   * cannot be undone, so the CMS gets to show what is actually in the file -
+   * when it was taken, from which installation, how much of it there is -
    * before anyone commits to it. The alternative, uploading the file a second
    * time to confirm, is not a kindness on a church's connection.
    */
@@ -482,7 +482,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
       const dbEntries = this.databaseEntries(reader);
       if (dbEntries.length === 0) {
         throw new UnprocessableEntityException(
-          "This archive contains no collections — it is not a Portal backup",
+          "This archive contains no collections, so it is not a Portal backup",
         );
       }
 
@@ -490,7 +490,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
       const uploadBytes = uploadEntries.reduce((sum, entry) => sum + entry.uncompressedSize, 0);
 
       /*
-       * Every entry, not just the media — a single enormous `db/*.json` is
+       * Every entry, not just the media - a single enormous `db/*.json` is
        * parsed into memory in one go and would exhaust the heap long before
        * the disk.
        */
@@ -562,7 +562,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
     const entry = reader.find("manifest.json");
     if (!entry) {
       throw new UnprocessableEntityException(
-        "This archive has no manifest.json — it was not produced by this Portal",
+        "This archive has no manifest.json, so it was not produced by this Portal",
       );
     }
 
@@ -615,7 +615,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
   }
 
   /* ------------------------------------------------------------------------ */
-  /* Restore — applying                                                       */
+  /* Restore - applying                                                       */
   /* ------------------------------------------------------------------------ */
 
   /**
@@ -623,8 +623,8 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
    *
    * Order matters. Media is written first, then the database: if the run dies
    * between the two, the installation is left with files nothing references,
-   * which is harmless. The reverse — records restored and their images missing
-   * — is a site full of broken pictures.
+   * which is harmless. The reverse - records restored and their images missing
+   * - is a site full of broken pictures.
    */
   async apply(
     id: string,
@@ -637,7 +637,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
 
     const record = this.staged.get(id);
     if (!record) {
-      throw new NotFoundException("That upload has expired — please upload the backup again");
+      throw new NotFoundException("That upload has expired. Please upload the backup again");
     }
 
     /*
@@ -676,7 +676,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
         "backup",
         record.id,
         `Restored the ${shortDate(record.manifest.capturedAt)} backup, ` +
-          `${mode === "replace" ? "replacing everything" : "merging"} — ` +
+          `${mode === "replace" ? "replacing everything" : "merging"} - ` +
           `${plural(documents, "record")}, ${plural(uploads.written, "file")}`,
         ip,
       );
@@ -774,7 +774,7 @@ export class BackupService implements OnModuleInit, OnModuleDestroy {
       let updated = 0;
 
       if (mode === "replace") {
-        // Emptied even when the archive's copy is empty — that is what makes a
+        // Emptied even when the archive's copy is empty - that is what makes a
         // replace a rollback rather than an overlay.
         removed = (await target.deleteMany({})).deletedCount ?? 0;
         if (resolved.length > 0) {

@@ -1,4 +1,4 @@
-# CSI St. Mark's Portal — API + CMS in one image.
+# CSI St. Mark's Portal - API + CMS in one image.
 #
 # Wraps the same layout `scripts/build-production-bundle.mjs` produces, so the
 # container and the plain folder bundle run identical code through identical
@@ -55,7 +55,7 @@ COPY --from=build  /app/backend/seed-data       backend/seed-data
 COPY --from=build  /app/backend/seed-assets     backend/seed-assets
 
 # The CMS: Next.js standalone server. `static` and `public` are copied
-# separately because Next leaves them out of the trace — they are read from
+# separately because Next leaves them out of the trace - they are read from
 # disk, never imported, so nothing references them and the CMS would otherwise
 # boot and serve pages with no CSS or JavaScript.
 COPY --from=build  /app/frontend/.next/standalone/frontend      frontend
@@ -66,7 +66,7 @@ COPY --from=build  /app/frontend/public                         frontend/public
 COPY docker/entrypoint.mjs start.mjs
 
 # Uploads are a mounted volume written at runtime, so it must belong to the
-# user the app runs as — created here rather than left for Docker to create
+# user the app runs as - created here rather than left for Docker to create
 # root-owned on first mount.
 RUN mkdir -p /app/backend/uploads && chown -R node:node /app
 

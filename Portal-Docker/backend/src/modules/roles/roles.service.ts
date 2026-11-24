@@ -40,7 +40,7 @@ interface CachedRole {
  */
 const CACHE_MS = 10_000;
 
-/** Permissions in catalogue order, de-duplicated — keeps stored lists tidy. */
+/** Permissions in catalogue order, de-duplicated - keeps stored lists tidy. */
 function normalise(permissions: readonly Permission[]): Permission[] {
   const wanted = new Set(permissions);
   return ALL_PERMISSIONS.filter((permission) => wanted.has(permission));

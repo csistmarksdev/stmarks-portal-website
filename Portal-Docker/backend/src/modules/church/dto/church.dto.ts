@@ -15,7 +15,7 @@ import { LocalizedTextDto } from "../../../common/dto/localized-text.dto";
  * Church singletons the CMS owns.
  *
  * The profile, history, vision & mission, diocese and hero slides are
- * hardcoded in the Website — they are written once and edited years apart, so
+ * hardcoded in the Website - they are written once and edited years apart, so
  * they were removed from the Portal rather than kept as forms nobody opens.
  */
 

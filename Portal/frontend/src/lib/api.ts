@@ -6,7 +6,7 @@ import type { LoginResponse } from "@portal/shared";
  * Where the API lives.
  *
  * `NEXT_PUBLIC_API_URL` is baked in at build time, so hardcoding it to
- * localhost breaks the moment the CMS is opened from another device — the
+ * localhost breaks the moment the CMS is opened from another device - the
  * phone would call *its own* localhost. When the variable is unset we derive
  * the API origin from whatever host the page was loaded from, so the same
  * build works on localhost, a LAN address or a VPN address with no rebuild.
@@ -32,7 +32,7 @@ function resolveApiUrl(): string {
 }
 
 /**
- * Resolved lazily and cached — `window` is unavailable while this module is
+ * Resolved lazily and cached - `window` is unavailable while this module is
  * first evaluated during prerendering.
  */
 let cachedApiUrl: string | null = null;
@@ -114,7 +114,7 @@ interface RequestOptions {
  * The only endpoints a 401 must *not* trigger a refresh for.
  *
  * `/auth/refresh` would recurse; `/auth/login` and `/auth/logout` have no
- * session to rescue. Everything else under `/auth` — `/auth/me` above all — is
+ * session to rescue. Everything else under `/auth` - `/auth/me` above all - is
  * an ordinary authenticated read and has to be retried like any other request.
  *
  * This used to exclude the whole `/auth/` prefix, which quietly capped every
@@ -175,7 +175,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}, retrie
 /**
  * A multipart POST that reports how much has gone up.
  *
- * `fetch` cannot do this — there is no upload-progress event on it — so this
+ * `fetch` cannot do this - there is no upload-progress event on it - so this
  * one call drops to `XMLHttpRequest`. Justified by what it carries: a restore
  * archive is the whole media library, potentially gigabytes over a church
  * office's connection, and a bare spinner for four minutes is indistinguishable
@@ -201,7 +201,7 @@ export function uploadWithProgress<T>(
     });
 
     request.addEventListener("error", () =>
-      reject(new ApiError("The upload failed — check the connection", 0, endpoint)),
+      reject(new ApiError("The upload failed. Check the connection", 0, endpoint)),
     );
     request.addEventListener("abort", () =>
       reject(new ApiError("The upload was cancelled", 0, endpoint)),

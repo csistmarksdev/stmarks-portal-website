@@ -14,9 +14,9 @@ import { useAuth } from "@/lib/auth";
  * the details column, out of sight on a long record.
  *
  * Approve and Reject appear only when the record as saved is awaiting
- * approval and the signed-in user can publish (`content.publish` — admins and
+ * approval and the signed-in user can publish (`content.publish` - admins and
  * super admins). Approve publishes it; Reject sends it back to its writer as a
- * draft — off the website, editable, ready to resubmit.
+ * draft - off the website, editable, ready to resubmit.
  */
 export function FormActions({
   backHref,
@@ -29,7 +29,7 @@ export function FormActions({
   disabled,
 }: {
   backHref: string;
-  /** The record's status on the server — not the one being edited. */
+  /** The record's status on the server - not the one being edited. */
   savedStatus?: PublishStatus;
   onSave: () => void;
   onApprove?: () => void;
@@ -49,7 +49,7 @@ export function FormActions({
         </Link>
       </Button>
       {/* Phones and tablets get these once, at the foot of the form
-          (FormFooterActions) — not twice. */}
+          (FormFooterActions) - not twice. */}
       {canApprove && onReject && (
         <RejectButton
           onReject={onReject}
@@ -87,7 +87,7 @@ function RejectButton({
   return (
     <ConfirmDialog
       title="Reject this submission?"
-      description="It goes back to its writer as a draft — nothing appears on the website. They can make changes and submit it for approval again. Any corrections you made here are kept."
+      description="It goes back to its writer as a draft, and nothing appears on the website. They can make changes and submit it for approval again. Any corrections you made here are kept."
       confirmLabel="Reject"
       onConfirm={async () => {
         await onReject();
@@ -119,7 +119,7 @@ export function AwaitingApprovalNotice() {
       <p>
         <span className="font-medium">Waiting for your approval.</span> Read it through, make
         any corrections, then choose <span className="font-medium">Approve &amp; publish</span> to
-        put it on the website — or <span className="font-medium">Reject</span> to send it back
+        put it on the website, or <span className="font-medium">Reject</span> to send it back
         to its writer as a draft.
       </p>
     </div>
@@ -173,7 +173,7 @@ export function FormFooterActions({
 
 /**
  * Reject / Approve on phones and tablets for a page whose foot is not
- * FormFooterActions (the blog's step bar) — so an approver on a phone is
+ * FormFooterActions (the blog's step bar) - so an approver on a phone is
  * never left without them once the header buttons are hidden.
  */
 export function MobileApprovalActions({
@@ -249,7 +249,7 @@ export function ApprovalNotice({
           {revision.submittedBy.name} submitted changes on {whenShort(revision.submittedAt)}.
         </span>{" "}
         They are shown below; the website still shows the current version. Make any
-        corrections, then choose <span className="font-medium">Approve &amp; publish</span> — or{" "}
+        corrections, then choose <span className="font-medium">Approve &amp; publish</span>, or{" "}
         <span className="font-medium">Reject</span> to discard them.
       </>
     );

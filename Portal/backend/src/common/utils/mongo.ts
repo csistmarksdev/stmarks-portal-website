@@ -8,13 +8,13 @@
  * `{ $regex: term }` compiles whatever arrives into a regular expression. Two
  * things follow from that, and both were live here:
  *
- * A search for `c++` or `(` is a syntax error the driver raises — the user
+ * A search for `c++` or `(` is a syntax error the driver raises - the user
  * types a bracket into a search box and gets a 500.
  *
  * More seriously, a crafted term is a denial of service. `(a+)+$` against a
  * long string backtracks catastrophically, and the work happens inside the
  * database, on a thread nothing else can use. Every content search sits behind
- * `content.read`, which the *viewer* role holds — so the cheapest account in
+ * `content.read`, which the *viewer* role holds - so the cheapest account in
  * the Portal could stall the server for the whole parish.
  *
  * Escaping is the whole fix: a literal term cannot backtrack pathologically,

@@ -16,7 +16,7 @@
  * `{}` instead of an ISO string makes an events list silently empty; an
  * `ImageAsset` without `width`/`height` throws inside `next/image` at render
  * time, long after this check would have passed. So each endpoint is validated
- * against the shape in `shared/src/content.ts` — the same file the Website's own
+ * against the shape in `shared/src/content.ts` - the same file the Website's own
  * types are checked against by `npm run check:contract`.
  *
  * No dependencies, so it runs on a bare VM against a container with nothing
@@ -41,7 +41,7 @@ function group(name) {
 function check(name, ok, detail = "") {
   results.push({ group: currentGroup, name, ok, detail });
   const mark = ok ? "\x1b[32mPASS\x1b[0m" : "\x1b[31mFAIL\x1b[0m";
-  console.log(`  ${mark}  ${name}${detail ? ` — ${detail}` : ""}`);
+  console.log(`  ${mark}  ${name}${detail ? ` - ${detail}` : ""}`);
 }
 
 async function get(path, headers = {}) {
@@ -52,7 +52,7 @@ async function get(path, headers = {}) {
   try {
     body = await res.json();
   } catch {
-    /* non-JSON — the caller decides whether that matters */
+    /* non-JSON - the caller decides whether that matters */
   }
   return { res, body };
 }
@@ -71,7 +71,7 @@ function isIsoDate(v) {
   return typeof v === "string" && !Number.isNaN(Date.parse(v));
 }
 
-/** `ImageAsset` — the shape `next/image` needs to render without throwing. */
+/** `ImageAsset` - the shape `next/image` needs to render without throwing. */
 function isImageAsset(v) {
   return (
     isObj(v) &&
@@ -166,7 +166,7 @@ const SPECS = {
 
 /**
  * A list endpoint: reachable, an array, every record the right shape, and no
- * `status` field — public responses serve published records only and must not
+ * `status` field - public responses serve published records only and must not
  * leak the editorial state.
  */
 async function checkList(label, path, spec, { minimum = 1 } = {}) {
@@ -276,7 +276,7 @@ group("Announcements");
 await checkList("announcements", "/announcements", SPECS.announcement);
 {
   const { res, body } = await get("/announcements/pinned");
-  // `Announcement | null` — null is a valid answer and must not be a 404.
+  // `Announcement | null` - null is a valid answer and must not be a 404.
   check("GET /announcements/pinned returns an announcement or null",
     res.ok && (body === null || validate(body, SPECS.announcement) === null),
     body === null ? "null (nothing pinned)" : `pinned: ${body?.slug}`);
@@ -353,7 +353,7 @@ group("Media");
     origins.length === 1 && BASE.startsWith(origins[0]) || origins.every((o) => BASE.includes(new URL(o).host)),
     origins.join(", "));
 
-  // Fetch a sample rather than all of them — enough to prove the route serves.
+  // Fetch a sample rather than all of them - enough to prove the route serves.
   const sample = images.slice(0, 5);
   const fetched = await Promise.all(sample.map(async (img) => {
     try {
@@ -380,7 +380,7 @@ group("Media");
    * in at boot.
    *
    * The check above passes whenever the deployment is reached at its own
-   * configured `PUBLIC_URL` — which is every check run from the machine hosting
+   * configured `PUBLIC_URL` - which is every check run from the machine hosting
    * it. The failure it cannot see is a portal whose stored origin is
    * `http://localhost:8080` (the default when nothing is configured) served to
    * browsers on other machines: the API answers 200, the files are on disk, and
@@ -400,7 +400,7 @@ group("Media");
     rehostedImages.length > 0 && followed.length === rehostedImages.length,
     rehostedImages.length === 0
       ? "no images to check"
-      : `${followed.length}/${rehostedImages.length} — e.g. ${rehostedImages[0].url}`);
+      : `${followed.length}/${rehostedImages.length} - e.g. ${rehostedImages[0].url}`);
 }
 
 /* -- pagination ---------------------------------------------------------- */
@@ -425,7 +425,7 @@ group("Contact form");
       name: "Contract Test",
       email: "contract-test@example.com",
       subject: "Automated contract check",
-      message: "Sent by scripts/check-website-api.mjs — safe to delete.",
+      message: "Sent by scripts/check-website-api.mjs - safe to delete.",
     }),
   });
   const body = await res.json().catch(() => null);
@@ -464,7 +464,7 @@ console.log(`${results.length - failed.length}/${results.length} checks passed`)
 
 if (failed.length > 0) {
   console.log("\n\x1b[31mFAILED\x1b[0m");
-  for (const f of failed) console.log(`  • [${f.group}] ${f.name}${f.detail ? ` — ${f.detail}` : ""}`);
+  for (const f of failed) console.log(`  • [${f.group}] ${f.name}${f.detail ? ` - ${f.detail}` : ""}`);
   console.log(
     "\nThe Website would not render correctly against this deployment yet.",
   );

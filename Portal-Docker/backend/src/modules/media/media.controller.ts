@@ -45,7 +45,7 @@ import { MediaService } from "./media.service";
 /**
  * Coarse guard only. Decorators are evaluated at import time, before the
  * config module has read `.env`, so this reads the raw environment and errs
- * generous — `MediaService` then applies the exact per-kind limit (a 15 MB
+ * generous - `MediaService` then applies the exact per-kind limit (a 15 MB
  * image ceiling would otherwise reject every video before it was inspected).
  */
 const HARD_UPLOAD_CEILING =
@@ -56,7 +56,7 @@ const HARD_UPLOAD_CEILING =
  *
  * Multer's default keeps the whole file in a Buffer until the handler runs, so
  * a 200 MB video meant 200 MB+ of resident memory in the API for the length of
- * the request — on a 1 GB host, beside MongoDB and the CMS, that is the request
+ * the request - on a 1 GB host, beside MongoDB and the CMS, that is the request
  * that gets the container OOM-killed. Written to `<uploads>/.incoming/` instead,
  * the API holds a few kilobytes per upload whatever its size, and the service
  * then *renames* the file into place: same volume, so no second copy is made.
@@ -131,7 +131,7 @@ export class VideoPosterDto {
   url: string;
 }
 
-@ApiTags("Admin — Media library")
+@ApiTags("Admin: Media library")
 @ApiBearerAuth()
 @Controller("admin/media")
 export class MediaController {
@@ -144,7 +144,7 @@ export class MediaController {
   @RequirePermissions("media.delete")
   @ApiOperation({
     summary:
-      "Files still stored under an id-only name, and the readable name each would get — changes nothing",
+      "Files still stored under an id-only name, and the readable name each would get - changes nothing",
   })
   previewSeoNames() {
     return this.renamer.plan();
@@ -174,7 +174,7 @@ export class MediaController {
   @ApiBody({ type: UploadMediaDto })
   @ApiOperation({
     summary:
-      "Upload an image / video / PDF / document — images also return dimensions, a thumbnail and blurDataURL",
+      "Upload an image / video / PDF / document - images also return dimensions, a thumbnail and blurDataURL",
   })
   upload(
     @UploadedFile(

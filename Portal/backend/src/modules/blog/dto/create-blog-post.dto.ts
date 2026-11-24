@@ -78,7 +78,7 @@ export class CreateBlogPostDto {
   @ApiPropertyOptional({
     example: "christmas-carol-service-2026",
     description:
-      "SEO URL slug. Optional — generated from the English title when blank. " +
+      "SEO URL slug. Optional - generated from the English title when blank. " +
       "Cleaned to lowercase-with-dashes and made unique; fixed once the post is published.",
   })
   @IsOptional()

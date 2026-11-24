@@ -20,7 +20,7 @@ import {
 } from "./dto/fellowship.dto";
 import { FellowshipsService } from "./fellowships.service";
 
-@ApiTags("Admin — Fellowships")
+@ApiTags("Admin: Fellowships")
 @ApiBearerAuth()
 @Controller("admin/fellowships")
 export class FellowshipsAdminController {

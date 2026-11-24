@@ -19,7 +19,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { ChangePasswordDto, UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
 
-@ApiTags("Admin — Users")
+@ApiTags("Admin: Users")
 @ApiBearerAuth()
 @Controller("admin/users")
 export class UsersController {

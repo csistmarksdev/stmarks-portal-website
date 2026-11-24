@@ -40,7 +40,7 @@ const SEED_ASSETS = "seed-assets";
  *
  * JSON has no date type, so every `Date` in the export is a string by the time
  * it is read back. Inserted as-is, `startDate` would be a string and
- * `find({ startDate: { $gte: new Date() } })` would silently match nothing —
+ * `find({ startDate: { $gte: new Date() } })` would silently match nothing -
  * the events page would simply be empty, with no error anywhere to explain it.
  * Anchored and time-bearing so ordinary content ("2026", "600091") is untouched.
  */
@@ -71,7 +71,7 @@ function revive(value: unknown, mediaBase: string): unknown {
  *
  * Media URLs are absolute and stored *inside* content records, so the origin is
  * fixed at the moment a record is written. On a hosting platform you usually do
- * not know your URL until after the first deploy — so the first boot bakes in
+ * not know your URL until after the first deploy - so the first boot bakes in
  * whatever `PUBLIC_URL` was guessed, and every image 404s until the database is
  * wiped. Repairing them on boot turns that from a destructive reset into
  * "correct the variable and restart".
@@ -107,7 +107,7 @@ async function retargetMedia(
   };
 
   for (const name of collections) {
-    // `media` holds paths relative to the upload root, not URLs — nothing to
+    // `media` holds paths relative to the upload root, not URLs - nothing to
     // retarget, and rewriting them would corrupt the library.
     if (name === "media") continue;
 
@@ -164,7 +164,7 @@ async function initialize() {
       const password = process.env.SEED_ADMIN_PASSWORD;
       if (!password) {
         throw new Error(
-          "SEED_ADMIN_PASSWORD is not set and no administrator exists — " +
+          "SEED_ADMIN_PASSWORD is not set and no administrator exists - " +
             "the Portal would start with no way to sign in.",
         );
       }

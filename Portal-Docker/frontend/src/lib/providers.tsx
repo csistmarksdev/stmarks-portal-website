@@ -1,10 +1,11 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import { AuthProvider } from "./auth";
+import { startPwa } from "./pwa";
 import { ThemeProvider, useTheme } from "./theme";
 
 /** Toasts have their own surface, so they need telling which theme is active. */
@@ -14,6 +15,9 @@ function ThemedToaster() {
 }
 
 export function Providers({ children }: { children: ReactNode }) {
+  // The service worker and the install offer - see lib/pwa.ts.
+  useEffect(() => startPwa(), []);
+
   const [queryClient] = useState(
     () =>
       new QueryClient({

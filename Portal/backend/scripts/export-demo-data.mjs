@@ -37,7 +37,7 @@ const UPLOADS = join(ROOT, "uploads");
  * `users` is excluded so an export never carries a password hash, and the
  * receiving installation creates its own admin from SEED_ADMIN_*. `audit_logs`
  * and `contact_messages` are excluded because they are the church's own
- * records — an operational history and messages from real people — and have no
+ * records - an operational history and messages from real people - and have no
  * place in a demo dataset. `leaders` is excluded because the website renders
  * leadership from its own source and the Portal does not serve it.
  */
@@ -79,7 +79,7 @@ function collectUploadPaths(value, found = new Set()) {
  *
  * Only plain objects and arrays are walked. Anything else is returned as-is,
  * which matters far more than it looks: a `Date` is `typeof "object"` with no
- * enumerable keys, so recursing into it produced `Object.fromEntries([])` —
+ * enumerable keys, so recursing into it produced `Object.fromEntries([])` -
  * `{}`. Every timestamp in the export was silently replaced by an empty object,
  * and `startDate` came back undefined on import, which would have left the
  * events page blank with nothing anywhere to explain why.
@@ -97,7 +97,7 @@ function tokenise(value) {
   return value;
 }
 
-/** True only for `{}`-shaped objects — not Dates, ObjectIds, Buffers, RegExps. */
+/** True only for `{}`-shaped objects - not Dates, ObjectIds, Buffers, RegExps. */
 function isPlainObject(value) {
   if (value === null || typeof value !== "object") return false;
   const proto = Object.getPrototypeOf(value);
@@ -135,7 +135,7 @@ async function main() {
        * Media records store `path`/`thumbnailPath` relative to the upload root
        * ("images/x.png", "thumbs/x.webp") rather than as `/uploads/` URLs, so
        * the URL scan above never sees them. Missing these exported a media
-       * library whose every entry pointed at a file that was not shipped —
+       * library whose every entry pointed at a file that was not shipped -
        * and no thumbnails at all.
        */
       if (name === "media") {

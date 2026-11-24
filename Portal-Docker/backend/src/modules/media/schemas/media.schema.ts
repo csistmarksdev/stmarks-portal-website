@@ -33,7 +33,7 @@ export class MediaEntity {
   @Prop({ required: true })
   sizeBytes: number;
 
-  /** Human-readable size, e.g. "1.2 MB" — computed at upload. */
+  /** Human-readable size, e.g. "1.2 MB" - computed at upload. */
   @Prop({ required: true })
   size: string;
 
@@ -56,7 +56,7 @@ export class MediaEntity {
   @Prop({ type: [String], default: undefined, index: true })
   previousPaths?: string[];
 
-  /** Managed by Mongoose `timestamps: true` — declared for typing only. */
+  /** Managed by Mongoose `timestamps: true` - declared for typing only. */
   createdAt?: Date;
   updatedAt?: Date;
 }

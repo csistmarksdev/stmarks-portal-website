@@ -25,7 +25,7 @@ import {
 } from "./dto/gallery.dto";
 import { GalleryService } from "./gallery.service";
 
-@ApiTags("Admin — Gallery")
+@ApiTags("Admin: Gallery")
 @ApiBearerAuth()
 @Controller("admin/gallery")
 export class GalleryAdminController {

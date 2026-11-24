@@ -91,7 +91,7 @@ const authFolder = folder("Auth", [
       'pm.test("logged in", () => pm.expect(body.user.email).to.exist);',
     ]),
     description:
-      "Signs in and stores accessToken/refreshToken in the environment. Run this first — every /admin request uses {{accessToken}}.",
+      "Signs in and stores accessToken/refreshToken in the environment. Run this first - every /admin request uses {{accessToken}}.",
   }),
   req("Refresh tokens", "POST", "/auth/refresh", {
     noAuth: true,
@@ -202,7 +202,7 @@ const publicFolder = folder(
           email: "tester@example.org",
           phone: "+91 90000 00000",
           subject: "Trying the contact form",
-          message: "Hello from the Postman collection — please ignore.",
+          message: "Hello from the Postman collection - please ignore.",
         },
         description: "Rate limited to 3/min per IP. Returns { success, messageKey }.",
       }),
@@ -301,7 +301,7 @@ const adminGallery = crudFolder(
         'if (last) pm.environment.set("photoId", last.id);',
       ]),
       description:
-        "Appends a batch of items in one request — the admin picker sends every ticked photo at once. Set 'video' to make an item a video: 'image' becomes its poster frame and 'provider' is inferred from the URL (youtube / vimeo / file). Hosted links must contain an extractable video id or the whole batch is rejected with 400, since an unparseable link renders a dead player on the site. Saves the last id into {{photoId}}.",
+        "Appends a batch of items in one request - the admin picker sends every ticked photo at once. Set 'video' to make an item a video: 'image' becomes its poster frame and 'provider' is inferred from the URL (youtube / vimeo / file). Hosted links must contain an extractable video id or the whole batch is rejected with 400, since an unparseable link renders a dead player on the site. Saves the last id into {{photoId}}.",
     }),
     req("Reorder photos", "PATCH", "/admin/gallery/{{albumId}}/photos/reorder", {
       body: { photoIds: ["{{photoId}}"] },
@@ -443,7 +443,7 @@ const adminMedia = folder("Media library", [
       'pm.environment.set("mediaId", body.id);',
     ]),
     description:
-      "Downloads a YouTube/Vimeo thumbnail into the media library and returns it as an ImageAsset-ready item, so adding a video only needs its link. 422 when no thumbnail can be had (bad link, video file, or no outbound network) — the CMS then asks for a poster upload.",
+      "Downloads a YouTube/Vimeo thumbnail into the media library and returns it as an ImageAsset-ready item, so adding a video only needs its link. 422 when no thumbnail can be had (bad link, video file, or no outbound network) - the CMS then asks for a poster upload.",
   }),
   req("List", "GET", "/admin/media", {
     query: [
@@ -520,9 +520,9 @@ const collection = {
   info: {
     name: "CSISTMC Portal API",
     description:
-      "CSI St. Mark's Church — Portal API.\n\n" +
+      "CSI St. Mark's Church - Portal API.\n\n" +
       "1. Import `CSISTMC-Portal-Local.postman_environment.json` and select it.\n" +
-      "2. Run **Auth → Login** — tokens are stored automatically.\n" +
+      "2. Run **Auth → Login** - tokens are stored automatically.\n" +
       "3. Everything under the Admin folders sends `Authorization: Bearer {{accessToken}}`; the Public folder sends nothing.\n\n" +
       "Create requests store the new record's id (e.g. {{eventId}}) so the Get/Update/Delete requests in the same folder work in order. Swagger lives at {{baseUrl2}}/docs.",
     schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -548,7 +548,7 @@ const collection = {
         adminUsers,
         adminMisc,
       ],
-      "Authenticated CMS endpoints — run Auth → Login first.",
+      "Authenticated CMS endpoints - run Auth → Login first.",
     ),
   ],
 };
@@ -556,7 +556,7 @@ const collection = {
 /* ------------------------------ environment ------------------------------- */
 
 const environment = {
-  name: "CSISTMC Portal — Local",
+  name: "CSISTMC Portal - Local",
   values: [
     { key: "baseUrl", value: "http://localhost:4000/v1", enabled: true },
     { key: "baseUrl2", value: "http://localhost:4000", enabled: true, description: "Origin without the API prefix (uploads, Swagger)." },

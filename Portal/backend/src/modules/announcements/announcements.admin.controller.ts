@@ -30,7 +30,7 @@ export class SetPinnedDto {
   pinned: boolean;
 }
 
-@ApiTags("Admin — Announcements")
+@ApiTags("Admin: Announcements")
 @ApiBearerAuth()
 @Controller("admin/announcements")
 export class AnnouncementsAdminController {
@@ -78,7 +78,7 @@ export class AnnouncementsAdminController {
 
   @Patch(":id/pin")
   @RequirePermissions("content.publish")
-  @ApiOperation({ summary: "Pin/unpin — pinning unpins every other announcement" })
+  @ApiOperation({ summary: "Pin/unpin - pinning unpins every other announcement" })
   setPinned(
     @Param("id") id: string,
     @Body() dto: SetPinnedDto,

@@ -2,7 +2,7 @@
   "name": "@portal/backend",
   "version": "1.0.0",
   "private": true,
-  "description": "CSI St. Mark's Church — NestJS API. Implements the Website API contract + admin CMS APIs.",
+  "description": "CSI St. Mark's Church - NestJS API. Implements the Website API contract + admin CMS APIs.",
   "scripts": {
     "build": "nest build",
     "start": "nest start",

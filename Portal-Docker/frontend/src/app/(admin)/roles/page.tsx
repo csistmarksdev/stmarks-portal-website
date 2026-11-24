@@ -86,7 +86,7 @@ export default function RolesPage() {
         : api.post<RoleDefinition>("/admin/roles", body);
     },
     onSuccess: (_, role) => {
-      toast.success(role.key ? "Role updated — it applies straight away" : "Role created");
+      toast.success(role.key ? "Role updated. It applies straight away" : "Role created");
       setDraft(null);
       void invalidate();
     },
@@ -135,7 +135,7 @@ export default function RolesPage() {
               <div className="rounded-3xl border border-dashed border-border-strong px-6 py-8 text-sm text-muted-foreground">
                 <span className="font-medium text-foreground">No custom roles yet.</span>{" "}
                 {canManage
-                  ? "Create one when someone needs access that none of the built-in roles fits — say, a youth leader who posts events and photos but nothing else."
+                  ? "Create one when someone needs access that none of the built-in roles fits, say a youth leader who posts events and photos but nothing else."
                   : "An admin can create one when someone needs access the built-in roles do not fit."}
               </div>
             ) : (

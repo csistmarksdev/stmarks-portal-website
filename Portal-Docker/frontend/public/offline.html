@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8f7f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0506" media="(prefers-color-scheme: dark)" />
+    <meta name="robots" content="noindex" />
+    <title>Offline | St. Mark's Portal</title>
+    <link rel="icon" href="/icons/icon-192.png" />
+    <!--
+      Shown by the service worker (sw.js) when the Portal is opened with no
+      connection. Self-contained on purpose: it has to render with nothing but
+      itself and the icon, which the worker keeps beside it.
+    -->
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f8f7f4;
+        --fg: oklch(0.3 0.01 68);
+        --muted: #6b6560;
+        --card: #ffffff;
+        --ring: rgba(28, 25, 23, 0.1);
+        --accent: oklch(0.612 0.2 36);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0506;
+          --fg: #f5f2ee;
+          --muted: #a8a19a;
+          --card: #17100f;
+          --ring: rgba(245, 242, 238, 0.12);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        padding: max(1.5rem, env(safe-area-inset-top)) 1.5rem max(1.5rem, env(safe-area-inset-bottom));
+        background: var(--bg);
+        color: var(--fg);
+        font: 15px/1.6 system-ui, -apple-system, "Segoe UI", Inter, sans-serif;
+      }
+      main {
+        width: 100%;
+        max-width: 26rem;
+        padding: 2.25rem 1.75rem;
+        border-radius: 1.5rem;
+        background: var(--card);
+        box-shadow: 0 0 0 1px var(--ring), 0 24px 48px -24px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+      img {
+        width: 72px;
+        height: 72px;
+      }
+      h1 {
+        margin: 1.25rem 0 0.5rem;
+        font: 600 1.375rem/1.25 Georgia, "Times New Roman", serif;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+      button {
+        margin-top: 1.75rem;
+        padding: 0.75rem 1.5rem;
+        border: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/icons/icon-192.png" alt="" />
+      <h1>You're offline</h1>
+      <p>
+        The Portal needs a connection to load and save church records. Nothing
+        you had saved is lost. It opens again as soon as you're back online.
+      </p>
+      <button type="button" onclick="location.reload()">Try again</button>
+    </main>
+    <script>
+      // Back online: carry straight on to where the reader was going.
+      addEventListener("online", () => location.reload());
+    </script>
+  </body>
+</html>

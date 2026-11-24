@@ -52,8 +52,8 @@ interface WithIdStatus {
 }
 
 /**
- * Generic admin collection screen. Records render as a card grid — the first
- * column is the card's title, the rest become labelled meta rows — with the
+ * Generic admin collection screen. Records render as a card grid - the first
+ * column is the card's title, the rest become labelled meta rows - with the
  * publish workflow, edit and delete along the card's footer.
  */
 export function ResourceListPage<T extends WithIdStatus>({
@@ -86,7 +86,7 @@ export function ResourceListPage<T extends WithIdStatus>({
    * The record's own picture, shown across the top of its card.
    *
    * Opt-in per collection rather than assumed, because not every one has an
-   * image — announcements and downloads have nothing to show, and giving them
+   * image - announcements and downloads have nothing to show, and giving them
    * a placeholder band would be inventing a gap rather than reporting one.
    */
   banner?: (item: T) => ImageAsset | undefined;
@@ -128,7 +128,7 @@ export function ResourceListPage<T extends WithIdStatus>({
         eyebrow={eyebrow}
         actions={
           canCreate && can("content.write") ? (
-            // Hidden on phones — the floating action button below takes over,
+            // Hidden on phones - the floating action button below takes over,
             // since the top-right corner is the worst spot for a thumb.
             <Button className="hidden lg:inline-flex" asChild>
               <Link href={`${routeBase}/new`}>
@@ -160,7 +160,7 @@ export function ResourceListPage<T extends WithIdStatus>({
           }}
         />
         <Select
-          className="w-32 shrink-0 sm:w-40"
+          className="w-[9.5rem] shrink-0 sm:w-40"
           value={status}
           onChange={(event) => {
             setStatus(event.target.value);
@@ -185,7 +185,7 @@ export function ResourceListPage<T extends WithIdStatus>({
           ))}
         </div>
       ) : isError ? (
-        /* A failed request must never be dressed up as "nothing here" — that
+        /* A failed request must never be dressed up as "nothing here" - that
            reads as data loss and invites someone to re-create records that
            already exist. */
         <ErrorState
@@ -235,14 +235,14 @@ export function ResourceListPage<T extends WithIdStatus>({
               <Card
                 key={item.id}
                 /* The lift transition lives on Card itself (`.transition-card`,
-                   box-shadow + transform only) — this previously used
+                   box-shadow + transform only) - this previously used
                    `transition-all`, which animated the gradient and every
                    colour on all 20 cards and made hovering the grid stutter. */
                 className="flex flex-col overflow-hidden hover:-translate-y-1 hover:ring-border-strong hover:[box-shadow:var(--shadow-card-hover)]"
               >
                 {banner &&
                   (can("content.write") ? (
-                    // The picture is part of the same target as the title —
+                    // The picture is part of the same target as the title -
                     // clicking a card's image to open the record is the thing
                     // everyone tries first.
                     <Link href={`${routeBase}/${item.id}`} aria-hidden tabIndex={-1}>
@@ -315,7 +315,7 @@ export function ResourceListPage<T extends WithIdStatus>({
                       Approval rule: an editor submits a draft; an admin or
                       super admin approves it. Approving happens in the editor
                       (Approve & publish / Reject in its header), after the
-                      submission has been read — not from the card.
+                      submission has been read - not from the card.
                     */}
                     {!can("content.publish") &&
                       can("content.write") &&
@@ -395,7 +395,7 @@ export function ResourceListPage<T extends WithIdStatus>({
           {data && data.total > data.pageSize && (
             <div className="mt-6 flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
-                {data.total} total — page {data.page} of{" "}
+                {data.total} total · page {data.page} of{" "}
                 {Math.ceil(data.total / data.pageSize)}
               </span>
               <div className="flex gap-2">

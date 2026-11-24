@@ -1,7 +1,7 @@
 /**
  * Making a backup portable between installations.
  *
- * Media URLs are stored *absolute* inside content records — the public Website
+ * Media URLs are stored *absolute* inside content records - the public Website
  * reads this API cross-origin and cannot resolve a relative path against its
  * own domain. That is right at runtime and wrong in an archive: a backup taken
  * from `http://192.168.1.40:4000` and restored onto `https://csistmc.org`
@@ -12,7 +12,7 @@
  * serves media from. A backup restored onto the same host is unchanged by the
  * round trip; one restored somewhere else quietly follows.
  *
- * This is the same convention `Portal-Docker`'s snapshot uses, deliberately —
+ * This is the same convention `Portal-Docker`'s snapshot uses, deliberately -
  * a snapshot captured by the build scripts and a backup downloaded from the
  * CMS carry media the same way, so neither is a special case for the other.
  */
@@ -25,11 +25,11 @@ export const MEDIA_TOKEN = "{{MEDIA}}";
  * Deliberately not anchored to this installation's own `publicUrl`. Records
  * written before the origin last changed still hold the old one, and a backup
  * that tokenised only today's origin would preserve those stale absolute URLs
- * as-is — the one case where portability matters most.
+ * as-is - the one case where portability matters most.
  */
 const ABSOLUTE_MEDIA_URL = /https?:\/\/[^/"\s]+\/uploads\//g;
 
-/** True only for `{}`-shaped objects — not Dates, ObjectIds, Buffers, RegExps. */
+/** True only for `{}`-shaped objects - not Dates, ObjectIds, Buffers, RegExps. */
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (value === null || typeof value !== "object") return false;
   const proto = Object.getPrototypeOf(value) as object | null;

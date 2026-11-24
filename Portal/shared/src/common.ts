@@ -2,7 +2,7 @@
  * Core shared shapes.
  *
  * ⚠️ These mirror `Website/src/types/common.ts` field-for-field. They are the
- * public API contract — do not change them without updating the Website in
+ * public API contract - do not change them without updating the Website in
  * the same change set.
  */
 
@@ -13,7 +13,7 @@ export const LOCALES: readonly Locale[] = ["en", "ta"] as const;
 /** A field the API returns in every supported language. */
 export type LocalizedText = Record<Locale, string>;
 
-/** Optional localized field — not every record has every translation. */
+/** Optional localized field - not every record has every translation. */
 export type LocalizedTextOptional = Partial<Record<Locale, string>>;
 
 /** Every content record shares these. */
@@ -43,10 +43,10 @@ export interface SeoMeta {
   title?: LocalizedTextOptional;
   /** Meta description and og:description. Best kept under ~160 characters. */
   description?: LocalizedTextOptional;
-  /** Meta keywords — short phrases, lowercase. */
+  /** Meta keywords - short phrases, lowercase. */
   keywords?: string[];
   /**
-   * og:image — the picture shown when the page is shared and beside it in
+   * og:image - the picture shown when the page is shared and beside it in
    * search results. Falls back to the record's own cover/image.
    */
   image?: ImageAsset;

@@ -90,7 +90,7 @@ try {
     const res = await fetch(`${BASE}/v1/events`);
     const body = await res.json();
     if (!Array.isArray(body)) throw new Error("expected an array");
-    if (body.length === 0) throw new Error("events came back EMPTY — snapshot not restored");
+    if (body.length === 0) throw new Error("events came back EMPTY - snapshot not restored");
     log(`      (${body.length} events from snapshot)`);
   });
 
@@ -99,7 +99,7 @@ try {
     const media = await db.collection("media").countDocuments();
     const audit = await db.collection("audit_logs").countDocuments();
     if (users < 1 || media < 1) {
-      throw new Error(`users=${users} media=${media} — snapshot restore did not happen`);
+      throw new Error(`users=${users} media=${media} - snapshot restore did not happen`);
     }
     log(`      (${users} user(s), ${media} media record(s), ${audit} audit log(s))`);
   });
@@ -136,7 +136,7 @@ try {
     const events = await res.json();
     const sample = JSON.stringify(events);
     if (sample.includes("{{MEDIA}}")) throw new Error("a stored {{MEDIA}} token survived");
-    if (!/uploads\//.test(sample)) log("      (no media URLs in events — acceptable)");
+    if (!/uploads\//.test(sample)) log("      (no media URLs in events - acceptable)");
   });
 
   /*
@@ -145,8 +145,8 @@ try {
    * This is the check whose absence cost a deployment. Stored URLs are absolute
    * and built from `PUBLIC_URL`, which inside a container with nothing
    * configured is `http://localhost:8080`. Every test that talks to the portal
-   * *on* localhost sees the right answer for the wrong reason — the stored value
-   * and the correct value are the same string — and the failure only appears
+   * *on* localhost sees the right answer for the wrong reason - the stored value
+   * and the correct value are the same string - and the failure only appears
    * when someone opens the CMS from another machine, where `localhost` is their
    * own laptop and every image is broken.
    *
@@ -166,7 +166,7 @@ try {
     const wrong = urls.filter((u) => !u.startsWith(`http://${foreign}/`));
     if (wrong.length > 0) {
       throw new Error(
-        `${wrong.length}/${urls.length} media URL(s) ignored the request host — ` +
+        `${wrong.length}/${urls.length} media URL(s) ignored the request host - ` +
           `e.g. ${wrong[0]}. Every client that is not on the API's own machine ` +
           "would see broken images.",
       );
@@ -213,7 +213,7 @@ try {
   /*
    * The Website contract suite, run against the same process.
    *
-   * The checks above prove the bundle is assembled correctly — the CMS is
+   * The checks above prove the bundle is assembled correctly - the CMS is
    * served, the snapshot restored, uploads reachable. They say nothing about
    * whether the *responses* are shaped the way the public Website needs, and
    * that is the failure nobody notices: a `LocalizedText` missing its Tamil

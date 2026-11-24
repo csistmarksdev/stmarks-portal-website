@@ -33,7 +33,7 @@ import { cn, fileNameOf } from "@/lib/utils";
  * Alt text is never invented.
  *
  * This used to fall back to the file's name, which put strings like
- * "Scene3.png" into published records — a screen reader then announces
+ * "Scene3.png" into published records - a screen reader then announces
  * "Scene three dot p n g" to a visitor, in both languages, and the record keeps
  * that text forever because it is copied in at selection time. An empty alt is
  * the honest answer for an image nobody has described: assistive technology
@@ -66,7 +66,7 @@ export function MediaLibraryDialog({
   kind?: MediaKind;
   /** Called with one item, or with everything ticked when `multiple`. */
   onSelect: (items: MediaItem[]) => void;
-  /** Tick several items and confirm once — for filling an album in one go. */
+  /** Tick several items and confirm once - for filling an album in one go. */
   multiple?: boolean;
   confirmLabel?: string;
 }) {
@@ -183,7 +183,7 @@ export function MediaLibraryDialog({
           />
           {multiple && (
             <p className="text-xs text-muted-foreground">
-              Tick as many as you need — you can pick several at once.
+              Tick as many as you need. You can pick several at once.
             </p>
           )}
         </div>
@@ -248,7 +248,7 @@ export function MediaLibraryDialog({
             </div>
             {data && data.items.length === 0 && (
               <p className="py-8 text-center text-sm text-muted-foreground">
-                Nothing here yet — upload a file to get started.
+                Nothing here yet. Upload a file to get started.
               </p>
             )}
             {data && data.total > data.pageSize && (
@@ -351,7 +351,7 @@ export function ImagePicker({
             {!value.alt?.en?.trim() && (
               <p className="mt-1 flex items-center gap-1.5 text-accent-fg">
                 <AlertTriangleIcon className="size-3.5 shrink-0" />
-                No alt text — add one in the media library
+                No alt text. Add one in the media library
               </p>
             )}
           </div>

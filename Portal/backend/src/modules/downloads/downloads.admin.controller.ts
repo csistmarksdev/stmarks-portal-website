@@ -20,7 +20,7 @@ import type { AuthenticatedUser } from "../../common/interfaces/authenticated-us
 import { CreateDownloadDto, UpdateDownloadDto } from "./dto/download.dto";
 import { DownloadsService } from "./downloads.service";
 
-@ApiTags("Admin — Downloads")
+@ApiTags("Admin: Downloads")
 @ApiBearerAuth()
 @Controller("admin/downloads")
 export class DownloadsAdminController {

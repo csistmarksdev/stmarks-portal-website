@@ -13,7 +13,7 @@ import type {
  * A PATCH body has to be able to say three different things: leave this alone
  * (omit the key), set it to this (send a value), and *remove* it (send null).
  * Mongo's `$set: { coverImage: null }` does the first two and gets the third
- * wrong — it stores a null rather than removing the field, which then
+ * wrong - it stores a null rather than removing the field, which then
  * serialises back out as `coverImage: null` where the contract says the key is
  * simply absent.
  *

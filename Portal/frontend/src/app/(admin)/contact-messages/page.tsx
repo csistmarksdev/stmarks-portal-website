@@ -45,7 +45,7 @@ const PAGE_SIZE = 20;
  * The time column every mail client uses: a clock time for today, a date for
  * this year, a full date beyond it.
  *
- * The point is scanability, not completeness — the column is narrow and the
+ * The point is scanability, not completeness - the column is narrow and the
  * exact instant is a click away in the reading pane. A full `27 Jul 2026,
  * 9:49 pm` on every row is three times the width for information nobody reads
  * on the twentieth message down.
@@ -71,7 +71,7 @@ function inboxTime(iso: string): string {
   });
 }
 
-/** First letters of the first and last word — "JEROPHIN D R" → "JR". */
+/** First letters of the first and last word - "JEROPHIN D R" → "JR". */
 function initials(name: string): string {
   const words = name.trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return "?";
@@ -83,7 +83,7 @@ function initials(name: string): string {
 /**
  * A stable colour per sender, so the same person is the same swatch every time.
  *
- * Hue only — saturation and lightness are fixed at a mid value that keeps white
+ * Hue only - saturation and lightness are fixed at a mid value that keeps white
  * text legible on it in either theme, which a random full-range colour would
  * not.
  */
@@ -146,7 +146,7 @@ export default function ContactMessagesPage() {
 
   /*
    * The unread badge, as its own one-item request rather than counted from the
-   * page above — which would say "3 unread" while sitting on page two of a
+   * page above - which would say "3 unread" while sitting on page two of a
    * filtered list, and be wrong on both counts.
    */
   const { data: unreadCount } = useQuery({
@@ -184,8 +184,8 @@ export default function ContactMessagesPage() {
   const selected = messages.find((message) => message.id === selectedId) ?? null;
 
   /*
-   * A selection that is no longer on screen — the message was deleted, the
-   * filter changed, the page turned — is dropped rather than left pointing at
+   * A selection that is no longer on screen - the message was deleted, the
+   * filter changed, the page turned - is dropped rather than left pointing at
    * nothing, which would strand the reading pane on its empty state with a row
    * still looking selected.
    */
@@ -211,7 +211,7 @@ export default function ContactMessagesPage() {
      *
      * `100dvh - 4rem` is the viewport less `<main>`'s own `lg:py-8`, the one
      * measurement this needs. Everything below is flex, so the header and
-     * toolbar take what they take and the panes absorb the rest — no guessing
+     * toolbar take what they take and the panes absorb the rest - no guessing
      * at their heights, and nothing to keep in sync when the copy changes.
      */
     <div className="xl:flex xl:h-[calc(100dvh-4rem)] xl:flex-col">
@@ -264,7 +264,7 @@ export default function ContactMessagesPage() {
       </div>
 
       {/* --------------------------- List + reading pane ---------------------- */}
-      {/* `min-h-0` on every level — a flex or grid child defaults to a floor of
+      {/* `min-h-0` on every level - a flex or grid child defaults to a floor of
           its content height, which would push each pane to its natural size and
           hand the scrolling back to the page. */}
       <div className="grid gap-4 xl:min-h-0 xl:flex-1 xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
@@ -278,7 +278,7 @@ export default function ContactMessagesPage() {
                 {search
                   ? "No message matches that search."
                   : unreadOnly
-                    ? "Nothing unread — every message has been seen."
+                    ? "Nothing unread. Every message has been seen."
                     : "No one has written in yet. Messages sent from the website's contact page will arrive here."}
               </p>
               {filtering && (
@@ -314,7 +314,7 @@ export default function ContactMessagesPage() {
           {data && data.total > PAGE_SIZE && (
             <div className="mt-3 flex items-center justify-between text-[13px] xl:shrink-0">
               <span className="text-muted-foreground">
-                {data.total} message{data.total === 1 ? "" : "s"} — page {data.page} of{" "}
+                {data.total} message{data.total === 1 ? "" : "s"} · page {data.page} of{" "}
                 {Math.ceil(data.total / PAGE_SIZE)}
               </span>
               <div className="flex gap-1">
@@ -506,7 +506,7 @@ function MessageRow({
           {message.subject}
         </span>
 
-        {/* The snippet, as every mail client shows it — enough of the body to
+        {/* The snippet, as every mail client shows it - enough of the body to
             tell two enquiries apart without opening either. */}
         <span className="mt-0.5 block truncate text-[13px] text-muted-foreground">
           {message.message}
@@ -584,7 +584,7 @@ function MessageView({
         <Button variant="outline" size="sm" asChild>
           {/*
            * A `mailto:` link, not a compose box. The Portal has no outbound
-           * mail — no SMTP credentials, no sending domain — and a reply typed
+           * mail - no SMTP credentials, no sending domain - and a reply typed
            * here would have to go somewhere. Handing the address to whatever
            * the church already uses replies from their real account, with a
            * copy in their own sent folder.

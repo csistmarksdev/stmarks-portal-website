@@ -8,7 +8,7 @@ import { ResourceFormPage } from "@/components/admin/resource-form-page";
 import { ALBUM_FIELDS } from "@/config/fields";
 
 /**
- * A new album is filled in whole — words, cover and photos — and created in
+ * A new album is filled in whole - words, cover and photos - and created in
  * one step. Photos picked here are held in the page and sent with "Create
  * album"; there is no need to create an empty album first and come back.
  */

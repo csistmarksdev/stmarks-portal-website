@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
  *
  * For the cases a Tailwind breakpoint class cannot cover: not "style this
  * differently at that width" but "do not render this at all". A dialog is the
- * example — it portals an overlay to the end of `<body>`, so hiding its content
+ * example - it portals an overlay to the end of `<body>`, so hiding its content
  * with `xl:hidden` leaves the backdrop behind, dimming and blurring a page that
  * has no dialog visible on it.
  *

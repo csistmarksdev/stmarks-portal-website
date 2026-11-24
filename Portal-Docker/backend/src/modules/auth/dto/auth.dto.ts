@@ -7,7 +7,7 @@ export class LoginDto {
   email: string;
 
   /*
-   * No minimum worth enforcing here — this checks an existing password, and a
+   * No minimum worth enforcing here - this checks an existing password, and a
    * length rule on the way in only tells an attacker which guesses are worth
    * making. The ceiling stays: bcrypt would otherwise hash a megabyte on every
    * unauthenticated attempt.
@@ -39,7 +39,7 @@ export class UpdateProfileDto {
  * The current password is required even though the caller is already
  * authenticated: a borrowed or stolen session should not be enough to lock the
  * real owner out of their own account. `users.write` deliberately is *not*
- * required — only a super-admin holds it, so without this every other role had
+ * required - only a super-admin holds it, so without this every other role had
  * to ask an administrator to change their password for them.
  */
 export class ChangeOwnPasswordDto {

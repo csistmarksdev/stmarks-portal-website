@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /**
- * Design tokens, taken from the church's own emblem — `public/Logo1.svg`, the
+ * Design tokens, taken from the church's own emblem - `public/Logo1.svg`, the
  * Church of South India seal the public Website is built on.
  *
  * These are the Website's tokens, deliberately: `WebsiteRT/src/styles/globals.css`
@@ -12,13 +12,13 @@
  * The seal carries exactly two colours over a white disc, plus the pale pink
  * where they overlap:
  *
- *   magenta #a81b5e — the cross, and the lettering round the rim  → brand
- *   flame   #ee4505 — the lotus rising behind it                  → accent
- *   pink    #fac1da — where the two meet (the brand 200 step)
+ *   magenta #a81b5e - the cross, and the lettering round the rim  → brand
+ *   flame   #ee4505 - the lotus rising behind it                  → accent
+ *   pink    #fac1da - where the two meet (the brand 200 step)
  *
  * `crimson` is seated at hue ~16, between the brand magenta (~359) and the
  * flame (~36), and carries destructive actions. It has to keep meaning "this
- * deletes something", so it is never used decoratively — with the flame now
+ * deletes something", so it is never used decoratively - with the flame now
  * this warm, a red that drifted toward it would make Delete look like a
  * highlight.
  *
@@ -28,12 +28,12 @@
  *
  * Values are OKLCH so light/dark pairs stay perceptually even. Each ramp keeps
  * the lightness curve of the one it replaced and changes only hue and chroma,
- * so every contrast pairing the components rely on still holds — verified by
+ * so every contrast pairing the components rely on still holds - verified by
  * `npm run check:contrast` against the compiled CSS, not against intent.
  */
 @theme {
   /*
-   * Brand — the magenta of the cross at the centre of the seal (#a81b5e, which
+   * Brand - the magenta of the cross at the centre of the seal (#a81b5e, which
    * falls between the 600 and 700 steps). Light steps drift toward the seal's
    * pale pink; deep steps stay luminance-dark so white text holds on them.
    */
@@ -50,7 +50,7 @@
   --color-brand-950: oklch(0.226 0.09 4);
 
   /*
-   * Accent — the flame behind the cross (#ee4505, the 600 step). This replaced
+   * Accent - the flame behind the cross (#ee4505, the 600 step). This replaced
    * a gold: the seal has no gold in it, and the flame is the only warm colour
    * the emblem actually carries. The lightest steps lean amber so a highlight
    * on a dark ground reads as warm rather than as more orange.
@@ -67,7 +67,7 @@
   --color-accent-900: oklch(0.352 0.106 31);
   --color-accent-950: oklch(0.268 0.082 30);
 
-  /* Crimson — destructive only. Sited between the brand and the flame. */
+  /* Crimson - destructive only. Sited between the brand and the flame. */
   --color-crimson-50: oklch(0.968 0.016 16);
   --color-crimson-100: oklch(0.928 0.037 16);
   --color-crimson-200: oklch(0.858 0.077 17);
@@ -81,14 +81,14 @@
   --color-crimson-950: oklch(0.228 0.08 14);
 
   /*
-   * Sand neutrals — the seal's warm white ground.
+   * Sand neutrals - the seal's warm white ground.
    *
    * Hue and chroma are the Website's; the *lightness* ramp is the cool grey's
    * that this replaced, and deliberately not the Website's own. Ported whole,
    * the Website's sand fails two of the structural checks here: its 50 step is
    * lighter than the white card that sits on it, and its 200 step is too pale
-   * to draw a card's edge. The site can afford that — its content sits on
-   * broad parchment panels — but the Portal is a grid of white cards on a tinted
+   * to draw a card's edge. The site can afford that - its content sits on
+   * broad parchment panels - but the Portal is a grid of white cards on a tinted
    * ground, and both separations are load-bearing. Warmth is what was wanted
    * from sand; the contrast steps were already correct.
    */
@@ -104,7 +104,7 @@
   --color-sand-900: oklch(0.3 0.01 68);
   --color-sand-950: oklch(0.2 0.009 66);
 
-  /* Typography — Fraunces carries display type, Inter the UI */
+  /* Typography - Fraunces carries display type, Inter the UI */
   --font-display: var(--font-fraunces), "Georgia", serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
@@ -113,7 +113,7 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   /*
-   * Layered elevation, tinted with the seal's magenta rather than plain black —
+   * Layered elevation, tinted with the seal's magenta rather than plain black -
    * a shadow that carries a little of the brand hue reads as light falling on
    * a surface instead of grey haze sitting on top of it.
    */
@@ -134,7 +134,7 @@
 
 /**
  * `dark:` follows the `data-theme` attribute the ThemeScript writes on <html>,
- * rather than the media query alone — that attribute is resolved from the
+ * rather than the media query alone - that attribute is resolved from the
  * user's saved choice *or* their system setting, so one variant covers both.
  */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
@@ -169,25 +169,25 @@
   --hover-tint: var(--color-brand-50);
   --primary-hover: var(--color-brand-800);
   --secondary-hover: var(--color-brand-100);
-  /* Flame that stays legible on the page ground — eyebrows, kickers. */
+  /* Flame that stays legible on the page ground - eyebrows, kickers. */
   --accent-fg: var(--color-accent-700);
 }
 
 /**
  * Dark theme.
  *
- * The ground is the seal's magenta carried all the way down to black — hue 359
+ * The ground is the seal's magenta carried all the way down to black - hue 359
  * at a chroma just high enough that the dark reads as *this* church's colour
  * rather than generic charcoal, and far too low to look coloured. Surfaces
  * step up in lightness rather than relying on borders, so depth survives
  * without the light theme's shadows.
  *
  * Brand and accent move *up* their ramps here: magenta-700 is a fine button on
- * white and illegible on near-black, so dark uses the 300–400 range.
+ * white and illegible on near-black, so dark uses the 300-400 range.
  */
 [data-theme="dark"] {
   /*
-   * The ground sits at L 0.185 — a deep warm charcoal rather than black.
+   * The ground sits at L 0.185 - a deep warm charcoal rather than black.
    * It was L 0.125, near-black, and cards, borders and inputs barely
    * separated from it; each surface now sits a clear step above the one
    * beneath, so shapes read at a glance (church request, 23 Nov 2026).
@@ -219,7 +219,7 @@
 
   /*
    * A soft tinted shadow is invisible against near-black, so dark leans on
-   * near-opaque black to separate surfaces — the lightness step between
+   * near-opaque black to separate surfaces - the lightness step between
    * `--background` and `--card` does most of the work.
    */
   --shadow-card: 0 1px 2px oklch(0 0 0 / 0.5), 0 4px 12px oklch(0 0 0 / 0.35);
@@ -305,7 +305,7 @@
 }
 
 /**
- * Modern scrollbars — thin, rounded, tinted with the warm neutral so they sit
+ * Modern scrollbars - thin, rounded, tinted with the warm neutral so they sit
  * on parchment instead of shipping the OS-default grey slab.
  */
 * {
@@ -333,7 +333,7 @@
   background-color: var(--muted-foreground);
 }
 
-/** Extra-subtle variant for panels — invisible until hovered. */
+/** Extra-subtle variant for panels - invisible until hovered. */
 .scrollbar-ghost {
   scrollbar-color: transparent transparent;
 }
@@ -351,7 +351,7 @@
 }
 
 /**
- * Overlay motion. Written by hand rather than pulling in an animation plugin —
+ * Overlay motion. Written by hand rather than pulling in an animation plugin -
  * three keyframes is less weight than a dependency, and Radix drives them
  * through `data-state`.
  */
@@ -388,7 +388,7 @@
 }
 
 /**
- * Dialogs rise from the bottom on a phone — a centred modal puts its buttons
+ * Dialogs rise from the bottom on a phone - a centred modal puts its buttons
  * mid-screen, out of thumb reach. They become true centred dialogs from `sm`.
  */
 .animate-dialog[data-state="open"] {
@@ -417,19 +417,19 @@
    * Dock is 3.25rem tall with a 0.75rem gap beneath it.
    */
   .pb-dock {
-    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
   }
 
   .bottom-dock {
-    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   }
 
   .mb-dock-gap {
-    margin-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    margin-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   }
 
   /**
-   * Card lift. Transitions *only* box-shadow and transform — `transition-all`
+   * Card lift. Transitions *only* box-shadow and transform - `transition-all`
    * on a grid of cards also animates the gradient, ring and every colour,
    * which makes hovering a long list stutter. Tailwind cannot express a
    * two-property transition as an arbitrary value (the comma breaks parsing),
@@ -441,7 +441,7 @@
     transition-duration: 300ms;
   }
 
-  /** Small-caps label — section kickers, table headers, metadata. */
+  /** Small-caps label - section kickers, table headers, metadata. */
   .label {
     /* Always the sans: on an <h2> it otherwise inherits the display serif,
        so section kickers changed typeface depending on their tag. */
@@ -455,8 +455,25 @@
   /** Glass surface, as used by the Website's sticky header. */
   .glass {
     background-color: color-mix(in oklab, var(--card) 72%, transparent);
+    /* Unprefixed only: the CSS build adds -webkit- for Safari itself, and
+       given both it kept only the prefixed one - no blur in Chrome. */
     backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /*
+   * The phone's floating tab bar: frosted glass, a touch see-through. More
+   * blur than .glass - the bar sits over the page's own text as it
+   * scrolls, and at 16px that text stayed readable through the labels and
+   * fought them. A faint top highlight gives the pill an edge on both themes.
+   */
+  .dock-glass {
+    background-color: color-mix(in oklab, var(--card) 62%, transparent);
+    /* Unprefixed only: the CSS build adds -webkit- for Safari itself, and
+       given both it kept only the prefixed one - no blur in Chrome. */
+    backdrop-filter: blur(28px) saturate(190%);
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in oklab, white 14%, transparent),
+      var(--shadow-float);
   }
 
   .numeric {
@@ -473,4 +490,77 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/*
+ * No scrollbars in the phone and tablet layout - the page, lists, the message
+ * thread, everything. Phones scroll by touch and show their own fading
+ * indicator; a permanent bar, as some browsers draw one, was a stripe down the
+ * edge of every screen. Scrolling itself is unchanged, and from `lg` up the
+ * desktop keeps its scrollbars.
+ */
+@media (max-width: 63.999rem) {
+  * {
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Sign-in screen motion: the name and the card rise into place once, and the
+ * two glows in the background drift very slowly. Both are stilled by the
+ * reduced-motion rule above.
+ */
+@keyframes login-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes login-glow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-4%, -3%, 0) scale(1.08);
+  }
+}
+
+.login-rise {
+  animation: login-rise 700ms var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+.login-glow {
+  animation: login-glow 18s ease-in-out infinite;
+}
+
+/* The sign-in button's working state: a ring turning inside the circle the
+   button draws itself in to, and the label fading back in when it opens out. */
+@keyframes login-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes login-label {
+  from {
+    opacity: 0;
+  }
+}
+
+.login-ring {
+  animation: login-ring 0.7s linear infinite;
+}
+
+.login-label {
+  animation: login-label 300ms ease-out 150ms both;
 }

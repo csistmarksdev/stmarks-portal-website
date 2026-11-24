@@ -19,7 +19,7 @@ const KEY_ENUM = Object.fromEntries(SINGLETON_KEYS.map((key) => [key, key]));
  * history, vision & mission, diocese and hero slides are hardcoded in the
  * Website and intentionally have no CMS surface here.
  */
-@ApiTags("Admin — Church")
+@ApiTags("Admin: Church")
 @ApiBearerAuth()
 /*
  * Saving needs `content.write`. Under the approval rule an approver's save
