@@ -66,6 +66,12 @@ export interface PageMetadataInput {
   keywords?: string[];
   /** og:video — a share video set in the Portal. */
   video?: SeoMeta["video"];
+  /**
+   * The title is a complete headline the writer chose in the Portal's
+   * "SEO title": used as it is, without the " · St. Mark's" every other page
+   * gets from the layout's title template.
+   */
+  titleIsCustom?: boolean;
 }
 
 const YOUTUBE_ID = /(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/;
@@ -102,12 +108,14 @@ export function recordSeo(
   fallback: { title: string; description?: string; image?: string },
 ): {
   title: string;
+  titleIsCustom: boolean;
   description?: string;
   keywords?: string[];
   image?: string;
   video?: SeoMeta["video"];
 } {
-  const title = seo?.title?.[locale]?.trim() || fallback.title;
+  const custom = seo?.title?.[locale]?.trim();
+  const title = custom || fallback.title;
   const description = seo?.description?.[locale]?.trim() || fallback.description;
   const keywords = seo?.keywords?.filter(Boolean);
   // A chosen share image wins; then the record's own; then a YouTube still.
@@ -115,6 +123,7 @@ export function recordSeo(
     seo?.image?.url ?? fallback.image ?? videoSources(seo?.video)?.thumbnailUrl;
   return {
     title,
+    titleIsCustom: !!custom,
     description,
     ...(keywords?.length ? { keywords } : {}),
     ...(image ? { image } : {}),
@@ -133,6 +142,7 @@ export async function pageMetadata({
   authors,
   keywords,
   video,
+  titleIsCustom = false,
 }: PageMetadataInput): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "site" });
   const siteName = t("name");
@@ -154,7 +164,7 @@ export async function pageMetadata({
   ];
 
   return {
-    ...(title ? { title } : {}),
+    ...(title ? { title: titleIsCustom ? { absolute: title } : title } : {}),
     ...(description ? { description } : {}),
     ...(keywords?.length ? { keywords } : {}),
     alternates: {
