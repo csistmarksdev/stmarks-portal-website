@@ -18,7 +18,7 @@ services:
     # Pinned, deliberately. `latest` moves whenever something is pushed, so a
     # host that restarts at the wrong moment silently changes version. Bump this
     # when you intend to upgrade — that is what makes rolling back one edit.
-    image: stmarksdev/csistmarkscmsportal:1.7.1
+    image: stmarksdev/csistmarkscmsportal:1.7.2
     container_name: portal
     restart: unless-stopped
 
@@ -129,7 +129,7 @@ services:
   #   docker cp scripts/check-website-api.mjs portal:/app/check-website-api.mjs
   #   docker exec portal node /app/check-website-api.mjs http://127.0.0.1:8080
   verify:
-    image: stmarksdev/csistmarkscmsportal:1.7.1
+    image: stmarksdev/csistmarkscmsportal:1.7.2
     profiles: ["verify"]
     depends_on:
       portal:
