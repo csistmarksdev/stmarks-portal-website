@@ -146,7 +146,7 @@ export function DownloadForm({ id }: { id?: string }) {
       ) : null}
       {/* Writing in the main column, everything else in a details column
           beside it - the same layout as the other content forms. */}
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem] [&>*]:min-w-0">
         <Card>
           <CardContent className="space-y-6">
             <LocalizedField label="Title" value={title} onChange={setTitle} required />

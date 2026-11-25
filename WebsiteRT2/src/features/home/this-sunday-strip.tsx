@@ -2,7 +2,7 @@ import { MapPin, Navigation } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import type { Locale } from "@/i18n/routing";
-import { heroTimings } from "@/lib/hero-timings";
+import { heroTimings, startTimeText } from "@/lib/hero-timings";
 import { heldOnNextOccurrence } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import { cn } from "@/lib/utils";
@@ -46,7 +46,7 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
    * period on each time ("காலை 6:00"); shown once, as in the handoff's text:
    * "ஞாயிறு ஆராதனை: காலை 6:00 · 8:00 · 9:00".
    */
-  const starts = sunday.map((timing) => localize(timing.time, locale).split(" – ")[0]);
+  const starts = sunday.map((timing) => startTimeText(timing, locale));
   const times = allSunday
     ? locale === "ta"
       ? starts.map((time, i) => (i === 0 ? time : time.replace(/^காலை\s+/, "")))

@@ -82,7 +82,7 @@ export default function MaintenancePage() {
       {isLoading ? (
         <Skeleton className="h-72 w-full rounded-3xl" />
       ) : (
-        <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem] [&>*]:min-w-0">
           <Card>
             <CardHeader className="pb-4">
               <CardTitle className="text-base">What visitors see</CardTitle>

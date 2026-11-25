@@ -63,6 +63,8 @@ function PickerInput({
   const inner = React.useRef<HTMLInputElement>(null);
   const wrapper = React.useRef<HTMLDivElement>(null);
   const [panel, setPanel] = React.useState<null | "below" | "above" | "sheet">(null);
+  const popover = React.useRef<HTMLDivElement>(null);
+  const [shift, setShift] = React.useState(0);
   const phone = useMediaQuery(PHONE_QUERY);
   // Re-renders the open panel after a pick, uncontrolled fields included.
   const [, refresh] = React.useReducer((n: number) => n + 1, 0);
@@ -93,6 +95,20 @@ function PickerInput({
     }
   };
 
+  // The panel opens at the field's left edge; in a narrow column near the
+  // right of the window (an event's "Starts") a date-and-time panel is wider
+  // than the field and would run off screen. Shift it left just enough to stay
+  // 12px inside the window, never past its left edge.
+  React.useLayoutEffect(() => {
+    if (!panel || panel === "sheet" || !popover.current) {
+      setShift(0);
+      return;
+    }
+    const box = popover.current.getBoundingClientRect();
+    const over = box.right - (window.innerWidth - 12);
+    setShift(over > 0 ? -Math.min(over, Math.max(0, box.left - 12)) : 0);
+  }, [panel]);
+
   React.useEffect(() => {
     if (!panel || panel === "sheet") return;
     const outside = (event: PointerEvent) => {
@@ -110,7 +126,7 @@ function PickerInput({
   }, [panel]);
 
   return (
-    <div ref={wrapper} className={cn("relative w-full", className)}>
+    <div ref={wrapper} className={cn("relative w-full min-w-0", className)}>
       {panel === "sheet" && (
         <Sheet open onOpenChange={(next) => !next && setPanel(null)}>
           <SheetContent>
@@ -138,6 +154,8 @@ function PickerInput({
       )}
       {panel && panel !== "sheet" && (
         <div
+          ref={popover}
+          style={shift ? { transform: `translateX(${shift}px)` } : undefined}
           className={cn(
             "absolute left-0 z-50 rounded-2xl bg-card p-3 text-card-foreground ring-1 ring-border/70 [box-shadow:var(--shadow-card-hover)]",
             panel === "below" ? "top-full mt-1.5" : "bottom-full mb-1.5",
@@ -175,7 +193,9 @@ function PickerInput({
         }}
         className={cn(
           BASE,
-          "cursor-pointer pr-10 tabular-nums [color-scheme:light] dark:[color-scheme:dark]",
+          // `min-w-0`: Chrome otherwise keeps a date input at its natural
+          // width and pushes narrow layouts wider than the screen.
+          "min-w-0 cursor-pointer pr-10 tabular-nums [color-scheme:light] dark:[color-scheme:dark]",
           "[&::-webkit-calendar-picker-indicator]:hidden",
           // Chromium pads the edit fields unevenly; keep the value flush left.
           "[&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-fields-wrapper]:p-0",

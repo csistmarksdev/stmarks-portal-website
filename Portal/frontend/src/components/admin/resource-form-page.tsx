@@ -559,7 +559,9 @@ export function ResourceFormPage({
         />
       ));
       return group[0].kind === "date" ? (
-        <div key={group[0].name} className={cn("grid items-start gap-5", dateColumns)}>
+        // `min-w-0` on each cell: Chrome will not shrink a date input below its
+        // natural width, which otherwise widens the grid past a phone screen.
+        <div key={group[0].name} className={cn("grid items-start gap-5 [&>*]:min-w-0", dateColumns)}>
           {controls}
         </div>
       ) : (
@@ -616,7 +618,7 @@ export function ResourceFormPage({
           <ApprovalNotice status={savedStatus} revision={revision} isEdit={isEdit} />
         </div>
       ) : null}
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem] [&>*]:min-w-0">
         <div className="min-w-0 space-y-5">
           <Card>
             <CardContent className="space-y-6">{renderGroups(writing, "sm:grid-cols-2")}</CardContent>
@@ -632,7 +634,10 @@ export function ResourceFormPage({
           {belowWriting}
         </div>
 
-        <Card>
+        {/* `min-w-0`, like the writing column: on a phone the two stack in one
+            grid column, and anything wide in here would stretch that column -
+            the writing card with it - past the screen. */}
+        <Card className="min-w-0">
           <CardHeader className="pb-4">
             <CardTitle className="text-base">Details</CardTitle>
           </CardHeader>

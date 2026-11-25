@@ -183,7 +183,7 @@ export function FellowshipForm({ id }: { id?: string }) {
         the main column, its settings, coordinator and save in a details column
         beside it. One narrow column left half the screen empty.
       */}
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_22rem] [&>*]:min-w-0">
         <div className="min-w-0 space-y-5">
           <Card>
             <CardHeader>
