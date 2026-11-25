@@ -385,7 +385,7 @@ Details, the preview bypass and health check: `maintenance-gate/README.md`.
 ## Updating
 
 **A new Portal version.** Edit the tag in `docker-compose.yml` — it is pinned to
-`stmarksdev/csistmarkscmsportal:1.7.3.P1` on purpose, so an instance that reboots
+`stmarksdev/csistmarkscmsportal:1.7.4` on purpose, so an instance that reboots
 does not silently change version — then:
 
 ```bash

@@ -28,10 +28,38 @@ import type {
  * The Website owns those types; the Portal neither stores nor serves them.
  * See docs/API.md §Church.
  */
+/**
+ * How many services can be pinned in the homepage hero at once - the strip
+ * under the title stays one line and the timings scene one row. Enforced by
+ * the CMS switch, the API, and (as a last guard) the Website.
+ */
+export const MAX_FEATURED_SERVICES = 3;
+
 export interface ServiceTiming {
   id: string;
   day: LocalizedText;
+  /**
+   * The time as the Website prints it ("6:00 AM – 7:30 AM", "காலை 6:00 –
+   * 7:30"). The CMS writes it from `startTime`/`endTime`; it stays the field
+   * every Website page reads, so older entries without clock values still show.
+   */
   time: LocalizedText;
+  /** Start on a 24-hour clock, "HH:mm". Absent on entries saved before 1.7.4. */
+  startTime?: string;
+  /** End on a 24-hour clock, "HH:mm". Optional - many services have no fixed end. */
+  endTime?: string;
+  /**
+   * Pinned in the homepage's cinematic hero (the "Sunday services" strip and
+   * the timings scene). When nothing is featured the hero falls back to every
+   * Sunday service.
+   */
+  featured?: boolean;
+  /**
+   * The weeks of the month the service is held: 1-5 for the nth occurrence of
+   * its day, -1 for the last. Absent or empty means every week. E.g. [1, 3] is
+   * "1st & 3rd Sunday of the month".
+   */
+  weeks?: number[];
   service: LocalizedText;
   venue: LocalizedText;
 }

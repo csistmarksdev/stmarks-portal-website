@@ -17,6 +17,7 @@ import { FOOTER_QUICK_LINKS } from "@/constants/navigation";
 import { privacyNoticeReady } from "@/content/church-office";
 import { Link } from "@/i18n/navigation";
 import { localize } from "@/lib/localize";
+import { weeksText } from "@/lib/service-weeks";
 import { GRAIN } from "@/lib/textures";
 import { cn } from "@/lib/utils";
 import { getChurchProfile, getServiceTimings } from "@/services";
@@ -235,6 +236,9 @@ export async function SiteFooter() {
                   <p className="mt-0.5 text-white/50">
                     {localize(timing.service, locale)}
                   </p>
+                  {weeksText(timing, locale) && (
+                    <p className="mt-0.5 text-xs text-white/40">{weeksText(timing, locale)}</p>
+                  )}
                 </li>
               ))}
             </ul>

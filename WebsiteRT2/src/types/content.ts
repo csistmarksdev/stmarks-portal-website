@@ -14,7 +14,16 @@ import type {
 export interface ServiceTiming {
   id: string;
   day: LocalizedText;
+  /** Printed as-is ("6:00 AM – 7:30 AM"); the Portal writes it from the clock values. */
   time: LocalizedText;
+  /** Start on a 24-hour clock, "HH:mm". */
+  startTime?: string;
+  /** End on a 24-hour clock, "HH:mm"; often absent. */
+  endTime?: string;
+  /** Pinned in the homepage hero - see `heroTimings`. */
+  featured?: boolean;
+  /** Weeks of the month: 1-5 for the nth, -1 for the last; empty = every week. See `weeksText`. */
+  weeks?: number[];
   service: LocalizedText;
   venue: LocalizedText;
 }

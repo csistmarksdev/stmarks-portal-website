@@ -2,6 +2,8 @@ import { MapPin, Navigation } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import type { Locale } from "@/i18n/routing";
+import { heroTimings } from "@/lib/hero-timings";
+import { heldOnNextOccurrence } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import { cn } from "@/lib/utils";
 import { getChurchProfile, getServiceTimings } from "@/services";
@@ -28,18 +30,28 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
   ]);
   const locale = (await getLocale()) as Locale;
 
-  const sunday = timings.filter((timing) => timing.day.en === "Sunday");
+  // What the Portal pins in the hero; every Sunday service until anything is.
+  // ...and of those, only the ones held on the coming day - a "1st & 3rd
+  // Sunday" service is left out on the 2nd Sunday.
+  const sunday = heroTimings(timings).filter((timing) => heldOnNextOccurrence(timing));
   if (sunday.length === 0) return null;
 
+  // Pinned services can fall on other days; then each time names its day and
+  // the label stops promising "Sunday".
+  const allSunday = sunday.every((timing) => timing.day.en === "Sunday");
+
   /*
-   * Tamil carries the period on each time ("காலை 6:00"); shown once, as in the
-   * handoff's text: "ஞாயிறு ஆராதனை: காலை 6:00 · 8:00 · 9:00".
+   * Start times only - the strip has one line on a phone, and the timings
+   * scene and About page carry the full "6:00 AM – 7:30 AM". Tamil carries the
+   * period on each time ("காலை 6:00"); shown once, as in the handoff's text:
+   * "ஞாயிறு ஆராதனை: காலை 6:00 · 8:00 · 9:00".
    */
-  const times = sunday.map((timing) => localize(timing.time, locale));
-  const compact =
-    locale === "ta"
-      ? times.map((time, i) => (i === 0 ? time : time.replace(/^காலை\s+/, ""))).join(" · ")
-      : times.join(" · ");
+  const starts = sunday.map((timing) => localize(timing.time, locale).split(" – ")[0]);
+  const times = allSunday
+    ? locale === "ta"
+      ? starts.map((time, i) => (i === 0 ? time : time.replace(/^காலை\s+/, "")))
+      : starts
+    : starts.map((time, i) => `${localize(sunday[i].day, locale)} ${time}`);
 
   const address = profile.address;
 
@@ -53,8 +65,15 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
     >
       <div className="flex w-full max-w-3xl flex-col gap-1.5 rounded-2xl border border-white/15 bg-black/45 px-3.5 py-2.5 text-white shadow-lg backdrop-blur-md sm:flex-row sm:items-center sm:gap-5 sm:px-5 sm:py-3">
         <p className="min-w-0 text-[0.9375rem] leading-snug sm:flex-1 sm:text-base">
-          <span className="font-semibold">{t("label")}:</span>{" "}
-          <span className="numeric whitespace-nowrap">{compact}</span>
+          <span className="font-semibold">{t(allSunday ? "label" : "labelFeatured")}:</span>{" "}
+          <span className="numeric">
+            {times.map((time, i) => (
+              <span key={sunday[i].id}>
+                {i > 0 && " · "}
+                <span className="whitespace-nowrap">{time}</span>
+              </span>
+            ))}
+          </span>
           <span className="mt-0.5 hidden text-sm text-white/75 md:block">
             {sunday.map((timing) => localize(timing.service, locale)).join(" · ")}
           </span>

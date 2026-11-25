@@ -1,5 +1,16 @@
-import { Body, Controller, Get, HttpCode, Param, ParseEnumPipe, Post, Put } from "@nestjs/common";
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseEnumPipe,
+  Post,
+  Put,
+} from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { MAX_FEATURED_SERVICES } from "@portal/shared";
 
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { RequirePermissions } from "../../common/decorators/permissions.decorator";
@@ -43,6 +54,12 @@ export class ChurchAdminController {
     @Body() dto: ServiceTimingsDto,
     @CurrentUser() actor: AuthenticatedUser,
   ) {
+    const featured = dto.items.filter((item) => item.featured).length;
+    if (featured > MAX_FEATURED_SERVICES) {
+      throw new BadRequestException(
+        `Only ${MAX_FEATURED_SERVICES} services can be featured in the homepage hero; ${featured} are`,
+      );
+    }
     return this.church.set("service-timings", this.church.withIds(dto.items), actor);
   }
 

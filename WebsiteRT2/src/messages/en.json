@@ -196,6 +196,7 @@
     },
     "thisSunday": {
       "label": "Sunday services",
+      "labelFeatured": "Services",
       "directions": "Get directions",
       "newTab": "opens in a new tab"
     }

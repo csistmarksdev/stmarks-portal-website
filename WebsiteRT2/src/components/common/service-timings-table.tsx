@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { weeksText } from "@/lib/service-weeks";
 import { cn } from "@/lib/utils";
 import type { ServiceTiming } from "@/types/content";
 
@@ -64,7 +65,7 @@ export function ServiceTimingsTable({
                 key={item.id}
                 className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-7"
               >
-                <time className="numeric shrink-0 font-display text-lg font-semibold text-[var(--primary)] sm:w-28">
+                <time className="numeric shrink-0 font-display text-lg font-semibold text-[var(--primary)] sm:w-44">
                   {localize(item.time, locale)}
                 </time>
 
@@ -75,6 +76,11 @@ export function ServiceTimingsTable({
                   <p className="mt-1 text-sm text-[var(--muted-foreground)]">
                     {localize(item.venue, locale)}
                   </p>
+                  {weeksText(item, locale) && (
+                    <p className="mt-1.5 text-sm font-medium text-[var(--primary)]">
+                      {weeksText(item, locale)}
+                    </p>
+                  )}
                 </div>
               </li>
             ))}

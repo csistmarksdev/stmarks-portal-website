@@ -5,6 +5,8 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import type { Locale } from "@/i18n/routing";
 import { formatDateTime, getDateParts } from "@/lib/date";
+import { heroTimings } from "@/lib/hero-timings";
+import { weeksText } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import {
   getServiceTimings,
@@ -69,8 +71,9 @@ export async function HeroTimingsPanel() {
 
   const locale = (await getLocale()) as Locale;
 
-  // Only Sunday services - the full week is on the About page.
-  const sunday = timings.filter((timing) => timing.day.en === "Sunday");
+  // The services pinned in the Portal (or, with none pinned, every Sunday
+  // service) - the full week is on the About page.
+  const sunday = heroTimings(timings);
 
   return (
     <Container>
@@ -97,6 +100,11 @@ export async function HeroTimingsPanel() {
               <p className="mt-1 text-xs text-white/55">
                 {localize(timing.venue, locale)}
               </p>
+              {weeksText(timing, locale) && (
+                <p className="mt-1.5 text-xs font-medium text-accent-200">
+                  {weeksText(timing, locale)}
+                </p>
+              )}
             </li>
           ))}
         </ul>

@@ -1,10 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
+  ArrayUnique,
   IsArray,
+  IsBoolean,
+  IsIn,
   IsISO8601,
   IsOptional,
   IsString,
+  Matches,
   ValidateNested,
 } from "class-validator";
 
@@ -21,6 +25,9 @@ import { LocalizedTextDto } from "../../../common/dto/localized-text.dto";
 
 /* ----------------------------- Service timings ---------------------------- */
 
+/** 24-hour clock time, "HH:mm" - what `<input type="time">` produces. */
+const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/;
+
 export class ServiceTimingDto {
   @ApiPropertyOptional({ description: "Stable id; generated when omitted" })
   @IsOptional()
@@ -36,6 +43,32 @@ export class ServiceTimingDto {
   @ValidateNested()
   @Type(() => LocalizedTextDto)
   time: LocalizedTextDto;
+
+  @ApiPropertyOptional({ description: 'Start, 24-hour "HH:mm"', example: "06:00" })
+  @IsOptional()
+  @Matches(CLOCK, { message: 'startTime must be a 24-hour time, "HH:mm"' })
+  startTime?: string;
+
+  @ApiPropertyOptional({ description: 'End, 24-hour "HH:mm"', example: "07:30" })
+  @IsOptional()
+  @Matches(CLOCK, { message: 'endTime must be a 24-hour time, "HH:mm"' })
+  endTime?: string;
+
+  @ApiPropertyOptional({ description: "Pinned in the homepage hero" })
+  @IsOptional()
+  @IsBoolean()
+  featured?: boolean;
+
+  @ApiPropertyOptional({
+    description: "Weeks of the month: 1-5 for the nth, -1 for the last; empty for every week",
+    type: [Number],
+    example: [1, 3],
+  })
+  @IsOptional()
+  @IsArray()
+  @ArrayUnique()
+  @IsIn([1, 2, 3, 4, 5, -1], { each: true })
+  weeks?: number[];
 
   @ApiProperty({ type: LocalizedTextDto })
   @ValidateNested()
