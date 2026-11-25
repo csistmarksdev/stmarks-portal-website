@@ -28,7 +28,7 @@ services:
     # instance that restarts at the wrong moment silently changes version.
     # Bump this when you intend to upgrade — that is what makes rolling back
     # one edit. The image is private: `docker login -u stmarksdev` first.
-    image: stmarksdev/csistmarkscmsportal:1.7.4
+    image: stmarksdev/csistmarkscmsportal:1.7.4.P1
     container_name: portal
     restart: unless-stopped
 
