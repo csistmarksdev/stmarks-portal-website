@@ -78,7 +78,9 @@ export function PickerPanel({
       <div
         className={cn(
           "flex items-center justify-between gap-2 border-t border-border/70 pt-2.5",
-          sheet && "[&_button]:min-h-11 [&_button]:px-4 [&_button]:text-sm",
+          // In a phone dialog the actions stay pinned at the foot while the
+          // calendar and the clock scroll above them.
+          sheet && "sticky bottom-0 z-10 bg-card pb-2 [&_button]:min-h-11 [&_button]:px-4 [&_button]:text-sm",
         )}
       >
         <button
@@ -303,7 +305,7 @@ function Column({
       aria-label={label}
       className={cn(
         "flex flex-col gap-0.5 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-        wide ? "h-56 flex-1" : "h-[15.5rem] w-14",
+        wide ? "h-44 flex-1" : "h-[15.5rem] w-14",
       )}
     >
       {options.map((option) => (

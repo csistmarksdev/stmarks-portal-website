@@ -4,13 +4,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import * as React from "react";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { ChoiceAction, ChoiceDialog } from "@/components/ui/choice-dialog";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
@@ -94,7 +88,7 @@ function Select({
 
   if (phone) {
     return (
-      <SheetSelect
+      <DialogSelect
         groups={groups}
         value={value === undefined ? undefined : String(value)}
         defaultValue={defaultValue === undefined ? undefined : String(defaultValue)}
@@ -178,10 +172,11 @@ function Select({
 }
 
 /**
- * The phone form: the list opens as a bottom sheet, the way an app asks you to
- * choose - big rows for a thumb, the choice ticked, the field's name on top.
+ * The phone form: the list opens as a centred dialog, the way a phone app asks
+ * you to choose - the field's name on top, big rows for a thumb with a radio
+ * mark on the choice, Cancel at the foot. Tapping a row chooses and closes.
  */
-function SheetSelect({
+function DialogSelect({
   groups,
   value,
   defaultValue,
@@ -209,7 +204,7 @@ function SheetSelect({
   const current = value ?? own;
   const selected = groups.flatMap((group) => group.items).find((item) => item.value === current);
 
-  // The sheet is titled with the field's name: its aria-label, or the label
+  // The dialog is titled with the field's name: its aria-label, or the label
   // written above it (`<Label>` then `<Select>` in one block, as every form
   // here does).
   const nameOfField = () => {
@@ -220,69 +215,83 @@ function SheetSelect({
   };
 
   return (
-    <Sheet
-      open={open}
-      onOpenChange={(next) => {
-        if (next) setTitle(nameOfField());
-        setOpen(next);
-      }}
-    >
-      <SheetTrigger
+    <>
+      <button
         ref={trigger}
+        type="button"
         id={id}
         disabled={disabled}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        onClick={() => {
+          setTitle(nameOfField());
+          setOpen(true);
+        }}
         className={cn(
-          "flex h-11 w-full items-center justify-between gap-2 rounded-xl border border-input bg-card px-3.5 py-1 text-left text-base shadow-sm transition-colors duration-300 hover:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-11 w-full min-w-0 items-center justify-between gap-2 rounded-xl border border-input bg-card px-3.5 py-1 text-left text-base shadow-sm transition-colors duration-300 hover:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
           (!selected || selected.disabled) && "text-muted-foreground",
           className,
         )}
       >
         <span className="min-w-0 truncate">{selected?.label}</span>
         <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
-      </SheetTrigger>
-      <SheetContent>
-        <div className="px-5 pb-2 pt-1">
-          <SheetTitle className="text-base font-semibold">{title}</SheetTitle>
-          <SheetDescription className="sr-only">Choose one</SheetDescription>
-        </div>
-        <div role="listbox" aria-label={title} className="px-3 pb-4">
+      </button>
+      <ChoiceDialog
+        open={open}
+        onOpenChange={setOpen}
+        title={title}
+        footer={<ChoiceAction onClick={() => setOpen(false)}>Cancel</ChoiceAction>}
+      >
+        <div role="listbox" aria-label={title}>
           {groups.map((group, index) => (
             <div key={group.label ?? `group-${index}`} role="group" aria-label={group.label}>
               {index > 0 && <div aria-hidden className="mx-2 my-1.5 h-px bg-border/80" />}
               {group.label && (
                 <p className="px-3 pb-1 pt-2 text-xs font-medium text-muted-foreground">{group.label}</p>
               )}
-              {group.items.map((item) => {
-                const isSelected = item.value === current;
-                return (
-                  <button
-                    key={item.value}
-                    type="button"
-                    role="option"
-                    aria-selected={isSelected}
-                    disabled={item.disabled}
-                    onClick={() => {
-                      if (value === undefined) setOwn(item.value);
-                      onPick(item.value);
-                      setOpen(false);
-                    }}
-                    className={cn(
-                      "flex min-h-12 w-full items-center justify-between gap-3 rounded-xl px-3 text-left text-base transition-colors active:bg-secondary disabled:opacity-40",
-                      isSelected && "bg-secondary font-semibold text-secondary-foreground",
-                    )}
-                  >
-                    <span className="min-w-0">{item.label}</span>
-                    {isSelected && <CheckIcon className="size-5 shrink-0 text-primary" />}
-                  </button>
-                );
-              })}
+              {group.items
+                // A disabled "" option is a placeholder ("Choose a day…"): it
+                // names the empty field, it is not a choice.
+                .filter((item) => !(item.disabled && item.value === ""))
+                .map((item) => {
+                  const isSelected = item.value === current;
+                  return (
+                    <button
+                      key={item.value}
+                      type="button"
+                      role="option"
+                      aria-selected={isSelected}
+                      disabled={item.disabled}
+                      onClick={() => {
+                        if (value === undefined) setOwn(item.value);
+                        onPick(item.value);
+                        setOpen(false);
+                      }}
+                      className={cn(
+                        "flex min-h-12 w-full items-center gap-3.5 rounded-xl px-3 text-left text-base transition-colors active:bg-secondary disabled:opacity-40",
+                        isSelected && "font-semibold",
+                      )}
+                    >
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                          isSelected ? "border-primary" : "border-border-strong",
+                        )}
+                      >
+                        {isSelected && <span className="size-2.5 rounded-full bg-primary" />}
+                      </span>
+                      <span className="min-w-0">{item.label}</span>
+                    </button>
+                  );
+                })}
             </div>
           ))}
         </div>
-      </SheetContent>
-    </Sheet>
+      </ChoiceDialog>
+    </>
   );
 }
 

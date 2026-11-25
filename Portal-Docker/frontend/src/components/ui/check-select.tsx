@@ -5,13 +5,7 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 
 import { PHONE_QUERY } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { ChoiceAction, ChoiceDialog } from "@/components/ui/choice-dialog";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +13,7 @@ import { cn } from "@/lib/utils";
  * A dropdown of checkboxes - pick any number of options.
  *
  * Styled as `Select`: a field-shaped trigger, a card list on desktop that stays
- * open while you tick, and a bottom sheet with a Done button on a phone. The
+ * open while you tick, and a centred dialog with a Done button on a phone. The
  * first row, `noneLabel`, stands for "nothing picked" (e.g. "Every week") and
  * clears the others when chosen.
  */
@@ -105,33 +99,39 @@ export function CheckSelect({
       </button>
     );
     return (
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger id={id} disabled={disabled} aria-label={label} className={cn(TRIGGER, className)}>
+      <>
+        <button
+          type="button"
+          id={id}
+          disabled={disabled}
+          aria-label={label}
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          onClick={() => setOpen(true)}
+          className={cn(TRIGGER, "min-w-0", className)}
+        >
           {trigger}
-        </SheetTrigger>
-        <SheetContent>
-          <div className="px-5 pb-2 pt-1">
-            <SheetTitle className="text-base font-semibold">{label}</SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">Tick all that apply.</SheetDescription>
-          </div>
-          <div role="menu" aria-label={label} className="px-3">
+        </button>
+        <ChoiceDialog
+          open={open}
+          onOpenChange={setOpen}
+          title={label}
+          description="Tick all that apply."
+          footer={
+            <ChoiceAction primary onClick={() => setOpen(false)}>
+              Done
+            </ChoiceAction>
+          }
+        >
+          <div role="menu" aria-label={label}>
             {row(value.length === 0, noneLabel, () => onChange([]), "none")}
             <div aria-hidden className="mx-2 my-1.5 h-px bg-border/80" />
             {options.map((option) =>
               row(value.includes(option.value), option.label, () => toggle(option.value), option.value),
             )}
           </div>
-          <div className="px-5 pb-4 pt-3">
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="h-12 w-full rounded-xl bg-primary text-base font-semibold text-primary-foreground transition-opacity active:opacity-90"
-            >
-              Done
-            </button>
-          </div>
-        </SheetContent>
-      </Sheet>
+        </ChoiceDialog>
+      </>
     );
   }
 

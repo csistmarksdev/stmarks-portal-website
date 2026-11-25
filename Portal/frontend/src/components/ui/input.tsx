@@ -5,12 +5,7 @@ import * as React from "react";
 
 import { PickerPanel, type PickerKind } from "@/components/ui/picker-panel";
 import { PHONE_QUERY } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { ChoiceDialog } from "@/components/ui/choice-dialog";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
@@ -45,8 +40,8 @@ function setNativeValue(input: HTMLInputElement, value: string) {
  * edge, and a click anywhere on the field opens `PickerPanel`, a card in the
  * same style as the Portal's menus. Typing into the field still works.
  *
- * On a phone the same panel opens as a bottom sheet, the way an app asks for
- * a date or time, and the field is read-only there so tapping it does not
+ * On a phone the same panel opens in a centred dialog, the way an app asks
+ * for a date or time, and the field is read-only there so tapping it does not
  * also raise the phone's own picker.
  *
  * `className` is for layout (width, `sm:max-w-xs`) and lands on the wrapper.
@@ -79,7 +74,9 @@ function PickerInput({
 
   const open = () => {
     if (disabled) return;
-    if (ours && phone) {
+    // Decided at the tap, from the window as it is now - not from state set
+    // when the page loaded - so a phone always gets the dialog.
+    if (ours && window.matchMedia(PHONE_QUERY).matches) {
       setPanel("sheet");
       return;
     }
@@ -97,16 +94,17 @@ function PickerInput({
 
   // The panel opens at the field's left edge; in a narrow column near the
   // right of the window (an event's "Starts") a date-and-time panel is wider
-  // than the field and would run off screen. Shift it left just enough to stay
-  // 12px inside the window, never past its left edge.
+  // than the field and would run off screen. Slide it so it sits 12px inside
+  // the window on both sides - the left edge wins if it cannot fit at all.
   React.useLayoutEffect(() => {
     if (!panel || panel === "sheet" || !popover.current) {
       setShift(0);
       return;
     }
     const box = popover.current.getBoundingClientRect();
-    const over = box.right - (window.innerWidth - 12);
-    setShift(over > 0 ? -Math.min(over, Math.max(0, box.left - 12)) : 0);
+    const left = box.left - shift;
+    const target = Math.max(12, Math.min(left, window.innerWidth - 12 - box.width));
+    setShift(target - left);
   }, [panel]);
 
   React.useEffect(() => {
@@ -128,13 +126,12 @@ function PickerInput({
   return (
     <div ref={wrapper} className={cn("relative w-full min-w-0", className)}>
       {panel === "sheet" && (
-        <Sheet open onOpenChange={(next) => !next && setPanel(null)}>
-          <SheetContent>
-            <div className="px-5 pb-5 pt-1">
-              <SheetTitle className="mb-3 text-base font-semibold">
-                {props["aria-label"] ?? SHEET_TITLES[type as PickerKind]}
-              </SheetTitle>
-              <SheetDescription className="sr-only">{SHEET_TITLES[type as PickerKind]}</SheetDescription>
+        <ChoiceDialog
+          open
+          onOpenChange={(next) => !next && setPanel(null)}
+          title={props["aria-label"] ?? SHEET_TITLES[type as PickerKind]}
+        >
+          <div className="px-2 pb-1">
               <PickerPanel
                 kind={type as PickerKind}
                 layout="sheet"
@@ -148,9 +145,8 @@ function PickerInput({
                 }}
                 onDone={() => setPanel(null)}
               />
-            </div>
-          </SheetContent>
-        </Sheet>
+          </div>
+        </ChoiceDialog>
       )}
       {panel && panel !== "sheet" && (
         <div
