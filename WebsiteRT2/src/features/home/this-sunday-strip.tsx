@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { heroTimings } from "@/lib/hero-timings";
 import { startTimeText } from "@/lib/service-time";
-import { heldOnNextOccurrence } from "@/lib/service-weeks";
+import { heldOnNextOccurrence, weeksShort } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import { cn } from "@/lib/utils";
 import { getChurchProfile, getServiceTimings } from "@/services";
@@ -34,7 +34,13 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
   // What the Portal pins in the hero; every Sunday service until anything is.
   // ...and of those, only the ones held on the coming day - a "1st & 3rd
   // Sunday" service is left out on the 2nd Sunday.
-  const sunday = heroTimings(timings).filter((timing) => heldOnNextOccurrence(timing));
+  const pinned = heroTimings(timings);
+  const thisWeek = pinned.filter((timing) => heldOnNextOccurrence(timing));
+  // When none of them falls on the coming day, the strip still answers "when
+  // and where" - it lists them with their weeks ("8:30 AM (1st & 3rd
+  // Sundays)") rather than vanishing with the address and directions.
+  const withWeeks = thisWeek.length === 0;
+  const sunday = withWeeks ? pinned : thisWeek;
   if (sunday.length === 0) return null;
 
   // Pinned services can fall on other days; then each time names its day and
@@ -47,7 +53,11 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
    * period on each time ("காலை 6:00"); shown once, as in the handoff's text:
    * "ஞாயிறு ஆராதனை: காலை 6:00 · 8:00 · 9:00".
    */
-  const starts = sunday.map((timing) => startTimeText(timing, locale));
+  const starts = sunday.map((timing) => {
+    const start = startTimeText(timing, locale);
+    const weeks = withWeeks ? weeksShort(timing, locale) : "";
+    return weeks ? `${start} (${weeks})` : start;
+  });
   const times = allSunday
     ? locale === "ta"
       ? starts.map((time, i) => (i === 0 ? time : time.replace(/^காலை\s+/, "")))

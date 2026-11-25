@@ -61,7 +61,11 @@ export async function apiGet<T>(
 
   const response = await fetch(buildUrl(endpoint, params), {
     headers: { Accept: "application/json" },
-    next: { revalidate, tags },
+    // In `next dev` the Portal's publish hook never reaches this machine (it
+    // calls the deployed site), so a 5-minute cache made every Portal edit look
+    // ignored locally. Ten seconds there; production keeps its TTL and is
+    // refreshed the moment the Portal publishes (see /api/revalidate).
+    next: { revalidate: process.env.NODE_ENV === "development" ? Math.min(revalidate, 10) : revalidate, tags },
     signal,
   });
 

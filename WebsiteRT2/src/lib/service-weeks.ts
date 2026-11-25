@@ -72,3 +72,16 @@ export function heldOnNextOccurrence(timing: ServiceTiming, now: Date = new Date
 
   return timing.weeks.includes(nth) || (isLast && timing.weeks.includes(-1));
 }
+
+/**
+ * The short form, for a one-line strip: "1st & 3rd Sundays" / "முதல்,
+ * மூன்றாம் ஞாயிறு"; "" for every week.
+ */
+export function weeksShort(timing: ServiceTiming, locale: Locale): string {
+  const picked = WEEKS.filter((week) => timing.weeks?.includes(week.value));
+  if (picked.length === 0) return "";
+  if (locale === "ta") return `${picked.map((week) => week.ta).join(", ")} ${timing.day.ta}`;
+  const en = picked.map((week, i) => (i > 0 ? week.en.toLowerCase() : week.en));
+  const list = en.length === 1 ? en[0] : `${en.slice(0, -1).join(", ")} & ${en[en.length - 1]}`;
+  return `${list} ${timing.day.en}s`;
+}
