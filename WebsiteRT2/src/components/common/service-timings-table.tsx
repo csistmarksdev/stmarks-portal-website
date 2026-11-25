@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
+import { timeParts } from "@/lib/service-time";
 import { weeksText } from "@/lib/service-weeks";
 import { cn } from "@/lib/utils";
 import type { ServiceTiming } from "@/types/content";
@@ -60,14 +61,30 @@ export function ServiceTimingsTable({
           </div>
 
           <ul className="divide-y divide-[var(--border)] lg:col-span-9">
-            {group.items.map((item) => (
+            {group.items.map((item) => {
+              const time = timeParts(item, locale);
+              const weeks = weeksText(item, locale);
+              return (
               <li
                 key={item.id}
-                className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-7"
+                className="flex flex-col gap-1.5 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-7"
               >
-                <time className="numeric shrink-0 font-display text-lg font-semibold text-[var(--primary)] sm:w-44">
-                  {localize(item.time, locale)}
-                </time>
+                {/* The start set large on one line, the end small beneath it -
+                    built from the Portal's clock values, so a range never
+                    wraps into a column of fragments. */}
+                <p className="shrink-0 sm:w-36">
+                  <time
+                    dateTime={time.dateTime}
+                    className="numeric block whitespace-nowrap font-display text-lg font-semibold text-[var(--primary)]"
+                  >
+                    {time.start}
+                  </time>
+                  {time.until && (
+                    <span className="numeric mt-0.5 block text-sm text-[var(--muted-foreground)]">
+                      {time.until}
+                    </span>
+                  )}
+                </p>
 
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-[var(--foreground)]">
@@ -76,14 +93,15 @@ export function ServiceTimingsTable({
                   <p className="mt-1 text-sm text-[var(--muted-foreground)]">
                     {localize(item.venue, locale)}
                   </p>
-                  {weeksText(item, locale) && (
-                    <p className="mt-1.5 text-sm font-medium text-[var(--primary)]">
-                      {weeksText(item, locale)}
+                  {weeks && (
+                    <p className="mt-2 inline-flex rounded-full bg-[color-mix(in_oklch,var(--primary)_10%,transparent)] px-2.5 py-0.5 text-xs font-medium text-[var(--primary)]">
+                      {weeks}
                     </p>
                   )}
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </section>
       ))}

@@ -17,6 +17,7 @@ import { FOOTER_QUICK_LINKS } from "@/constants/navigation";
 import { privacyNoticeReady } from "@/content/church-office";
 import { Link } from "@/i18n/navigation";
 import { localize } from "@/lib/localize";
+import { timeParts } from "@/lib/service-time";
 import { weeksText } from "@/lib/service-weeks";
 import { GRAIN } from "@/lib/textures";
 import { cn } from "@/lib/utils";
@@ -231,7 +232,12 @@ export async function SiteFooter() {
               {sundayTimings.map((timing) => (
                 <li key={timing.id} className="text-sm">
                   <p className="numeric font-display text-base font-semibold text-white/90">
-                    {localize(timing.time, locale)}
+                    <span className="whitespace-nowrap">{timeParts(timing, locale).start}</span>
+                    {timeParts(timing, locale).until && (
+                      <span className="ml-2 font-sans text-xs font-normal text-white/45">
+                        {timeParts(timing, locale).until}
+                      </span>
+                    )}
                   </p>
                   <p className="mt-0.5 text-white/50">
                     {localize(timing.service, locale)}

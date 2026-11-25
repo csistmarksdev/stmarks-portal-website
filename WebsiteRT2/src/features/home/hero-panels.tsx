@@ -6,6 +6,7 @@ import { Eyebrow, Heading, Text } from "@/components/ui/typography";
 import type { Locale } from "@/i18n/routing";
 import { formatDateTime, getDateParts } from "@/lib/date";
 import { heroTimings } from "@/lib/hero-timings";
+import { timeParts } from "@/lib/service-time";
 import { weeksText } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import {
@@ -89,11 +90,16 @@ export async function HeroTimingsPanel() {
         </Text>
 
         <ul className="mt-6 grid max-w-3xl gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
-          {sunday.map((timing) => (
+          {sunday.map((timing) => {
+            const time = timeParts(timing, locale);
+            return (
             <li key={timing.id} className={GLASS}>
               <p className="font-display text-2xl font-semibold text-white">
-                {localize(timing.time, locale)}
+                <time dateTime={time.dateTime} className="whitespace-nowrap">
+                  {time.start}
+                </time>
               </p>
+              {time.until && <p className="text-xs text-white/60">{time.until}</p>}
               <p className="mt-1 text-sm text-white/85">
                 {localize(timing.service, locale)}
               </p>
@@ -101,12 +107,13 @@ export async function HeroTimingsPanel() {
                 {localize(timing.venue, locale)}
               </p>
               {weeksText(timing, locale) && (
-                <p className="mt-1.5 text-xs font-medium text-accent-200">
+                <p className="mt-2 inline-flex rounded-full bg-white/10 px-2 py-0.5 text-[0.6875rem] font-medium text-accent-200">
                   {weeksText(timing, locale)}
                 </p>
               )}
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     </Container>

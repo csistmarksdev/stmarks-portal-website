@@ -2,7 +2,8 @@ import { MapPin, Navigation } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import type { Locale } from "@/i18n/routing";
-import { heroTimings, startTimeText } from "@/lib/hero-timings";
+import { heroTimings } from "@/lib/hero-timings";
+import { startTimeText } from "@/lib/service-time";
 import { heldOnNextOccurrence } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import { cn } from "@/lib/utils";
