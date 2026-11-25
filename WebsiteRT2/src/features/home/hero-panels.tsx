@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/routing";
 import { formatDateTime, getDateParts } from "@/lib/date";
 import { heroTimings } from "@/lib/hero-timings";
 import { timeParts } from "@/lib/service-time";
-import { weeksText } from "@/lib/service-weeks";
+import { weeksShort } from "@/lib/service-weeks";
 import { localize } from "@/lib/localize";
 import {
   getServiceTimings,
@@ -106,9 +106,11 @@ export async function HeroTimingsPanel() {
               <p className="mt-1 text-xs text-white/55">
                 {localize(timing.venue, locale)}
               </p>
-              {weeksText(timing, locale) && (
-                <p className="mt-2 inline-flex rounded-full bg-white/10 px-2 py-0.5 text-[0.6875rem] font-medium text-accent-200">
-                  {weeksText(timing, locale)}
+              {/* The short form, on a soft-cornered tag: a full pill around
+                  Tamil that wraps in a narrow card swells into a blob. */}
+              {weeksShort(timing, locale) && (
+                <p className="mt-2 w-fit max-w-full rounded-md bg-white/10 px-2 py-1 text-xs font-medium leading-snug text-accent-200">
+                  {weeksShort(timing, locale)}
                 </p>
               )}
             </li>

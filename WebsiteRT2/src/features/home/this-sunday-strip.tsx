@@ -53,11 +53,10 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
    * period on each time ("காலை 6:00"); shown once, as in the handoff's text:
    * "ஞாயிறு ஆராதனை: காலை 6:00 · 8:00 · 9:00".
    */
-  const starts = sunday.map((timing) => {
-    const start = startTimeText(timing, locale);
-    const weeks = withWeeks ? weeksShort(timing, locale) : "";
-    return weeks ? `${start} (${weeks})` : start;
-  });
+  const starts = sunday.map((timing) => startTimeText(timing, locale));
+  // Kept apart from the time: the time never breaks, the note may wrap -
+  // together on one unbreakable line, the Tamil ran over the address.
+  const weeks = sunday.map((timing) => (withWeeks ? weeksShort(timing, locale) : ""));
   const times = allSunday
     ? locale === "ta"
       ? starts.map((time, i) => (i === 0 ? time : time.replace(/^காலை\s+/, "")))
@@ -82,6 +81,7 @@ export async function ThisSundayStrip({ className }: { className?: string }) {
               <span key={sunday[i].id}>
                 {i > 0 && " · "}
                 <span className="whitespace-nowrap">{time}</span>
+                {weeks[i] && <span className="text-sm text-white/75"> ({weeks[i]})</span>}
               </span>
             ))}
           </span>

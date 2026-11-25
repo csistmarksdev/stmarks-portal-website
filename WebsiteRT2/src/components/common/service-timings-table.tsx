@@ -94,7 +94,7 @@ export function ServiceTimingsTable({
                     {localize(item.venue, locale)}
                   </p>
                   {weeks && (
-                    <p className="mt-2 inline-flex rounded-full bg-[color-mix(in_oklch,var(--primary)_10%,transparent)] px-2.5 py-0.5 text-xs font-medium text-[var(--primary)]">
+                    <p className="mt-2 w-fit max-w-full rounded-md bg-[color-mix(in_oklch,var(--primary)_10%,transparent)] px-2 py-1 text-xs font-medium leading-snug text-[var(--primary)]">
                       {weeks}
                     </p>
                   )}
