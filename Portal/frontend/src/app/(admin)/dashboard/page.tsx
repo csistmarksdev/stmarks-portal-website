@@ -24,13 +24,14 @@ import {
   UploadIcon,
 } from "lucide-react";
 import Link from "next/link";
-import type { ComponentType } from "react";
+import { useEffect, type ComponentType } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
+import { publishWidgetSummary } from "@/lib/pwa";
 import { cn, formatDate } from "@/lib/utils";
 
 /**
@@ -241,6 +242,29 @@ export default function DashboardPage() {
       });
     }
   }
+
+  /*
+   * The same counts, for the "Needs attention" widget on the Windows 11
+   * Widgets board (see publishWidgetSummary in lib/pwa.ts).
+   */
+  const canApprove = can("content.publish");
+  const unreadMessages = stats?.contact.unread;
+  const awaitingApproval =
+    stats && canApprove
+      ? Object.values(stats.approvals).reduce(
+          (sum, { submissions, changes }) => sum + submissions + changes,
+          0,
+        ) + (churchWaiting?.length ?? 0)
+      : null;
+  const next = upcoming?.[0];
+  useEffect(() => {
+    if (unreadMessages === undefined) return;
+    publishWidgetSummary({
+      unreadMessages,
+      awaitingApproval,
+      nextEvent: next ? { title: next.title.en, date: next.startDate } : null,
+    });
+  }, [unreadMessages, awaitingApproval, next]);
 
   return (
     <div className="max-w-6xl">

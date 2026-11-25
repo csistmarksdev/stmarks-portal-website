@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { api, apiUrl, uploadWithProgress } from "@/lib/api";
+import { usePendingBackupFile } from "@/lib/app-launch";
 import { useAuth } from "@/lib/auth";
 import { formatDateTime } from "@/lib/utils";
 
@@ -249,6 +250,15 @@ function RestoreCard() {
       if (fileInput.current) fileInput.current.value = "";
     }
   }
+
+  /*
+   * A backup opened with the installed app ("Open with → St. Mark's Portal",
+   * the manifest's file_handlers): uploaded for review as if chosen above.
+   */
+  usePendingBackupFile((file) => {
+    toast.info(`Reading ${file.name}`);
+    void upload(file);
+  });
 
   async function apply() {
     if (!staged) return;

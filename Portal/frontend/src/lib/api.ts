@@ -2,6 +2,8 @@
 
 import type { LoginResponse } from "@portal/shared";
 
+import { clearWidgetSummary } from "./pwa";
+
 /**
  * Where the API lives.
  *
@@ -72,6 +74,8 @@ export const tokenStore = {
   clear() {
     window.localStorage.removeItem(ACCESS_KEY);
     window.localStorage.removeItem(REFRESH_KEY);
+    // Signed out, or the session ended: the widget stops showing this account's counts.
+    clearWidgetSummary();
   },
 };
 

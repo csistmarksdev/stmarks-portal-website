@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { MobileNav } from "@/components/admin/mobile-nav";
 import { Sidebar } from "@/components/admin/sidebar";
 import { isPathAllowed } from "@/config/navigation";
+import { useAppLaunchNavigation } from "@/lib/app-launch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useMaintenance } from "@/lib/maintenance";
@@ -25,6 +26,9 @@ export default function AdminLayout({
   const pathname = usePathname();
   // A page the user's role does not open bounces them home.
   const forbidden = !!user && !isPathAllowed(pathname, user.permissions);
+
+  // A link, shortcut or backup file the installed app was opened with.
+  useAppLaunchNavigation(!!user && !loading);
 
   useEffect(() => {
     if (!loading && !user) router.replace("/login");
