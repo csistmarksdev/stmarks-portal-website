@@ -102,3 +102,18 @@ export function clockMinutes(timing: ServiceTiming): { start: number; end: numbe
   const minutes = ({ hour, minute }: Clock) => hour * 60 + minute;
   return { start: minutes(clock.start), end: clock.end ? minutes(clock.end) : null };
 }
+
+/** An instant's time of day in Chennai, worded as service times are: "10:30 AM" / "காலை 10:30". */
+export function formatInstantTime(iso: string, locale: Locale): string {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Kolkata",
+      hour: "numeric",
+      minute: "numeric",
+      hourCycle: "h23",
+    })
+      .formatToParts(new Date(iso))
+      .map((part) => [part.type, part.value]),
+  );
+  return format({ hour: Number(parts.hour), minute: Number(parts.minute) }, locale);
+}

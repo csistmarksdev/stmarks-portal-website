@@ -1,4 +1,5 @@
-import { clockMinutes } from "@/lib/service-time";
+import type { Locale } from "@/i18n/routing";
+import { clockMinutes, formatInstantTime } from "@/lib/service-time";
 import type { ServiceTiming } from "@/types/content";
 
 /**
@@ -77,4 +78,52 @@ export function isLiveNow(timing: ServiceTiming, now: Date = new Date()): boolea
 
   const end = clock.end !== null && clock.end > clock.start ? clock.end : clock.start + OPEN_ENDED_MINUTES;
   return today.minutes >= clock.start && today.minutes < end;
+}
+
+/* --------------------------------- Events --------------------------------- */
+
+/** What the strip needs of a Portal event - kept small, it is sent to the browser. */
+export interface LiveEvent {
+  id: string;
+  slug: string;
+  title: ServiceTiming["service"];
+  location: ServiceTiming["venue"];
+  /** ISO 8601. */
+  startDate: string;
+  endDate?: string;
+}
+
+/** An event's end: its own, or `OPEN_ENDED_MINUTES` after its start when it has none. */
+function eventEnd(event: LiveEvent): number {
+  const start = new Date(event.startDate).getTime();
+  const end = event.endDate ? new Date(event.endDate).getTime() : Number.NaN;
+  return Number.isFinite(end) && end > start ? end : start + OPEN_ENDED_MINUTES * 60_000;
+}
+
+/** Whether a Portal event is under way: from its start until its end. */
+export function isEventLiveNow(event: LiveEvent, now: Date = new Date()): boolean {
+  const start = new Date(event.startDate).getTime();
+  return Number.isFinite(start) && now.getTime() >= start && now.getTime() < eventEnd(event);
+}
+
+const chennaiDate = (time: number) =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date(time));
+
+/**
+ * "until 10:30 AM" / "காலை 10:30 வரை"; with the date when the event ends on a
+ * later day - "until 21 Dec, 10:30 AM".
+ */
+export function eventUntilText(event: LiveEvent, now: Date, locale: Locale): string {
+  const end = eventEnd(event);
+  const time = formatInstantTime(new Date(end).toISOString(), locale);
+  const sameDay = chennaiDate(end) === chennaiDate(now.getTime());
+  const date = sameDay
+    ? ""
+    : new Intl.DateTimeFormat(locale === "ta" ? "ta-IN" : "en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "short",
+      }).format(new Date(end));
+  if (locale === "ta") return `${date ? `${date}, ` : ""}${time} வரை`;
+  return `until ${date ? `${date}, ` : ""}${time}`;
 }

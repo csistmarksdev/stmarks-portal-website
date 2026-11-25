@@ -5,7 +5,14 @@ import { useSyncExternalStore } from "react";
 
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
-import { isLiveNow } from "@/lib/service-live";
+import { ROUTES } from "@/constants/site";
+import { Link } from "@/i18n/navigation";
+import {
+  eventUntilText,
+  isEventLiveNow,
+  isLiveNow,
+  type LiveEvent,
+} from "@/lib/service-live";
 import { timeParts } from "@/lib/service-time";
 import { cn } from "@/lib/utils";
 import type { ServiceTiming } from "@/types/content";
@@ -26,8 +33,13 @@ const readClock = () => Math.floor(Date.now() / TICK_MS);
 const readClockOnServer = () => null;
 
 /**
- * The browser half of the hero strip: shows only a service that is in
- * progress right now, and nothing otherwise.
+ * The browser half of the hero strip: shows only what is in progress right
+ * now, and nothing otherwise.
+ *
+ * A Portal event under way takes priority: when one overlaps a regular
+ * service (a carol service at the time of Sunday worship), the event is what
+ * is happening, so the strip shows the event alone - linked to its page - and
+ * the service only when no event is on.
  *
  * Decided here, in the visitor's browser, rather than on the server: the
  * homepage is cached for minutes at a time, so a server-side decision would
@@ -40,6 +52,7 @@ const readClockOnServer = () => null;
  */
 export function LiveServiceStrip({
   timings,
+  events,
   locale,
   labels,
   address,
@@ -47,6 +60,7 @@ export function LiveServiceStrip({
   className,
 }: {
   timings: ServiceTiming[];
+  events: LiveEvent[];
   locale: Locale;
   labels: { live: string; directions: string; newTab: string };
   address: string;
@@ -56,8 +70,32 @@ export function LiveServiceStrip({
   const tick = useSyncExternalStore(subscribeToClock, readClock, readClockOnServer);
   if (tick === null) return null;
   const now = new Date();
-  const live = timings.filter((timing) => isLiveNow(timing, now));
-  if (live.length === 0) return null;
+
+  const liveEvents = events.filter((event) => isEventLiveNow(event, now));
+  const entries =
+    liveEvents.length > 0
+      ? liveEvents.map((event) => ({
+          key: `event-${event.id}`,
+          name: (
+            <Link href={ROUTES.event(event.slug)} className="underline decoration-white/40 underline-offset-4 hover:decoration-white">
+              {localize(event.title, locale)}
+            </Link>
+          ),
+          when: eventUntilText(event, now, locale),
+          place: localize(event.location, locale),
+        }))
+      : timings
+          .filter((timing) => isLiveNow(timing, now))
+          .map((timing) => {
+            const time = timeParts(timing, locale);
+            return {
+              key: `service-${timing.id}`,
+              name: <span>{localize(timing.service, locale)}</span>,
+              when: time.until ?? time.start,
+              place: localize(timing.venue, locale),
+            };
+          });
+  if (entries.length === 0) return null;
 
   return (
     <aside aria-label={labels.live} aria-live="polite" className={cn("flex", className)}>
@@ -71,21 +109,15 @@ export function LiveServiceStrip({
             </span>
             {labels.live}:
           </span>{" "}
-          {live.map((timing, i) => {
-            const time = timeParts(timing, locale);
-            return (
-              <span key={timing.id}>
-                {i > 0 && " · "}
-                <span>{localize(timing.service, locale)}</span>
-                <span className="numeric whitespace-nowrap text-sm text-white/75">
-                  {" "}
-                  · {time.until ?? time.start}
-                </span>
-              </span>
-            );
-          })}
+          {entries.map((entry, i) => (
+            <span key={entry.key}>
+              {i > 0 && " · "}
+              {entry.name}
+              <span className="numeric whitespace-nowrap text-sm text-white/75"> · {entry.when}</span>
+            </span>
+          ))}
           <span className="mt-0.5 hidden text-sm text-white/75 md:block">
-            {live.map((timing) => localize(timing.venue, locale)).join(" · ")}
+            {entries.map((entry) => entry.place).filter(Boolean).join(" · ")}
           </span>
         </p>
 
