@@ -30,49 +30,6 @@ export function weeksText(timing: ServiceTiming, locale: Locale): string {
   return `${list} ${timing.day.en} of the month`;
 }
 
-const DAY_INDEX: Record<string, number> = {
-  Sunday: 0,
-  Monday: 1,
-  Tuesday: 2,
-  Wednesday: 3,
-  Thursday: 4,
-  Friday: 5,
-  Saturday: 6,
-};
-
-/** Today's date in the church's time zone - the server runs on UTC. */
-function todayInChennai(now: Date) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(now);
-  const [y, m, d] = parts.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d));
-}
-
-/**
- * Whether the service is held on the next occurrence of its day (today
- * included) - e.g. whether a "1st & 3rd Sunday" service is on this coming
- * Sunday. Every-week services, and days the list does not know, always are.
- */
-export function heldOnNextOccurrence(timing: ServiceTiming, now: Date = new Date()): boolean {
-  if (!timing.weeks?.length) return true;
-  const target = DAY_INDEX[timing.day.en];
-  if (target === undefined) return true;
-
-  const date = todayInChennai(now);
-  date.setUTCDate(date.getUTCDate() + ((target - date.getUTCDay() + 7) % 7));
-
-  const dayOfMonth = date.getUTCDate();
-  const daysInMonth = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate();
-  const nth = Math.ceil(dayOfMonth / 7);
-  const isLast = dayOfMonth + 7 > daysInMonth;
-
-  return timing.weeks.includes(nth) || (isLast && timing.weeks.includes(-1));
-}
-
 /**
  * The short form, for a one-line strip: "1st & 3rd Sundays" / "முதல்,
  * மூன்றாம் ஞாயிறு"; "" for every week.

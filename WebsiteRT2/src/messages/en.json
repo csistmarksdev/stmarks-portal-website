@@ -197,6 +197,7 @@
     "thisSunday": {
       "label": "Sunday services",
       "labelFeatured": "Services",
+      "live": "Live now",
       "directions": "Get directions",
       "newTab": "opens in a new tab"
     }

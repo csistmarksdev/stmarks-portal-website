@@ -91,7 +91,14 @@ export function timeParts(timing: ServiceTiming, locale: Locale): TimeParts {
   return { start: format(start, locale), until: `until ${format(end, locale)}`, dateTime };
 }
 
-/** Just the start - for the one-line hero strip. */
-export function startTimeText(timing: ServiceTiming, locale: Locale): string {
-  return timeParts(timing, locale).start;
+/**
+ * Start and end as minutes past midnight (480 = 8:00 AM), from the clock
+ * values or, for older entries, the typed text. `end` is null when the
+ * service has no end time; the whole is null when no time can be read.
+ */
+export function clockMinutes(timing: ServiceTiming): { start: number; end: number | null } | null {
+  const clock = clockOf(timing);
+  if (!clock) return null;
+  const minutes = ({ hour, minute }: Clock) => hour * 60 + minute;
+  return { start: minutes(clock.start), end: clock.end ? minutes(clock.end) : null };
 }
