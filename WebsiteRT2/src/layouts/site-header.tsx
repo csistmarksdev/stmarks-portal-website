@@ -80,6 +80,9 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  // Set while Escape hands focus back to a dropdown's link, so that focus does
+  // not reopen the menu it just closed (F-077).
+  const keepDropdownClosed = useRef(false);
 
   /*
    * Close the menu on navigation.
@@ -496,6 +499,34 @@ export function SiteHeader({ overHero, fellowships }: SiteHeaderProps = {}) {
                     hasChildren && setOpenDropdown(item.href)
                   }
                   onMouseLeave={() => hasChildren && setOpenDropdown(null)}
+                  /*
+                   * F-077: the same submenu for keyboard readers - it opens
+                   * when focus enters the item (so Tab reaches its links),
+                   * closes when focus leaves it, and Escape closes it and
+                   * returns focus to the item's link.
+                   */
+                  onFocus={() => {
+                    if (!hasChildren) return;
+                    if (keepDropdownClosed.current) {
+                      keepDropdownClosed.current = false;
+                      return;
+                    }
+                    setOpenDropdown(item.href);
+                  }}
+                  onBlur={(event) => {
+                    if (!hasChildren) return;
+                    const next = event.relatedTarget as Node | null;
+                    if (!next || !event.currentTarget.contains(next)) setOpenDropdown(null);
+                  }}
+                  onKeyDown={(event) => {
+                    if (!hasChildren || event.key !== "Escape" || openDropdown !== item.href) return;
+                    setOpenDropdown(null);
+                    const link = event.currentTarget.querySelector<HTMLAnchorElement>("a");
+                    if (link && link !== document.activeElement) {
+                      keepDropdownClosed.current = true;
+                      link.focus();
+                    }
+                  }}
                 >
                   <Link
                     href={item.href}

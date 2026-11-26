@@ -131,7 +131,7 @@ export default async function EventDetailPage({
         <Container className="relative">
           <Reveal className="max-w-3xl">
             <Link
-              href={ROUTES.events}
+              href={ROUTES.eventArchive}
               className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
             >
               <ArrowLeft aria-hidden className="size-4" />

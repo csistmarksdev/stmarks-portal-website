@@ -11,17 +11,7 @@ import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
 import { getLeadershipPreview } from "@/services";
 import type { Leader } from "@/types/content";
-
-/** Initials fallback when a leader has no portrait on file. */
-function initials(name: string): string {
-  return name
-    .replace(/^(Rev\.|Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "")
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0] ?? "")
-    .join("")
-    .toUpperCase();
-}
+import { initials } from "@/lib/initials";
 
 export async function LeadershipPreview() {
   const [t, tCard, leaders] = await Promise.all([

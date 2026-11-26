@@ -32,8 +32,9 @@ import {
 export async function AboutSection() {
   const locale = (await getLocale()) as Locale;
 
-  const [t, history, vision, diocese, timings] = await Promise.all([
+  const [t, tCommon, history, vision, diocese, timings] = await Promise.all([
     getTranslations("about"),
+    getTranslations("common"),
     getChurchHistory(),
     getVisionMission(),
     getDioceseInfo(),
@@ -148,7 +149,9 @@ export async function AboutSection() {
 
                     <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
                       <p className="numeric font-display text-3xl font-semibold leading-none tracking-tight text-accent-700 sm:text-4xl">
-                        {milestone.year}
+                        {typeof milestone.year === "string"
+                          ? milestone.year
+                          : localize(milestone.year, locale)}
                       </p>
 
                       <h4 className="font-display text-lg font-semibold leading-snug transition-colors duration-300 group-hover:text-[var(--primary)] sm:text-xl">
@@ -316,6 +319,7 @@ export async function AboutSection() {
                 >
                   {t("diocese.visitSite")}
                   <ExternalLink aria-hidden />
+                  <span className="sr-only"> ({tCommon("newTab")})</span>
                 </a>
               </Button>
             </Reveal>

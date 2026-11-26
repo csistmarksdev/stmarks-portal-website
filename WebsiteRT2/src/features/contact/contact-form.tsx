@@ -60,7 +60,15 @@ export function ContactForm() {
     const validationErrors = validate();
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length > 0) return;
+    // F-114: take the reader to the first field that needs fixing, so its
+    // message (wired through aria-describedby) is announced.
+    const firstInvalid = (["name", "email", "subject", "message"] as const).find(
+      (field) => validationErrors[field],
+    );
+    if (firstInvalid) {
+      document.getElementById(`contact-${firstInvalid}`)?.focus();
+      return;
+    }
 
     setStatus({ state: "submitting" });
 

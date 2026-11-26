@@ -105,7 +105,7 @@ export default async function BlogPostPage({
           <Container size="md">
             <Reveal>
               <Link
-                href={ROUTES.blog}
+                href={ROUTES.blogArchive}
                 className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
               >
                 <ArrowLeft aria-hidden className="size-4" />

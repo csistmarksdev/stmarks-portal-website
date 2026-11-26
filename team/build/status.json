@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22",
+ "generated": "2026-11-26",
  "branch": "fix/audit-2026-11",
  "findings": [
   {
@@ -407,16 +407,16 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "next-intl alternateLinks off: no Link hreflang header; HTML + sitemap are the one source (verified on next start)."
   },
   {
    "id": "F-052",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "proxy.ts answers 404 for paths matching no route (branded 404 page unchanged); /privacy 404 until privacyNoticeReady(). Unknown slugs under /events, /gallery etc. still 200 + noindex (streamed notFound)."
   },
   {
    "id": "F-053",
@@ -431,16 +431,16 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Corrie consecrated at Lambeth, installed at St George’s (en + ta); diocese count was already gone."
   },
   {
    "id": "F-055",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Diocese link -> https://www.csidioceseofmadras.com/ (confirm with diocese office)."
   },
   {
    "id": "F-056",
@@ -455,16 +455,16 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "Repo strings: கீர்த்தனைக் குழு -> பாடகர் குழு, retreat wording in mocks. Portal records still need the glossary."
   },
   {
    "id": "F-058",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Milestone ‘Present’ -> இன்று, loading text translated, Tanglish history rewritten, presbyter roll months in Tamil (names kept, marked lang=en)."
   },
   {
    "id": "F-059",
@@ -503,8 +503,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Blog / About Us / Welcome to / View all posts; history grammar already fixed."
   },
   {
    "id": "F-064",
@@ -527,16 +527,16 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "Advent added: Advent Sunday (27 Nov-3 Dec) to 23 Dec, no snow/ornaments. Colour is royal purple (oklch hue 318), taken from Scripture: Zechariah 9:9 (the coming King, Advent Sunday) and purple as the colour of kings (Judges 8:26); Zechariah 9:9 is the season verse shown (en + ta, BSI O.V. wording to confirm). Christmas now 24 Dec-1 Jan. Bootstrap and getSeason agree on 7671 days. Pentecost state and ignoring ?season= in production not done."
   },
   {
    "id": "F-067",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "nosniff, X-Frame-Options DENY, frame-ancestors none, Referrer-Policy, Permissions-Policy. Full script CSP needs nonces for the inline bootstraps."
   },
   {
    "id": "F-068",
@@ -575,8 +575,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "localeCookie off: no Set-Cookie on cached HTML (detection is off, so the cookie was never read)."
   },
   {
    "id": "F-073",
@@ -591,8 +591,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "Presbyter roll names marked lang=en on Tamil pages; other English runs come from the Portal."
   },
   {
    "id": "F-075",
@@ -607,24 +607,24 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Call links’ accessible name includes the visible number."
   },
   {
    "id": "F-077",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Desktop dropdowns open on focus, close on focus-out and Escape (focus back to the link). Not yet browser-tested."
   },
   {
    "id": "F-078",
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Lightbox returns focus to the thumbnail of the last-shown photo. Not yet browser-tested."
   },
   {
    "id": "F-079",
@@ -671,8 +671,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Event, blog post and album back links go to /events, /events/blog, /gallery."
   },
   {
    "id": "F-085",
@@ -687,8 +687,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "lib/initials.ts strips Tamil and English honorifics, grapheme-aware (விப)."
   },
   {
    "id": "F-087",
@@ -711,8 +711,8 @@
    "severity": "Medium",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "partial",
+   "note": "Title template ‘%s | CSI St. Mark’s, Madipakkam’ (ta equivalent). Descriptions with service times wait on F-010."
   },
   {
    "id": "F-090",
@@ -823,8 +823,8 @@
    "severity": "Low",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Already per-record lastmod in sitemap.ts."
   },
   {
    "id": "F-104",
@@ -856,7 +856,7 @@
    "sprint": 3,
    "owner": "Dev",
    "status": "partial",
-   "note": "Next.js 16.4.4 -> 16.4.6 (security advisories), versions pinned; npm audit 0 vulnerabilities. poweredByHeader and security.txt are Sprint 3."
+   "note": "poweredByHeader false. security.txt needs a working contact address (F-007)."
   },
   {
    "id": "F-108",
@@ -903,16 +903,16 @@
    "severity": "Low",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Maps, directions and diocese links announce ‘opens in a new tab’."
   },
   {
    "id": "F-114",
    "severity": "Low",
    "sprint": 3,
    "owner": "Dev",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "aria-invalid/describedby were present; focus now moves to the first invalid field."
   },
   {
    "id": "F-115",
@@ -951,8 +951,8 @@
    "severity": "Low",
    "sprint": 3,
    "owner": "Content",
-   "status": "pending (sprint 3)",
-   "note": ""
+   "status": "fixed",
+   "note": "Already ‘Holy Communion’ / திருவிருந்து in history."
   },
   {
    "id": "F-120",

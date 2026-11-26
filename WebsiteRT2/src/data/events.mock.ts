@@ -24,7 +24,7 @@ export const EVENTS: ChurchEvent[] = [
     description: [
       {
         en: "The harvest festival is the highlight of our church calendar. The sanctuary is decorated with the season's produce, the choir prepares special music, and the whole congregation stays back for lunch together.",
-        ta: "அறுவடைத் திருவிழா எங்கள் திருச்சபை நாட்காட்டியின் சிறப்பம்சம். ஆலயம் பருவகால விளைபொருட்களால் அலங்கரிக்கப்படுகிறது, கீர்த்தனைக் குழு சிறப்பு இசையைத் தயாரிக்கிறது, முழு சபையும் ஒன்றாக மதிய உணவுக்குத் தங்குகிறது.",
+        ta: "அறுவடைத் திருவிழா எங்கள் திருச்சபை நாட்காட்டியின் சிறப்பம்சம். ஆலயம் பருவகால விளைபொருட்களால் அலங்கரிக்கப்படுகிறது, பாடகர் குழு சிறப்பு இசையைத் தயாரிக்கிறது, முழு சபையும் ஒன்றாக மதிய உணவுக்குத் தங்குகிறது.",
       },
       {
         en: "Offerings brought on the day support the church's outreach through the year. All are welcome, whether you are a member or visiting for the first time.",
@@ -105,7 +105,7 @@ export const EVENTS: ChurchEvent[] = [
     description: [
       {
         en: "Nine lessons and carols sung by the choir and congregation, with candles, readings and the children's nativity.",
-        ta: "கீர்த்தனைக் குழுவும் சபையும் பாடும் ஒன்பது வேத வாசிப்புகளும் கீர்த்தனைகளும், மெழுகுவர்த்திகள், வாசிப்புகள், குழந்தைகளின் கிறிஸ்து பிறப்பு நாடகத்துடன்.",
+        ta: "பாடகர் குழுவும் சபையும் பாடும் ஒன்பது வேத வாசிப்புகளும் கீர்த்தனைகளும், மெழுகுவர்த்திகள், வாசிப்புகள், குழந்தைகளின் கிறிஸ்து பிறப்பு நாடகத்துடன்.",
       },
     ],
     startDate: "2026-12-20T18:00:00.000+05:30",
@@ -116,7 +116,7 @@ export const EVENTS: ChurchEvent[] = [
       ta: "மெழுகுவர்த்தி வெளிச்சத்தில் கீர்த்தனை ஆராதனை",
     }),
     fellowshipSlug: "choir",
-    organiser: { en: "Choir", ta: "கீர்த்தனைக் குழு" },
+    organiser: { en: "Choir", ta: "பாடகர் குழு" },
     featured: true,
   },
   {

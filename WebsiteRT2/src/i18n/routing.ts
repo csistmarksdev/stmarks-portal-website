@@ -34,6 +34,20 @@ export const routing = defineRouting({
    * would rather have the memory than the certainty.
    */
   localeDetection: false,
+
+  /*
+   * F-072: with detection off the `NEXT_LOCALE` cookie is never read, so
+   * writing it only put a `Set-Cookie` on cached page responses. Off.
+   */
+  localeCookie: false,
+
+  /*
+   * F-051: the middleware's `Link: …; rel=alternate` header named a different
+   * host from the HTML's hreflang tags. Each page declares its own alternates
+   * in HTML (`pageMetadata()` in `lib/seo.ts`) and the sitemap does the same,
+   * so the header is switched off and there is one source.
+   */
+  alternateLinks: false,
 });
 
 export const localeLabels: Record<Locale, string> = {

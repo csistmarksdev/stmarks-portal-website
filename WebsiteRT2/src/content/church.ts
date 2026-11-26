@@ -82,7 +82,7 @@ export const CHURCH_HISTORY: ChurchHistory = {
     },
     {
       en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
-      ta: "இன்று 190-க்கும் மேற்பட்ட குடும்பங்களுடன் ஐக்கியங்கள், பாடகர் குழுக்கள் மற்றும் சமூக சேவைகளுடன் இயங்கும் திருச்சபை, கீழே விசாலமான கார் பார்க்கிங், பிரத்யேக ஞாயிறு பள்ளி வளாகம் மற்றும் கம்பீரமான மணி கோபுரத்துடன் கூடிய 'ஸ்டில்ட் பிளஸ்' ஆலயத்தில் ஆராதித்து வருகிறது.",
+      ta: "இன்று 190-க்கும் மேற்பட்ட குடும்பங்களுடன் ஐக்கியங்கள், பாடகர் குழுக்கள் மற்றும் சமூக சேவைகளுடன் இயங்கும் திருச்சபை, தரைத்தளத்தில் விசாலமான வாகன நிறுத்துமிடம், பிரத்யேக ஞாயிறு பள்ளி வளாகம், கம்பீரமான மணி கோபுரம் ஆகியவற்றுடன் கூடிய புதிய ஆலயத்தில் (ஸ்டில்ட் + மேல்தளங்கள்) ஆராதித்து வருகிறது.",
     },
   ],
   milestones: [
@@ -124,11 +124,12 @@ export const CHURCH_HISTORY: ChurchHistory = {
     },
     {
       id: "ms-5",
-      year: "Present",
+      year: { en: "Present", ta: "இன்று" },
       title: { en: "Stilt-Plus Sanctuary, Bell Tower & Sunday School", ta: "புதிய ஆலயம், மணி கோபுரம் & ஞாயிறு பள்ளி" },
       description: {
         en: "Growing to 190+ families with a completed Stilt-Plus sanctuary, covered parking, Sunday School complex, and Bell Tower.",
-        ta: "190+ குடும்பங்கள், புதிய ஸ்டில்ட் பிளஸ் ஆலயம், பார்க்கிங், ஞாயிறு பள்ளி வளாகம் மற்றும் மணி கோபுரம்.",
+        // F-058: Tamil wording rather than "ஸ்டில்ட் பிளஸ்" / "பார்க்கிங்".
+        ta: "190+ குடும்பங்கள்; தரைத்தளத்தில் விசாலமான வாகன நிறுத்துமிடத்துடன் கூடிய புதிய ஆலயம் (ஸ்டில்ட் + மேல்தளங்கள்), ஞாயிறு பள்ளி வளாகம், மணி கோபுரம்.",
       },
     },
   ],
@@ -204,8 +205,8 @@ export const DIOCESE_INFO: DioceseInfo = {
       ta: "தூய மாற்கு ஆலயம், தென்னிந்தியத் திருச்சபையின் சென்னைப் பேராயத்தைச் சேர்ந்தது. ஆங்கிலிக்கன், மெதடிஸ்ட், சபைக்கூட்டு (காங்கிரிகேஷனல்), பிரெஸ்பிடேரியன், சீர்திருத்த மரபுகள் ஒன்றிணைந்து 1947-இல் உருவான ஐக்கியத் திருச்சபை இது.",
     },
     {
-      en: "The diocese is older than that union. It was constituted on 28 October 1835, when Daniel Corrie was consecrated its first bishop at St George's Church in Madras, the building that became St George's Cathedral, and remains the bishop's seat today.",
-      ta: "பேராயம் அந்த ஐக்கியத்தை விடப் பழமையானது. 1835 அக்டோபர் 28 அன்று, சென்னையின் புனித ஜார்ஜ் ஆலயத்தில் டேனியல் கோரி அதன் முதல் பேராயராக அபிஷேகம் செய்யப்பட்டபோது இது நிறுவப்பட்டது. அந்தக் கட்டிடமே புனித ஜார்ஜ் பேராலயமாக மாறி, இன்றும் பேராயரின் இருக்கையாக விளங்குகிறது.",
+      en: "The diocese is older than that union. It was constituted on 28 October 1835, when Daniel Corrie, consecrated at Lambeth that June, was installed as its first bishop at St George's Church in Madras, the building that became St George's Cathedral, and remains the bishop's seat today.",
+      ta: "பேராயம் அந்த ஐக்கியத்தை விடப் பழமையானது. 1835 அக்டோபர் 28 அன்று, சென்னையின் புனித ஜார்ஜ் ஆலயத்தில் டேனியல் கோரி அதன் முதல் பேராயராகப் பொறுப்பேற்றபோது இது நிறுவப்பட்டது. அந்தக் கட்டிடமே புனித ஜார்ஜ் பேராலயமாக மாறி, இன்றும் பேராயரின் இருக்கையாக விளங்குகிறது.",
     },
     {
       en: "It now reaches across Chennai and the districts around it, with some 1,192 congregations gathered into 186 pastorates. St. Mark's shares in that wider communion, and in the diocese's long work in education, healthcare and social service.",
@@ -217,7 +218,8 @@ export const DIOCESE_INFO: DioceseInfo = {
     // TODO(church-office): confirm the bishop's initial before adding it (F-047).
     ta: "பேரருள்திரு. பவுல் பிரான்சிஸ் ரவிச்சந்திரன்",
   },
-  websiteUrl: "https://csimadrasdiocese.org",
+  // F-055: csimadrasdiocese.org is a holding page; this is the diocese's live site.
+  websiteUrl: "https://www.csidioceseofmadras.com/",
   /**
    * The CSI emblem (F-024: not the diocese's crest), not a photograph - hence the square dimensions
    * and the `object-contain` treatment on the About page. An emblem cropped to

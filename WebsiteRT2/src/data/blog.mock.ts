@@ -101,7 +101,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: { en: "Mr. Samuel Raja", ta: "திரு. சாமுவேல் ராஜா" },
     coverImage: placeholderImage(180, {
       en: "The choir during a service",
-      ta: "ஆராதனையின்போது கீர்த்தனைக் குழு",
+      ta: "ஆராதனையின்போது பாடகர் குழு",
     }),
     fellowshipSlug: "choir",
     readingMinutes: 5,
@@ -112,7 +112,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "youth-fellowship-retreat-notes",
     title: {
       en: "A weekend away: notes from the youth retreat",
-      ta: "ஒரு வார இறுதி விலகல்: இளைஞர் விலகல் முகாமின் குறிப்புகள்",
+      ta: "இளைஞர் தியான முகாம்: ஒரு வார இறுதியின் நினைவுகள்",
     },
     excerpt: {
       en: "Forty young people, two days in the hills, and the conversations that only happen away from the noise.",
@@ -132,7 +132,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: { en: "Rev. Daniel Raj", ta: "பணி. டேனியல் ராஜ்" },
     coverImage: placeholderImage(30, {
       en: "Young people at the retreat centre",
-      ta: "விலகல் முகாம் மையத்தில் இளைஞர்கள்",
+      ta: "தியான முகாம் மையத்தில் இளைஞர்கள்",
     }),
     fellowshipSlug: "youth-fellowship",
     readingMinutes: 4,

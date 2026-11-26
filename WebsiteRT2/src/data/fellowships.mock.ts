@@ -143,12 +143,12 @@ export const FELLOWSHIPS: Fellowship[] = [
     ...timestamps,
     id: "fs-4",
     slug: "choir",
-    name: { en: "Choir", ta: "கீர்த்தனைக் குழு" },
+    name: { en: "Choir", ta: "பாடகர் குழு" },
     tagline: { en: "Make a joyful noise", ta: "ஆனந்த சத்தமிடுங்கள்" },
     about: [
       {
         en: "The choir leads the congregation in worship each Sunday and prepares special music for festivals, weddings and diocesan occasions. New voices are always welcome - no audition required, only commitment to practice.",
-        ta: "கீர்த்தனைக் குழு ஒவ்வொரு ஞாயிறும் சபையை ஆராதனையில் வழிநடத்துகிறது, பண்டிகைகள், திருமணங்கள், மறைமாவட்ட நிகழ்வுகளுக்குச் சிறப்பு இசையைத் தயாரிக்கிறது. புதிய குரல்கள் எப்போதும் வரவேற்கப்படுகின்றன - தேர்வு இல்லை, பயிற்சிக்கான அர்ப்பணிப்பு மட்டுமே.",
+        ta: "பாடகர் குழு ஒவ்வொரு ஞாயிறும் சபையை ஆராதனையில் வழிநடத்துகிறது, பண்டிகைகள், திருமணங்கள், மறைமாவட்ட நிகழ்வுகளுக்குச் சிறப்பு இசையைத் தயாரிக்கிறது. புதிய குரல்கள் எப்போதும் வரவேற்கப்படுகின்றன - தேர்வு இல்லை, பயிற்சிக்கான அர்ப்பணிப்பு மட்டுமே.",
       },
     ],
     vision: {
@@ -162,7 +162,7 @@ export const FELLOWSHIPS: Fellowship[] = [
     memberCount: 27,
     banner: placeholderImage(180, {
       en: "Church choir singing",
-      ta: "கீர்த்தனைக் குழு பாடுதல்",
+      ta: "பாடகர் குழு பாடுதல்",
     }),
     committee: [
       {

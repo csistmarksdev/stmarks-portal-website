@@ -73,7 +73,7 @@ export interface PageMetadataInput {
   video?: SeoMeta["video"];
   /**
    * The title is a complete headline the writer chose in the Portal's
-   * "SEO title": used as it is, without the " · St. Mark's" every other page
+   * "SEO title": used as it is, without the " | CSI St. Mark's, Madipakkam" every other page
    * gets from the layout's title template.
    */
   titleIsCustom?: boolean;

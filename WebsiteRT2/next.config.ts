@@ -141,6 +141,8 @@ function siteOrigin(): string {
 }
 
 const nextConfig: NextConfig = {
+  // F-107: no `x-powered-by: Next.js` on every response.
+  poweredByHeader: false,
   env: {
     SITE_ORIGIN: siteOrigin(),
   },
@@ -277,7 +279,28 @@ const nextConfig: NextConfig = {
       ],
     };
 
-    return [...cached, uploads, noindexElsewhere];
+    /*
+     * F-067: baseline security headers on every response. Nothing frames this
+     * site (the Portal only embeds video players), so framing is refused
+     * outright; camera, microphone and location are never used. A full
+     * script/style Content-Security-Policy is not set here: the inline
+     * bootstraps in `[locale]/layout.tsx` would need nonces first.
+     */
+    const security = {
+      source: "/:path*",
+      headers: [
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: "DENY" },
+        { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        {
+          key: "Permissions-Policy",
+          value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+        },
+      ],
+    };
+
+    return [security, ...cached, uploads, noindexElsewhere];
   },
 };
 

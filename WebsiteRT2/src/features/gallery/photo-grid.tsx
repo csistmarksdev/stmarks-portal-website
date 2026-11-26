@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { Locale } from "@/i18n/routing";
@@ -64,6 +64,27 @@ export function PhotoGrid({ photos, locale, className }: PhotoGridProps) {
 
   const isOpen = activeIndex !== null;
 
+  /*
+   * F-078: focus goes back to the thumbnail when the viewer closes. The dialog
+   * content unmounts in the same render that closes it, so Radix had nothing
+   * to restore to and focus fell to <body>. The thumbnail of the photo last
+   * shown is focused instead (the one the reader arrowed to, not only the one
+   * they opened).
+   */
+  const thumbnails = useRef<(HTMLButtonElement | null)[]>([]);
+  const lastIndex = useRef<number | null>(null);
+  useEffect(() => {
+    if (activeIndex !== null) {
+      lastIndex.current = activeIndex;
+      return;
+    }
+    if (lastIndex.current === null) return;
+    const target = thumbnails.current[lastIndex.current];
+    lastIndex.current = null;
+    const frame = requestAnimationFrame(() => target?.focus({ preventScroll: true }));
+    return () => cancelAnimationFrame(frame);
+  }, [activeIndex]);
+
   const goTo = useCallback(
     (direction: 1 | -1) => {
       setActiveIndex((current) => {
@@ -114,6 +135,9 @@ export function PhotoGrid({ photos, locale, className }: PhotoGridProps) {
           return (
             <li key={photo.id}>
               <button
+                ref={(node) => {
+                  thumbnails.current[index] = node;
+                }}
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 aria-label={
@@ -161,6 +185,7 @@ export function PhotoGrid({ photos, locale, className }: PhotoGridProps) {
                filling column so the viewer covers the screen like a photos app. */
             className="left-0 top-0 flex h-dvh max-w-none translate-x-0 translate-y-0 flex-col"
             aria-describedby={undefined}
+            onCloseAutoFocus={(event) => event.preventDefault()}
           >
             <DialogTitle className="sr-only">
               {`${activeVideo ? t("video") : t("label")}: ${localize(activePhoto.image.alt, locale)}`}

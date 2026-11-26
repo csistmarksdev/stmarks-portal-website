@@ -7,17 +7,7 @@ import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
 import { cn } from "@/lib/utils";
 import type { Leader } from "@/types/content";
-
-/** Initials fallback when a leader has no portrait on file. */
-function initials(name: string): string {
-  return name
-    .replace(/^(Rev\.|Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "")
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0] ?? "")
-    .join("")
-    .toUpperCase();
-}
+import { initials } from "@/lib/initials";
 
 export interface LeaderCardProps {
   leader: Leader;
@@ -210,7 +200,7 @@ export async function LeaderCard({
               {leader.phone ? (
                 <a
                   href={`tel:${leader.phone.replace(/\s/g, "")}`}
-                  aria-label={t("phoneLabel", { name })}
+                  aria-label={t("phoneLabel", { name, phone: leader.phone })}
                   className="link-underline numeric inline-flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--primary)]"
                 >
                   <Phone aria-hidden className="size-4 shrink-0 text-accent-600" />
@@ -296,7 +286,7 @@ export async function LeaderCard({
             {leader.phone ? (
               <a
                 href={`tel:${leader.phone.replace(/\s/g, "")}`}
-                aria-label={t("phoneLabel", { name })}
+                aria-label={t("phoneLabel", { name, phone: leader.phone })}
                 className="numeric inline-flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] underline-offset-4 transition-colors hover:text-[var(--primary)] hover:underline"
               >
                 <Phone aria-hidden className="size-4 shrink-0 text-accent-600" />

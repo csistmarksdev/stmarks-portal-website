@@ -55,7 +55,8 @@ export interface ChurchProfile {
 
 export interface HistoryMilestone {
   id: string;
-  year: string;
+  /** A year, or a bilingual label such as "Present" / "இன்று" (F-058). */
+  year: string | LocalizedText;
   title: LocalizedText;
   description: LocalizedText;
 }

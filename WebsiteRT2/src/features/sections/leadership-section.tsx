@@ -26,16 +26,23 @@ import {
   getCurrentPastors,
   getStaff,
 } from "@/services";
+import { initials } from "@/lib/initials";
 
-/** Two-letter initials fallback shown until a committee member has a portrait. */
-function initials(name: string): string {
-  return name
-    .replace(/^(Rev\.|Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "")
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0] ?? "")
-    .join("")
-    .toUpperCase();
+/**
+ * F-058: the register's dates ("April 1993", "Aug. 1997") in the page's
+ * language. Only the month is translated - the year and the register itself
+ * stay exactly as the church keeps them.
+ */
+const TAMIL_MONTHS: Record<string, string> = {
+  jan: "ஜனவரி", feb: "பிப்ரவரி", mar: "மார்ச்", apr: "ஏப்ரல்", may: "மே", jun: "ஜூன்",
+  jul: "ஜூலை", aug: "ஆகஸ்ட்", sep: "செப்டம்பர்", oct: "அக்டோபர்", nov: "நவம்பர்", dec: "டிசம்பர்",
+};
+
+function termMonth(value: string, locale: Locale): string {
+  if (locale !== "ta") return value;
+  return value.replace(/^([A-Za-z]{3})[a-z]*\.?(?=\s)/, (match, month: string) =>
+    TAMIL_MONTHS[month.toLowerCase()] ?? match,
+  );
 }
 
 /**
@@ -74,8 +81,8 @@ function PortraitTile({
 }: {
   leader: Leader;
   locale: Locale;
-  /** Pre-resolved `leadership.card.phoneLabel`, taking `{name}`. */
-  phoneLabel: (name: string) => string;
+  /** Pre-resolved `leadership.card.phoneLabel`, taking `{name}` and `{phone}` (F-076: the visible number is in the name). */
+  phoneLabel: (name: string, phone: string) => string;
 }) {
   const name = localize(leader.name, locale);
 
@@ -121,7 +128,7 @@ function PortraitTile({
         {leader.phone ? (
           <a
             href={`tel:${leader.phone.replace(/\s/g, "")}`}
-            aria-label={phoneLabel(name)}
+            aria-label={phoneLabel(name, leader.phone)}
             className="numeric mt-3 inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] underline-offset-4 transition-colors hover:text-[var(--primary)] hover:underline"
           >
             <Phone aria-hidden className="size-3.5 shrink-0 text-accent-600" />
@@ -159,7 +166,7 @@ export async function LeadershipSection() {
       getStaff(),
     ]);
 
-  const phoneLabel = (name: string) => tCard("phoneLabel", { name });
+  const phoneLabel = (name: string, phone: string) => tCard("phoneLabel", { name, phone });
 
   /*
    * Everyone the chapter is about to introduce, in the order it introduces
@@ -440,7 +447,9 @@ export async function LeadershipSection() {
                         </span>
 
                         <p className="min-w-0 font-display text-base font-semibold sm:text-lg">
-                          {term.name}
+                          {/* F-074: the register's names are in English on both
+                              pages; marked so a Tamil voice reads them as English. */}
+                          <span lang={locale === "en" ? undefined : "en"}>{term.name}</span>
                           {term.note ? (
                             /* `block` on a phone so a long name and its
                                qualifier do not fight over one line. */
@@ -459,8 +468,11 @@ export async function LeadershipSection() {
                       */}
                       <p className="numeric whitespace-nowrap pl-8 text-sm font-semibold text-accent-700 sm:pl-0 sm:text-base">
                         {term.current
-                          ? t("presbyters.termCurrent", { from: term.from })
-                          : t("presbyters.term", { from: term.from, to: term.to })}
+                          ? t("presbyters.termCurrent", { from: termMonth(term.from, locale) })
+                          : t("presbyters.term", {
+                              from: termMonth(term.from, locale),
+                              to: termMonth(term.to, locale),
+                            })}
                       </p>
                     </div>
                   </li>

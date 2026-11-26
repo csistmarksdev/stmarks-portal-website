@@ -41,9 +41,10 @@ import { getChurchProfile } from "@/services";
  * own `home.contact.*`, which is warmer than the page hero it now sits under.
  */
 export async function ContactSection() {
-  const [t, tContact, profile] = await Promise.all([
+  const [t, tContact, tCommon, profile] = await Promise.all([
     getTranslations("home.contact"),
     getTranslations("contact"),
+    getTranslations("common"),
     getChurchProfile(),
   ]);
 
@@ -201,6 +202,7 @@ export async function ContactSection() {
                   >
                     {t("directions")}
                     <ExternalLink aria-hidden />
+                    <span className="sr-only"> ({tCommon("newTab")})</span>
                   </a>
                 </Button>
               </div>
@@ -236,6 +238,7 @@ export async function ContactSection() {
             >
               {tContact("map.openInMaps")}
               <ExternalLink aria-hidden className="size-4" />
+              <span className="sr-only"> ({tCommon("newTab")})</span>
             </a>
           }
         />

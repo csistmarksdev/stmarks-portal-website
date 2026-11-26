@@ -112,7 +112,7 @@ export default async function AlbumPage({
         images={album.photos.slice(0, 6).map((photo) => photo.image.url)}
       >
         <Link
-          href={ROUTES.gallery}
+          href={ROUTES.albumArchive}
           className="inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
         >
           <ArrowLeft aria-hidden className="size-4" />

@@ -35,17 +35,7 @@ import {
   getFellowshipBySlug,
   getFellowshipSlugs,
 } from "@/services";
-
-/** Two-letter initials for a committee member's monogram medallion. */
-function initials(name: string): string {
-  return name
-    .replace(/^(Mr\.|Mrs\.|Ms\.|Rev\.|Dr\.)\s*/i, "")
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0] ?? "")
-    .join("")
-    .toUpperCase();
-}
+import { initials } from "@/lib/initials";
 
 /** Prerender every fellowship in every locale. */
 export async function generateStaticParams() {

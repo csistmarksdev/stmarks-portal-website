@@ -35,11 +35,12 @@ function ColumnHead({ children }: { children: React.ReactNode }) {
 }
 
 export async function SiteFooter() {
-  const [t, tNav, tSite, tPrivacy, profile, timings] = await Promise.all([
+  const [t, tNav, tSite, tPrivacy, tCommon, profile, timings] = await Promise.all([
     getTranslations("footer"),
     getTranslations("nav"),
     getTranslations("site"),
     getTranslations("privacy"),
+    getTranslations("common"),
     getChurchProfile(),
     getServiceTimings(),
   ]);
@@ -190,6 +191,7 @@ export async function SiteFooter() {
               className="link-underline group mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent-300 transition-colors hover:text-accent-200"
             >
               {t("getDirections")}
+              <span className="sr-only"> ({tCommon("newTab")})</span>
               <ArrowUpRight
                 aria-hidden
                 className="size-4 transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
