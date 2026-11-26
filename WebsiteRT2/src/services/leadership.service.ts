@@ -63,3 +63,26 @@ export function getLeadershipPreview(limit = 3): Promise<Leader[]> {
 
   return mockResponse(preview.slice(0, limit));
 }
+
+/**
+ * F-007 / F-027: the public contact numbers for the site.
+ *
+ * The church office named the Hon. Secretary and the Hon. Treasurer as the
+ * contacts for enquiries (handoff decision, 26 Nov 2026), and there is no
+ * confirmed office landline yet. So Contact and the footer show these two,
+ * read from the leadership roll so a new appointment updates every place at
+ * once. They follow the same consent switch as the Leadership cards
+ * (`CHURCH_OFFICE.publishPersonalPhones`): turn it off and they disappear.
+ *
+ * Deliberately not fed into JSON-LD `telephone`: a personal mobile is not
+ * the organisation's number. That waits for a real office phone.
+ */
+const ENQUIRY_CONTACT_IDS = ["ld-3", "ld-4"] as const; // Hon. Secretary, Hon. Treasurer
+
+export function getEnquiryContacts(): Promise<Leader[]> {
+  const contacts = ENQUIRY_CONTACT_IDS.map((id) =>
+    LEADERS.find((l) => l.id === id),
+  ).filter((l): l is Leader => Boolean(l?.phone));
+
+  return mockResponse(contacts);
+}

@@ -43,12 +43,13 @@ export const CHURCH_OFFICE = {
    */
   publishPersonalPhones: true,
 
-  /**
-   * TODO(church-office): the Hon. Secretary's and Hon. Treasurer's contact
-   * details for enquiries about Sunday School, baptism and weddings. Until they
-   * are supplied, the enquiry note points readers to the Leadership section.
+  /*
+   * Enquiry contacts (Sunday School, baptism, weddings) are the Hon. Secretary
+   * and Hon. Treasurer. Their numbers come from the leadership roll via
+   * `getEnquiryContacts()` in services/leadership.service.ts and are shown in
+   * Contact and the footer while `publishPersonalPhones` is on.
+   * TODO(church-office): written consent from both (F-027).
    */
-  enquiryContacts: [] as { role: LocalizedText; phone?: string; email?: string }[],
 
   /**
    * TODO(church-office): the three facts the Privacy Notice needs (F-036).

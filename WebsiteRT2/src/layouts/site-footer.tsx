@@ -21,7 +21,11 @@ import { timeParts } from "@/lib/service-time";
 import { weeksText } from "@/lib/service-weeks";
 import { GRAIN } from "@/lib/textures";
 import { cn } from "@/lib/utils";
-import { getChurchProfile, getServiceTimings } from "@/services";
+import {
+  getChurchProfile,
+  getEnquiryContacts,
+  getServiceTimings,
+} from "@/services";
 import type { Locale } from "@/i18n/routing";
 
 /** Small-caps column header with a brass tick, echoing the section mastheads. */
@@ -35,14 +39,26 @@ function ColumnHead({ children }: { children: React.ReactNode }) {
 }
 
 export async function SiteFooter() {
-  const [t, tNav, tSite, tPrivacy, tCommon, profile, timings] = await Promise.all([
+  const [
+    t,
+    tNav,
+    tSite,
+    tPrivacy,
+    tCommon,
+    tCard,
+    profile,
+    timings,
+    enquiryContacts,
+  ] = await Promise.all([
     getTranslations("footer"),
     getTranslations("nav"),
     getTranslations("site"),
     getTranslations("privacy"),
     getTranslations("common"),
+    getTranslations("leadership.card"),
     getChurchProfile(),
     getServiceTimings(),
+    getEnquiryContacts(),
   ]);
 
   const locale = (await getLocale()) as Locale;
@@ -283,6 +299,32 @@ export async function SiteFooter() {
                   >
                     {phone}
                   </a>
+                </p>
+              ))}
+
+              {/* F-007: the Hon. Secretary and Hon. Treasurer, the church's
+                  named enquiry contacts, until a real office line exists. */}
+              {enquiryContacts.map((person) => (
+                <p key={person.id} className="flex gap-3">
+                  <Phone
+                    aria-hidden
+                    className="mt-0.5 size-4 shrink-0 text-accent-400/70"
+                  />
+                  <span>
+                    <span className="block text-white/50">
+                      {localize(person.designation, locale)}
+                    </span>
+                    <a
+                      href={`tel:${person.phone?.replace(/\s/g, "")}`}
+                      aria-label={tCard("phoneLabel", {
+                        name: localize(person.name, locale),
+                        phone: person.phone ?? "",
+                      })}
+                      className="inline-block py-1 transition-colors hover:text-white"
+                    >
+                      {person.phone}
+                    </a>
+                  </span>
                 </p>
               ))}
 

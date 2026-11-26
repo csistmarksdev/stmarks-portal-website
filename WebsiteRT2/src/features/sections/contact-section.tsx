@@ -18,7 +18,7 @@ import { ContactForm } from "@/features/contact/contact-form";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { localize } from "@/lib/localize";
-import { getChurchProfile } from "@/services";
+import { getChurchProfile, getEnquiryContacts } from "@/services";
 
 /**
  * Contact - the closing chapter.
@@ -41,12 +41,15 @@ import { getChurchProfile } from "@/services";
  * own `home.contact.*`, which is warmer than the page hero it now sits under.
  */
 export async function ContactSection() {
-  const [t, tContact, tCommon, profile] = await Promise.all([
-    getTranslations("home.contact"),
-    getTranslations("contact"),
-    getTranslations("common"),
-    getChurchProfile(),
-  ]);
+  const [t, tContact, tCommon, tCard, profile, enquiryContacts] =
+    await Promise.all([
+      getTranslations("home.contact"),
+      getTranslations("contact"),
+      getTranslations("common"),
+      getTranslations("leadership.card"),
+      getChurchProfile(),
+      getEnquiryContacts(),
+    ]);
 
   const locale = (await getLocale()) as Locale;
   const address = profile.address;
@@ -60,14 +63,31 @@ export async function ContactSection() {
       href: address.mapsUrl,
       external: true,
     },
+    // F-007: the office line, once the church office supplies a real one.
     {
       key: "phone",
       icon: Phone,
       label: tContact("details.phone"),
       value: profile.phone[0],
+      note: undefined as string | undefined,
+      ariaLabel: undefined as string | undefined,
       href: `tel:${profile.phone[0]?.replace(/\s/g, "")}`,
       external: false,
     },
+    // The Hon. Secretary and Hon. Treasurer: the named enquiry contacts.
+    ...enquiryContacts.map((person) => ({
+      key: `phone-${person.id}`,
+      icon: Phone,
+      label: localize(person.designation, locale),
+      value: person.phone,
+      note: localize(person.name, locale),
+      ariaLabel: tCard("phoneLabel", {
+        name: localize(person.name, locale),
+        phone: person.phone ?? "",
+      }),
+      href: `tel:${person.phone?.replace(/\s/g, "")}`,
+      external: false,
+    })),
     {
       key: "email",
       icon: Mail,
@@ -151,9 +171,17 @@ export async function ContactSection() {
                       </dt>
 
                       <dd className="min-w-0 leading-relaxed text-[var(--foreground)]">
+                        {"note" in item && item.note ? (
+                          <span className="block text-[var(--muted-foreground)]">
+                            {item.note}
+                          </span>
+                        ) : null}
                         {item.href ? (
                           <a
                             href={item.href}
+                            {..."ariaLabel" in item && item.ariaLabel
+                              ? { "aria-label": item.ariaLabel }
+                              : {}}
                             {...(item.external
                               ? { target: "_blank", rel: "noopener noreferrer" }
                               : {})}
@@ -174,9 +202,9 @@ export async function ContactSection() {
             {/*
               Enquiries about Sunday School, baptism and weddings go to the
               Hon. Secretary or Hon. Treasurer (church office request,
-              22 Nov 2026). Their direct enquiry contacts are
-              TODO(church-office) in content/church-office.ts; until then the
-              note points to the Leadership section, where both are listed.
+              22 Nov 2026). Their numbers are in the register above
+              (getEnquiryContacts); the note also points to Leadership for the
+              rest of the committee.
             */}
             <Reveal delay={0.12}>
               <p className="mt-8 max-w-md leading-relaxed text-[var(--foreground)]">
