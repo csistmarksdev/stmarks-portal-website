@@ -16,6 +16,10 @@ import type { Season } from "@/lib/liturgical-year";
  * both are about looking for something in the wrong place, which is exactly
  * what the reader has just done.
  *
+ * Advent's verse, Zechariah 9:9 ("Behold, your king is coming to you"), is
+ * also where the season's colour comes from: royal purple, the colour of kings
+ * in Scripture (Judges 8:26). The words and the colour say the same thing.
+ *
  * Good Friday is the one that had to be handled carefully. The season strips
  * the site to grey, and the obvious verse for the day - "my God, my God, why
  * have you forsaken me" - would leave a lost visitor with nothing to hold. The
@@ -37,6 +41,7 @@ import type { Season } from "@/lib/liturgical-year";
  * missing translation at runtime.
  */
 const SCRIPTURE_KEYS = {
+  advent: "advent",
   christmas: "christmas",
   "ash-wednesday": "ashWednesday",
   lent: "lent",

@@ -2,6 +2,7 @@
   "site": {
     "name": "CSI St. Mark's Church, Madipakkam",
     "shortName": "St. Mark's",
+    "titleSuffix": "CSI St. Mark's, Madipakkam",
     "wordmark": {
       "line1": "CSI St. Mark's Church",
       "line2": "Madipakkam Unit"
@@ -18,6 +19,7 @@
     "backTo": "Back to {page}",
     "download": "Download",
     "loading": "Loading",
+    "newTab": "opens in a new tab",
     "close": "Close",
     "previous": "Previous",
     "next": "Next",
@@ -54,9 +56,9 @@
     "eventsItems": {
       "upcoming": "Upcoming Events",
       "past": "Past Events",
-      "blog": "Blogs"
+      "blog": "Blog"
     },
-    "about": "About Church",
+    "about": "About Us",
     "leadership": "Leadership",
     "fellowships": "Fellowships",
     "events": "Events",
@@ -208,7 +210,7 @@
       "description": "The history, vision and mission of our congregation, our place within the CSI Diocese, and how to reach us."
     },
     "hero": {
-      "eyebrow": "About Church",
+      "eyebrow": "About Us",
       "title": "Rooted in Christ, serving our city",
       "subtitle": "A congregation shaped by generations of faithful worship, witness and service."
     },
@@ -276,7 +278,7 @@
     "card": {
       "since": "Serving since {year}",
       "emailLabel": "Email {name}",
-      "phoneLabel": "Call {name}"
+      "phoneLabel": "Call {name}, {phone}"
     }
   },
   "fellowships": {
@@ -369,11 +371,11 @@
   },
   "blog": {
     "meta": {
-      "title": "Blogs",
+      "title": "Blog",
       "description": "Reports, reflections and testimonies from the life of our church."
     },
     "hero": {
-      "eyebrow": "Blogs",
+      "eyebrow": "Blog",
       "title": "Written from the life of the church",
       "subtitle": "Reports on our gatherings, reflections from our pastors, and testimonies from the congregation."
     },
@@ -384,12 +386,12 @@
       "label": "Loose sheets of paper falling slowly through darkness, turning over and catching the light"
     },
     "latest": "Latest Posts",
-    "viewAll": "View all blogs",
+    "viewAll": "View all posts",
     "empty": "No posts have been published yet.",
     "readingTime": "{minutes} min read",
     "by": "By {author}",
     "relatedEvent": "About this event",
-    "backToBlog": "All blogs",
+    "backToBlog": "All posts",
     "notFound": "We could not find that post."
   },
   "gallery": {
@@ -557,6 +559,10 @@
     "ordinary": {
       "text": "Your word is a lamp to my feet and a light to my path.",
       "reference": "Psalm 119:105"
+    },
+    "advent": {
+      "text": "Behold, your king is coming to you; righteous and having salvation is he.",
+      "reference": "Zechariah 9:9"
     },
     "christmas": {
       "text": "The people who walked in darkness have seen a great light.",

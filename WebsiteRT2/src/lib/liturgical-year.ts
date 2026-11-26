@@ -41,21 +41,23 @@
 /**
  * The seasons the site dresses for.
  *
- * Deliberately shorter than a full lectionary, and shorter again than the first
- * version of this file: Advent, Epiphany and Pentecost were kept here and are
- * not any more. They remain in the church's calendar, of course - this is a
- * list of the days the *website* changes its clothes for, not a statement about
- * what the parish observes.
+ * Deliberately shorter than a full lectionary: Epiphany and Pentecost are not
+ * dressed for separately. They remain in the church's calendar, of course -
+ * this is a list of the days the *website* changes its clothes for, not a
+ * statement about what the parish observes.
  *
- * One consequence worth recording, because it is not obvious: with Advent gone,
- * Christmas is what carries December. It runs **1 December to 1 January** here,
- * which is neither of the liturgical boundaries - Christmastide proper is the
- * twelve days from the 25th to Twelfth Night. It opens early because the month
- * of waiting has to be dressed for by something, and it closes on New Year's
- * Day because that is when decorations actually come down. Both departures are
- * deliberate; see `getSeason` below.
+ * December is two seasons (F-066). **Advent** runs from Advent Sunday - the
+ * fourth Sunday before Christmas, between 27 November and 3 December - to the
+ * 23rd, in royal purple and without decorations: the weeks of waiting are not
+ * yet the feast. The purple is Scripture's colour of kings (Judges 8:26) for
+ * the King Advent announces - "Behold, thy King cometh unto thee" (Zechariah
+ * 9:9), which is also the verse the site shows in the season; see the Advent
+ * block in `globals.css`. **Christmas** opens on Christmas Eve and runs to New Year's Day, when
+ * the decorations come down in practice (Christmastide proper runs to Twelfth
+ * Night). Earlier versions dressed the whole of December as Christmas.
  */
 export type Season =
+  | "advent"
   | "christmas"
   | "ash-wednesday"
   | "lent"
@@ -66,6 +68,7 @@ export type Season =
   | "ordinary";
 
 export const SEASONS: readonly Season[] = [
+  "advent",
   "christmas",
   "ash-wednesday",
   "lent",
@@ -88,6 +91,9 @@ export const SEASONS: readonly Season[] = [
  * date is named and remembered.
  */
 const CSI_DAY = { month: 9, date: 27 };
+
+/** Christmas Eve, on which the Christmas season opens on this site. */
+const CHRISTMAS_EVE = { month: 12, date: 24 };
 
 /** A calendar day with no time and no zone - the only unit this file deals in. */
 type Day = { year: number; month: number; date: number };
@@ -127,6 +133,22 @@ export function easterSunday(year: number): Day {
   const date = ((h + l - 7 * m + 114) % 31) + 1;
 
   return { year, month, date };
+}
+
+/**
+ * Advent Sunday: the fourth Sunday before Christmas Day.
+ *
+ * Christmas Day's weekday decides it. If the 25th is itself a Sunday, the
+ * Sunday before it is a full week back; otherwise it is the Sunday of that
+ * week. Advent Sunday is three weeks before that. Always 27 Nov - 3 Dec.
+ * 2026: 29 November. 2027: 28 November. 2028: 3 December.
+ */
+export function adventSunday(year: number): Day {
+  const christmas = new Date(Date.UTC(year, 11, 25));
+  const weekday = christmas.getUTCDay();
+  const back = (weekday === 0 ? 7 : weekday) + 21;
+  const sunday = new Date(Date.UTC(year, 11, 25 - back));
+  return { year, month: sunday.getUTCMonth() + 1, date: sunday.getUTCDate() };
 }
 
 /**
@@ -173,23 +195,22 @@ export function getSeason(date: Date): Season {
   if (today >= easter && today <= easter + 49) return "easter";
 
   /*
-   * Christmas: the whole of December, and New Year's Day.
+   * Christmas: Christmas Eve to New Year's Day.
    *
    * Two tests rather than one range because the season crosses the new year -
    * on the 1st of January the December in question is the *previous* year's,
    * and an ordinal comparison against `year` would look for a December that has
    * not happened yet.
    *
-   * Neither boundary is the liturgical one, and both are deliberate. It opens
-   * on the 1st rather than the 25th because Advent is not dressed for
-   * separately here, so Christmas has to carry the month the congregation
-   * actually spends waiting. It closes on the 1st of January rather than at
-   * Twelfth Night on the 5th because that is where the decorations come down in
-   * practice - the site should not still be hung with baubles in the week
-   * everyone has gone back to work.
+   * It opens on the Eve, when the carols and the watchnight are, and closes on
+   * the 1st of January rather than at Twelfth Night on the 5th because that is
+   * where the decorations come down in practice.
    */
-  if (today >= toOrdinal({ year, month: 12, date: 1 })) return "christmas";
+  if (today >= toOrdinal({ year, ...CHRISTMAS_EVE })) return "christmas";
   if (today <= toOrdinal({ year, month: 1, date: 1 })) return "christmas";
+
+  /* Advent: Advent Sunday to the 23rd of December (F-066). */
+  if (today >= toOrdinal(adventSunday(year))) return "advent";
 
   /*
    * CSI Day. Last of the tests rather than first: it is a fixed date in late
@@ -204,7 +225,8 @@ export function getSeason(date: Date): Season {
 /**
  * Whether the season carries the snow and the decorations.
  *
- * Christmas, and only Christmas - 1 December through New Year's Day. The snow,
+ * Christmas, and only Christmas - Christmas Eve through New Year's Day. Not
+ * Advent: the weeks of waiting are royal purple and undecorated. The snow,
  * the garland, the treeline in every section and the frieze at the foot of the
  * page all key off this one answer, so they arrive together and leave together
  * and no single piece of it can be left hanging into January on its own.

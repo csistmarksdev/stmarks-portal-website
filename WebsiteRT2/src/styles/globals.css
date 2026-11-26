@@ -1663,6 +1663,48 @@ html[lang="ta"] [data-verse-text="closing"] {
 
 
 /*
+ * ADVENT - royal purple, for the King who is coming (F-066).
+ *
+ * The colour is taken from Scripture rather than chosen by eye. Advent opens
+ * with "Behold, thy King cometh unto thee" (Zechariah 9:9, quoted at Matthew
+ * 21:5 and read on Advent Sunday), and in Scripture the colour of kings is
+ * purple - "purple raiment that was on the kings of Midian" (Judges 8:26). The
+ * purple of the Bible (Hebrew argaman) was the dye of royal robes, a purple
+ * leaning warm rather than blue, so the hue sits at 318: warmer than a
+ * blue-violet, short of the crest's magenta and of Christmas red.
+ *
+ * It must not read as Lent come early. Lent drains its violet toward grey on
+ * ashen paper; Advent keeps its purple at full royal strength on clean, light
+ * paper. Nothing is hung up yet - no snow, no garland, no ornaments; those
+ * belong to the feast, which opens on Christmas Eve.
+ *
+ * Contrast as in every other season: `accent-700` and `primary` stay dark
+ * enough for eyebrow text and white button labels, the ink grounds far darker.
+ */
+html[data-season="advent"] {
+  --background: oklch(0.964 0.01 318);
+  --surface: oklch(0.995 0.004 318);
+  --surface-muted: oklch(0.938 0.016 318);
+  --border: oklch(0.886 0.022 318);
+  --sacred: oklch(0.388 0.152 318);
+  --primary: oklch(0.398 0.156 318);
+  --muted-foreground: oklch(0.496 0.022 318);
+  --foreground: oklch(0.236 0.022 318);
+
+  --color-accent-200: oklch(0.878 0.056 318);
+  --color-accent-300: oklch(0.792 0.096 318);
+  --color-accent-400: oklch(0.69 0.136 318);
+  --color-accent-500: oklch(0.594 0.158 318);
+  --color-accent-600: oklch(0.506 0.164 318);
+  --color-accent-700: oklch(0.43 0.154 318);
+  --color-brand-900: oklch(0.262 0.11 318);
+  --color-sand-950: oklch(0.158 0.044 318);
+
+  --season-light: oklch(0.792 0.096 318 / 0.22);
+  --season-light-dark: oklch(0.594 0.158 318 / 0.18);
+}
+
+/*
  * CHRISTMAS - red, on snow.
  *
  * Two corrections are recorded in this block, because both were right.
@@ -2752,6 +2794,7 @@ html[data-season="easter"] img {
  * the bare one.
  */
 html[data-season="ordinary"] [data-verse]::before,
+html[data-season="advent"] [data-verse]::before,
 html[data-season="csi-day"] [data-verse]::before,
 html[data-season="ash-wednesday"] [data-verse]::before,
 html[data-season="lent"] [data-verse]::before,
@@ -2773,6 +2816,16 @@ html:not([data-season]) [data-verse]::before {
   mix-blend-mode: screen;
 }
 
+/* Advent: the same fall of light, in its royal purple. */
+html[data-season="advent"] [data-verse]::before {
+  background-image: radial-gradient(
+    56% 82% at 50% -12%,
+    oklch(0.792 0.096 318 / 0.18),
+    oklch(0.594 0.158 318 / 0.06) 48%,
+    transparent 76%
+  );
+}
+
 /* The penitential weeks keep the fall of light and drain it. */
 html[data-season="lent"] [data-verse]::before,
 html[data-season="holy-week"] [data-verse]::before {
@@ -2785,6 +2838,7 @@ html[data-season="holy-week"] [data-verse]::before {
 
 /* Shade at the foot, so the section closes rather than stopping. */
 html[data-season="ordinary"] [data-verse]::after,
+html[data-season="advent"] [data-verse]::after,
 html[data-season="csi-day"] [data-verse]::after,
 html[data-season="ash-wednesday"] [data-verse]::after,
 html[data-season="lent"] [data-verse]::after,
@@ -3246,6 +3300,24 @@ html[data-season="christmas"] {
   --splash-ring-a: oklch(0.8 0.12 24 / 0.65);
   --splash-ring-b: oklch(0.9 0.1 88 / 0.6);
   --splash-type-dim: oklch(0.88 0.05 88 / 0.74);
+}
+
+/*
+ * ADVENT - the arch in royal purple (Zechariah 9:9; Judges 8:26), with a clear
+ * light behind it: a season of waiting for a King, not of fasting.
+ */
+html[data-season="advent"] {
+  --splash-ink: oklch(0.24 0.066 318);
+  --splash-line: oklch(0.82 0.09 318);
+  --splash-point: oklch(0.74 0.13 318);
+  --splash-halo-inner: oklch(0.7 0.14 318 / 0.24);
+  --splash-halo-outer: oklch(0.82 0.09 318 / 0.1);
+  --splash-rule-track: oklch(1 0 0 / 0.14);
+  --splash-rule-a: oklch(0.66 0.16 318);
+  --splash-rule-b: oklch(0.84 0.09 318);
+  --splash-ring-a: oklch(0.78 0.11 318 / 0.6);
+  --splash-ring-b: oklch(0.86 0.08 318 / 0.5);
+  --splash-type-dim: oklch(0.86 0.045 318 / 0.72);
 }
 
 /*
