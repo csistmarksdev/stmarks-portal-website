@@ -11,9 +11,46 @@
  * `<html data-motion="off">` before the first paint (see
  * `MOTION_BOOTSTRAP`), which is what the stylesheet keys on; script asks
  * `isMotionReduced()`, which reads both.
+ *
+ * The stored value has three states:
+ *
+ *   "off"    the reader chose Simple mode
+ *   "on"     the reader chose the animated site
+ *   (none)   no choice yet - the device decides: a low-end phone opens in
+ *            Simple mode, anything else animated (see `LOW_END_TEST`)
+ *
+ * "on" has to be stored rather than the key removed, or a reader on a low-end
+ * phone who switched the animations back on would be put back into Simple mode
+ * on the very next page.
  */
 
 export const MOTION_STORAGE_KEY = "site-motion";
+
+/**
+ * A low-end phone, judged before the first paint, as a JavaScript expression.
+ *
+ * Simple mode becomes the default here because the cinematic sections - frame
+ * sequences, smooth scrolling, pinned scenes - are what a budget Android on
+ * prepaid data struggles with (F-033). Only a default: the reader's own choice
+ * in the switch always wins.
+ *
+ * Touch devices only (`pointer: coarse`), and then any of:
+ *
+ * - **Data Saver / Lite mode** is on (`connection.saveData`): the reader has
+ *   already told the browser to spend less.
+ * - **A 2G connection** (`effectiveType` "slow-2g" or "2g"). 3G is left out on
+ *   purpose: Chrome measures it from the connection of the moment, and busy
+ *   Indian networks report it on good phones, which would flip the site between
+ *   the two modes from one visit to the next.
+ * - **Little memory**: `deviceMemory` of 2 GB or less, or 4 GB with four or
+ *   fewer processor cores. Chrome reports memory as a rounded bucket (0.25 ...
+ *   8), so these are the budget tiers.
+ *
+ * Safari and Firefox expose none of these signals, so an iPhone or a Firefox
+ * reader always opens animated unless they choose otherwise.
+ */
+const LOW_END_TEST =
+  '(function(){try{var n=navigator,c=n.connection||{},d=n.deviceMemory,k=n.hardwareConcurrency||8;if(!matchMedia("(pointer: coarse)").matches)return false;return c.saveData===true||/(^|-)2g$/.test(c.effectiveType||"")||(typeof d==="number"&&(d<=2||(d<=4&&k<=4)))}catch(e){return false}})()';
 
 /**
  * Set for exactly one load: the reload `setSimpleMode` causes. The reader has
@@ -37,9 +74,9 @@ const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
  * reader who has turned it off. Wrapped in `try` because storage can throw
  * (private browsing on older Safari, blocked site data).
  */
-export const MOTION_BOOTSTRAP = `try{if(localStorage.getItem(${JSON.stringify(
+export const MOTION_BOOTSTRAP = `try{var s=null;try{s=localStorage.getItem(${JSON.stringify(
   MOTION_STORAGE_KEY,
-)})==="off")document.documentElement.dataset.motion="off"}catch(e){}try{var m=sessionStorage.getItem(${JSON.stringify(
+)})}catch(e){}if(s==="off"||(s!=="on"&&${LOW_END_TEST}))document.documentElement.dataset.motion="off"}catch(e){}try{var m=sessionStorage.getItem(${JSON.stringify(
   SWITCH_KEY,
 )});if(m){sessionStorage.removeItem(${JSON.stringify(
   SWITCH_KEY,
@@ -85,8 +122,9 @@ export function isMotionReduced(): boolean {
  */
 export function setSimpleMode(on: boolean, message: string): void {
   try {
-    if (on) localStorage.setItem(MOTION_STORAGE_KEY, "off");
-    else localStorage.removeItem(MOTION_STORAGE_KEY);
+    // "on" is stored, not removed: with no choice stored, a low-end phone
+    // would open in Simple mode again on the next page.
+    localStorage.setItem(MOTION_STORAGE_KEY, on ? "off" : "on");
   } catch {
     // Storage blocked: the choice still applies to this page view.
   }
