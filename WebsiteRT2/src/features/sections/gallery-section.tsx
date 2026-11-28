@@ -8,11 +8,10 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/stagger";
 import { Button } from "@/components/ui/button";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { ROUTES, SECTION_IDS, heroDirection } from "@/constants/site";
-import { HERO_SLIDES } from "@/content/hero-slides";
+import { HERO_SLIDES, type HeroSlideKey } from "@/content/hero-slides";
 import { GalleryWall } from "@/features/sections/gallery-wall";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { localize } from "@/lib/localize";
 import { getGallery } from "@/services";
 
 /**
@@ -25,6 +24,29 @@ import { getGallery } from "@/services";
  * as truncation rather than as a selection.
  */
 const CHAPTER_ALBUMS = 6;
+
+/**
+ * The photographs on the wall, as [section, slide index] into `HERO_SLIDES`.
+ *
+ * Each opening is a tall arch, so it shows only the middle of a landscape
+ * photograph: these are the ones whose subject sits in the centre - the
+ * building, the sanctuary, the people gathered in it. Twelve, mixed across
+ * the chapters so neighbouring openings rarely show the same occasion.
+ */
+const REEL: [HeroSlideKey, number][] = [
+  ["announcements", 0], // the church front
+  ["gallery", 0], // Sunday School, 2023
+  ["about", 0], // the altar
+  ["fellowships", 2], // Women's Sunday, 2014
+  ["leadership", 0], // the committee with the clergy
+  ["events", 1], // Vacation Bible School
+  ["announcements", 1], // the sanctuary on Palm Sunday
+  ["leadership", 2], // welcoming the Bishop
+  ["gallery", 2], // the congregation in the sanctuary
+  ["about", 2], // Confirmation Day, 2022
+  ["fellowships", 1], // the women's fellowship singing
+  ["events", 2], // World Sunday School Day
+];
 
 /**
  * The albums.
@@ -47,18 +69,19 @@ export async function GallerySection() {
   ]);
 
   /*
-   * The reel: one photograph per album, in the order the chapter lists them.
+   * The reel: the church's own photographs, from the section heroes.
    *
-   * The album covers rather than a hand-picked set, so the stage is always
-   * showing what the parish most recently published and there is no second list
-   * of imagery for anyone to keep in step with the first. Resolved to plain
-   * strings here because `GalleryWall` is a client component: the URLs and
-   * the alt text cross the boundary, `localize` does not.
+   * It used to be the album covers, which made the wall only as good as
+   * whatever the Portal held - and while the Portal held sample albums, the
+   * wall was a column of animation stills. The hero photographs are the
+   * parish's real pictures and ship with the build, so the wall shows the
+   * church whatever state the Portal is in. Picked by section and position
+   * (see `REEL`) rather than by filename, so replacing a hero photograph
+   * carries through here without an edit.
    */
-  const reel = albums.map((album) => ({
-    src: album.cover.url,
-    alt: localize(album.cover.alt, locale),
-  }));
+  const reel = REEL.map(([section, index]) => HERO_SLIDES[section][index])
+    .filter((src): src is string => Boolean(src))
+    .map((src) => ({ src, alt: "" }));
 
   return (
     <div id={SECTION_IDS.gallery}>
@@ -92,9 +115,9 @@ export async function GallerySection() {
         single stage on this page arguing with its own subject. See the note at
         the head of `gallery-wall.tsx`.
 
-        Rendered only when there are albums: an empty reel is a black screen
-        with a hold on it, and the grid below already says the archive is empty
-        in words.
+        Rendered only when the reel found photographs: an empty reel is a black
+        screen with a hold on it. The reel comes from the hero folders now, not
+        the albums, so this holds even while the archive below is empty.
 
         `spacing="none"` and `contained={false}`: the stage *is* the section.
         `atmosphere={false}` because the stage brings its own grade.
