@@ -180,7 +180,14 @@ export interface SplashScreenProps {
   reel?: string[];
 }
 
-function CinematicSplash({ reel = [] }: SplashScreenProps) {
+interface CinematicSplashProps {
+  /** The frames the server renders - see `shortReel`. */
+  reel: string[];
+  /** Every hero photograph; the browser draws each visit's reel from these. */
+  pool: string[];
+}
+
+function CinematicSplash({ reel, pool }: CinematicSplashProps) {
   const t = useTranslations("common");
 
   const [phase, setPhase] = useState<"visible" | "leaving" | "gone">("visible");
@@ -193,6 +200,8 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
   const reelRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<SVGSVGElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  /* Read once by the effect below, which runs a single time per splash. */
+  const poolRef = useRef(pool);
 
   /*
    * The progress state lives in refs and is written straight to the DOM, never
@@ -328,6 +337,9 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
     const frames = Array.from(
       reelRef.current?.querySelectorAll<HTMLImageElement>("img") ?? [],
     );
+
+    // A different set of photographs on every visit - before any is loaded.
+    redrawReel(frames, poolRef.current);
 
     const count = frames.length;
 
@@ -1044,6 +1056,8 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
                 key={src}
                 src={i === 0 ? src : undefined}
                 data-src={i === 0 ? undefined : src}
+                /* The opener's src is re-picked by `openerScript` before paint. */
+                suppressHydrationWarning={i === 0}
                 data-active={i === 0 ? "" : undefined}
                 alt=""
                 decoding="async"
@@ -1054,6 +1068,13 @@ function CinematicSplash({ reel = [] }: SplashScreenProps) {
               />
             ))}
           </span>
+        ) : null}
+        {reel.length > 0 && pool.length > 1 ? (
+          <div
+            hidden
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: `<script>${openerScript(pool)}</script>` }}
+          />
         ) : null}
 
         {/*
@@ -1530,14 +1551,76 @@ const SHORT_GENTLE: MontageProfile = {
 const REEL_LENGTH = 12;
 
 /**
- * The first photograph of every chapter, then the second, up to `REEL_LENGTH`,
- * so consecutive frames come from different chapters.
+ * The reel the server renders: the first photograph of every chapter, then the
+ * second, up to `REEL_LENGTH`, so consecutive frames come from different
+ * chapters.
+ *
+ * Grouped by folder rather than by filename. This used to look for files named
+ * `01.jpg` and `02.jpg`; once the hero photographs were given descriptive names
+ * it matched nothing, fell back to the first twelve in the manifest, and every
+ * visit opened on the same two chapters.
+ *
+ * This is only the starting point. What a visitor actually sees is drawn at
+ * random from the whole collection in the browser - see `OPENER_SCRIPT` and
+ * `redrawReel`.
  */
 function shortReel(reel: string[]): string[] {
-  const firsts = reel.filter((src) => /\/01\.[a-z]+$/i.test(src));
-  const seconds = reel.filter((src) => /\/02\.[a-z]+$/i.test(src));
-  const picked = [...firsts, ...seconds];
-  return (picked.length ? picked : reel).slice(0, REEL_LENGTH);
+  const chapters = new Map<string, string[]>();
+  for (const src of reel) {
+    const chapter = src.slice(0, src.lastIndexOf("/"));
+    chapters.set(chapter, [...(chapters.get(chapter) ?? []), src]);
+  }
+
+  const picked: string[] = [];
+  for (let round = 0; picked.length < REEL_LENGTH; round += 1) {
+    const before = picked.length;
+    for (const images of chapters.values()) {
+      if (images[round] && picked.length < REEL_LENGTH) picked.push(images[round]);
+    }
+    if (picked.length === before) break;
+  }
+  return picked;
+}
+
+/** Fisher-Yates, in place. */
+function shuffleInPlace<T>(items: T[]): T[] {
+  for (let k = items.length - 1; k > 0; k -= 1) {
+    const swap = Math.floor(Math.random() * (k + 1));
+    [items[k], items[swap]] = [items[swap], items[k]];
+  }
+  return items;
+}
+
+/**
+ * Gives every frame after the opener a photograph drawn at random from the
+ * whole collection, so each visit's reel is a different twelve.
+ *
+ * Done here, in the browser, and not when the reel is rendered: the splash is
+ * in the server's HTML, and a random pick there would differ from the one made
+ * while hydrating - and the site is statically generated, so a server pick
+ * would be the same for every visitor until the next build anyway. Only
+ * `data-src` is touched, and only before anything is loaded from it.
+ */
+function redrawReel(frames: HTMLImageElement[], pool: string[]) {
+  const opener = frames[0]?.getAttribute("src");
+  const rest = shuffleInPlace(pool.filter((src) => src !== opener));
+  for (let k = 1; k < frames.length && k - 1 < rest.length; k += 1) {
+    frames[k].dataset.src = rest[k - 1];
+  }
+}
+
+/**
+ * Picks the opening photograph at random, before the first paint.
+ *
+ * The opener is the one frame the server renders with a `src`, so it is on
+ * screen before React has run. This runs as the HTML is parsed, straight after
+ * the reel, and swaps that `src` for one chosen from the whole collection - so
+ * the first photograph varies too, without a visible change once the page is
+ * up. `suppressHydrationWarning` on the opener covers the attribute it changes.
+ */
+function openerScript(pool: string[]): string {
+  const list = JSON.stringify(pool).replace(/</g, "\\u003c");
+  return `try{var p=${list},i=document.querySelector(".splash-reel img");if(i&&p.length){i.src=p[Math.floor(Math.random()*p.length)]}}catch(e){}`;
 }
 
 /**
@@ -1579,7 +1662,7 @@ export function SplashScreen({ reel = [] }: SplashScreenProps) {
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: `<script>${ONCE_SCRIPT}</script>` }}
       />
-      <CinematicSplash reel={shortReel(reel)} />
+      <CinematicSplash reel={shortReel(reel)} pool={reel} />
     </>
   );
 }
