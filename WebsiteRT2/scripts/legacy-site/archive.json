@@ -1,0 +1,2453 @@
+{
+  "source": "https://csistmarks.com/",
+  "crawledOn": "2026-11-28",
+  "note": "Generated from a crawl of the previous WordPress site. See docs/legacy-site-migration.md.",
+  "albums": [
+    {
+      "slug": "building-the-new-church",
+      "oldAlbums": [
+        "489",
+        "568",
+        "596",
+        "648",
+        "504",
+        "536",
+        "551"
+      ],
+      "title": {
+        "en": "Building the New Church",
+        "ta": "புதிய ஆலயக் கட்டுமானம்"
+      },
+      "description": {
+        "en": "The new church rising, stage by stage, from the first foundations to the finished building. Photographs from the church's previous website.",
+        "ta": "முதல் அஸ்திபாரம் முதல் நிறைவுற்ற கட்டடம் வரை, நிலை நிலையாக எழுந்த புதிய ஆலயம். ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2016-12-01",
+      "alt": {
+        "en": "Construction of the new church",
+        "ta": "புதிய ஆலயக் கட்டுமானம்"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0023.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0025.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0028.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0029.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0035.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0038.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0041.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0045.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0049.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0054.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0055.jpg",
+          "caption": {
+            "en": "Stage 0",
+            "ta": "நிலை 0"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5111-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5115-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5132-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5140-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5145-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5150-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5159-2.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5169-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5171-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5192-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5193-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5195-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5198-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5199-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5202-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5205-2.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5221-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5234-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5235-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5240-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5243-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5285-1.jpg",
+          "caption": {
+            "en": "Stage 1",
+            "ta": "நிலை 1"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/1-1.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2-2.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/3-2.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/4.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/5.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/6.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/7.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/8.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/9.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/10.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/11.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/12.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/13.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/14.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/15.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/16.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/17.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/18.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/19.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/20.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/21.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/22.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/23.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/24.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/25.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/26.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/27.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/28.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/29.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/30.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/31.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/32.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/33.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/34.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/35.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/36.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/37.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/38.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/39.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/40.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/41.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/42.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/43.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/44.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/45.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/46.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/47.jpg",
+          "caption": {
+            "en": "Stage 2",
+            "ta": "நிலை 2"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/1-2.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2-3.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/3-3.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/4-1.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/5-1.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/6-1.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Alter.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Alter_1.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Alter_2.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Choir-area.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Choir-area_1.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Stilt-foor-Concrete_Pipes-for-Wiring.jpg",
+          "caption": {
+            "en": "Stage 3",
+            "ta": "நிலை 3"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0542.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0543.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0544-1.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0546.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0547.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0548.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0549.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0550.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0553.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0554.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0555.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0557.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0558.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0559.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0560.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0562.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0563.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0565.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0566.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0567.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0570.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0572.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0573-1.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0574.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0575.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0576.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0577.jpg",
+          "caption": {
+            "en": "Stage 4",
+            "ta": "நிலை 4"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image1.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image2.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image3.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image4.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image5.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image6.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image7.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image8.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image9.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image10.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image11.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Image12.jpg",
+          "caption": {
+            "en": "Stage 5",
+            "ta": "நிலை 5"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1846.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1848.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1850.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1852.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1854.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1856.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1858.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1860.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1863.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1865.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1866.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1868.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1870.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_1874.jpg",
+          "caption": {
+            "en": "Stage 6",
+            "ta": "நிலை 6"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "church-in-2023",
+      "oldAlbums": [
+        "csistmarks-2023"
+      ],
+      "title": {
+        "en": "The Church in 2023",
+        "ta": "2023-இல் ஆலயம்"
+      },
+      "description": {
+        "en": "The altar, the church committee, Confirmation 2022, the flag hoisting and Women's Sunday. Photographs from the church's previous website.",
+        "ta": "பலிபீடம், ஆலய ஆலோசனைக் குழு, 2022 திடப்படுத்தல், கொடியேற்றம், பெண்கள் ஞாயிறு. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2023-03-01",
+      "alt": {
+        "en": "CSI St. Mark's Church, 2023",
+        "ta": "சி.எஸ்.ஐ. தூய மாற்கு ஆலயம், 2023"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CHURCH-ALTER-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CHURCH-COMMITTEE.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CONFIRMATION-2022.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-06-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-36-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-75-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-79-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-181-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/CSI-Madp-183-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/Flag-Hosting.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/FRONT-PAGE-PHOTO-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/IMG_7699-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/IMG_7833-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/IMG_7978-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/IMG_8070-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/IMG_8119-scaled.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2023/03/WOMEN-SUNDAY-PHOTO-REVISED.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "palm-sunday-2019",
+      "oldAlbums": [
+        "palm-sunday"
+      ],
+      "title": {
+        "en": "Palm Sunday 2019",
+        "ta": "குருத்தோலை ஞாயிறு 2019"
+      },
+      "description": {
+        "en": "The Palm Sunday procession, 14 April 2019. Photographs from the church's previous website.",
+        "ta": "குருத்தோலை ஞாயிறு பவனி, 14 ஏப்ரல் 2019. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2019-04-14",
+      "alt": {
+        "en": "Palm Sunday 2019",
+        "ta": "குருத்தோலை ஞாயிறு 2019"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2019/04/IMG-20190414-WA0007.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2019/04/IMG-20190414-WA0010.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2019/04/IMG-20190414-WA0009.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2019/04/IMG-20190414-WA0008.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2019/04/IMG-20190414-WA0012.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "united-fellowship-carols",
+      "oldAlbums": [
+        "473"
+      ],
+      "title": {
+        "en": "United Fellowship Carols",
+        "ta": "ஐக்கிய கிறிஸ்துமஸ் கீதங்கள்"
+      },
+      "description": {
+        "en": "Carol singing by the fellowships of the church together. Photographs from the church's previous website.",
+        "ta": "ஆலயத்தின் ஐக்கியங்கள் இணைந்து பாடிய கிறிஸ்துமஸ் கீதங்கள். ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2016-12-01",
+      "alt": {
+        "en": "United fellowship carols",
+        "ta": "ஐக்கிய கிறிஸ்துமஸ் கீதங்கள்"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-002_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-003_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-004_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-005_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-006_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-007_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-010_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-012_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-015_LR-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-015_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-017_LR.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/United-Fellowship-Carols-019_LR.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "lent-2016",
+      "oldAlbums": [
+        "466"
+      ],
+      "title": {
+        "en": "Lent 2016",
+        "ta": "தவக்காலம் 2016"
+      },
+      "description": {
+        "en": "The season of Lent, 2016. Photographs from the church's previous website.",
+        "ta": "2016 தவக்காலம். ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2016-02-10",
+      "alt": {
+        "en": "Lent 2016",
+        "ta": "தவக்காலம் 2016"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/rsz_3.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "vbs-2015",
+      "oldAlbums": [
+        "698"
+      ],
+      "title": {
+        "en": "Vacation Bible School 2015",
+        "ta": "விடுமுறை வேதாகமப் பள்ளி 2015"
+      },
+      "description": {
+        "en": "Vacation Bible School for the children of Madipakkam, May 2015. Photographs from the church's previous website.",
+        "ta": "மடிப்பாக்கக் குழந்தைகளுக்கான விடுமுறை வேதாகமப் பள்ளி, மே 2015. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2015-05-01",
+      "alt": {
+        "en": "Vacation Bible School 2015",
+        "ta": "விடுமுறை வேதாகமப் பள்ளி 2015"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/1-3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2-4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/3-4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/4-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/5-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/6-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/7-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/8-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_005.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_022.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_045.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_050.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_058.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_075.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_076.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_083.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_085.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_086.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2015_vbs_093.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/maxi_-_30_copies.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs0.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs5.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs6.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs7.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs8.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/vbs9.jpg"
+        }
+      ],
+      "fellowshipSlug": "sunday-school"
+    },
+    {
+      "slug": "christmas-tree-2014",
+      "oldAlbums": [
+        "392"
+      ],
+      "title": {
+        "en": "Christmas Tree 2014",
+        "ta": "கிறிஸ்துமஸ் மரம் 2014"
+      },
+      "description": {
+        "en": "The Christmas tree celebration, December 2014. Photographs from the church's previous website.",
+        "ta": "கிறிஸ்துமஸ் மரக் கொண்டாட்டம், டிசம்பர் 2014. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2014-12-01",
+      "alt": {
+        "en": "Christmas tree celebration 2014",
+        "ta": "கிறிஸ்துமஸ் மரக் கொண்டாட்டம் 2014"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/001.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/005.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/012.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/015.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/017.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/020.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/022.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/026.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/030.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/034.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/038.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/045.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/046.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/061.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/074.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/079.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/081.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/082.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/084.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/086.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/087.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/088.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/089.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/092.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/101.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/105.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/106.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/112.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/117.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/145.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "world-sunday-school-day-2014",
+      "oldAlbums": [
+        "748"
+      ],
+      "title": {
+        "en": "World Sunday School Day 2014",
+        "ta": "உலக ஞாயிறு பள்ளி தினம் 2014"
+      },
+      "description": {
+        "en": "World Sunday School Day, November 2014. Photographs from the church's previous website.",
+        "ta": "உலக ஞாயிறு பள்ளி தினம், நவம்பர் 2014. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2014-11-02",
+      "alt": {
+        "en": "World Sunday School Day 2014",
+        "ta": "உலக ஞாயிறு பள்ளி தினம் 2014"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-003.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-004.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-013.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-021.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-022.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/WS_Day_-024.jpg"
+        }
+      ],
+      "fellowshipSlug": "sunday-school"
+    },
+    {
+      "slug": "harvest-festival-2014",
+      "oldAlbums": [
+        "428"
+      ],
+      "title": {
+        "en": "Harvest Festival 2014",
+        "ta": "அறுப்பின் பண்டிகை 2014"
+      },
+      "description": {
+        "en": "The Harvest Festival, 2014. Photographs from the church's previous website.",
+        "ta": "அறுப்பின் பண்டிகை, 2014. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2014-09-01",
+      "alt": {
+        "en": "Harvest Festival 2014",
+        "ta": "அறுப்பின் பண்டிகை 2014"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-011.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-012.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-013.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-014.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-015.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-016.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-017.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-018.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-019.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest-Festival-2014-020.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_001.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_002.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_003.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_004.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_005.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_006.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_007.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_008.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_009.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_010.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_021.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_022.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_023.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_024.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_025.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_026.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_027.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_028.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_029.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_030.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_031.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_032.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_033.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_034.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2014_035.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "church-life-2014",
+      "oldAlbums": [
+        "2014"
+      ],
+      "title": {
+        "en": "Church Life 2014",
+        "ta": "ஆலய வாழ்வு 2014"
+      },
+      "description": {
+        "en": "A year in the life of the church, including the felicitation of the pastor's family. Photographs from the church's previous website.",
+        "ta": "ஆலயத்தின் ஓராண்டு நிகழ்வுகள், போதகர் குடும்பத்திற்கான பாராட்டு விழா உட்பட. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2014-01-01",
+      "alt": {
+        "en": "Church life in 2014",
+        "ta": "2014-இல் ஆலய வாழ்வு"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/1-VBS-2014.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2-Director-Mrs.-Thangaleela.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/3-Director-Mrs.-Christy.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/4-Opening-Prayer.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/5-Beginners-Action-Song.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/6_x_9_-_20_Print.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/6-Beginners-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/7-Beginners-Memory-Verse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/8-Beginners-Memory-Verse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/9-Primary-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/10-Primary-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/11-Primary-ActionSong.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/12-Primary-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/13-Primary-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/14-Junior-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/15-Junior-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/16-Junior-Song.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/17-Junior-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/18-Junior-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/19-InterSenior-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/20-InterSenior-MemoryVerse.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/21-Inter-Song.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/22-Inter-Dance.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/23-Senior-Song.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/24-Skit.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/25-Skit.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/26-VBS-2014-1st-Prize-Inter.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/27-VBS-2014-2nd-Prize-Inter.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/27-VBS-2014-3rd-Prize-Primary.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/28-VBS-Teachers-with-Committee.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/29-VBS-Team.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/advent-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Collage.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/CS_03.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/CS_07.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/CS_08.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0844.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0849.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0853.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0859.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0862.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0866.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0867.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0871.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4757.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4758.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4759.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4760.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4761.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4762.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSCN4763.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5111.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5115.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5132.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5140.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5145.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5150.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5159-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5159.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5169.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5171.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5192.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5193.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5195.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5198.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5199.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5202.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5205-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5205.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5221.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5234.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5235.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5240.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5243.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_5285.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/New-Year-Gift-to-Church-Senior-Member-Mr.-Ambrose.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Pastor-Family-Felicitation-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Pastor-Family-Felicitation-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Pastor-Family-Felicitation-3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Pastor-Family-Felicitation-4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Pastor-Family-Felicitation-5.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-2014-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-2014-3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-2014-4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/RD-2014-5.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "vbs-2013",
+      "oldAlbums": [
+        "668"
+      ],
+      "title": {
+        "en": "Vacation Bible School 2013",
+        "ta": "விடுமுறை வேதாகமப் பள்ளி 2013"
+      },
+      "description": {
+        "en": "Vacation Bible School for the children of Madipakkam, May 2013. Photographs from the church's previous website.",
+        "ta": "மடிப்பாக்கக் குழந்தைகளுக்கான விடுமுறை வேதாகமப் பள்ளி, மே 2013. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2013-05-01",
+      "alt": {
+        "en": "Vacation Bible School 2013",
+        "ta": "விடுமுறை வேதாகமப் பள்ளி 2013"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Collage-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0006.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0033.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0067-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0042.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0046.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0055-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0059-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0064-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0065-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0069-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0073-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0083-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0086-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0089-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0097-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0103-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0106-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0130-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0132-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0134-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0181-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0183-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0184-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0189-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0190-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0199-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0201-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0217-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0221-1.jpg"
+        }
+      ],
+      "fellowshipSlug": "sunday-school"
+    },
+    {
+      "slug": "church-life-2013",
+      "oldAlbums": [
+        "2013"
+      ],
+      "title": {
+        "en": "Church Life 2013",
+        "ta": "ஆலய வாழ்வு 2013"
+      },
+      "description": {
+        "en": "The Christmas feast, Vacation Bible School and its exhibition, the Harvest and Mission Festivals and Women's Sunday. Photographs from the church's previous website.",
+        "ta": "கிறிஸ்துமஸ் விருந்து, விடுமுறை வேதாகமப் பள்ளி மற்றும் கண்காட்சி, அறுப்பின் பண்டிகை, மிஷன் பண்டிகை, பெண்கள் ஞாயிறு. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2013-01-01",
+      "alt": {
+        "en": "Church life in 2013",
+        "ta": "2013-இல் ஆலய வாழ்வு"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-002-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-003-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-004-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-014-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-020-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-021-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-023-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-024-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-025-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-045-1-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/2013-Christmas-Feast-053-.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Choir_Sunday.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0051.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0405.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0410.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0413.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0415.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0418.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0420.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0422.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0424.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0426.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0427.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0445.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0453.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0460.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0464.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0488.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0490.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0494.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0518.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0519.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0521.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0522.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0523.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0526.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0532.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0544.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0568.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/DSC_0573.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Harvest_Festival_2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Mission_Festival_1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Mission_Festival_2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_5.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_6.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_7.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_5.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/VBS_Exhibition_6.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Women_Sunday_1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Women_Sunday_2.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "welcoming-rev-j-raja-freeman",
+      "oldAlbums": [
+        "738"
+      ],
+      "title": {
+        "en": "Welcoming Rev. J. Raja Freeman",
+        "ta": "அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் அவர்களுக்கு வரவேற்பு"
+      },
+      "description": {
+        "en": "The congregation welcomes its new presbyter, June 2012. Photographs from the church's previous website.",
+        "ta": "புதிய போதகரை சபை வரவேற்றது, ஜூன் 2012. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2012-06-01",
+      "alt": {
+        "en": "Welcoming Rev. J. Raja Freeman",
+        "ta": "அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் அவர்களுக்கு வரவேற்பு"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_0646.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_0651.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_0654.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_0655.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/IMG_0658.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "christmas-2011",
+      "oldAlbums": [
+        "chirmas2011"
+      ],
+      "title": {
+        "en": "Christmas 2011",
+        "ta": "கிறிஸ்துமஸ் 2011"
+      },
+      "description": {
+        "en": "Carol rounds, the children's choir and the Christmas tree, 2011. Photographs from the church's previous website.",
+        "ta": "கிறிஸ்துமஸ் கீதப் பவனி, சிறுவர் பாடகர் குழு, கிறிஸ்துமஸ் மரம், 2011. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2011-12-25",
+      "alt": {
+        "en": "Christmas 2011",
+        "ta": "கிறிஸ்துமஸ் 2011"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Carol-Rounds.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Children-Choir-Carols-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Children-Choir-Carols-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Children-Choir-Carols-3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Children-Choir.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Christ-The-King-Church-Adambakkam.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Christmas-Tree-1.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Christmas-Tree-2.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Christmas-Tree-3.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Christmas-Tree-4.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Church-Choir-Carols.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Church-Choir.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Family-Carols-Heavenly-Harmonics-Team.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Family-Carols-Women-Fellowship.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Praise-Worship-Team.jpg"
+        }
+      ]
+    },
+    {
+      "slug": "website-inauguration-2011",
+      "oldAlbums": [
+        "729"
+      ],
+      "title": {
+        "en": "Website Inauguration, 27 November 2011",
+        "ta": "இணையதளத் தொடக்க விழா, 27 நவம்பர் 2011"
+      },
+      "description": {
+        "en": "The church's first website is inaugurated. Photographs from the church's previous website.",
+        "ta": "ஆலயத்தின் முதல் இணையதளம் தொடங்கி வைக்கப்பட்டது. ஆலயத்தின் முந்தைய இணையதளத்திலிருந்து புகைப்படங்கள்."
+      },
+      "date": "2011-11-27",
+      "alt": {
+        "en": "Website inauguration 2011",
+        "ta": "இணையதளத் தொடக்க விழா 2011"
+      },
+      "shared": true,
+      "photos": [
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/G-J-Moses.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Johnny.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Rev.-Earnest.jpg"
+        },
+        {
+          "source": "https://csistmarks.com/wp-content/uploads/2016/12/Website-Inauguration.jpg"
+        }
+      ]
+    }
+  ],
+  "videoAlbum": {
+    "slug": "videos-from-the-archive",
+    "oldAlbums": [
+      "/videos/"
+    ],
+    "title": {
+      "en": "Videos from the Archive",
+      "ta": "காப்பக வீடியோக்கள்"
+    },
+    "description": {
+      "en": "Special songs and the dedication of the new church's main door, from the church's YouTube channel.",
+      "ta": "சிறப்புப் பாடல்களும் புதிய ஆலயத்தின் பிரதான வாசல் அர்ப்பணிப்பும் - ஆலயத்தின் YouTube பக்கத்திலிருந்து."
+    },
+    "date": "2017-12-10",
+    "alt": {
+      "en": "Video",
+      "ta": "வீடியோ"
+    },
+    "shared": true,
+    "videos": [
+      {
+        "url": "https://www.youtube.com/watch?v=n-xu7SjN49U",
+        "caption": {
+          "en": "Christmas 2017 - Women's Fellowship special song 2",
+          "ta": "கிறிஸ்துமஸ் 2017 - பெண்கள் ஐக்கியச் சிறப்புப் பாடல் 2"
+        }
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=2Co7ux5pRAE",
+        "caption": {
+          "en": "Christmas 2017 - Women's Fellowship special song 1",
+          "ta": "கிறிஸ்துமஸ் 2017 - பெண்கள் ஐக்கியச் சிறப்புப் பாடல் 1"
+        }
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Qc0dz1eKjH8",
+        "caption": {
+          "en": "Keerthanai Special Song Service, 22 October 2017 - Lyric 4",
+          "ta": "கீர்த்தனை சிறப்புப் பாடல் ஆராதனை, 22 அக்டோபர் 2017 - பாடல் 4"
+        }
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=WVCSiQXBhsw",
+        "caption": {
+          "en": "Keerthanai Special Song Service, 22 October 2017 - Lyric 306",
+          "ta": "கீர்த்தனை சிறப்புப் பாடல் ஆராதனை, 22 அக்டோபர் 2017 - பாடல் 306"
+        }
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=zvqJpuIiWJM",
+        "caption": {
+          "en": "Dedication of the new church's main door, 23 October 2016",
+          "ta": "புதிய ஆலயப் பிரதான வாசல் அர்ப்பணிப்பு, 23 அக்டோபர் 2016"
+        }
+      }
+    ]
+  },
+  "downloads": [
+    {
+      "slug": "family-membership-form-english",
+      "source": "https://csistmarks.com/wp-content/uploads/2017/10/Membership-Form-English.pdf",
+      "title": {
+        "en": "Family Membership Form (English)",
+        "ta": "குடும்ப உறுப்பினர் படிவம் (ஆங்கிலம்)"
+      },
+      "description": {
+        "en": "To join the church, fill in this form for your family and hand it to the church office.",
+        "ta": "ஆலயத்தில் உறுப்பினராக, உங்கள் குடும்பத்திற்கான இந்தப் படிவத்தை நிரப்பி ஆலய அலுவலகத்தில் ஒப்படையுங்கள்."
+      },
+      "category": "form",
+      "publishedAt": "2017-10-01"
+    },
+    {
+      "slug": "family-membership-form-tamil",
+      "source": "https://csistmarks.com/wp-content/uploads/2017/10/Membership-Form-Tamil.pdf",
+      "title": {
+        "en": "Family Membership Form (Tamil)",
+        "ta": "குடும்ப விவரப்பட்டியல் (தமிழ்)"
+      },
+      "description": {
+        "en": "The same membership form, in Tamil.",
+        "ta": "அதே உறுப்பினர் படிவம், தமிழில்."
+      },
+      "category": "form",
+      "publishedAt": "2017-10-01"
+    }
+  ]
+}
