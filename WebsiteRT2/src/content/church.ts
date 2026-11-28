@@ -5,8 +5,6 @@ import type {
   VisionMission,
 } from "@/types/content";
 
-import { placeholderImage } from "@/data/media";
-
 import { CHURCH_OFFICE } from "./church-office";
 
 /**
@@ -73,16 +71,19 @@ export const CHURCH_HISTORY: ChurchHistory = {
   },
   body: [
     {
-      en: "In early 1993, with the encouragement of the Rt. Rev. Dr. M. Azariah, Bishop in Madras, six families began meeting for worship in a thatched shed on the terrace of Mr. Paulkanthan's home. On St. Mark's Day, 25 April 1993, the first Holy Communion service was held and the congregation was named St. Mark's Church.",
-      ta: "1993-இன் தொடக்கத்தில், சென்னைப் பேராயர் பேரருள்திரு. முனைவர் எம். அசரியா அவர்களின் வழிகாட்டுதலோடு, மடிப்பாக்கத்தைச் சேர்ந்த ஆறு குடும்பங்கள் திரு. பால்காந்தன் அவர்களின் வீட்டு மொட்டை மாடியில் அமைந்த ஓலைக் கொட்டகையில் ஆராதிக்கக் கூடினர். 1993 ஏப்ரல் 25 அன்று (தூய மாற்கு திருநாள்) முதல் திருவிருந்து ஆராதனை நடைபெற்று, சபைக்கு 'தூய மாற்கு ஆலயம்' எனப் பெயரிடப்பட்டது.",
+      // Background from the previous website's Church History page: the new
+      // congregations were planted so that Moovarasampet could reach the
+      // strength the diocese required of a pastorate.
+      en: "In early 1993, when the church at Moovarasampet was seeking pastorate status, the Rt. Rev. Dr. M. Azariah, Bishop in Madras, advised it to plant new congregations in nearby Madipakkam and Keelkattalai. Six families in Madipakkam came forward, and began meeting for worship in a thatched shed on the terrace of Mr. Paulkanthan's home. On St. Mark's Day, 25 April 1993, the first Holy Communion service was held and the congregation was named St. Mark's Church.",
+      ta: "1993-இன் தொடக்கத்தில், மூவரசம்பேட்டை ஆலயம் சேகரத் தகுதி பெற முயன்றபோது, அருகிலுள்ள மடிப்பாக்கத்திலும் கீழ்க்கட்டளையிலும் புதிய சபைகளைத் தொடங்குமாறு சென்னைப் பேராயர் பேரருள்திரு. முனைவர் எம். அசரியா அவர்கள் ஆலோசனை வழங்கினார். மடிப்பாக்கத்தைச் சேர்ந்த ஆறு குடும்பங்கள் முன்வந்து, திரு. பால்காந்தன் அவர்களின் வீட்டு மொட்டை மாடியில் அமைந்த ஓலைக் கொட்டகையில் ஆராதிக்கக் கூடினர். 1993 ஏப்ரல் 25 அன்று (தூய மாற்கு திருநாள்) முதல் திருவிருந்து ஆராதனை நடைபெற்று, சபைக்கு 'தூய மாற்கு ஆலயம்' எனப் பெயரிடப்பட்டது.",
     },
     {
-      en: "As the congregation grew, 5.5 grounds of land were acquired on 9 April 1995, and a new sanctuary was dedicated on 8 February 1997. The church became a Unit in 2007 under Rev. D. Mohan Raj; in 2012 Rev. J. Raja Freeman took charge and expanded the fellowships.",
-      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டது; 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2007-இல் அருள்திரு. டி. மோகன் ராஜ் அவர்களின் காலத்தில் இச்சபை யூனிட் தகுதி பெற்றது; 2012-இல் அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
+      en: "As the congregation grew, 5.5 grounds of land were acquired on 9 April 1995, and a new sanctuary was dedicated on 8 February 1997. The first Confirmation Service in the church was held on 19 September 2006 by the Rt. Rev. Dr. V. Devasahayam, when sixteen members were confirmed. A further 1.5 grounds of adjacent land were bought on 25 January 2007, and through the efforts of Rev. D. Mohan Raj the church was awarded Unit status from 1 April 2007. In 2012 Rev. J. Raja Freeman took charge and expanded the fellowships.",
+      ta: "சபை பெருகியதால் 1995 ஏப்ரல் 9 அன்று 5.5 கிரவுண்ட் நிலம் வாங்கப்பட்டது; 1997 பிப்ரவரி 8 அன்று புதிய ஆலயம் பிரதிஷ்டை செய்யப்பட்டது. 2006 செப்டம்பர் 19 அன்று பேரருள்திரு. முனைவர் வி. தேவசகாயம் அவர்களால் ஆலயத்தின் முதல் திடப்படுத்தல் ஆராதனை நடைபெற்று, பதினாறு உறுப்பினர்கள் திடப்படுத்தப்பட்டனர். 2007 ஜனவரி 25 அன்று அருகிலுள்ள 1.5 கிரவுண்ட் நிலம் கூடுதலாக வாங்கப்பட்டது; அருள்திரு. டி. மோகன் ராஜ் அவர்களின் முயற்சியால் 2007 ஏப்ரல் 1 முதல் இச்சபை யூனிட் தகுதி பெற்றது. 2012-இல் அருள்திரு. ஜெ. ராஜா ஃப்ரீமேன் பொறுப்பேற்று ஐக்கியங்களை விரிவுபடுத்தினார்.",
     },
     {
-      en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
-      ta: "இன்று 190-க்கும் மேற்பட்ட குடும்பங்களுடன் ஐக்கியங்கள், பாடகர் குழுக்கள் மற்றும் சமூக சேவைகளுடன் இயங்கும் திருச்சபை, தரைத்தளத்தில் விசாலமான வாகன நிறுத்துமிடம், பிரத்யேக ஞாயிறு பள்ளி வளாகம், கம்பீரமான மணி கோபுரம் ஆகியவற்றுடன் கூடிய புதிய ஆலயத்தில் (ஸ்டில்ட் + மேல்தளங்கள்) ஆராதித்து வருகிறது.",
+      en: "Today, CSI St. Mark's Church embraces over 190 families across active fellowships, choirs, and community outreach - free medical camps, and regular visits to and support for orphanages and homes. The congregation worships in its completed 'Stilt Plus' sanctuary with covered car parking, a dedicated Sunday School complex, and a majestic Bell Tower.",
+      ta: "இன்று 190-க்கும் மேற்பட்ட குடும்பங்களுடன் ஐக்கியங்கள், பாடகர் குழுக்கள், சமூக சேவைகள் - இலவச மருத்துவ முகாம்கள், ஆதரவற்றோர் இல்லங்களையும் காப்பகங்களையும் தொடர்ந்து சந்தித்து உதவுதல் - ஆகியவற்றுடன் இயங்கும் திருச்சபை, தரைத்தளத்தில் விசாலமான வாகன நிறுத்துமிடம், பிரத்யேக ஞாயிறு பள்ளி வளாகம், கம்பீரமான மணி கோபுரம் ஆகியவற்றுடன் கூடிய புதிய ஆலயத்தில் (ஸ்டில்ட் + மேல்தளங்கள்) ஆராதித்து வருகிறது.",
     },
   ],
   milestones: [
@@ -105,6 +106,15 @@ export const CHURCH_HISTORY: ChurchHistory = {
       },
     },
     {
+      id: "ms-2b",
+      year: "2006",
+      title: { en: "First Confirmation Service", ta: "முதல் திடப்படுத்தல் ஆராதனை" },
+      description: {
+        en: "Sixteen members confirmed on 19 September 2006 by the Rt. Rev. Dr. V. Devasahayam.",
+        ta: "2006 செப்டம்பர் 19 அன்று பேரருள்திரு. முனைவர் வி. தேவசகாயம் அவர்களால் பதினாறு உறுப்பினர்கள் திடப்படுத்தப்பட்டனர்.",
+      },
+    },
+    {
       id: "ms-3",
       year: "2007",
       title: { en: "Independent Unit Status", ta: "சுயாதீன யூனிட் தகுதி" },
@@ -123,6 +133,19 @@ export const CHURCH_HISTORY: ChurchHistory = {
       },
     },
     {
+      // From the foundation-stone plaque in the previous website's 2023 album.
+      id: "ms-4b",
+      year: "2022",
+      title: {
+        en: "Sunday School Building Foundation Stone",
+        ta: "ஞாயிறு பள்ளிக் கட்டட அடிக்கல்",
+      },
+      description: {
+        en: "On the 29th church anniversary, 25 April 2022, the Rt. Rev. Dr. J. George Stephen, Bishop in Madras, laid the foundation stone of the Sunday School building.",
+        ta: "29-ஆம் ஆலய ஆண்டு விழாவான 2022 ஏப்ரல் 25 அன்று, சென்னைப் பேராயர் பேரருள்திரு. முனைவர் ஜெ. ஜார்ஜ் ஸ்டீபன் அவர்கள் ஞாயிறு பள்ளிக் கட்டடத்திற்கு அடிக்கல் நாட்டினார்.",
+      },
+    },
+    {
       id: "ms-5",
       year: { en: "Present", ta: "இன்று" },
       title: { en: "Stilt-Plus Sanctuary, Bell Tower & Sunday School", ta: "புதிய ஆலயம், மணி கோபுரம் & ஞாயிறு பள்ளி" },
@@ -133,10 +156,16 @@ export const CHURCH_HISTORY: ChurchHistory = {
       },
     },
   ],
-  image: placeholderImage(40, {
-    en: "CSI St. Mark's Church Sanctuary",
-    ta: "சி.எஸ்.ஐ. தூய மாற்கு ஆலயம்",
-  }),
+  // The sanctuary of the new church, from the previous website's 2023 album.
+  image: {
+    url: "/images/church-sanctuary-altar.jpg",
+    alt: {
+      en: "The altar and stained-glass windows of the sanctuary, CSI St. Mark's Church, Madipakkam",
+      ta: "சி.எஸ்.ஐ. தூய மாற்கு ஆலயத்தின் பலிபீடமும் வண்ணக் கண்ணாடி சாளரங்களும், மடிப்பாக்கம்",
+    },
+    width: 1024,
+    height: 768,
+  },
 };
 
 

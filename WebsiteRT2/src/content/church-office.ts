@@ -20,11 +20,14 @@ export const CHURCH_OFFICE = {
   officePhones: [] as string[],
 
   /**
-   * TODO(church-office): a working office email address (F-007).
-   * office@csistmarksmadipakkam.org cannot receive mail (domain not registered).
-   * Do not re-add it until the domain and its MX records are live.
+   * The church's address on the previous website (csistmarks.com, Contact
+   * Us). The domain had a working mail server (MX) on 28 Nov 2026.
+   * TODO(church-office): confirm someone reads it, and keep the domain renewed
+   * once the old site is retired.
+   * office@csistmarksmadipakkam.org cannot receive mail (domain not registered)
+   * - do not re-add it (F-007).
    */
-  officeEmails: [] as string[],
+  officeEmails: ["info@csistmarks.com"] as string[],
 
   /**
    * TODO(church-office): confirm the office hours (F-007). Kept because they

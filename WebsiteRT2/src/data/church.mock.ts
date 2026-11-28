@@ -12,41 +12,101 @@ import type {
  * here: they are permanent site content and live in `src/content/church.ts`.
  */
 
+/*
+ * The church's published order of services, carried over from the Church
+ * Timings page of the previous website (csistmarks.com/church-timings).
+ *
+ * The old site named no rooms, so every venue is simply the church.
+ * TODO(church-office): reconfirm these against the current notice board; the
+ * old page was last revised in 2024.
+ */
+const CHURCH = { en: "Church", ta: "ஆலயம்" };
+
 export const SERVICE_TIMINGS: ServiceTiming[] = [
   {
     id: "st-1",
     day: { en: "Sunday", ta: "ஞாயிறு" },
-    time: { en: "6:00 AM", ta: "காலை 6:00" },
-    service: { en: "Holy Communion", ta: "திருவிருந்து ஆராதனை" },
-    venue: { en: "Main Sanctuary", ta: "பிரதான ஆலயம்" },
+    time: { en: "8:15 AM", ta: "காலை 8:15" },
+    startTime: "08:15",
+    endTime: "08:30",
+    service: {
+      en: "Praise and Worship, led by the youth",
+      ta: "துதி ஆராதனை (வாலிபர் ஐக்கியம்)",
+    },
+    venue: CHURCH,
   },
   {
     id: "st-2",
     day: { en: "Sunday", ta: "ஞாயிறு" },
-    time: { en: "8:00 AM", ta: "காலை 8:00" },
-    service: { en: "Morning Worship", ta: "காலை ஆராதனை" },
-    venue: { en: "Main Sanctuary", ta: "பிரதான ஆலயம்" },
+    time: { en: "8:30 AM", ta: "காலை 8:30" },
+    startTime: "08:30",
+    featured: true,
+    weeks: [2, 4],
+    service: { en: "Holy Communion", ta: "திருவிருந்து ஆராதனை" },
+    venue: CHURCH,
+  },
+  {
+    id: "st-3",
+    day: { en: "Sunday", ta: "ஞாயிறு" },
+    time: { en: "8:30 AM", ta: "காலை 8:30" },
+    startTime: "08:30",
+    featured: true,
+    weeks: [1, 3, 5],
+    service: { en: "Matins (Morning Worship)", ta: "காலை ஆராதனை" },
+    venue: CHURCH,
   },
   {
     id: "st-4",
     day: { en: "Sunday", ta: "ஞாயிறு" },
     time: { en: "9:00 AM", ta: "காலை 9:00" },
+    startTime: "09:00",
     service: { en: "Sunday School", ta: "ஞாயிறு பள்ளி" },
-    venue: { en: "Parish Hall", ta: "சபை மண்டபம்" },
+    venue: CHURCH,
   },
   {
     id: "st-5",
-    day: { en: "Wednesday", ta: "புதன்" },
-    time: { en: "6:30 PM", ta: "மாலை 6:30" },
-    service: { en: "Prayer Meeting", ta: "ஜெபக் கூட்டம்" },
-    venue: { en: "Prayer Hall", ta: "ஜெப மண்டபம்" },
+    day: { en: "Sunday", ta: "ஞாயிறு" },
+    time: { en: "6:00 PM", ta: "மாலை 6:00" },
+    startTime: "18:00",
+    service: { en: "Evening Service", ta: "மாலை ஆராதனை" },
+    venue: CHURCH,
   },
   {
+    // Not a weekday, so it never lights the "live now" strip - see isLiveNow.
     id: "st-6",
-    day: { en: "Friday", ta: "வெள்ளி" },
-    time: { en: "6:30 PM", ta: "மாலை 6:30" },
-    service: { en: "Bible Study", ta: "வேதாகம வகுப்பு" },
-    venue: { en: "Parish Hall", ta: "சபை மண்டபம்" },
+    day: { en: "1st of every month", ta: "ஒவ்வொரு மாதமும் 1-ஆம் தேதி" },
+    time: { en: "7:00 PM", ta: "மாலை 7:00" },
+    startTime: "19:00",
+    service: {
+      en: "Holy Communion (first day of the month)",
+      ta: "மாதத்தின் முதல் நாள் திருவிருந்து",
+    },
+    venue: CHURCH,
+  },
+  {
+    id: "st-7",
+    day: { en: "Wednesday", ta: "புதன்" },
+    time: { en: "7:00 PM", ta: "மாலை 7:00" },
+    startTime: "19:00",
+    service: { en: "Campus Prayer", ta: "வளாக ஜெபம்" },
+    venue: CHURCH,
+  },
+  {
+    id: "st-8",
+    day: { en: "Saturday", ta: "சனி" },
+    time: { en: "10:00 AM", ta: "காலை 10:00" },
+    startTime: "10:00",
+    weeks: [2],
+    service: { en: "Monthly Fasting Prayer", ta: "மாதாந்திர உபவாச ஜெபம்" },
+    venue: CHURCH,
+  },
+  {
+    id: "st-9",
+    day: { en: "Saturday", ta: "சனி" },
+    time: { en: "7:00 PM", ta: "மாலை 7:00" },
+    startTime: "19:00",
+    service: { en: "Choir Practice", ta: "பாடகர் குழு பயிற்சி" },
+    venue: CHURCH,
   },
 ];
 
@@ -74,11 +134,12 @@ export const PASTOR_MESSAGE: PastorMessage = {
 };
 
 
+// The verse the previous website's home page carried.
 export const WEEKLY_VERSE: WeeklyVerse = {
-  reference: { en: "Psalm 23:1", ta: "சங்கீதம் 23:1" },
+  reference: { en: "Isaiah 65:24", ta: "ஏசாயா 65:24" },
   text: {
-    en: "The Lord is my shepherd; I shall not want.",
-    ta: "கர்த்தர் என் மேய்ப்பராயிருக்கிறார்; நான் தாழ்ச்சியடையேன்.",
+    en: "Before they call, I will answer.",
+    ta: "அவர்கள் கூப்பிடுகிறதற்கு முன்னே நான் மறுஉத்தரவு கொடுப்பேன்.",
   },
-  weekOf: "2026-07-19",
+  weekOf: "2026-11-29",
 };
