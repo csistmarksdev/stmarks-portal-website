@@ -107,8 +107,9 @@ export function HeroStage({ welcome, timings, events, sunday }: HeroStageProps) 
               <SplitText>{tSite("name")}</SplitText>
             </Heading>
 
-            <Text size="xl" tone="onDark" className="mt-5 max-w-lg drop-shadow">
-              <SplitText>{tSite("tagline")}</SplitText>
+            {/* The blessing the previous website greeted every visitor with. */}
+            <Text size="xl" tone="onDark" className="mt-5 max-w-xl drop-shadow">
+              <SplitText>{t("scenes.opening.blessing")}</SplitText>
             </Text>
           </div>
 

@@ -110,8 +110,9 @@
       "progressLabel": "Introduction progress",
       "scenes": {
         "opening": {
-          "eyebrow": "Church of South India",
-          "cta": "Plan your visit"
+          "eyebrow": "Church of South India · Diocese of Madras",
+          "cta": "Plan your visit",
+          "blessing": "Our prayer is that you would be blessed and strengthened by the Holy Spirit today."
         },
         "belonging": {
           "eyebrow": "A place to belong",
@@ -121,7 +122,7 @@
         "gathering": {
           "eyebrow": "Every Sunday",
           "title": "Worship with us",
-          "body": "Holy Communion, morning worship and Sunday school - all welcome.",
+          "body": "The youth lead us in praise and worship before the service, the choir sings in Tamil and English, and the children learn alongside us in Sunday School while the Word is preached. All are welcome.",
           "cta": "Service timings",
           "secondaryCta": "Find us"
         }
@@ -130,12 +131,12 @@
     "welcomeSequence": {
       "eyebrow": "You are welcome here",
       "title": "Welcome To\nSt. Mark's Church",
-      "body": "Come in, and be at home. Whatever brought you to this page, there is a place for you in this congregation."
+      "body": "A congregation of the Church of South India, Diocese of Madras, gathered in Madipakkam since 1993. Come in, and be at home."
     },
     "welcome": {
-      "eyebrow": "Welcome",
-      "title": "You are welcome at this table",
-      "body": "Whether you have walked with Christ for decades or are stepping into a church for the first time, there is a place for you here. We gather each week to worship together, to pray for one another, and to serve the neighbourhood we call home.",
+      "eyebrow": "Since 1993",
+      "title": "Begun by six families, blessed ever since",
+      "body": "On St. Mark's Day, 25 April 1993, six families gathered for Holy Communion in a thatched shed on a Madipakkam terrace, and named their church after the day. The Lord has blessed it ever since - today more than 190 families worship here, with fellowships for every age, a choir and a Sunday school. There is a place here for you too.",
       "cta": "About our church",
       "secondaryCta": "Plan your visit"
     },
