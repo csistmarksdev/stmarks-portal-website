@@ -21,9 +21,11 @@ import { join } from "node:path";
  * Safe as a module-scope read: every importer is a server component, so this
  * runs during the build and never reaches the browser.
  *
- * The files currently in those folders are placeholders lifted from the
- * cinematic sequence in `public/frames`, one distinct run per section. Replace
- * them with real photography as it comes in - no code change needed.
+ * The files currently in those folders are the church's own photographs,
+ * taken from the previous website (csistmarks.com) and cropped to 1920x1080.
+ * Which original each one came from is listed in
+ * docs/legacy-site-migration.md. Replace them with newer photography as it
+ * comes in - no code change needed.
  */
 
 export type HeroSlideKey =

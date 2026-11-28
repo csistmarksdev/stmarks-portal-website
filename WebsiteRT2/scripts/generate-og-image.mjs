@@ -8,7 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const source = path.join(root, "public/hero/about/01.jpg");
+const source = path.join(root, "public/hero/about/church-01.jpg");
 const out = path.join(root, "public/og/default.jpg");
 
 const band = Buffer.from(`

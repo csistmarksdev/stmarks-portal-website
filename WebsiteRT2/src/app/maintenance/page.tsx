@@ -125,7 +125,7 @@ export default async function MaintenancePage() {
   return (
     <main className="relative isolate flex min-h-svh flex-col overflow-hidden bg-sand-950 text-white">
       <Image
-        src="/hero/about/01.jpg"
+        src="/hero/about/church-01.jpg"
         alt=""
         fill
         priority
